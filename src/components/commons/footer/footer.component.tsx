@@ -9,7 +9,7 @@ import { Box, Flex } from "@chakra-ui/react";
 
 export const Footer = () => {
   return (
-    <Section bg="brand.2" color="white" paddingSize="md">
+    <Section bg="brand.2" color="white">
       <Flex
         gap={{ base: 5 }}
         justifyContent="space-between"

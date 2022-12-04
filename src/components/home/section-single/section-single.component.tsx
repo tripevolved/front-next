@@ -23,6 +23,7 @@ export const SectionSingle = ({
           right="-150px"
         >
           <Picture
+            className="animate__float"
             src={decoration1}
             height={150}
             width={150}
@@ -31,6 +32,7 @@ export const SectionSingle = ({
         </Box>
         <CtaBlock heading={heading} text={text} />
         <Picture
+          className="animate__float animate__delay-1x"
           src={decoration2}
           height={150}
           width={150}

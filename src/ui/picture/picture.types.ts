@@ -1,5 +1,6 @@
 import { BoxProps } from "@chakra-ui/react";
 import { ImageProps } from "next/image";
+import { EnterAnimation } from "../viewport-animation";
 
 export type ScreenScale = "base" | "sm" | "md" | "lg";
 
@@ -18,4 +19,5 @@ export interface PictureProps
   alt?: string;
   objectFit?: "cover" | "contain" | "scale-down";
   centered?: boolean;
+  enterAnimation?: EnterAnimation;
 }

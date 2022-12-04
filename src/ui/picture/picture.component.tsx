@@ -1,6 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import Image from "next/image";
 import { useMemo } from "react";
+import { ViewportAnimation } from "../viewport-animation";
 import { ImageBasicProps, PictureProps, ScreenScale } from "./picture.types";
 
 export const Picture = ({
@@ -15,6 +16,7 @@ export const Picture = ({
   lg,
   style,
   centered,
+  enterAnimation,
   ...props
 }: PictureProps) => {
   const hasAnySrc = useMemo(
@@ -34,21 +36,28 @@ export const Picture = ({
   if (!hasAnySrc) return null;
 
   return (
-    <Box
-      as="picture"
-      style={{ objectFit, maxWidth: "100%", display: "inline-block", ...style }}
-      {...props}
-    >
-      {lg && <Source screen="lg" {...lg} />}
-      {md && <Source screen="md" {...md} />}
-      {sm && <Source screen="sm" {...sm} />}
-      <Image
-        style={{ margin: centered ? "auto" : undefined }}
-        src={baseSrc}
-        alt={alt || ""}
-        {...sizeImageProps}
-      />
-    </Box>
+    <ViewportAnimation enterAnimation={enterAnimation}>
+      <Box
+        as="picture"
+        style={{
+          objectFit,
+          maxWidth: "100%",
+          display: "inline-block",
+          ...style,
+        }}
+        {...props}
+      >
+        {lg && <Source screen="lg" {...lg} />}
+        {md && <Source screen="md" {...md} />}
+        {sm && <Source screen="sm" {...sm} />}
+        <Image
+          style={{ margin: centered ? "auto" : undefined }}
+          src={baseSrc}
+          alt={alt || ""}
+          {...sizeImageProps}
+        />
+      </Box>
+    </ViewportAnimation>
   );
 };
 

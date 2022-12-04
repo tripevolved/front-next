@@ -11,6 +11,7 @@ import icon3 from "@/public/assets/home/noite-circle-icon.svg";
 export const homeData = {
   sections: [
     {
+      id: "menu",
       component: "Navbar",
     },
     {
@@ -57,6 +58,7 @@ export const homeData = {
         children: "Encontrar minha trip",
       },
       image: {
+        enterAnimation: "slide-left",
         width: 366,
         height: 525,
         src: phoneImage1,
@@ -80,6 +82,7 @@ export const homeData = {
         children: "Encontrar minha trip",
       },
       image: {
+        enterAnimation: "slide-right",
         width: 405,
         height: 550,
         src: phoneImage2,
@@ -181,10 +184,11 @@ export const homeData = {
         children: "Encontrar minha trip",
       },
       image: {
+        enterAnimation: "slide-right",
         width: 448,
         height: 678,
         src: phoneImage3,
-        alt: "Imagem com de um casal na praia",
+        alt: "Imagem do aplicativo",
       },
     },
     {
@@ -224,6 +228,7 @@ export const homeData = {
       ],
     },
     {
+      id: "rodape",
       component: "Footer",
     },
   ],
