@@ -19,7 +19,7 @@ export const SectionWithImage = ({
   ...props
 }: SectionWithImageProps) => {
   return (
-    <SectionTwoColumns reversed {...props}>
+    <SectionTwoColumns reversed overflowX="hidden" {...props}>
       {image ? (
         <Picture centered {...image} style={{ maxWidth: "100vw" }} />
       ) : null}

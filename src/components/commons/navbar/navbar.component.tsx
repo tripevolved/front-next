@@ -22,6 +22,7 @@ export const Navbar = () => {
       borderBottomWidth="1px"
       position="sticky"
       top={0}
+      left={0}
       zIndex="sticky"
     >
       <Container

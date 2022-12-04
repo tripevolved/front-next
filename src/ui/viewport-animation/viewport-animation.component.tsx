@@ -32,7 +32,7 @@ const _ViewportAnimation = ({
   const ref = useRef(null);
   const { enterCount } = useInViewport(ref, { rootMargin: "-150px" });
 
-  const inViewport = useMemo(() => enterCount > 0, [enterCount > 0]);
+  const inViewport = useMemo(() => enterCount > 0, [enterCount]);
 
   return (
     <div
