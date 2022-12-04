@@ -1,4 +1,5 @@
-import { CssBaseline } from "@nextui-org/react";
+import { customTheme } from "@/configs/theme.config";
+import { ColorModeScript } from "@chakra-ui/react";
 import Document, { Head, Html, Main, NextScript } from "next/document";
 import React from "react";
 
@@ -14,8 +15,11 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="pt-br">
-        <Head>{CssBaseline.flush()}</Head>
+        <Head />
         <body>
+          <ColorModeScript
+            initialColorMode={customTheme.config.initialColorMode}
+          />
           <Main />
           <NextScript />
         </body>

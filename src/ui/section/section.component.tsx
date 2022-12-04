@@ -1,27 +1,25 @@
-import { Container, ContainerProps } from "@nextui-org/react";
+import { Box, BoxProps, Container } from "@chakra-ui/react";
+import { useMemo } from "react";
 
-export interface SectionProps
-  extends Pick<ContainerProps, "css">,
-    React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-  backgroundColor?: string;
+export interface SectionProps extends Omit<BoxProps, "title"> {
+  pyAuto?: "none" | "sm" | "md";
 }
 
-export const Section = ({ children, css, backgroundColor }: SectionProps) => {
+export const Section = ({
+  children,
+  pyAuto = "md",
+  maxW = "container.lg",
+  maxWidth,
+  ...props
+}: SectionProps) => {
+  const py = useMemo(() => {
+    if (!pyAuto || pyAuto === "none") return undefined;
+    if (pyAuto === "sm") return { base: 10, md: 15 };
+    return { base: 10, md: 15, lg: 20 };
+  }, [pyAuto]);
   return (
-    <Container
-      md
-      as="section"
-      css={{
-        py: "$xl",
-        "@md": { py: "$2xl" },
-        "@lg": { py: "$3xl" },
-        "@xl": { py: "$4xl" },
-        backgroundColor,
-        ...css,
-      }}
-    >
-      {children}
-    </Container>
+    <Box as="section" py={py} {...props}>
+      <Container maxW={maxWidth || maxW}>{children}</Container>
+    </Box>
   );
 };

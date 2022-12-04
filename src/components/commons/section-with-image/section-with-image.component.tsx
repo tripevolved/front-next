@@ -1,43 +1,29 @@
-import { Section, SectionProps } from "@/ui/section";
-import { Grid, Image, ImageProps } from "@nextui-org/react";
+import {
+  SectionTwoColumns,
+  SectionTwoColumnsProps,
+} from "@/components/commons/section-two-columns";
+import { Picture, PictureProps } from "@/ui/picture";
+import { CtaBlock, CtaBlockProps } from "../cta-block";
 
-export interface SectionWithImageProps extends SectionProps {
-  image: ImageProps;
+export interface SectionWithImageProps
+  extends CtaBlockProps,
+    SectionTwoColumnsProps {
+  image?: PictureProps;
 }
 
 export const SectionWithImage = ({
-  children,
+  heading,
+  text,
+  cta,
   image,
   ...props
 }: SectionWithImageProps) => {
-  const { width, height, ...imageProps } = image;
   return (
-    <Section {...props}>
-      <Grid.Container
-        alignItems="center"
-        justify="space-between"
-        css={{ "@mdMax": { flexDirection: "column-reverse" } }}
-      >
-        <Grid
-          md={5}
-          direction="column"
-          css={{ "@mdMax": { textAlign: "center" } }}
-        >
-          {children}
-        </Grid>
-        <Grid md={6}>
-          {/* eslint-disable-next-line jsx-a11y/alt-text */}
-          <Image
-            autoResize
-            {...imageProps}
-            css={{
-              maxW: "100%",
-              width,
-              height,
-            }}
-          />
-        </Grid>
-      </Grid.Container>
-    </Section>
+    <SectionTwoColumns reversed {...props}>
+      {image ? (
+        <Picture centered {...image} style={{ maxWidth: "100vw" }} />
+      ) : null}
+      <CtaBlock heading={heading} text={text} cta={cta} />
+    </SectionTwoColumns>
   );
 };

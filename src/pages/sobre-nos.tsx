@@ -1,31 +1,26 @@
+import { SectionFeaturesAbout } from "@/components/about/section-features";
 import { Footer } from "@/components/commons/footer";
 import { Navbar } from "@/components/commons/navbar";
-import { SectionFaq } from "@/components/commons/section-faq";
 import { SectionWithImage } from "@/components/commons/section-with-image";
 import { newRenderComponentList } from "@/components/hoc/render-component-list";
-import { SectionFeatures } from "@/components/home/section-features";
-import { SectionSingle } from "@/components/home/section-single";
-import { homeData } from "@/data/home.data";
-
+import { aboutData } from "@/data/about.data";
 const componentList = {
   Footer,
   Navbar,
-  SectionFaq,
-  SectionFeatures,
-  SectionSingle,
+  SectionFeaturesAbout,
   SectionWithImage,
 };
 
 const RenderComponent = newRenderComponentList(componentList);
 
-const Home = () => {
+const AboutUs = () => {
   return (
     <main>
-      {homeData.sections.map((props, key) => (
+      {aboutData.sections.map((props, key) => (
         <RenderComponent key={props.id || key} {...props} />
       ))}
     </main>
   );
 };
 
-export default Home;
+export default AboutUs;

@@ -1,0 +1,20 @@
+import { Button, ButtonProps } from "@/ui/button";
+import { Heading, HeadingProps } from "@/ui/heading";
+import { Text, TextProps } from "@/ui/text";
+import { Box, BoxProps } from "@chakra-ui/react";
+
+export interface CtaBlockProps extends BoxProps {
+  heading: HeadingProps;
+  text: TextProps;
+  cta?: ButtonProps;
+}
+
+export const CtaBlock = ({ heading, text, cta, ...props }: CtaBlockProps) => {
+  return (
+    <Box maxW="480px" textAlign={{ base: "center", lg: "left" }} {...props}>
+      <Heading size="lg" as="h2" {...heading} />
+      <Text size="lg" textColor={"gray.1"} mt={5} {...text} />
+      {cta ? <Button mt={10} {...cta} /> : null}
+    </Box>
+  );
+};
