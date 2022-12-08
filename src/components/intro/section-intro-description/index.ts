@@ -1,0 +1,1 @@
+export * from "./section-intro-description.component";
