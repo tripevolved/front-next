@@ -31,6 +31,8 @@ export const SectionLogoWithImage = ({ ...props }) => {
 					src={hero}
 					height={241}
 					width={350}
+					zIndex={-100000}
+					mb={{base: "-9px", md: "-24px", lg: "-89px"}}
 				/>
 			</Box>
 		</Section>

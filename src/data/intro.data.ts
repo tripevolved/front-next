@@ -4,18 +4,17 @@ export const introData = {
 			id: "hero",
 			component: "SectionLogoWithImage",
 			bg: "brand.6",
-			mt: { lg: -45 },
+			pt: [5, 20, 30, 30],
+			pb: 0,
 		},
 		{
 			id: "description",
 			component: "SectionIntroDescription",
-			bg: "brand.5",
-			borderTopLeftRadius: "50px",
-			mt: { base: "-48px", md: "-23px", lg: "-88px" },
-			pt: { base: "10px", lg: "20px" },
+			bg: "brand.7",
+			zIndex: 1000,
 			title: {
 				id: "titulo",
-				children: "Olá! "
+				children: "Olá! ",
 			},
 			description: {
 				id: "description",
@@ -27,7 +26,7 @@ export const introData = {
 			cta: {
 				id: "hero-cta",
 				children: "Descobrir a trip ideal",
-				width: "full"
+				width: "full",
 			},
 		},
 	],
