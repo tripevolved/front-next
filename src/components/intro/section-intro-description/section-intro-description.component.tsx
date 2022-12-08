@@ -18,9 +18,11 @@ export const SectionIntroDescription = ({ title, description, cta, ...props }: S
 		<Section {...props}>
 			<Box
 				width="full"
+				maxWidth={355}
 				pt={5}
 				alignContent="center"
 				textAlign="center"
+				mx={"auto"}
 			>
 				<Box display="flex" flexDirection="row" justifyContent="center">
 					<Heading {...title} />
@@ -30,7 +32,7 @@ export const SectionIntroDescription = ({ title, description, cta, ...props }: S
 							width={25}
 						/>
 				</Box>
-				<Text size="lg" textColor={"gray.1"} mt={5} {...description} />
+				<Text textColor={"gray.1"} mt={5} {...description} />
 				<Button mt={10} {...cta} />
 			</Box>
 		</Section>
