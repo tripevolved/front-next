@@ -1,3 +1,8 @@
-export interface OnboardingState {}
+import { QuestionCollection } from "@/models";
 
-export const initialState: OnboardingState = {}
+export interface OnboardingState extends QuestionCollection {}
+
+export const initialState: OnboardingState = {
+  page: null,
+	questions: [],
+}
