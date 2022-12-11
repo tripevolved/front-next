@@ -40,8 +40,8 @@ jobs:
         run: |
           aws s3 cp \
             --recursive \
-            --region us-east-1 \
-            ./dist s3://tripevolved-site
+            --region ${{ secrets.AWS_DEFAULT_REGION }} \
+            ./out s3://tripevolved-site
       
       - name: Invalidate cloudfront
         env: 
