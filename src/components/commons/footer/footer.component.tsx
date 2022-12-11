@@ -58,8 +58,8 @@ export const Footer = () => {
           </Flex>
         </Box>
         <Box pt={4} display="flex" justifyContent="center" flexDirection="column">
-          <Picture centered src={CadasturLogo} width={385} height={5} />
-          <Picture centered src={AbavLogo} width={225} height={27} mt={5} />
+          <Picture centered src={CadasturLogo} width={190} height={5} />
+          <Picture centered src={AbavLogo} width={110} height={27} mt={5} />
         </Box>
       </Flex>
     </Section>
