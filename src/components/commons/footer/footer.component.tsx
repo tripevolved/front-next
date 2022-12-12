@@ -52,11 +52,11 @@ export const Footer = () => {
             </Link>
           </Flex>
         </Box>
-        <Box pt={4} display="flex" justifyContent="center" flexDirection="column">
-          <Picture centered src="/assets/home/CadasturLogo.png" width={385} height={5} />
-          <Picture centered src="/assets/home/AbavLogo.png" width={225} height={27} mt={5} />
-        </Box>
       </Flex>
+      <Flex alignItems="center" gap={10} mt={10} justifyContent={{ md: "flex-end" }}>
+          <Picture alt="Cadastur" src="/assets/home/CadasturLogo.png" width={220} height={49} />
+          <Picture alt="ABAV" src="/assets/home/AbavLogo.png" width={100} height={51} />
+        </Flex>
     </Section>
   );
 };
