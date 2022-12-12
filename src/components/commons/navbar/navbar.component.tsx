@@ -3,13 +3,7 @@ import { BrandHorizontal } from "@/ui/icons/brand";
 import { CloseIcon } from "@/ui/icons/close-icon";
 import { HamburgerIcon } from "@/ui/icons/hamburger-icon";
 import { Link } from "@/ui/link";
-import {
-  Box,
-  Container,
-  Flex,
-  IconButton,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Container, Flex, IconButton, useDisclosure } from "@chakra-ui/react";
 
 export const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,12 +26,7 @@ export const Navbar = () => {
         maxW="container.lg"
       >
         <Flex alignItems="center" justifyContent="space-between">
-          <Link
-            href="/"
-            display="inline-flex"
-            alignItems="center"
-            height="80px"
-          >
+          <Link href="/" display="inline-flex" alignItems="center" height="80px">
             <BrandHorizontal />
           </Link>
           <IconButton
@@ -70,7 +59,7 @@ const NavMenu = ({ isOpen }: NavMenuProps) => {
       flexDirection={{ base: "column", md: "row" }}
       pb={{ base: 5, md: 0 }}
     >
-      <Link href="/sobre-nos" display="inline-block" p={2}>
+      <Link href="/sobre" display="inline-block" p={2}>
         Sobre nós
       </Link>
       <Button variant="outline" size="sm">
