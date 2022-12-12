@@ -1,1 +1,1 @@
-export * from "./intro";
+export * from "./questions.model";

@@ -6,7 +6,8 @@ export const curstomHeaders = {
   Accept: "application/json",
 };
 
-export default axios.create({
-  baseURL,
-  headers: curstomHeaders,
-});
+export const newApiRequest = (route = "") =>
+  axios.create({
+    baseURL: `${baseURL}${route}`,
+    headers: curstomHeaders,
+  });
