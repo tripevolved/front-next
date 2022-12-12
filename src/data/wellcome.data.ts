@@ -1,30 +1,35 @@
 export const introData = {
   sections: [
     {
-      id: "hero",
-      component: "SectionLogoWithImage",
+      id: "bem-vindo-hero",
+      component: "SectionImage",
       bg: "brand.6",
-      pt: [5, 20, 30, 30],
-      pb: 0,
+      textAlign: "center",
+      pyAuto: "none",
+      image: {
+        src: "/assets/bem-vindo/hero.png",
+        height: 360,
+        width: 350,
+        mb: "-8px",
+      }
     },
     {
-      id: "description",
-      component: "SectionIntroDescription",
-      bg: "brand.7",
-      zIndex: 1000,
-      title: {
-        children: "Olá! ",
-      },
-      description: {
+      id: "bem-vindo-description",
+      component: "SectionWithImage",
+      justifyContent: "center",
+      containerProps: {
         textAlign: "center",
-        color: "gray.2",
+      },
+      heading: {
+        html: "Olá! <img style='display: inline;' src='/assets/bem-vindo/icon-hand.png'>"
+      },
+      text: {
         children:
           "Separamos algumas perguntas para entender o peril de de viagem ideal para vocês. Responda a seguir e veja o resultado com as melhores indicações de destinos.",
       },
       cta: {
-        id: "hero-cta",
-        children: "Descobrir a trip ideal",
-        width: "full",
+        id: "bem-vindo-cta",
+        children: "Descobrir a trip ideal"
       },
     },
   ],

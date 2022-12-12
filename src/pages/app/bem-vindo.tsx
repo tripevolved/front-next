@@ -1,11 +1,11 @@
 import { newRenderComponentList } from "@/components/hoc/render-component-list";
 import { introData } from "@/data/wellcome.data";
-import { SectionLogoWithImage } from "@/components/intro/section-logo-with-image";
-import { SectionIntroDescription } from "@/components/intro/section-intro-description";
+import { SectionImage } from "@/components/commons/section-image";
+import { SectionWithImage } from "@/components/commons/section-with-image";
 
 const componentList = {
-  SectionLogoWithImage,
-  SectionIntroDescription,
+  SectionImage,
+  SectionWithImage,
 };
 
 const RenderComponent = newRenderComponentList(componentList);
