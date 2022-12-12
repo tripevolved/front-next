@@ -5,11 +5,11 @@ export function onboardingReducer(
   state: OnboardingState,
   action: OnboardingActions
 ): OnboardingState {
-  switch(action.type) {
+  switch (action.type) {
     case ActionType.SetQuestions:
       return {
         ...state,
-        questionCollection: [...action.payload.questionCollection]
+        questionCollection: [...action.payload.questionCollection],
       };
 
     default:

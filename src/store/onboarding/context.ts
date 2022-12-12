@@ -1,5 +1,5 @@
 import React from "react";
-import { OnboardingState, initialState } from "./state"
+import { OnboardingState, initialState } from "./state";
 import { OnboardingActions } from "./actions";
 
 export const OnboardingContext = React.createContext<{

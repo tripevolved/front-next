@@ -4,8 +4,8 @@ import { TravelersActions } from "./actions";
 
 export const TravalersContext = React.createContext<{
   state: TravelerState;
-	dispatch: React.Dispatch<TravelersActions>;
+  dispatch: React.Dispatch<TravelersActions>;
 }>({
-	state: initialState,
-	dispatch: () => undefined,
+  state: initialState,
+  dispatch: () => undefined,
 });
