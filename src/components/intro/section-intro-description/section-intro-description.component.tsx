@@ -3,8 +3,6 @@ import { Heading, HeadingProps } from "@/ui/heading";
 import { Text, TextProps } from "@/ui/text";
 import { Picture } from "@/ui/picture";
 import { Button, ButtonProps } from "@/ui/button";
-import hiFiveDecorarion from "@/public/assets/intro/hiFiveDecoration.png";
-
 import { Box } from "@chakra-ui/react";
 
 export interface SectionIntroDescriptionProps extends SectionProps {
@@ -31,7 +29,7 @@ export const SectionIntroDescription = ({
       >
         <Box display="flex" flexDirection="row" justifyContent="center">
           <Heading {...title} />
-          <Picture src={hiFiveDecorarion} height={25} width={25} />
+          <Picture src="/assets/intro/hiFiveDecoration.png" height={25} width={25} />
         </Box>
         <Text textColor={"gray.1"} mt={5} {...description} />
         <Button mt={[10, 15, 30]} {...cta} />

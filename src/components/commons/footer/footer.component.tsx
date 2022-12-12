@@ -8,9 +8,6 @@ import { Section } from "@/ui/section";
 import { Text } from "@/ui/text";
 import { Box, Flex } from "@chakra-ui/react";
 
-import AbavLogo from "@/public/assets/home/AbavLogo.png";
-import CadasturLogo from "@/public/assets/home/CadasturLogo.png";
-
 export const Footer = () => {
   return (
     <Section bg="brand.2" color="white">
@@ -56,8 +53,8 @@ export const Footer = () => {
           </Flex>
         </Box>
         <Box pt={4} display="flex" justifyContent="center" flexDirection="column">
-          <Picture centered src={CadasturLogo} width={385} height={5} />
-          <Picture centered src={AbavLogo} width={225} height={27} mt={5} />
+          <Picture centered src="/assets/home/CadasturLogo.png" width={385} height={5} />
+          <Picture centered src="/assets/home/AbavLogo.png" width={225} height={27} mt={5} />
         </Box>
       </Flex>
     </Section>

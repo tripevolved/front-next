@@ -1,9 +1,6 @@
 import { CtaBlock, CtaBlockProps } from "@/components/commons/cta-block";
 import { Picture } from "@/ui/picture";
 import { Section, SectionProps } from "@/ui/section";
-
-import decoration1 from "@/public/assets/home/decoration1.png";
-import decoration2 from "@/public/assets/home/decoration2.png";
 import { Box, Flex } from "@chakra-ui/react";
 
 export interface SectionSingleProps extends SectionProps, CtaBlockProps {}
@@ -15,7 +12,7 @@ export const SectionSingle = ({ heading, text, ...props }: SectionSingleProps) =
         <Box alignSelf="flex-end" position={{ lg: "absolute" }} top="-75px" right="-150px">
           <Picture
             className="animate__float"
-            src={decoration1}
+            src="/assets/home/decoration1.png"
             height={150}
             width={150}
             mt={{ base: "-50px", md: 0 }}
@@ -24,7 +21,7 @@ export const SectionSingle = ({ heading, text, ...props }: SectionSingleProps) =
         <CtaBlock heading={heading} text={text} />
         <Picture
           className="animate__float animate__delay-1x"
-          src={decoration2}
+          src="/assets/home/decoration2.png"
           height={150}
           width={150}
           position={{ lg: "absolute" }}

@@ -1,5 +1,5 @@
 import { newRenderComponentList } from "@/components/hoc/render-component-list";
-import { introData } from "@/data/intro.data";
+import { introData } from "@/data/wellcome.data";
 import { SectionLogoWithImage } from "@/components/intro/section-logo-with-image";
 import { SectionIntroDescription } from "@/components/intro/section-intro-description";
 
@@ -10,7 +10,7 @@ const componentList = {
 
 const RenderComponent = newRenderComponentList(componentList);
 
-const AboutUs = () => {
+const Wellcome = () => {
   return (
     <main>
       {introData.sections.map((props, key) => (
@@ -20,4 +20,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default Wellcome;
