@@ -1,10 +1,10 @@
 import React from "react";
-import { TravellerState, initialState } from "./state";
-import { TravellersActions } from "./actions";
+import { TravelerState, initialState } from "./state";
+import { TravelersActions } from "./actions";
 
-export const TravallerContext = React.createContext<{
-  state: TravellerState;
-	dispatch: React.Dispatch<TravellersActions>;
+export const TravalersContext = React.createContext<{
+  state: TravelerState;
+	dispatch: React.Dispatch<TravelersActions>;
 }>({
 	state: initialState,
 	dispatch: () => undefined,

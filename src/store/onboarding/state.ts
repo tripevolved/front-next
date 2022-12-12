@@ -1,8 +1,10 @@
-import { QuestionCollection } from "@/models";
+import { QuestionPages } from "@/models";
 
-export interface OnboardingState extends QuestionCollection {}
+export interface OnboardingState extends QuestionPages {}
 
 export const initialState: OnboardingState = {
-  page: null,
-	questions: [],
+  questionCollection: [{
+    page: null,
+    questions: [],
+  }]
 }

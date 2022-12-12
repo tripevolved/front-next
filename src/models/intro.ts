@@ -31,10 +31,10 @@ export type Question = {
 };
 
 export type QuestionCollection = {
-  page?: number | null;
-  questions?: Question[];
+  page: number | null;
+  questions: Question[];
 };
 
 export type QuestionPages = {
-  questionCollection?: QuestionCollection[];
+  questionCollection: QuestionCollection[];
 }

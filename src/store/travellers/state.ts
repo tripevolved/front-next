@@ -4,19 +4,19 @@ export enum Gender {
 	OTHER = 'Other',
 }
 
-export interface Traveller {
+export interface Traveler {
 	name: string;
 	gender: Gender;
 	birthDate?: Date | null;
 	aloneOrFamilyTraveling?: Boolean;
 }
 
-export interface TravellerState {
-	travellers: Traveller[];
+export interface TravelerState {
+	travelers: Traveler[];
 }
 
-export const initialState: TravellerState = {
-  travellers: [{
+export const initialState: TravelerState = {
+  travelers: [{
 		name: '',
 		gender: Gender.MALE,
 		aloneOrFamilyTraveling: false,

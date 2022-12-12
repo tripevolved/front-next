@@ -1,12 +1,17 @@
-import { Traveller } from "./state";
+import { Traveler } from "./state";
 
 export enum ActionType {
-	AddTraveller,
+	AddTraveler,
+	ClearTravelers,
 }
 
-export interface AddTravellers {
-	type: ActionType.AddTraveller;
-	payload: Traveller;
+export interface AddTravelers {
+	type: ActionType.AddTraveler;
+	payload: Traveler;
 }
 
-export type TravellersActions = AddTravellers;
+export interface ClearTravelers {
+	type: ActionType.ClearTravelers;
+}
+
+export type TravelersActions = AddTravelers | ClearTravelers;
