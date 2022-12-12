@@ -131,8 +131,7 @@ export const homeData = {
             children: "Culinária",
           },
           text: {
-            children:
-              "Recomendações de restaurantes de acordo com o tipo de culinária desejada.",
+            children: "Recomendações de restaurantes de acordo com o tipo de culinária desejada.",
           },
         },
         {

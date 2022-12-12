@@ -31,9 +31,7 @@ export const Footer = () => {
             Fale Conosco
           </Heading>
           <Box mt={6}>
-            <Link href="mailto:info@tripevolved.com.br">
-              info@tripevolved.com.br
-            </Link>
+            <Link href="mailto:info@tripevolved.com.br">info@tripevolved.com.br</Link>
           </Box>
         </Box>
         <Box pt={4}>

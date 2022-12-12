@@ -8,20 +8,11 @@ import { Box, Flex } from "@chakra-ui/react";
 
 export interface SectionSingleProps extends SectionProps, CtaBlockProps {}
 
-export const SectionSingle = ({
-  heading,
-  text,
-  ...props
-}: SectionSingleProps) => {
+export const SectionSingle = ({ heading, text, ...props }: SectionSingleProps) => {
   return (
     <Section {...props}>
       <Flex maxW="480px" m="auto" direction="column" position="relative">
-        <Box
-          alignSelf="flex-end"
-          position={{ lg: "absolute" }}
-          top="-75px"
-          right="-150px"
-        >
+        <Box alignSelf="flex-end" position={{ lg: "absolute" }} top="-75px" right="-150px">
           <Picture
             className="animate__float"
             src={decoration1}

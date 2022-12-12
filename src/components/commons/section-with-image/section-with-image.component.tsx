@@ -5,9 +5,7 @@ import {
 import { Picture, PictureProps } from "@/ui/picture";
 import { CtaBlock, CtaBlockProps } from "../cta-block";
 
-export interface SectionWithImageProps
-  extends CtaBlockProps,
-    SectionTwoColumnsProps {
+export interface SectionWithImageProps extends CtaBlockProps, SectionTwoColumnsProps {
   image?: PictureProps;
 }
 
@@ -20,9 +18,7 @@ export const SectionWithImage = ({
 }: SectionWithImageProps) => {
   return (
     <SectionTwoColumns reversed overflowX="hidden" {...props}>
-      {image ? (
-        <Picture centered {...image} style={{ maxWidth: "100vw" }} />
-      ) : null}
+      {image ? <Picture centered {...image} style={{ maxWidth: "100vw" }} /> : null}
       <CtaBlock heading={heading} text={text} cta={cta} />
     </SectionTwoColumns>
   );

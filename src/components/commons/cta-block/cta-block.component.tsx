@@ -15,7 +15,7 @@ export const CtaBlock = ({ heading, text, cta, ...props }: CtaBlockProps) => {
 
   const handleCta = () => {
     router.push("/intro");
-  }
+  };
 
   return (
     <Box maxW="480px" textAlign={{ base: "center", lg: "left" }} {...props}>

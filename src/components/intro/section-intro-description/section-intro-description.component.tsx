@@ -8,37 +8,34 @@ import hiFiveDecorarion from "@/public/assets/intro/hiFiveDecoration.png";
 import { Box } from "@chakra-ui/react";
 
 export interface SectionIntroDescriptionProps extends SectionProps {
-	title: HeadingProps;
-	description: TextProps;
-	cta: ButtonProps;
-};
+  title: HeadingProps;
+  description: TextProps;
+  cta: ButtonProps;
+}
 
-export const SectionIntroDescription = ({ title, description, cta, ...props }: SectionIntroDescriptionProps) => {
+export const SectionIntroDescription = ({
+  title,
+  description,
+  cta,
+  ...props
+}: SectionIntroDescriptionProps) => {
   return (
-		<Section {...props}>
-			<Box
-				width="full"
-				maxWidth={355}
-				alignContent="center"
-				textAlign="center"
-				mx={"auto"}
-				borderTopLeftRadius={{ base: "45px" }}
-			>
-				<Box
-					display="flex"
-					flexDirection="row"
-					justifyContent="center"
-				>
-					<Heading {...title} />
-						<Picture
-							src={hiFiveDecorarion}
-							height={25}
-							width={25}
-						/>
-				</Box>
-				<Text textColor={"gray.1"} mt={5} {...description} />
-				<Button mt={[10, 15, 30]} {...cta} />
-			</Box>
-		</Section>
-	)
+    <Section {...props}>
+      <Box
+        width="full"
+        maxWidth={355}
+        alignContent="center"
+        textAlign="center"
+        mx={"auto"}
+        borderTopLeftRadius={{ base: "45px" }}
+      >
+        <Box display="flex" flexDirection="row" justifyContent="center">
+          <Heading {...title} />
+          <Picture src={hiFiveDecorarion} height={25} width={25} />
+        </Box>
+        <Text textColor={"gray.1"} mt={5} {...description} />
+        <Button mt={[10, 15, 30]} {...cta} />
+      </Box>
+    </Section>
+  );
 };

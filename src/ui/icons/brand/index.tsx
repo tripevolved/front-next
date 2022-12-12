@@ -11,7 +11,5 @@ interface Brand {
 }
 
 export const BrandHorizontal = ({ scale = 1 }: Brand) => {
-  return (
-    <Picture src={brandHorizontal} height={34 * scale} width={178 * scale} />
-  );
+  return <Picture src={brandHorizontal} height={34 * scale} width={178 * scale} />;
 };
