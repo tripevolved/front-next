@@ -45,7 +45,7 @@ export const aboutData = {
       features: [
         {
           heading: {
-            html: "Você, <br/>encantados",
+            html: "Você <br/>encantado",
           },
           text: {
             children:

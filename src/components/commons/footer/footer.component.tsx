@@ -8,9 +8,6 @@ import { Section } from "@/ui/section";
 import { Text } from "@/ui/text";
 import { Box, Flex } from "@chakra-ui/react";
 
-import AbavLogo from "@/public/assets/home/AbavLogo.png";
-import CadasturLogo from "@/public/assets/home/CadasturLogo.png";
-
 export const Footer = () => {
   return (
     <Section bg="brand.2" color="white">
@@ -31,9 +28,7 @@ export const Footer = () => {
             Fale Conosco
           </Heading>
           <Box mt={6}>
-            <Link href="mailto:info@tripevolved.com.br">
-              info@tripevolved.com.br
-            </Link>
+            <Link href="mailto:info@tripevolved.com.br">info@tripevolved.com.br</Link>
           </Box>
         </Box>
         <Box pt={4}>
@@ -57,11 +52,11 @@ export const Footer = () => {
             </Link>
           </Flex>
         </Box>
-        <Box pt={4} display="flex" justifyContent="center" flexDirection="column">
-          <Picture centered src={CadasturLogo} width={190} height={5} />
-          <Picture centered src={AbavLogo} width={110} height={27} mt={5} />
-        </Box>
       </Flex>
+      <Flex alignItems="center" gap={10} mt={10} justifyContent={{ md: "flex-end" }}>
+          <Picture alt="Cadastur" src="/assets/home/CadasturLogo.png" width={220} height={49} />
+          <Picture alt="ABAV" src="/assets/home/AbavLogo.png" width={100} height={51} />
+        </Flex>
     </Section>
   );
 };

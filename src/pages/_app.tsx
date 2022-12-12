@@ -18,10 +18,6 @@ const App = ({ Component, pageProps }: AppProps) => {
           content="Sua trip a dois precisa ser mais do que um pacote pronto. Utilizamos tecnologia para recomendar destinos e experiências únicas. Simule a sua trip ideal."
         />
         <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-        />
       </Head>
       <ChakraProvider theme={customTheme}>
         <div className={fontFamilyClassName}>

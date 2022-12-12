@@ -1,12 +1,4 @@
 import { SectionWithImageProps } from "@/components/commons/section-with-image";
-import heroImage from "@/public/assets/home/img-hero.png";
-import phoneImage1 from "@/public/assets/home/phone-1.png";
-import phoneImage2 from "@/public/assets/home/phone-2.png";
-import phoneImage3 from "@/public/assets/home/phone-3.png";
-
-import icon1 from "@/public/assets/home/atracoes-circle-icon.svg";
-import icon2 from "@/public/assets/home/culinaria-circle-icon.svg";
-import icon3 from "@/public/assets/home/noite-circle-icon.svg";
 
 export const homeData = {
   sections: [
@@ -34,7 +26,7 @@ export const homeData = {
       image: {
         width: 669,
         height: 374,
-        src: heroImage,
+        src: "/assets/home/img-hero.png",
         alt: "Imagem com de um casal na praia",
         transform: { base: "translateX(24px)", md: "" },
       },
@@ -61,7 +53,7 @@ export const homeData = {
         enterAnimation: "slide-left",
         width: 366,
         height: 525,
-        src: phoneImage1,
+        src: "/assets/home/phone-1.png",
         alt: "Imagem de tela de celular apresentação as trips",
       },
     },
@@ -85,7 +77,7 @@ export const homeData = {
         enterAnimation: "slide-right",
         width: 405,
         height: 550,
-        src: phoneImage2,
+        src: "/assets/home/phone-2.png",
         alt: "Imagem com de um casal na praia",
       },
     },
@@ -107,7 +99,7 @@ export const homeData = {
           id: "atracoes",
           color: "white",
           image: {
-            src: icon1,
+            src: "/assets/home/atracoes-circle-icon.svg",
             height: 41,
             width: 41,
           },
@@ -123,7 +115,7 @@ export const homeData = {
           id: "culinaria",
           color: "white",
           image: {
-            src: icon2,
+            src: "/assets/home/culinaria-circle-icon.svg",
             height: 41,
             width: 41,
           },
@@ -131,15 +123,14 @@ export const homeData = {
             children: "Culinária",
           },
           text: {
-            children:
-              "Recomendações de restaurantes de acordo com o tipo de culinária desejada.",
+            children: "Recomendações de restaurantes de acordo com o tipo de culinária desejada.",
           },
         },
         {
           id: "bares-e-festas",
           color: "white",
           image: {
-            src: icon3,
+            src: "/assets/home/noite-circle-icon.svg",
             height: 41,
             width: 41,
           },
@@ -187,7 +178,7 @@ export const homeData = {
         enterAnimation: "slide-right",
         width: 448,
         height: 678,
-        src: phoneImage3,
+        src: "/assets/home/phone-3.png",
         alt: "Imagem do aplicativo",
       },
     },

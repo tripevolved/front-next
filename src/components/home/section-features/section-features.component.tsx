@@ -8,9 +8,7 @@ import { ImageBasicProps, Picture } from "@/ui/picture";
 import { Text, TextProps } from "@/ui/text";
 import { Box, BoxProps, Divider, Grid, GridItem } from "@chakra-ui/react";
 
-export interface SectionFeaturesProps
-  extends SectionTwoColumnsProps,
-    CtaBlockProps {
+export interface SectionFeaturesProps extends SectionTwoColumnsProps, CtaBlockProps {
   features: FeatureItemProps[];
 }
 
@@ -39,18 +37,10 @@ interface FeatureItemProps extends BoxProps {
   divider?: boolean;
 }
 
-const FeatureItem = ({
-  heading,
-  text,
-  image,
-  divider,
-  ...props
-}: FeatureItemProps) => {
+const FeatureItem = ({ heading, text, image, divider, ...props }: FeatureItemProps) => {
   return (
     <Box maxW="480px" {...props}>
-      {divider ? (
-        <Divider my={3} borderStyle="dashed" borderBottomWidth="2px" />
-      ) : null}
+      {divider ? <Divider my={3} borderStyle="dashed" borderBottomWidth="2px" /> : null}
       <Grid py={3} px={2} gap={5} templateColumns="48px 1fr">
         <GridItem>
           <Picture {...image} />

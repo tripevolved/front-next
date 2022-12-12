@@ -61,12 +61,7 @@ export const Picture = ({
   );
 };
 
-const Source = ({
-  src,
-  height,
-  width,
-  screen,
-}: ImageBasicProps & { screen: ScreenScale }) => {
+const Source = ({ src, height, width, screen }: ImageBasicProps & { screen: ScreenScale }) => {
   if (typeof src !== "string") return null;
 
   const size = {
