@@ -1,14 +1,18 @@
-import { Traveller, TravellerState, initialState } from "./state";
-import { ActionType, AddTravellers, TravellersActions } from "./actions"
+import { TravelerState, initialState } from "./state";
+import { ActionType, TravelersActions } from "./actions"
 
-export function travellerReducer(
-  state: TravellerState,
-	action: TravellersActions
-	): TravellerState {
-		switch(action.type) {
-			case ActionType.AddTraveller:
-				return { ...state, travellers: [action.payload, ...state.travellers] };
-			default:
-				return state;
-		}
+export function travelerReducer(
+  state: TravelerState,
+	action: TravelersActions
+): TravelerState {
+	switch(action.type) {
+		case ActionType.AddTraveler:
+			return { ...state, travelers: [action.payload, ...state.travelers] };
+		
+		case ActionType.ClearTravelers:
+			return { ...state, ...initialState };
+
+		default:
+			return state;
+	}
 }
