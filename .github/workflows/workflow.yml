@@ -1,0 +1,52 @@
+name: Deploy Website to S3
+on:
+  push:
+    branches:
+      - main
+      # when "main" branch receives some commit, it will automatically run this action
+
+jobs:
+  build:
+    # will run on latest version of linux ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code into the runner
+        uses: actions/checkout@main
+
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+      - name: Install all npm packages
+        run: npm install
+
+      - name: Lint check
+        run: npm run lint
+
+      #- name: Unit test run
+      #  run: npm run test:unit
+
+      - name: Build website for release
+        run: npm run build
+
+      - name: Deploy into AWS S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp \
+            --recursive \
+            --region ${{ secrets.AWS_DEFAULT_REGION }} \
+            ./out s3://tripevolved-site
+      
+      - name: Invalidate cloudfront
+        env: 
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTIONID }} --paths "/*"
