@@ -37,4 +37,4 @@ export type QuestionCollection = {
 
 export type QuestionPages = {
   questionCollection?: QuestionCollection[];
-}
+};

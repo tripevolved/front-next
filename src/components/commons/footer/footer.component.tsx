@@ -54,9 +54,9 @@ export const Footer = () => {
         </Box>
       </Flex>
       <Flex alignItems="center" gap={10} mt={10} justifyContent={{ md: "flex-end" }}>
-          <Picture alt="Cadastur" src="/assets/home/CadasturLogo.png" width={220} height={49} />
-          <Picture alt="ABAV" src="/assets/home/AbavLogo.png" width={100} height={51} />
-        </Flex>
+        <Picture alt="Cadastur" src="/assets/home/CadasturLogo.png" width={220} height={49} />
+        <Picture alt="ABAV" src="/assets/home/AbavLogo.png" width={100} height={51} />
+      </Flex>
     </Section>
   );
 };
