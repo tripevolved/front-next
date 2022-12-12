@@ -11,7 +11,7 @@ export const introData = {
         height: 360,
         width: 350,
         mb: "-8px",
-      }
+      },
     },
     {
       id: "bem-vindo-description",
@@ -21,7 +21,7 @@ export const introData = {
         textAlign: "center",
       },
       heading: {
-        html: "Olá! <img style='display: inline;' src='/assets/bem-vindo/icon-hand.png'>"
+        html: "Olá! <img style='display: inline;' src='/assets/bem-vindo/icon-hand.png'>",
       },
       text: {
         children:
@@ -29,7 +29,7 @@ export const introData = {
       },
       cta: {
         id: "bem-vindo-cta",
-        children: "Descobrir a trip ideal"
+        children: "Descobrir a trip ideal",
       },
     },
   ],
