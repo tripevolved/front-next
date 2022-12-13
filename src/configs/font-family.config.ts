@@ -10,7 +10,4 @@ export const fontBody = Baloo_2({
   weight: ["400", "600"],
 });
 
-export const fontFamilyClassName = [
-  fontDisplay.className,
-  fontBody.className,
-].join(" ");
+export const fontFamilyClassName = [fontDisplay.className, fontBody.className].join(" ");
