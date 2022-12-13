@@ -1,7 +1,4 @@
-import {
-  Button as _Button,
-  ButtonProps as _ButtonProps,
-} from "@chakra-ui/react";
+import { Button as _Button, ButtonProps as _ButtonProps } from "@chakra-ui/react";
 import { useMemo } from "react";
 
 export interface ButtonProps extends _ButtonProps {

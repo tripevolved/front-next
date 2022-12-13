@@ -17,9 +17,7 @@ class MyDocument extends Document {
       <Html lang="pt-br">
         <Head />
         <body>
-          <ColorModeScript
-            initialColorMode={customTheme.config.initialColorMode}
-          />
+          <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
           <Main />
           <NextScript />
         </body>

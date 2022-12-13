@@ -2,13 +2,7 @@ import { Heading, HeadingProps } from "@/ui/heading";
 import { MinusCircle } from "@/ui/icons/minus-circle";
 import { PlusCircle } from "@/ui/icons/plus-circle";
 import { Text, TextProps } from "@/ui/text";
-import {
-  Accordion,
-  AccordionButton,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-} from "@chakra-ui/react";
+import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Box } from "@chakra-ui/react";
 
 export interface AccordionListProps {
   items: AccordionItemProps[];
