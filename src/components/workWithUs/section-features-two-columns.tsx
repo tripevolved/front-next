@@ -1,10 +1,29 @@
-
+// Need to Refact
+import React from "react";
+import {
+  SectionTwoColumns,
+  SectionTwoColumnsProps
+} from "@/components/commons/section-two-columns";
 import { Heading, HeadingProps } from "@/ui/heading";
-import { Section, SectionProps } from "@/ui/section";
+import { ImageBasicProps, Picture } from "@/ui/picture";
+import { Text, TextProps } from "@/ui/text";
 
-export interface SectionFeaturesTwoColumnsProps extends SectionProps {
-  heading: HeadingProps;
-  features: FeatureItem[]
+import { Box, BoxProps, Divider, Grid, GridItem } from "@chakra-ui/react";
+
+export interface SectionFeaturesTwoColumnsProps
+  extends SectionTwoColumnsProps {
+    features: FeatureItemProps[];
+    heading: HeadingProps;
 }
 
-export default {}
+export const SectionFeaturesTwoColumns = ({
+  heading,
+  features = [],
+  ...props
+}: SectionFeaturesTwoColumnsProps) => {
+  return (
+    <SectionTwoColumns {...props}>
+
+    </SectionTwoColumns>
+  )
+}
