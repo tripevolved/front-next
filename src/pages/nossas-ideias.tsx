@@ -1,4 +1,6 @@
 import { SectionWithImage } from "@/components/commons/section-with-image";
+import { SectionFeaturesTwoColumns } from "@/components/workWithUs/section-features-two-columns";
+import { SectionTechnologies } from "@/components/workWithUs/section-technologies";
 import { newRenderComponentList } from "@/components/hoc/render-component-list";
 import { Navbar } from "@/components/commons/navbar";
 import { Footer } from "@/components/commons/footer";
@@ -8,6 +10,8 @@ const componentList = {
   Navbar,
   SectionWithImage,
   Footer,
+  SectionFeaturesTwoColumns,
+  SectionTechnologies,
 };
 
 const RenderComponent = newRenderComponentList(componentList);
