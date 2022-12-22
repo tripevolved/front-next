@@ -59,6 +59,9 @@ const NavMenu = ({ isOpen }: NavMenuProps) => {
       flexDirection={{ base: "column", md: "row" }}
       pb={{ base: 5, md: 0 }}
     >
+      <Link href="/nossas-ideias" display="inline-block" p={2}>
+        Nossas ideias
+      </Link>
       <Link href="/sobre" display="inline-block" p={2}>
         Sobre nós
       </Link>
