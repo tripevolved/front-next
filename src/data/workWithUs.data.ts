@@ -14,9 +14,9 @@ export const workWithUsData = {
       image: {
         mb: 5,
         base: {
-          src: "/assets/sobre/image-1.png",
-          height: 456,
-          width: 731,
+          src: "/assets/work-with-us/metodo-de-trabalho.png",
+          height: 507,
+          width: 500,
         },
       },
       heading: {
@@ -43,9 +43,9 @@ export const workWithUsData = {
       image: {
         mb: 5,
         base: {
-          src: "/assets/sobre/image-1.png",
-          height: 456,
-          width: 731,
+          src: "/assets/work-with-us/onde-estamos.png",
+          height: 514,
+          width: 570,
         },
       },
       heading: {
@@ -226,16 +226,16 @@ export const workWithUsData = {
     },
     {
       id: "valores-e-cultura",
-      component: "SectionWithImage",
+      component: "SectionImageWithList",
       reversed: false,
       bg: "brand.5",
       gap: { base: 0, lg: 10 },
       image: {
         mb: 5,
         base: {
-          src: "/assets/sobre/image-1.png",
-          height: 456,
-          width: 731,
+          src: "/assets/work-with-us/valores-e-cultura.png",
+          height: 500,
+          width: 500,
         },
       },
       heading: {
@@ -246,22 +246,50 @@ export const workWithUsData = {
           },
         },
       },
+      list: [
+        {
+          size: "sm",
+          children: "Lorem ipsum dolor sit amet, consectetur adipiscing elit;",
+        },
+        {
+          size: "sm",
+          children: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+        },
+        {
+          size: "sm",
+          children: "Lorem ipsum dolor sit amet."
+        },
+        {
+          size: "sm",
+          children: "Lorem ipsum dolor sit amet, consectetur adipiscing elit;"
+        },
+      ],
+    },
+    {
+      id: "seja-um-de-nos",
+      component: "SectionSingleNoPictures",
+      heading: {
+        size: "lg",
+        children: "Seja um de nós",
+        lineDecoration: {
+          transform: {
+            lg: "translateX(-100px)",
+            alignContent: "center"
+          },
+        },
+      },
+      containerProps: {
+        textAlign: "center",
+        mx: "auto",
+      },
       text: {
-        size: "sm",
-        html:
-          `<ul>
-            <li>
-              Lorem ipsum dolor sit amet, consectetur 
-              adipiscing elit;
-            </li>
-            <li>
-              Sed do eiusmod tempor incididunt ut labore
-              et dolore magna aliqua
-            </li>
-            <li>
-              Ut enim ad minim veniam
-            </li>
-          </ul>`,
+        color: "gray.1",
+        my: 8,
+        children:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      },
+      cta: {
+        children: "Saiba Mais",
       },
     },
     {
