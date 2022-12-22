@@ -281,15 +281,23 @@ export const workWithUsData = {
       containerProps: {
         textAlign: "center",
         mx: "auto",
+        mb: 4,
       },
       text: {
         color: "gray.1",
-        my: 8,
+        my: 10,
         children:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
       },
       cta: {
         children: "Saiba Mais",
+        href: "https://www.notion.so/Vaga-Back-End-c98bc10f506f4c298f1a34827d4f9f18",
+        target: "_blank",
+        bg: "brand.1",
+        color: "white",
+        borderRadius: "full",
+        px: 14,
+        py: 4,
       },
     },
     {
