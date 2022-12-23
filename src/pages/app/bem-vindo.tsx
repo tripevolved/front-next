@@ -3,6 +3,8 @@ import { introData } from "@/data/wellcome.data";
 import { SectionImage } from "@/components/commons/section-image";
 import { SectionWithImage } from "@/components/commons/section-with-image";
 
+import { Stepper } from "@/components/commons/stepper";
+
 const componentList = {
   SectionImage,
   SectionWithImage,
@@ -16,6 +18,7 @@ const Wellcome = () => {
       {introData.sections.map((props, key) => (
         <RenderComponent key={props.id || key} {...props} />
       ))}
+      <Stepper max={5} step={4} defaultValue={4} />
     </main>
   );
 };
