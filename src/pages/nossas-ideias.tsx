@@ -14,7 +14,6 @@ const componentList = {
   Footer,
   SectionFeaturesTwoColumns,
   SectionTechnologies,
-  SectionImageWithList,
   SectionSingleNoPictures,
 };
 

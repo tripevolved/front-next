@@ -26,7 +26,7 @@ export const SectionTechnologies = ({
       >
         <Heading size="lg" as="h2" {...heading } />
       </Box>
-      <SimpleGrid columns={[2, null, 4]}>
+      <SimpleGrid columns={[2, null, 3]}>
         {technologies.map((technolgy, key) => (
           <Picture {...technolgy} key={technolgy.id || key} centered mx={2} />
         ))}

@@ -31,7 +31,7 @@ export const workWithUsData = {
       text: {
         size: "sm",
         children:
-          "A Trip Evolved nasceu para ser o lugar em que as pessoas constroem experiências de viagem incríveis e inesperadas. Combinamos o melhor da tecnologia ao melhor das pessoas para entregar uma experiência completa, unindo uma curadoria feita por pessoas a um poderoso sistema de recomendação que existe para unir o que você deseja para a viagem às melhores experiências e lugares do mundo.",
+          "Somos 100% remotos e acreditamos que confiança é muito mais importante que controle. Queremos construir um ambiente onde não há medo de inovar - e isso só é construído quando há confiança mútua.",
       },
     },
     {
@@ -59,7 +59,7 @@ export const workWithUsData = {
       text: {
         size: "sm",
         children:
-          "A Trip Evolved nasceu para ser o lugar em que as pessoas constroem experiências de viagem incríveis e inesperadas. Combinamos o melhor da tecnologia ao melhor das pessoas para entregar uma experiência completa, unindo uma curadoria feita por pessoas a um poderoso sistema de recomendação que existe para unir o que você deseja para a viagem às melhores experiências e lugares do mundo.",
+          "A Trip Evolved está em um momento inicial. Estamos construindo nosso MVP (Mínimo Produto Viável, do inglês) e validando nossas ideias junto aos viajantes. De uma coisa temos certeza: não vamos construir nada sozinhos e queremos pessoas engajadas, com a mente direcionada a produto e que adorem transformar problemas em soluções.",
       },
     },
     {
@@ -83,7 +83,7 @@ export const workWithUsData = {
           flexDirection: { base: "column", lg: "column-reverse" },
           description: {
             mt: 4,
-            children: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+            children: 'Costumamos esquecer que o Google não foi o primeiro motor de busca e que o iPhone não foi o primeiro smartphone. Superestimamos a importância de sermos "primeiros": nós, na Trip Evolved, queremos ser os "melhores". Para isso, é preciso coragem constante.'
           },
           features: [
             {
@@ -107,7 +107,7 @@ export const workWithUsData = {
                 width: 41,
               },
               text: {
-                children: "Constante busca por aprender entender o porquê das coisas",
+                children: "Sempre chegar ao porquê das coisas",
               },
             },
           ]
@@ -119,7 +119,7 @@ export const workWithUsData = {
           description: {
             mb: 4,
             children:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+              "Aprendermos diariamente, uns com os outros, com nossos clientes ou com quem seja, nos define. E isso nos ajuda a construir um ambiente questionador, onde a busca pelo porquê está difundida entre todos."
           },
           features: [
             {
@@ -144,7 +144,7 @@ export const workWithUsData = {
                 width: 41,
               },
               text: {
-                children: "Importância da qualidade: buscando ser os melhores e com eficiencia!",
+                children: "Qualidade: queremos ser os melhores, com eficiência",
               },
             },
           ]
@@ -152,122 +152,9 @@ export const workWithUsData = {
       ],
     },
     {
-      id: "tecnoligias",
-      component: "SectionTechnologies",
-      heading: {
-        children: "Tecnologias que gostamos",
-        textAlign: "center",
-      },
-      technologies: [
-        {
-          id: "aws",
-          alt: "AWS Logo",
-          src: "/assets/work-with-us/AWS.png",
-          width: 220,
-          height: 135,
-          py: 6,
-        },
-        {
-          id: "dotNet",
-          alt: "Microsoft .NET Logo",
-          src: "/assets/work-with-us/dotNet.png",
-          width: 220,
-          height: 135,
-          py: 2,
-        },
-        {
-          id: "mySql",
-          alt: "MySQL Logo",
-          src: "/assets/work-with-us/MySQL.png",
-          width: 220,
-          height: 135,
-          py: 6
-        },
-        {
-          id: "documentDb",
-          alt: "Amazon DocumentDB Logo",
-          src: "/assets/work-with-us/DocumentDB.png",
-          width: 220,
-          height: 135,
-        },
-        {
-          id: "nextJs",
-          alt: "Next.js Logo",
-          src: "/assets/work-with-us/NextJS.png",
-          width: 220,
-          height: 135,
-          py: 7,
-        },
-        {
-          id: "js_ts",
-          alt: "JavaScript - TypeScript Logo",
-          src: "/assets/work-with-us/TS_JS.png",
-          width: 161,
-          height: 161,
-          py: 3,
-        },
-        {
-          id: "xUnit",
-          alt: "xUnit Logo",
-          src: "/assets/work-with-us/xUnit.png",
-          width: 271,
-          height: 173,
-          py: 3
-        },
-        {
-          id: "jest",
-          alt: "Jest Logo",
-          src: "/assets/work-with-us/Jest.png",
-          width: 183,
-          height: 103,
-          py: 10,
-        },
-      ],
-    },
-    {
-      id: "valores-e-cultura",
-      component: "SectionImageWithList",
-      reversed: false,
-      bg: "brand.5",
-      gap: { base: 0, lg: 10 },
-      image: {
-        mb: 5,
-        base: {
-          src: "/assets/work-with-us/valores-e-cultura.png",
-          height: 500,
-          width: 500,
-        },
-      },
-      heading: {
-        children: "Valores e cultura",
-        lineDecoration: {
-          transform: {
-            lg: "translateX(-100px)",
-          },
-        },
-      },
-      list: [
-        {
-          size: "sm",
-          children: "Lorem ipsum dolor sit amet, consectetur adipiscing elit;",
-        },
-        {
-          size: "sm",
-          children: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-        },
-        {
-          size: "sm",
-          children: "Lorem ipsum dolor sit amet."
-        },
-        {
-          size: "sm",
-          children: "Lorem ipsum dolor sit amet, consectetur adipiscing elit;"
-        },
-      ],
-    },
-    {
       id: "seja-um-de-nos",
       component: "SectionSingleNoPictures",
+      bg: "brand.5",
       heading: {
         size: "lg",
         children: "Seja um de nós",
@@ -287,7 +174,7 @@ export const workWithUsData = {
         color: "gray.1",
         my: 10,
         children:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+          "Se nossa visão, missão, valores ou qualquer outra coisa te chamou a atenção, sinta-se totalmente à vontade para entrar em contato. Mesmo que seu perfil não seja o que procuramos para as vagas que temos atualmente, adoraríamos conectar e conversar para outras vagas futuras ou simplesmente falar do mundo e da vida. Além disso, qualquer feedback sobre nossas ideias e produto são extremamente bem-vindos. Estamos 100% focados em aprender - é um dos nossos valores!"
       },
       cta: {
         children: "Saiba Mais",
@@ -299,6 +186,64 @@ export const workWithUsData = {
         px: 14,
         py: 4,
       },
+    },
+    {
+      id: "tecnoligias",
+      component: "SectionTechnologies",
+      heading: {
+        children: "Tecnologias que gostamos",
+        textAlign: "center",
+      },
+      technologies: [
+        {
+          id: "aws",
+          alt: "AWS Logo",
+          src: "/assets/work-with-us/AWS.png",
+          width: 180,
+          height: 95,
+          py: 3,
+        },
+        {
+          id: "dotNet",
+          alt: "Microsoft .NET Logo",
+          src: "/assets/work-with-us/dotNet.png",
+          width: 180,
+          height: 95,
+          py: 2,
+        },
+        {
+          id: "nextJs",
+          alt: "Next.js Logo",
+          src: "/assets/work-with-us/NextJS.png",
+          width: 170,
+          height: 85,
+          py: 4,
+        },
+        {
+          id: "js_ts",
+          alt: "JavaScript - TypeScript Logo",
+          src: "/assets/work-with-us/TS_JS.png",
+          width: 111,
+          height: 111,
+          py: 3,
+        },
+        {
+          id: "xUnit",
+          alt: "xUnit Logo",
+          src: "/assets/work-with-us/xUnit.png",
+          width: 211,
+          height: 113,
+          py: 3
+        },
+        {
+          id: "jest",
+          alt: "Jest Logo",
+          src: "/assets/work-with-us/Jest.png",
+          width: 143,
+          height: 63,
+          py: 8,
+        },
+      ],
     },
     {
       id: "rodape",
