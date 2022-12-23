@@ -5,25 +5,25 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
-  SliderMark,
 } from "@chakra-ui/react";
 
-export interface StepperProps extends SliderProps {
-
-}
+export interface StepperProps extends SliderProps {}
 
 export const Stepper = ({
   min = 0,
   max,
-  step = 1,
+  value = 1,
   defaultValue = 1,
+  onChange,
 }: StepperProps): ReactElement => {
   return (
     <Slider
       min={min}
       max={max}
-      step={step}
+      value={value}
       defaultValue={defaultValue}
+      onChange={onChange}
+      mx={2}
       isReadOnly
     >
       <SliderTrack bg="gray.1">
