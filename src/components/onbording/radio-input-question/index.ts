@@ -1,0 +1,1 @@
+export * from "./radio-input-question.component";

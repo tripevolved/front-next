@@ -14,7 +14,7 @@ export const CtaBlock = ({ heading, text, cta, ...props }: CtaBlockProps) => {
   const router = useRouter();
 
   const handleCta = () => {
-    router.push("/intro");
+    router.push("/app/bem-vindo");
   };
 
   return (
