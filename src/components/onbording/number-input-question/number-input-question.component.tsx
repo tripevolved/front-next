@@ -9,7 +9,7 @@ import {
 
 export interface NumberInputQuestionProps extends _NumberInputProps {
   positiveValues?: boolean;
-  placeholder: string;
+  placeholder?: string;
 }
 
 export const NumberInputQuestion = ({
