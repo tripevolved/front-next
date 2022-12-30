@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
@@ -32,4 +32,27 @@ describe("NumberInputQuestion test suit", () => {
 
     expect(valueType).toBe("number");
   });
+
+  it("The value must be a positive value after blur event", () => {
+    const value = -2;
+
+    const { getByLabelText } = render(
+      <NumberInputQuestion
+        aria-label="numberInput"
+        positiveValues
+      />
+    );
+
+    const numberInput = getByLabelText("numberInput");
+
+    fireEvent.change(numberInput, { target: { value: `${value}` } });
+    
+    fireEvent.blur(numberInput);
+
+    const inputValue = numberInput.value;
+
+    const valueToBeVerified = Number(inputValue) >= 0;
+
+    expect(valueToBeVerified).toBe(true);
+  })
 });
