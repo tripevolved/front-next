@@ -16,12 +16,11 @@ export interface RadioInputQuestionProps extends RadioGroupProps {
 
 export const RadioInputQuestion = ({
   row = false,
-  value,
   options,
   ...props
 }: RadioInputQuestionProps): ReactElement => {
   return (
-    <RadioGroup {...props} mx={2} value={value} colorScheme="primary">
+    <RadioGroup {...props} mx={2} colorScheme="primary">
       <Stack direction={row ? "row" : "column"}>
         {options.map((option, key) => (
           <Radio {...option} key={key} />
