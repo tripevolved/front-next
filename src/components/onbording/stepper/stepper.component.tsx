@@ -4,7 +4,6 @@ import {
   SliderProps,
   SliderTrack,
   SliderFilledTrack,
-  SliderThumb,
 } from "@chakra-ui/react";
 
 export interface StepperProps extends SliderProps {}
