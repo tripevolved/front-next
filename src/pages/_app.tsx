@@ -4,9 +4,16 @@ import Head from "next/head";
 import { fontFamilyClassName } from "../configs/font-family.config";
 import { customTheme } from "../configs/theme.config";
 
+import { config, library } from "@fortawesome/fontawesome-svg-core";
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 import "@/styles/animations.css";
 import "@/styles/colors.css";
 import "@/styles/globals.css";
+
+config.autoAddCss = false;
+library.add(faArrowLeft, faArrowRight)
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
