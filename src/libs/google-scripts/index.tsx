@@ -4,10 +4,10 @@ const OPTIMIZE_ID = process.env["NEXT_PUBLIC_GOOGLE_OPTIMIZE_ID"];
 
 const GoogleScripts = () => (
   <>
-    <meta
+    {/* <meta
       property="google-site-verification"
       content="7xa_GKTHjFJ2Uk286oo7ggGv3myPaovi_h7doBgJ-0A"
-    />
+    /> */}
 
     <GAScript id={GA_ID} />
     <OptimizeScript id={OPTIMIZE_ID} />
