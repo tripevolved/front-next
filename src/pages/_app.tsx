@@ -4,6 +4,7 @@ import Head from "next/head";
 import { fontFamilyClassName } from "../configs/font-family.config";
 import { customTheme } from "../configs/theme.config";
 
+import GoogleScripts from "@/libs/google-scripts";
 import "@/styles/animations.css";
 import "@/styles/colors.css";
 import "@/styles/globals.css";
@@ -19,6 +20,7 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <GoogleScripts />
       <ChakraProvider theme={customTheme}>
         <div className={fontFamilyClassName}>
           <Component {...pageProps} />
