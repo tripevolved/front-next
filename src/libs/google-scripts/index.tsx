@@ -1,3 +1,5 @@
+import { RawScript } from "../RawScript";
+
 const GA_ID = process.env["NEXT_PUBLIC_GOOGLE_ANALYTICS_ID"];
 const GTM_ID = process.env["NEXT_PUBLIC_GOOGLE_TAGMANAGER_ID"];
 const OPTIMIZE_ID = process.env["NEXT_PUBLIC_GOOGLE_OPTIMIZE_ID"];
@@ -48,11 +50,3 @@ function GAScript({ id = "G-4W2CG7W3GC" }: ScriptID) {
 }
 
 export default GoogleScripts;
-
-const RawScript = ({ children }: any) => (
-  <script
-    dangerouslySetInnerHTML={{
-      __html: children,
-    }}
-  />
-);
