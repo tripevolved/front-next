@@ -5,6 +5,9 @@ const nextConfig = {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000",
     NEXT_PUBLIC_API_KEY: process.env.NEXT_PUBLIC_API_KEY,
   },
+  images: {
+    unoptimized: true,
+  }
 };
 
 module.exports = nextConfig;
