@@ -1,0 +1,6 @@
+/**
+ * Do NOT change this file, because it is automatically generated
+ * run "yarn component:index" to update
+ */
+export * from "./lead-list.component";
+export * from "./lead-list.types";

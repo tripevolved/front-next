@@ -1,0 +1,9 @@
+.modal {
+  padding: 0;
+  &-content {
+    border-radius: $border-radius-lg;
+    overflow-y: auto;
+    max-height: calc(100vh - 64px);
+    padding: 32px;
+  }
+}

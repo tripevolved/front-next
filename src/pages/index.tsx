@@ -1,31 +1,14 @@
-import { Footer } from "@/components/commons/footer";
-import { Navbar } from "@/components/commons/navbar";
-import { SectionFaq } from "@/components/commons/section-faq";
-import { SectionWithImage } from "@/components/commons/section-with-image";
-import { newRenderComponentList } from "@/components/hoc/render-component-list";
-import { SectionFeatures } from "@/components/home/section-features";
-import { SectionSingle } from "@/components/home/section-single";
-import { homeData } from "@/data/home.data";
+import { AdaptedRibo, HTMLHead } from "@/components";
+import home from "@/data/pages/home.json";
+import type { PageProps } from "@/types";
 
-const componentList = {
-  Footer,
-  Navbar,
-  SectionFaq,
-  SectionFeatures,
-  SectionSingle,
-  SectionWithImage,
-};
-
-const RenderComponent = newRenderComponentList(componentList);
-
-const Home = () => {
+export default function Page() {
+  const { seo, ...children } = home satisfies PageProps;
   return (
-    <main>
-      {homeData.sections.map((props, key) => (
-        <RenderComponent key={props.id || key} {...props} />
-      ))}
-    </main>
+    <>
+      <HTMLHead {...seo} />
+      <AdaptedRibo>{children}</AdaptedRibo>
+    </>
   );
-};
+}
 
-export default Home;
