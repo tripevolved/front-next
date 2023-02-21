@@ -1,0 +1,26 @@
+.accordion {
+  .accordion__header-container {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .accordion__header-container__icon-toggle {
+    &--is-open {
+      display: none;
+    }
+  }
+  &--is-open {
+    .accordion__header-container__icon-toggle {
+      &--is-open {
+        display: block;
+      }
+      &--is-close {
+        display: none;
+      }
+    }
+  }
+}
+
+.accordion .accordion__header-container__icon-toggle {
+  transform: none !important;
+}

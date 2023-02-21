@@ -1,0 +1,28 @@
+.py-section {
+  padding-top: clamp(24px, 5vw, 96px);
+  padding-bottom: clamp(24px, 5vw, 96px);
+}
+
+.p-section {
+  padding: clamp(24px, 5vw, 96px);
+}
+
+.pr-section {
+  padding-right: clamp(24px, 5vw, 96px);
+}
+
+.pl-section {
+  padding-left: clamp(24px, 5vw, 96px);
+}
+
+.pl-container {
+  padding-left: calc((100vw - 1200px)/2);
+}
+
+.pr-container {
+  padding-right: calc((100vw - 1200px)/2);
+}
+
+.text-bold {
+  font-style: bold;
+}
