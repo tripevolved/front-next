@@ -1,12 +1,13 @@
 {
-  "name": "app-web",
+  "name": "front-next",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "prettier --write \"src/**/*.{ts,tsx,js}\"",
     "component:index": "node scripts/component-index.js",
     "component:new": "node scripts/component-new.js",
     "data:index": "node scripts/data-index.js"
