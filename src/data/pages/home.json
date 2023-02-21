@@ -1,0 +1,588 @@
+{
+  "component": "PageBase",
+  "seo": {
+    "title": "Trip Evolved | A nova era do turismo chegou.",
+    "description": "Chega de pacotes prontos. A nova era do turismo chegou."
+  },
+  "children": [
+    {
+      "id": "hero",
+      "component": "HomeSectionHero",
+      "backgroundColor": "var(--color-brand-1)",
+      "color": "white",
+      "align": "center",
+      "mobileImage": {
+        "style": { "marginTop": -32, "marginBottom": 32 },
+        "src": "/assets/home/hero-mobile.png"
+      },
+      "leftImage": {
+        "src": "/assets/home/hero-2.png"
+      },
+      "rightImage": {
+        "style": { "marginRight": -56 },
+        "src": "/assets/home/hero-1.png"
+      },
+      "emoji": {
+        "src": "/assets/home/emoji-praia.png"
+      },
+      "heading": {
+        "as": "h1",
+        "size": "xl",
+        "html": "Chega de <span style=\"color:var(--color-brand-2);\">pacotes <br />prontos.</span> A nova era do <br />turismo chegou."
+      },
+      "cta": {
+        "children": "Seja pioneiro",
+        "href": "/seja-pioneiro",
+        "id": "event__home__hero-btn",
+        "variant": "custom",
+        "backgroundColor": "var(--color-brand-2)",
+        "hoverBackgroundColor": "var(--color-secondary-900)"
+      }
+    },
+    {
+      "component": "SectionBase",
+      "id": "amantes-de-viagem",
+      "style": {
+        "paddingBottom": 0
+      },
+      "backgroundColor": "var(--color-brand-5)",
+      "children": [
+        {
+          "component": "Grid",
+          "gap": 32,
+          "columns": { "md": 2 },
+          "children": [
+            {
+              "component": "Heading",
+              "size": "xl",
+              "style": {
+                "color": "var(--color-brand-2)"
+              },
+              "as": "h2",
+              "html": "Para os amantes <br />de viagem"
+            },
+            {
+              "component": "Text",
+              "size": "lg",
+              "className": "color-text-secondary",
+              "html": "Você, como amante de viagem, já deve ter enfrentado dois dos maiores problemas do turismo na atualidade: a <strong>falta de personalização dos pacotes prontos</strong> e a imensa dificuldade em criar um roteiro que atenda a cada detalhe da sua individualidade."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component": "SectionBase",
+      "id": "tecnologia-mais-curadoria",
+      "backgroundColor": "var(--color-brand-5)",
+      "children": {
+        "component": "Grid",
+        "gap": 32,
+        "columns": { "md": 2 },
+        "children": [
+          {
+            "component": "div",
+            "className": "flex align-items-center",
+            "style": {
+              "border": "1px dashed var(--color-brand-1)",
+              "borderRadius": 20,
+              "padding": "48px 32px"
+            },
+            "children": [
+              {
+                "component": "div",
+                "children": [
+                  {
+                    "component": "Heading",
+                    "className": "color-primary mb-xl",
+                    "as": "h3",
+                    "size": "sm",
+                    "children": "Tecnologia + Curadoria"
+                  },
+                  {
+                    "component": "Text",
+                    "size": "lg",
+                    "className": "color-text-secondary",
+                    "html": "Pensando em trazer a solução para você, a Trip Evolved nasceu para te ajudar a encontrar destinos <strong>inesperados e fantásticos</strong> para viajar, e realizar uma trip personalizada para os seus momentos de vida e personalidade."
+                  },
+                  {
+                    "component": "Text",
+                    "size": "lg",
+                    "className": "color-text-secondary",
+                    "html": "Estamos aqui para <strong>unir a tecnologia com a curadoria especializada em turismo</strong> e ser o poderoso sistema por assinatura de recomendações de destinos, experiências e <strong>montagem de roteiros para duplas.</strong>"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "component": "div",
+            "style": {
+              "background": "url(/assets/home/mulher-observando-a-vista.png) top center no-repeat",
+              "backgroundSize": "cover",
+              "borderRadius": 20,
+              "minHeight": 248
+            }
+          }
+        ]
+      }
+    },
+    {
+      "component": "SectionBase",
+      "id": "nova-era-do-turismo",
+      "align": "center",
+      "children": [
+        {
+          "component": "Grid",
+          "className": "py-1x",
+          "columns": { "md": [1, 3, 1] },
+          "children": [
+            {
+              "component": "Image",
+              "style": {
+                "display": "inline-block",
+                "marginRight": "auto",
+                "marginTop": -56,
+                "marginBottom": -56
+              },
+              "src": "/assets/home/emoji-mala.png"
+            },
+            {
+              "component": "MediaObject",
+              "heading": {
+                "size": "xl",
+                "html": "Por isso, diga adeus aos pacotes prontos. Estamos prestes a começar a <span class=\"color-primary\">nova era do turismo.</span>"
+              },
+              "text": {
+                "size": "xl",
+                "className": "color-text-secondary",
+                "children": "Pegue as suas malas, escolha a sua dupla e se prepare para viver uma experiência totalmente diferente do que você tem costume. "
+              }
+            },
+            {
+              "component": "Image",
+              "style": {
+                "display": "inline-block",
+                "marginLeft": "auto",
+                "marginTop": -56,
+                "marginBottom": -56,
+                "alignSelf": "end"
+              },
+              "src": "/assets/home/emoji-mapa.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component": "section",
+      "id": "personalizacao",
+      "style": {
+        "backgroundColor": "var(--color-brand-2)",
+        "color": "white",
+        "overflow": "hidden"
+      },
+      "children": [
+        {
+          "component": "Grid",
+          "columns": { "md": [2, 3] },
+          "className": "align-items-center",
+          "children": [
+            {
+              "component": "MediaObject",
+              "className": "p-section",
+              "style": {
+                "paddingLeft": "max(calc((100vw - 1200px)/2), 24px)",
+                "backgroundColor": "var(--color-brand-1)"
+              },
+              "sx": {
+                "background": "var(--color-brand-1) url(/assets/home/circle-quart.svg) left bottom 25% no-repeat"
+              },
+              "heading": {
+                "size": "xl",
+                "children": "Como personalizamos sua viagem?"
+              },
+              "text": {
+                "size": "xl",
+                "children": "A viagem não começa quando o avião decola. Aqui, na Trip Evolved, ela inicia muito antes, na criação do seu roteiro - e estamos preparando uma jornada completa para que você se sinta parte de cada detalhe!"
+              },
+              "children": [
+                {
+                  "component": "Image",
+                  "style": {
+                    "display": "inline-block",
+                    "marginLeft": "auto",
+                    "marginBottom": -72,
+                    "marginTop": -56
+                  },
+                  "src": "/assets/home/emoji-campi.png"
+                }
+              ]
+            },
+            {
+              "component": "AutoScrollNav",
+              "draggable": true,
+              "children": [
+                {
+                  "component": "div",
+                  "className": "flex gap-xl",
+                  "style": {
+                    "padding": "56px 32px"
+                  },
+                  "children": [
+                    {
+                      "component": "HomeNumberedCard",
+                      "bullet": 1,
+                      "style": {
+                        "transform": "translateY(-24px)"
+                      },
+                      "heading": "Seleção de parceiros confiáveis",
+                      "subtitle": "O ponto inicial da jornada de criação para selecionar os melhores dos melhores.",
+                      "text": "Antes de você solicitar o seu roteiro, o nosso time já percorreu os quatro cantos do mundo para encontrar parceiros seguros e de qualidade. Desde serviços de transporte até alimentação, estamos constantemente expandindo o nosso leque de parcerias para que você possa usufruir de benefícios exclusivos em qualquer destino."
+                    },
+                    {
+                      "component": "HomeNumberedCard",
+                      "bullet": 2,
+                      "style": {
+                        "transform": "translateY(24px)"
+                      },
+                      "heading": "Análise de personalidade",
+                      "subtitle": "O caminho para a criação de experiências únicas começa dentro de você.",
+                      "text": "Através de uma jornada repleta de perguntas e respostas dinâmicas iremos nos aprofundar nos gostos, interesses e tipos de personalidades de vocês, assim como preferências, expectativas e pequenos à grandes desejos para a viagem. Dessa maneira, o roteiro elaborado será único para aquilo que vocês procuram e desenvolvido especialmente para a personalidade de vocês."
+                    },
+                    {
+                      "component": "HomeNumberedCard",
+                      "bullet": 3,
+                      "style": {
+                        "transform": "translateY(-24px)"
+                      },
+                      "heading": "Curadoria Trip Evolved",
+                      "subtitle": "Chegamos ao pote de ouro. Diga olá para o seu roteiro 100% personalizado.",
+                      "text": "Depois de entendermos mais sobre vocês, chegou a hora de receber a sua viagem totalmente personalizada. A nossa equipe especializada em turismo entrará em ação para montar recomendações feitas sob medida, baseadas nas personalidades de vocês, nas seguintes categorias."
+                    },
+                    {
+                      "component": "HomeNumberedCard",
+                      "bullet": 4,
+                      "style": {
+                        "transform": "translateY(24px)"
+                      },
+                      "heading": "Destinos",
+                      "subtitle": "Não sabem para onde viajar?",
+                      "text": "Desde cidades que nunca dormem mundo à fora até praias de água cristalina e lugares que vocês nem imaginam a existência, vamos encontrar o destino que encaixa com o momento da vida de vocês e irá proporcionar experiências únicas."
+                    },
+                    {
+                      "component": "HomeNumberedCard",
+                      "bullet": 5,
+                      "style": {
+                        "transform": "translateY(-24px)"
+                      },
+                      "heading": "Hotéis",
+                      "text": "Priorizando conforto ou luxo, iremos encontrar hotéis de qualidade, seguros e que encaixam com a sua prioridade e orçamento. Deseja um hotel totalmente diferente do convencional ou precisa apenas de um sofá? Nós conseguimos para você. "
+                    },
+                    {
+                      "component": "HomeNumberedCard",
+                      "bullet": 6,
+                      "style": {
+                        "transform": "translateY(24px)"
+                      },
+                      "heading": "Culinária",
+                      "text": "Da apimentada culinária mexicana aos tradicionais sushis, selecionaremos os restaurantes que mais combinam com vocês. Comer o que gosta - ou experimentar novas aventuras gastronômicas - faz parte da experiência!"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component": "SectionBase",
+      "children": [
+        {
+          "component": "Grid",
+          "columns": { "md": 2 },
+          "children": [
+            {
+              "component": "Heading",
+              "size": "xl",
+              "className": "color-primary",
+              "html": "A Assessoria 360º <br />da Trip Evolved"
+            },
+            {
+              "component": "Image",
+              "style": {
+                "display": "inline-block",
+                "margin": "-40px auto"
+              },
+              "src": "/assets/1px.png",
+              "lg": {
+                "src": "/assets/home/emoji-praia.png"
+              }
+            },
+            {
+              "component": "MediaObject",
+              "style": {
+                "maxWidth": 420
+              },
+              "heading": {
+                "as": "h3",
+                "size": "sm",
+                "children": "Agimos em toda a organização da sua viagem"
+              },
+              "text": {
+                "className": "color-text-secondary",
+                "size": "lg",
+                "children": "Para que a sua única preocupação seja aproveitar as experiências, te daremos suporte do início ao fim da sua trip, em 360º, agindo em toda a organização e planejamento da sua viagem."
+              }
+            },
+            {
+              "component": "MediaObject",
+              "style": {
+                "maxWidth": 420
+              },
+              "heading": {
+                "as": "h3",
+                "size": "sm",
+                "children": "A parte burocrática fica com a gente"
+              },
+              "text": {
+                "className": "color-text-secondary",
+                "size": "lg",
+                "children": "Desde a organização dos seus documentos até o agendamento das atrações, marcação de assentos, reserva nos restaurantes e hotéis e muito mais - são mais de dez serviços bônus que podemos fazer para você!"
+              }
+            },
+            {
+              "component": "Image",
+              "style": {
+                "display": "inline-block",
+                "margin": "-96px auto"
+              },
+              "src": "/assets/home/emoji-montanha.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component": "SectionBase",
+      "id": "quem-somos",
+      "backgroundColor": "var(--color-brand-1)",
+      "backgroundImageRight": {
+        "lg": "/assets/home/circle-semi.svg"
+      },
+      "style": {
+        "backgroundPosition": "right -32px bottom 25%"
+      },
+      "color": "white",
+      "children": [
+        {
+          "component": "Grid",
+          "gap": 48,
+          "className":"align-items-center",
+          "columns": { "md": 2 },
+          "children": [
+            {
+              "component": "Image",
+              "src": "/assets/home/socios.png"
+            },
+            {
+              "component": "MediaObject",
+              "heading": {
+                "size": "xl",
+                "children": "Quem somos nós"
+              },
+              "text": {
+                "size": "lg",
+                "html": "Assim como você, nosso time é feito por <strong>experts apaixonados por viagens</strong> que cansaram da falta de personalização dos pacotes e roteiros prontos. Dedicados em trazer essa inovação para o mundo, estamos unidos para trazer o melhor da tecnologia, da curadoria e do turismo para você."
+              },
+              "cta": {
+                "children": "Saiba mais",
+                "id": "event__home__sobre-btn",
+                "href": "/sobre",
+                "variant": "text"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component":"SectionFaq",
+      "id": "duvidas",
+      "heading": "Ficou com alguma dúvida?",
+      "questions": [
+        {
+          "question": "A Trip Evolved atende de maneira virtual ou presencial?",
+          "answer": "Somos uma empresa que atua 100% de maneira digital para te proporcionar um atendimento em qualquer lugar do mundo. Porém, acreditamos na união entre a tecnologia e a humanização, e você será atendido por uma equipe de especialistas disposta a te dar todo o suporte necessário do início ao fim da sua viagem."
+        },
+        {
+          "question": "Para quem são os roteiros?",
+          "answer": "EM BREVE"
+        },
+        {
+          "question": "Apenas duplas podem viajar?",
+          "answer": "EM BREVE"
+        },
+        {
+          "question": "Vocês aceitam pets?",
+          "answer": "EM BREVE"
+        },
+        {
+          "question": "Existe um custo pela assessoria e personalização dos roteiros?",
+          "answer": "EM BREVE"
+        },
+        {
+          "question": "E se ocorrerem imprevistos na viagem?",
+          "answer": "EM BREVE"
+        }
+      ]
+    },
+    {
+      "component": "SectionBase",
+      "backgroundColor": "var(--color-brand-2)",
+      "color":"white",
+      "sx": {
+        "backgroundColor": "var(--color-brand-2)",
+        "background": "url(/assets/home/circle-semi-ciano.svg) no-repeat center top -96px",
+        "text-align": "center",
+        "@media (min-width: 960px)": {
+          "text-align": "left",
+          "paddingBottom": 0,
+          "background": "url(/assets/home/circle-semi-ciano.svg) no-repeat center top -52px, linear-gradient(180deg, var(--color-brand-2) 76%, white 76%)"
+        }
+      },
+      "children": [
+        {
+          "component": "Grid",
+          "reversedLastElement": "sm",
+          "gap": 32,
+          "columns": {
+            "md": ["500px", 1]
+          },
+          "children": [
+            {
+              "component": "MediaObject",
+              "heading": {
+                "size":"xl",
+                "html": "Participe da inovação <br />e ganhe benefícios <br />exclusivos"
+              },
+              "cta": {
+                "children": "Seja pioneiro",
+                "href": "/seja-pioneiro",
+                "id": "event__home__beneficios-btn",
+                "variant": "custom",
+                "backgroundColor": "var(--color-brand-4)",
+                "hoverBackgroundColor": "white",
+                "color": "var(--color-brand-2)"
+              }
+            },
+            {
+              "component": "Image",
+              "width": 620,
+              "style": { "display":"inline-block", "margin": "auto"},
+              "src":"/assets/home/dupla-aproveitando-a-viagem.png",
+              "lg": {
+                "src":"/assets/home/dupla-viajando.png"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component": "SectionBase",
+      "align": "center",
+      "children": [
+        {
+          "component": "Heading",
+          "as": "h2",
+          "size": "xl",
+          "className": "mb-3x",
+          "children": "Conheça os planos e benefícios"
+        },
+        {
+          "component": "Grid",
+          "gap": 32,
+          "columns": { "md": 3 },
+          "growing": false,
+          "children": [
+            {
+              "component": "Pricing",
+              "heading": "FREE",
+              "image": "/assets/home/emoji-aviao.png",
+              "features": [
+                "Seleção de roteiros para sua escolha",
+                "Um organizador completo de viagens",
+                "Suporte básico",
+                "Storybook da viagem virtual",
+                "Possibilidade de upgrade automático para conta premium ao contratar uma viagem conosco"
+              ],
+              "cta": {
+                "children": "Começar agora"
+              }
+            },
+            {
+              "component": "Pricing",
+              "heading": "PREMIUM",
+              "image": "/assets/home/emoji-globo.png",
+              "features": [
+                "Roteiro totalmente personalizado para cada viagem que você fechar",
+                "Venda guiada",
+                "Participação na nossa seleção de serviços exclusivos",
+                "Vaga no exclusivo clube de vantagens Trip Evolved, envolvendo upgrade de apartamento, seguro viagem, marcação de assentos e muito mais",
+                "Atendimento 360º exclusivo através do Whatsapp",
+                "Storybook físico da viagem",
+                "Mentoria especial por viagem",
+                "Cashback/sistema de pontos que não expiram"
+              ],
+              "price": {
+                "old": "R$79,90/mês",
+                "current": "R$49,90/mês"
+              },
+              "cta": {
+                "children": "Começar agora"
+              }
+            },
+            {
+              "component": "Pricing",
+              "colorSchema": {
+                "color": "white",
+                "background": "var(--color-secondary-700)",
+                "hover-background": "var(--color-secondary-900)"
+              },
+              "label": "apenas 100 vagas!",
+              "heading": "VITALÍCIO",
+              "image": "/assets/home/emoji-stars.png",
+              "features": [
+                "Tudo o que está incluso no plano premium",
+                "Até 2 revisões especiais por roteiro",
+                "Sugestões de roteiros personalizados para você em períodos sazonais",
+                "Bônus exclusivos durante as viagens, como mimos, malas adicionais no despacho, passeios ou jantares à parte no destino e muito mais!",
+                "4% a 5% de cashback nas viagens fechadas conosco (o que é perfeito para os amantes de viagens que viajam recorrentemente!)",
+                "3 mentorias especiais por viagem",
+                {
+                  "html": "<strong>Mais tudo do PREMIUM</strong>"
+                }
+              ],
+              "price": {
+                "style": { "color": "white" },
+                "old": "R$799",
+                "current": "R$499",
+                "description": "pagamento único"
+              },
+              "cta": {
+                "children": "Começar agora",
+                "variant": "custom",
+                "color": "var(--color-brand-2)",
+                "backgroundColor": "var(--color-brand-1)",
+                "hoverBackgroundColor": "var(--color-brand-4)",
+                "hoverColor": "var(--color-brand-2)"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

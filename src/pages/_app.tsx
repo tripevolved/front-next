@@ -1,33 +1,20 @@
-import { ChakraProvider } from "@chakra-ui/react";
-import type { AppProps } from "next/app";
-import Head from "next/head";
-import { fontFamilyClassName } from "../configs/font-family.config";
-import { customTheme } from "../configs/theme.config";
-
 import GoogleScripts from "@/libs/google-scripts";
-import "@/styles/animations.css";
-import "@/styles/colors.css";
-import "@/styles/globals.css";
+import "@/styles/index.scss";
+import { AppProvider } from "mars-ds";
+import type { AppProps } from "next/app";
+import NextLink from "next/link";
 
-const App = ({ Component, pageProps }: AppProps) => {
-  return (
-    <>
-      <Head>
-        <title>Trip Evolved</title>
-        <meta
-          name="description"
-          content="Sua trip a dois precisa ser mais do que um pacote pronto. Utilizamos tecnologia para recomendar destinos e experiências únicas. Simule a sua trip ideal."
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <GoogleScripts />
-      <ChakraProvider theme={customTheme}>
-        <div className={fontFamilyClassName}>
-          <Component {...pageProps} />
-        </div>
-      </ChakraProvider>
-    </>
-  );
+const LinkComponent = ({ url, ...props }: any) => {
+  return <NextLink href={url} {...props} />;
 };
 
-export default App;
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <>
+      <GoogleScripts />
+      <AppProvider linkComponent={LinkComponent}>
+        <Component {...pageProps} />
+      </AppProvider>
+    </>
+  );
+}

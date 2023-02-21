@@ -1,0 +1,374 @@
+{
+  "component": "PageBase",
+  "seo": {
+    "title": "Trip Evolved | Sobre",
+    "description": "Acreditamos que viagens são experiências únicas"
+  },
+  "children": [
+    {
+      "id": "hero-pioneiro",
+      "component": "HomeSectionHero",
+      "backgroundColor": "var(--color-primary-500)",
+      "color": "white",
+      "align": "center",
+      "mobileImage": {
+        "style": { "marginTop": -32, "marginBottom": 32 },
+        "src": "/assets/home/hero-mobile.png"
+      },
+      "leftImage": {
+        "src": "/assets/sobre/hero-1.png"
+      },
+      "rightImage": {
+        "style": { "marginRight": -56 },
+        "src": "/assets/sobre/hero-2.png"
+      },
+      "emoji": {
+        "src": "/assets/sobre/emoji-campi.png"
+      },
+      "heading": {
+        "as": "h1",
+        "size": "xl",
+        "html": "Acreditamos que viagens são <span style=\"color:var(--color-brand-2);\">experiências únicas<span>"
+      }
+    },
+    {
+      "component": "SectionBase",
+      "id": "motivo",
+      "children": [
+        {
+          "component": "Grid",
+          "columns": { "sm": 2 },
+          "children": [
+            {
+              "component": "Heading",
+              "style": {
+                "maxWidth": 400
+              },
+              "html": "Porque <span style=\"color:var(--color-brand-1);\">existimos<span>"
+            },
+            {
+              "component": "div",
+              "className": "color-text-secondary",
+              "children": [
+                {
+                  "component": "Text",
+                  "size": "lg",
+                  "html": "A Trip Evolved nasceu através da inquietude de seus membros quanto à <strong>falta de personalização do mercado de viagens.</strong>"
+                },
+                {
+                  "component": "Text",
+                  "size": "lg",
+                  "html": "Assim como milhares de viajantes ao redor do mundo, acreditamos que viagens são experiências únicas, frutos de sonhos individuais, e que merecem ser tratadas dessa maneira."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component": "SectionBase",
+      "id": "crenca",
+      "backgroundColor": "var(--color-primary-100)",
+      "children": [
+        {
+          "component": "Heading",
+          "className": "text-center mx-auto mb-3x",
+          "style": {
+            "maxWidth": 750
+          },
+          "html": "\"Acreditamos que a <span style=\"color:var(--color-brand-1);\">verdadeira experiência</span> de viajar não ocorre através de pacotes prontos\""
+        },
+        {
+          "component": "Grid",
+          "gap": 32,
+          "reversedLastElement": "sm",
+          "columns": { "md": 2 },
+          "className": "align-items-center",
+          "children": [
+            {
+              "component": "div",
+              "size": "lg",
+              "className": "color-text-secondary",
+              "style": {
+                "maxWidth": 450
+              },
+              "children": [
+                {
+                  "component": "Text",
+                  "size": "lg",
+                  "html": "Acreditamos que a verdadeira experiência de viajar não ocorre através de pacotes prontos, onde as personalidades mais distintas vivem as mesmas coisas. Ela acontece quando um roteiro é montado pensando nos interesses, gostos e preferências de cada um, desde a escolha do destino ideal para o momento que você está vivendo até uma jornada gastronômica local."
+                },
+                {
+                  "component": "Text",
+                  "size": "lg",
+                  "html": "A verdadeira experiência só pode ser vivenciada em viagens 100% personalizadas - e queremos mostrar ao mundo que é possível cruzar este horizonte com orçamentos que cabem no seu bolso, acompanhado de diversas vantagens e fazendo o que você ama feito para você. "
+                }
+              ]
+            },
+            {
+              "component": "Image",
+              "alt": "Viajante com sorriso nos lábios em meio à natureza e com sua mochila nas costas",
+              "src": "/assets/sobre/mulher-na-natureza.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component": "SectionBase",
+      "backgroundColor": "var(--color-brand-2)",
+      "color": "white",
+      "sx": {
+        "background": "var(--color-brand-2) url(/assets/sobre/circle-quart-ciano.svg) left bottom 25% no-repeat"
+      },
+      "children": [
+        {
+          "component": "Grid",
+          "columns": { "md": [1, 2] },
+          "children": [
+            {
+              "component": "MediaObject",
+              "heading": "Conheça nossa visão, missão e valores",
+              "children": [
+                {
+                  "component": "Image",
+                  "style": {
+                    "display": "inline-block",
+                    "marginLeft": "auto",
+                    "marginBottom": -72,
+                    "marginTop": -56
+                  },
+                  "src": "/assets/sobre/emoji-montanha.png"
+                }
+              ]
+            },
+            {
+              "component": "Grid",
+              "growing": false,
+              "children": [
+                {
+                  "id": "visao",
+                  "component": "div",
+                  "style": {
+                    "background": "transparent",
+                    "border": "1px solid #ffffff99",
+                    "padding": "0 24px",
+                    "borderRadius": "var(--border-radius-lg)"
+                  },
+                  "children": [
+                    {
+                      "component": "Accordion",
+                      "defaultOpen": true,
+                      "heading": {
+                        "image": "/assets/sobre/visao.svg",
+                        "style": {
+                          "color": "var(--color-brand-4)"
+                        },
+                        "children": "Nossa visão"
+                      },
+                      "answer": {
+                        "style": {
+                          "color": "white"
+                        },
+                        "children": "Ser a empresa que os viajantes procuram para construir experiências de viagens únicas, incríveis e produzidas especialmente para a individualidade de cada um."
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "missao",
+                  "component": "div",
+                  "style": {
+                    "background": "transparent",
+                    "border": "1px solid #ffffff99",
+                    "padding": "0 24px",
+                    "borderRadius": "var(--border-radius-lg)"
+                  },
+                  "children": [
+                    {
+                      "component": "Accordion",
+                      "heading": {
+                        "image": "/assets/sobre/missao.svg",
+                        "style": {
+                          "color": "var(--color-brand-4)"
+                        },
+                        "children": "Nossa missão"
+                      },
+                      "answer": {
+                        "style": {
+                          "color": "white"
+                        },
+                        "children": "Ser a empresa que os viajantes procuram para construir experiências de viagens únicas, incríveis e produzidas especialmente para a individualidade de cada um."
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "valores",
+                  "component": "div",
+                  "style": {
+                    "background": "transparent",
+                    "border": "1px solid #ffffff99",
+                    "padding": "0 24px",
+                    "borderRadius": "var(--border-radius-lg)"
+                  },
+                  "children": [
+                    {
+                      "component": "Accordion",
+                      "defaultOpen": false,
+                      "heading": {
+                        "image": "/assets/sobre/valores.svg",
+                        "style": {
+                          "color": "var(--color-brand-4)"
+                        },
+                        "children": "Nossos valores"
+                      },
+                      "children": [
+                        {
+                          "style": {
+                            "color": "white"
+                          },
+                          "component": "Text",
+                          "size": "lg",
+                          "html": "<strong>Coragem</strong><br />Tomar o primeiro passo para enfrentar o padrão dos pacotes prontos, em meio a um mercado tão imenso como o de turismo, e trazer a inovação, não foi fácil. Mas, desde o primeiro dia, acreditamos nos sonhos de cada viajante que anseia por experiências únicas para fundar a Trip Evolved e oferecer um serviço especializado e individualizado para cada um."
+                        },
+                        {
+                          "style": {
+                            "color": "white"
+                          },
+                          "component": "Text",
+                          "size": "lg",
+                          "html": "<strong>Qualidade</strong><br />Na Trip Evolved, nós entendemos que estamos lidando com os sonhos de pessoas apaixonadas por viagens. Por isso, priorizamos a qualidade em cada ponta dos nossos serviços para te entregar uma experiência diferenciada e 5 estrelas no mercado de turismo. Desde a expectativa que você tem na pré-viagem até o acompanhamento para você vivenciar cada atração tem 100% da nossa atenção e cuidado."
+                        },
+                        {
+                          "style": {
+                            "color": "white"
+                          },
+                          "component": "Text",
+                          "size": "lg",
+                          "html": "<strong>Constante aprendizado</strong><br />O mercado de viagens evoluiu - e nossa meta é evoluir com ele, assim como ajudá-lo a evoluir. Acreditamos que, quanto maior a inovação, mais benefícios podem ser aproveitados por viajantes de todo o mundo. Por isso, estamos em constante aprendizado, entendendo gostos, preferências e interesses e nos aprofundando diariamente na criação personalizada de viagens e na imensidão de possibilidades para melhorar os nossos serviços para quem realmente importa: você!"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "component": "SectionBase",
+      "id": "idealizadores",
+      "children": [
+        {
+          "component": "Heading",
+          "className": "text-center mb-3x",
+          "html": "Conheça os <span style=\"color:var(--color-brand-1);\">idealizadores</span> da Trip Evolved"
+        },
+        {
+          "component": "Grid",
+          "columns": { "md": 3 },
+          "children": [
+            {
+              "component": "IntroductionCard",
+              "image": "/assets/sobre/gasp.png",
+              "heading": "Henrique Gasparotto",
+              "text": "Fundador, sócio e especialista em estratégias de recomendação e produto.",
+              "social": {
+                "instagram": "",
+                "linkedin": ""
+              },
+              "children": [
+                {
+                  "component": "Text",
+                  "className": "pr-xl",
+                  "size": "xl",
+                  "html": "<strong>\"A experiência da viagem precisa encantar do começo ao fim, feita sob medida para <span class=\"color-primary\">cada pessoa</span> e <span class=\"color-primary\">momento de vida.</span>\"</strong>"
+                },
+                {
+                  "component": "Text",
+                  "html": "Engenheiro com quase uma década de atuação, um dos responsáveis pela criação da <strong>maior wealth tech</strong>, uma das maiores corretoras de investimento do país e graduado com passagem pelo Canadá, Henrique é movido por criar soluções para grandes desafios e usar o próprio trabalho e esforço para <strong>facilitar a vida de milhares de pessoas</strong>."
+                },
+                {
+                  "component": "Text",
+                  "html": "A ideia da Trip Evolved começou com ele, após uma experiência negativa em sua vida pessoal. Em seu casamento, Henrique e sua esposa, Alice, tiveram enorme dificuldade para construir a lua de mel que tanto sonharam por anos por conta da <strong>escassez de personalização no mercado</strong> e pela dificuldade de organizar um roteiro do zero, sem uma empresa ou time para auxiliá-los."
+                },
+                {
+                  "component": "Text",
+                  "html": "Se contentar, no entanto, nunca foi uma opção. Apaixonado por destinos, culturas e pela possibilidade de conhecer o inesperado a cada nova viagem, a ideia da Trip Evolved tomou forma. Hoje, <strong>é a mente estratégica</strong> da empresa e se dedica a mostrar para os seus clientes um novo horizonte no mundo do turismo, onde é totalmente alcançável a criação de viagens personalizadas para os sonhos de cada viajante."
+                }
+              ]
+            },
+            {
+              "component": "IntroductionCard",
+              "image": "/assets/sobre/fredes.png",
+              "heading": "Ricardo Fredes",
+              "text": "Sócio e especialista em tecnologia e experiência de usuário.",
+              "social": {
+                "instagram": "",
+                "linkedin": ""
+              },
+              "children": [
+                {
+                  "component": "Text",
+                  "size": "xl",
+                  "className": "pr-xl",
+                  "html": "<strong>\"Não existe uma viagem padronizada que caiba em todos os gostos, mas existe uma <span class=\"color-primary\">viagem única para cada pessoa</span>, uma experiência que faz mais sentido para as suas vivências e para as suas expectativas.\"</strong>"
+                },
+                {
+                  "component": "Text",
+                  "html": "Engenheiro de Software Front End, especializado em Arquitetura de Software e graduado em Design de Produtos, o Fredes conta com <strong>mais de 12 anos de experiência</strong> na criação e na inovação de <strong>produtos de sucesso da área de turismo</strong>, assim como na evolução de diversos produtos digitais."
+                },
+                {
+                  "component": "Text",
+                  "html": "Além de ter trabalhado lado a lado por anos com <strong>pessoas que percorreram o mundo inteiro</strong>, o Fredes é apaixonado por conhecer destinos e carrega em sua história um portfólio recheado de viagens, desde o dia em que percorreu 3 mil quilômetros pela América do Sul de carro até diversas trips pelo Brasil."
+                },
+                {
+                  "component": "Text",
+                  "html": "Tanto a sua experiência profissional no ramo quanto os <strong>aprendizados com viajantes dos quatro pontos do planeta</strong> levaram Fredes a entender que a personalização de viagens, assim como a qualidade das escolhas do roteiro, não é apenas uma necessidade, mas uma urgência. Para ele, se houver a possibilidade de escolha entre pacotes padronizados e pacotes personalizados, a segunda opção entrega para os viajantes momentos memoráveis e tornam uma viagem, assim como cada uma que Fredes já fez, repleta de significados."
+                },
+                {
+                  "component": "Text",
+                  "html": "Hoje, Fredes dedica seus 12 anos na área ao trabalho de cada detalhe da experiência de usuário e da tecnologia utilizada pela Trip Evolved, sendo um dos principais responsáveis pela evolução e pelo funcionamento dos serviços da empresa."
+                }
+              ]
+            },
+            {
+              "component": "IntroductionCard",
+              "image": "/assets/sobre/deborah.png",
+              "heading": "Deborah Eppi",
+              "text": "Sócia e especialista na curadoria e atendimento ao cliente.",
+              "social": {
+                "instagram": "",
+                "linkedin": ""
+              },
+              "children": [
+                {
+                  "component": "Text",
+                  "size": "xl",
+                  "className": "pr-xl",
+                  "html": "<strong>\"Em pacotes prontos, há a massificação do gosto do cliente. Ele é levado a fazer o mesmo que todos fazem e a experiência não é pensada de <span class=\"color-primary\">forma individual</span>. Saber que a Trip Evolved faz exatamente o contrário e traz uma inovação para o mercado é o que me motiva diariamente.\"</strong>"
+                },
+                {
+                  "component": "Text",
+                  "html": "Do Brasil ao Estados Unidos, Deborah carrega uma carreira consolidada <strong>por mais de 15 anos dentro do mercado de turismo</strong>. Sua experiência com o cliente é tão vasta que já esteve <strong>no comando da supervisão de 27 lojas da maior operadora de viagens da América Latina</strong>, foi responsável por uma rede americana de 9 hotéis e 50 funcionários, comissária de bordo e trabalhou em uma das <strong>maiores empresas de turismo de ônibus do Brasil</strong>."
+                },
+                {
+                  "component": "Text",
+                  "html": "De cafés servidos dentro de um avião e respostas para dúvidas sobre viajar, a resolução de problemas como torções em Paris, gripes na Disney e malas extraviadas até a supervisão de meia centena de funcionários para garantir a excelência no atendimento, a sua experiência levou Deborah a entender que o atendimento de qualidade merece ser parte da experiência do viajante, assim como suprir - e superar - as suas expectativas."
+                },
+                {
+                  "component": "Text",
+                  "html": "Não é à toa que, hoje, Deborah dedica a sua carreira a trazer o melhor do atendimento ao cliente, guiar toda a equipe de turismo na criação dos roteiros e levar a Trip Evolved para a frente com a sua paixão pela inovação das viagens personalizadas."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

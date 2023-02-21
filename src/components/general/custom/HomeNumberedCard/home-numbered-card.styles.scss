@@ -1,0 +1,29 @@
+.home-numbered-card {
+  --color-highlight: var(--color-brand-4);
+  background-color: transparent;
+  border: 1px solid;
+  width: 288px;
+  max-width: calc(100vw - 64px);
+  @media (min-width: $breakpoint-md) {
+    width: 420px;
+
+  }
+  &__bullet {
+    display: inline-flex;
+    height: 48px;
+    width: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--color-brand-2);
+    background-color: var(--color-highlight);
+  }
+  &__bullet,
+  &__heading,
+  &__subtitle {
+    font-weight: bold;
+  }
+  &__heading {
+    color: var(--color-highlight);
+  }
+}

@@ -1,0 +1,29 @@
+.footer {
+  background-color: var(--color-brand-2);
+  padding: 24px;
+  color: white;
+  .link {
+    color: white;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  &__container {
+    @media (min-width: $breakpoint-md) {
+      display: flex;
+      justify-content: space-between;
+      gap: $spacing-xl;
+    }
+  }
+
+  &__menu {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+    &__subtitle {
+      margin: $spacing-sm 0;
+      color: var(--color-brand-4);
+    }
+  }
+}

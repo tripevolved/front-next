@@ -1,0 +1,33 @@
+.html-documents {
+  h1, h2, h3 {
+    font-weight: normal;
+    margin: 2rem 0;
+    line-height: 1.5em;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+  }
+  h3 {
+    font-size: 1.25rem;
+  }
+
+
+  p {
+    margin: 1rem 0;
+    line-height: 2rem;
+  }
+
+  li {
+    line-height: 2rem;
+  }
+
+  blockquote {
+    margin: 1rem 0;
+    padding: 1rem;
+    border-left: 5px solid #eee;
+    background: #f9f9f9;
+  }
+}

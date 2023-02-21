@@ -1,1 +1,0 @@
-export * from "./section-single-no-pictures.component";

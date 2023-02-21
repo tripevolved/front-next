@@ -1,29 +1,25 @@
-import { customTheme } from "@/configs/theme.config";
-import { ColorModeScript } from "@chakra-ui/react";
-import Document, { Head, Html, Main, NextScript } from "next/document";
-import React from "react";
+import { Head, Html, Main, NextScript } from "next/document";
 
-class MyDocument extends Document {
-  static async getInitialProps(ctx: any) {
-    const initialProps = await Document.getInitialProps(ctx);
-    return {
-      ...initialProps,
-      styles: React.Children.toArray([initialProps.styles]),
-    };
-  }
-
-  render() {
-    return (
-      <Html lang="pt-br">
-        <Head />
-        <body>
-          <ColorModeScript initialColorMode={customTheme.config.initialColorMode} />
-          <Main />
-          <NextScript />
-        </body>
-      </Html>
-    );
-  }
+export default function Document() {
+  return (
+    <Html lang="pt-br">
+      <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;700&display=swap"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@300;400;600&display=swap"
+          rel="stylesheet"
+        />
+        <link rel="shortcut icon" href="/brand/logo.svg" type="image/x-icon" />
+      </Head>
+      <body>
+        <Main />
+        <NextScript />
+      </body>
+    </Html>
+  );
 }
-
-export default MyDocument;

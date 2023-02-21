@@ -1,0 +1,42 @@
+.navbar {
+  $navbar-height: 88px;
+  border-bottom: 1px solid $color-divider;
+  &__main {
+    display: flex;
+    min-height: $navbar-height;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 $spacing-md;
+  }
+
+
+  &__menu {
+    padding: 0 $spacing-md;
+    margin: 0;
+    display: flex;
+
+    gap: $spacing-lg;
+
+    @media (max-width: $breakpoint-sm) {
+      padding: 0 $spacing-xl $spacing-xl;
+      flex-direction: column;
+      > * {
+        width: 100%;
+        text-align: center;
+        display: inline;
+      }
+      &[data-open="false"] {
+        display: none;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-sm) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__hamburger {
+      display: none;
+    }
+  }
+}
