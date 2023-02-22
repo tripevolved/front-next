@@ -1,6 +1,7 @@
 import { ModalContent } from "@/components";
 import { handleFormSubmit, sendFormData, SubmitHandler } from "@/helpers/form.helpers";
 import { Grid, Modal, SubmitButton, TextField } from "mars-ds";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { FormLogicProps } from "./lead-list-form.types";
 
@@ -8,13 +9,14 @@ const ACTION_URL = "https://getlaunchlist.com/s/0l3TDN";
 
 export const FormLogic = ({ cta, modal }: FormLogicProps) => {
   const [submitting, setSubmitting] = useState(false);
+  const router = useRouter();
 
   const handleSubmit: SubmitHandler<"name" | "email" | "phone"> = async (data) => {
     setSubmitting(true);
     try {
       await sendFormData(ACTION_URL, data);
       const SuccessModal = () => <ModalContent className="text-center" {...modal?.success} />;
-      Modal.open(SuccessModal, { size: "sm", onClose: () => setSubmitting(false) });
+      Modal.open(SuccessModal, { size: "sm", onClose: () => router.replace("/") });
     } catch (error) {
       console.error(error);
       setSubmitting(false);
