@@ -2,7 +2,7 @@ name: Deploy Website to S3
 on:
   push:
     branches:
-      - develop
+      - main
       # when "main" branch receives some commit, it will automatically run this action
 
 jobs:
@@ -24,11 +24,11 @@ jobs:
       - name: Install all npm packages
         run: npm install
 
-      # - name: Lint check
-      #   run: npm run lint
+      - name: Lint check
+        run: npm run lint
 
-      #- name: Unit test run
-      #  run: npm run test:unit
+      - name: Unit test run
+        run: npm run test:unit
 
       - name: Build website for release
         run: npm run build
