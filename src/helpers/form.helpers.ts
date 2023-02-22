@@ -14,12 +14,5 @@ export const handleFormSubmit =
 export const sendFormData = async (url: string, data: SubmitData) => {
   const formData = new FormData();
   Object.entries(data).forEach(([key, value]) => formData.append(key, value));
-  const headers = { "Content-Security-Policy": "upgrade-insecure-requests" };
-  return fetch(url, {
-    body: formData,
-    method: "post",
-    mode: "no-cors",
-    headers,
-    redirect: "manual",
-  });
+  return fetch(url, { body: formData, method: "post", redirect: "manual" });
 };
