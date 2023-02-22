@@ -10,3 +10,9 @@ export const handleFormSubmit =
     const formObject = Object.fromEntries(formData.entries());
     return callback(formObject as SubmitData);
   };
+
+export const sendFormData = async (url: string, data: SubmitData) => {
+  const formData = new FormData();
+  Object.entries(data).forEach(([key, value]) => formData.append(key, value));
+  return fetch(url, { body: formData, method: "post" });
+};

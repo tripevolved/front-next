@@ -1,17 +1,24 @@
 import { ModalContent } from "@/components";
-import { handleFormSubmit, SubmitHandler } from "@/helpers/form.helpers";
+import { handleFormSubmit, sendFormData, SubmitHandler } from "@/helpers/form.helpers";
 import { Grid, Modal, SubmitButton, TextField } from "mars-ds";
 import { useState } from "react";
 import { FormLogicProps } from "./lead-list-form.types";
 
+const ACTION_URL = "https://getlaunchlist.com/s/0l3TDN";
+
 export const FormLogic = ({ cta, modal }: FormLogicProps) => {
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit: SubmitHandler<"name" | "email" | "phone"> = (data) => {
+  const handleSubmit: SubmitHandler<"name" | "email" | "phone"> = async (data) => {
     setSubmitting(true);
-    const SuccessModal = () => <ModalContent className="text-center" {...modal?.success} />
-    Modal.open(SuccessModal, { size: "sm", onClose: () => setSubmitting(false) });
-    console.log(data);
+    try {
+      await sendFormData(ACTION_URL, data);
+      const SuccessModal = () => <ModalContent className="text-center" {...modal?.success} />;
+      Modal.open(SuccessModal, { size: "sm", onClose: () => setSubmitting(false) });
+    } catch (error) {
+      console.error(error);
+      setSubmitting(false);
+    }
   };
   return (
     <form className="theme-dark p-xl" onSubmit={handleFormSubmit(handleSubmit)}>
