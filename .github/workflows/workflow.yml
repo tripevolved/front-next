@@ -2,7 +2,7 @@ name: Deploy Website to S3
 on:
   push:
     branches:
-      - develop
+      - main
       # when "main" branch receives some commit, it will automatically run this action
 
 jobs:
