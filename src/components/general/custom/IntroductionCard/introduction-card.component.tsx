@@ -1,8 +1,8 @@
 import type { IntroductionCardProps } from "./introduction-card.types";
 
-import { ModalContent, Text } from "@/components";
+import { ModalContent, Picture, Text } from "@/components";
 import { css, cx } from "@emotion/css";
-import { Grid, Icon, Image, Modal } from "mars-ds";
+import { Grid, Icon, Modal } from "mars-ds";
 
 export const IntroductionCard = ({
   className,
@@ -15,7 +15,6 @@ export const IntroductionCard = ({
   ...props
 }: IntroductionCardProps) => {
   const cn = cx("introduction-card", className, css(sx));
-  const imgProps = typeof image === "string" ? { src: image } : image;
 
   const IntroductionModal = () => {
     return (
@@ -28,7 +27,7 @@ export const IntroductionCard = ({
   }
   return (
     <div className={cn} {...props}>
-      <Image tabIndex={0} onClick={openModal} className="introduction-card__image" alt="Foto" {...imgProps} />
+      <Picture tabIndex={0} onClick={openModal} className="introduction-card__image">{image}</Picture>
       <span className="introduction-card__divider" />
       <Grid className="introduction-card__content">
         <Text variant="heading" size="xs">

@@ -1,9 +1,8 @@
-import { TextProps } from "@/components";
+import { PictureProps, TextProps } from "@/components";
 import { ComponentHTMLProps } from "@/types";
-import { ImageProps } from "mars-ds";
 
 export interface IntroductionCardProps extends ComponentHTMLProps {
-  image?: string | ImageProps;
+  image?: PictureProps;
   heading?: TextProps;
   text?: TextProps;
   social?: SocialProps;

@@ -13,17 +13,27 @@
       "align": "center",
       "mobileImage": {
         "style": { "marginTop": -32, "marginBottom": 32 },
-        "src": "/assets/home/hero-mobile.png"
+        "src": "/assets/home/hero-mobile.png",
+        "height": 272,
+        "width": 346
       },
       "leftImage": {
-        "src": "/assets/home/hero-2.png"
+        "alt": "Praia paradisíaca com coqueiros e mar azul",
+        "src": "/assets/home/hero-2.png",
+        "height": 263,
+        "width": 313
       },
       "rightImage": {
         "style": { "marginRight": -56 },
-        "src": "/assets/home/hero-1.png"
+        "alt": "Dupla em viagem na praia",
+        "src": "/assets/home/hero-1.png",
+        "height": 332,
+        "width": 325
       },
       "emoji": {
-        "src": "/assets/home/emoji-praia.png"
+        "src": "/assets/home/emoji-praia.png",
+        "height": 229,
+        "width": 229
       },
       "heading": {
         "as": "h1",
@@ -32,7 +42,7 @@
       },
       "cta": {
         "children": "Seja pioneiro",
-        "href": "/seja-pioneiro",
+        "href": "/lancamento",
         "id": "event__home__hero-btn",
         "variant": "custom",
         "backgroundColor": "var(--color-brand-2)",
@@ -138,13 +148,15 @@
           "columns": { "md": [1, 3, 1] },
           "children": [
             {
-              "component": "Image",
+              "component": "Picture",
               "style": {
                 "display": "inline-block",
                 "marginRight": "auto",
                 "marginTop": -56,
                 "marginBottom": -56
               },
+              "height": 255,
+              "width": 255,
               "src": "/assets/home/emoji-mala.png"
             },
             {
@@ -160,7 +172,7 @@
               }
             },
             {
-              "component": "Image",
+              "component": "Picture",
               "style": {
                 "display": "inline-block",
                 "marginLeft": "auto",
@@ -168,6 +180,8 @@
                 "marginBottom": -56,
                 "alignSelf": "end"
               },
+              "height": 229,
+              "width": 229,
               "src": "/assets/home/emoji-mapa.png"
             }
           ]
@@ -208,14 +222,16 @@
               },
               "children": [
                 {
-                  "component": "Image",
+                  "component": "Picture",
                   "style": {
                     "display": "inline-block",
                     "marginLeft": "auto",
                     "marginBottom": -72,
                     "marginTop": -56
                   },
-                  "src": "/assets/home/emoji-campi.png"
+                  "src": "/assets/home/emoji-campi.png",
+                  "height": 278,
+                  "width": 278
                 }
               ]
             },
@@ -310,12 +326,14 @@
               "html": "A Assessoria 360º <br />da Trip Evolved"
             },
             {
-              "component": "Image",
+              "component": "Picture",
               "style": {
                 "display": "inline-block",
                 "margin": "-40px auto"
               },
               "src": "/assets/1px.png",
+              "height": 229,
+              "width": 229,
               "lg": {
                 "src": "/assets/home/emoji-praia.png"
               }
@@ -353,12 +371,14 @@
               }
             },
             {
-              "component": "Image",
+              "component": "Picture",
               "style": {
                 "display": "inline-block",
                 "margin": "-96px auto"
               },
-              "src": "/assets/home/emoji-montanha.png"
+              "src": "/assets/home/emoji-montanha.png",
+              "height": 229,
+              "width": 229
             }
           ]
         }
@@ -379,12 +399,20 @@
         {
           "component": "Grid",
           "gap": 48,
-          "className":"align-items-center",
+          "className": "align-items-center",
           "columns": { "md": 2 },
           "children": [
             {
-              "component": "Image",
-              "src": "/assets/home/socios.png"
+              "component": "Link",
+              "href": "/sobre",
+              "children": [
+                {
+                  "component": "Picture",
+                  "src": "/assets/home/socios.png",
+                  "height": 520,
+                  "width": 542
+                }
+              ]
             },
             {
               "component": "MediaObject",
@@ -408,7 +436,7 @@
       ]
     },
     {
-      "component":"SectionFaq",
+      "component": "SectionFaq",
       "id": "duvidas",
       "heading": "Ficou com alguma dúvida?",
       "questions": [
@@ -441,7 +469,7 @@
     {
       "component": "SectionBase",
       "backgroundColor": "var(--color-brand-2)",
-      "color":"white",
+      "color": "white",
       "sx": {
         "backgroundColor": "var(--color-brand-2)",
         "background": "url(/assets/home/circle-semi-ciano.svg) no-repeat center top -96px",
@@ -464,12 +492,12 @@
             {
               "component": "MediaObject",
               "heading": {
-                "size":"xl",
+                "size": "xl",
                 "html": "Participe da inovação <br />e ganhe benefícios <br />exclusivos"
               },
               "cta": {
                 "children": "Seja pioneiro",
-                "href": "/seja-pioneiro",
+                "href": "/lancamento",
                 "id": "event__home__beneficios-btn",
                 "variant": "custom",
                 "backgroundColor": "var(--color-brand-4)",
@@ -478,12 +506,13 @@
               }
             },
             {
-              "component": "Image",
+              "component": "Picture",
               "width": 620,
-              "style": { "display":"inline-block", "margin": "auto"},
-              "src":"/assets/home/dupla-aproveitando-a-viagem.png",
+              "height": 423,
+              "style": { "display": "inline-block", "margin": "auto" },
+              "src": "/assets/home/dupla-aproveitando-a-viagem.png",
               "lg": {
-                "src":"/assets/home/dupla-viajando.png"
+                "src": "/assets/home/dupla-viajando.png"
               }
             }
           ]
@@ -510,7 +539,11 @@
             {
               "component": "Pricing",
               "heading": "FREE",
-              "image": "/assets/home/emoji-aviao.png",
+              "image": {
+                "src": "/assets/home/emoji-aviao.png",
+                "height": 77,
+                "width": 77
+              },
               "features": [
                 "Seleção de roteiros para sua escolha",
                 "Um organizador completo de viagens",
@@ -519,13 +552,18 @@
                 "Possibilidade de upgrade automático para conta premium ao contratar uma viagem conosco"
               ],
               "cta": {
-                "children": "Começar agora"
+                "children": "Começar agora",
+                "href": "/lancamento"
               }
             },
             {
               "component": "Pricing",
               "heading": "PREMIUM",
-              "image": "/assets/home/emoji-globo.png",
+              "image": {
+                "src": "/assets/home/emoji-globo.png",
+                "height": 77,
+                "width": 77
+              },
               "features": [
                 "Roteiro totalmente personalizado para cada viagem que você fechar",
                 "Venda guiada",
@@ -541,7 +579,8 @@
                 "current": "R$49,90/mês"
               },
               "cta": {
-                "children": "Começar agora"
+                "children": "Começar agora",
+                "href": "/lancamento"
               }
             },
             {
@@ -553,7 +592,11 @@
               },
               "label": "apenas 100 vagas!",
               "heading": "VITALÍCIO",
-              "image": "/assets/home/emoji-stars.png",
+              "image": {
+                "src": "/assets/home/emoji-stars.png",
+                "height": 77,
+                "width": 77
+              },
               "features": [
                 "Tudo o que está incluso no plano premium",
                 "Até 2 revisões especiais por roteiro",
@@ -573,6 +616,7 @@
               },
               "cta": {
                 "children": "Começar agora",
+                "href": "/lancamento",
                 "variant": "custom",
                 "color": "var(--color-brand-2)",
                 "backgroundColor": "var(--color-brand-1)",

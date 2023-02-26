@@ -75,7 +75,8 @@ function indexComponents(groups = []) {
     let result = "";
 
     for (const file of files) {
-      if (/test\.tsx?$/.test(file)) continue;
+      if (/(test|spec|helpers?)\.tsx?$/.test(file)) continue;
+      if (!/.tsx?$/.test(file)) continue;
       const fileName = file.replace(/\.tsx?/, "");
       result += `export * from "./${fileName}";\n`;
     }

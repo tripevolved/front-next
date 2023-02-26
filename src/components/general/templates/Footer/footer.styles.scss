@@ -10,17 +10,19 @@
     }
   }
   &__container {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xl;
     @media (min-width: $breakpoint-md) {
-      display: flex;
+      flex-direction: row;
       justify-content: space-between;
-      gap: $spacing-xl;
     }
   }
 
   &__menu {
     display: flex;
     flex-direction: column;
-    gap: $spacing-lg;
+    gap: $spacing-xl;
     &__subtitle {
       margin: $spacing-sm 0;
       color: var(--color-brand-4);

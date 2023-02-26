@@ -8,6 +8,7 @@ export * from "./common/LineDecoration";
 export * from "./common/Logo";
 export * from "./common/MediaObject";
 export * from "./common/ModalContent";
+export * from "./common/Picture";
 export * from "./common/Pricing";
 export * from "./common/Text";
 export * from "./custom/HomeNumberedCard";

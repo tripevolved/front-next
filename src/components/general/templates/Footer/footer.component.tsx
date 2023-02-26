@@ -1,9 +1,8 @@
 import type { FooterProps } from "./footer.types";
 
-import { Logo } from "@/components";
+import { Logo, Picture } from "@/components";
 import classNames from "classnames";
 import { Divider, Icon, Link, SectionBase, Text, TextProps } from "mars-ds";
-import Image from "next/image";
 
 export const Footer = ({ className, children, ...props }: FooterProps) => {
   const cn = classNames("footer", className);
@@ -41,8 +40,8 @@ export const Footer = ({ className, children, ...props }: FooterProps) => {
       <Divider className="my-lg" />
       <div className="py-lg footer__container">
         <div className="flex gap-lg align-items-end">
-          Associados a <Image alt="Cadastur" src="/assets/cadastur.png" height={21} width={134} />{" "}
-          <Image alt="ABAV" src="/assets/abav.png" height={29} width={56} />
+          Associados a <Picture alt="Cadastur" src="/assets/cadastur.png" height={21} width={134} />{" "}
+          <Picture alt="ABAV" src="/assets/abav.png" height={29} width={56} />
         </div>
         <Text size="sm" className="pt-lg">
           Copyright © {new Date().getFullYear()} Trip Evolved. Todos os direitos reservados.
