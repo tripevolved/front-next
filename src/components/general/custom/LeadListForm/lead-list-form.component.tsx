@@ -5,7 +5,7 @@ import { css, cx } from "@emotion/css";
 import { Card } from "mars-ds";
 import { FormLogic } from "./lead-list-form-logic.component";
 
-export const LeadListForm = ({
+export function LeadListForm({
   className,
   children,
   sx,
@@ -14,7 +14,7 @@ export const LeadListForm = ({
   cta,
   modal,
   ...props
-}: LeadListFormProps) => {
+}: LeadListFormProps) {
   const cn = cx("lead-list-form", className, css(sx));
   return (
     <Card className={cn} {...props}>
@@ -29,4 +29,4 @@ export const LeadListForm = ({
       <FormLogic cta={cta} modal={modal} />
     </Card>
   );
-};
+}

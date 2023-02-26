@@ -1,9 +1,8 @@
-import type { TextProps } from "@/components";
+import type { PictureProps, TextProps } from "@/components";
 import { ComponentHTMLProps } from "@/types";
-import type { ImageProps } from "mars-ds";
 
 interface ModalContentProps extends ComponentHTMLProps {
-  image?: string | ImageProps;
+  image?: PictureProps;
   heading?: string | TextProps;
   text?: string | TextProps;
 }

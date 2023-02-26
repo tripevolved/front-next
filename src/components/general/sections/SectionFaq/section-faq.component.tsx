@@ -4,13 +4,13 @@ import { Accordion, Text } from "@/components";
 import classNames from "classnames";
 import { SectionBase } from "mars-ds";
 
-export const SectionFaq = ({
+export function SectionFaq({
   className,
   children,
   heading,
   questions = [],
   ...props
-}: SectionFaqProps) => {
+}: SectionFaqProps) {
   const cn = classNames("section-faq", className);
 
   return (
@@ -26,4 +26,4 @@ export const SectionFaq = ({
       </div>
     </SectionBase>
   );
-};
+}

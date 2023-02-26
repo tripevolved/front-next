@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { Grid, SectionBase } from "mars-ds";
 import { HomeSectionHeroProps } from "./home-section-hero.types";
 
-export const HomeSectionHero = ({
+export function HomeSectionHero({
   image,
   heading,
   text,
@@ -15,7 +15,7 @@ export const HomeSectionHero = ({
   rightImage,
   emoji,
   ...props
-}: HomeSectionHeroProps) => {
+}: HomeSectionHeroProps) {
   const content = { image, heading, text, cta, children };
   return (
     <SectionBase className={classNames("home-section-hero", className)} {...props}>
@@ -36,4 +36,4 @@ export const HomeSectionHero = ({
       </Grid>
     </SectionBase>
   );
-};
+}

@@ -4,7 +4,7 @@ import { Logo, Picture } from "@/components";
 import classNames from "classnames";
 import { Divider, Icon, Link, SectionBase, Text, TextProps } from "mars-ds";
 
-export const Footer = ({ className, children, ...props }: FooterProps) => {
+export function Footer({ className, children, ...props }: FooterProps) {
   const cn = classNames("footer", className);
 
   return (
@@ -49,7 +49,7 @@ export const Footer = ({ className, children, ...props }: FooterProps) => {
       </div>
     </SectionBase>
   );
-};
+}
 
 interface MenuColumnProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
   title: string | TextProps;
@@ -57,7 +57,9 @@ interface MenuColumnProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "ti
 
 const FooterMenu = ({ title, children, className, ...props }: MenuColumnProps) => (
   <div className={classNames("footer__menu flex-fill", className)} {...props}>
-    <Text size="lg" className="footer__menu__subtitle">{title}</Text>
+    <Text size="lg" className="footer__menu__subtitle">
+      {title}
+    </Text>
     {children}
   </div>
 );

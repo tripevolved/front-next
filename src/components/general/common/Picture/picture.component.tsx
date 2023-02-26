@@ -19,7 +19,7 @@ export const MEDIA_SIZES = {
   XL: 1440,
 };
 
-export const Picture = ({ children, ...props }: PictureComponentProps) => {
+export function Picture({ children, ...props }: PictureComponentProps) {
   if (typeof children === "string") {
     return <PictureChildren {...props} src={children} />;
   }
@@ -27,7 +27,7 @@ export const Picture = ({ children, ...props }: PictureComponentProps) => {
     return <PictureChildren {...children} {...props} />;
   }
   return <PictureChildren {...props} />;
-};
+}
 
 const PictureChildren = ({
   className,

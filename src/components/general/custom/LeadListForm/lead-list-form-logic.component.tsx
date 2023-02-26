@@ -7,7 +7,7 @@ import { FormLogicProps } from "./lead-list-form.types";
 
 const ACTION_URL = "https://getlaunchlist.com/s/0l3TDN";
 
-export const FormLogic = ({ cta, modal }: FormLogicProps) => {
+export function FormLogic({ cta, modal }: FormLogicProps) {
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
 
@@ -48,4 +48,4 @@ export const FormLogic = ({ cta, modal }: FormLogicProps) => {
       </Grid>
     </form>
   );
-};
+}

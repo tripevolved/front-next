@@ -3,23 +3,19 @@ import { css, cx } from "@emotion/css";
 import { Accordion as MarsAccordion, Icon } from "mars-ds";
 import { AccordionProps, HeaderAccordionProps } from "./accordion.types";
 
-export const Accordion = ({ question, answer, heading, children, ...props }: AccordionProps) => {
+export function Accordion({ question, answer, heading, children, ...props }: AccordionProps) {
   return (
     <MarsAccordion
       headerComponent={() => <HeaderAccordion heading={question} {...heading} />}
       {...props}
     >
       <div className="color-text-secondary pb-xl">
-        {answer ? (
-          <Text size="lg">
-            {answer}
-          </Text>
-        ) : children}
+        {answer ? <Text size="lg">{answer}</Text> : children}
         {children}
       </div>
     </MarsAccordion>
   );
-};
+}
 
 const HeaderAccordion = ({
   heading,

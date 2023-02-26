@@ -4,7 +4,7 @@ import { Text } from "@/components";
 import classNames from "classnames";
 import { Card } from "mars-ds";
 
-export const HomeNumberedCard = ({
+export function HomeNumberedCard ({
   className,
   children,
   heading,
@@ -12,7 +12,7 @@ export const HomeNumberedCard = ({
   text,
   bullet,
   ...props
-}: HomeNumberedCardProps) => {
+}: HomeNumberedCardProps) {
   const cn = classNames("home-numbered-card", className);
 
   return (

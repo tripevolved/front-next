@@ -11,7 +11,7 @@ interface HTMLHeadProps {
   favicon: string;
 }
 
-export const HTMLHead = ({
+export function HTMLHead({
   url = seo.url,
   title = seo.title,
   description = seo.description,
@@ -19,7 +19,7 @@ export const HTMLHead = ({
   robots,
   canonical,
   favicon,
-}: Partial<HTMLHeadProps>) => {
+}: Partial<HTMLHeadProps>) {
   return (
     <Head>
       {/* Primary Meta Tags */}
@@ -48,4 +48,4 @@ export const HTMLHead = ({
       {favicon && <link rel="shortcut icon" href={favicon} type="image/x-icon" />}
     </Head>
   );
-};
+}

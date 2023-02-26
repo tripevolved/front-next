@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { Button } from "mars-ds";
 import { useRef, useState } from "react";
 
-export const AutoScrollNav = ({ children, className, draggable, ...props }: AutoScrollNavProps) => {
+export function AutoScrollNav({ children, className, draggable, ...props }: AutoScrollNavProps) {
   const [isDown, setIsDown] = useState(false);
   const cn = classNames("auto-scroll-nav", className, {
     "auto-scroll-nav--is-active": isDown,

@@ -1,7 +1,7 @@
 import { Picture } from "@/components";
 import { LogoProps } from "./logo.types";
 
-export const Logo = ({ vertical }: LogoProps) => {
+export function Logo({ vertical }: LogoProps) {
   return (
     <div className="logo">
       {vertical ? (
@@ -11,4 +11,4 @@ export const Logo = ({ vertical }: LogoProps) => {
       )}
     </div>
   );
-};
+}
