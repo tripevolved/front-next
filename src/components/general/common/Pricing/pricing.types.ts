@@ -1,9 +1,9 @@
-import { TextProps } from "@/components";
+import { PictureProps, TextProps } from "@/components";
 import { ComponentHTMLProps } from "@/types";
-import { ButtonProps, ImageProps } from "mars-ds";
+import { ButtonProps } from "mars-ds";
 
 export interface PricingProps extends ComponentHTMLProps {
-  image?: string | ImageProps;
+  image?: PictureProps;
   heading?: TextProps;
   features?: TextProps[] | string[];
   cta?: ButtonProps;

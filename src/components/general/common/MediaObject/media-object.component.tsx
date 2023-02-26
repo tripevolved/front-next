@@ -1,8 +1,8 @@
 import type { MediaObjectProps } from "./media-object.types";
 
-import { Text } from "@/components";
+import { Picture, Text } from "@/components";
 import { css, cx } from "@emotion/css";
-import { Button, ButtonProps, Grid, Image } from "mars-ds";
+import { Button, ButtonProps, Grid } from "mars-ds";
 
 export const MediaObject = ({
   className,
@@ -15,15 +15,14 @@ export const MediaObject = ({
   ...props
 }: MediaObjectProps) => {
   const cn = cx("media-object", className, css(sx));
-  const imageProps = typeof image === "string" ? { src: image } : image;
   return (
     <div className={cn} {...props}>
       <Grid className="media-object__content">
-      {imageProps ? (
-        <div className="media-object__image">
-          <Image alt="image" {...imageProps}  style={{ display: "inline-block", ...imageProps.style }} />
-        </div>
-      ) : null}
+        {image ? (
+          <div className="media-object__image">
+            <Picture>{image}</Picture>
+          </div>
+        ) : null}
         {heading ? (
           <Text as="h2" variant="heading">
             {heading}

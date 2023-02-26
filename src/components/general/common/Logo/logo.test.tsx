@@ -1,4 +1,4 @@
-import type { LogoProps } from "./logo.types";
+import { LogoProps } from "./logo.types";
 
 import { render } from "@testing-library/react";
 

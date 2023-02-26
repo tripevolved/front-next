@@ -1,8 +1,7 @@
-import { Button, Grid, Heading, Image, SectionBase, Text } from "mars-ds";
-import { LineDecoration } from "../../common/LineDecoration";
+import { LineDecoration, Picture } from "@/components";
+import { Button, Grid, Heading, SectionBase, Text } from "mars-ds";
 
 export const SimpleSection = () => {
-  console.log("SimpleSection")
   return (
     <SectionBase>
       <Grid columns={{ md: 2 }} className="align-items-center">
@@ -26,7 +25,7 @@ export const SimpleSection = () => {
           </div>
         </Grid>
         <div>
-          <Image
+          <Picture
             style={{ maxWidth: "100%" }}
             src="https://tripevolved.com.br/assets/home/img-hero.png"
             alt="imagem"

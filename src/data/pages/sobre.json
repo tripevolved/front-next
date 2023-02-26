@@ -12,19 +12,27 @@
       "color": "white",
       "align": "center",
       "mobileImage": {
-        "style": { "marginTop": -32, "marginBottom": 32 },
-        "src": "/assets/home/hero-mobile.png"
+        "style": { "marginBottom": 32 },
+        "src": "/assets/sobre/hero-mobile.png",
+        "height": 314,
+        "width": 321
       },
       "leftImage": {
-        "src": "/assets/sobre/hero-1.png"
+        "src": "/assets/sobre/hero-1.png",
+        "width": 334,
+        "height": 321
       },
       "rightImage": {
         "style": { "marginRight": -56 },
-        "src": "/assets/sobre/hero-2.png"
+        "src": "/assets/sobre/hero-2.png",
+        "height": 233,
+        "width": 298
       },
       "emoji": {
-        "src": "/assets/sobre/emoji-campi.png"
-      },
+        "src": "/assets/sobre/emoji-campi.png",
+        "height": 190,
+        "width": 190
+        },
       "heading": {
         "as": "h1",
         "size": "xl",
@@ -107,9 +115,11 @@
               ]
             },
             {
-              "component": "Image",
+              "component": "Picture",
               "alt": "Viajante com sorriso nos lábios em meio à natureza e com sua mochila nas costas",
-              "src": "/assets/sobre/mulher-na-natureza.png"
+              "src": "/assets/sobre/mulher-na-natureza.png",
+              "width": 584,
+              "height": 388
             }
           ]
         }
@@ -132,14 +142,16 @@
               "heading": "Conheça nossa visão, missão e valores",
               "children": [
                 {
-                  "component": "Image",
+                  "component": "Picture",
                   "style": {
                     "display": "inline-block",
                     "marginLeft": "auto",
                     "marginBottom": -72,
                     "marginTop": -56
                   },
-                  "src": "/assets/sobre/emoji-montanha.png"
+                  "src": "/assets/sobre/emoji-montanha.png",
+                  "height": 252,
+                  "width": 252
                 }
               ]
             },
@@ -151,7 +163,7 @@
                   "id": "visao",
                   "component": "div",
                   "style": {
-                    "background": "transparent",
+                    "backgroundColor": "var(--color-brand-2)",
                     "border": "1px solid #ffffff99",
                     "padding": "0 24px",
                     "borderRadius": "var(--border-radius-lg)"
@@ -180,7 +192,7 @@
                   "id": "missao",
                   "component": "div",
                   "style": {
-                    "background": "transparent",
+                    "backgroundColor": "var(--color-brand-2)",
                     "border": "1px solid #ffffff99",
                     "padding": "0 24px",
                     "borderRadius": "var(--border-radius-lg)"
@@ -208,7 +220,7 @@
                   "id": "valores",
                   "component": "div",
                   "style": {
-                    "background": "transparent",
+                    "backgroundColor": "var(--color-brand-2)",
                     "border": "1px solid #ffffff99",
                     "padding": "0 24px",
                     "borderRadius": "var(--border-radius-lg)"
@@ -274,7 +286,11 @@
           "children": [
             {
               "component": "IntroductionCard",
-              "image": "/assets/sobre/gasp.png",
+              "image": {
+                "src": "/assets/sobre/gasp.png",
+                "width": 357,
+                "height": 323
+              },
               "heading": "Henrique Gasparotto",
               "text": "Fundador, sócio e especialista em estratégias de recomendação e produto.",
               "social": {
@@ -304,7 +320,11 @@
             },
             {
               "component": "IntroductionCard",
-              "image": "/assets/sobre/fredes.png",
+              "image": {
+                "src": "/assets/sobre/fredes.png",
+                "width": 357,
+                "height": 323
+              },
               "heading": "Ricardo Fredes",
               "text": "Sócio e especialista em tecnologia e experiência de usuário.",
               "social": {
@@ -338,7 +358,11 @@
             },
             {
               "component": "IntroductionCard",
-              "image": "/assets/sobre/deborah.png",
+              "image": {
+                "src": "/assets/sobre/deborah.png",
+                "width": 357,
+                "height": 323
+              },
               "heading": "Deborah Eppi",
               "text": "Sócia e especialista na curadoria e atendimento ao cliente.",
               "social": {

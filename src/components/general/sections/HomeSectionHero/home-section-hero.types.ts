@@ -1,10 +1,10 @@
-import type { MediaObjectProps } from "@/components";
-import { ImageProps, SectionBaseProps } from "mars-ds";
+import type { MediaObjectProps, PictureProps } from "@/components";
+import { SectionBaseProps } from "mars-ds";
 
 export type HomeSectionHeroProps = MediaObjectProps &
   SectionBaseProps & {
-    mobileImage?: ImageProps;
-    leftImage?: ImageProps;
-    rightImage?: ImageProps;
-    emoji?: ImageProps;
+    mobileImage?: PictureProps;
+    leftImage?: PictureProps;
+    rightImage?: PictureProps;
+    emoji?: PictureProps;
   };

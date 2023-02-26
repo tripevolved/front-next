@@ -2,5 +2,5 @@
  * Do NOT change this file, because it is automatically generated
  * run "yarn component:index" to update
  */
-export * from "./logo.component";
-export * from "./logo.types";
+export * from "./picture.component";
+export * from "./picture.types";

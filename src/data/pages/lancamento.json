@@ -13,17 +13,25 @@
       "align": "center",
       "mobileImage": {
         "style": { "marginTop": -32, "marginBottom": 32 },
-        "src": "/assets/home/hero-mobile.png"
+        "src": "/assets/lancamento/hero-mobile.png",
+        "height": 359,
+        "width": 351
       },
       "leftImage": {
-        "src": "/assets/pioneiro/hero-2.png"
+        "src": "/assets/lancamento/hero-2.png",
+        "width": 356,
+        "height": 287
       },
       "rightImage": {
         "style": { "marginRight": -56 },
-        "src": "/assets/pioneiro/hero-1.png"
+        "src": "/assets/lancamento/hero-1.png",
+        "height": 311,
+        "width": 290
       },
       "emoji": {
-        "src": "/assets/home/emoji-mapa.png"
+        "src": "/assets/home/emoji-mapa.png",
+        "height": 229,
+        "width": 229
       },
       "heading": {
         "as": "h1",

@@ -1,8 +1,8 @@
 import type { PriceProps, PricingProps } from "./pricing.types";
 
-import { Text } from "@/components";
+import { Picture, Text } from "@/components";
 import { css, cx } from "@emotion/css";
-import { Button, Grid, Icon, Image } from "mars-ds";
+import { Button, Grid, Icon } from "mars-ds";
 
 export const Pricing = ({
   className,
@@ -19,14 +19,12 @@ export const Pricing = ({
 }: PricingProps) => {
   const cn = cx("pricing", className, css(colorSchemaToSx(colorSchema)), css(sx));
 
-  const img = typeof image === "string" ? { src: image } : image;
-
   return (
     <div className={cn} {...props}>
       {label ? <Text className="pricing__label">
         {label}
       </Text> : null}
-      {img ? <Image className="pricing__image" {...img} /> : null}
+      {image ? <Picture className="pricing__image">{image}</Picture> : null}
       <Text className="pricing__heading" variant="heading" size="lg">
         {heading}
       </Text>

@@ -4,7 +4,7 @@ import { Logo } from "@/components";
 import { Button, Link, ToggleButton } from "mars-ds";
 import { useState } from "react";
 
-const menuDefault = [
+const menuDefault: NavbarProps["menu"] = [
   {
     children: "Sobre nós",
     href: "/sobre",
@@ -12,10 +12,10 @@ const menuDefault = [
   },
   {
     children: "Seja pioneiro",
-    href: "/seja-pioneiro",
+    href: "/lancamento",
     variant: "secondary",
   },
-] satisfies NavbarProps["menu"];
+];
 
 export const Navbar = ({ menu = menuDefault }: NavbarProps) => {
   const [open, setOpen] = useState(false);

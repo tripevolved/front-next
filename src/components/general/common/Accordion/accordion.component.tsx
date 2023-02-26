@@ -1,6 +1,6 @@
-import { Text } from "@/components";
+import { Picture, Text } from "@/components";
 import { css, cx } from "@emotion/css";
-import { Accordion as MarsAccordion, Icon, Image } from "mars-ds";
+import { Accordion as MarsAccordion, Icon } from "mars-ds";
 import { AccordionProps, HeaderAccordionProps } from "./accordion.types";
 
 export const Accordion = ({ question, answer, heading, children, ...props }: AccordionProps) => {
@@ -32,7 +32,7 @@ const HeaderAccordion = ({
   const cn = cx("accordion__header-container color-primary py-xl", className, css(sx));
   return (
     <div className={cn} {...props}>
-      {image ? <Image src={image} /> : null}
+      {image ? <Picture>{image}</Picture> : null}
       <Text as="h3" size="xxl" className="text-bold flex-fill">
         {heading || children}
       </Text>
