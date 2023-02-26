@@ -5,7 +5,7 @@ import { css } from "@emotion/css";
 import classNames from "classnames";
 import { Container } from "mars-ds";
 
-export const LeadList = ({ className, children, heading, text, form, ...props }: LeadListProps) => {
+export function LeadList({ className, children, heading, text, form, ...props }: LeadListProps) {
   const cn = classNames("lead-list", className, css({ padding: 0}));
 
   return (

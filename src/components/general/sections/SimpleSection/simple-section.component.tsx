@@ -1,7 +1,7 @@
 import { LineDecoration, Picture } from "@/components";
 import { Button, Grid, Heading, SectionBase, Text } from "mars-ds";
 
-export const SimpleSection = () => {
+export function SimpleSection() {
   return (
     <SectionBase>
       <Grid columns={{ md: 2 }} className="align-items-center">
@@ -34,4 +34,4 @@ export const SimpleSection = () => {
       </Grid>
     </SectionBase>
   );
-};
+}

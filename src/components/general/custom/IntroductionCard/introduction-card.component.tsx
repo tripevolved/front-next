@@ -4,7 +4,7 @@ import { ModalContent, Picture, Text } from "@/components";
 import { css, cx } from "@emotion/css";
 import { Grid, Icon, Modal } from "mars-ds";
 
-export const IntroductionCard = ({
+export function IntroductionCard ({
   className,
   children,
   image,
@@ -13,7 +13,7 @@ export const IntroductionCard = ({
   social = {},
   sx,
   ...props
-}: IntroductionCardProps) => {
+}: IntroductionCardProps) {
   const cn = cx("introduction-card", className, css(sx));
 
   const IntroductionModal = () => {

@@ -4,7 +4,7 @@ import { Picture, Text } from "@/components";
 import { css, cx } from "@emotion/css";
 import { Button, Grid, Icon } from "mars-ds";
 
-export const Pricing = ({
+export function Pricing({
   className,
   children,
   sx,
@@ -16,14 +16,11 @@ export const Pricing = ({
   price,
   label,
   ...props
-}: PricingProps) => {
+}: PricingProps) {
   const cn = cx("pricing", className, css(colorSchemaToSx(colorSchema)), css(sx));
-
   return (
     <div className={cn} {...props}>
-      {label ? <Text className="pricing__label">
-        {label}
-      </Text> : null}
+      {label ? <Text className="pricing__label">{label}</Text> : null}
       {image ? <Picture className="pricing__image">{image}</Picture> : null}
       <Text className="pricing__heading" variant="heading" size="lg">
         {heading}
@@ -41,7 +38,7 @@ export const Pricing = ({
       <Button {...cta} />
     </div>
   );
-};
+}
 
 const Price = ({ current, old, description, className, children, sx, ...props }: PriceProps) => {
   const cn = cx("price", className, css(sx));
@@ -60,7 +57,8 @@ const Price = ({ current, old, description, className, children, sx, ...props }:
   );
 };
 
-const colorSchemaToSx = (tokens: Record<string, string>) => Object.entries(tokens).reduce(
-  (acc, [key, value]) => ({ ...acc, [`--pricing-${key}`]: value }),
-  {}
-);
+const colorSchemaToSx = (tokens: Record<string, string>) =>
+  Object.entries(tokens).reduce(
+    (acc, [key, value]) => ({ ...acc, [`--pricing-${key}`]: value }),
+    {}
+  );

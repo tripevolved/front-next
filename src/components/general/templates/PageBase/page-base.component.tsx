@@ -2,7 +2,7 @@ import type { PageBaseProps } from "./page-base.types";
 
 import { Footer, Navbar } from "@/components";
 
-export const PageBase = ({ children }: PageBaseProps) => {
+export function PageBase({ children }: PageBaseProps) {
   return (
     <>
       <Navbar />
@@ -10,4 +10,4 @@ export const PageBase = ({ children }: PageBaseProps) => {
       <Footer />
     </>
   );
-};
+}

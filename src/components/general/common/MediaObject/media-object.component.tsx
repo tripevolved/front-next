@@ -4,7 +4,7 @@ import { Picture, Text } from "@/components";
 import { css, cx } from "@emotion/css";
 import { Button, ButtonProps, Grid } from "mars-ds";
 
-export const MediaObject = ({
+export function MediaObject({
   className,
   children,
   image,
@@ -13,7 +13,7 @@ export const MediaObject = ({
   cta,
   sx,
   ...props
-}: MediaObjectProps) => {
+}: MediaObjectProps) {
   const cn = cx("media-object", className, css(sx));
   return (
     <div className={cn} {...props}>
@@ -34,7 +34,7 @@ export const MediaObject = ({
       </Grid>
     </div>
   );
-};
+}
 
 const Cta = ({ style, ...props }: ButtonProps) => {
   return (

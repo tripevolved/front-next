@@ -17,8 +17,9 @@ const menuDefault: NavbarProps["menu"] = [
   },
 ];
 
-export const Navbar = ({ menu = menuDefault }: NavbarProps) => {
+export function Navbar({ menu = menuDefault }: NavbarProps) {
   const [open, setOpen] = useState(false);
+  const hasMenu = Boolean(menu?.length);
 
   return (
     <nav className="navbar">
@@ -26,18 +27,22 @@ export const Navbar = ({ menu = menuDefault }: NavbarProps) => {
         <Link href="/">
           <Logo />
         </Link>
-        <ToggleButton
-          className="navbar__hamburger"
-          iconName="menu"
-          variant="text"
-          onClick={() => setOpen((state) => !state)}
-        />
+        {hasMenu ? (
+          <ToggleButton
+            className="navbar__hamburger"
+            iconName="menu"
+            variant="text"
+            onClick={() => setOpen((state) => !state)}
+          />
+        ) : null}
       </div>
-      <menu className="navbar__menu" data-open={open}>
-        {menu.map((item) => (
-          <Button key={item.href} {...item} />
-        ))}
-      </menu>
+      {hasMenu ? (
+        <menu className="navbar__menu" data-open={open}>
+          {menu?.map((item) => (
+            <Button key={item.href} {...item} />
+          ))}
+        </menu>
+      ) : null}
     </nav>
   );
-};
+}

@@ -1,6 +1,6 @@
 import { LineDecorationProps } from "./line-decoration.types";
 
-export const LineDecoration = ({ color = "currentColor", ...props }: LineDecorationProps) => {
+export function LineDecoration({ color = "currentColor", ...props }: LineDecorationProps) {
   return (
     <div {...props}>
       <svg
