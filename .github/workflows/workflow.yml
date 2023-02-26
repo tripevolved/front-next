@@ -28,7 +28,7 @@ jobs:
         run: npm run lint
 
       - name: Unit test run
-        run: npm run test:unit
+        run: npm run test
 
       - name: Build website for release
         run: npm run build
