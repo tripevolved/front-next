@@ -6,7 +6,7 @@ export default function Page() {
   const { seo, ...children } = home satisfies PageProps;
   return (
     <>
-      <HTMLHead {...seo} />
+      <HTMLHead {...seo} canonical="https://www.tripevolved.com.br" />
       <AdaptedRibo>{children}</AdaptedRibo>
     </>
   );
