@@ -1,5 +1,5 @@
-export type SubmitData<T extends string = string> = Record<T, string>;
-export type SubmitHandler<Keys extends string = string> = (data: SubmitData<Keys>) => unknown;
+export type SubmitData<P = any> = Record<keyof P, string>;
+export type SubmitHandler<P = any> = (data: SubmitData<P>) => unknown;
 
 export const handleFormSubmit =
   (callback: SubmitHandler): React.FormEventHandler<HTMLFormElement> =>

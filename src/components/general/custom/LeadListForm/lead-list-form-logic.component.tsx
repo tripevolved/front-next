@@ -3,7 +3,7 @@ import { handleFormSubmit, sendFormData, SubmitHandler } from "@/helpers/form.he
 import { Grid, Modal, SubmitButton, TextField } from "mars-ds";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { FormLogicProps } from "./lead-list-form.types";
+import { FormLogicProps, Lead } from "./lead-list-form.types";
 
 const ACTION_URL = "https://getlaunchlist.com/s/0l3TDN";
 
@@ -11,7 +11,7 @@ export function FormLogic({ cta, modal }: FormLogicProps) {
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
 
-  const handleSubmit: SubmitHandler<"name" | "email" | "phone"> = async (data) => {
+  const handleSubmit: SubmitHandler<Lead> = async (data) => {
     setSubmitting(true);
     try {
       await sendFormData(ACTION_URL, data);
