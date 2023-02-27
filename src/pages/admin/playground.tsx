@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-import { AdaptedRibo } from "@/components";
+import { AdaptedRibo, AdminPage } from "@/components";
 import { notifyError, notifySuccess } from "@/helpers/notify.helper";
 import { useLocalStorage } from "@/hooks/local-storage.hooks";
 import { OnMount } from "@monaco-editor/react";
@@ -111,7 +111,7 @@ const Playground = () => {
   };
 
   return (
-    <div className="playground">
+    <AdminPage className="playground">
       <nav className="playground__header">
         <div className="flex gap-lg align-items-center">
           <Heading size="xs">Playground</Heading>
@@ -161,7 +161,7 @@ const Playground = () => {
           </div>
         )}
       </main>
-    </div>
+    </AdminPage>
   );
 };
 

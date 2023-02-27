@@ -1,0 +1,19 @@
+.section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.container {
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+}
+
+.form {
+  text-align: left;
+}
+
+.logo {
+  margin-bottom: var(--spacing-xl);
+}
