@@ -4,8 +4,6 @@ import { useMemo } from "react";
 import { parseImageSources } from "./picture.helpers";
 import { ImageSourceProps, PictureComponentProps } from "./picture.types";
 
-import css from "./picture.module.scss";
-
 export const TESTID = {
   PICTURE: "picture",
   IMAGE: "image",
@@ -55,7 +53,7 @@ const PictureChildren = ({
 
   const style = { maxHeight };
   const commonProps = { height: defaultHeight, width: defaultWidth, style };
-  const cn = classNames(css.picture, className);
+  const cn = classNames("picture", className);
 
   return (
     <picture data-testid={TESTID.PICTURE} className={cn} {...props}>
