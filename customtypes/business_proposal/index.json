@@ -4,7 +4,7 @@
   "repeatable": true,
   "status": true,
   "json": {
-    "Cliente": {
+    "Geral": {
       "name": {
         "type": "Text",
         "config": {
@@ -25,6 +25,18 @@
           "label": "Telefone",
           "placeholder": "55999999999"
         }
+      },
+      "status": {
+        "type": "Select",
+        "config": {
+          "label": "Status",
+          "placeholder": "",
+          "options": [
+            "Aguardando aprovação",
+            "Pagamento homologado",
+            "Emitindo vouchers"
+          ]
+        }
       }
     },
     "Destino": {
@@ -41,14 +53,14 @@
               }
             },
             "startAt": {
-              "type": "Date",
+              "type": "Timestamp",
               "config": {
                 "label": "Chegada",
                 "placeholder": ""
               }
             },
             "endsAt": {
-              "type": "Date",
+              "type": "Timestamp",
               "config": {
                 "label": "Saída",
                 "placeholder": ""
@@ -72,7 +84,7 @@
           }
         }
       },
-      "slices1": {
+      "sections": {
         "type": "Slices",
         "fieldset": "Slice Zone",
         "config": {
@@ -80,7 +92,7 @@
         }
       }
     },
-    "Pagamento": {
+    "Pagamentos": {
       "ordens": {
         "type": "Group",
         "config": {
@@ -119,10 +131,10 @@
       }
     },
     "Hospedagens": {
-      "acommodations": {
+      "accommodations": {
         "type": "Group",
         "config": {
-          "label": "acommodations",
+          "label": "accommodations",
           "fields": {
             "name": {
               "type": "Text",
@@ -291,11 +303,11 @@
         }
       }
     },
-    "Viajantes": {
+    "Clientes": {
       "travelers": {
         "type": "Group",
         "config": {
-          "label": "Viajantes",
+          "label": "Clientes",
           "fields": {
             "name": {
               "type": "Text",
