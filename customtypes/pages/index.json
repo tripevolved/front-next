@@ -1,0 +1,55 @@
+{
+  "id": "pages",
+  "label": "Pages",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Seo": {
+      "seoTitle": {
+        "type": "Text",
+        "config": {
+          "label": "title",
+          "placeholder": ""
+        }
+      },
+      "seoDescription": {
+        "type": "Text",
+        "config": {
+          "label": "Description",
+          "placeholder": ""
+        }
+      },
+      "seoImage": {
+        "type": "Image",
+        "config": {
+          "label": "Thumbnail",
+          "constraint": {},
+          "thumbnails": []
+        }
+      }
+    },
+    "Sections": {
+      "commonData": {
+        "type": "Text",
+        "config": {
+          "label": "Dados compartilhados",
+          "placeholder": "{ \"campaignName\": \"any_value\" }"
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "freeJson": {
+              "type": "SharedSlice"
+            },
+            "section_base": {
+              "type": "SharedSlice"
+            }
+          }
+        }
+      }
+    }
+  }
+}

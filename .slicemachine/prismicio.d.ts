@@ -13,7 +13,7 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.name
+     * - **API ID Path**: businessProposal.name
      * - **Tab**: Geral
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
@@ -24,7 +24,7 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.email
+     * - **API ID Path**: businessProposal.email
      * - **Tab**: Geral
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
@@ -35,7 +35,7 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Text
      * - **Placeholder**: 55999999999
-     * - **API ID Path**: business_proposal.phoneNumber
+     * - **API ID Path**: businessProposal.phoneNumber
      * - **Tab**: Geral
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
@@ -46,7 +46,7 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Select
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.status
+     * - **API ID Path**: businessProposal.status
      * - **Tab**: Geral
      * - **Documentation**: https://prismic.io/docs/core-concepts/select
      *
@@ -57,7 +57,7 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Group
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.locations[]
+     * - **API ID Path**: businessProposal.locations[]
      * - **Tab**: Destino
      * - **Documentation**: https://prismic.io/docs/core-concepts/group
      *
@@ -68,7 +68,7 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Slice Zone
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.sections[]
+     * - **API ID Path**: businessProposal.sections[]
      * - **Tab**: Destino
      * - **Documentation**: https://prismic.io/docs/core-concepts/slices
      *
@@ -79,7 +79,7 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Group
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.ordens[]
+     * - **API ID Path**: businessProposal.ordens[]
      * - **Tab**: Pagamentos
      * - **Documentation**: https://prismic.io/docs/core-concepts/group
      *
@@ -90,7 +90,7 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Group
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.accommodations[]
+     * - **API ID Path**: businessProposal.accommodations[]
      * - **Tab**: Hospedagens
      * - **Documentation**: https://prismic.io/docs/core-concepts/group
      *
@@ -101,7 +101,7 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Group
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.transfers[]
+     * - **API ID Path**: businessProposal.transfers[]
      * - **Tab**: Translados
      * - **Documentation**: https://prismic.io/docs/core-concepts/group
      *
@@ -112,7 +112,7 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Group
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.itinerary[]
+     * - **API ID Path**: businessProposal.itinerary[]
      * - **Tab**: Roteiro
      * - **Documentation**: https://prismic.io/docs/core-concepts/group
      *
@@ -123,7 +123,7 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Group
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.services[]
+     * - **API ID Path**: businessProposal.services[]
      * - **Tab**: Serviços
      * - **Documentation**: https://prismic.io/docs/core-concepts/group
      *
@@ -134,7 +134,7 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Group
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.remarks[]
+     * - **API ID Path**: businessProposal.remarks[]
      * - **Tab**: Observações
      * - **Documentation**: https://prismic.io/docs/core-concepts/group
      *
@@ -145,8 +145,8 @@ interface BusinessProposalDocumentData {
      *
      * - **Field Type**: Group
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.travelers[]
-     * - **Tab**: Clientes
+     * - **API ID Path**: businessProposal.travelers[]
+     * - **Tab**: Viajantes
      * - **Documentation**: https://prismic.io/docs/core-concepts/group
      *
      */
@@ -162,7 +162,7 @@ export interface BusinessProposalDocumentDataLocationsItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.locations[].name
+     * - **API ID Path**: businessProposal.locations[].name
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -172,7 +172,7 @@ export interface BusinessProposalDocumentDataLocationsItem {
      *
      * - **Field Type**: Timestamp
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.locations[].startAt
+     * - **API ID Path**: businessProposal.locations[].startAt
      * - **Documentation**: https://prismic.io/docs/core-concepts/timestamp
      *
      */
@@ -182,7 +182,7 @@ export interface BusinessProposalDocumentDataLocationsItem {
      *
      * - **Field Type**: Timestamp
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.locations[].endsAt
+     * - **API ID Path**: businessProposal.locations[].endsAt
      * - **Documentation**: https://prismic.io/docs/core-concepts/timestamp
      *
      */
@@ -192,7 +192,7 @@ export interface BusinessProposalDocumentDataLocationsItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.locations[].address
+     * - **API ID Path**: businessProposal.locations[].address
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -202,7 +202,7 @@ export interface BusinessProposalDocumentDataLocationsItem {
      *
      * - **Field Type**: Image
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.locations[].cover
+     * - **API ID Path**: businessProposal.locations[].cover
      * - **Documentation**: https://prismic.io/docs/core-concepts/image
      *
      */
@@ -223,7 +223,7 @@ export interface BusinessProposalDocumentDataOrdensItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.ordens[].number
+     * - **API ID Path**: businessProposal.ordens[].number
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -233,7 +233,7 @@ export interface BusinessProposalDocumentDataOrdensItem {
      *
      * - **Field Type**: Number
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.ordens[].discount
+     * - **API ID Path**: businessProposal.ordens[].discount
      * - **Documentation**: https://prismic.io/docs/core-concepts/number
      *
      */
@@ -243,7 +243,7 @@ export interface BusinessProposalDocumentDataOrdensItem {
      *
      * - **Field Type**: Number
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.ordens[].price
+     * - **API ID Path**: businessProposal.ordens[].price
      * - **Documentation**: https://prismic.io/docs/core-concepts/number
      *
      */
@@ -253,7 +253,7 @@ export interface BusinessProposalDocumentDataOrdensItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.ordens[].href
+     * - **API ID Path**: businessProposal.ordens[].href
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -269,7 +269,7 @@ export interface BusinessProposalDocumentDataAccommodationsItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.accommodations[].name
+     * - **API ID Path**: businessProposal.accommodations[].name
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -279,7 +279,7 @@ export interface BusinessProposalDocumentDataAccommodationsItem {
      *
      * - **Field Type**: Timestamp
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.accommodations[].startAt
+     * - **API ID Path**: businessProposal.accommodations[].startAt
      * - **Documentation**: https://prismic.io/docs/core-concepts/timestamp
      *
      */
@@ -289,7 +289,7 @@ export interface BusinessProposalDocumentDataAccommodationsItem {
      *
      * - **Field Type**: Date
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.accommodations[].endsAt
+     * - **API ID Path**: businessProposal.accommodations[].endsAt
      * - **Documentation**: https://prismic.io/docs/core-concepts/date
      *
      */
@@ -299,7 +299,7 @@ export interface BusinessProposalDocumentDataAccommodationsItem {
      *
      * - **Field Type**: Rich Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.accommodations[].description
+     * - **API ID Path**: businessProposal.accommodations[].description
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
      *
      */
@@ -309,7 +309,7 @@ export interface BusinessProposalDocumentDataAccommodationsItem {
      *
      * - **Field Type**: Image
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.accommodations[].cover
+     * - **API ID Path**: businessProposal.accommodations[].cover
      * - **Documentation**: https://prismic.io/docs/core-concepts/image
      *
      */
@@ -325,7 +325,7 @@ export interface BusinessProposalDocumentDataTransfersItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.transfers[].type
+     * - **API ID Path**: businessProposal.transfers[].type
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -335,7 +335,7 @@ export interface BusinessProposalDocumentDataTransfersItem {
      *
      * - **Field Type**: Timestamp
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.transfers[].startAt
+     * - **API ID Path**: businessProposal.transfers[].startAt
      * - **Documentation**: https://prismic.io/docs/core-concepts/timestamp
      *
      */
@@ -345,7 +345,7 @@ export interface BusinessProposalDocumentDataTransfersItem {
      *
      * - **Field Type**: Timestamp
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.transfers[].endsAt
+     * - **API ID Path**: businessProposal.transfers[].endsAt
      * - **Documentation**: https://prismic.io/docs/core-concepts/timestamp
      *
      */
@@ -355,7 +355,7 @@ export interface BusinessProposalDocumentDataTransfersItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.transfers[].startingLocation
+     * - **API ID Path**: businessProposal.transfers[].startingLocation
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -365,7 +365,7 @@ export interface BusinessProposalDocumentDataTransfersItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.transfers[].finalLocation
+     * - **API ID Path**: businessProposal.transfers[].finalLocation
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -375,7 +375,7 @@ export interface BusinessProposalDocumentDataTransfersItem {
      *
      * - **Field Type**: Rich Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.transfers[].description
+     * - **API ID Path**: businessProposal.transfers[].description
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
      *
      */
@@ -391,7 +391,7 @@ export interface BusinessProposalDocumentDataItineraryItem {
      *
      * - **Field Type**: Timestamp
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.itinerary[].day
+     * - **API ID Path**: businessProposal.itinerary[].day
      * - **Documentation**: https://prismic.io/docs/core-concepts/timestamp
      *
      */
@@ -401,7 +401,7 @@ export interface BusinessProposalDocumentDataItineraryItem {
      *
      * - **Field Type**: Rich Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.itinerary[].description
+     * - **API ID Path**: businessProposal.itinerary[].description
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
      *
      */
@@ -417,7 +417,7 @@ export interface BusinessProposalDocumentDataServicesItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.services[].name
+     * - **API ID Path**: businessProposal.services[].name
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -427,7 +427,7 @@ export interface BusinessProposalDocumentDataServicesItem {
      *
      * - **Field Type**: Rich Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.services[].description
+     * - **API ID Path**: businessProposal.services[].description
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
      *
      */
@@ -443,7 +443,7 @@ export interface BusinessProposalDocumentDataRemarksItem {
      *
      * - **Field Type**: Rich Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.remarks[].text
+     * - **API ID Path**: businessProposal.remarks[].text
      * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
      *
      */
@@ -459,7 +459,7 @@ export interface BusinessProposalDocumentDataTravelersItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.travelers[].name
+     * - **API ID Path**: businessProposal.travelers[].name
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -469,7 +469,7 @@ export interface BusinessProposalDocumentDataTravelersItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.travelers[].email
+     * - **API ID Path**: businessProposal.travelers[].email
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -479,7 +479,7 @@ export interface BusinessProposalDocumentDataTravelersItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: business_proposal.travelers[].phone
+     * - **API ID Path**: businessProposal.travelers[].phone
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -488,19 +488,242 @@ export interface BusinessProposalDocumentDataTravelersItem {
 /**
  * Proposta comercial document from Prismic
  *
- * - **API ID**: `business_proposal`
+ * - **API ID**: `businessProposal`
  * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type BusinessProposalDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<BusinessProposalDocumentData>, "business_proposal", Lang>;
-export type AllDocumentTypes = BusinessProposalDocument;
+export type BusinessProposalDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<BusinessProposalDocumentData>, "businessProposal", Lang>;
+/** Content for Pages documents */
+interface PagesDocumentData {
+    /**
+     * title field in *Pages*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: pages.seoTitle
+     * - **Tab**: Seo
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    seoTitle: prismicT.KeyTextField;
+    /**
+     * Description field in *Pages*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: pages.seoDescription
+     * - **Tab**: Seo
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    seoDescription: prismicT.KeyTextField;
+    /**
+     * Thumbnail field in *Pages*
+     *
+     * - **Field Type**: Image
+     * - **Placeholder**: *None*
+     * - **API ID Path**: pages.seoImage
+     * - **Tab**: Seo
+     * - **Documentation**: https://prismic.io/docs/core-concepts/image
+     *
+     */
+    seoImage: prismicT.ImageField<never>;
+    /**
+     * Dados compartilhados field in *Pages*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: { "campaignName": "any_value" }
+     * - **API ID Path**: pages.commonData
+     * - **Tab**: Sections
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    commonData: prismicT.KeyTextField;
+    /**
+     * Slice Zone field in *Pages*
+     *
+     * - **Field Type**: Slice Zone
+     * - **Placeholder**: *None*
+     * - **API ID Path**: pages.slices[]
+     * - **Tab**: Sections
+     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     *
+     */
+    slices: prismicT.SliceZone<PagesDocumentDataSlicesSlice>;
+}
+/**
+ * Slice for *Pages → Slice Zone*
+ *
+ */
+type PagesDocumentDataSlicesSlice = FreeJsonSlice | SectionBaseSlice;
+/**
+ * Pages document from Prismic
+ *
+ * - **API ID**: `pages`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PagesDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<PagesDocumentData>, "pages", Lang>;
+export type AllDocumentTypes = BusinessProposalDocument | PagesDocument;
+/**
+ * Primary content in FreeJson → Primary
+ *
+ */
+interface FreeJsonSliceCustomComponentPrimary {
+    /**
+     * id field in *FreeJson → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: freeJson.primary.id
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    id: prismicT.KeyTextField;
+    /**
+     * component field in *FreeJson → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: freeJson.primary.component
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    component: prismicT.KeyTextField;
+    /**
+     * Customizações (JSON) field in *FreeJson → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: { "backgroundColor": "red" }
+     * - **API ID Path**: freeJson.primary.json
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    json: prismicT.KeyTextField;
+}
+/**
+ * Item in FreeJson → Items
+ *
+ */
+export interface FreeJsonSliceCustomComponentItem {
+    /**
+     * Conteúdo JSON (children) field in *FreeJson → Items*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: { "title": "Meu título" }
+     * - **API ID Path**: freeJson.items[].json
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    json: prismicT.KeyTextField;
+}
+/**
+ * CustomComponent variation for FreeJson Slice
+ *
+ * - **API ID**: `customComponent`
+ * - **Description**: `FreeJson`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type FreeJsonSliceCustomComponent = prismicT.SharedSliceVariation<"customComponent", Simplify<FreeJsonSliceCustomComponentPrimary>, Simplify<FreeJsonSliceCustomComponentItem>>;
+/**
+ * Slice variation for *FreeJson*
+ *
+ */
+type FreeJsonSliceVariation = FreeJsonSliceCustomComponent;
+/**
+ * FreeJson Shared Slice
+ *
+ * - **API ID**: `freeJson`
+ * - **Description**: `FreeJson`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type FreeJsonSlice = prismicT.SharedSlice<"freeJson", FreeJsonSliceVariation>;
+/**
+ * Primary content in SectionBase → Primary
+ *
+ */
+interface SectionBaseSliceDefaultPrimary {
+    /**
+     * id field in *SectionBase → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: section_base.primary.id
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    id: prismicT.KeyTextField;
+    /**
+     * container field in *SectionBase → Primary*
+     *
+     * - **Field Type**: Select
+     * - **Placeholder**: Tamanho do container da seção
+     * - **API ID Path**: section_base.primary.container
+     * - **Documentation**: https://prismic.io/docs/core-concepts/select
+     *
+     */
+    container: prismicT.SelectField<"none" | "sm" | "md" | "lg" | "full">;
+    /**
+     * Customizações (JSON) field in *SectionBase → Primary*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: { "backgroundColor": "red" }
+     * - **API ID Path**: section_base.primary.json
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    json: prismicT.KeyTextField;
+}
+/**
+ * Item in SectionBase → Items
+ *
+ */
+export interface SectionBaseSliceDefaultItem {
+    /**
+     * Conteúdo JSON (children) field in *SectionBase → Items*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: { "title": "Meu título" }
+     * - **API ID Path**: section_base.items[].json
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    json: prismicT.KeyTextField;
+}
+/**
+ * Default variation for SectionBase Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: `SectionBase`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type SectionBaseSliceDefault = prismicT.SharedSliceVariation<"default", Simplify<SectionBaseSliceDefaultPrimary>, Simplify<SectionBaseSliceDefaultItem>>;
+/**
+ * Slice variation for *SectionBase*
+ *
+ */
+type SectionBaseSliceVariation = SectionBaseSliceDefault;
+/**
+ * SectionBase Shared Slice
+ *
+ * - **API ID**: `section_base`
+ * - **Description**: `SectionBase`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
+ *
+ */
+export type SectionBaseSlice = prismicT.SharedSlice<"section_base", SectionBaseSliceVariation>;
 declare module "@prismicio/client" {
     interface CreateClient {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { BusinessProposalDocumentData, BusinessProposalDocumentDataLocationsItem, BusinessProposalDocumentDataSectionsSlice, BusinessProposalDocumentDataOrdensItem, BusinessProposalDocumentDataAccommodationsItem, BusinessProposalDocumentDataTransfersItem, BusinessProposalDocumentDataItineraryItem, BusinessProposalDocumentDataServicesItem, BusinessProposalDocumentDataRemarksItem, BusinessProposalDocumentDataTravelersItem, BusinessProposalDocument, AllDocumentTypes };
+        export type { BusinessProposalDocumentData, BusinessProposalDocumentDataLocationsItem, BusinessProposalDocumentDataSectionsSlice, BusinessProposalDocumentDataOrdensItem, BusinessProposalDocumentDataAccommodationsItem, BusinessProposalDocumentDataTransfersItem, BusinessProposalDocumentDataItineraryItem, BusinessProposalDocumentDataServicesItem, BusinessProposalDocumentDataRemarksItem, BusinessProposalDocumentDataTravelersItem, BusinessProposalDocument, PagesDocumentData, PagesDocumentDataSlicesSlice, PagesDocument, AllDocumentTypes, FreeJsonSliceCustomComponentPrimary, FreeJsonSliceCustomComponentItem, FreeJsonSliceCustomComponent, FreeJsonSliceVariation, FreeJsonSlice, SectionBaseSliceDefaultPrimary, SectionBaseSliceDefaultItem, SectionBaseSliceDefault, SectionBaseSliceVariation, SectionBaseSlice };
     }
 }

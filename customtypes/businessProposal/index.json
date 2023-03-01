@@ -1,5 +1,5 @@
 {
-  "id": "business_proposal",
+  "id": "businessProposal",
   "label": "Proposta comercial",
   "repeatable": true,
   "status": true,
@@ -303,7 +303,7 @@
         }
       }
     },
-    "Clientes": {
+    "Viajantes": {
       "travelers": {
         "type": "Group",
         "config": {

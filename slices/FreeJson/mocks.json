@@ -1,0 +1,74 @@
+[
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "sectionBase",
+    "primary": {
+      "id": {
+        "__TYPE__": "FieldContent",
+        "value": "herself",
+        "type": "Text"
+      },
+      "container": {
+        "__TYPE__": "FieldContent",
+        "value": "none",
+        "type": "Select"
+      },
+      "json": {
+        "__TYPE__": "FieldContent",
+        "value": "gradually",
+        "type": "Text"
+      }
+    },
+    "items": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "json",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "native",
+              "type": "Text"
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "__TYPE__": "SharedSliceContent",
+    "variation": "customComponent",
+    "primary": {
+      "id": {
+        "__TYPE__": "FieldContent",
+        "value": "speed",
+        "type": "Text"
+      },
+      "component": {
+        "__TYPE__": "FieldContent",
+        "value": "get",
+        "type": "Text"
+      },
+      "json": {
+        "__TYPE__": "FieldContent",
+        "value": "diagram",
+        "type": "Text"
+      }
+    },
+    "items": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "json",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "pile",
+              "type": "Text"
+            }
+          ]
+        ]
+      }
+    ]
+  }
+]

@@ -1,7 +1,23 @@
 {
   "_cts": {
-    "business_proposal": {
+    "businessProposal": {
       "itinerary": {}
-    }
+    },
+    "pages": {}
+  },
+  "slices": {
+    "FreeJson": {
+      "default": {
+        "primary": {}
+      },
+      "sectionBase": {
+        "primary": {},
+        "items": {}
+      },
+      "customComponent": {
+        "primary": {}
+      }
+    },
+    "SectionBase": {}
   }
 }

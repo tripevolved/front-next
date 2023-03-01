@@ -1,0 +1,48 @@
+{
+  "id": "freeJson",
+  "type": "SharedSlice",
+  "name": "FreeJson",
+  "description": "FreeJson",
+  "variations": [
+    {
+      "id": "customComponent",
+      "name": "CustomComponent",
+      "docURL": "...",
+      "version": "sktwi1xtmkfgx8626",
+      "description": "FreeJson",
+      "primary": {
+        "id": {
+          "type": "Text",
+          "config": {
+            "label": "id",
+            "placeholder": ""
+          }
+        },
+        "component": {
+          "type": "Text",
+          "config": {
+            "label": "component",
+            "placeholder": ""
+          }
+        },
+        "json": {
+          "type": "Text",
+          "config": {
+            "label": "Customizações (JSON)",
+            "placeholder": "{ \"backgroundColor\": \"red\" }"
+          }
+        }
+      },
+      "items": {
+        "json": {
+          "type": "Text",
+          "config": {
+            "label": "Conteúdo JSON (children)",
+            "placeholder": "{ \"title\": \"Meu título\" }"
+          }
+        }
+      },
+      "imageUrl": "https://images.prismic.io/slice-machine/621a5ec4-0387-4bc5-9860-2dd46cbc07cd_default_ss.png?auto=compress,format"
+    }
+  ]
+}
