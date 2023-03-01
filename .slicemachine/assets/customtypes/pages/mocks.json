@@ -1,123 +1,93 @@
 {
-  "seoTitle": {
+  "uid": {
+    "__TYPE__": "UIDContent",
+    "value": "main"
+  },
+  "title": {
     "__TYPE__": "FieldContent",
-    "value": "sheet",
+    "value": "football",
     "type": "Text"
   },
-  "seoDescription": {
+  "description": {
     "__TYPE__": "FieldContent",
-    "value": "sad",
+    "value": "luck",
     "type": "Text"
   },
-  "seoImage": {
+  "image": {
     "__TYPE__": "ImageContent",
     "origin": {
       "id": "main",
-      "url": "https://images.unsplash.com/photo-1587653915936-5623ea0b949a",
-      "width": 4000,
-      "height": 4000
+      "url": "https://images.unsplash.com/photo-1515378960530-7c0da6231fb1",
+      "width": 5616,
+      "height": 3744
     },
-    "url": "https://images.unsplash.com/photo-1587653915936-5623ea0b949a",
-    "width": 4000,
-    "height": 4000,
+    "url": "https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?rect=0%2C293%2C5616%2C3159&w=1280&h=720",
+    "width": 1280,
+    "height": 720,
     "edit": {
       "zoom": 1,
       "crop": {
         "x": 0,
-        "y": 0
+        "y": 293
       },
       "background": "transparent"
     },
-    "thumbnails": {}
-  },
-  "commonData": {
-    "__TYPE__": "FieldContent",
-    "value": "refused",
-    "type": "Text"
-  },
-  "slices": {
-    "__TYPE__": "SliceContentType",
-    "value": [
-      {
-        "key": "freeJson$a3bd40f0-4cf3-486a-89f7-139334f27c23",
-        "name": "freeJson",
-        "widget": {
-          "__TYPE__": "SharedSliceContent",
-          "variation": "customComponent",
-          "primary": {
-            "id": {
-              "__TYPE__": "FieldContent",
-              "value": "per",
-              "type": "Text"
-            },
-            "component": {
-              "__TYPE__": "FieldContent",
-              "value": "ever",
-              "type": "Text"
-            },
-            "json": {
-              "__TYPE__": "FieldContent",
-              "value": "choice",
-              "type": "Text"
-            }
+    "thumbnails": {
+      "square": {
+        "origin": {
+          "id": "square",
+          "url": "https://images.unsplash.com/photo-1448932223592-d1fc686e76ea",
+          "width": 3500,
+          "height": 2338
+        },
+        "url": "https://images.unsplash.com/photo-1448932223592-d1fc686e76ea?rect=581%2C0%2C2338%2C2338&w=1080&h=1080",
+        "width": 1080,
+        "height": 1080,
+        "edit": {
+          "zoom": 1,
+          "crop": {
+            "x": 581,
+            "y": 0
           },
-          "items": [
-            {
-              "__TYPE__": "GroupItemContent",
-              "value": [
-                [
-                  "json",
-                  {
-                    "__TYPE__": "FieldContent",
-                    "value": "kept",
-                    "type": "Text"
-                  }
-                ]
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "key": "section_base$7498d92e-4dd5-41ea-ba7c-d77d6f1f8999",
-        "name": "section_base",
-        "widget": {
-          "__TYPE__": "SharedSliceContent",
-          "variation": "default",
-          "primary": {
-            "id": {
-              "__TYPE__": "FieldContent",
-              "value": "various",
-              "type": "Text"
-            },
-            "container": {
-              "__TYPE__": "FieldContent",
-              "value": "full",
-              "type": "Select"
-            },
-            "json": {
-              "__TYPE__": "FieldContent",
-              "value": "fish",
-              "type": "Text"
-            }
-          },
-          "items": [
-            {
-              "__TYPE__": "GroupItemContent",
-              "value": [
-                [
-                  "json",
-                  {
-                    "__TYPE__": "FieldContent",
-                    "value": "picture",
-                    "type": "Text"
-                  }
-                ]
-              ]
-            }
-          ]
+          "background": "transparent"
         }
       }
+    }
+  },
+  "canonical": {
+    "__TYPE__": "FieldContent",
+    "value": "couple",
+    "type": "Text"
+  },
+  "nofolow": {
+    "__TYPE__": "BooleanContent",
+    "value": false
+  },
+  "noindex": {
+    "__TYPE__": "BooleanContent",
+    "value": false
+  },
+  "keywords": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "value",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "automobile",
+              "type": "Text"
+            }
+          ]
+        ]
+      }
     ]
+  },
+  "data": {
+    "__TYPE__": "FieldContent",
+    "value": "heading",
+    "type": "Text"
   }
 }

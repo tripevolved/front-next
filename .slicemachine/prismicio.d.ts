@@ -502,62 +502,108 @@ interface PagesDocumentData {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: pages.seoTitle
+     * - **API ID Path**: pages.title
      * - **Tab**: Seo
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
-    seoTitle: prismicT.KeyTextField;
+    title: prismicT.KeyTextField;
     /**
      * Description field in *Pages*
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: pages.seoDescription
+     * - **API ID Path**: pages.description
      * - **Tab**: Seo
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
-    seoDescription: prismicT.KeyTextField;
+    description: prismicT.KeyTextField;
     /**
      * Thumbnail field in *Pages*
      *
      * - **Field Type**: Image
      * - **Placeholder**: *None*
-     * - **API ID Path**: pages.seoImage
+     * - **API ID Path**: pages.image
      * - **Tab**: Seo
      * - **Documentation**: https://prismic.io/docs/core-concepts/image
      *
      */
-    seoImage: prismicT.ImageField<never>;
+    image: prismicT.ImageField<"square">;
     /**
-     * Dados compartilhados field in *Pages*
+     * canonical field in *Pages*
      *
      * - **Field Type**: Text
-     * - **Placeholder**: { "campaignName": "any_value" }
-     * - **API ID Path**: pages.commonData
-     * - **Tab**: Sections
+     * - **Placeholder**: *None*
+     * - **API ID Path**: pages.canonical
+     * - **Tab**: Seo
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
-    commonData: prismicT.KeyTextField;
+    canonical: prismicT.KeyTextField;
     /**
-     * Slice Zone field in *Pages*
+     * NoFolow field in *Pages*
      *
-     * - **Field Type**: Slice Zone
+     * - **Field Type**: Boolean
      * - **Placeholder**: *None*
-     * - **API ID Path**: pages.slices[]
-     * - **Tab**: Sections
-     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+     * - **Default Value**: false
+     * - **API ID Path**: pages.nofolow
+     * - **Tab**: Seo
+     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
      *
      */
-    slices: prismicT.SliceZone<PagesDocumentDataSlicesSlice>;
+    nofolow: prismicT.BooleanField;
+    /**
+     * noIndex field in *Pages*
+     *
+     * - **Field Type**: Boolean
+     * - **Placeholder**: *None*
+     * - **Default Value**: false
+     * - **API ID Path**: pages.noindex
+     * - **Tab**: Seo
+     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
+     *
+     */
+    noindex: prismicT.BooleanField;
+    /**
+     * keywords field in *Pages*
+     *
+     * - **Field Type**: Group
+     * - **Placeholder**: *None*
+     * - **API ID Path**: pages.keywords[]
+     * - **Tab**: Seo
+     * - **Documentation**: https://prismic.io/docs/core-concepts/group
+     *
+     */
+    keywords: prismicT.GroupField<Simplify<PagesDocumentDataKeywordsItem>>;
+    /**
+     * JSON field in *Pages*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: { "children": [] }
+     * - **API ID Path**: pages.data
+     * - **Tab**: JSON
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    data: prismicT.KeyTextField;
 }
 /**
- * Slice for *Pages → Slice Zone*
+ * Item in Pages → keywords
  *
  */
-type PagesDocumentDataSlicesSlice = FreeJsonSlice | SectionBaseSlice;
+export interface PagesDocumentDataKeywordsItem {
+    /**
+     * value field in *Pages → keywords*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: pages.keywords[].value
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    value: prismicT.KeyTextField;
+}
 /**
  * Pages document from Prismic
  *
@@ -567,7 +613,7 @@ type PagesDocumentDataSlicesSlice = FreeJsonSlice | SectionBaseSlice;
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type PagesDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<PagesDocumentData>, "pages", Lang>;
+export type PagesDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<PagesDocumentData>, "pages", Lang>;
 export type AllDocumentTypes = BusinessProposalDocument | PagesDocument;
 /**
  * Primary content in FreeJson → Primary
@@ -599,11 +645,11 @@ interface FreeJsonSliceCustomComponentPrimary {
      *
      * - **Field Type**: Text
      * - **Placeholder**: { "backgroundColor": "red" }
-     * - **API ID Path**: freeJson.primary.json
+     * - **API ID Path**: freeJson.primary.data
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
-    json: prismicT.KeyTextField;
+    data: prismicT.KeyTextField;
 }
 /**
  * Item in FreeJson → Items
@@ -615,11 +661,11 @@ export interface FreeJsonSliceCustomComponentItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: { "title": "Meu título" }
-     * - **API ID Path**: freeJson.items[].json
+     * - **API ID Path**: freeJson.items[].children
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
-    json: prismicT.KeyTextField;
+    children: prismicT.KeyTextField;
 }
 /**
  * CustomComponent variation for FreeJson Slice
@@ -654,7 +700,7 @@ interface SectionBaseSliceDefaultPrimary {
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: section_base.primary.id
+     * - **API ID Path**: sectionBase.primary.id
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
@@ -664,7 +710,7 @@ interface SectionBaseSliceDefaultPrimary {
      *
      * - **Field Type**: Select
      * - **Placeholder**: Tamanho do container da seção
-     * - **API ID Path**: section_base.primary.container
+     * - **API ID Path**: sectionBase.primary.container
      * - **Documentation**: https://prismic.io/docs/core-concepts/select
      *
      */
@@ -674,11 +720,11 @@ interface SectionBaseSliceDefaultPrimary {
      *
      * - **Field Type**: Text
      * - **Placeholder**: { "backgroundColor": "red" }
-     * - **API ID Path**: section_base.primary.json
+     * - **API ID Path**: sectionBase.primary.data
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
-    json: prismicT.KeyTextField;
+    data: prismicT.KeyTextField;
 }
 /**
  * Item in SectionBase → Items
@@ -690,11 +736,11 @@ export interface SectionBaseSliceDefaultItem {
      *
      * - **Field Type**: Text
      * - **Placeholder**: { "title": "Meu título" }
-     * - **API ID Path**: section_base.items[].json
+     * - **API ID Path**: sectionBase.items[].children
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
-    json: prismicT.KeyTextField;
+    children: prismicT.KeyTextField;
 }
 /**
  * Default variation for SectionBase Slice
@@ -713,17 +759,17 @@ type SectionBaseSliceVariation = SectionBaseSliceDefault;
 /**
  * SectionBase Shared Slice
  *
- * - **API ID**: `section_base`
+ * - **API ID**: `sectionBase`
  * - **Description**: `SectionBase`
  * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
  *
  */
-export type SectionBaseSlice = prismicT.SharedSlice<"section_base", SectionBaseSliceVariation>;
+export type SectionBaseSlice = prismicT.SharedSlice<"sectionBase", SectionBaseSliceVariation>;
 declare module "@prismicio/client" {
     interface CreateClient {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { BusinessProposalDocumentData, BusinessProposalDocumentDataLocationsItem, BusinessProposalDocumentDataSectionsSlice, BusinessProposalDocumentDataOrdensItem, BusinessProposalDocumentDataAccommodationsItem, BusinessProposalDocumentDataTransfersItem, BusinessProposalDocumentDataItineraryItem, BusinessProposalDocumentDataServicesItem, BusinessProposalDocumentDataRemarksItem, BusinessProposalDocumentDataTravelersItem, BusinessProposalDocument, PagesDocumentData, PagesDocumentDataSlicesSlice, PagesDocument, AllDocumentTypes, FreeJsonSliceCustomComponentPrimary, FreeJsonSliceCustomComponentItem, FreeJsonSliceCustomComponent, FreeJsonSliceVariation, FreeJsonSlice, SectionBaseSliceDefaultPrimary, SectionBaseSliceDefaultItem, SectionBaseSliceDefault, SectionBaseSliceVariation, SectionBaseSlice };
+        export type { BusinessProposalDocumentData, BusinessProposalDocumentDataLocationsItem, BusinessProposalDocumentDataSectionsSlice, BusinessProposalDocumentDataOrdensItem, BusinessProposalDocumentDataAccommodationsItem, BusinessProposalDocumentDataTransfersItem, BusinessProposalDocumentDataItineraryItem, BusinessProposalDocumentDataServicesItem, BusinessProposalDocumentDataRemarksItem, BusinessProposalDocumentDataTravelersItem, BusinessProposalDocument, PagesDocumentData, PagesDocumentDataKeywordsItem, PagesDocument, AllDocumentTypes, FreeJsonSliceCustomComponentPrimary, FreeJsonSliceCustomComponentItem, FreeJsonSliceCustomComponent, FreeJsonSliceVariation, FreeJsonSlice, SectionBaseSliceDefaultPrimary, SectionBaseSliceDefaultItem, SectionBaseSliceDefault, SectionBaseSliceVariation, SectionBaseSlice };
     }
 }

@@ -1,5 +1,5 @@
 {
-  "id": "section_base",
+  "id": "sectionBase",
   "type": "SharedSlice",
   "name": "SectionBase",
   "description": "SectionBase",
@@ -32,7 +32,7 @@
             ]
           }
         },
-        "json": {
+        "data": {
           "type": "Text",
           "config": {
             "label": "Customizações (JSON)",
@@ -41,7 +41,7 @@
         }
       },
       "items": {
-        "json": {
+        "children": {
           "type": "Text",
           "config": {
             "label": "Conteúdo JSON (children)",

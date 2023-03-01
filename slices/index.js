@@ -10,5 +10,5 @@ export {
 
 export const components = {
 	freeJson: FreeJson,
-	section_base: SectionBase,
+	sectionBase: SectionBase,
 };
