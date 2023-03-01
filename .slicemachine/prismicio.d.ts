@@ -566,16 +566,16 @@ interface PagesDocumentData {
      */
     noindex: prismicT.BooleanField;
     /**
-     * keywords field in *Pages*
+     * Keywords field in *Pages*
      *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: pages.keywords[]
+     * - **Field Type**: Text
+     * - **Placeholder**: viagem, turismo
+     * - **API ID Path**: pages.keywords
      * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
-    keywords: prismicT.GroupField<Simplify<PagesDocumentDataKeywordsItem>>;
+    keywords: prismicT.KeyTextField;
     /**
      * JSON field in *Pages*
      *
@@ -587,22 +587,6 @@ interface PagesDocumentData {
      *
      */
     data: prismicT.KeyTextField;
-}
-/**
- * Item in Pages → keywords
- *
- */
-export interface PagesDocumentDataKeywordsItem {
-    /**
-     * value field in *Pages → keywords*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: pages.keywords[].value
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    value: prismicT.KeyTextField;
 }
 /**
  * Pages document from Prismic
@@ -770,6 +754,6 @@ declare module "@prismicio/client" {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { BusinessProposalDocumentData, BusinessProposalDocumentDataLocationsItem, BusinessProposalDocumentDataSectionsSlice, BusinessProposalDocumentDataOrdensItem, BusinessProposalDocumentDataAccommodationsItem, BusinessProposalDocumentDataTransfersItem, BusinessProposalDocumentDataItineraryItem, BusinessProposalDocumentDataServicesItem, BusinessProposalDocumentDataRemarksItem, BusinessProposalDocumentDataTravelersItem, BusinessProposalDocument, PagesDocumentData, PagesDocumentDataKeywordsItem, PagesDocument, AllDocumentTypes, FreeJsonSliceCustomComponentPrimary, FreeJsonSliceCustomComponentItem, FreeJsonSliceCustomComponent, FreeJsonSliceVariation, FreeJsonSlice, SectionBaseSliceDefaultPrimary, SectionBaseSliceDefaultItem, SectionBaseSliceDefault, SectionBaseSliceVariation, SectionBaseSlice };
+        export type { BusinessProposalDocumentData, BusinessProposalDocumentDataLocationsItem, BusinessProposalDocumentDataSectionsSlice, BusinessProposalDocumentDataOrdensItem, BusinessProposalDocumentDataAccommodationsItem, BusinessProposalDocumentDataTransfersItem, BusinessProposalDocumentDataItineraryItem, BusinessProposalDocumentDataServicesItem, BusinessProposalDocumentDataRemarksItem, BusinessProposalDocumentDataTravelersItem, BusinessProposalDocument, PagesDocumentData, PagesDocument, AllDocumentTypes, FreeJsonSliceCustomComponentPrimary, FreeJsonSliceCustomComponentItem, FreeJsonSliceCustomComponent, FreeJsonSliceVariation, FreeJsonSlice, SectionBaseSliceDefaultPrimary, SectionBaseSliceDefaultItem, SectionBaseSliceDefault, SectionBaseSliceVariation, SectionBaseSlice };
     }
 }

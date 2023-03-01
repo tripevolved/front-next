@@ -69,18 +69,10 @@
         }
       },
       "keywords": {
-        "type": "Group",
+        "type": "Text",
         "config": {
-          "label": "keywords",
-          "fields": {
-            "value": {
-              "type": "Text",
-              "config": {
-                "label": "value",
-                "placeholder": ""
-              }
-            }
-          }
+          "label": "Keywords",
+          "placeholder": "viagem, turismo"
         }
       }
     },
