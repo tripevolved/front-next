@@ -18,6 +18,6 @@ export const getStaticProps: GetStaticProps = async () => {
     const props = await ApiService.getPage(uid);
     return { props };
   } catch (error) {
-    return { props: {} };
+    return { props: {}, revalidate: 180 };
   }
 };

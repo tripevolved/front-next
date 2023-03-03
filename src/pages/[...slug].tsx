@@ -5,7 +5,7 @@ export { default } from ".";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { paths } = await ApiService.getUidPages();
-  return { paths, fallback: false };
+  return { paths, fallback: "blocking" };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
@@ -15,6 +15,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const props = await ApiService.getPage(uid);
     return { props };
   } catch (error) {
-    return { props: {} };
+    return { props: {}, revalidate: 180 };
   }
 };
