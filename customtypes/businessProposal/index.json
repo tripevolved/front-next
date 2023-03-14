@@ -1,0 +1,338 @@
+{
+  "id": "businessProposal",
+  "label": "Proposta comercial",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Geral": {
+      "name": {
+        "type": "Text",
+        "config": {
+          "label": "Nome do cliente",
+          "placeholder": ""
+        }
+      },
+      "email": {
+        "type": "Text",
+        "config": {
+          "label": "E-mail",
+          "placeholder": ""
+        }
+      },
+      "phoneNumber": {
+        "type": "Text",
+        "config": {
+          "label": "Telefone",
+          "placeholder": "55999999999"
+        }
+      },
+      "status": {
+        "type": "Select",
+        "config": {
+          "label": "Status",
+          "placeholder": "",
+          "options": [
+            "Aguardando aprovação",
+            "Pagamento homologado",
+            "Emitindo vouchers"
+          ]
+        }
+      }
+    },
+    "Destino": {
+      "locations": {
+        "type": "Group",
+        "config": {
+          "label": "locations",
+          "fields": {
+            "name": {
+              "type": "Text",
+              "config": {
+                "label": "Nome",
+                "placeholder": ""
+              }
+            },
+            "startAt": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Chegada",
+                "placeholder": ""
+              }
+            },
+            "endsAt": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Saída",
+                "placeholder": ""
+              }
+            },
+            "address": {
+              "type": "Text",
+              "config": {
+                "label": "Endereço",
+                "placeholder": ""
+              }
+            },
+            "cover": {
+              "type": "Image",
+              "config": {
+                "label": "Imagem principal",
+                "constraint": {},
+                "thumbnails": []
+              }
+            }
+          }
+        }
+      },
+      "sections": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {}
+        }
+      }
+    },
+    "Pagamentos": {
+      "ordens": {
+        "type": "Group",
+        "config": {
+          "label": "Ordens",
+          "fields": {
+            "number": {
+              "type": "Text",
+              "config": {
+                "label": "number",
+                "placeholder": ""
+              }
+            },
+            "discount": {
+              "type": "Number",
+              "config": {
+                "label": "Desconto",
+                "placeholder": ""
+              }
+            },
+            "price": {
+              "type": "Number",
+              "config": {
+                "label": "Preço total",
+                "placeholder": ""
+              }
+            },
+            "href": {
+              "type": "Text",
+              "config": {
+                "label": "Link de pagamento",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      }
+    },
+    "Hospedagens": {
+      "accommodations": {
+        "type": "Group",
+        "config": {
+          "label": "accommodations",
+          "fields": {
+            "name": {
+              "type": "Text",
+              "config": {
+                "label": "Nome",
+                "placeholder": ""
+              }
+            },
+            "startAt": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Chegada",
+                "placeholder": ""
+              }
+            },
+            "endsAt": {
+              "type": "Date",
+              "config": {
+                "label": "Saída",
+                "placeholder": ""
+              }
+            },
+            "description": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Descrição",
+                "placeholder": "",
+                "allowTargetBlank": true,
+                "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+              }
+            },
+            "cover": {
+              "type": "Image",
+              "config": {
+                "label": "Imagem principal",
+                "constraint": {},
+                "thumbnails": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "Translados": {
+      "transfers": {
+        "type": "Group",
+        "config": {
+          "label": "Translados",
+          "fields": {
+            "type": {
+              "type": "Text",
+              "config": {
+                "label": "Tipo",
+                "placeholder": ""
+              }
+            },
+            "startAt": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Saída",
+                "placeholder": ""
+              }
+            },
+            "endsAt": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Chegada",
+                "placeholder": ""
+              }
+            },
+            "startingLocation": {
+              "type": "Text",
+              "config": {
+                "label": "Localização inicial",
+                "placeholder": ""
+              }
+            },
+            "finalLocation": {
+              "type": "Text",
+              "config": {
+                "label": "Localização final",
+                "placeholder": ""
+              }
+            },
+            "description": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Descrição",
+                "placeholder": "",
+                "allowTargetBlank": true,
+                "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Roteiro": {
+      "itinerary": {
+        "type": "Group",
+        "config": {
+          "label": "Itinerário",
+          "fields": {
+            "day": {
+              "type": "Timestamp",
+              "config": {
+                "label": "Dia",
+                "placeholder": ""
+              }
+            },
+            "description": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Descrição",
+                "placeholder": "",
+                "allowTargetBlank": true,
+                "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Serviços": {
+      "services": {
+        "type": "Group",
+        "config": {
+          "label": "Serviços",
+          "fields": {
+            "name": {
+              "type": "Text",
+              "config": {
+                "label": "Nome",
+                "placeholder": ""
+              }
+            },
+            "description": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Descrição",
+                "placeholder": "",
+                "allowTargetBlank": true,
+                "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Observações": {
+      "remarks": {
+        "type": "Group",
+        "config": {
+          "label": "Observações",
+          "fields": {
+            "text": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Comentário",
+                "placeholder": "",
+                "allowTargetBlank": true,
+                "single": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Viajantes": {
+      "travelers": {
+        "type": "Group",
+        "config": {
+          "label": "Clientes",
+          "fields": {
+            "name": {
+              "type": "Text",
+              "config": {
+                "label": "Nome",
+                "placeholder": ""
+              }
+            },
+            "email": {
+              "type": "Text",
+              "config": {
+                "label": "E-mail",
+                "placeholder": ""
+              }
+            },
+            "phone": {
+              "type": "Text",
+              "config": {
+                "label": "Telefone",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

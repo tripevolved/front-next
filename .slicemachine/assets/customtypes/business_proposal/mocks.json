@@ -1,0 +1,392 @@
+{
+  "name": {
+    "__TYPE__": "FieldContent",
+    "value": "studied",
+    "type": "Text"
+  },
+  "email": {
+    "__TYPE__": "FieldContent",
+    "value": "secret",
+    "type": "Text"
+  },
+  "phoneNumber": {
+    "__TYPE__": "FieldContent",
+    "value": "planet",
+    "type": "Text"
+  },
+  "status": {
+    "__TYPE__": "FieldContent",
+    "value": "Emitindo vouchers",
+    "type": "Select"
+  },
+  "locations": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "name",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "mark",
+              "type": "Text"
+            }
+          ],
+          [
+            "startAt",
+            {
+              "__TYPE__": "FieldContent",
+              "type": "Timestamp",
+              "value": "2020-07-24T01:08:13Z"
+            }
+          ],
+          [
+            "endsAt",
+            {
+              "__TYPE__": "FieldContent",
+              "type": "Timestamp",
+              "value": "2021-05-03T23:24:04Z"
+            }
+          ],
+          [
+            "address",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "office",
+              "type": "Text"
+            }
+          ],
+          [
+            "cover",
+            {
+              "__TYPE__": "ImageContent",
+              "origin": {
+                "id": "main",
+                "url": "https://images.unsplash.com/photo-1544731612-de7f96afe55f",
+                "width": 6000,
+                "height": 4000
+              },
+              "url": "https://images.unsplash.com/photo-1544731612-de7f96afe55f",
+              "width": 6000,
+              "height": 4000,
+              "edit": {
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                },
+                "background": "transparent"
+              },
+              "thumbnails": {}
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  "sections": {
+    "__TYPE__": "SliceContentType",
+    "value": []
+  },
+  "ordens": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "number",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "lack",
+              "type": "Text"
+            }
+          ],
+          [
+            "discount",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "42",
+              "type": "Number"
+            }
+          ],
+          [
+            "price",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "9",
+              "type": "Number"
+            }
+          ],
+          [
+            "href",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "hall",
+              "type": "Text"
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  "accommodations": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "name",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "national",
+              "type": "Text"
+            }
+          ],
+          [
+            "startAt",
+            {
+              "__TYPE__": "FieldContent",
+              "type": "Timestamp",
+              "value": "2015-04-06T19:58:07Z"
+            }
+          ],
+          [
+            "endsAt",
+            {
+              "__TYPE__": "FieldContent",
+              "type": "Date",
+              "value": "2018-03-12"
+            }
+          ],
+          [
+            "description",
+            {
+              "__TYPE__": "StructuredTextContent",
+              "value": [
+                {
+                  "type": "paragraph",
+                  "content": {
+                    "text": "Nostrud elit in enim occaecat aute non consectetur fugiat esse Lorem quis dolor non Lorem deserunt."
+                  }
+                }
+              ]
+            }
+          ],
+          [
+            "cover",
+            {
+              "__TYPE__": "ImageContent",
+              "origin": {
+                "id": "main",
+                "url": "https://images.unsplash.com/photo-1579931794097-0ad001e51edb",
+                "width": 3958,
+                "height": 3958
+              },
+              "url": "https://images.unsplash.com/photo-1579931794097-0ad001e51edb",
+              "width": 3958,
+              "height": 3958,
+              "edit": {
+                "zoom": 1,
+                "crop": {
+                  "x": 0,
+                  "y": 0
+                },
+                "background": "transparent"
+              },
+              "thumbnails": {}
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  "transfers": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "type",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "fairly",
+              "type": "Text"
+            }
+          ],
+          [
+            "startAt",
+            {
+              "__TYPE__": "FieldContent",
+              "type": "Timestamp",
+              "value": "2019-02-25T05:13:52Z"
+            }
+          ],
+          [
+            "endsAt",
+            {
+              "__TYPE__": "FieldContent",
+              "type": "Timestamp",
+              "value": "2017-10-10T09:11:00Z"
+            }
+          ],
+          [
+            "startingLocation",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "mother",
+              "type": "Text"
+            }
+          ],
+          [
+            "finalLocation",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "sail",
+              "type": "Text"
+            }
+          ],
+          [
+            "description",
+            {
+              "__TYPE__": "StructuredTextContent",
+              "value": [
+                {
+                  "type": "paragraph",
+                  "content": {
+                    "text": "Id occaecat nostrud ullamco ut. Ex non voluptate ea. Amet sunt aute nulla culpa excepteur."
+                  }
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  "itinerary": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "day",
+            {
+              "__TYPE__": "FieldContent",
+              "type": "Timestamp",
+              "value": "2017-04-12T02:04:17Z"
+            }
+          ],
+          [
+            "description",
+            {
+              "__TYPE__": "StructuredTextContent",
+              "value": [
+                {
+                  "type": "paragraph",
+                  "content": {
+                    "text": "Id labore est est qui consectetur aute minim. Velit sit eiusmod ex."
+                  }
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  "services": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "name",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "instead",
+              "type": "Text"
+            }
+          ],
+          [
+            "description",
+            {
+              "__TYPE__": "StructuredTextContent",
+              "value": [
+                {
+                  "type": "paragraph",
+                  "content": {
+                    "text": "Culpa enim tempor ut. Minim consectetur in id sint proident deserunt est consectetur aliqua nisi labore tempor sit."
+                  }
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  "remarks": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "text",
+            {
+              "__TYPE__": "StructuredTextContent",
+              "value": [
+                {
+                  "type": "paragraph",
+                  "content": {
+                    "text": "Deserunt pariatur dolor ad ex voluptate eu."
+                  }
+                }
+              ]
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  "travelers": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "name",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "nearby",
+              "type": "Text"
+            }
+          ],
+          [
+            "email",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "pony",
+              "type": "Text"
+            }
+          ],
+          [
+            "phone",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "number",
+              "type": "Text"
+            }
+          ]
+        ]
+      }
+    ]
+  }
+}
