@@ -1,8 +1,11 @@
 .lead-list {
+  --bullet-color: var(--color-secondary-700);
+
   background-image: url(/assets/home/circle-quart.svg), url(/assets/pioneiro/emoji-medalha.png);
   background-position: top 35% left, top -96px right -96px;
   background-repeat: no-repeat;
-  background-color: var(--color-primary-100);
+  background-color: var(--bullet-color);
+  color: var(--color-white);
   @media (min-width: $breakpoint-md) {
     background-position: top 40% left, top -32px right;
   }
@@ -14,7 +17,7 @@
     max-width: 820px;
   }
   &__content {
-    --bullet-background: linear-gradient(0, white 50%, var(--color-primary-100) 50%);
+    --bullet-background: linear-gradient(0, white 50%, var(--bullet-color) 50%);
     background: linear-gradient(0, white 50%, transparent 50%);
   }
 }

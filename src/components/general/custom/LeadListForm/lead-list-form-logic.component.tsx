@@ -39,9 +39,9 @@ export function FormLogic({ cta, modal }: FormLogicProps) {
           /* eslint-disable-next-line react/no-children-prop */
           children="Entrar na lista"
           variant="custom"
-          backgroundColor="var(--color-primary-500)"
-          color="var(--color-secondary-700)"
-          hoverBackgroundColor="var(--color-brand-4)"
+          backgroundColor="var(--color-secondary-700)"
+          color="var(--color-white)"
+          hoverBackgroundColor="var(--color-secondary-900)"
           {...cta}
           submitting={submitting}
         />

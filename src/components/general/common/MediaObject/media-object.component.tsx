@@ -17,7 +17,7 @@ export function MediaObject({
   const cn = cx("media-object", className, css(sx));
   return (
     <div className={cn} {...props}>
-      <Grid className="media-object__content">
+      <Grid className="media-object__content" gap={24}>
         {image ? (
           <div className="media-object__image">
             <Picture>{image}</Picture>

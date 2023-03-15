@@ -7,18 +7,6 @@ const PRISMIC_API = ensureNotSlashEnds(
 
 export const repositoryName = prismic.getRepositoryName(PRISMIC_API);
 
-const routes = [
-  {
-    type: "pages",
-    uid: "home",
-    path: "/",
-  },
-  {
-    type: "pages",
-    path: "/:uid",
-  },
-] satisfies prismic.ClientConfig["routes"];
-
 export const createClient = () => {
   const client = prismic.createClient(PRISMIC_API);
 

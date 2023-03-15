@@ -11,8 +11,8 @@ const menuDefault: NavbarProps["menu"] = [
     variant: "naked",
   },
   {
-    children: "Seja pioneiro",
-    href: "/lancamento",
+    children: "Entrar na lista",
+    href: "/#lista-de-espera",
     variant: "secondary",
   },
 ];

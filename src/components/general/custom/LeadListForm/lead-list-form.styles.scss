@@ -1,5 +1,5 @@
 .lead-list-form {
-  background-color: $color-secondary-700;
+  background-color: $color-primary-500;
   color: white;
   position: relative;
   &:before,
@@ -26,13 +26,14 @@
     letter-spacing: 0.25rem;
   }
   .field {
-    --color-info-500: var(--color-primary-500);
+    --color-info-500: var(--color-secondary-700);
     &__label {
       left: 31px;
+      color: white;
     }
     &__fieldset {
       border-radius: 999px;
-      border-color: var(--color-primary-300);
+      border-color: var(--color-white);
       padding-left: 24px;
       padding-right: 24px;
     }

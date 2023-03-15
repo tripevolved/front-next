@@ -74,6 +74,20 @@
           "label": "Keywords",
           "placeholder": "viagem, turismo"
         }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "freeJson": {
+              "type": "SharedSlice"
+            },
+            "sectionBase": {
+              "type": "SharedSlice"
+            }
+          }
+        }
       }
     },
     "JSON": {
