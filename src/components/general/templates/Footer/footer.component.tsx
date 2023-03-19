@@ -1,39 +1,36 @@
 import type { FooterProps } from "./footer.types";
 
 import { Logo, Picture } from "@/components";
-import classNames from "classnames";
 import { Divider, Icon, Link, SectionBase, Text, TextProps } from "mars-ds";
 
-export function Footer({ className, children, ...props }: FooterProps) {
-  const cn = classNames("footer", className);
-
+export function Footer({ slogan, menu = [], social = [] }: FooterProps) {
   return (
-    <SectionBase as="footer" className={cn} {...props}>
+    <SectionBase as="footer" className="footer">
       <div className="py-2x footer__container">
-        <div className="flex-fill">
+        <div className="footer__first">
           <Link href="/">
             <Logo />
           </Link>
-          <Text className="my-lg">
-            Utilizamos tecnologia para <br /> criar experiências únicas.
+          <Text size="sm" className="my-lg">
+            {slogan}
           </Text>
         </div>
         <div className="footer__container flex-fill">
-          <FooterMenu title="Fale conosco">
-            <Link>info@tripevolved.com.br</Link>
-          </FooterMenu>
-          <FooterMenu title="Legal">
-            <Link href="/termos-de-uso">Termos de Uso</Link>
-            <Link href="/politica-de-privacidade">Políticas de Privacidade</Link>
-            <Link href="/politica-de-cookies">Políticas de Cookies</Link>
-          </FooterMenu>
-          <FooterMenu title="Lançamento">
-            <Link href="/#lista-de-espera">Participe da lista de espera</Link>
-          </FooterMenu>
+          {menu.map(({ title, list = [] }) => (
+            <FooterMenu key={title} title={title}>
+              {list.map(({ href, label, isExternal }) => (
+                <Link key={href} href={href} target={isExternal ? "_blank" : undefined}>
+                  {label}
+                </Link>
+              ))}
+            </FooterMenu>
+          ))}
           <FooterMenu title="Siga nas redes">
-            <Link href="https://www.instagram.com/tripevolved/" target="_blank">
-              <Icon name="instagram" />
-            </Link>
+            {social.map(({ icon, alt, href }) => (
+              <Link key={href} title={alt} href={href} target="_blank">
+                <Icon name={icon} />
+              </Link>
+            ))}
           </FooterMenu>
         </div>
       </div>
@@ -56,7 +53,7 @@ interface MenuColumnProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "ti
 }
 
 const FooterMenu = ({ title, children, className, ...props }: MenuColumnProps) => (
-  <div className={classNames("footer__menu flex-fill", className)} {...props}>
+  <div className="footer__menu flex-fill" {...props}>
     <Text size="lg" className="footer__menu__subtitle">
       {title}
     </Text>

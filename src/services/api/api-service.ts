@@ -1,18 +1,17 @@
-import { toJson } from "@/helpers/json.helpers";
+import { PageData, PageSerializer, TemplateData } from "./page.serializer";
 import { createClient } from "./prismicio";
 
 const client = createClient();
 const CUSTOM_TYPE = {
   PAGES: "pages",
+  TEMPLATE: "siteTemplate",
 };
 
 const getPage = async (uid = "home") => {
   try {
+    const template = await client.getSingle(CUSTOM_TYPE.TEMPLATE);
     const page = await client.getByUID(CUSTOM_TYPE.PAGES, uid);
-    const { data, image, ...seo } = page.data;
-    const json = toJson(data);
-    if (typeof seo?.image?.url === "string") seo.image = seo.image.url;
-    return { ...json, seo };
+    return PageSerializer.handler(page.data as PageData, template.data as TemplateData)
   } catch (error) {
     /* TODO: return error page */
     return {};

@@ -4,20 +4,7 @@ import { Logo } from "@/components";
 import { Button, Link, ToggleButton } from "mars-ds";
 import { useState } from "react";
 
-const menuDefault: NavbarProps["menu"] = [
-  {
-    children: "Sobre nós",
-    href: "/sobre",
-    variant: "naked",
-  },
-  {
-    children: "Entrar na lista",
-    href: "/#lista-de-espera",
-    variant: "secondary",
-  },
-];
-
-export function Navbar({ menu = menuDefault }: NavbarProps) {
+export function Navbar({ menu = [] }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const hasMenu = Boolean(menu?.length);
 
@@ -38,8 +25,15 @@ export function Navbar({ menu = menuDefault }: NavbarProps) {
       </div>
       {hasMenu ? (
         <menu className="navbar__menu" data-open={open}>
-          {menu?.map((item) => (
-            <Button key={item.href} {...item} />
+          {menu?.map(({ label, href, isExternal, highlight }) => (
+            <Button
+              key={href}
+              href={href}
+              variant={highlight ? "secondary" : "naked"}
+              target={isExternal ? "_blank" : undefined}
+            >
+              {label}
+            </Button>
           ))}
         </menu>
       ) : null}

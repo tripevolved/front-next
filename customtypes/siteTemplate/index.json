@@ -1,0 +1,157 @@
+{
+  "id": "siteTemplate",
+  "label": "Site Template",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Seo": {
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "title",
+          "placeholder": ""
+        }
+      },
+      "description": {
+        "type": "Text",
+        "config": {
+          "label": "Description",
+          "placeholder": ""
+        }
+      },
+      "image": {
+        "type": "Image",
+        "config": {
+          "label": "Thumbnail",
+          "constraint": {
+            "width": 1280,
+            "height": 720
+          },
+          "thumbnails": [
+            {
+              "name": "square",
+              "width": 1080,
+              "height": 1080
+            }
+          ]
+        }
+      },
+      "keywords": {
+        "type": "Text",
+        "config": {
+          "label": "Keywords",
+          "placeholder": "viagem, turismo"
+        }
+      }
+    },
+    "Navbar": {
+      "menu": {
+        "type": "Group",
+        "config": {
+          "label": "Menu",
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Texto",
+                "placeholder": ""
+              }
+            },
+            "href": {
+              "type": "Text",
+              "config": {
+                "label": "Link",
+                "placeholder": ""
+              }
+            },
+            "highlight": {
+              "type": "Boolean",
+              "config": {
+                "label": "Destaque",
+                "placeholder_false": "false",
+                "placeholder_true": "true",
+                "default_value": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "Footer": {
+      "slogan": {
+        "type": "Text",
+        "config": {
+          "label": "Slogan",
+          "placeholder": ""
+        }
+      },
+      "social": {
+        "type": "Group",
+        "config": {
+          "label": "Social",
+          "fields": {
+            "icon": {
+              "type": "Text",
+              "config": {
+                "label": "Nome do ícone",
+                "placeholder": ""
+              }
+            },
+            "href": {
+              "type": "Text",
+              "config": {
+                "label": "Link",
+                "placeholder": ""
+              }
+            },
+            "alt": {
+              "type": "Text",
+              "config": {
+                "label": "Rede social",
+                "placeholder": "Facebook"
+              }
+            }
+          }
+        }
+      },
+      "sitemap": {
+        "type": "Group",
+        "config": {
+          "label": "sitemap",
+          "fields": {
+            "group": {
+              "type": "Text",
+              "config": {
+                "label": "Agrupar pelo nome",
+                "placeholder": "Fale Conosco"
+              }
+            },
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Text",
+                "placeholder": ""
+              }
+            },
+            "href": {
+              "type": "Text",
+              "config": {
+                "label": "Link",
+                "placeholder": ""
+              }
+            },
+            "isExternal": {
+              "type": "Boolean",
+              "config": {
+                "label": "Abrir em nova aba?",
+                "placeholder_false": "false",
+                "placeholder_true": "true",
+                "default_value": false
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

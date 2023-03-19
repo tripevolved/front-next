@@ -1,0 +1,171 @@
+{
+  "title": {
+    "__TYPE__": "FieldContent",
+    "value": "prove",
+    "type": "Text"
+  },
+  "description": {
+    "__TYPE__": "FieldContent",
+    "value": "prepare",
+    "type": "Text"
+  },
+  "image": {
+    "__TYPE__": "ImageContent",
+    "origin": {
+      "id": "main",
+      "url": "https://images.unsplash.com/photo-1471897488648-5eae4ac6686b",
+      "width": 3560,
+      "height": 5340
+    },
+    "url": "https://images.unsplash.com/photo-1471897488648-5eae4ac6686b?rect=0%2C1669%2C3560%2C2003&w=1280&h=720",
+    "width": 1280,
+    "height": 720,
+    "edit": {
+      "zoom": 1,
+      "crop": {
+        "x": 0,
+        "y": 1669
+      },
+      "background": "transparent"
+    },
+    "thumbnails": {
+      "square": {
+        "origin": {
+          "id": "square",
+          "url": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5",
+          "width": 5848,
+          "height": 3899
+        },
+        "url": "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?rect=975%2C0%2C3899%2C3899&w=1080&h=1080",
+        "width": 1080,
+        "height": 1080,
+        "edit": {
+          "zoom": 1,
+          "crop": {
+            "x": 975,
+            "y": 0
+          },
+          "background": "transparent"
+        }
+      }
+    }
+  },
+  "keywords": {
+    "__TYPE__": "FieldContent",
+    "value": "act",
+    "type": "Text"
+  },
+  "menu": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "label",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "table",
+              "type": "Text"
+            }
+          ],
+          [
+            "href",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "shoulder",
+              "type": "Text"
+            }
+          ],
+          [
+            "highlight",
+            {
+              "__TYPE__": "BooleanContent",
+              "value": false
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  "slogan": {
+    "__TYPE__": "FieldContent",
+    "value": "fight",
+    "type": "Text"
+  },
+  "social": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "icon",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "pay",
+              "type": "Text"
+            }
+          ],
+          [
+            "href",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "vapor",
+              "type": "Text"
+            }
+          ],
+          [
+            "alt",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "aloud",
+              "type": "Text"
+            }
+          ]
+        ]
+      }
+    ]
+  },
+  "sitemap": {
+    "__TYPE__": "GroupContentType",
+    "value": [
+      {
+        "__TYPE__": "GroupItemContent",
+        "value": [
+          [
+            "group",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "complete",
+              "type": "Text"
+            }
+          ],
+          [
+            "label",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "party",
+              "type": "Text"
+            }
+          ],
+          [
+            "href",
+            {
+              "__TYPE__": "FieldContent",
+              "value": "ten",
+              "type": "Text"
+            }
+          ],
+          [
+            "isExternal",
+            {
+              "__TYPE__": "BooleanContent",
+              "value": false
+            }
+          ]
+        ]
+      }
+    ]
+  }
+}

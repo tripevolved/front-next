@@ -3,7 +3,12 @@
     "businessProposal": {
       "itinerary": {}
     },
-    "pages": {}
+    "pages": {},
+    "siteTemplate": {
+      "menu": {},
+      "links": {},
+      "sitemap": {}
+    }
   },
   "slices": {
     "FreeJson": {
