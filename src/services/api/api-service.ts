@@ -11,8 +11,7 @@ const getPage = async (uid = "home") => {
   try {
     const template = await client.getSingle(CUSTOM_TYPE.TEMPLATE);
     const page = await client.getByUID(CUSTOM_TYPE.PAGES, uid);
-    const data = PageSerializer.handler(page.data as PageData, template.data as TemplateData)
-    return data
+    return PageSerializer.handler(page.data as PageData, template.data as TemplateData)
   } catch (error) {
     /* TODO: return error page */
     return {};
