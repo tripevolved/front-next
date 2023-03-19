@@ -8,7 +8,7 @@ export function AdminPage({ className, children, sx, ...props }: AdminPageProps)
 
   return (
     <>
-      <HTMLHead title="Trip Evolved | Admin" robots="noindex, nofollow" />
+      <HTMLHead title="Trip Evolved | Admin" nofollow noindex />
       <div className={cn} {...props}>
         {children}
       </div>

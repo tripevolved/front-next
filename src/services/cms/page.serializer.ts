@@ -15,7 +15,7 @@ export interface TemplateData extends Seo {
   slogan: string;
   social: SocialProps;
   sitemap: MenuProps;
-  slices: [];
+  slices: any[];
 }
 
 const NOT_FOUND_INDEX = -1;
@@ -57,10 +57,21 @@ const templateSerializer = ({
   return { navbar, footer, seo };
 };
 
+const makeDataJson = (slices: any[]) => {
+  return slices.map(({ primary = {}, items = [] }) => {
+    const { data, ...rest } = primary;
+    const json = toJson(data);
+    const children = items.map(({ children }: any) => toJson(children));
+    const component = "SectionBase";
+    return { component, ...rest, ...json, children };
+  });
+};
+
 const pageSerializer = ({ data, slices, ...seoProps }: PageData) => {
   const json = toJson(data);
   const seo = makeSeo(seoProps);
-  return { ...json, seo };
+  const children = makeDataJson(slices);
+  return { seo, component: "PageBase", children, ...json };
 };
 
 const handler = (pageData: PageData, templateData: TemplateData) => {
