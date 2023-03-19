@@ -1,1 +1,1 @@
-export type FooterProps = React.HTMLProps<HTMLDivElement>;
+export type { FooterProps } from "@/types"

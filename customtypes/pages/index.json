@@ -50,13 +50,13 @@
           "placeholder": ""
         }
       },
-      "nofolow": {
+      "nofollow": {
         "type": "Boolean",
         "config": {
-          "label": "NoFolow",
-          "default_value": false,
+          "label": "nofollow",
+          "placeholder_false": "false",
           "placeholder_true": "true",
-          "placeholder_false": "false"
+          "default_value": false
         }
       },
       "noindex": {

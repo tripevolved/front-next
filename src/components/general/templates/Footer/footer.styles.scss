@@ -9,6 +9,11 @@
       text-decoration: underline;
     }
   }
+  &__first {
+    min-width: 300px;
+    padding-right: 32px;
+    max-width: min-content;
+  }
   &__container {
     display: flex;
     flex-direction: column;
