@@ -80,6 +80,7 @@ const Playground = () => {
 
     const intervalId = setInterval(autoSave, AUTO_SAVE_INTERVAL);
     return () => clearInterval(intervalId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoSaveEnabled]);
 
   useEffect(() => {
