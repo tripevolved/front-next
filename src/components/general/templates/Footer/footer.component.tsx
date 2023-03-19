@@ -28,7 +28,7 @@ export function Footer({ className, children, ...props }: FooterProps) {
             <Link href="/politica-de-cookies">Políticas de Cookies</Link>
           </FooterMenu>
           <FooterMenu title="Lançamento">
-            <Link href="/lancamento">Participe da lista de espera</Link>
+            <Link href="/#lista-de-espera">Participe da lista de espera</Link>
           </FooterMenu>
           <FooterMenu title="Siga nas redes">
             <Link href="https://www.instagram.com/tripevolved/" target="_blank">

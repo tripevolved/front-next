@@ -1,3 +1,4 @@
+import { pageConfig } from "@/configs/page.config";
 import { ApiService } from "@/services/api/api-service";
 import type { GetStaticPaths, GetStaticProps } from "next";
 
@@ -13,8 +14,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const slug = params?.slug || [];
     const uid = Array.isArray(slug) ? slug.join("/") : slug;
     const props = await ApiService.getPage(uid);
-    return { props };
+    return { props, ...pageConfig.staticProps };
   } catch (error) {
-    return { props: {}, revalidate: 180 };
+    return { props: {}, ...pageConfig.staticProps };
   }
 };
