@@ -9,9 +9,9 @@ const CUSTOM_TYPE = {
 const getPage = async (uid = "home") => {
   try {
     const page = await client.getByUID(CUSTOM_TYPE.PAGES, uid);
-    const { data, ...seo } = page.data;
+    const { data, image = {}, ...seo } = page.data;
     const json = toJson(data);
-    return { ...json, seo };
+    return { ...json, seo: { ...seo, image: image.url } };
   } catch (error) {
     /* TODO: return error page */
     return {};
