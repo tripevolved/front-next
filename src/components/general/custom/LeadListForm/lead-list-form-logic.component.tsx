@@ -1,11 +1,11 @@
 import { ModalContent } from "@/components";
-import { handleFormSubmit, sendFormData, SubmitHandler } from "@/helpers/form.helpers";
+import { handleFormSubmit, SubmitHandler } from "@/helpers/form.helpers";
+import { LeadApiService } from "@/services/api/lead-api.service";
+import { Lead } from "@/types";
 import { Grid, Modal, SubmitButton, TextField } from "mars-ds";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { FormLogicProps, Lead } from "./lead-list-form.types";
-
-const ACTION_URL = "https://getlaunchlist.com/s/0l3TDN";
+import { FormLogicProps } from "./lead-list-form.types";
 
 export function FormLogic({ cta, modal }: FormLogicProps) {
   const [submitting, setSubmitting] = useState(false);
@@ -14,7 +14,7 @@ export function FormLogic({ cta, modal }: FormLogicProps) {
   const handleSubmit: SubmitHandler<Lead> = async (data) => {
     setSubmitting(true);
     try {
-      await sendFormData(ACTION_URL, data);
+      await LeadApiService.create(data);
       const SuccessModal = () => <ModalContent className="text-center" {...modal?.success} />;
       Modal.open(SuccessModal, { size: "sm", onClose: () => router.replace("/") });
     } catch (error) {

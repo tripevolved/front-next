@@ -1,10 +1,10 @@
 import { AdminPage } from "@/components";
-import { ApiService } from "@/services/api/api-service";
+import { CMSService } from "@/services/cms/cms-service";
 import { Button } from "mars-ds";
 
 export default function AdminHomePage() {
   const handleClick = async () => {
-    const data = await ApiService.getUidPages();
+    const data = await CMSService.getUidPages();
     console.log(data);
   };
 

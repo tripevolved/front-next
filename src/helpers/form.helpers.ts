@@ -1,5 +1,5 @@
 export type SubmitData<P = any> = Record<keyof P, string>;
-export type SubmitHandler<P = any> = (data: SubmitData<P>) => unknown;
+export type SubmitHandler<P = any> = (data: SubmitData<P>) => any;
 
 export const handleFormSubmit =
   (callback: SubmitHandler): React.FormEventHandler<HTMLFormElement> =>
@@ -11,8 +11,8 @@ export const handleFormSubmit =
     return callback(formObject as SubmitData);
   };
 
-export const sendFormData = async (url: string, data: SubmitData) => {
+export const sendFormData = async <T = any>(url: string, data: SubmitData<T>) => {
   const formData = new FormData();
-  Object.entries(data).forEach(([key, value]) => formData.append(key, value));
+  Object.entries(data).forEach(([key, value]) => formData.append(key, value as string));
   return fetch(url, { body: formData, method: "post", redirect: "manual" });
 };

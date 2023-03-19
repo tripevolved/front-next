@@ -13,9 +13,3 @@ export interface FormLogicProps {
     success?: ModalContentProps;
   }
 };
-
-export interface Lead {
-  name: string;
-  email: string;
-  phone: string;
-}

@@ -31,4 +31,4 @@ const getUidPages = async () => {
   }
 };
 
-export const ApiService = { getPage, getUidPages };
+export const CMSService = { getPage, getUidPages };

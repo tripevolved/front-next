@@ -1,6 +1,6 @@
 import { AdaptedRibo, HTMLHead } from "@/components";
 import { pageConfig } from "@/configs/page.config";
-import { ApiService } from "@/services/api/api-service";
+import { CMSService } from "@/services/cms/cms-service";
 import { PageProps } from "@/types";
 import type { GetStaticProps } from "next";
 
@@ -16,7 +16,7 @@ export default function Page({ seo, ...children }: PageProps) {
 export const getStaticProps: GetStaticProps = async () => {
   try {
     const uid = "home";
-    const props = await ApiService.getPage(uid);
+    const props = await CMSService.getPage(uid);
     return { props, ...pageConfig.staticProps };
   } catch (error) {
     return { props: {}, ...pageConfig.staticProps };
