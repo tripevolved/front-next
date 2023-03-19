@@ -1,8 +1,8 @@
-import { css, cx } from "@emotion/css";
+import { makeCn } from "@/helpers/classname.helpers";
 
 import { SectionBase as MarsSectionBase } from "mars-ds";
 import { SectionBaseProps } from "./section-base.types";
 
 export function SectionBase({ className, sx, ...props }: SectionBaseProps) {
-  return <MarsSectionBase className={cx(css(sx), className)} {...props} />;
+  return <MarsSectionBase className={makeCn(className, sx)} {...props} />;
 }

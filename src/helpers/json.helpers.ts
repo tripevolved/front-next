@@ -1,4 +1,4 @@
-export const toJson = (data: any) => {
+export const toJson = (data: any): object => {
   if (typeof data !== "string") return {};
   try {
     return JSON.parse(data);
@@ -6,3 +6,8 @@ export const toJson = (data: any) => {
     return {};
   }
 };
+
+export const jsonToString = (data: any) => {
+  if (typeof data !== "object") return "";
+  return JSON.stringify(data);
+}

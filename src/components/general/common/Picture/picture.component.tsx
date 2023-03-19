@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import { makeCn } from "@/helpers/classname.helpers";
 import { useMemo } from "react";
 
 import { parseImageSources } from "./picture.helpers";
@@ -40,6 +40,7 @@ const PictureChildren = ({
   title,
   maxHeight,
   alt,
+  sx,
   ...props
 }: Omit<PictureComponentProps, "children">) => {
   const images = useMemo(
@@ -53,7 +54,7 @@ const PictureChildren = ({
 
   const style = { maxHeight };
   const commonProps = { height: defaultHeight, width: defaultWidth, style };
-  const cn = classNames("picture", className);
+  const cn = makeCn(["picture", className], sx);
 
   return (
     <picture data-testid={TESTID.PICTURE} className={cn} {...props}>

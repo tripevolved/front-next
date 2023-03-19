@@ -1,7 +1,7 @@
 .playground {
   $header-size: 64px;
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow: hidden;
   &__header {
     position: sticky;
     top: 0;
@@ -14,8 +14,16 @@
     background-color: $color-background-secondary;
     z-index: 20;
   }
+  &__ribo {
+    iframe {
+      width: 100%;
+      height: calc(100vh - $header-size);
+      border: none;
+    }
+  }
 
   @media (min-width: $breakpoint-lg) {
+    height: 100vh;
     &__content {
       &--show-code {
         display: grid;
@@ -23,7 +31,9 @@
       }
     }
     &__ribo {
-      width: 100%;
+      &--show-code {
+        width: calc(100% - 16px);
+      }
     }
     &__editor {
       border-left: 1px solid $color-divider;

@@ -24,6 +24,16 @@
             }
           }
         ]
+      },
+      "container": {
+        "__TYPE__": "FieldContent",
+        "value": "md",
+        "type": "Select"
+      },
+      "data": {
+        "__TYPE__": "FieldContent",
+        "value": "plain",
+        "type": "Text"
       }
     },
     "items": [

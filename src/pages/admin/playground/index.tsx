@@ -83,19 +83,6 @@ const Playground = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoSaveEnabled]);
 
-  useEffect(() => {
-    const toggleEditor = (event: KeyboardEvent) => {
-      // Ctrl + i
-      const keyName = event.key;
-      if (keyName === "Control") return;
-      if (event.ctrlKey && keyName === "Tab") {
-        setShowCode((state) => !state);
-      }
-    };
-    addEventListener("keypress", toggleEditor, false);
-    return () => removeEventListener("keypress", toggleEditor, false);
-  }, []);
-
   const onCopy = () => {
     try {
       copy(json);

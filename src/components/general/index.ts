@@ -18,6 +18,7 @@ export * from "./custom/LeadListForm";
 export * from "./sections/HomeSectionHero";
 export * from "./sections/SectionBase";
 export * from "./sections/SectionFaq";
+export * from "./sections/SectionGrid";
 export * from "./sections/SimpleSection";
 export * from "./templates/Footer";
 export * from "./templates/Navbar";

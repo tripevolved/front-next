@@ -23,6 +23,10 @@
         "primary": {}
       }
     },
-    "SectionBase": {}
+    "SectionBase": {
+      "default": {
+        "primary": {}
+      }
+    }
   }
 }

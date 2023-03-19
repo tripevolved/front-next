@@ -935,9 +935,9 @@ interface SectionBaseSliceDefaultPrimary {
      * - **Documentation**: https://prismic.io/docs/core-concepts/select
      *
      */
-    container: prismicT.SelectField<"none" | "sm" | "md" | "lg" | "full">;
+    container: prismicT.SelectField<"lg" | "sm" | "md" | "none">;
     /**
-     * Customizações (JSON) field in *SectionBase → Primary*
+     * Data (JSON) field in *SectionBase → Primary*
      *
      * - **Field Type**: Text
      * - **Placeholder**: { "backgroundColor": "red" }

@@ -1,0 +1,21 @@
+.elevation {
+  &-1 {
+    box-shadow: var(--shadow-elevation-100);
+  }
+  &-2 {
+    box-shadow: var(--shadow-elevation-200);
+  }
+  &-3 {
+    box-shadow: var(--shadow-elevation-300);
+  }
+  &-4 {
+    box-shadow: var(--shadow-elevation-400);
+  }
+  &-5 {
+    box-shadow: var(--shadow-elevation-500);
+  }
+  &-6 {
+    box-shadow: var(--shadow-elevation-600);
+  }
+
+}

@@ -24,18 +24,17 @@
             "label": "container",
             "placeholder": "Tamanho do container da seção",
             "options": [
-              "none",
+              "lg",
               "sm",
               "md",
-              "lg",
-              "full"
+              "none"
             ]
           }
         },
         "data": {
           "type": "Text",
           "config": {
-            "label": "Customizações (JSON)",
+            "label": "Data (JSON)",
             "placeholder": "{ \"backgroundColor\": \"red\" }"
           }
         }

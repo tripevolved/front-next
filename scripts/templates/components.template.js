@@ -2,10 +2,10 @@ function componentTemplate(name, pathName) {
   const typeName = `${name}Props`;
   return `import type { ${typeName} } from "./${pathName}.types";
 
-import { css, cx } from "@emotion/css";
+import { makeCn } from "@/helpers/classname.helpers";
 
 export function ${name}({ className, children, sx, ...props }: ${typeName}) {
-  const cn = cx("${pathName}", className, css(sx));
+  const cn = makeCn(["${pathName}", className], sx);
 
   return (
     <div className={cn} {...props}>

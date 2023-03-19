@@ -26,6 +26,7 @@ interface PictureComponentProps extends Omit<HTMLAttributes<HTMLPictureElement>,
   alt?: string;
   maxHeight?: string | number;
   children?: PictureProps;
+  sx?: any;
 }
 
 export type { PictureComponentProps, PictureProps, ImageSourceProps, ImageItem };
