@@ -3,7 +3,6 @@
  * run "yarn component:index" to update
  */
 export * from "./AdaptedRibo";
-export * from "./HTMLHead";
 export * from "./NoSSR";
 export * from "./admin/AdminPage";
 export * from "./admin/Playground";
