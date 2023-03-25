@@ -1,6 +1,7 @@
+import { jsonToString } from "@/helpers/json.helpers";
 import { useState } from "react";
 
-export function useLocalStorage<T>(key: string, initialValue: T) {
+export function useLocalStorage<T = string>(key: string, initialValue: T) {
   const [storedValue, setStoredValue] = useState<T>(() => {
     if (typeof window === "undefined") {
       return initialValue;
@@ -19,7 +20,8 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
       const valueToStore = value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
       if (typeof window !== "undefined") {
-        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        const v = typeof valueToStore === 'string' ? valueToStore : jsonToString(valueToStore)
+        window.localStorage.setItem(key, v);
       }
     } catch (error) {
       console.log(error);

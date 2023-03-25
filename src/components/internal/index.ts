@@ -5,4 +5,5 @@
 export * from "./AdaptedRibo";
 export * from "./HTMLHead";
 export * from "./admin/AdminPage";
+export * from "./admin/Playground";
 export * from "./admin/SignIn";

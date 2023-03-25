@@ -2,22 +2,22 @@ import { AdaptedRibo } from "@/components";
 import { toJson } from "@/helpers/json.helpers";
 import { LocalStorageService } from "@/services/store/local-storage.service";
 import { useEffect, useState } from "react";
+import NoSSR from "react-no-ssr";
 
 const UPDATED_TIMEOUT = 2000;
 
-const PlaygroundCanvasPage = () => {
-  const [json, setJson] = useState({});
+const Canvas = () => {
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     const timeout = setInterval(() => {
-      const dataJson = LocalStorageService.get("playground-trip-evolved");
-      setJson(toJson(dataJson));
+      const data = LocalStorageService.get("playground-trip-evolved");
+      if (value !== data) setValue(data || "");
     }, UPDATED_TIMEOUT);
     return () => clearInterval(timeout);
   }, []);
 
-
-  return <Ribo json={json} />;
+  return <Ribo json={toJson(value)} />;
 };
 
 const RiboMessageError = () => <div>O json precisa ser um objeto válido.</div>;
@@ -30,5 +30,11 @@ const Ribo = ({ json }: { json: any }) => {
     return <RiboMessageError />;
   }
 };
+
+const PlaygroundCanvasPage = () => (
+  <NoSSR>
+    <Canvas />
+  </NoSSR>
+);
 
 export default PlaygroundCanvasPage;

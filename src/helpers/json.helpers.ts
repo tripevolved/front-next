@@ -7,7 +7,16 @@ export const toJson = (data: any): object => {
   }
 };
 
+export const isValidToJson = (data: any) => {
+  try {
+    JSON.parse(data);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
 export const jsonToString = (data: any) => {
   if (typeof data !== "object") return "";
-  return JSON.stringify(data);
+  return JSON.stringify(data, null, 2);
 }
