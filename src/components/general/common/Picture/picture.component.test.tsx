@@ -1,9 +1,9 @@
 import { expectDOMToBe } from "@/helpers/testing-library.helper";
 import { render } from "@testing-library/react";
 import { MEDIA_SIZES, Picture, TESTID } from "./picture.component";
-import { PictureProps } from "./picture.types";
+import { PictureComponentProps } from "./picture.types";
 
-const makeSut = (props?: PictureProps) => render(<Picture {...props} />);
+const makeSut = (props?: PictureComponentProps) => render(<Picture {...props} />);
 
 describe("<Picture>", () => {
   const src = "any_source";

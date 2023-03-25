@@ -4,4 +4,3 @@
  */
 export * from "./playground.component";
 export * from "./playground.types";
-export * from "./playground.utils";
