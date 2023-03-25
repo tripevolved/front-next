@@ -52,7 +52,6 @@
     "next-seo": "^5.15.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-no-ssr": "^1.1.0",
     "ribof": "0.0.0-alpha.2",
     "swr": "^2.0.1"
   }

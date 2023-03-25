@@ -1,8 +1,7 @@
-import { AdaptedRibo } from "@/components";
+import { AdaptedRibo, NoSSR } from "@/components";
 import { toJson } from "@/helpers/json.helpers";
 import { LocalStorageService } from "@/services/store/local-storage.service";
 import { useEffect, useState } from "react";
-import NoSSR from "react-no-ssr";
 
 const UPDATED_TIMEOUT = 2000;
 
@@ -15,6 +14,7 @@ const Canvas = () => {
       if (value !== data) setValue(data || "");
     }, UPDATED_TIMEOUT);
     return () => clearInterval(timeout);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <Ribo json={toJson(value)} />;

@@ -2,6 +2,5 @@
  * Do NOT change this file, because it is automatically generated
  * run "yarn component:index" to update
  */
-export * from "./playground.component";
-export * from "./playground.types";
-export * from "./playground.utils";
+export * from "./no-SSR.component";
+export * from "./no-SSR.types";

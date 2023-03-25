@@ -8,7 +8,7 @@ import classNames from "classnames";
 import copy from "copy-to-clipboard";
 import { Heading, ToggleButton } from "mars-ds";
 import { useEffect, useRef, useState } from "react";
-import { isValidToJson, jsonToString, toJson } from "@/helpers/json.helpers";
+import { isValidToJson, jsonToString } from "@/helpers/json.helpers";
 import { AUTO_SAVE_INTERVAL, jsonDefault } from "./playground.utils";
 
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
