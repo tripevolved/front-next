@@ -37,7 +37,6 @@ export function AutoScrollNav({ children, className, draggable, ...props }: Auto
 
   const walkToRight = (e: React.MouseEvent) => {
     if (!sliderRef.current) return;
-    console.log("walkToRight");
     e.stopPropagation();
     const left = sliderRef.current.scrollLeft + (sliderRef.current.clientWidth * 2/3);
     sliderRef.current.scrollTo({ behavior: "smooth", left });

@@ -6,7 +6,6 @@ import { PageProps } from "@/types";
 import type { GetStaticProps } from "next";
 
 export default function Page({ seo, ...children }: PageProps) {
-  console.log({ seo, ...children })
   return (
     <>
       <NextSeo {...seo} />
