@@ -1,4 +1,5 @@
-import { AdaptedRibo, HTMLHead } from "@/components";
+import { AdaptedRibo } from "@/components";
+import { NextSeo } from "next-seo";
 import { pageConfig } from "@/configs/page.config";
 import { CMSService } from "@/services/cms/cms-service";
 import { PageProps } from "@/types";
@@ -7,7 +8,7 @@ import type { GetStaticProps } from "next";
 export default function Page({ seo, ...children }: PageProps) {
   return (
     <>
-      <HTMLHead {...seo} />
+      <NextSeo {...seo} />
       <AdaptedRibo>{children}</AdaptedRibo>
     </>
   );

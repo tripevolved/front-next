@@ -1,16 +1,13 @@
 import { toJson } from "@/helpers/json.helpers";
-import type { MenuGroupProps, MenuProps, SeoProps, SocialProps } from "@/types";
+import type { MenuGroupProps, MenuProps, SocialProps } from "@/types";
+import { SeoNotSerialized, SeoSerializer } from "./seo.serializer";
 
-interface Seo extends Omit<SeoProps, "image"> {
-  image?: { url?: string };
-}
-
-export interface PageData extends Seo {
+export interface PageData extends SeoNotSerialized {
   data: string;
   slices: [];
 }
 
-export interface TemplateData extends Seo {
+export interface TemplateData extends SeoNotSerialized {
   menu: MenuProps;
   slogan: string;
   social: SocialProps;
@@ -36,13 +33,6 @@ const makeFooterMenu = (items: MenuProps) => {
   }, []);
 };
 
-const makeSeo = ({ image, ...seo }: Seo) => {
-  if (!image) return seo;
-  if (typeof image === "string") return { image, ...seo };
-  if (typeof image.url === "string") return { image: image.url, ...seo };
-  return seo;
-};
-
 const templateSerializer = ({
   menu,
   slogan,
@@ -53,7 +43,7 @@ const templateSerializer = ({
 }: TemplateData) => {
   const navbar = { menu };
   const footer = { slogan, social, menu: makeFooterMenu(sitemap) };
-  const seo = makeSeo(seoProps);
+  const seo = SeoSerializer.handler(seoProps);
   return { navbar, footer, seo };
 };
 
@@ -69,7 +59,7 @@ const makeDataJson = (slices: any[]) => {
 
 const pageSerializer = ({ data, slices, ...seoProps }: PageData) => {
   const json = toJson(data);
-  const seo = makeSeo(seoProps);
+  const seo = SeoSerializer.handler(seoProps);
   const children = makeDataJson(slices);
   return { seo, component: "PageBase", children, ...json };
 };

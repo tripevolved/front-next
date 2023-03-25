@@ -8,7 +8,6 @@ interface RobotProps {
 }
 
 interface HTMLHeadProps extends RobotProps {
-  url: string;
   title: string;
   description: string;
   image: string;
@@ -17,7 +16,6 @@ interface HTMLHeadProps extends RobotProps {
 }
 
 export function HTMLHead({
-  url = seo.url,
   title = seo.title,
   description = seo.description,
   image = seo.image,
@@ -36,20 +34,13 @@ export function HTMLHead({
       <Robots robots={robots} nofollow={nofollow} noindex={noindex} />
       {canonical && <link rel="canonical" href={canonical} />}
 
-      {/* Open Graph / Facebook */}
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={url} />
-      <meta property="og:title" content={title} />
-      <meta property="og:site_name" content={title} />
-      <meta property="og:description" content={description} />
+      {/* Open Graph / Image */}
       <meta property="og:image" content={image} />
-
-      {/* Twitter */}
-      <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={url} />
-      <meta property="twitter:title" content={title} />
-      <meta property="twitter:description" content={description} />
-      <meta property="twitter:image" content={image} />
+      <meta property="og:image:secure_url" content={image} />
+      <meta property="og:image:height" content="800" />
+      <meta property="og:image:width" content="800" />
+      <meta property="og:image:alt" content={description} />
+      <meta property="og:image:type" content="image/jpg" />
 
       {/* Favicon */}
       {favicon && <link rel="shortcut icon" href={favicon} type="image/x-icon" />}

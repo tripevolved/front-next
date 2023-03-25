@@ -1,13 +1,6 @@
-interface SeoProps {
-  title?: string;
-  description?: string;
-  image?: string;
-  keywords?: string;
-  canonical?: string;
-  favicon?: string;
-  nofollow?: boolean;
-  noindex?: boolean;
-}
+import { NextSeoProps } from "next-seo";
+
+type SeoProps = NextSeoProps;
 
 interface PageProps {
   navbar?: NavbarProps;
