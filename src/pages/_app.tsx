@@ -15,6 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <GoogleScripts />
       <DefaultSeo
+        themeColor={seo.themeColor}
         titleTemplate={`${seo.title} | %s`}
         defaultTitle={seo.title}
         description={seo.description}
@@ -24,7 +25,7 @@ export default function App({ Component, pageProps }: AppProps) {
           url: seo.url,
           title: seo.title,
           description: seo.description,
-          siteName: "SiteName",
+          siteName: seo.title,
           images: [
             {
               url: seo.image,
@@ -35,8 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
           ],
         }}
         twitter={{
-          handle: "@handle",
-          site: "@site",
+          site: seo.url,
           cardType: "summary_large_image",
         }}
       />

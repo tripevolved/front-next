@@ -37,6 +37,7 @@ const makeSeo = ({ image, ...seo }: SeoNotSerialized): SeoProps => {
   const openGraph = {
     title: seo.title,
     description: seo.description,
+    siteName: seo.title,
     images,
   };
   return { openGraph, ...seo };
