@@ -1,31 +1,20 @@
-import { jsonToString } from "@/helpers/json.helpers";
+import { LocalStorageService } from "@/services/store/local-storage.service";
 import { useState } from "react";
 
-export function useLocalStorage<T = string>(key: string, initialValue: T) {
-  const [storedValue, setStoredValue] = useState<T>(() => {
-    if (typeof window === "undefined") {
-      return initialValue;
-    }
-    try {
-      const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      console.log(error);
-      return initialValue;
-    }
+const isClient = () => typeof window !== "undefined";
+const isServer = () => !isClient();
+
+export function useLocalStorage(key: string, initialValue: string) {
+  const [storedValue, setStoredValue] = useState(() => {
+    if (isServer()) return initialValue;
+    return LocalStorageService.get(key) || initialValue;
   });
 
-  const setValue = (value: T | ((val: T) => T)) => {
-    try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      if (typeof window !== "undefined") {
-        const v = typeof valueToStore === 'string' ? valueToStore : jsonToString(valueToStore)
-        window.localStorage.setItem(key, v);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const setValue = (value: string | ((val: string) => string)) => {
+    if (isServer()) return;
+    const valueToStore = value instanceof Function ? value(storedValue) : value;
+    setStoredValue(valueToStore);
+    LocalStorageService.update(key, valueToStore);
   };
 
   return [storedValue, setValue] as const;
