@@ -33,7 +33,7 @@ export function FormLogic({ cta, modal }: FormLogicProps) {
           label="Seu WhatsApp"
           type="tel"
           minLength={14}
-          mask={["(99) 9999-9999", "(99) 99999-9999"]}
+          mask="(99) 99999-9999"
         />
         <SubmitButton
           /* eslint-disable-next-line react/no-children-prop */

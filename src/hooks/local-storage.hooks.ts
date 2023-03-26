@@ -14,7 +14,7 @@ export function useLocalStorage(key: string, initialValue: string) {
     if (isServer()) return;
     const valueToStore = value instanceof Function ? value(storedValue) : value;
     setStoredValue(valueToStore);
-    LocalStorageService.update(key, valueToStore);
+    LocalStorageService.save(key, valueToStore);
   };
 
   return [storedValue, setValue] as const;

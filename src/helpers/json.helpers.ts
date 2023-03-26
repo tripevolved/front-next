@@ -1,9 +1,9 @@
-export const toJson = (data: any): object => {
-  if (typeof data !== "string") return {};
+export const toJson = (data: any): object | null => {
+  if (typeof data !== "string") return null;
   try {
     return JSON.parse(data);
   } catch (error) {
-    return {};
+    return null;
   }
 };
 

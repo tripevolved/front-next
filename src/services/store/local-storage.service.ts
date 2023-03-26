@@ -1,7 +1,12 @@
+import { jsonToString, toJson } from "@/helpers/json.helpers";
+
 export const LocalStorageService = {
   get: (key: string) => {
     const value = window.localStorage.getItem(key);
     return value;
   },
-  update: (key: string, data: string) => window.localStorage.setItem(key, data),
+  save: (key: string, data: string) => window.localStorage.setItem(key, data),
+  getJson: (key: string) => toJson(window.localStorage.getItem(key)),
+  saveJson: (key: string, data: object) => window.localStorage.setItem(key, jsonToString(data)),
 };
+
