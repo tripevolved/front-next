@@ -1,0 +1,44 @@
+.emoji {
+  $shadow-base: 0px 4px 80px rgba(0, 0, 0, 0.15);
+  $shadow-up: 0px 25px 20px rgba(0, 0, 0, 0.15);
+
+  background-color: white;
+  display: inline-block;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  box-shadow: $shadow-base;
+
+  &--sm {
+    padding: 8px;
+    height: 56px;
+  }
+
+  // &--md is default value
+  padding: 12px;
+  height: 72px;
+
+  &--lg {
+    padding: 16px;
+    height: 96px;
+  }
+
+  &--animated {
+    animation: float 6s ease-in-out infinite;
+
+    @keyframes float {
+      0% {
+        box-shadow: $shadow-base;
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        box-shadow: $shadow-up;
+        transform: translateY(-20px) scale(1.05);
+      }
+      100% {
+        box-shadow: $shadow-base;
+        transform: translateY(0) scale(1);
+      }
+    }
+  }
+
+}

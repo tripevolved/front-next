@@ -1,0 +1,20 @@
+.award-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+
+  padding: 24px;
+  border: 1px solid $color-primary-500;
+  border-radius: $border-radius-lg;
+  color: $color-text-primary;
+  p {
+    color: $color-text-secondary;
+  }
+  &__label {
+    background-color: $color-brand-4;
+    color: $color-brand-2;
+    padding: 1px 12px;
+    border-radius: $border-radius-xs;
+  }
+}

@@ -26,3 +26,16 @@ export const parseImageSources = ({
     xl: xl?.src,
   };
 };
+
+export const PICTURE_TESTID = {
+  PICTURE: "picture",
+  IMAGE: "image",
+  SOURCE: "source",
+};
+
+export const PICTURE_MEDIA_SIZES = {
+  SM: 300,
+  MD: 640,
+  LG: 920,
+  XL: 1440,
+};

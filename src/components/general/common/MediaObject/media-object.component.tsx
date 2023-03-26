@@ -1,6 +1,6 @@
 import type { MediaObjectProps } from "./media-object.types";
 
-import { Picture, Text } from "@/components";
+import { Picture, Tag, Text } from "@/components";
 import { css, cx } from "@emotion/css";
 import { Button, ButtonProps, Grid } from "mars-ds";
 
@@ -9,6 +9,7 @@ export function MediaObject({
   children,
   image,
   heading,
+  tag,
   text,
   cta,
   sx,
@@ -18,6 +19,11 @@ export function MediaObject({
   return (
     <div className={cn} {...props}>
       <Grid className="media-object__content" gap={24}>
+        {tag ? (
+          <div className="media-object__tag">
+            <Tag>{tag}</Tag>
+          </div>
+        ) : null}
         {image ? (
           <div className="media-object__image">
             <Picture>{image}</Picture>

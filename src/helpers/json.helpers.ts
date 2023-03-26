@@ -1,4 +1,4 @@
-export const toJson = (data: any): object | null => {
+export const toJson = <T = object>(data: any): T | null => {
   if (typeof data !== "string") return null;
   try {
     return JSON.parse(data);

@@ -1,6 +1,7 @@
 import { expectDOMToBe } from "@/helpers/testing-library.helper";
 import { render } from "@testing-library/react";
-import { MEDIA_SIZES, Picture, TESTID } from "./picture.component";
+import { Picture } from "./picture.component";
+import { PICTURE_MEDIA_SIZES, PICTURE_TESTID } from "./picture.helpers";
 import { PictureComponentProps } from "./picture.types";
 
 const makeSut = (props?: PictureComponentProps) => render(<Picture {...props} />);
@@ -19,27 +20,27 @@ describe("<Picture>", () => {
   });
 
   describe("when there are images", () => {
-    const mdSourceResult = `<source data-testid="${TESTID.SOURCE}" media="(min-width: ${MEDIA_SIZES.MD}px)" srcset="${mdSrc}">`;
-    const lgSourceResult = `<source data-testid="${TESTID.SOURCE}" media="(min-width: ${MEDIA_SIZES.LG}px)" srcset="${lgSrc}">`;
-    const xlSourceResult = `<source data-testid="${TESTID.SOURCE}" media="(min-width: ${MEDIA_SIZES.XL}px)" srcset="${xlSrc}">`;
-    const imageResult = `<img data-testid="${TESTID.IMAGE}" src="${src}">`;
+    const mdSourceResult = `<source data-testid="${PICTURE_TESTID.SOURCE}" media="(min-width: ${PICTURE_MEDIA_SIZES.MD}px)" srcset="${mdSrc}">`;
+    const lgSourceResult = `<source data-testid="${PICTURE_TESTID.SOURCE}" media="(min-width: ${PICTURE_MEDIA_SIZES.LG}px)" srcset="${lgSrc}">`;
+    const xlSourceResult = `<source data-testid="${PICTURE_TESTID.SOURCE}" media="(min-width: ${PICTURE_MEDIA_SIZES.XL}px)" srcset="${xlSrc}">`;
+    const imageResult = `<img data-testid="${PICTURE_TESTID.IMAGE}" src="${src}">`;
 
     it("render picture tag with ONE image", () => {
       const wrapper = makeSut({ src });
-      const result = `<picture data-testid="${TESTID.PICTURE}" class="picture"><img data-testid="${TESTID.IMAGE}" src="${src}"></picture>`;
+      const result = `<picture data-testid="${PICTURE_TESTID.PICTURE}" class="picture"><img data-testid="${PICTURE_TESTID.IMAGE}" src="${src}"></picture>`;
       expectDOMToBe(wrapper, result);
     });
 
     it("render picture tag with media sources: md", () => {
       const wrapper = makeSut({ src, md: { src: mdSrc } });
-      const result = `<picture data-testid="${TESTID.PICTURE}" class="picture">${mdSourceResult}${imageResult}</picture>`;
+      const result = `<picture data-testid="${PICTURE_TESTID.PICTURE}" class="picture">${mdSourceResult}${imageResult}</picture>`;
       expectDOMToBe(wrapper, result);
     });
 
     it("render picture tag with media sources: md and lg", () => {
       const wrapper = makeSut({ src, md: { src: mdSrc }, lg: { src: lgSrc } });
       const sources = [mdSourceResult, lgSourceResult].join("");
-      const result = `<picture data-testid="${TESTID.PICTURE}" class="picture">${sources}${imageResult}</picture>`;
+      const result = `<picture data-testid="${PICTURE_TESTID.PICTURE}" class="picture">${sources}${imageResult}</picture>`;
       expectDOMToBe(wrapper, result);
     });
 
@@ -51,7 +52,7 @@ describe("<Picture>", () => {
         xl: { src: xlSrc },
       });
       const sources = [mdSourceResult, lgSourceResult, xlSourceResult].join("");
-      const result = `<picture data-testid="${TESTID.PICTURE}" class="picture">${sources}${imageResult}</picture>`;
+      const result = `<picture data-testid="${PICTURE_TESTID.PICTURE}" class="picture">${sources}${imageResult}</picture>`;
       expectDOMToBe(wrapper, result);
     });
   });
@@ -67,7 +68,7 @@ describe("<Picture>", () => {
         xl: { src: xlSrc },
       });
       const snapshot =
-        "<picture data-testid=\"picture\" class=\"picture\"><source data-testid=\"source\" media=\"(min-width: 640px)\" srcset=\"any_md_source\" height=\"2\" width=\"2\" style=\"max-height: 2px;\"><source data-testid=\"source\" media=\"(min-width: 920px)\" srcset=\"any_lg_source\"><source data-testid=\"source\" media=\"(min-width: 1440px)\" srcset=\"any_xl_source\"><img data-testid=\"image\" src=\"any_source\" height=\"1\" width=\"1\"></picture>";
+        '<picture data-testid="picture" class="picture"><source data-testid="source" media="(min-width: 640px)" srcset="any_md_source" height="2" width="2" style="max-height: 2px;"><source data-testid="source" media="(min-width: 920px)" srcset="any_lg_source"><source data-testid="source" media="(min-width: 1440px)" srcset="any_xl_source"><img data-testid="image" src="any_source" height="1" width="1"></picture>';
       expectDOMToBe(wrapper, snapshot);
     });
   });
