@@ -12,7 +12,6 @@ export function LeadListForm({
   label = "SEJA PIONEIRO",
   heading = "Participe da lista de espera",
   cta,
-  modal,
   ...props
 }: LeadListFormProps) {
   const cn = cx("lead-list-form", className, css(sx));
@@ -26,7 +25,7 @@ export function LeadListForm({
           {heading}
         </Text>
       </div>
-      <FormLogic cta={cta} modal={modal} />
+      <FormLogic cta={cta} />
     </Card>
   );
 }

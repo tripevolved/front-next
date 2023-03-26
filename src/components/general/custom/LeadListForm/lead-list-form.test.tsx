@@ -4,7 +4,7 @@ import type { LeadListFormProps } from "./lead-list-form.types";
 
 jest.mock("next/router", () => {
   const replace = jest.fn();
-  const useRouter = jest.fn().mockReturnValue({ replace });
+  const useRouter = jest.fn().mockReturnValue({ replace, query: {} });
   return { useRouter };
 });
 
