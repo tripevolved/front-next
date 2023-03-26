@@ -19,6 +19,7 @@ export * from "./custom/HomeNumberedCard";
 export * from "./custom/IntroductionCard";
 export * from "./custom/LeadList";
 export * from "./custom/LeadListForm";
+export * from "./custom/SectionBaseInvite";
 export * from "./sections/HomeSectionHero";
 export * from "./sections/SectionBase";
 export * from "./sections/SectionFaq";

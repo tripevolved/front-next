@@ -23,12 +23,9 @@ export function Emoji({
     },
   ];
 
-  const style = {
-    animationDelay: `${Math.random() * 10}s`,
-    ...sx,
-  };
+  const animationDelay = `${Math.random() * 10}s`;
 
-  const cn = makeClassName(classNames)(style);
+  const cn = makeClassName(classNames)({ animationDelay }, sx);
 
   return (
     <div className={cn} {...props}>

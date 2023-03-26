@@ -4,20 +4,14 @@ import { ButtonProps } from "mars-ds";
 
 export interface PricingProps extends ComponentHTMLProps {
   image?: PictureProps;
+  emojiName?: string;
   heading?: TextProps;
   features?: TextProps[] | string[];
   cta?: ButtonProps;
-  colorSchema?: Record<string, string> ;
+  highlight?: Boolean;
   price?: PriceProps;
   label?: TextProps;
 };
-
-export interface ColorSchema {
-  color?: string;
-  background?: string;
-  highlight?: string;
-  hoverBackground?: string;
-}
 
 export interface PriceProps extends ComponentHTMLProps {
   current?: string;

@@ -4,21 +4,18 @@ import copy from "copy-to-clipboard";
 import { pageConfig } from "@/configs/page.config";
 
 import { makeClassName } from "@/helpers/classname.helpers";
-import { ensureNotSlashEnds } from "@/helpers/url.helper";
-
-import { CryptoService } from "@/services/secure/crypto.service";
 import { LeadApiService } from "@/services/api/lead-api.service";
 
-import { ModalContent, Text } from "@/components";
-import { Button, ItemElement, Modal } from "mars-ds";
+import { ModalContent, Picture, Text } from "@/components";
+import { Button, ButtonProps, Modal, TextField } from "mars-ds";
 
 export function ButtonShare({ className, sx, href, ...props }: ButtonShareProps) {
   const cn = makeClassName("button-share", className)(sx);
 
   const handleClick = () => {
-    const lead = LeadApiService.getLocal();
-    const from = lead ? CryptoService.encrypt({ name: lead.name, uid: lead.uid }) : "";
-    const link = `${ensureNotSlashEnds(pageConfig.url)}/convite?h=${from}`
+    const { name = "", ref = "" } = LeadApiService.getLocal() || {};
+    const [firstName = ""] = name.split(" ");
+    const link = `${location.origin}/convite?ref=${ref}&inviter=${firstName}`;
     Modal.open(() => <ShareModal link={link} />, { size: "sm" });
     copy(link);
   };
@@ -31,14 +28,87 @@ export function ButtonShare({ className, sx, href, ...props }: ButtonShareProps)
 }
 
 const IMAGE_OK = "/assets/lancamento/modal-ok.svg";
+const socialInvites = [
+  {
+    name: "WhatsApp",
+    iconName: "message-circle",
+    backgroundColor: "#2cb742",
+    color: "white",
+    url: "https://api.whatsapp.com/send?text={{TEXT}}",
+  },
+  {
+    name: "Facebook",
+    iconName: "facebook",
+    backgroundColor: "#3b5998",
+    color: "white",
+    url: "https://www.facebook.com/sharer.php?u={{LINK}}&quote={{TEXT}}",
+  },
+  {
+    name: "Linkedin",
+    iconName: "linkedin",
+    backgroundColor: "#2867b2",
+    color: "white",
+    url: "https://www.linkedin.com/sharing/share-offsite/?url={{LINK}}&summary={{TEXT}}&source=TripEvolved",
+  },
+  {
+    name: "Twitter",
+    iconName: "twitter",
+    backgroundColor: "#01acee",
+    color: "white",
+    url: "https://twitter.com/intent/tweet?text={{TEXT}}",
+  },
+  {
+    name: "Telegram",
+    iconName: "send",
+    backgroundColor: "#0288cc",
+    color: "white",
+    url: "https://t.me/share/url?url={{LINK}}&text={{TEXT}}"
+  },
+  {
+    name: "Email",
+    iconName: "mail",
+    backgroundColor: "black",
+    color: "white",
+    url: "mailto:?body={{TEXT}}"
+  }
+];
 
 const ShareModal = ({ link = pageConfig.url }) => {
+  const getHref = (url = "") => {
+    const text = encodeURIComponent(`Oi, eu estou na lista de espera da Trip Evolved: ${link}`);
+    return url.replace("{{TEXT}}", text).replace("{{LINK}}", encodeURIComponent(link));
+  };
+
   return (
-    <ModalContent image={IMAGE_OK} className="text-center">
-      <Text className="my-md" heading size="xs">
-        Seu link foi copiado para a área de transferência
+    <ModalContent className="text-center">
+      <Picture src={IMAGE_OK} />
+      <Text className="my-lg" heading size="sm">
+        Convide seus amigos!
       </Text>
-      <ItemElement style={{ overflow: 'auto', textAlign: "left" }}>{link}</ItemElement>
+      <Text>Aumente as suas chances compartilhando o link abaixo:</Text>
+      <div className="my-xl text-left">
+        <TextField label="Clique para copiar" value={link} readOnly onClick={() => copy(link)} />
+      </div>
+      <div className="my-xl flex flex-wrap gap-sm justify-content-center">
+        {socialInvites.map(({ name, url, ...props }) => (
+          <SocialShare key={name} href={getHref(url)} {...props}>
+            {name}
+          </SocialShare>
+        ))}
+      </div>
     </ModalContent>
+  );
+};
+
+const SocialShare = (props: ButtonProps) => {
+  return (
+    <Button
+      style={{ padding: "4px 12px", fontSize: "11px", minWidth: 120 }}
+      variant="custom"
+      size="sm"
+      color="white"
+      target="_blank"
+      {...props}
+    />
   );
 };

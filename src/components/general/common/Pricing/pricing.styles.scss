@@ -4,6 +4,13 @@
   --pricing-background: transparent;
   --pricing-hover-background: var(--color-primary-100);
 
+  &--highlight {
+    --pricing-color: white;
+    --pricing-highlight: white;
+    --pricing-background: var(--color-primary-500);
+    --pricing-hover-background: var(--color-secondary-700);
+  }
+
   background-color: var(--pricing-background);
   display: flex;
   flex-direction: column;
@@ -13,6 +20,7 @@
   border-radius: $border-radius-lg;
   text-align: center;
   position: relative;
+  margin-top: 24px;
 
   transition: background-color ease 250ms;
   &:hover {

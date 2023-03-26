@@ -1,8 +1,6 @@
+import { isServer } from "@/helpers/environment.helpers";
 import { LocalStorageService } from "@/services/store/local-storage.service";
 import { useState } from "react";
-
-const isClient = () => typeof window !== "undefined";
-const isServer = () => !isClient();
 
 export function useLocalStorage(key: string, initialValue: string) {
   const [storedValue, setStoredValue] = useState(() => {

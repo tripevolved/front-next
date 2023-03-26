@@ -1,22 +1,21 @@
-import { ModalContent } from "@/components";
 import { handleFormSubmit, SubmitHandler } from "@/helpers/form.helpers";
 import { LeadApiService } from "@/services/api/lead-api.service";
 import { Lead } from "@/types";
-import { Grid, Modal, SubmitButton, TextField } from "mars-ds";
+import { Grid, SubmitButton, TextField } from "mars-ds";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { FormLogicProps } from "./lead-list-form.types";
 
-export function FormLogic({ cta, modal }: FormLogicProps) {
+export function FormLogic({ cta }: FormLogicProps) {
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
+  const referral = router.query.ref
 
   const handleSubmit: SubmitHandler<Lead> = async (data) => {
     setSubmitting(true);
     try {
       await LeadApiService.create(data);
-      const SuccessModal = () => <ModalContent className="text-center" {...modal?.success} />;
-      Modal.open(SuccessModal, { size: "sm", onClose: () => router.replace("/") });
+      router.replace(`/inscrito`);
     } catch (error) {
       console.error(error);
       setSubmitting(false);
@@ -35,6 +34,7 @@ export function FormLogic({ cta, modal }: FormLogicProps) {
           minLength={14}
           mask="(99) 99999-9999"
         />
+        <input type="hidden" name="ref" value={referral} />
         <SubmitButton
           /* eslint-disable-next-line react/no-children-prop */
           children="Entrar na lista"

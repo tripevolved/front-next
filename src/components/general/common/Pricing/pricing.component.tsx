@@ -1,7 +1,8 @@
 import type { PriceProps, PricingProps } from "./pricing.types";
 
-import { Picture, Text } from "@/components";
-import { css, cx } from "@emotion/css";
+import { makeClassName } from "@/helpers/classname.helpers";
+
+import { Emoji, Picture, Tag, Text } from "@/components";
 import { Button, Grid, Icon } from "mars-ds";
 
 export function Pricing({
@@ -9,19 +10,25 @@ export function Pricing({
   children,
   sx,
   heading,
+  emojiName,
   image,
   features,
   cta,
-  colorSchema = {},
+  highlight,
   price,
   label,
   ...props
 }: PricingProps) {
-  const cn = cx("pricing", className, css(colorSchemaToSx(colorSchema)), css(sx));
+  const cn = makeClassName("pricing", className, { "pricing--highlight": highlight })(sx);
   return (
     <div className={cn} {...props}>
-      {label ? <Text className="pricing__label">{label}</Text> : null}
+      {label ? <Tag className="pricing__label">{label}</Tag> : null}
       {image ? <Picture className="pricing__image">{image}</Picture> : null}
+      {emojiName ? (
+        <div>
+          <Emoji name={emojiName} />
+        </div>
+      ) : null}
       <Text className="pricing__heading" variant="heading" size="lg">
         {heading}
       </Text>
@@ -35,13 +42,13 @@ export function Pricing({
       </Grid>
       {price ? <Price {...price} /> : null}
       {children}
-      <Button {...cta} />
+      {cta ? <Button {...cta} /> : null}
     </div>
   );
 }
 
 const Price = ({ current, old, description, className, children, sx, ...props }: PriceProps) => {
-  const cn = cx("price", className, css(sx));
+  const cn = makeClassName("price", className)(sx);
 
   return (
     <Grid gap={8} className={cn} {...props}>
@@ -56,9 +63,3 @@ const Price = ({ current, old, description, className, children, sx, ...props }:
     </Grid>
   );
 };
-
-const colorSchemaToSx = (tokens: Record<string, string>) =>
-  Object.entries(tokens).reduce(
-    (acc, [key, value]) => ({ ...acc, [`--pricing-${key}`]: value }),
-    {}
-  );

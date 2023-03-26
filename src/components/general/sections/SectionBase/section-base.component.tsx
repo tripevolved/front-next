@@ -6,6 +6,7 @@ import { SectionBaseProps } from "./section-base.types";
 
 export function SectionBase({
   className,
+  container,
   sx,
   children,
   tag,
@@ -15,13 +16,17 @@ export function SectionBase({
   cta,
   columns,
   gap,
+  growing,
+  reversedLastElement,
   ...props
 }: SectionBaseProps) {
+  const gridProps = { columns, gap, growing, reversedLastElement };
+  const cn = makeClassName(className, { [`section-base--${container}`]: container })(sx);
   return (
-    <MarsSectionBase className={makeClassName(className)(sx)} {...props}>
+    <MarsSectionBase className={cn} container={container} {...props}>
       <MediaObject tag={tag} image={image} heading={heading} text={text} cta={cta} />
       {columns ? (
-        <Grid className="section-grid__columns" columns={columns} gap={gap}>
+        <Grid className="section-grid__columns" {...gridProps}>
           {children}
         </Grid>
       ) : (

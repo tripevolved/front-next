@@ -3,7 +3,7 @@ import type { MediaObjectProps } from "@/components";
 
 export interface SectionBaseProps
   extends MediaObjectProps,
-    Pick<GridProps, "columns" | "gap">,
+    Pick<GridProps, "columns" | "gap" | "growing" | "reversedLastElement">,
     Pick<MarsSectionBaseProps, "container"> {
   sx?: any;
 }
