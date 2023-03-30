@@ -62,20 +62,22 @@ const socialInvites = [
     iconName: "send",
     backgroundColor: "#0288cc",
     color: "white",
-    url: "https://t.me/share/url?url={{LINK}}&text={{TEXT}}"
+    url: "https://t.me/share/url?url={{LINK}}&text={{TEXT}}",
   },
   {
     name: "Email",
     iconName: "mail",
     backgroundColor: "black",
     color: "white",
-    url: "mailto:?body={{TEXT}}"
-  }
+    url: "mailto:?body={{TEXT}}",
+  },
 ];
 
 const ShareModal = ({ link = pageConfig.url }) => {
   const getHref = (url = "") => {
-    const text = encodeURIComponent(`Oi, eu estou na lista de espera da Trip Evolved: ${link}`);
+    const text = encodeURIComponent(
+      `Já conhece a Trip Evolved? Você pode ganhar uma viagem gratuita com eles, só precisa entrar para a lista de espera, como eu fiz. Confira aqui no link: ${link}`
+    );
     return url.replace("{{TEXT}}", text).replace("{{LINK}}", encodeURIComponent(link));
   };
 
