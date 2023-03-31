@@ -10,7 +10,7 @@ export function Accordion({ question, answer, heading, children, ...props }: Acc
       {...props}
     >
       <div className="color-text-secondary pb-xl">
-        {answer ? <Text size="lg">{answer}</Text> : children}
+        {answer ? <Text size="lg">{answer}</Text> : null}
         {children}
       </div>
     </MarsAccordion>
