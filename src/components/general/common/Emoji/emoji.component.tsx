@@ -16,18 +16,12 @@ export function Emoji({
 }: EmojiProps) {
   if (!name) return null;
 
-  const classNames = [
-    "emoji",
-    className,
-    {
-      [`emoji--${size}`]: size,
-      "emoji--animated": animated,
-    },
-  ];
-
   const animationDelay = `${Math.random() * 10}s`;
 
-  const cn = makeClassName(classNames)({ animationDelay, justifySelf: align }, style, sx);
+  const cn = makeClassName("emoji", className, {
+    [`emoji--${size}`]: size,
+    "emoji--animated": animated,
+  })({ animationDelay, justifySelf: align }, style, sx);
 
   return (
     <div className={cn} {...props}>
