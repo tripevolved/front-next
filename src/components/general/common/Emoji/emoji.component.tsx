@@ -11,7 +11,6 @@ export function Emoji({
   animated,
   size = "md",
   sx,
-  style,
   ...props
 }: EmojiProps) {
   if (!name) return null;
@@ -21,7 +20,7 @@ export function Emoji({
   const cn = makeClassName("emoji", className, {
     [`emoji--${size}`]: size,
     "emoji--animated": animated,
-  })({ animationDelay, justifySelf: align }, style, sx);
+  })({ animationDelay, justifySelf: align, ...sx });
 
   return (
     <div className={cn} {...props}>
