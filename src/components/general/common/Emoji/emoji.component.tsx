@@ -11,9 +11,11 @@ export function Emoji({
   animated,
   size = "md",
   sx,
+  style,
   ...props
 }: EmojiProps) {
-  const animationDelay = `${Math.floor(Math.random() * 1000)}ms`;
+  // DON'T put "animationDelay" into sx, because it's causes a bug
+  const animationDelay = animated ? `${Math.floor(Math.random() * 1000)}ms` : undefined;
 
   const cn = makeClassName("emoji", className, {
     [`emoji--${size}`]: Boolean(size),
@@ -21,7 +23,7 @@ export function Emoji({
   })(sx, { justifySelf: align });
 
   return (
-    <Box className={cn} style={{ animationDelay }} {...props}>
+    <Box className={cn} style={{ animationDelay, ...style }} {...props}>
       <Picture src={`/emoji/emoji-${name}.png`} />
     </Box>
   );
