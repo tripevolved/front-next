@@ -19,7 +19,7 @@ export function AwardCard({
   return (
     <div className={cn} {...props}>
       <Grid>
-        <Emoji name={emojiName} />
+        {emojiName ? <Emoji name={emojiName} /> : null}
         {label ? (
           <div>
             <Text as="span" className="award-card__label" size="sm">{label}</Text>
