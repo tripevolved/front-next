@@ -21,7 +21,7 @@ export function SectionBase({
   ...props
 }: SectionBaseProps) {
   const gridProps = { columns, gap, growing, reversedLastElement };
-  const cn = makeClassName(className, { [`section-base--${container}`]: container })(sx);
+  const cn = makeClassName(className, { [`section-base--${container}`]: Boolean(container) })(sx);
   return (
     <MarsSectionBase className={cn} container={container} {...props}>
       <MediaObject tag={tag} image={image} heading={heading} text={text} cta={cta} />

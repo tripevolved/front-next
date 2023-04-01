@@ -19,7 +19,7 @@ export function Pricing({
   label,
   ...props
 }: PricingProps) {
-  const cn = makeClassName("pricing", className, { "pricing--highlight": highlight })(sx);
+  const cn = makeClassName("pricing", className, { "pricing--highlight": Boolean(highlight) })(sx);
   return (
     <div className={cn} {...props}>
       {label ? <Tag className="pricing__label">{label}</Tag> : null}

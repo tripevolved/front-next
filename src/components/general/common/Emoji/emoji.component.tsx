@@ -13,17 +13,15 @@ export function Emoji({
   sx,
   ...props
 }: EmojiProps) {
-  if (!name) return null;
-
-  const animationDelay = `${Math.random() * 10}s`;
+  const animationDelay = `${Math.floor(Math.random() * 1000)}ms`;
 
   const cn = makeClassName("emoji", className, {
-    [`emoji--${size}`]: size,
+    [`emoji--${size}`]: Boolean(size),
     "emoji--animated": animated,
-  })(sx);
+  })(sx, { justifySelf: align });
 
   return (
-    <Box className={cn} sx={{ animationDelay, justifySelf: align }} {...props}>
+    <Box className={cn} style={{ animationDelay }} {...props}>
       <Picture src={`/emoji/emoji-${name}.png`} />
     </Box>
   );
