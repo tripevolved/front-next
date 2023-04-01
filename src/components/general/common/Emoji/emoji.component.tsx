@@ -1,7 +1,7 @@
 import type { EmojiProps } from "./emoji.types";
 
 import { makeClassName } from "@/helpers/classname.helpers";
-import { Picture } from "@/components";
+import { Box, Picture } from "@/components";
 
 export function Emoji({
   align,
@@ -20,11 +20,11 @@ export function Emoji({
   const cn = makeClassName("emoji", className, {
     [`emoji--${size}`]: size,
     "emoji--animated": animated,
-  })({ animationDelay, justifySelf: align, ...sx });
+  })(sx);
 
   return (
-    <div className={cn} {...props}>
+    <Box className={cn} sx={{ animationDelay, justifySelf: align }} {...props}>
       <Picture src={`/emoji/emoji-${name}.png`} />
-    </div>
+    </Box>
   );
 }
