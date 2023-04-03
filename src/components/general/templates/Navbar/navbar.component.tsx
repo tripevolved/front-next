@@ -2,11 +2,25 @@ import type { NavbarProps } from "./navbar.types";
 
 import { Logo } from "@/components";
 import { Button, Link, ToggleButton } from "mars-ds";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { LeadApiService } from "@/services/api/lead-api.service";
+import { MenuItemProps } from "@/types";
 
-export function Navbar({ menu = [] }: NavbarProps) {
+const subscribedMenu = {
+  label: "Minha inscrição",
+  href: "/inscrito"
+} satisfies MenuItemProps;
+
+export function Navbar({ menu: inheritedMenu = [] }: NavbarProps) {
+  const [menu, setMenu] = useState<MenuItemProps[]>(inheritedMenu);
   const [open, setOpen] = useState(false);
   const hasMenu = Boolean(menu?.length);
+
+  useEffect(() => {
+    const localLead = LeadApiService.getLocal();
+    if (!localLead) return;
+    setMenu([subscribedMenu, ...inheritedMenu]);
+  }, [inheritedMenu]);
 
   return (
     <nav className="navbar">

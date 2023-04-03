@@ -47,6 +47,7 @@ export type {
   SeoProps,
   MenuProps,
   MenuGroupProps,
+  MenuItemProps,
   FooterProps,
   NavbarProps,
   SocialProps,
