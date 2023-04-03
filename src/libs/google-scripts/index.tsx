@@ -16,7 +16,7 @@ const GoogleScripts = () => (
           event:'gtm.js',
         });
         w[l].push('js', new Date())
-        w[l].push('config', ${GA})
+        w[l].push('config', '${GA}')
       })(window,'dataLayer');
     `}</RawScript>
   </>
