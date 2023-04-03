@@ -12,7 +12,8 @@ const createLeadInApi = async (lead: Pick<Lead, "email" | "name" | "phone">) => 
   const url = `${API_URL}/api/customers/create`;
   return axios
     .post<{ id: string }>(url, lead)
-    .then(({ data }) => ({ uid: data.id as string, ...lead }));
+    .then(({ data }) => ({ uid: data.id as string, ...lead }))
+    .catch(() => ({ uid: "" }));
 };
 
 const getRef = async (lead: Lead): Promise<LeadRef> => {
@@ -25,6 +26,9 @@ const getRef = async (lead: Lead): Promise<LeadRef> => {
 };
 
 const create = async (lead: Lead) => {
+  const localLead = getLocal();
+  if (localLead && lead.email === localLead.email) return localLead;
+
   const parsedPhone = `+55${lead.phone.replace(/\D/g, "")}`;
   const parsedLead = { ...lead, phone: parsedPhone };
 
