@@ -5,6 +5,7 @@ import { AppProvider } from "mars-ds";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import NextLink from "next/link";
+import { Analytics } from "@vercel/analytics/react";
 
 const LinkComponent = ({ url, ...props }: any) => {
   return <NextLink href={url} {...props} />;
@@ -43,6 +44,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <AppProvider linkComponent={LinkComponent}>
         <Component {...pageProps} />
       </AppProvider>
+      <Analytics />
     </>
   );
 }
