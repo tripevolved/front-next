@@ -8,13 +8,18 @@ import { LeadApiService } from "@/services/api/lead-api.service";
 
 import { ModalContent, Picture, Text } from "@/components";
 import { Button, ButtonProps, Modal, TextField } from "mars-ds";
+import { useRouter } from "next/router";
 
 export function ButtonShare({ className, sx, href, ...props }: ButtonShareProps) {
   const cn = makeClassName("button-share", className)(sx);
 
+  const { query } = useRouter();
+
   const handleClick = () => {
-    const { name = "", ref = "" } = LeadApiService.getLocal() || {};
-    const [firstName = ""] = name.split(" ");
+    const lead: any = LeadApiService.getLocal() || {};
+    const ref = lead.ref || String(query.ref);
+
+    const [firstName = ""] = lead.name?.split(" ");
     const link = `${location.origin}/convite?ref=${ref}&inviter=${firstName}`;
     Modal.open(() => <ShareModal link={link} />, { size: "sm" });
     copy(link);

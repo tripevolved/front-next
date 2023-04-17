@@ -16,13 +16,18 @@ const createLeadInApi = async (lead: Pick<Lead, "email" | "name" | "phone">) => 
     .catch(() => ({ uid: "" }));
 };
 
-const getRef = async (lead: Lead): Promise<LeadRef> => {
-  const url = `${LAUNCH_LIST_URL}/${lead.email}`;
-  return axios.get(url, { responseType: "text" }).then(({ data }) => ({
+const getRefByEmail = async (email: string): Promise<LeadRef> => {
+  const url = `${LAUNCH_LIST_URL}/${email}`;
+
+  const leadRef = await axios.get(url, { responseType: "text" }).then(({ data }) => ({
     ref: String(data.match(/\?ref=(.*)/)?.[1] || ""),
     friends: Number(data.match(/(\d+) friends/, "$1")?.[1] || 0),
     position: Number(data.match(/>#(\d+)/, "$1")?.[1] || 0),
   }));
+
+  LocalStorageService.saveJson(KEY_LEAD, leadRef);
+
+  return leadRef;
 };
 
 const create = async (lead: Lead) => {
@@ -38,7 +43,7 @@ const create = async (lead: Lead) => {
   type LeadFormData = Pick<Lead, "email" | "name" | "phone" | "ref" | "uid">;
   await sendFormData<LeadFormData>(LAUNCH_LIST_URL, leadWithUid);
 
-  const launchResult = await getRef(leadWithUid);
+  const launchResult = await getRefByEmail(leadWithUid.email);
   const updatedLead = { ...parsedLead, ...launchResult };
   LocalStorageService.saveJson(KEY_LEAD, updatedLead);
 
@@ -47,4 +52,4 @@ const create = async (lead: Lead) => {
 
 const getLocal = () => LocalStorageService.getJson<Lead>(KEY_LEAD);
 
-export const LeadApiService = { create, getLocal, getRef };
+export const LeadApiService = { create, getLocal, getRefByEmail };
