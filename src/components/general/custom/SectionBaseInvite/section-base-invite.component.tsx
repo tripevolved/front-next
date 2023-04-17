@@ -6,13 +6,13 @@ import { LeadApiService } from "@/services/api/lead-api.service";
 
 export function SectionBaseInvite({ className, tag, ...props }: SectionBaseProps) {
   const { query } = useRouter();
-  const { inviter = "Trip Evolved", email } = query;
+  const { inviter = "", email } = query;
 
   const cn = makeClassName("section-base-invite", className)();
 
   const textTag = useMemo(() => {
-    const name = String(inviter);
-    return typeof tag === "string" ? `${name} ${tag}` : name;
+    if (!inviter || typeof tag !== "string") return tag;
+    return tag.replace('{{NAME}}', String(inviter));
   }, [inviter, tag]);
 
   useEffect(() => {

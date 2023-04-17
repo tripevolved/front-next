@@ -16,10 +16,10 @@ export function ButtonShare({ className, sx, href, ...props }: ButtonShareProps)
   const { query } = useRouter();
 
   const handleClick = () => {
-    const lead: any = LeadApiService.getLocal() || {};
-    const ref = lead.ref || String(query.ref);
+    const lead = LeadApiService.getLocal();
+    const ref = lead ? lead.ref : String(query.ref || "");
 
-    const [firstName = ""] = lead.name?.split(" ");
+    const firstName = lead?.name?.split(" ")[0] || "";
     const link = `${location.origin}/convite?ref=${ref}&inviter=${firstName}`;
     Modal.open(() => <ShareModal link={link} />, { size: "sm" });
     copy(link);
