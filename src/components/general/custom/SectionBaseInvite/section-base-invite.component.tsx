@@ -12,7 +12,7 @@ export function SectionBaseInvite({ className, tag, ...props }: SectionBaseProps
 
   const textTag = useMemo(() => {
     if (!inviter || typeof tag !== "string") return tag;
-    return tag.replace('{{NAME}}', String(inviter));
+    return `${inviter} ${tag}`;
   }, [inviter, tag]);
 
   useEffect(() => {
