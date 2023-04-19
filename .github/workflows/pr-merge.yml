@@ -1,0 +1,23 @@
+name: "🗒 Título e descrição"
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+    branches:
+      - main
+
+jobs:
+  pr-rename:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Change PR title and description
+        if: success()
+        uses: juztcode/pr-updater@1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Merge develop into main"
+          title: "ci(merge): develop into main"
+          body: "Merge develop into main"

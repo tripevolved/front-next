@@ -498,6 +498,17 @@ export type BusinessProposalDocument<Lang extends string = string> = prismicT.Pr
 /** Content for Pages documents */
 interface PagesDocumentData {
     /**
+     * slug field in *Pages*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: pages.slug
+     * - **Tab**: Seo
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    slug: prismicT.KeyTextField;
+    /**
      * title field in *Pages*
      *
      * - **Field Type**: Text
@@ -603,7 +614,7 @@ interface PagesDocumentData {
  * Slice for *Pages → Slice Zone*
  *
  */
-type PagesDocumentDataSlicesSlice = FreeJsonSlice | SectionBaseSlice;
+type PagesDocumentDataSlicesSlice = never;
 /**
  * Pages document from Prismic
  *
@@ -613,7 +624,7 @@ type PagesDocumentDataSlicesSlice = FreeJsonSlice | SectionBaseSlice;
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type PagesDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<PagesDocumentData>, "pages", Lang>;
+export type PagesDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<PagesDocumentData>, "pages", Lang>;
 /** Content for Site Template documents */
 interface SiteTemplateDocumentData {
     /**

@@ -15,7 +15,10 @@
     "test:unit": "jest \".*spec\\.ts$\" --watch",
     "test:integration": "jest \".*test\\.tsx$\" --watch",
     "test:watch": "jest --watchAll",
-    "slicemachine": "start-slicemachine"
+    "slicemachine": "start-slicemachine",
+    "ci:build": "yarn build",
+    "ci:lint": "NODE_ENV=production yarn lint",
+    "ci:test": "jest --silent --reporters=default --coverage --watchAll=false --env=jsdom --testResultsProcessor"
   },
   "devDependencies": {
     "@prismicio/types": "^0.2.7",

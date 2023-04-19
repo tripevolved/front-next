@@ -1,0 +1,14 @@
+addReviewers: true
+
+addAssignees: 'author'
+
+reviewers:
+  - RicardoFredes
+
+numberOfReviewers: 0
+
+skipKeywords:
+  - wip
+
+skipUsers:
+  - dependabot[bot]

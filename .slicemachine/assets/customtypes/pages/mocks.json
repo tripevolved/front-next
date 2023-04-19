@@ -1,34 +1,35 @@
 {
-  "uid": {
-    "__TYPE__": "UIDContent",
-    "value": "else"
+  "slug": {
+    "__TYPE__": "FieldContent",
+    "value": "silent",
+    "type": "Text"
   },
   "title": {
     "__TYPE__": "FieldContent",
-    "value": "establish",
+    "value": "idea",
     "type": "Text"
   },
   "description": {
     "__TYPE__": "FieldContent",
-    "value": "monkey",
+    "value": "came",
     "type": "Text"
   },
   "image": {
     "__TYPE__": "ImageContent",
     "origin": {
       "id": "main",
-      "url": "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
-      "width": 4076,
-      "height": 2712
+      "url": "https://images.unsplash.com/photo-1600861194802-a2b11076bc51",
+      "width": 2545,
+      "height": 2545
     },
-    "url": "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?rect=0%2C210%2C4076%2C2293&w=1280&h=720",
+    "url": "https://images.unsplash.com/photo-1600861194802-a2b11076bc51?rect=0%2C557%2C2545%2C1432&w=1280&h=720",
     "width": 1280,
     "height": 720,
     "edit": {
       "zoom": 1,
       "crop": {
         "x": 0,
-        "y": 210
+        "y": 557
       },
       "background": "transparent"
     },
@@ -36,18 +37,18 @@
       "square": {
         "origin": {
           "id": "square",
-          "url": "https://images.unsplash.com/photo-1471897488648-5eae4ac6686b",
-          "width": 3560,
-          "height": 5340
+          "url": "https://images.unsplash.com/photo-1448932223592-d1fc686e76ea",
+          "width": 3500,
+          "height": 2338
         },
-        "url": "https://images.unsplash.com/photo-1471897488648-5eae4ac6686b?rect=0%2C890%2C3560%2C3560&w=1080&h=1080",
+        "url": "https://images.unsplash.com/photo-1448932223592-d1fc686e76ea?rect=581%2C0%2C2338%2C2338&w=1080&h=1080",
         "width": 1080,
         "height": 1080,
         "edit": {
           "zoom": 1,
           "crop": {
-            "x": 0,
-            "y": 890
+            "x": 581,
+            "y": 0
           },
           "background": "transparent"
         }
@@ -56,7 +57,7 @@
   },
   "canonical": {
     "__TYPE__": "FieldContent",
-    "value": "income",
+    "value": "nobody",
     "type": "Text"
   },
   "nofollow": {
@@ -65,101 +66,20 @@
   },
   "noindex": {
     "__TYPE__": "BooleanContent",
-    "value": true
+    "value": false
   },
   "keywords": {
     "__TYPE__": "FieldContent",
-    "value": "inside",
+    "value": "pure",
     "type": "Text"
   },
   "slices": {
     "__TYPE__": "SliceContentType",
-    "value": [
-      {
-        "key": "freeJson$01253750-9bec-42d2-88a9-9eaf0f5cdcf1",
-        "name": "freeJson",
-        "widget": {
-          "__TYPE__": "SharedSliceContent",
-          "variation": "customComponent",
-          "primary": {
-            "id": {
-              "__TYPE__": "FieldContent",
-              "value": "diagram",
-              "type": "Text"
-            },
-            "component": {
-              "__TYPE__": "FieldContent",
-              "value": "compass",
-              "type": "Text"
-            },
-            "data": {
-              "__TYPE__": "FieldContent",
-              "value": "create",
-              "type": "Text"
-            }
-          },
-          "items": [
-            {
-              "__TYPE__": "GroupItemContent",
-              "value": [
-                [
-                  "children",
-                  {
-                    "__TYPE__": "FieldContent",
-                    "value": "without",
-                    "type": "Text"
-                  }
-                ]
-              ]
-            }
-          ]
-        }
-      },
-      {
-        "key": "sectionBase$92b78d4d-43ba-44e5-84d2-634a593dec66",
-        "name": "sectionBase",
-        "widget": {
-          "__TYPE__": "SharedSliceContent",
-          "variation": "default",
-          "primary": {
-            "id": {
-              "__TYPE__": "FieldContent",
-              "value": "bear",
-              "type": "Text"
-            },
-            "container": {
-              "__TYPE__": "FieldContent",
-              "value": "none",
-              "type": "Select"
-            },
-            "data": {
-              "__TYPE__": "FieldContent",
-              "value": "adventure",
-              "type": "Text"
-            }
-          },
-          "items": [
-            {
-              "__TYPE__": "GroupItemContent",
-              "value": [
-                [
-                  "children",
-                  {
-                    "__TYPE__": "FieldContent",
-                    "value": "blank",
-                    "type": "Text"
-                  }
-                ]
-              ]
-            }
-          ]
-        }
-      }
-    ]
+    "value": []
   },
   "data": {
     "__TYPE__": "FieldContent",
-    "value": "chief",
+    "value": "date",
     "type": "Text"
   }
 }

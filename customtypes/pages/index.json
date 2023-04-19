@@ -5,8 +5,8 @@
   "status": true,
   "json": {
     "Seo": {
-      "uid": {
-        "type": "UID",
+      "slug": {
+        "type": "Text",
         "config": {
           "label": "slug",
           "placeholder": ""
@@ -79,14 +79,7 @@
         "type": "Slices",
         "fieldset": "Slice Zone",
         "config": {
-          "choices": {
-            "freeJson": {
-              "type": "SharedSlice"
-            },
-            "sectionBase": {
-              "type": "SharedSlice"
-            }
-          }
+          "choices": {}
         }
       }
     },
