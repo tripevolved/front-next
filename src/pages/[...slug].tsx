@@ -5,8 +5,8 @@ import type { GetStaticPaths, GetStaticProps } from "next";
 export { default } from ".";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { paths } = await CMSService.getAllPageSlugs();
-  return { paths, fallback: "blocking" };
+  const { slugs } = await CMSService.getAllPageSlugs();
+  return { paths: slugs, fallback: "blocking" };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
