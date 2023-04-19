@@ -4,7 +4,7 @@ import { Button } from "mars-ds";
 
 export default function AdminHomePage() {
   const handleClick = async () => {
-    const data = await CMSService.getUidPages();
+    const data = await CMSService.getAllPageSlugs();
     console.log(data);
   };
 

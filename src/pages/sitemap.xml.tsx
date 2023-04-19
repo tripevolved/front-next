@@ -13,8 +13,8 @@ export default function SiteMap() {
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // We make an API call to gather the URLs for our site
-  const { paths } = await CMSService.getUidPages();
-  const slugs = paths.map(ensureNotSlashStarts).filter(removeNotIndexPages);
+  const pages = await CMSService.getAllPageSlugs();
+  const slugs = pages.slugs.map(ensureNotSlashStarts).filter(removeNotIndexPages);
 
   // We generate the XML sitemap with the posts data
   const sitemap = generateSiteMap(slugs);
