@@ -16,7 +16,7 @@ const addImports = async (data: any): Promise<any> => {
   if (slug) console.log(slug, importedData)
 
   if (!children || typeof children !== "object") {
-    return { ...importedData, ...rest };
+    return { ...importedData, ...data };
   }
 
   const c = Array.isArray(children) ? children : [children]
