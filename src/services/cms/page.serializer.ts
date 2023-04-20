@@ -1,51 +1,9 @@
+import type { PageData, TemplateData } from "./cms.types";
+
 import { toJson } from "@/helpers/json.helpers";
-import type { MenuGroupProps, MenuProps, SocialProps } from "@/types";
-import { SeoNotSerialized, SeoSerializer } from "./seo.serializer";
-
-export interface PageData extends SeoNotSerialized {
-  data: string;
-  slices: [];
-}
-
-export interface TemplateData extends SeoNotSerialized {
-  menu: MenuProps;
-  slogan: string;
-  social: SocialProps;
-  sitemap: MenuProps;
-  slices: any[];
-}
-
-const NOT_FOUND_INDEX = -1;
-
-const makeFooterMenu = (items: MenuProps) => {
-  return items.reduce((acc: MenuGroupProps[], { group = "Links", ...item }) => {
-    const groupIndex = acc.findIndex(({ title }) => group === title);
-    const isNotFoundIndex = groupIndex === NOT_FOUND_INDEX;
-    const index = isNotFoundIndex ? acc.length : groupIndex;
-    if (isNotFoundIndex) {
-      acc.push({
-        title: group,
-        list: [],
-      });
-    }
-    acc[index].list.push(item);
-    return acc;
-  }, []);
-};
-
-const templateSerializer = ({
-  menu,
-  slogan,
-  social,
-  sitemap,
-  slices,
-  ...seoProps
-}: TemplateData) => {
-  const navbar = { menu };
-  const footer = { slogan, social, menu: makeFooterMenu(sitemap) };
-  const seo = SeoSerializer.handler(seoProps);
-  return { navbar, footer, seo };
-};
+import { SeoSerializer } from "./seo.serializer";
+import { TemplateSerializer } from "./template.serializer";
+import { PopulateService } from "./populate.service";
 
 const makeDataJson = (slices: any[]) => {
   return slices.map(({ primary = {}, items = [] }) => {
@@ -57,17 +15,19 @@ const makeDataJson = (slices: any[]) => {
   });
 };
 
-const pageSerializer = ({ data, slices, ...seoProps }: PageData) => {
+const parsePage = ({ data, slices, slug, ...seo }: PageData) => {
   const json = toJson(data);
-  const seo = SeoSerializer.handler(seoProps);
   const children = makeDataJson(slices);
-  return { seo, component: "PageBase", children, ...json };
+  return { seo, component: "PageBase", children, slug, ...json };
 };
 
-const handler = (pageData: PageData, templateData: TemplateData) => {
-  const page = pageSerializer(pageData);
-  const template = templateSerializer(templateData);
-  const seo = { ...template.seo, ...page.seo };
+const handler = async (pageData: PageData, templateData: TemplateData) => {
+  const { seo: pageSeo, ...parsedPage } = parsePage(pageData);
+  const { seo: templateSeo, ...template } = TemplateSerializer.handle(templateData);
+  const seo = SeoSerializer.handler({ ...templateSeo, ...pageSeo });
+
+  const page = await PopulateService.addImports(parsedPage);
+
   return { ...template, ...page, seo };
 };
 
