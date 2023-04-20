@@ -1,0 +1,12 @@
+{
+  "slug": {
+    "__TYPE__": "FieldContent",
+    "value": "citizen",
+    "type": "Text"
+  },
+  "data": {
+    "__TYPE__": "FieldContent",
+    "value": "hurt",
+    "type": "Text"
+  }
+}

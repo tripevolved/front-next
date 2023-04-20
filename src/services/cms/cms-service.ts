@@ -1,25 +1,22 @@
-import { PageData, PageSerializer, TemplateData } from "./page.serializer";
-import { createClient } from "./prismicio";
-import * as prismic from "@prismicio/client";
+import type { PageData, TemplateData } from "./cms.types";
+
+import { PageSerializer } from "./page.serializer";
+import { createClient, makeGetterDataBySlug } from "./prismicio";
 
 const client = createClient();
 const CUSTOM_TYPE = {
   PAGES: "pages",
+  PART: "part",
   TEMPLATE: "siteTemplate",
 };
+
+const getPageBySlug = makeGetterDataBySlug(CUSTOM_TYPE.PAGES);
+const getPart = makeGetterDataBySlug(CUSTOM_TYPE.PART);
 
 const getPage = async (slug = "home") => {
   try {
     const template = await client.getSingle(CUSTOM_TYPE.TEMPLATE);
-    const page = await client
-      .get({
-        predicates: prismic.predicate.at("my.pages.slug", slug),
-        page: 1,
-      })
-      .then(({ results = [] }) => results[0])
-      // TODO: remove try getByUID
-      .catch(() => client.getByUID(CUSTOM_TYPE.PAGES, slug));
-
+    const page = await getPageBySlug(slug);
     return PageSerializer.handler(page.data as PageData, template.data as TemplateData);
   } catch (error) {
     /* TODO: return error page */
@@ -41,4 +38,4 @@ const getAllPageSlugs = async () => {
   }
 };
 
-export const CMSService = { getPage, getAllPageSlugs };
+export const CMSService = { getPage, getAllPageSlugs, getPart };

@@ -625,6 +625,41 @@ type PagesDocumentDataSlicesSlice = never;
  * @typeParam Lang - Language API ID of the document.
  */
 export type PagesDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<PagesDocumentData>, "pages", Lang>;
+/** Content for JSON Part documents */
+interface PartDocumentData {
+    /**
+     * slug field in *JSON Part*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: part.slug
+     * - **Tab**: JSON
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    slug: prismicT.KeyTextField;
+    /**
+     * data field in *JSON Part*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: part.data
+     * - **Tab**: JSON
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    data: prismicT.KeyTextField;
+}
+/**
+ * JSON Part document from Prismic
+ *
+ * - **API ID**: `part`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PartDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<PartDocumentData>, "part", Lang>;
 /** Content for Site Template documents */
 interface SiteTemplateDocumentData {
     /**
@@ -846,7 +881,7 @@ export interface SiteTemplateDocumentDataSitemapItem {
  * @typeParam Lang - Language API ID of the document.
  */
 export type SiteTemplateDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<SiteTemplateDocumentData>, "siteTemplate", Lang>;
-export type AllDocumentTypes = BusinessProposalDocument | PagesDocument | SiteTemplateDocument;
+export type AllDocumentTypes = BusinessProposalDocument | PagesDocument | PartDocument | SiteTemplateDocument;
 /**
  * Primary content in FreeJson → Primary
  *
@@ -1002,6 +1037,6 @@ declare module "@prismicio/client" {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { BusinessProposalDocumentData, BusinessProposalDocumentDataLocationsItem, BusinessProposalDocumentDataSectionsSlice, BusinessProposalDocumentDataOrdensItem, BusinessProposalDocumentDataAccommodationsItem, BusinessProposalDocumentDataTransfersItem, BusinessProposalDocumentDataItineraryItem, BusinessProposalDocumentDataServicesItem, BusinessProposalDocumentDataRemarksItem, BusinessProposalDocumentDataTravelersItem, BusinessProposalDocument, PagesDocumentData, PagesDocumentDataSlicesSlice, PagesDocument, SiteTemplateDocumentData, SiteTemplateDocumentDataMenuItem, SiteTemplateDocumentDataSocialItem, SiteTemplateDocumentDataSitemapItem, SiteTemplateDocument, AllDocumentTypes, FreeJsonSliceCustomComponentPrimary, FreeJsonSliceCustomComponentItem, FreeJsonSliceCustomComponent, FreeJsonSliceVariation, FreeJsonSlice, SectionBaseSliceDefaultPrimary, SectionBaseSliceDefaultItem, SectionBaseSliceDefault, SectionBaseSliceVariation, SectionBaseSlice };
+        export type { BusinessProposalDocumentData, BusinessProposalDocumentDataLocationsItem, BusinessProposalDocumentDataSectionsSlice, BusinessProposalDocumentDataOrdensItem, BusinessProposalDocumentDataAccommodationsItem, BusinessProposalDocumentDataTransfersItem, BusinessProposalDocumentDataItineraryItem, BusinessProposalDocumentDataServicesItem, BusinessProposalDocumentDataRemarksItem, BusinessProposalDocumentDataTravelersItem, BusinessProposalDocument, PagesDocumentData, PagesDocumentDataSlicesSlice, PagesDocument, PartDocumentData, PartDocument, SiteTemplateDocumentData, SiteTemplateDocumentDataMenuItem, SiteTemplateDocumentDataSocialItem, SiteTemplateDocumentDataSitemapItem, SiteTemplateDocument, AllDocumentTypes, FreeJsonSliceCustomComponentPrimary, FreeJsonSliceCustomComponentItem, FreeJsonSliceCustomComponent, FreeJsonSliceVariation, FreeJsonSlice, SectionBaseSliceDefaultPrimary, SectionBaseSliceDefaultItem, SectionBaseSliceDefault, SectionBaseSliceVariation, SectionBaseSlice };
     }
 }

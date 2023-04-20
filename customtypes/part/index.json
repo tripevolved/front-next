@@ -1,0 +1,24 @@
+{
+  "id": "part",
+  "label": "JSON Part",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "JSON": {
+      "slug": {
+        "type": "Text",
+        "config": {
+          "label": "slug",
+          "placeholder": ""
+        }
+      },
+      "data": {
+        "type": "Text",
+        "config": {
+          "label": "data",
+          "placeholder": ""
+        }
+      }
+    }
+  }
+}

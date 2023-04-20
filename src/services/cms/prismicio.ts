@@ -12,3 +12,12 @@ export const createClient = () => {
 
   return client;
 };
+
+export const makeGetterDataBySlug = (customType: string) => {
+  const client = createClient();
+
+  return async (slug: string) => {
+    const query = prismic.predicate.at(`my.${customType}.slug`, slug);
+    return client.get({ predicates: query, page: 1 }).then(({ results = [] }) => results[0]);
+  };
+};
