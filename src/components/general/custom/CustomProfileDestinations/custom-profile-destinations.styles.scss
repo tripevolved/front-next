@@ -3,11 +3,6 @@
   > * {
     width: 100%;
   }
-  .auto-scroll-gap {
-    @media (max-width: 740px) {
-      min-width: 16px;
-    }
-  }
   &__empty-state {
     text-align: center;
     width: 100%;

@@ -73,7 +73,6 @@ const DestinationBlock = ({ profileName }: DestinationsProps) => {
 
   return (
     <AutoScroll className="destinations-block">
-      <div className="auto-scroll-gap" />
       {error ? (
         <ProfileErrorState />
       ) : isLoading ? (
@@ -83,7 +82,6 @@ const DestinationBlock = ({ profileName }: DestinationsProps) => {
       ) : (
         <ProfileDestinations />
       )}
-      <div className="auto-scroll-gap" />
     </AutoScroll>
   );
 };
