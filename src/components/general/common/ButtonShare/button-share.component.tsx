@@ -36,7 +36,7 @@ const IMAGE_OK = "/assets/lancamento/modal-ok.svg";
 const socialInvites = [
   {
     name: "WhatsApp",
-    iconName: "message-circle",
+    iconName: "whatsapp",
     backgroundColor: "#2cb742",
     color: "white",
     url: "https://api.whatsapp.com/send?text={{TEXT}}",
