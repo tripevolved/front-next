@@ -11,9 +11,9 @@ export function SectionBaseInvite({ className, tag, ...props }: SectionBaseProps
   const cn = makeClassName("section-base-invite", className)();
 
   const textTag = useMemo(() => {
-    if (!inviter || typeof tag !== "string") return tag;
-    return `${inviter} ${tag}`;
-  }, [inviter, tag]);
+    if (!(inviter || email) || typeof tag !== "string") return tag;
+    return `${inviter || email} ${tag}`;
+  }, [email, inviter, tag]);
 
   useEffect(() => {
     if (!email) return;
