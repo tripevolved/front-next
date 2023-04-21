@@ -11,13 +11,14 @@ import { AutoScroll, Card, Grid, Skeleton } from "mars-ds";
 export function CustomProfileDestinations({
   className,
   children,
+  profileName: name,
   sx,
   ...props
 }: CustomProfileDestinationsProps) {
   const cn = makeClassName("custom-profile-destinations", className)(sx);
 
   const { asPath } = useRouter();
-  const profileName = useMemo(() => asPath.replace(/.*\/(.*)\/$/, "$1"), [asPath]);
+  const profileName = useMemo(() => name || asPath.replace(/.*\/(.*)\/$/, "$1"), [asPath, name]);
 
   const message = useMemo(() => {
     return `Olá, eu já sei para onde quero ir! O meu perfil viajante é: ${profileName}`;
@@ -25,7 +26,7 @@ export function CustomProfileDestinations({
 
   return (
     <MediaObject className={cn} {...props}>
-      <Grid>
+      <Grid className="mt-lg">
         <Text heading size="xs" sx={{ textAlign: "left" }}>
           Alguns destinos que você pode gostar:
         </Text>
