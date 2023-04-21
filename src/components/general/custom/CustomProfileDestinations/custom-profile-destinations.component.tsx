@@ -16,11 +16,8 @@ export function CustomProfileDestinations({
 }: CustomProfileDestinationsProps) {
   const cn = makeClassName("custom-profile-destinations", className)(sx);
 
-  const router = useRouter();
-  const profileName = useMemo(
-    () => router.pathname.replace(/.*\/(.*)\/?$/, "$1"),
-    [router.pathname]
-  );
+  const { asPath } = useRouter();
+  const profileName = useMemo(() => asPath.replace(/.*\/(.*)\/?$/, "$1"), [asPath]);
 
   const message = useMemo(() => {
     return `Olá, eu já sei para onde quero ir! O meu perfil viajante é: ${profileName}`;
