@@ -23,12 +23,7 @@
           "config": {
             "label": "container",
             "placeholder": "Tamanho do container da seção",
-            "options": [
-              "lg",
-              "sm",
-              "md",
-              "none"
-            ]
+            "options": ["lg", "sm", "md", "none"]
           }
         },
         "data": {

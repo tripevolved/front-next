@@ -9,4 +9,3 @@ export const LocalStorageService = {
   getJson: <T = object>(key: string): T | null => toJson<T>(window.localStorage.getItem(key)),
   saveJson: (key: string, data: object) => window.localStorage.setItem(key, jsonToString(data)),
 };
-

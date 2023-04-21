@@ -20,7 +20,7 @@ function colortToCssVars() {
   for (const key in colors) {
     const group = colors[key];
     for (const subkey in group) {
-      const color = group[subkey]
+      const color = group[subkey];
       result += `--color-${key}-${subkey}: ${color};\n`;
     }
   }

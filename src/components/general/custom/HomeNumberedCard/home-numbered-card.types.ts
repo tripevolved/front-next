@@ -5,4 +5,4 @@ export interface HomeNumberedCardProps extends CardProps {
   heading?: string | TextProps;
   subtitle?: string | TextProps;
   text?: string | TextProps;
-};
+}

@@ -1,3 +1,3 @@
 import { ComponentHTMLProps } from "@/types";
 
-export interface AdminPageProps extends ComponentHTMLProps {};
+export interface AdminPageProps extends ComponentHTMLProps {}

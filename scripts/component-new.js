@@ -1,7 +1,12 @@
 const readline = require("readline");
 const fs = require("fs-extra");
 const { kebabCaseToPascalCase } = require("./helpers/strings");
-const { componentTemplate, styleTemplate, typesTemplate, testTemplate } = require("./templates/components.template.js");
+const {
+  componentTemplate,
+  styleTemplate,
+  typesTemplate,
+  testTemplate,
+} = require("./templates/components.template.js");
 
 const PATH_COMPONENT = "./src/components";
 

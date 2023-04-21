@@ -11,7 +11,7 @@ export interface PricingProps extends ComponentHTMLProps {
   highlight?: Boolean;
   price?: PriceProps;
   label?: TextProps;
-};
+}
 
 export interface PriceProps extends ComponentHTMLProps {
   current?: string;

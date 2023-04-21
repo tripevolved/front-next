@@ -1,6 +1,6 @@
 import { Notification, NotificationVariants } from "mars-ds";
 
-type NotificationType = typeof NotificationVariants[keyof typeof NotificationVariants];
+type NotificationType = (typeof NotificationVariants)[keyof typeof NotificationVariants];
 
 const notify = (content: string, variant?: NotificationType) =>
   Notification.open({ content, variant });

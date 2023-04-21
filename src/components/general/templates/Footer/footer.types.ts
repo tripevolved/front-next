@@ -1,1 +1,1 @@
-export type { FooterProps } from "@/types"
+export type { FooterProps } from "@/types";

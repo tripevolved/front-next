@@ -39,27 +39,19 @@ describe("picture.helper", () => {
       });
 
       it("return full values", () => {
-        expect(
-          parseImageSources({ src, base: s, sm: s, md: s, lg: s, xl: s })
-        ).toEqual(makeResult(v, v, v, v, v));
+        expect(parseImageSources({ src, base: s, sm: s, md: s, lg: s, xl: s })).toEqual(
+          makeResult(v, v, v, v, v)
+        );
       });
 
       it("return a mix values", () => {
-        expect(parseImageSources({ src, sm: s, lg: s })).toEqual(
-          makeResult(v, v, u, v)
-        );
+        expect(parseImageSources({ src, sm: s, lg: s })).toEqual(makeResult(v, v, u, v));
       });
     });
   });
 });
 
 /* helpers */
-function makeResult(
-  base?: string,
-  sm?: string,
-  md?: string,
-  lg?: string,
-  xl?: string
-) {
+function makeResult(base?: string, sm?: string, md?: string, lg?: string, xl?: string) {
   return { base, sm, md, lg, xl };
 }

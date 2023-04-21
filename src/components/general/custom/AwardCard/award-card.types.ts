@@ -4,6 +4,6 @@ import type { TextProps } from "@/components";
 export interface AwardCardProps extends ComponentHTMLProps {
   emojiName?: string;
   label?: string;
-  heading?: TextProps
-  text?: TextProps
-};
+  heading?: TextProps;
+  text?: TextProps;
+}

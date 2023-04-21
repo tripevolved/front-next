@@ -31,11 +31,7 @@
         "config": {
           "label": "Status",
           "placeholder": "",
-          "options": [
-            "Aguardando aprovação",
-            "Pagamento homologado",
-            "Emitindo vouchers"
-          ]
+          "options": ["Aguardando aprovação", "Pagamento homologado", "Emitindo vouchers"]
         }
       }
     },

@@ -1,3 +1,3 @@
 import { MediaObjectProps } from "../../common/MediaObject";
 
-export interface CustomProfileDestinationsProps extends MediaObjectProps {};
+export interface CustomProfileDestinationsProps extends MediaObjectProps {}

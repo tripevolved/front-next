@@ -14,8 +14,8 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-    - uses: seferov/pr-lint-action@master
-      with:
-        title-regex: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.*\))?: .*$'
-        title-regex-flags: 'g' # optional
-        error-message: 'The PR title needs to follow a the semantic commit format. Read more at https://www.conventionalcommits.org/' # optional
+      - uses: seferov/pr-lint-action@master
+        with:
+          title-regex: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.*\))?: .*$'
+          title-regex-flags: "g" # optional
+          error-message: "The PR title needs to follow a the semantic commit format. Read more at https://www.conventionalcommits.org/" # optional

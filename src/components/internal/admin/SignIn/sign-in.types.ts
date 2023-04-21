@@ -1,3 +1,3 @@
 import { ComponentHTMLProps } from "@/types";
 
-export interface SignInProps extends ComponentHTMLProps {};
+export interface SignInProps extends ComponentHTMLProps {}

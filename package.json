@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "prettier --write \"src/**/*.{ts,tsx,js}\"",
+    "lint:fix": "prettier 'src/**/*.{ts,js,json,md,yml,yaml}' --write",
     "component:index": "node scripts/component-index.js",
     "component:new": "node scripts/component-new.js",
     "data:index": "node scripts/data-index.js",

@@ -14,9 +14,9 @@ export const isValidToJson = (data: any) => {
   } catch (error) {
     return false;
   }
-}
+};
 
 export const jsonToString = (data: any) => {
   if (typeof data !== "object") return "";
   return JSON.stringify(data, null, 2);
-}
+};
