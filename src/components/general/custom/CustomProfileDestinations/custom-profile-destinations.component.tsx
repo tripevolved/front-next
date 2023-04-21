@@ -27,7 +27,7 @@ export function CustomProfileDestinations({
   return (
     <MediaObject className={cn} {...props}>
       <Grid className="mt-lg">
-        <Text heading size="xs" sx={{ textAlign: "left" }}>
+        <Text heading size="xs">
           Alguns destinos que você pode gostar:
         </Text>
         <DestinationBlock profileName={profileName} />

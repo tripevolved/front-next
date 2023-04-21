@@ -2,6 +2,8 @@
  * Do NOT change this file, because it is automatically generated
  * run "yarn component:index" to update
  */
+export * from "./buttons/ShareButton";
+export * from "./buttons/WhatsappButton";
 export * from "./common/Accordion";
 export * from "./common/AutoScrollNav";
 export * from "./common/Box";
@@ -15,7 +17,6 @@ export * from "./common/Picture";
 export * from "./common/Pricing";
 export * from "./common/Tag";
 export * from "./common/Text";
-export * from "./common/WhatsappButton";
 export * from "./custom/AwardCard";
 export * from "./custom/CustomProfileDestinations";
 export * from "./custom/HomeNumberedCard";
