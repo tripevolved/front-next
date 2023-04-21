@@ -1,17 +1,15 @@
 import { sendFormData } from "@/helpers/form.helpers";
-import { ensureNotSlashEnds } from "@/helpers/url.helper";
 import { Lead, LeadRef } from "@/types";
 import axios from "axios";
 import { LocalStorageService } from "../store/local-storage.service";
+import { ApiRequestService } from "./api-request.service";
 
-const API_URL = ensureNotSlashEnds(process.env.NEXT_PUBLIC_API_URL || "");
 const LAUNCH_LIST_URL = "https://getlaunchlist.com/s/0l3TDN";
 const KEY_LEAD = "lead";
 
 const createLeadInApi = async (lead: Pick<Lead, "email" | "name" | "phone">) => {
-  const url = `${API_URL}/api/customers/create`;
-  return axios
-    .post<{ id: string }>(url, lead)
+  const url = `customers/create`;
+  return ApiRequestService.post<{ id: string }>(url, lead)
     .then(({ data }) => ({ uid: data.id as string, ...lead }))
     .catch(() => ({ uid: "" }));
 };

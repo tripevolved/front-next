@@ -1,5 +1,4 @@
-import axios from "axios";
-import { getUrlApi } from "./model";
+import { ApiRequestService } from "./api-request.service";
 
 interface Destination {
   id: string;
@@ -16,8 +15,8 @@ const destinationSerializer = (destination: any): Destination => {
 };
 
 const getDestinations = async (profileName: string): Promise<Destination[]> => {
-  const url = getUrlApi(`profiles/${profileName}`);
-  return axios
+  const url = `profiles/${profileName}`;
+  return ApiRequestService
     .get(url)
     .then(({ data }) => data)
     .then(({ destinations = [] }) => destinations.map(destinationSerializer));

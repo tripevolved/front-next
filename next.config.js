@@ -4,7 +4,8 @@ const nextConfig = {
   swcMinify: true,
   trailingSlash: true,
   env: {
-    NEXT_PUBLIC_API_URL: process.env.API_URL || "https://api.dev.tripevolved.com.br",
+    NEXT_PUBLIC_API_URL: process.env.API_URL,
+    NEXT_PUBLIC_API_KEY: process.env.API_KEY,
   },
   images: {
     unoptimized: true,
