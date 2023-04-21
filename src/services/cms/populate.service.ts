@@ -1,3 +1,4 @@
+import dataSchemaModifier from "ribof/json-schema-modifier";
 import { toJson } from "@/helpers/json.helpers";
 import { CMSService } from "./cms-service";
 
@@ -6,15 +7,23 @@ const getPartBySlug = async (slug?: any): Promise<null | any> => {
   return CMSService.getPart(slug).then(({ data }) => toJson(data.data));
 };
 
+const injectWith = (dataProvided: any, schema: any) => {
+  if (!schema) return null;
+  if (typeof dataProvided !== "object") return schema;
+  return dataSchemaModifier(dataProvided, schema)
+}
+
 const addImports = async (data: any): Promise<any> => {
   if (!data) return data;
 
-  const { children, import: slug, ...rest } = data;
+  const { children: dataChildren, import: slug, with: dataProvided, ...rest } = data;
 
   const importedData = await getPartBySlug(slug);
 
+  const children = injectWith(dataProvided, importedData?.children) || dataChildren || null;
+
   if (!children || typeof children !== "object") {
-    return { ...importedData, ...data };
+    return { ...importedData, ...data, children };
   }
 
   const c = Array.isArray(children) ? children : [children];
