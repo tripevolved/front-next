@@ -7,7 +7,6 @@ export * from "./buttons/WhatsappButton";
 export * from "./common/Accordion";
 export * from "./common/AutoScrollNav";
 export * from "./common/Box";
-export * from "./common/ButtonShare";
 export * from "./common/Emoji";
 export * from "./common/LineDecoration";
 export * from "./common/Logo";

@@ -6,7 +6,7 @@ import { Box, MediaObject, ModalContent } from "@/components";
 import copy from "copy-to-clipboard";
 import { getSocialSharingList } from "./share-button.helpers";
 import { pageConfig } from "@/configs/page.config";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { LeadApiService } from "@/services/api/lead-api.service";
 
 const DEFAULT_HEADING = "Compartilhar";
@@ -60,8 +60,8 @@ export function ShareButton({
   };
 
   return (
-    <Box>
-      <Button className={cn} variant="secondary" iconName="share" onClick={handleClick} {...props}>
+    <Box className={cn}>
+      <Button variant="secondary" iconName="share" onClick={handleClick} {...props}>
         {label}
       </Button>
     </Box>
@@ -87,7 +87,6 @@ const SocialSharingModal = ({ link, message, ...props }: SocialSharingModalProps
 };
 
 const SocialShare = (props: ButtonProps) => {
-  console.log(props.href);
   return (
     <Button
       style={{ padding: "4px 12px", fontSize: "11px", minWidth: 120 }}
