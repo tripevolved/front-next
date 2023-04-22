@@ -5,12 +5,14 @@ interface ProfileQuestionsNavigationProps {
   position: number;
   total: number;
   onNavigation: (newPosition: number) => void;
+  isNextButtonDisabled?: boolean;
 }
 
 export const ProfileQuestionsNavigation = ({
   position = 0,
   total = 1,
   onNavigation,
+  isNextButtonDisabled,
 }: ProfileQuestionsNavigationProps) => {
   const label = useMemo(() => (position === total ? "Concluir" : "Próxima"), [position, total]);
 
@@ -29,7 +31,7 @@ export const ProfileQuestionsNavigation = ({
         hoverBackgroundColor="var(--color-secondary-900)"
         className="profile-questions-navigation__next"
         onClick={() => onNavigation(position + 1)}
-        disabled={position > total}
+        disabled={position > total || isNextButtonDisabled}
       >
         {label}
       </Button>

@@ -37,6 +37,7 @@ const PictureChildren = ({
     () => parseImageSources({ src, base, sm, md, lg, xl }),
     [base, lg, md, sm, src, xl]
   );
+
   if (Object.values(images).every((value) => !value)) return null;
 
   const defaultHeight = height || sm?.height || md?.height || lg?.height;
@@ -53,10 +54,10 @@ const PictureChildren = ({
       {images.lg && <ImageSource mediaSize={PICTURE_MEDIA_SIZES.LG} {...lg} src={images.lg} />}
       {images.xl && <ImageSource mediaSize={PICTURE_MEDIA_SIZES.XL} {...xl} src={images.xl} />}
       <img
+        {...commonProps}
         data-testid={PICTURE_TESTID.IMAGE}
         src={images.base}
         alt={alt || title}
-        {...commonProps}
       />
     </picture>
   );

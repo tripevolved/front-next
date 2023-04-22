@@ -4,13 +4,14 @@ import type { ProfileQuestionsProps } from "./profile-questions.types";
 
 import { makeClassName } from "@/helpers/classname.helpers";
 import { ProfileApiService } from "@/services/api/profile";
-import { SectionBase, StepsProgressBar } from "@/components";
+import { Picture, SectionBase, StepsProgressBar } from "@/components";
 import { useMemo, useState } from "react";
 import { ProfileQuestionsNavigation } from "./profile-questions-navigation";
 import { ProfileQuestionsItem } from "./profile-question-item";
 import { ProfileQuestionsResponse } from "@/services/api/profile/questions";
+import { Caption, Card, Grid } from "mars-ds";
 
-const data = [
+const data2 = [
   {
     page: 1,
     questions: [
@@ -267,36 +268,81 @@ const data = [
 ] as ProfileQuestionsResponse;
 
 export function ProfileQuestions({ className, children, sx, ...props }: ProfileQuestionsProps) {
-  // const { data, error, isLoading } = useSwr("questions", ProfileApiService.getQuestions, {
-  //   revalidateOnFocus: false,
-  // });
+  const {
+    data = [],
+    error,
+    isLoading,
+  } = useSwr("questions", ProfileApiService.getQuestions, {
+    revalidateOnFocus: false,
+  });
 
-  const [position, setPosition] = useState(0);
+  const [answers, setAnswers] = useState<any>({});
+
+  const [currentPosition, setCurrentPosition] = useState(0);
 
   const cn = makeClassName("profile-questions", className)(sx);
 
   const handleNavigation = (newPosition: number) => {
     if (newPosition < 0) return;
-    if (total >= newPosition) setPosition(newPosition);
+    if (total >= newPosition) setCurrentPosition(newPosition);
+    console.log(answers);
   };
 
   const total = useMemo(() => data.length - 1, [data.length]);
 
-  const currentQuestions = useMemo(() => data[position].questions, [data, position]);
+  const style: any = useMemo(() => ({ "--position": currentPosition }), [currentPosition]);
+
+  const handleCheck = (id: string) => (value: string | string[]) => {
+    setAnswers((state: any) => {
+      const isEmptyArray = Array.isArray(value) && value.length === 0;
+      return {
+        ...state,
+        [id]: isEmptyArray ? null : value,
+      };
+    });
+  };
+
+  const isNextButtonDisabled = () =>
+    data[currentPosition].questions.every(({ id }) => !answers[id]);
+
+  if (error) return <div>erro</div>;
+  if (isLoading) return <div>carregando...</div>;
 
   return (
-    <SectionBase className={cn} container="sm" {...props}>
-      <StepsProgressBar position={position} total={total} />
-      <main className="profile-questions__group">
-        {currentQuestions.map((question) => (
-          <ProfileQuestionsItem key={question.id} {...question} />
-        ))}
-      </main>
-      <ProfileQuestionsNavigation
-        position={position}
-        total={total}
-        onNavigation={handleNavigation}
+    <SectionBase className={cn} container={"xs" as any} {...props}>
+      <Picture
+        className="profile-questions__brand"
+        height={60}
+        width={60}
+        src="/brand/logo-symbol.svg"
       />
+      <Grid as={Card} gap={48}>
+        <div>
+          <Caption as="p" className="mb-lg profile-questions__caption">
+            Descobrir meu perfil de viajante
+          </Caption>
+          <StepsProgressBar position={currentPosition} total={total} />
+        </div>
+        <main className="profile-questions__group mb-lg" style={style}>
+          {data.map(({ page, questions = [] }) => (
+            <div key={page}>
+              {questions.map((question) => (
+                <ProfileQuestionsItem
+                  key={question.id}
+                  {...question}
+                  onCheck={handleCheck(question.id)}
+                />
+              ))}
+            </div>
+          ))}
+        </main>
+        <ProfileQuestionsNavigation
+          position={currentPosition}
+          total={total}
+          onNavigation={handleNavigation}
+          isNextButtonDisabled={isNextButtonDisabled()}
+        />
+      </Grid>
     </SectionBase>
   );
 }

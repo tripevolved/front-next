@@ -26,7 +26,7 @@ const handler = async (pageData: PageData, templateData: TemplateData) => {
   const { seo: templateSeo, ...template } = TemplateSerializer.handle(templateData);
   const seo = SeoSerializer.handler({ ...templateSeo, ...pageSeo });
 
-  const page = await PopulateService.addImports(parsedPage);
+  const page = await PopulateService.handler(parsedPage);
 
   return { ...template, ...page, seo };
 };

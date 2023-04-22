@@ -2,12 +2,12 @@ import type { PageBaseProps } from "./page-base.types";
 
 import { Footer, Navbar } from "@/components";
 
-export function PageBase({ children, navbar, footer }: PageBaseProps) {
+export function PageBase({ children, hideNavbar, hideFooter, navbar, footer }: PageBaseProps) {
   return (
     <>
-      <Navbar {...navbar} />
+      {hideNavbar ? null : <Navbar {...navbar} />}
       <main>{children}</main>
-      <Footer {...footer} />
+      {hideFooter ? null : <Footer {...footer} />}
     </>
   );
 }

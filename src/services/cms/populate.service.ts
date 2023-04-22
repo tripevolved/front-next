@@ -37,4 +37,4 @@ const addImports = async (data: any): Promise<any> => {
   };
 };
 
-export const PopulateService = { addImports };
+export const PopulateService = { handler: addImports };

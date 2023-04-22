@@ -1,12 +1,15 @@
 .steps-progress-bar {
-  height: 10px;
+  $height: 12px;
+
+  height: $height;
   width: 100%;
   background-color: $color-gray-3;
-  border-radius: 5px;
+  border-radius: $height;
   &__status {
-    height: 10px;
+    height: $height;
     background-color: $color-brand-4;
-    border-radius: 5px;
+    border-radius: $height;
     transition: width ease 1s;
+    min-width: 24px;
   };
 }
