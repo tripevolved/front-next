@@ -23,6 +23,8 @@ export * from "./custom/IntroductionCard";
 export * from "./custom/LeadList";
 export * from "./custom/LeadListForm";
 export * from "./custom/SectionBaseInvite";
+export * from "./loaders/GlobalLoader";
+export * from "./loaders/ProgressBar";
 export * from "./sections/SectionBase";
 export * from "./sections/SectionFaq";
 export * from "./templates/Footer";

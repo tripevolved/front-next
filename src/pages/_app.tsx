@@ -6,6 +6,7 @@ import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import NextLink from "next/link";
 import { Analytics } from "@vercel/analytics/react";
+import { ProgressIndicator } from "@/components";
 
 const LinkComponent = ({ url, ...props }: any) => {
   return <NextLink href={url} {...props} />;
@@ -42,6 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       />
       <AppProvider linkComponent={LinkComponent}>
+        <ProgressIndicator />
         <Component {...pageProps} />
       </AppProvider>
       <Analytics />
