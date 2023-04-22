@@ -27,7 +27,7 @@
         rgba(0, 0, 0, 0) 50%,
         rgba(0, 0, 0, 0.75) 75%
       ),
-      var(--cover-image, url(""));
+      var(--cover-image, url("/assets/1px.png"));
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
