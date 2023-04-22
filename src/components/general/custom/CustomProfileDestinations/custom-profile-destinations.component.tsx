@@ -5,7 +5,7 @@ import type { CustomProfileDestinationsProps } from "./custom-profile-destinatio
 import { makeClassName } from "@/helpers/classname.helpers";
 import { useCallback, useMemo } from "react";
 import { useRouter } from "next/router";
-import { ProfileApi } from "@/services/api/profile-api.service";
+import { ProfileApiService } from "@/services/api/profile";
 import { AutoScroll, Card, Grid, Skeleton } from "mars-ds";
 
 export function CustomProfileDestinations({
@@ -51,7 +51,7 @@ const DestinationBlock = ({ profileName }: DestinationsProps) => {
     data: destinations = [],
     error,
     isLoading,
-  } = useSWR(profileName, () => ProfileApi.getDestinations(profileName), {
+  } = useSWR(profileName, () => ProfileApiService.getDestinations(profileName), {
     revalidateOnFocus: false,
   });
 

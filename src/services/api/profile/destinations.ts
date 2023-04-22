@@ -1,4 +1,4 @@
-import { ApiRequestService } from "./api-request.service";
+import { ApiRequestService } from "../api-request.service";
 
 interface Destination {
   id: string;
@@ -14,12 +14,10 @@ const destinationSerializer = (destination: any): Destination => {
   };
 };
 
-const getDestinations = async (profileName: string): Promise<Destination[]> => {
+export const getDestinations = async (profileName: string): Promise<Destination[]> => {
   const url = `profiles/${profileName}`;
   return ApiRequestService
     .get(url)
     .then(({ data }) => data)
     .then(({ destinations = [] }) => destinations.map(destinationSerializer));
 };
-
-export const ProfileApi = { getDestinations };

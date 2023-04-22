@@ -1,0 +1,12 @@
+.steps-progress-bar {
+  height: 10px;
+  width: 100%;
+  background-color: $color-gray-3;
+  border-radius: 5px;
+  &__status {
+    height: 10px;
+    background-color: $color-brand-4;
+    border-radius: 5px;
+    transition: width ease 1s;
+  };
+}

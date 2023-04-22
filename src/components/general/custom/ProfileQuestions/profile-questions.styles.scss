@@ -1,0 +1,20 @@
+.profile-questions__group {
+  padding: 48px 0;
+}
+
+.profile-questions-item {
+  &__answers {
+    padding-top: 48px;
+  }
+}
+
+.profile-questions-navigation {
+  display: flex;
+  gap: 8px;
+  &__next {
+    min-width: 200px;
+    @media (max-width: 420px) {
+      flex-grow: 1;
+    }
+  }
+}

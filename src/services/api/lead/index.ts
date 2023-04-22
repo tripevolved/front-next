@@ -1,8 +1,8 @@
 import { sendFormData } from "@/helpers/form.helpers";
 import { Lead, LeadRef } from "@/types";
 import axios from "axios";
-import { LocalStorageService } from "../store/local-storage.service";
-import { ApiRequestService } from "./api-request.service";
+import { LocalStorageService } from "../../store/local-storage.service";
+import { ApiRequestService } from "../api-request.service";
 
 const LAUNCH_LIST_URL = "https://getlaunchlist.com/s/0l3TDN";
 const KEY_LEAD = "lead";

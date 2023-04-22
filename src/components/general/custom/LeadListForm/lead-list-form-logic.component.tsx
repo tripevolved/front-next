@@ -1,5 +1,5 @@
 import { handleFormSubmit, SubmitHandler } from "@/helpers/form.helpers";
-import { LeadApiService } from "@/services/api/lead-api.service";
+import { LeadApiService } from "@/services/api/lead";
 import { Lead } from "@/types";
 import { Grid, SubmitButton, TextField } from "mars-ds";
 import { useRouter } from "next/router";

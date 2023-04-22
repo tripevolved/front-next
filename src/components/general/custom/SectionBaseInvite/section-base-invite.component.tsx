@@ -2,7 +2,7 @@ import { makeClassName } from "@/helpers/classname.helpers";
 import { SectionBase, SectionBaseProps } from "@/components";
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
-import { LeadApiService } from "@/services/api/lead-api.service";
+import { LeadApiService } from "@/services/api/lead";
 
 export function SectionBaseInvite({ className, tag, ...props }: SectionBaseProps) {
   const { query } = useRouter();

@@ -7,7 +7,7 @@ import copy from "copy-to-clipboard";
 import { getSocialSharingList } from "./share-button.helpers";
 import { pageConfig } from "@/configs/page.config";
 import { useEffect, useState } from "react";
-import { LeadApiService } from "@/services/api/lead-api.service";
+import { LeadApiService } from "@/services/api/lead";
 
 const DEFAULT_HEADING = "Compartilhar";
 const DEFAULT_MESSAGE =

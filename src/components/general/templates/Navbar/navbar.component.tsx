@@ -3,7 +3,7 @@ import type { NavbarProps } from "./navbar.types";
 import { Logo } from "@/components";
 import { Button, Link, ToggleButton } from "mars-ds";
 import { useEffect, useState } from "react";
-import { LeadApiService } from "@/services/api/lead-api.service";
+import { LeadApiService } from "@/services/api/lead";
 import { MenuItemProps } from "@/types";
 
 const subscribedMenu = {
