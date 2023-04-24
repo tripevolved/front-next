@@ -30,7 +30,7 @@ export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => 
   };
 
   return (
-    <form onSubmit={handleFormSubmit(handleSubmit)}>
+    <form className="text-left" onSubmit={handleFormSubmit(handleSubmit)}>
       <Grid {...props}>
         <TextField required name="name" label="Nome" minLength={3} />
         <TextField required name="email" label="Seu melhor e-mail" type="email" />
