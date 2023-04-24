@@ -1,3 +1,5 @@
+import useSwr from "swr";
+
 import { jsonToString, toJson } from "@/helpers/json.helpers";
 import { useLocalStorage } from "@/hooks/local-storage.hooks";
 import { ProfileApiService } from "@/services/api/profile";
@@ -7,25 +9,17 @@ import { EmptyState, StepsProgressBar } from "@/components";
 import { ProfileQuestionsItem } from "./profile-question-item";
 import { ProfileQuestionsNavigation } from "./profile-questions-navigation";
 import { AnswersDto } from "@/services/api/profile/answers";
-import { useFetch } from "@/hooks/fetch.hook";
-import { ProfileQuestionsResponse } from "@/services/api/profile/questions";
 
 export interface ProfileQuestionsFormProps {
   onSubmit: (answers: AnswersDto) => void;
 }
 
 export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) => {
-  const {
-    data: inheritedData,
-    error,
-    isLoading,
-  } = useFetch<ProfileQuestionsResponse>("questions", ProfileApiService.getQuestions);
+  const { data = [], error, isLoading } = useSwr("questions", ProfileApiService.getQuestions);
 
   const [localAnswers, setLocalAnswers] = useLocalStorage("travel-profile-answers");
   const [answers, setAnswers] = useState<AnswersDto>({});
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const data = useMemo(() => inheritedData || [], [inheritedData]);
 
   const total = useMemo(() => data.length - 1, [data.length]);
 
