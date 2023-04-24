@@ -25,7 +25,6 @@ $mobile: 425px;
   }
 
   &__card {
-    min-height: 320px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,7 +32,6 @@ $mobile: 425px;
 
   &-form {
     width: 100%;
-    min-height: 280px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -58,15 +56,18 @@ $mobile: 425px;
     }
   }
 
-  &__header {
-    @media (max-width: $mobile) {
-      padding: 0 24px 24px;
+  @media (max-width: $mobile) {
+    &__header {
+      padding: 12px 24px 24px;
       margin: 0 -24px;
       position: sticky;
-      top: 16px;
+      top: 0;
       border-bottom: 1px solid $color-divider;
       background-color: white;
       z-index: 1;
+    }
+    &__footer {
+      min-height: 40px;
     }
   }
 }

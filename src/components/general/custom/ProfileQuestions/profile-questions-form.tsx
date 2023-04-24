@@ -1,7 +1,7 @@
 import { jsonToString, toJson } from "@/helpers/json.helpers";
 import { useLocalStorage } from "@/hooks/local-storage.hooks";
 import { ProfileApiService } from "@/services/api/profile";
-import { Grid, Caption, Loader } from "mars-ds";
+import { Grid, Caption, Loader, Button } from "mars-ds";
 import { useState, useMemo, useEffect } from "react";
 import { EmptyState, StepsProgressBar } from "@/components";
 import { ProfileQuestionsItem } from "./profile-question-item";
@@ -25,7 +25,7 @@ export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) =>
   const [answers, setAnswers] = useState<AnswersDto>({});
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const data = useMemo(() => inheritedData || [], [inheritedData])
+  const data = useMemo(() => inheritedData || [], [inheritedData]);
 
   const total = useMemo(() => data.length - 1, [data.length]);
 
@@ -64,8 +64,11 @@ export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) =>
 
   if (error)
     return (
-      <div className="profile-questions-form">
+      <div className="profile-questions-form flex-column gap-lg">
         <EmptyState />
+        <Button variant="neutral" onClick={() => location.reload()}>
+          Tentar novamente
+        </Button>
       </div>
     );
 
