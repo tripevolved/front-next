@@ -84,7 +84,7 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
           <MediaObject
             className="text-center"
             heading="Estamos quase lá!"
-            text="Participe da lista e você pode ganhar uma viagem gratuita!"
+            text="Preencha para ver o resultado e receber uma boa surpresa no email."
           >
             <LeadForm
               gap={16}
