@@ -1,3 +1,51 @@
-.steps-loader {
+$size: 88px;
 
+.steps-loader {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  gap: 16px;
+
+  &__internal {
+    height: calc($size - 16px);
+    width: calc($size - 16px);
+  }
+}
+
+.circle-progress {
+  width: $size;
+  height: $size;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__svg {
+    width: $size;
+    height: $size;
+    &__path,
+    &__indicator {
+      stroke-width: 3;
+      fill: none;
+      transition: stroke-dashoffset ease 1s;
+      stroke: $color-primary-500;
+    }
+
+    &__internal {
+      fill: $color-primary-500;
+      transform-origin: center;
+    }
+
+    &__indicator {
+      transform-origin: center;
+      transform: rotateZ(-90deg);
+    }
+  }
+
+  &__middle {
+    position: absolute;
+  }
 }

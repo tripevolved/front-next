@@ -1,5 +1,13 @@
 import useSWR from "swr";
-import { Box, BoxProps, MediaObject, Picture, Text, WhatsappButton } from "@/components";
+import {
+  Box,
+  BoxProps,
+  EmptyState,
+  MediaObject,
+  Picture,
+  Text,
+  WhatsappButton,
+} from "@/components";
 import type { CustomProfileDestinationsProps } from "./custom-profile-destinations.types";
 
 import { makeClassName } from "@/helpers/classname.helpers";
@@ -95,17 +103,11 @@ const ProfileLoadingState = () => (
 );
 
 const ProfileErrorState = () => (
-  <div className="destinations-block__empty-state">
-    <Picture src="/assets/states/empty-state.svg" />
-    <Text>Não foram encontrados destinos para esse perfil, devido à um erro :(</Text>
-  </div>
+  <EmptyState text="Não foram encontrados destinos para esse perfil, devido à um erro :(" />
 );
 
 const ProfileEmptyState = () => (
-  <div className="destinations-block__empty-state">
-    <Picture src="/assets/states/empty-state.svg" />
-    <Text>Não foram encontrados destinos para esse perfil :(</Text>
-  </div>
+  <EmptyState text="Não foram encontrados destinos para esse perfil :(" />
 );
 
 interface DestinationItemProps extends BoxProps {

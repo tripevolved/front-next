@@ -32,6 +32,7 @@ export * from "./loaders/ProgressIndicator";
 export * from "./loaders/StepsLoader";
 export * from "./sections/SectionBase";
 export * from "./sections/SectionFaq";
+export * from "./states/EmptyState";
 export * from "./templates/Footer";
 export * from "./templates/Navbar";
 export * from "./templates/PageBase";

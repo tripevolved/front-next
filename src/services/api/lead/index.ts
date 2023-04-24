@@ -3,6 +3,7 @@ import { Lead, LeadRef } from "@/types";
 import axios from "axios";
 import { LocalStorageService } from "../../store/local-storage.service";
 import { ApiRequestService } from "../api-request.service";
+import { getByEmail } from "./get-by-email";
 
 const LAUNCH_LIST_URL = "https://getlaunchlist.com/s/0l3TDN";
 const KEY_LEAD = "lead";
@@ -50,4 +51,4 @@ const create = async (lead: Lead) => {
 
 const getLocal = () => LocalStorageService.getJson<Lead>(KEY_LEAD);
 
-export const LeadApiService = { create, getLocal, getRefByEmail };
+export const LeadApiService = { create, getLocal, getRefByEmail, getByEmail };

@@ -3,31 +3,42 @@ import type { AnswersDto } from "@/services/api/profile/questions";
 
 import { ProfileApiService } from "@/services/api/profile";
 
-import { useState } from "react";
-import { Card } from "mars-ds";
+import { useRef, useState } from "react";
+import { Card, Notification } from "mars-ds";
 
-import { LeadForm, MediaObject, Picture, SectionBase, StepsLoader, Text } from "@/components";
+import { LeadForm, MediaObject, Picture, SectionBase, StepsLoader } from "@/components";
 import { ProfileQuestionsForm } from "./profile-questions-form";
 import { LeadApiService } from "@/services/api/lead";
 import { useRouter } from "next/router";
 
-const SEVEN_SECONDS_IN_MS = 7 * 1000;
+const EIGHT_SECONDS_IN_MS = 8 * 1000;
+const MILLISECONDS = EIGHT_SECONDS_IN_MS;
 const STEPS = [
-  "Montando o seu perfil...",
-  "Achamos 7 lugares para você curtir",
-  "Estamos selecionando as melhores opções",
+  {
+    text: "Montando o seu perfil...",
+    iconName: "settings",
+  },
+  {
+    text: "Achamos 7 lugares para você curtir",
+    iconName: "map",
+  },
+  {
+    text: "Estamos selecionando as melhores opções",
+    iconName: "search",
+  },
 ];
 
 export function ProfileQuestions({ className, children, ...props }: ProfileQuestionsProps) {
   const [showLeadForm, setShowLeadForm] = useState(false);
-  const [answers, setAnswers] = useState<AnswersDto>({});
   const [submitting, setSubmitting] = useState(false);
   const [profileSlug, setProfileSlug] = useState("relax");
 
   const router = useRouter();
 
+  const answers = useRef<AnswersDto>({});
+
   const handleAnswers = (newAnswers?: AnswersDto) => {
-    if (newAnswers) setAnswers(newAnswers);
+    if (newAnswers) answers.current = (newAnswers);
     const lead = LeadApiService.getLocal();
 
     if (!lead?.email) setShowLeadForm(true);
@@ -35,13 +46,15 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
   };
 
   const sendAnswers = async () => {
+    const lead = LeadApiService.getLocal();
+    const email = lead?.email;
+    if (!email) {
+      return Notification.error("Você precisa estar na Lista de espera para continuar");
+    }
     setSubmitting(true);
-    // TODO: add guest lead id by email;
-    const leadId = "";
-    ProfileApiService.sendAnswers({ answers, leadId })
+    return ProfileApiService.sendAnswers({ answers: answers.current, email })
       .then((data) => setProfileSlug(data.profileSlug))
       .catch(() => {});
-    setTimeout(toProfileResult, SEVEN_SECONDS_IN_MS);
   };
 
   const toProfileResult = () => {
@@ -57,9 +70,9 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
         width={60}
         src="/brand/logo-symbol.svg"
       />
-      <Card>
+      <Card className="profile-questions__card">
         {submitting ? (
-          <StepsLoader timeout={SEVEN_SECONDS_IN_MS} texts={STEPS} />
+          <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={toProfileResult} />
         ) : showLeadForm ? (
           <MediaObject
             className="text-center"
@@ -73,7 +86,7 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
             />
           </MediaObject>
         ) : (
-          <ProfileQuestionsForm onAnswers={handleAnswers} />
+          <ProfileQuestionsForm onSubmit={handleAnswers} />
         )}
       </Card>
     </SectionBase>

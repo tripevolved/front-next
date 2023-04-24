@@ -10,3 +10,17 @@
   }
 }
 
+.opacity-animation {
+  animation: opacity-animation 500ms ease alternate infinite;
+
+  @keyframes opacity-animation {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.5;
+
+    }
+  }
+}
+

@@ -2,18 +2,18 @@ import useSwr from "swr";
 import { jsonToString, toJson } from "@/helpers/json.helpers";
 import { useLocalStorage } from "@/hooks/local-storage.hooks";
 import { ProfileApiService } from "@/services/api/profile";
-import { Grid, Caption } from "mars-ds";
+import { Grid, Caption, Loader } from "mars-ds";
 import { useState, useMemo, useEffect } from "react";
-import { StepsProgressBar } from "@/components";
+import { EmptyState, StepsProgressBar } from "@/components";
 import { ProfileQuestionsItem } from "./profile-question-item";
 import { ProfileQuestionsNavigation } from "./profile-questions-navigation";
 import { AnswersDto } from "@/services/api/profile/questions";
 
 export interface ProfileQuestionsFormProps {
-  onAnswers: (answers: AnswersDto) => void;
+  onSubmit: (answers: AnswersDto) => void;
 }
 
-export const ProfileQuestionsForm = ({ onAnswers }: ProfileQuestionsFormProps) => {
+export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) => {
   const {
     data = [],
     error,
@@ -33,7 +33,7 @@ export const ProfileQuestionsForm = ({ onAnswers }: ProfileQuestionsFormProps) =
   const handleSteps = (newIndex: number) => {
     if (newIndex < 0) return;
     if (total >= newIndex) setCurrentIndex(newIndex);
-    else onAnswers(answers);
+    else onSubmit(answers);
   };
 
   const handleCheck = (id: string) => (value: string | string[]) => {
@@ -45,7 +45,7 @@ export const ProfileQuestionsForm = ({ onAnswers }: ProfileQuestionsFormProps) =
     });
   };
 
-  const isNextButtonDisabled = () => data[currentIndex].questions.every(({ id }) => !answers[id]);
+  const isNextButtonDisabled = () => data[currentIndex]?.questions.every(({ id }) => !answers[id]);
 
   useEffect(() => {
     const initialLocalAnswers = toJson(localAnswers);
@@ -53,12 +53,24 @@ export const ProfileQuestionsForm = ({ onAnswers }: ProfileQuestionsFormProps) =
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (isLoading) return <div>carregando...</div>;
-  if (error) return <div>erro</div>;
+  if (isLoading) {
+    return (
+      <div className="profile-questions-form">
+        <Loader color="var(--color-brand-1)" size="md" />
+      </div>
+    );
+  }
+
+  if (error)
+    return (
+      <div className="profile-questions-form">
+        <EmptyState />
+      </div>
+    );
 
   return (
     <Grid gap={48}>
-      <div>
+      <div className="profile-questions__header">
         <Caption as="p" className="mb-lg profile-questions__caption">
           Descobrir meu perfil de viajante
         </Caption>
@@ -79,12 +91,14 @@ export const ProfileQuestionsForm = ({ onAnswers }: ProfileQuestionsFormProps) =
           </div>
         ))}
       </main>
-      <ProfileQuestionsNavigation
-        position={currentIndex}
-        total={total}
-        onNavigation={handleSteps}
-        isNextButtonDisabled={isNextButtonDisabled()}
-      />
+      <div className="profile-questions__footer">
+        <ProfileQuestionsNavigation
+          position={currentIndex}
+          total={total}
+          onNavigation={handleSteps}
+          isNextButtonDisabled={isNextButtonDisabled()}
+        />
+      </div>
     </Grid>
   );
 };

@@ -1,4 +1,5 @@
 import { ApiRequestService } from "../api-request.service";
+import { LeadApiService } from "../lead";
 
 type OptionType = "TEXT";
 
@@ -48,8 +49,8 @@ interface Answer {
 }
 
 export interface AnswersBody {
-  leadId: string;
   answers: AnswersDto;
+  email: string;
 }
 
 const parseAnswers = (answers: AnswersDto): Answer[] => {
@@ -69,12 +70,17 @@ const parseAnswers = (answers: AnswersDto): Answer[] => {
   return result;
 };
 
-export const sendAnswers = async ({ leadId, answers }: AnswersBody) => {
+export const sendAnswers = async ({ answers, email }: AnswersBody) => {
   const url = "profiles/answers";
+  const { travelerId } = await LeadApiService.getByEmail(email);
+
+  console.log(answers)
   const data = {
-    travelerId: leadId,
+    travelerId,
     answers: parseAnswers(answers),
   } satisfies AnswersRequest;
+
+  console.log({ data })
   return ApiRequestService.post<{ id: string }>(url, data).then(({ data }) => ({
     profileSlug: data.id,
   }));
