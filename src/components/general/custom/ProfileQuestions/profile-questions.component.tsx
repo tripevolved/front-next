@@ -1,5 +1,5 @@
 import type { ProfileQuestionsProps } from "./profile-questions.types";
-import type { AnswersDto } from "@/services/api/profile/questions";
+import type { AnswersDto } from "@/services/api/profile/answers";
 
 import { ProfileApiService } from "@/services/api/profile";
 
@@ -19,7 +19,7 @@ const STEPS = [
     iconName: "settings",
   },
   {
-    text: "Achamos 7 lugares para você curtir",
+    text: "Achamos 3 lugares para você curtir",
     iconName: "map",
   },
   {
@@ -31,14 +31,14 @@ const STEPS = [
 export function ProfileQuestions({ className, children, ...props }: ProfileQuestionsProps) {
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [profileSlug, setProfileSlug] = useState("relax");
 
   const router = useRouter();
 
   const answers = useRef<AnswersDto>({});
+  const profileSlug = useRef("relax");
 
   const handleAnswers = (newAnswers?: AnswersDto) => {
-    if (newAnswers) answers.current = (newAnswers);
+    if (newAnswers) answers.current = newAnswers;
     const lead = LeadApiService.getLocal();
 
     if (!lead?.email) setShowLeadForm(true);
@@ -52,15 +52,11 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
       return Notification.error("Você precisa estar na Lista de espera para continuar");
     }
     setSubmitting(true);
-    return ProfileApiService.sendAnswers({ answers: answers.current, email })
-      .then((data) => setProfileSlug(data.profileSlug))
-      .catch(() => {});
+    const result = await ProfileApiService.sendAnswers({ answers: answers.current, email });
+    profileSlug.current = result.profileSlug;
   };
 
-  const toProfileResult = () => {
-    const path = `/perfil/${profileSlug}`;
-    router.replace(path);
-  };
+  const toProfileResult = () => router.replace(`/perfil/${profileSlug.current}`);
 
   return (
     <SectionBase className="profile-questions" container={"xs" as any} {...props}>

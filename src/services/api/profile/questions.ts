@@ -1,5 +1,4 @@
 import { ApiRequestService } from "../api-request.service";
-import { LeadApiService } from "../lead";
 
 type OptionType = "TEXT";
 
@@ -34,54 +33,3 @@ export const getQuestions = async (): Promise<ProfileQuestionsResponse> => {
   return ApiRequestService.get<ProfileQuestionsResponse>(url).then(({ data }) => data);
 };
 
-interface AnswersRequest {
-  travelerId: string;
-  answers: Answer[];
-}
-
-type AnswerIds = string | string[];
-export type AnswersDto = Record<string, AnswerIds>;
-
-interface Answer {
-  answerDate: string;
-  questionId: string;
-  possibleAnswerId: string;
-}
-
-export interface AnswersBody {
-  answers: AnswersDto;
-  email: string;
-}
-
-const parseAnswers = (answers: AnswersDto): Answer[] => {
-  const result: Answer[] = [];
-  const answerDate = new Date().toISOString();
-
-  for (const [questionId, ids] of Object.entries(answers)) {
-    if (!Array.isArray(ids)) {
-      const possibleAnswerId = ids;
-      result.push({ answerDate, questionId, possibleAnswerId });
-      continue;
-    }
-    for (const possibleAnswerId of ids) {
-      result.push({ answerDate, questionId, possibleAnswerId });
-    }
-  }
-  return result;
-};
-
-export const sendAnswers = async ({ answers, email }: AnswersBody) => {
-  const url = "profiles/answers";
-  const { travelerId } = await LeadApiService.getByEmail(email);
-
-  console.log(answers)
-  const data = {
-    travelerId,
-    answers: parseAnswers(answers),
-  } satisfies AnswersRequest;
-
-  console.log({ data })
-  return ApiRequestService.post<{ id: string }>(url, data).then(({ data }) => ({
-    profileSlug: data.id,
-  }));
-};
