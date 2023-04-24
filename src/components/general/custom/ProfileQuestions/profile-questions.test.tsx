@@ -1,10 +1,10 @@
 import type { ProfileQuestionsProps } from "./profile-questions.types";
 import { render } from "@testing-library/react";
 import { ProfileQuestions } from "./profile-questions.component";
-import { makeUseRouter } from "@/helpers/tests/next-router.mock";
+import { mockUseRouter } from "@/helpers/mocks/next-router.mock";
 
 const makeSut = (props?: ProfileQuestionsProps) => {
-  makeUseRouter();
+  mockUseRouter();
   return render(<ProfileQuestions {...props} />);
 }
 

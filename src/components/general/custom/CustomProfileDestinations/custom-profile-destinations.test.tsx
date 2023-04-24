@@ -1,10 +1,10 @@
 import type { CustomProfileDestinationsProps } from "./custom-profile-destinations.types";
 import { render } from "@testing-library/react";
 import { CustomProfileDestinations } from "./custom-profile-destinations.component";
-import { makeUseRouter } from "@/helpers/tests/next-router.mock";
+import { mockUseRouter } from "@/helpers/mocks/next-router.mock";
 
 const makeSut = (props?: CustomProfileDestinationsProps) => {
-  makeUseRouter();
+  mockUseRouter();
   return render(<CustomProfileDestinations {...props} />);
 };
 

@@ -10,6 +10,7 @@ import { LeadForm, MediaObject, Picture, SectionBase, StepsLoader } from "@/comp
 import { ProfileQuestionsForm } from "./profile-questions-form";
 import { LeadApiService } from "@/services/api/lead";
 import { useRouter } from "next/router";
+import { scrollToTop } from "@/helpers/dom.helpers";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -52,6 +53,7 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
       return Notification.error("Você precisa estar na Lista de espera para continuar");
     }
     setSubmitting(true);
+    scrollToTop();
     const result = await ProfileApiService.sendAnswers({ answers: answers.current, email });
     profileSlug.current = result.profileSlug;
   };

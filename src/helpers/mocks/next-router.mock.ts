@@ -1,6 +1,6 @@
 import { NextRouter } from "next/router";
 
-export const makeUseRouter = (props?: Partial<NextRouter>) => {
+export const mockUseRouter = (props?: Partial<NextRouter>) => {
   const mockedImplementation: NextRouter = {
     basePath: "",
     pathname: "/",
