@@ -11,6 +11,7 @@ import { ProfileQuestionsForm } from "./profile-questions-form";
 import { LeadApiService } from "@/services/api/lead";
 import { useRouter } from "next/router";
 import { scrollToTop } from "@/helpers/dom.helpers";
+import { delay } from "@/helpers/delay.helpers";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -36,7 +37,7 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
   const router = useRouter();
 
   const answers = useRef<AnswersDto>({});
-  const profileSlug = useRef("relax");
+  const profileSlug = useRef<string>();
 
   const handleAnswers = (newAnswers?: AnswersDto) => {
     if (newAnswers) answers.current = newAnswers;
@@ -58,7 +59,15 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
     profileSlug.current = result.profileSlug;
   };
 
-  const toProfileResult = () => router.replace(`/perfil/${profileSlug.current}`);
+  const handleFinish = async (attempts = 3) => {
+    if (attempts < 1) profileSlug.current = "relax";
+    if (!profileSlug.current) {
+      await delay();
+      handleFinish(attempts - 1);
+    } else {
+      router.replace(`/perfil/${profileSlug.current}`);
+    }
+  };
 
   return (
     <SectionBase className="profile-questions" container={"xs" as any} {...props}>
@@ -70,7 +79,7 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
       />
       <Card className="profile-questions__card">
         {submitting ? (
-          <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={toProfileResult} />
+          <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
         ) : showLeadForm ? (
           <MediaObject
             className="text-center"
