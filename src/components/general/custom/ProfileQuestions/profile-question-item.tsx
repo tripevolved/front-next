@@ -24,17 +24,26 @@ export const ProfileQuestionsItem = ({
     [possibleAnswers]
   );
 
+  const multiselect = useMemo(() => type === "CHECKBOX", [type]);
+
   return (
     <Grid className="profile-questions-item" gap={24}>
-      <Text className="mb-lg" heading size="xs">
-        {title}
-      </Text>
+      <div className="mb-lg profile-questions-item__header">
+        <Text heading size="xs">
+          {title}
+        </Text>
+        {multiselect ? (
+          <Text className="profile-questions-item__header__caption" size="sm">
+            Você pode selecionar mais de uma resposta.
+          </Text>
+        ) : null}
+      </div>
       <Grid gap={16} className="profile-questions-item__answers">
         <OptionsFieldList
           disabled={disabled}
           onCheck={onCheck}
           options={options}
-          multiselect={type === "CHECKBOX"}
+          multiselect={multiselect}
           defaultValue={defaultValue}
         />
       </Grid>

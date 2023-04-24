@@ -63,7 +63,7 @@ $mobile: 425px;
       padding: 0 24px 24px;
       margin: 0 -24px;
       position: sticky;
-      top: 0;
+      top: 16px;
       border-bottom: 1px solid $color-divider;
       background-color: white;
       z-index: 1;
@@ -88,6 +88,18 @@ $mobile: 425px;
     border-top: 1px solid $color-divider;
     &__next {
       flex-grow: 1;
+    }
+  }
+}
+
+.profile-questions-item {
+  &__header {
+    > * {
+      line-height: 1.5rem;
+    }
+    &__caption {
+      color: $color-neutral-700;
+      margin-top: 8px;
     }
   }
 }
