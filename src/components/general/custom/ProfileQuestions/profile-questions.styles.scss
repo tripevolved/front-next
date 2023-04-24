@@ -4,6 +4,16 @@ $mobile: 425px;
   background-color: $color-brand-1;
   min-height: 100vh;
 
+  @media (max-width: $mobile) {
+    min-height: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    &__card {
+      border-radius: 24px 24px 0 0;
+    }
+  }
+
   &__brand {
     width: 100%;
     text-align: center;
@@ -71,8 +81,8 @@ $mobile: 425px;
 
   @media (max-width: $mobile) {
     position: fixed;
-    left: 24px;
-    right: 24px;
+    left: 0;
+    right: 0;
     bottom: 0;
     padding: 24px;
     border-top: 1px solid $color-divider;
