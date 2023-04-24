@@ -1,49 +1,4 @@
-.profile-questions {
-  background-color: $color-brand-1;
-  min-height: 100vh;
-
-  &__brand {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 24px;
-  }
-
-  &__caption {
-    color: $color-text-secondary;
-  }
-
-  &__group {
-    display: flex;
-    overflow: hidden;
-    margin: 0 -24px;
-
-    > * {
-      padding: 0 24px;
-      min-width: 100%;
-      transition: transform ease 300ms;
-      transform: translateX(calc(-100% * var(--position, 0)));
-
-      > *:not(:last-child) {
-        margin-bottom: 48px;
-        padding-bottom: 48px;
-        border-bottom: 1px solid $color-divider;
-      }
-    }
-  }
-}
-
-.profile-questions-navigation {
-  display: flex;
-  gap: 8px;
-  &__next {
-    min-width: 200px;
-    @media (max-width: 420px) {
-      flex-grow: 1;
-    }
-  }
-}
-
-.option {
+.option-field {
   position: relative;
   color: $color-text-disabled;
   cursor: pointer;
@@ -81,8 +36,8 @@
     }
   }
 
-  &.option--is-multiselect {
-    .option__state {
+  &.option-field--is-multiselect {
+    .option-field__state {
       border-radius: 4px;
       &:after,
       &:before {
@@ -116,8 +71,8 @@
     }
   }
 
-  &:not(.option--is-multiselect) {
-    .option__state {
+  &:not(.option-field--is-multiselect) {
+    .option-field__state {
       border-radius: 50%;
       &:after {
         content: "";

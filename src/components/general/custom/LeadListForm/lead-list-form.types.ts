@@ -1,4 +1,4 @@
-import { ModalContentProps, TextProps } from "@/components";
+import { TextProps } from "@/components";
 import { ComponentHTMLProps } from "@/types";
 import { ButtonProps } from "mars-ds";
 

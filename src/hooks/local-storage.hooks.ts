@@ -2,7 +2,7 @@ import { isServer } from "@/helpers/environment.helpers";
 import { LocalStorageService } from "@/services/store/local-storage.service";
 import { useState } from "react";
 
-export function useLocalStorage(key: string, initialValue: string) {
+export function useLocalStorage(key: string, initialValue = "") {
   const [storedValue, setStoredValue] = useState(() => {
     if (isServer()) return initialValue;
     return LocalStorageService.get(key) || initialValue;

@@ -1,4 +1,4 @@
 import { getDestinations } from "./destinations";
-import { getQuestions } from "./questions";
+import { getQuestions, sendAnswers } from "./questions";
 
-export const ProfileApiService = { getDestinations, getQuestions };
+export const ProfileApiService = { getDestinations, getQuestions, sendAnswers };

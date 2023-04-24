@@ -1,0 +1,90 @@
+import useSwr from "swr";
+import { jsonToString, toJson } from "@/helpers/json.helpers";
+import { useLocalStorage } from "@/hooks/local-storage.hooks";
+import { ProfileApiService } from "@/services/api/profile";
+import { Grid, Caption } from "mars-ds";
+import { useState, useMemo, useEffect } from "react";
+import { StepsProgressBar } from "@/components";
+import { ProfileQuestionsItem } from "./profile-question-item";
+import { ProfileQuestionsNavigation } from "./profile-questions-navigation";
+import { AnswersDto } from "@/services/api/profile/questions";
+
+export interface ProfileQuestionsFormProps {
+  onAnswers: (answers: AnswersDto) => void;
+}
+
+export const ProfileQuestionsForm = ({ onAnswers }: ProfileQuestionsFormProps) => {
+  const {
+    data = [],
+    error,
+    isLoading,
+  } = useSwr("questions", ProfileApiService.getQuestions, {
+    revalidateOnFocus: false,
+  });
+
+  const [localAnswers, setLocalAnswers] = useLocalStorage("travel-profile-answers");
+  const [answers, setAnswers] = useState<AnswersDto>({});
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const total = useMemo(() => data.length - 1, [data.length]);
+
+  const style: any = useMemo(() => ({ "--position": currentIndex }), [currentIndex]);
+
+  const handleSteps = (newIndex: number) => {
+    if (newIndex < 0) return;
+    if (total >= newIndex) setCurrentIndex(newIndex);
+    else onAnswers(answers);
+  };
+
+  const handleCheck = (id: string) => (value: string | string[]) => {
+    setAnswers((state: any) => {
+      const isEmptyArray = Array.isArray(value) && value.length === 0;
+      const newState = { ...state, [id]: isEmptyArray ? null : value };
+      setLocalAnswers(jsonToString(newState));
+      return newState;
+    });
+  };
+
+  const isNextButtonDisabled = () => data[currentIndex].questions.every(({ id }) => !answers[id]);
+
+  useEffect(() => {
+    const initialLocalAnswers = toJson(localAnswers);
+    if (initialLocalAnswers) setAnswers(initialLocalAnswers as AnswersDto);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (isLoading) return <div>carregando...</div>;
+  if (error) return <div>erro</div>;
+
+  return (
+    <Grid gap={48}>
+      <div>
+        <Caption as="p" className="mb-lg profile-questions__caption">
+          Descobrir meu perfil de viajante
+        </Caption>
+        <StepsProgressBar position={currentIndex} total={total} />
+      </div>
+      <main className="profile-questions__group mb-lg" style={style}>
+        {data.map(({ page, questions = [] }, index) => (
+          <div key={page}>
+            {questions.map((question) => (
+              <ProfileQuestionsItem
+                key={question.id}
+                {...question}
+                disabled={index !== currentIndex}
+                onCheck={handleCheck(question.id)}
+                defaultValue={answers[question.id]}
+              />
+            ))}
+          </div>
+        ))}
+      </main>
+      <ProfileQuestionsNavigation
+        position={currentIndex}
+        total={total}
+        onNavigation={handleSteps}
+        isNextButtonDisabled={isNextButtonDisabled()}
+      />
+    </Grid>
+  );
+};
