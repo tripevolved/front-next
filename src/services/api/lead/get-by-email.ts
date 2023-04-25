@@ -13,9 +13,10 @@ interface LeadResponse {
 export const getByEmail = async (email: string): Promise<LeadWithUid> => {
   const url = `/customers/${email}/state/public`;
   const leadRef = await getRefByEmail(email);
-  const leadWithUid = await ApiRequestService.get<LeadResponse>(url).then(({ data }) =>
-    joinLead(data, leadRef)
-  );
+  const leadWithUid = await ApiRequestService.get<LeadResponse>(url).then(({ data }) => {
+    const leadPartial = { uid: data.travelerId, name: data.inviterName };
+    return joinLead(leadPartial, leadRef);
+  });
   LeadLocalService.save(leadWithUid);
   return leadWithUid;
 };
