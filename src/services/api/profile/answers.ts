@@ -1,4 +1,3 @@
-import { delay } from "@/helpers/delay.helpers";
 import { ApiRequestService } from "../api-request.service";
 import { LeadApiService } from "../lead";
 import { getResult } from "./result";
@@ -41,15 +40,12 @@ const parseAnswers = (answers: AnswersDto): Answer[] => {
 
 export const sendAnswers = async ({ answers, email }: AnswersBody) => {
   const url = "profiles/answers";
-  const { travelerId } = await LeadApiService.getByEmail(email);
+  const { uid } = await LeadApiService.getByEmail(email);
 
   const data = {
-    travelerId,
+    travelerId: uid,
     answers: parseAnswers(answers),
   } satisfies AnswersRequest;
 
-  await ApiRequestService.post<{ id: string }>(url, data);
-  // TODO: remove bellow lines when api returns the `uniqueName` result
-  await delay();
-  return getResult({ travelerId });
+  return ApiRequestService.post<{ id: string }>(url, data).then(() => getResult({ uid }));
 };

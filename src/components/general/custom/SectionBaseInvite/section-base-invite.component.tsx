@@ -19,7 +19,7 @@ export function SectionBaseInvite({ className, tag, ...props }: SectionBaseProps
     if (!email) return;
     const lead = LeadApiService.getLocal();
     if (lead?.email === email) return;
-    LeadApiService.getRefByEmail(String(email));
+    LeadApiService.getByEmail(String(email));
   }, [email]);
 
   return <SectionBase className={cn} tag={textTag} {...props} />;

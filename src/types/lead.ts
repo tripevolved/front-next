@@ -4,6 +4,10 @@ export interface LeadRef {
   position?: number | string;
 }
 
+export interface LeadWithUid extends Lead {
+  uid: string;
+}
+
 export interface Lead extends LeadRef {
   uid?: string;
   name: string;
