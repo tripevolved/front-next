@@ -50,6 +50,6 @@ export const sendAnswers = async ({ answers, email }: AnswersBody) => {
 
   await ApiRequestService.post<{ id: string }>(url, data);
   // TODO: remove bellow lines when api returns the `uniqueName` result
-  await delay(500);
+  await delay();
   return getResult({ travelerId });
 };

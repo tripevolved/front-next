@@ -14,8 +14,11 @@ export interface ProfileQuestionsFormProps {
   onSubmit: (answers: AnswersDto) => void;
 }
 
+const swrOptions = { revalidateOnFocus: false };
+const { getQuestions } = ProfileApiService;
+
 export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) => {
-  const { data = [], error, isLoading } = useSwr("questions", ProfileApiService.getQuestions);
+  const { data = [], error, isLoading } = useSwr("questions", getQuestions, swrOptions);
 
   const [localAnswers, setLocalAnswers] = useLocalStorage("travel-profile-answers");
   const [answers, setAnswers] = useState<AnswersDto>({});
