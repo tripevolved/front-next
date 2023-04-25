@@ -26,7 +26,7 @@ export const create = async (lead: Lead & { phone: string }) => {
   const parsedLead = { ...lead, phone: parsedPhone };
 
   const leadWithUid = await getOrCreate(parsedLead);
-  const launchResult = leadWithUid.ref ? null : await saveLeadOnList(leadWithUid as any);
+  const launchResult = leadWithUid.ref ? null : await saveLeadOnList(leadWithUid);
 
   const updatedLead = joinLead(launchResult, leadWithUid) satisfies LeadWithUid;
 
