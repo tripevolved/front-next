@@ -22,17 +22,11 @@ const getOrCreate = async (lead: Lead): Promise<LeadWithUid> => {
 };
 
 export const create = async (lead: Lead & { phone: string }) => {
-  const localLead = LeadLocalService.get();
-
-  // This line required uid;
-  if (localLead && localLead.uid && lead.email === localLead.email) return localLead;
-  LeadLocalService.remove();
-
   const parsedPhone = `+55${lead.phone.replace(/\D/g, "")}`;
   const parsedLead = { ...lead, phone: parsedPhone };
 
   const leadWithUid = await getOrCreate(parsedLead);
-  const launchResult = leadWithUid.ref ? {} : await saveLeadOnList(leadWithUid as any);
+  const launchResult = leadWithUid.ref ? null : await saveLeadOnList(leadWithUid as any);
 
   const updatedLead = joinLead(launchResult, leadWithUid) satisfies LeadWithUid;
 
