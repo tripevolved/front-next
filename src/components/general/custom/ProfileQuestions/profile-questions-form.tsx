@@ -43,7 +43,8 @@ export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) =>
     });
   };
 
-  const isNextButtonDisabled = () => data[currentIndex]?.questions.every(({ id }) => !answers[id]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const isNextButtonDisabled = useMemo(() => data[currentIndex]?.questions.every(({ id }) => !answers[id]), [answers, currentIndex]);
 
   useEffect(() => {
     const initialLocalAnswers = toJson(localAnswers);
@@ -97,7 +98,7 @@ export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) =>
           position={currentIndex}
           total={total}
           onNavigation={handleSteps}
-          isNextButtonDisabled={isNextButtonDisabled()}
+          isNextButtonDisabled={isNextButtonDisabled}
         />
       </div>
     </Grid>

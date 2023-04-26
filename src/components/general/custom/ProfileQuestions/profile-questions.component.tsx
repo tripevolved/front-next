@@ -55,14 +55,16 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
     }
     setSubmitting(true);
     scrollToTop();
-    const result = await ProfileApiService.sendAnswers({ answers: answers.current, email });
-    profileSlug.current = result.profileSlug;
+    const result = await ProfileApiService.sendAnswers({ answers: answers.current, email }).catch(
+      () => null
+    );
+    profileSlug.current = result?.profileSlug;
   };
 
   const handleFinish = async (attempts = 3) => {
     if (attempts < 1) profileSlug.current = "relax";
     if (!profileSlug.current) {
-      await delay();
+      await delay(1000);
       handleFinish(attempts - 1);
     } else {
       router.replace(`/perfil/${profileSlug.current}`);

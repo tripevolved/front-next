@@ -3,11 +3,12 @@ import type { StepsLoaderProps } from "./steps-loader.types";
 import { makeClassName } from "@/helpers/classname.helpers";
 
 import { Box, BoxProps, Text } from "@/components";
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { delay } from "@/helpers/delay.helpers";
 import { Icon } from "mars-ds";
 
 const PERCENT_INC = 10;
+const PERCENT_DISPATCH = 70;
 const EIGHT_SECONDS_IN_MS = 8000;
 
 export function StepsLoader({
@@ -23,6 +24,8 @@ export function StepsLoader({
   const cn = makeClassName("steps-loader", className)(sx);
   const [percentage, setPercentage] = useState(0);
 
+  const dispatchedFinish = useRef(false);
+
   const currentIndex = useMemo(() => {
     const maxIndex = steps.length - 1 || 1;
     const result = (percentage / 100) * maxIndex;
@@ -32,10 +35,17 @@ export function StepsLoader({
   const iconName = useMemo(() => steps[currentIndex]?.iconName || "map", [currentIndex, steps]);
   const text = useMemo(() => steps[currentIndex]?.text, [currentIndex, steps]);
 
-  const timeout = useMemo(() => (milliseconds * PERCENT_INC) / 100, [milliseconds]);
+  const timeout = useMemo(
+    () => (milliseconds * PERCENT_INC * (100 / PERCENT_DISPATCH)) / 100,
+    [milliseconds]
+  );
 
   const progress = async (newPercentage = 0) => {
-    if (newPercentage > 100) return onFinish?.();
+    if (newPercentage > 100) return;
+    if (newPercentage > PERCENT_DISPATCH && !dispatchedFinish.current) {
+      dispatchedFinish.current = true;
+      onFinish?.();
+    }
     setPercentage(newPercentage);
     await delay(timeout);
     progress(newPercentage + PERCENT_INC);

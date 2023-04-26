@@ -4,7 +4,6 @@ import {
   BoxProps,
   EmptyState,
   MediaObject,
-  Picture,
   Text,
   WhatsappButton,
 } from "@/components";
