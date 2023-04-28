@@ -1,8 +1,8 @@
+import { makeClassName } from "@/helpers/classname.helpers";
 import type { LeadListProps } from "./lead-list.types";
 
-import { LeadListForm, SectionBase, Text } from "@/components";
+import { LeadListForm, Text } from "@/components";
 import { css } from "@emotion/css";
-import classNames from "classnames";
 import { Container, Link } from "mars-ds";
 
 export function LeadList({
@@ -11,13 +11,13 @@ export function LeadList({
   heading,
   text,
   link,
+  sx,
   ...props
 }: LeadListProps) {
-  const cn = classNames("lead-list", className, css({ padding: 0 }));
-
+  const cn = makeClassName("lead-list", className, css({ padding: 0 }))(sx);
   return (
-    <SectionBase className={cn} container="none" {...props}>
-      <div className="lead-list__heading p-section" style={{ paddingBottom: 0 }}>
+    <section className={cn} {...props}>
+      <Container className="lead-list__content p-section" container="sm">
         <Text className="text-center mb-2x" variant="heading" size="lg">
           {heading}
         </Text>
@@ -30,12 +30,12 @@ export function LeadList({
           </div>
         ) : null}
         {children}
-      </div>
-      <div className="lead-list__content mt-2x">
+      </Container>
+      <div className="lead-list__form mt-2x">
         <Container className="lead-list__card">
           <LeadListForm />
         </Container>
       </div>
-    </SectionBase>
+    </section>
   );
 }
