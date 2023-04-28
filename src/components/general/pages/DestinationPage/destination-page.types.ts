@@ -1,5 +1,5 @@
-import type { PublicDestination } from "@/types";
+import type { PublicDestination, TemplateProps } from "@/types";
 
-export interface DestinationPageProps {
+export interface DestinationPageProps extends TemplateProps {
   destination: PublicDestination;
 };

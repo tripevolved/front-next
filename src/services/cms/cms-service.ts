@@ -1,7 +1,9 @@
+import { TemplateProps } from "@/types";
 import type { PageData, TemplateData } from "./cms.types";
 
 import { PageSerializer } from "./page.serializer";
 import { createClient, makeGetterDataBySlug } from "./prismicio";
+import { TemplateSerializer } from "./template.serializer";
 
 const client = createClient();
 const CUSTOM_TYPE = {
@@ -13,11 +15,17 @@ const CUSTOM_TYPE = {
 const getPageBySlug = makeGetterDataBySlug(CUSTOM_TYPE.PAGES);
 const getPart = makeGetterDataBySlug(CUSTOM_TYPE.PART);
 
+const getTemplate = async (): Promise<TemplateProps> =>
+  client
+    .getSingle(CUSTOM_TYPE.TEMPLATE)
+    .then(({ data }) => data as TemplateData)
+    .then(TemplateSerializer.handle);
+
 const getPage = async (slug = "home") => {
   try {
-    const template = await client.getSingle(CUSTOM_TYPE.TEMPLATE);
+    const template = await getTemplate();
     const page = await getPageBySlug(slug);
-    return PageSerializer.handler(page.data as PageData, template.data as TemplateData);
+    return PageSerializer.handler(page.data as PageData, template);
   } catch (error) {
     /* TODO: return error page */
     return {};
@@ -38,4 +46,4 @@ const getAllPageSlugs = async () => {
   }
 };
 
-export const CMSService = { getPage, getAllPageSlugs, getPart };
+export const CMSService = { getPage, getAllPageSlugs, getPart, getTemplate };

@@ -2,11 +2,8 @@ import { NextSeoProps } from "next-seo";
 
 type SeoProps = NextSeoProps;
 
-interface PageProps {
-  navbar?: NavbarProps;
-  footer?: FooterProps;
+interface PageProps extends Partial<TemplateProps> {
   children: any;
-  seo?: SeoProps;
 }
 
 interface NavbarProps {
@@ -42,6 +39,15 @@ interface MenuItemProps {
   highlight?: boolean;
 }
 
+interface TemplateProps {
+  navbar: NavbarProps,
+  footer: FooterProps,
+  seo: SeoProps,
+  hideNavbar?: boolean;
+  hideFooter?: boolean;
+}
+
+
 export type {
   PageProps,
   SeoProps,
@@ -51,4 +57,5 @@ export type {
   FooterProps,
   NavbarProps,
   SocialProps,
+  TemplateProps,
 };

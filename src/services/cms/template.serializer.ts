@@ -1,4 +1,4 @@
-import type { MenuGroupProps } from "@/types";
+import type { MenuGroupProps, TemplateProps } from "@/types";
 import type { TemplateData } from "./cms.types";
 
 const NOT_FOUND_INDEX = -1;
@@ -19,7 +19,7 @@ const makeFooterMenu = (items: TemplateData["menu"]) => {
   }, []);
 };
 
-const handle = ({ menu, slogan, social, sitemap, slices, ...seo }: TemplateData) => {
+const handle = ({ menu, slogan, social, sitemap, slices, ...seo }: TemplateData): TemplateProps => {
   const navbar = { menu };
   const footer = { slogan, social, menu: makeFooterMenu(sitemap) };
   return { navbar, footer, seo };

@@ -1,17 +1,13 @@
 import { type GetServerSideProps } from "next";
 import { DestinationApiService } from "@/services/api/destination";
-import { DestinationPage } from "@/components";
-import { PublicDestination } from "@/types";
+import { DestinationPage, type DestinationPageProps } from "@/components";
+import { CMSService } from "@/services/cms/cms-service";
 
-interface DestinationPageRouteProps {
-  destination: PublicDestination;
-}
-
-export default function DestinationPageRoute(props: DestinationPageRouteProps) {
+export default function DestinationPageRoute(props: DestinationPageProps) {
   return <DestinationPage {...props} />;
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res, params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ res, params }) => {
   // https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props#caching-with-server-side-rendering-ssr
   res.setHeader("Cache-Control", "public, s-maxage=10, stale-while-revalidate=59");
 
@@ -20,9 +16,14 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res, params 
 
   if (!name) return { notFound: true };
 
-  const destination = await DestinationApiService.getByName(name);
+  const [destination, template] = await Promise.all([
+    DestinationApiService.getByName(name),
+    CMSService.getTemplate(),
+  ]);
 
-  const props = { destination };
+  const seo = { ...template.seo, title: destination.title }
+
+  const props = { destination, ...template, seo };
 
   return { props };
 };
