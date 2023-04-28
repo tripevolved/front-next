@@ -1,3 +1,3 @@
-import { getResult } from "./result";
+import { getDestinationByName } from "./find";
 
-export const DestinationApiService = { getResult };
+export const DestinationApiService = { getByName: getDestinationByName };
