@@ -1187,5 +1187,179 @@
         "type": "xxl"
       }
     ]
+  },
+  {
+    "title": "arraial-d'ajuda",
+    "sources": [
+      {
+        "width": 600,
+        "height": 600,
+        "url": "https://images.prismic.io/tripevolved/b21f7b5f-784f-406f-8ea0-d475a4a6b520_arraial+dajuda.jpeg?auto=compress,format&rect=853,0,3520,3520&w=600&h=600",
+        "type": "md"
+      },
+      {
+        "width": 800,
+        "height": 600,
+        "url": "https://images.prismic.io/tripevolved/b21f7b5f-784f-406f-8ea0-d475a4a6b520_arraial+dajuda.jpeg?auto=compress,format&rect=266,0,4693,3520&w=800&h=600",
+        "type": "lg"
+      },
+      {
+        "width": 1400,
+        "height": 800,
+        "url": "https://images.prismic.io/tripevolved/b21f7b5f-784f-406f-8ea0-d475a4a6b520_arraial+dajuda.jpeg?auto=compress,format&rect=0,263,5226,2986&w=1400&h=800",
+        "type": "xl"
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "url": "https://images.prismic.io/tripevolved/b21f7b5f-784f-406f-8ea0-d475a4a6b520_arraial+dajuda.jpeg?auto=compress,format&rect=0,290,5226,2940&w=1920&h=1080",
+        "type": "xxl"
+      }
+    ]
+  },
+  {
+    "title": "bonito",
+    "sources": [
+      {
+        "width": 600,
+        "height": 600,
+        "url": "https://images.prismic.io/tripevolved/8ec506a3-bbbb-4340-8972-143d03b0e9aa_bonito.jpeg?auto=compress,format&rect=550,0,2200,2200&w=600&h=600",
+        "type": "md"
+      },
+      {
+        "width": 800,
+        "height": 600,
+        "url": "https://images.prismic.io/tripevolved/8ec506a3-bbbb-4340-8972-143d03b0e9aa_bonito.jpeg?auto=compress,format&rect=183,0,2933,2200&w=800&h=600",
+        "type": "lg"
+      },
+      {
+        "width": 1400,
+        "height": 800,
+        "url": "https://images.prismic.io/tripevolved/8ec506a3-bbbb-4340-8972-143d03b0e9aa_bonito.jpeg?auto=compress,format&rect=0,158,3300,1886&w=1400&h=800",
+        "type": "xl"
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "url": "https://images.prismic.io/tripevolved/8ec506a3-bbbb-4340-8972-143d03b0e9aa_bonito.jpeg?auto=compress,format&rect=0,172,3300,1856&w=1920&h=1080",
+        "type": "xxl"
+      }
+    ]
+  },
+  {
+    "title": null,
+    "sources": [
+      {
+        "width": 600,
+        "height": 600,
+        "url": "https://images.prismic.io/tripevolved/48bd9470-0264-4062-a5eb-928bc823112d_Arraial+do+Cabo+1.png?auto=compress,format&rect=419,0,1080,1080&w=600&h=600",
+        "type": "md"
+      },
+      {
+        "width": 800,
+        "height": 600,
+        "url": "https://images.prismic.io/tripevolved/48bd9470-0264-4062-a5eb-928bc823112d_Arraial+do+Cabo+1.png?auto=compress,format&rect=239,0,1440,1080&w=800&h=600",
+        "type": "lg"
+      },
+      {
+        "width": 1400,
+        "height": 800,
+        "url": "https://images.prismic.io/tripevolved/48bd9470-0264-4062-a5eb-928bc823112d_Arraial+do+Cabo+1.png?auto=compress,format&rect=15,0,1890,1080&w=1400&h=800",
+        "type": "xl"
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "url": "https://images.prismic.io/tripevolved/48bd9470-0264-4062-a5eb-928bc823112d_Arraial+do+Cabo+1.png?auto=compress,format&rect=0,0,1920,1080&w=1920&h=1080",
+        "type": "xxl"
+      }
+    ]
+  },
+  {
+    "title": "itacare",
+    "sources": [
+      {
+        "width": 600,
+        "height": 600,
+        "url": "https://images.prismic.io/tripevolved/c2a5a65a-b220-4519-bfe4-b2b1a87407ae_Itacar%C3%A9.jpeg?auto=compress,format&rect=1427,0,2168,2168&w=600&h=600",
+        "type": "md"
+      },
+      {
+        "width": 800,
+        "height": 600,
+        "url": "https://images.prismic.io/tripevolved/c2a5a65a-b220-4519-bfe4-b2b1a87407ae_Itacar%C3%A9.jpeg?auto=compress,format&rect=1066,0,2891,2168&w=800&h=600",
+        "type": "lg"
+      },
+      {
+        "width": 1400,
+        "height": 800,
+        "url": "https://images.prismic.io/tripevolved/c2a5a65a-b220-4519-bfe4-b2b1a87407ae_Itacar%C3%A9.jpeg?auto=compress,format&rect=612,0,3794,2168&w=1400&h=800",
+        "type": "xl"
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "url": "https://images.prismic.io/tripevolved/c2a5a65a-b220-4519-bfe4-b2b1a87407ae_Itacar%C3%A9.jpeg?auto=compress,format&rect=582,0,3854,2168&w=1920&h=1080",
+        "type": "xxl"
+      }
+    ]
+  },
+  {
+    "title": "balneario-camboriu",
+    "sources": [
+      {
+        "width": 600,
+        "height": 600,
+        "url": "https://images.prismic.io/tripevolved/d56ebdd9-7665-4d2e-a720-70d7e55d153e_balneario+camboriu.jpeg?auto=compress,format&rect=874,0,2250,2250&w=600&h=600",
+        "type": "md"
+      },
+      {
+        "width": 800,
+        "height": 600,
+        "url": "https://images.prismic.io/tripevolved/d56ebdd9-7665-4d2e-a720-70d7e55d153e_balneario+camboriu.jpeg?auto=compress,format&rect=499,0,3000,2250&w=800&h=600",
+        "type": "lg"
+      },
+      {
+        "width": 1400,
+        "height": 800,
+        "url": "https://images.prismic.io/tripevolved/d56ebdd9-7665-4d2e-a720-70d7e55d153e_balneario+camboriu.jpeg?auto=compress,format&rect=31,0,3938,2250&w=1400&h=800",
+        "type": "xl"
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "url": "https://images.prismic.io/tripevolved/d56ebdd9-7665-4d2e-a720-70d7e55d153e_balneario+camboriu.jpeg?auto=compress,format&rect=0,0,4000,2250&w=1920&h=1080",
+        "type": "xxl"
+      }
+    ]
+  },
+  {
+    "title": "buzios",
+    "sources": [
+      {
+        "width": 600,
+        "height": 600,
+        "url": "https://images.prismic.io/tripevolved/76e8b02e-611d-4111-9662-b0dc2f284bfe_buzios.jpeg?auto=compress,format&rect=1112,0,2863,2863&w=600&h=600",
+        "type": "md"
+      },
+      {
+        "width": 800,
+        "height": 600,
+        "url": "https://images.prismic.io/tripevolved/76e8b02e-611d-4111-9662-b0dc2f284bfe_buzios.jpeg?auto=compress,format&rect=635,0,3817,2863&w=800&h=600",
+        "type": "lg"
+      },
+      {
+        "width": 1400,
+        "height": 800,
+        "url": "https://images.prismic.io/tripevolved/76e8b02e-611d-4111-9662-b0dc2f284bfe_buzios.jpeg?auto=compress,format&rect=40,0,5010,2863&w=1400&h=800",
+        "type": "xl"
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "url": "https://images.prismic.io/tripevolved/76e8b02e-611d-4111-9662-b0dc2f284bfe_buzios.jpeg?auto=compress,format&rect=0,0,5089,2863&w=1920&h=1080",
+        "type": "xxl"
+      }
+    ]
   }
 ]
