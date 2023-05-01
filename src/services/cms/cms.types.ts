@@ -4,6 +4,7 @@ import type { SeoNotSerialized } from "./seo.serializer";
 export interface PageData extends SeoNotSerialized {
   slug: string;
   data: string;
+  photos: any[];
   slices: [];
 }
 

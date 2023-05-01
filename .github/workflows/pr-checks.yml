@@ -1,4 +1,4 @@
-name: "✅ Run: Lint, Tests, Sonar, Build"
+name: "✅ Run: Lint, Tests, Build"
 on:
   pull_request:
     types:

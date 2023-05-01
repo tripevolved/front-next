@@ -3,7 +3,9 @@
     "businessProposal": {
       "itinerary": {}
     },
-    "pages": {},
+    "pages": {
+      "photos": {}
+    },
     "siteTemplate": {
       "menu": {},
       "links": {},

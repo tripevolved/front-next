@@ -1,9 +1,9 @@
-import type { PageData, TemplateData } from "./cms.types";
+import type { PageData } from "./cms.types";
 
 import { toJson } from "@/helpers/json.helpers";
 import { SeoSerializer } from "./seo.serializer";
-import { TemplateSerializer } from "./template.serializer";
 import { PopulateService } from "./populate.service";
+import { TemplateProps } from "@/types";
 
 const makeDataJson = (slices: any[]) => {
   return slices.map(({ primary = {}, items = [] }) => {
@@ -15,20 +15,20 @@ const makeDataJson = (slices: any[]) => {
   });
 };
 
-const parsePage = ({ data, slices, slug, ...seo }: PageData) => {
+const parsePage = ({ data, slices, slug, photos, ...seo }: PageData) => {
   const json = toJson(data);
   const children = makeDataJson(slices);
-  return { seo, component: "PageBase", children, slug, ...json };
+  return { seo, component: "PageBase", children, slug, photos, ...json };
 };
 
-const handler = async (pageData: PageData, templateData: TemplateData) => {
+const handler = async (pageData: PageData, template: TemplateProps) => {
   const { seo: pageSeo, ...parsedPage } = parsePage(pageData);
-  const { seo: templateSeo, ...template } = TemplateSerializer.handle(templateData);
+  const { seo: templateSeo, ...restTemplate } = template;
   const seo = SeoSerializer.handler({ ...templateSeo, ...pageSeo });
 
   const page = await PopulateService.handler(parsedPage);
 
-  return { ...template, ...page, seo };
+  return { ...restTemplate, ...page, seo };
 };
 
 export const PageSerializer = { handler };

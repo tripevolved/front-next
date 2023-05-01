@@ -4,7 +4,7 @@ import { Button } from "mars-ds";
 
 export default function AdminHomePage() {
   const handleClick = async () => {
-    const data = await CMSService.getPart("part-perfil-travel-destinations");
+    const data = await CMSService.getPage("destinos");
     console.log(data);
   };
 

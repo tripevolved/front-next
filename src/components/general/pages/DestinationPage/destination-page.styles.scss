@@ -1,0 +1,17 @@
+.destination-hero-section {
+  background-color: $color-background-neutral;
+  position: relative;
+
+  &__photos {
+    min-height: 50vh;
+    width: 100%;
+    background: url("/assets/sobre/mulher-na-natureza.png") no-repeat center;
+    background-size: cover;
+  }
+
+  &__content {
+    position: absolute;
+    color: white;
+    bottom: 0;
+  }
+}

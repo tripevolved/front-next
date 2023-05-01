@@ -91,6 +91,43 @@
           "placeholder": "{ \"children\": [] }"
         }
       }
+    },
+    "Photos": {
+      "photos": {
+        "type": "Group",
+        "config": {
+          "label": "Photos",
+          "fields": {
+            "image": {
+              "type": "Image",
+              "config": {
+                "label": "Image",
+                "constraint": {
+                  "width": 1920,
+                  "height": 1080
+                },
+                "thumbnails": [
+                  {
+                    "name": "md",
+                    "width": 600,
+                    "height": 600
+                  },
+                  {
+                    "name": "lg",
+                    "width": 800,
+                    "height": 600
+                  },
+                  {
+                    "name": "xl",
+                    "width": 1400,
+                    "height": 800
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

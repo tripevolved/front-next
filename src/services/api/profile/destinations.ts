@@ -1,3 +1,4 @@
+import { Photo } from "@/types";
 import { ApiRequestService } from "../api-request.service";
 
 interface Destination {
@@ -6,11 +7,19 @@ interface Destination {
   coverImageUrl: string | null;
 }
 
-const destinationSerializer = (destination: any): Destination => {
+interface DestinationResponse {
+  coverImage: Photo;
+  title: string;
+  destinationId: string;
+  name: string;
+  uniqueName: string;
+}
+
+const destinationSerializer = (destination: DestinationResponse): Destination => {
   return {
-    id: destination.destinationId as string,
-    name: destination.name as string,
-    coverImageUrl: typeof destination.coverImageUrl === "string" ? destination.coverImageUrl : null,
+    id: destination.destinationId,
+    name: destination.name,
+    coverImageUrl: destination.coverImage.sources.find(({ type }) => type === "md")?.url || null,
   };
 };
 
