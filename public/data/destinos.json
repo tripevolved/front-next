@@ -1,0 +1,945 @@
+[
+  {
+    "slug": "angra-dos-reis",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/b20d2fdc-3fa3-435e-b971-d15824fe6a0f_angra-dos-reis.png?auto=compress,format&rect=419,0,1080,1080&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/b20d2fdc-3fa3-435e-b971-d15824fe6a0f_angra-dos-reis.png?auto=compress,format&rect=239,0,1440,1080&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/b20d2fdc-3fa3-435e-b971-d15824fe6a0f_angra-dos-reis.png?auto=compress,format&rect=15,0,1890,1080&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/b20d2fdc-3fa3-435e-b971-d15824fe6a0f_angra-dos-reis.png?auto=compress,format&rect=0,0,1920,1080&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "istanbul",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/73b881fb-2fd0-48a8-81d4-462be5065a8f_istanbul.jpeg?auto=compress,format&rect=497,0,1959,1959&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/73b881fb-2fd0-48a8-81d4-462be5065a8f_istanbul.jpeg?auto=compress,format&rect=171,0,2612,1959&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/73b881fb-2fd0-48a8-81d4-462be5065a8f_istanbul.jpeg?auto=compress,format&rect=0,136,2949,1685&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/73b881fb-2fd0-48a8-81d4-462be5065a8f_istanbul.jpeg?auto=compress,format&rect=0,299,2949,1659&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "recife",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/c1d98928-b572-4fa9-880d-b7bedab2c41f_recife.jpeg?auto=compress,format&rect=875,0,2242,2242&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/c1d98928-b572-4fa9-880d-b7bedab2c41f_recife.jpeg?auto=compress,format&rect=501,0,2989,2242&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/c1d98928-b572-4fa9-880d-b7bedab2c41f_recife.jpeg?auto=compress,format&rect=35,0,3924,2242&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/c1d98928-b572-4fa9-880d-b7bedab2c41f_recife.jpeg?auto=compress,format&rect=0,0,3986,2242&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "penedo",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/19935250-c18c-48f5-95c7-8cc14d85b567_penedo.jpeg?auto=compress,format&rect=1000,0,4000,4000&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/19935250-c18c-48f5-95c7-8cc14d85b567_penedo.jpeg?auto=compress,format&rect=333,0,5333,4000&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/19935250-c18c-48f5-95c7-8cc14d85b567_penedo.jpeg?auto=compress,format&rect=0,287,6000,3429&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/19935250-c18c-48f5-95c7-8cc14d85b567_penedo.jpeg?auto=compress,format&rect=0,313,6000,3375&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "petropolis",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/fd89f589-5ee9-45f0-af92-55a8ddfe40b3_petropolis.jpeg?auto=compress,format&rect=870,0,2232,2232&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/fd89f589-5ee9-45f0-af92-55a8ddfe40b3_petropolis.jpeg?auto=compress,format&rect=498,0,2976,2232&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/fd89f589-5ee9-45f0-af92-55a8ddfe40b3_petropolis.jpeg?auto=compress,format&rect=33,0,3906,2232&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/fd89f589-5ee9-45f0-af92-55a8ddfe40b3_petropolis.jpeg?auto=compress,format&rect=2,0,3968,2232&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "alter-do-chao",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/a363e077-8fda-4148-9caa-242b8d7e94d4_Alter+do+Chao.jpeg?auto=compress,format&rect=1795,0,2164,2164&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/a363e077-8fda-4148-9caa-242b8d7e94d4_Alter+do+Chao.jpeg?auto=compress,format&rect=1434,0,2885,2164&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/a363e077-8fda-4148-9caa-242b8d7e94d4_Alter+do+Chao.jpeg?auto=compress,format&rect=985,0,3787,2164&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/a363e077-8fda-4148-9caa-242b8d7e94d4_Alter+do+Chao.jpeg?auto=compress,format&rect=954,0,3847,2164&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "porto-alegre",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/3cbfad4a-0b09-420f-a841-a1f0b93c175f_porto-alegre.jpeg?auto=compress,format&rect=496,0,2976,2976&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/3cbfad4a-0b09-420f-a841-a1f0b93c175f_porto-alegre.jpeg?auto=compress,format&rect=0,0,3968,2976&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/3cbfad4a-0b09-420f-a841-a1f0b93c175f_porto-alegre.jpeg?auto=compress,format&rect=0,354,3968,2267&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/3cbfad4a-0b09-420f-a841-a1f0b93c175f_porto-alegre.jpeg?auto=compress,format&rect=0,372,3968,2232&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "rio-de-janeiro",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/c063871e-9d64-4c6b-8b22-4e2377a7e6c4_rio-de-janeiro.jpeg?auto=compress,format&rect=790,0,3181,3181&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/c063871e-9d64-4c6b-8b22-4e2377a7e6c4_rio-de-janeiro.jpeg?auto=compress,format&rect=260,0,4241,3181&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/c063871e-9d64-4c6b-8b22-4e2377a7e6c4_rio-de-janeiro.jpeg?auto=compress,format&rect=0,228,4766,2723&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/c063871e-9d64-4c6b-8b22-4e2377a7e6c4_rio-de-janeiro.jpeg?auto=compress,format&rect=0,251,4766,2681&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "cambara",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/e276088c-d309-4d61-8b1e-925868e522dd_Cambar%C3%A1+1.jpg?auto=compress,format&rect=176,0,449,449&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/e276088c-d309-4d61-8b1e-925868e522dd_Cambar%C3%A1+1.jpg?auto=compress,format&rect=101,0,599,449&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/e276088c-d309-4d61-8b1e-925868e522dd_Cambar%C3%A1+1.jpg?auto=compress,format&rect=7,0,786,449&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/e276088c-d309-4d61-8b1e-925868e522dd_Cambar%C3%A1+1.jpg?auto=compress,format&rect=1,0,798,449&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "goncalves",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/4cd5f75d-b8bc-43d2-8836-0c7012fa3352_Gon%C3%A7alves+1.jpg?auto=compress,format&rect=730,0,520,520&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/4cd5f75d-b8bc-43d2-8836-0c7012fa3352_Gon%C3%A7alves+1.jpg?auto=compress,format&rect=643,0,693,520&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/4cd5f75d-b8bc-43d2-8836-0c7012fa3352_Gon%C3%A7alves+1.jpg?auto=compress,format&rect=535,0,910,520&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/4cd5f75d-b8bc-43d2-8836-0c7012fa3352_Gon%C3%A7alves+1.jpg?auto=compress,format&rect=528,0,924,520&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "maragogi",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/375be55b-2b61-4fae-bb22-5d8b76b173b8_Maragogi.jpeg?auto=compress,format&rect=842,0,2168,2168&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/375be55b-2b61-4fae-bb22-5d8b76b173b8_Maragogi.jpeg?auto=compress,format&rect=481,0,2891,2168&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/375be55b-2b61-4fae-bb22-5d8b76b173b8_Maragogi.jpeg?auto=compress,format&rect=30,0,3794,2168&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/375be55b-2b61-4fae-bb22-5d8b76b173b8_Maragogi.jpeg?auto=compress,format&rect=0,0,3854,2168&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "porto-de-galinhas",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/5ca45c4c-383c-492b-8ff1-01297217b225_porto-de-galinhas.jpeg?auto=compress,format&rect=811,0,2242,2242&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/5ca45c4c-383c-492b-8ff1-01297217b225_porto-de-galinhas.jpeg?auto=compress,format&rect=437,0,2989,2242&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/5ca45c4c-383c-492b-8ff1-01297217b225_porto-de-galinhas.jpeg?auto=compress,format&rect=0,19,3860,2206&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/5ca45c4c-383c-492b-8ff1-01297217b225_porto-de-galinhas.jpeg?auto=compress,format&rect=0,36,3860,2171&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "praia-do-forte",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/0e7c7510-519a-454a-9d90-fe593009f9ca_praia-do-forte.jpeg?auto=compress,format&rect=485,0,2907,2907&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/0e7c7510-519a-454a-9d90-fe593009f9ca_praia-do-forte.jpeg?auto=compress,format&rect=0,0,3876,2907&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/0e7c7510-519a-454a-9d90-fe593009f9ca_praia-do-forte.jpeg?auto=compress,format&rect=0,346,3879,2217&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/0e7c7510-519a-454a-9d90-fe593009f9ca_praia-do-forte.jpeg?auto=compress,format&rect=0,362,3879,2182&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "nova-friburgo",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/c46cb90c-8ce8-4f37-86f4-3a838d36ea9a_Nova+friburgo.jpeg?auto=compress,format&rect=864,0,3456,3456&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/c46cb90c-8ce8-4f37-86f4-3a838d36ea9a_Nova+friburgo.jpeg?auto=compress,format&rect=288,0,4608,3456&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/c46cb90c-8ce8-4f37-86f4-3a838d36ea9a_Nova+friburgo.jpeg?auto=compress,format&rect=0,248,5184,2962&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/c46cb90c-8ce8-4f37-86f4-3a838d36ea9a_Nova+friburgo.jpeg?auto=compress,format&rect=0,270,5184,2916&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "caldas-novas",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/a3b46d93-3d03-4e9a-a5ee-338107d434c0_Caldas+Novas+1.jpeg?auto=compress,format&rect=1292,0,2215,2215&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/a3b46d93-3d03-4e9a-a5ee-338107d434c0_Caldas+Novas+1.jpeg?auto=compress,format&rect=923,0,2953,2215&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/a3b46d93-3d03-4e9a-a5ee-338107d434c0_Caldas+Novas+1.jpeg?auto=compress,format&rect=462,0,3876,2215&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/a3b46d93-3d03-4e9a-a5ee-338107d434c0_Caldas+Novas+1.jpeg?auto=compress,format&rect=431,0,3938,2215&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "tiradentes",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/c09840ef-243f-463e-aa76-90ea80276515_Tiradentes+1.jpeg?auto=compress,format&rect=832,0,2627,2627&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/c09840ef-243f-463e-aa76-90ea80276515_Tiradentes+1.jpeg?auto=compress,format&rect=394,0,3503,2627&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/c09840ef-243f-463e-aa76-90ea80276515_Tiradentes+1.jpeg?auto=compress,format&rect=0,89,4287,2450&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/c09840ef-243f-463e-aa76-90ea80276515_Tiradentes+1.jpeg?auto=compress,format&rect=0,107,4287,2411&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "curitiba",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/b4b9f8ef-5f9d-4cd8-b003-60e66029b6d9_Curitiba+1.jpg?auto=compress,format&rect=240,0,1440,1440&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/b4b9f8ef-5f9d-4cd8-b003-60e66029b6d9_Curitiba+1.jpg?auto=compress,format&rect=0,0,1920,1440&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/b4b9f8ef-5f9d-4cd8-b003-60e66029b6d9_Curitiba+1.jpg?auto=compress,format&rect=0,171,1920,1097&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/b4b9f8ef-5f9d-4cd8-b003-60e66029b6d9_Curitiba+1.jpg?auto=compress,format&rect=0,180,1920,1080&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "fortaleza",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/aad4d491-e765-4c22-997b-03fa639f7d35_Fortaleza.jpeg?auto=compress,format&rect=1197,0,3070,3070&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/aad4d491-e765-4c22-997b-03fa639f7d35_Fortaleza.jpeg?auto=compress,format&rect=686,0,4093,3070&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/aad4d491-e765-4c22-997b-03fa639f7d35_Fortaleza.jpeg?auto=compress,format&rect=46,0,5373,3070&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/aad4d491-e765-4c22-997b-03fa639f7d35_Fortaleza.jpeg?auto=compress,format&rect=3,0,5458,3070&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "manaus",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/4f24988a-03fd-4924-a944-661379c979f1_Manaus.jpeg?auto=compress,format&rect=297,0,2876,2876&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/4f24988a-03fd-4924-a944-661379c979f1_Manaus.jpeg?auto=compress,format&rect=0,135,3475,2606&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/4f24988a-03fd-4924-a944-661379c979f1_Manaus.jpeg?auto=compress,format&rect=0,444,3475,1986&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/4f24988a-03fd-4924-a944-661379c979f1_Manaus.jpeg?auto=compress,format&rect=0,462,3475,1955&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "jalapao",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/9a20f094-ff05-4ee3-982f-5e30328202b5_Jalap%C3%A3o.jpeg?auto=compress,format&rect=874,0,2250,2250&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/9a20f094-ff05-4ee3-982f-5e30328202b5_Jalap%C3%A3o.jpeg?auto=compress,format&rect=499,0,3000,2250&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/9a20f094-ff05-4ee3-982f-5e30328202b5_Jalap%C3%A3o.jpeg?auto=compress,format&rect=31,0,3938,2250&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/9a20f094-ff05-4ee3-982f-5e30328202b5_Jalap%C3%A3o.jpeg?auto=compress,format&rect=0,0,4000,2250&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "florianopolis",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/8c6069c9-48e0-4d19-be48-e4e6660c4828_Florianopolis.jpeg?auto=compress,format&rect=983,0,2531,2531&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/8c6069c9-48e0-4d19-be48-e4e6660c4828_Florianopolis.jpeg?auto=compress,format&rect=561,0,3375,2531&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/8c6069c9-48e0-4d19-be48-e4e6660c4828_Florianopolis.jpeg?auto=compress,format&rect=35,0,4429,2531&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/8c6069c9-48e0-4d19-be48-e4e6660c4828_Florianopolis.jpeg?auto=compress,format&rect=0,0,4500,2531&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "paraty",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/3294788f-95ef-4e44-91b9-893c91f557a9_Paraty.jpeg?auto=compress,format&rect=1120,0,4480,4480&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/3294788f-95ef-4e44-91b9-893c91f557a9_Paraty.jpeg?auto=compress,format&rect=373,0,5973,4480&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/3294788f-95ef-4e44-91b9-893c91f557a9_Paraty.jpeg?auto=compress,format&rect=0,322,6720,3840&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/3294788f-95ef-4e44-91b9-893c91f557a9_Paraty.jpeg?auto=compress,format&rect=0,350,6720,3780&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "ilheus",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/50c71141-fc78-414b-a988-21e6b6e962dc_Ilheus.jpeg?auto=compress,format&rect=1197,0,3070,3070&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/50c71141-fc78-414b-a988-21e6b6e962dc_Ilheus.jpeg?auto=compress,format&rect=686,0,4093,3070&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/50c71141-fc78-414b-a988-21e6b6e962dc_Ilheus.jpeg?auto=compress,format&rect=46,0,5373,3070&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/50c71141-fc78-414b-a988-21e6b6e962dc_Ilheus.jpeg?auto=compress,format&rect=3,0,5458,3070&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "canela",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/006ac27d-95af-4845-9d62-3780685ba664_Canela.jpeg?auto=compress,format&rect=667,0,4000,4000&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/006ac27d-95af-4845-9d62-3780685ba664_Canela.jpeg?auto=compress,format&rect=0,0,5333,4000&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/006ac27d-95af-4845-9d62-3780685ba664_Canela.jpeg?auto=compress,format&rect=0,476,5333,3047&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/006ac27d-95af-4845-9d62-3780685ba664_Canela.jpeg?auto=compress,format&rect=0,500,5333,3000&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "chapada-diamantina",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/84a2570f-1a74-460a-9293-46a9fabf13e1_Chapada+diamantina.jpeg?auto=compress,format&rect=658,0,1897,1897&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/84a2570f-1a74-460a-9293-46a9fabf13e1_Chapada+diamantina.jpeg?auto=compress,format&rect=341,0,2529,1897&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/84a2570f-1a74-460a-9293-46a9fabf13e1_Chapada+diamantina.jpeg?auto=compress,format&rect=0,30,3215,1837&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/84a2570f-1a74-460a-9293-46a9fabf13e1_Chapada+diamantina.jpeg?auto=compress,format&rect=0,44,3215,1808&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "chapada-dos-veadeiros",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/73df25bc-6a7f-4a61-a320-8e1e1294d292_Chapada+dos+Veadeiros.jpeg?auto=compress,format&rect=524,0,2053,2053&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/73df25bc-6a7f-4a61-a320-8e1e1294d292_Chapada+dos+Veadeiros.jpeg?auto=compress,format&rect=181,0,2737,2053&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/73df25bc-6a7f-4a61-a320-8e1e1294d292_Chapada+dos+Veadeiros.jpeg?auto=compress,format&rect=0,142,3100,1771&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/73df25bc-6a7f-4a61-a320-8e1e1294d292_Chapada+dos+Veadeiros.jpeg?auto=compress,format&rect=0,155,3100,1744&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "chapada-guimaraes",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/3a83b8c3-1d76-461d-82b4-ffdbacff751c_Chapada+dos+Guimaraes.jpeg?auto=compress,format&rect=935,0,3739,3739&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/3a83b8c3-1d76-461d-82b4-ffdbacff751c_Chapada+dos+Guimaraes.jpeg?auto=compress,format&rect=312,0,4985,3739&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/3a83b8c3-1d76-461d-82b4-ffdbacff751c_Chapada+dos+Guimaraes.jpeg?auto=compress,format&rect=0,268,5608,3205&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/3a83b8c3-1d76-461d-82b4-ffdbacff751c_Chapada+dos+Guimaraes.jpeg?auto=compress,format&rect=0,292,5608,3155&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "belem",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/6e62bb1a-e61c-4316-81ee-5d378b1e2b63_belem.jpeg?auto=compress,format&rect=874,0,2250,2250&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/6e62bb1a-e61c-4316-81ee-5d378b1e2b63_belem.jpeg?auto=compress,format&rect=499,0,3000,2250&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/6e62bb1a-e61c-4316-81ee-5d378b1e2b63_belem.jpeg?auto=compress,format&rect=31,0,3938,2250&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/6e62bb1a-e61c-4316-81ee-5d378b1e2b63_belem.jpeg?auto=compress,format&rect=0,0,4000,2250&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "fernando-de-noronha",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/18867367-1e73-4492-b27c-82d9a57ebdcd_Fernando+de+Noronha.jpeg?auto=compress,format&rect=990,0,3958,3958&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/18867367-1e73-4492-b27c-82d9a57ebdcd_Fernando+de+Noronha.jpeg?auto=compress,format&rect=330,0,5277,3958&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/18867367-1e73-4492-b27c-82d9a57ebdcd_Fernando+de+Noronha.jpeg?auto=compress,format&rect=0,284,5937,3393&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/18867367-1e73-4492-b27c-82d9a57ebdcd_Fernando+de+Noronha.jpeg?auto=compress,format&rect=0,309,5937,3340&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "brasilia",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/29cfbc8e-a472-4d31-a58f-3367b00d7095_brasilia.jpeg?auto=compress,format&rect=874,0,3497,3497&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/29cfbc8e-a472-4d31-a58f-3367b00d7095_brasilia.jpeg?auto=compress,format&rect=291,0,4663,3497&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/29cfbc8e-a472-4d31-a58f-3367b00d7095_brasilia.jpeg?auto=compress,format&rect=0,247,5249,2999&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/29cfbc8e-a472-4d31-a58f-3367b00d7095_brasilia.jpeg?auto=compress,format&rect=0,273,5249,2953&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "santos",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/f2285b6a-c386-4dd4-9c77-35c214e8359e_Santos+1.jpeg?auto=compress,format&rect=874,0,2250,2250&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/f2285b6a-c386-4dd4-9c77-35c214e8359e_Santos+1.jpeg?auto=compress,format&rect=499,0,3000,2250&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/f2285b6a-c386-4dd4-9c77-35c214e8359e_Santos+1.jpeg?auto=compress,format&rect=31,0,3938,2250&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/f2285b6a-c386-4dd4-9c77-35c214e8359e_Santos+1.jpeg?auto=compress,format&rect=0,0,4000,2250&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "sao-luis",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/b2f77876-3315-4ccd-9924-ce296ce86df8_S%C3%A3o+Luis+1.jpeg?auto=compress,format&rect=639,0,2592,2592&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/b2f77876-3315-4ccd-9924-ce296ce86df8_S%C3%A3o+Luis+1.jpeg?auto=compress,format&rect=207,0,3456,2592&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/b2f77876-3315-4ccd-9924-ce296ce86df8_S%C3%A3o+Luis+1.jpeg?auto=compress,format&rect=0,191,3872,2213&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/b2f77876-3315-4ccd-9924-ce296ce86df8_S%C3%A3o+Luis+1.jpeg?auto=compress,format&rect=0,208,3872,2178&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "sao-miguel-do-gostoso",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/ce15c496-1476-449b-a3d2-d7e5b365c33d_S%C3%A3o+Miguel+do+Gostoso+1.jpeg?auto=compress,format&rect=854,0,2200,2200&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/ce15c496-1476-449b-a3d2-d7e5b365c33d_S%C3%A3o+Miguel+do+Gostoso+1.jpeg?auto=compress,format&rect=488,0,2933,2200&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/ce15c496-1476-449b-a3d2-d7e5b365c33d_S%C3%A3o+Miguel+do+Gostoso+1.jpeg?auto=compress,format&rect=30,0,3850,2200&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/ce15c496-1476-449b-a3d2-d7e5b365c33d_S%C3%A3o+Miguel+do+Gostoso+1.jpeg?auto=compress,format&rect=0,0,3911,2200&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "saquarema",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/7aa14349-76d8-4d09-b698-da351acba82d_Saquarema+1.jpeg?auto=compress,format&rect=865,0,2218,2218&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/7aa14349-76d8-4d09-b698-da351acba82d_Saquarema+1.jpeg?auto=compress,format&rect=495,0,2957,2218&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/7aa14349-76d8-4d09-b698-da351acba82d_Saquarema+1.jpeg?auto=compress,format&rect=33,0,3882,2218&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/7aa14349-76d8-4d09-b698-da351acba82d_Saquarema+1.jpeg?auto=compress,format&rect=2,0,3943,2218&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "sao-paulo",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/631ca7d0-a8ff-4bfa-820e-5fbfcdba2fd1_S%C3%A3o+Paulo+1.jpeg?auto=compress,format&rect=1085,0,1784,1784&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/631ca7d0-a8ff-4bfa-820e-5fbfcdba2fd1_S%C3%A3o+Paulo+1.jpeg?auto=compress,format&rect=788,0,2379,1784&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/631ca7d0-a8ff-4bfa-820e-5fbfcdba2fd1_S%C3%A3o+Paulo+1.jpeg?auto=compress,format&rect=417,0,3122,1784&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/631ca7d0-a8ff-4bfa-820e-5fbfcdba2fd1_S%C3%A3o+Paulo+1.jpeg?auto=compress,format&rect=391,0,3172,1784&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "ouro-preto",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/296cce51-e4f1-4ee1-89ca-dba6072ffb47_Ouro+Preto+1.png?auto=compress,format&rect=419,0,1080,1080&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/296cce51-e4f1-4ee1-89ca-dba6072ffb47_Ouro+Preto+1.png?auto=compress,format&rect=239,0,1440,1080&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/296cce51-e4f1-4ee1-89ca-dba6072ffb47_Ouro+Preto+1.png?auto=compress,format&rect=15,0,1890,1080&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/296cce51-e4f1-4ee1-89ca-dba6072ffb47_Ouro+Preto+1.png?auto=compress,format&rect=0,0,1920,1080&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "belo-horizonte",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/b27951e0-450d-49a9-ad44-4aa105a5a29a_Belo+Horizonte+1.png?auto=compress,format&rect=419,0,1080,1080&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/b27951e0-450d-49a9-ad44-4aa105a5a29a_Belo+Horizonte+1.png?auto=compress,format&rect=239,0,1440,1080&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/b27951e0-450d-49a9-ad44-4aa105a5a29a_Belo+Horizonte+1.png?auto=compress,format&rect=15,0,1890,1080&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/b27951e0-450d-49a9-ad44-4aa105a5a29a_Belo+Horizonte+1.png?auto=compress,format&rect=0,0,1920,1080&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "natal",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/865da7b5-1834-48f3-bd49-2a702fe01ed1_Natal+1.png?auto=compress,format&rect=419,0,1080,1080&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/865da7b5-1834-48f3-bd49-2a702fe01ed1_Natal+1.png?auto=compress,format&rect=239,0,1440,1080&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/865da7b5-1834-48f3-bd49-2a702fe01ed1_Natal+1.png?auto=compress,format&rect=15,0,1890,1080&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/865da7b5-1834-48f3-bd49-2a702fe01ed1_Natal+1.png?auto=compress,format&rect=0,0,1920,1080&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "foz-do-iguacu",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/73effd0b-c46f-4e60-a71b-9be322bfcc27_Foz+do+Igua%C3%A7u+1.png?auto=compress,format&rect=419,0,1080,1080&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/73effd0b-c46f-4e60-a71b-9be322bfcc27_Foz+do+Igua%C3%A7u+1.png?auto=compress,format&rect=239,0,1440,1080&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/73effd0b-c46f-4e60-a71b-9be322bfcc27_Foz+do+Igua%C3%A7u+1.png?auto=compress,format&rect=15,0,1890,1080&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/73effd0b-c46f-4e60-a71b-9be322bfcc27_Foz+do+Igua%C3%A7u+1.png?auto=compress,format&rect=0,0,1920,1080&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "brotas",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/3756b37e-fda9-4070-bc73-05daf0560c01_Brotas+1.png?auto=compress,format&rect=419,0,1080,1080&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/3756b37e-fda9-4070-bc73-05daf0560c01_Brotas+1.png?auto=compress,format&rect=239,0,1440,1080&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/3756b37e-fda9-4070-bc73-05daf0560c01_Brotas+1.png?auto=compress,format&rect=15,0,1890,1080&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/3756b37e-fda9-4070-bc73-05daf0560c01_Brotas+1.png?auto=compress,format&rect=0,0,1920,1080&w=1920&h=1080"
+    }
+  },
+  {
+    "slug": "salvador",
+    "md": {
+      "width": 600,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/8bf55187-ff3b-4b83-9da4-4dcf8938e2d2_Salvador+1.png?auto=compress,format&rect=419,0,1080,1080&w=600&h=600"
+    },
+    "lg": {
+      "width": 800,
+      "height": 600,
+      "url": "https://images.prismic.io/tripevolved/8bf55187-ff3b-4b83-9da4-4dcf8938e2d2_Salvador+1.png?auto=compress,format&rect=239,0,1440,1080&w=800&h=600"
+    },
+    "xl": {
+      "width": 1400,
+      "height": 800,
+      "url": "https://images.prismic.io/tripevolved/8bf55187-ff3b-4b83-9da4-4dcf8938e2d2_Salvador+1.png?auto=compress,format&rect=15,0,1890,1080&w=1400&h=800"
+    },
+    "2xl": {
+      "width": 1920,
+      "height": 1080,
+      "url": "https://images.prismic.io/tripevolved/8bf55187-ff3b-4b83-9da4-4dcf8938e2d2_Salvador+1.png?auto=compress,format&rect=0,0,1920,1080&w=1920&h=1080"
+    }
+  }
+]
