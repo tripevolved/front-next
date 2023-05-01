@@ -15,10 +15,10 @@ const makeDataJson = (slices: any[]) => {
   });
 };
 
-const parsePage = ({ data, slices, slug, ...seo }: PageData) => {
+const parsePage = ({ data, slices, slug, photos, ...seo }: PageData) => {
   const json = toJson(data);
   const children = makeDataJson(slices);
-  return { seo, component: "PageBase", children, slug, ...json };
+  return { seo, component: "PageBase", children, slug, photos, ...json };
 };
 
 const handler = async (pageData: PageData, template: TemplateProps) => {
