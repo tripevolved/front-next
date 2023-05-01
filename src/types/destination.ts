@@ -8,6 +8,7 @@ export interface PublicDestination {
   posts: string[];
   features: Feature[];
   tips: Tip[];
+  faq: Faq[];
 }
 
 interface Feature {
@@ -30,4 +31,10 @@ interface User {
   tikTok: string;
   blog: string;
   recommendationText: string;
+}
+
+interface Faq{
+  answer: string;
+  icon?: string;
+  question: string;
 }
