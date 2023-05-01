@@ -1,7 +1,9 @@
+import { Photo } from "./photo";
+
 export interface PublicDestination {
   title: string;
   recommendedBy: User;
-  photos: string[];
+  photos: Photo[];
   videos: string[];
   posts: string[];
   features: Feature[];
