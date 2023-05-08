@@ -53,23 +53,23 @@ interface BusinessProposalDocumentData {
      */
     status: prismicT.SelectField<"Aguardando aprovação" | "Pagamento homologado" | "Emitindo vouchers">;
     /**
-     * locations field in *Proposta comercial*
+     * Bloco field in *Proposta comercial*
      *
      * - **Field Type**: Group
      * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.locations[]
-     * - **Tab**: Destino
+     * - **API ID Path**: businessProposal.blocks[]
+     * - **Tab**: Geral
      * - **Documentation**: https://prismic.io/docs/core-concepts/group
      *
      */
-    locations: prismicT.GroupField<Simplify<BusinessProposalDocumentDataLocationsItem>>;
+    blocks: prismicT.GroupField<Simplify<BusinessProposalDocumentDataBlocksItem>>;
     /**
      * Slice Zone field in *Proposta comercial*
      *
      * - **Field Type**: Slice Zone
      * - **Placeholder**: *None*
      * - **API ID Path**: businessProposal.sections[]
-     * - **Tab**: Destino
+     * - **Tab**: Geral
      * - **Documentation**: https://prismic.io/docs/core-concepts/slices
      *
      */
@@ -85,128 +85,82 @@ interface BusinessProposalDocumentData {
      *
      */
     ordens: prismicT.GroupField<Simplify<BusinessProposalDocumentDataOrdensItem>>;
-    /**
-     * accommodations field in *Proposta comercial*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.accommodations[]
-     * - **Tab**: Hospedagens
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    accommodations: prismicT.GroupField<Simplify<BusinessProposalDocumentDataAccommodationsItem>>;
-    /**
-     * Translados field in *Proposta comercial*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.transfers[]
-     * - **Tab**: Translados
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    transfers: prismicT.GroupField<Simplify<BusinessProposalDocumentDataTransfersItem>>;
-    /**
-     * Itinerário field in *Proposta comercial*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.itinerary[]
-     * - **Tab**: Roteiro
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    itinerary: prismicT.GroupField<Simplify<BusinessProposalDocumentDataItineraryItem>>;
-    /**
-     * Serviços field in *Proposta comercial*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.services[]
-     * - **Tab**: Serviços
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    services: prismicT.GroupField<Simplify<BusinessProposalDocumentDataServicesItem>>;
-    /**
-     * Observações field in *Proposta comercial*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.remarks[]
-     * - **Tab**: Observações
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    remarks: prismicT.GroupField<Simplify<BusinessProposalDocumentDataRemarksItem>>;
-    /**
-     * Clientes field in *Proposta comercial*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.travelers[]
-     * - **Tab**: Viajantes
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    travelers: prismicT.GroupField<Simplify<BusinessProposalDocumentDataTravelersItem>>;
 }
 /**
- * Item in Proposta comercial → locations
+ * Item in Proposta comercial → Bloco
  *
  */
-export interface BusinessProposalDocumentDataLocationsItem {
+export interface BusinessProposalDocumentDataBlocksItem {
     /**
-     * Nome field in *Proposta comercial → locations*
+     * Tipo field in *Proposta comercial → Bloco*
+     *
+     * - **Field Type**: Select
+     * - **Placeholder**: *None*
+     * - **API ID Path**: businessProposal.blocks[].type
+     * - **Documentation**: https://prismic.io/docs/core-concepts/select
+     *
+     */
+    type: prismicT.SelectField<"Text" | "Location" | "Transfer" | "Accommodation" | "Restaurant" | "Attraction">;
+    /**
+     * day field in *Proposta comercial → Bloco*
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.locations[].name
+     * - **API ID Path**: businessProposal.blocks[].day
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
-    name: prismicT.KeyTextField;
+    day: prismicT.KeyTextField;
     /**
-     * Chegada field in *Proposta comercial → locations*
+     * period field in *Proposta comercial → Bloco*
      *
-     * - **Field Type**: Timestamp
+     * - **Field Type**: Select
      * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.locations[].startAt
-     * - **Documentation**: https://prismic.io/docs/core-concepts/timestamp
+     * - **API ID Path**: businessProposal.blocks[].period
+     * - **Documentation**: https://prismic.io/docs/core-concepts/select
      *
      */
-    startAt: prismicT.TimestampField;
+    period: prismicT.SelectField<"manhã" | "meio-dia" | "tarde" | "janta" | "noite" | "café da manhã">;
     /**
-     * Saída field in *Proposta comercial → locations*
-     *
-     * - **Field Type**: Timestamp
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.locations[].endsAt
-     * - **Documentation**: https://prismic.io/docs/core-concepts/timestamp
-     *
-     */
-    endsAt: prismicT.TimestampField;
-    /**
-     * Endereço field in *Proposta comercial → locations*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.locations[].address
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    address: prismicT.KeyTextField;
-    /**
-     * Imagem principal field in *Proposta comercial → locations*
+     * Imagem principal field in *Proposta comercial → Bloco*
      *
      * - **Field Type**: Image
      * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.locations[].cover
+     * - **API ID Path**: businessProposal.blocks[].cover
      * - **Documentation**: https://prismic.io/docs/core-concepts/image
      *
      */
     cover: prismicT.ImageField<never>;
+    /**
+     * Título field in *Proposta comercial → Bloco*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: businessProposal.blocks[].title
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    title: prismicT.KeyTextField;
+    /**
+     * Subtitle field in *Proposta comercial → Bloco*
+     *
+     * - **Field Type**: Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: businessProposal.blocks[].subtitle
+     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+     *
+     */
+    subtitle: prismicT.KeyTextField;
+    /**
+     * Text field in *Proposta comercial → Bloco*
+     *
+     * - **Field Type**: Rich Text
+     * - **Placeholder**: *None*
+     * - **API ID Path**: businessProposal.blocks[].text
+     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+     *
+     */
+    text: prismicT.RichTextField;
 }
 /**
  * Slice for *Proposta comercial → Slice Zone*
@@ -219,15 +173,15 @@ type BusinessProposalDocumentDataSectionsSlice = never;
  */
 export interface BusinessProposalDocumentDataOrdensItem {
     /**
-     * number field in *Proposta comercial → Ordens*
+     * Título field in *Proposta comercial → Ordens*
      *
      * - **Field Type**: Text
      * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.ordens[].number
+     * - **API ID Path**: businessProposal.ordens[].title
      * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
      *
      */
-    number: prismicT.KeyTextField;
+    title: prismicT.KeyTextField;
     /**
      * Desconto field in *Proposta comercial → Ordens*
      *
@@ -260,232 +214,6 @@ export interface BusinessProposalDocumentDataOrdensItem {
     href: prismicT.KeyTextField;
 }
 /**
- * Item in Proposta comercial → accommodations
- *
- */
-export interface BusinessProposalDocumentDataAccommodationsItem {
-    /**
-     * Nome field in *Proposta comercial → accommodations*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.accommodations[].name
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    name: prismicT.KeyTextField;
-    /**
-     * Chegada field in *Proposta comercial → accommodations*
-     *
-     * - **Field Type**: Timestamp
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.accommodations[].startAt
-     * - **Documentation**: https://prismic.io/docs/core-concepts/timestamp
-     *
-     */
-    startAt: prismicT.TimestampField;
-    /**
-     * Saída field in *Proposta comercial → accommodations*
-     *
-     * - **Field Type**: Date
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.accommodations[].endsAt
-     * - **Documentation**: https://prismic.io/docs/core-concepts/date
-     *
-     */
-    endsAt: prismicT.DateField;
-    /**
-     * Descrição field in *Proposta comercial → accommodations*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.accommodations[].description
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    description: prismicT.RichTextField;
-    /**
-     * Imagem principal field in *Proposta comercial → accommodations*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.accommodations[].cover
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    cover: prismicT.ImageField<never>;
-}
-/**
- * Item in Proposta comercial → Translados
- *
- */
-export interface BusinessProposalDocumentDataTransfersItem {
-    /**
-     * Tipo field in *Proposta comercial → Translados*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.transfers[].type
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    type: prismicT.KeyTextField;
-    /**
-     * Saída field in *Proposta comercial → Translados*
-     *
-     * - **Field Type**: Timestamp
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.transfers[].startAt
-     * - **Documentation**: https://prismic.io/docs/core-concepts/timestamp
-     *
-     */
-    startAt: prismicT.TimestampField;
-    /**
-     * Chegada field in *Proposta comercial → Translados*
-     *
-     * - **Field Type**: Timestamp
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.transfers[].endsAt
-     * - **Documentation**: https://prismic.io/docs/core-concepts/timestamp
-     *
-     */
-    endsAt: prismicT.TimestampField;
-    /**
-     * Localização inicial field in *Proposta comercial → Translados*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.transfers[].startingLocation
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    startingLocation: prismicT.KeyTextField;
-    /**
-     * Localização final field in *Proposta comercial → Translados*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.transfers[].finalLocation
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    finalLocation: prismicT.KeyTextField;
-    /**
-     * Descrição field in *Proposta comercial → Translados*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.transfers[].description
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    description: prismicT.RichTextField;
-}
-/**
- * Item in Proposta comercial → Itinerário
- *
- */
-export interface BusinessProposalDocumentDataItineraryItem {
-    /**
-     * Dia field in *Proposta comercial → Itinerário*
-     *
-     * - **Field Type**: Timestamp
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.itinerary[].day
-     * - **Documentation**: https://prismic.io/docs/core-concepts/timestamp
-     *
-     */
-    day: prismicT.TimestampField;
-    /**
-     * Descrição field in *Proposta comercial → Itinerário*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.itinerary[].description
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    description: prismicT.RichTextField;
-}
-/**
- * Item in Proposta comercial → Serviços
- *
- */
-export interface BusinessProposalDocumentDataServicesItem {
-    /**
-     * Nome field in *Proposta comercial → Serviços*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.services[].name
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    name: prismicT.KeyTextField;
-    /**
-     * Descrição field in *Proposta comercial → Serviços*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.services[].description
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    description: prismicT.RichTextField;
-}
-/**
- * Item in Proposta comercial → Observações
- *
- */
-export interface BusinessProposalDocumentDataRemarksItem {
-    /**
-     * Comentário field in *Proposta comercial → Observações*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.remarks[].text
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    text: prismicT.RichTextField;
-}
-/**
- * Item in Proposta comercial → Clientes
- *
- */
-export interface BusinessProposalDocumentDataTravelersItem {
-    /**
-     * Nome field in *Proposta comercial → Clientes*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.travelers[].name
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    name: prismicT.KeyTextField;
-    /**
-     * E-mail field in *Proposta comercial → Clientes*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.travelers[].email
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    email: prismicT.KeyTextField;
-    /**
-     * Telefone field in *Proposta comercial → Clientes*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.travelers[].phone
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    phone: prismicT.KeyTextField;
-}
-/**
  * Proposta comercial document from Prismic
  *
  * - **API ID**: `businessProposal`
@@ -494,7 +222,7 @@ export interface BusinessProposalDocumentDataTravelersItem {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type BusinessProposalDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<BusinessProposalDocumentData>, "businessProposal", Lang>;
+export type BusinessProposalDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<BusinessProposalDocumentData>, "businessProposal", Lang>;
 /** Content for Pages documents */
 interface PagesDocumentData {
     /**
@@ -1064,6 +792,6 @@ declare module "@prismicio/client" {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { BusinessProposalDocumentData, BusinessProposalDocumentDataLocationsItem, BusinessProposalDocumentDataSectionsSlice, BusinessProposalDocumentDataOrdensItem, BusinessProposalDocumentDataAccommodationsItem, BusinessProposalDocumentDataTransfersItem, BusinessProposalDocumentDataItineraryItem, BusinessProposalDocumentDataServicesItem, BusinessProposalDocumentDataRemarksItem, BusinessProposalDocumentDataTravelersItem, BusinessProposalDocument, PagesDocumentData, PagesDocumentDataSlicesSlice, PagesDocumentDataPhotosItem, PagesDocument, PartDocumentData, PartDocument, SiteTemplateDocumentData, SiteTemplateDocumentDataMenuItem, SiteTemplateDocumentDataSocialItem, SiteTemplateDocumentDataSitemapItem, SiteTemplateDocument, AllDocumentTypes, FreeJsonSliceCustomComponentPrimary, FreeJsonSliceCustomComponentItem, FreeJsonSliceCustomComponent, FreeJsonSliceVariation, FreeJsonSlice, SectionBaseSliceDefaultPrimary, SectionBaseSliceDefaultItem, SectionBaseSliceDefault, SectionBaseSliceVariation, SectionBaseSlice };
+        export type { BusinessProposalDocumentData, BusinessProposalDocumentDataBlocksItem, BusinessProposalDocumentDataSectionsSlice, BusinessProposalDocumentDataOrdensItem, BusinessProposalDocument, PagesDocumentData, PagesDocumentDataSlicesSlice, PagesDocumentDataPhotosItem, PagesDocument, PartDocumentData, PartDocument, SiteTemplateDocumentData, SiteTemplateDocumentDataMenuItem, SiteTemplateDocumentDataSocialItem, SiteTemplateDocumentDataSitemapItem, SiteTemplateDocument, AllDocumentTypes, FreeJsonSliceCustomComponentPrimary, FreeJsonSliceCustomComponentItem, FreeJsonSliceCustomComponent, FreeJsonSliceVariation, FreeJsonSlice, SectionBaseSliceDefaultPrimary, SectionBaseSliceDefaultItem, SectionBaseSliceDefault, SectionBaseSliceVariation, SectionBaseSlice };
     }
 }

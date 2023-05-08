@@ -1,7 +1,10 @@
 {
   "_cts": {
     "businessProposal": {
-      "itinerary": {}
+      "itinerary": {},
+      "locations": {},
+      "blocks": {},
+      "ordens": {}
     },
     "pages": {
       "photos": {}
