@@ -69,8 +69,11 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
   return (
     <PageBase navbar={navbar} footer={footer} seo={seo}>
       <DestinationHeroSection title={destination.title} photos={destination.photos} />
-      <DestinationInfoSection features={mock.features} recommendedBy={mock.recommendedBy} />
-      <DestinationVideoSection videos={destination.videos} />
+      <DestinationInfoSection
+        features={destination.features}
+        recommendedBy={destination.recommendedBy}
+      />
+      <DestinationVideoSection title={destination.title} videos={destination.videos} />
       <DestinationTipsSection tips={destination.tips} />
       <DestinationPostsSection posts={destination.posts} />
       <DestinationFaqSection faq={mock.faq} title={destination.title} />

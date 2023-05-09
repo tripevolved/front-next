@@ -32,7 +32,11 @@ const DestinationInfoFeatures = ({ features }: Pick<DestinationProps, "features"
       {features &&
         features.map(({ title, description, icon }, key) => (
           <Grid columns={"0.5fr 2.5fr"} gap={1} key={key}>
-            {icon ? <Picture>{icon}</Picture> : null}
+            {icon ? (
+              <Picture>{icon}</Picture>
+            ) : (
+              <Picture>{"/assets/destino/atracoes-culturais.png"}</Picture>
+            )}
             <div className="mb-md">
               <Heading
                 size="xxs"
@@ -54,7 +58,11 @@ const DestinationInfoRecommendedBy = ({
   return (
     <SectionBase>
       <Grid columns={"0.5fr 2.5fr"} gap={23} className="mb-xl">
-        {recommendedBy.photo ? <Picture>{recommendedBy.photo}</Picture> : null}
+        {recommendedBy.photo ? (
+          <Picture>{recommendedBy.photo}</Picture>
+        ) : (
+          <Picture>{"/assets/destino/profile.png"}</Picture>
+        )}
         <div>
           <Text
             size="md"

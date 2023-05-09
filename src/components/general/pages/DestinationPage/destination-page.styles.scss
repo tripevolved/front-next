@@ -14,6 +14,28 @@
     position: absolute;
     color: white;
     bottom: 0;
-    padding: $spacing-xl
+    padding: $spacing-xl;
+  }
+}
+
+.destination-video-section {
+  background-color: $color-brand-1;
+  width: 100%;
+  text-align: center;
+
+  &__title{
+    color: $color-gray-4;
+  }
+
+  &__card {
+    margin: 0 auto;
+    text-align: center;
+    max-width: 331px;
+    max-height: 204px;
+
+    @media (min-width: $breakpoint-md) {
+      max-width: 582px;
+      max-height: 359px;
+    }
   }
 }
