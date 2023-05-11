@@ -26,11 +26,13 @@ export function Footer({ slogan, menu = [], social = [] }: FooterProps) {
             </FooterMenu>
           ))}
           <FooterMenu title="Siga nas redes">
-            {social.map(({ icon, alt, href }) => (
-              <Link key={href} title={alt} href={href} target="_blank">
-                <Icon name={icon} />
-              </Link>
-            ))}
+            <div className="flex gap-lg">
+              {social.map(({ icon, alt, href }) => (
+                <Link key={href} title={alt} href={href} target="_blank">
+                  <Icon name={icon} />
+                </Link>
+              ))}
+            </div>
           </FooterMenu>
         </div>
       </div>

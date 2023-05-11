@@ -9,6 +9,7 @@ export * from "./buttons/WhatsappButton";
 export * from "./common/Accordion";
 export * from "./common/AutoScrollNav";
 export * from "./common/Box";
+export * from "./common/CardHighlight";
 export * from "./common/CardYoutube";
 export * from "./common/Emoji";
 export * from "./common/LineDecoration";

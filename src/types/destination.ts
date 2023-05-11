@@ -2,29 +2,34 @@ import { Photo } from "./photo";
 
 export interface PublicDestination {
   title: string;
-  recommendedBy: User;
+  recommendedBy: PublicDestinationUser;
   photos: Photo[];
-  videos: string[];
+  videos: PublicDestinationVideo[];
   posts: string[];
-  features: Feature[];
-  tips: Tip[];
-  faq: Faq[];
+  features: PublicDestinationFeature[];
+  tips: PublicDestinationTip[];
+  faq: PublicDestinationFaq[];
 }
 
-interface Feature {
+export interface PublicDestinationVideo {
+  provider: string;
+  source: string;
+}
+
+export interface PublicDestinationFeature {
   title: string;
   description: string;
   icon: string;
 }
 
-interface Tip {
+export interface PublicDestinationTip {
   title: string;
   icon: string;
   mainText: string;
   toolTip: string;
 }
 
-interface User {
+export interface PublicDestinationUser {
   name: string;
   photo: string;
   instagram: string;
@@ -33,7 +38,7 @@ interface User {
   recommendationText: string;
 }
 
-interface Faq{
+export interface PublicDestinationFaq {
   answer: string;
   icon?: string;
   question: string;

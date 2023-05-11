@@ -1,7 +1,8 @@
-import { Box, Picture, SectionBase } from "@/components";
+import { Box, CardHighlight, Picture, SectionBase, Text } from "@/components";
 import { DestinationProps } from "./destination-page.types";
-import { Grid, Heading, Text } from "mars-ds";
 import { toLowerCase } from "@/helpers/strings.helper";
+import { PublicDestinationFeature } from "@/types";
+import { Avatar } from "mars-ds";
 
 interface DestinationInfoSectionProps
   extends Pick<DestinationProps, "features" | "recommendedBy"> {}
@@ -11,72 +12,83 @@ export const DestinationInfoSection = ({
   recommendedBy,
 }: DestinationInfoSectionProps) => {
   return (
-    <SectionBase columns={{ md: [2, 1] }} gap={20}>
+    <SectionBase columns={{ md: [1, "320px"] }} gap={32}>
       <DestinationInfoFeatures features={features} />
-      <DestinationInfoRecommendedBy recommendedBy={recommendedBy} />
+      <DestinationInfoRecommendedBy {...recommendedBy} />
     </SectionBase>
   );
 };
 
-const DestinationInfoFeatures = ({ features }: Pick<DestinationProps, "features">) => {
+const DestinationInfoFeatures = ({ features = [] }: Pick<DestinationProps, "features">) => {
   return (
-    <SectionBase
-      sx={{ padding: "24px", border: "1px dashed var(--color-brand-4)", borderRadius: "10px" }}
-    >
-      <Heading
-        level={5}
-        size={"md"}
-        html={"<strong>Destaques do destino</strong>"}
-        className="mb-xl"
-      />
-      {features &&
-        features.map(({ title, description, icon }, key) => (
-          <Grid columns={"0.5fr 2.5fr"} gap={1} key={key}>
-            {icon ? (
-              <Picture>{icon}</Picture>
-            ) : (
-              <Picture>{"/assets/destino/atracoes-culturais.png"}</Picture>
-            )}
-            <div className="mb-md">
-              <Heading
-                size="xxs"
-                level="4"
-                html={`<strong>${title}</strong>`}
-                style={{ color: "var(--color-brand-4)" }}
-              />
-              <Text className="mt-md" html={description} />
-            </div>
-          </Grid>
-        ))}
-    </SectionBase>
+    <CardHighlight className="destination-features">
+      <Text as="h2" heading className="mb-xl">
+        Destaques do destino
+      </Text>
+      {features.map((props, key) => (
+        <DestinationFeature key={key} {...props} />
+      ))}
+    </CardHighlight>
   );
+};
+
+const DestinationFeature = ({ title, description, icon }: PublicDestinationFeature) => {
+  return (
+    <div className="destination-feature">
+      <div className="destination-feature__icon">
+        <EmojiIcon icon={icon || "/assets/destino/atracoes-culturais.png"} />
+      </div>
+      <div className="destination-feature__content">
+        <Text as="h3" heading size="xs" className="destination-feature__title">
+          {title}
+        </Text>
+        <Text className="destination-feature__description">{description}</Text>
+      </div>
+    </div>
+  );
+};
+
+const EmojiIcon = ({ icon = "" }) => {
+  return <Picture src={icon} height={24} width={24} />;
 };
 
 const DestinationInfoRecommendedBy = ({
-  recommendedBy,
-}: Pick<DestinationProps, "recommendedBy">) => {
+  photo, name, recommendationText
+}: DestinationProps["recommendedBy"]) => {
   return (
-    <SectionBase>
-      <Grid columns={"0.5fr 2.5fr"} gap={23} className="mb-xl">
-        {recommendedBy.photo ? (
-          <Picture>{recommendedBy.photo}</Picture>
-        ) : (
-          <Picture>{"/assets/destino/profile.png"}</Picture>
-        )}
-        <div>
-          <Text
-            size="md"
-            html="<strong>Destino indicado por</strong>"
-            style={{ color: "var(--color-brand-1)" }}
-          />
-          <Text
-            size="md"
-            html={toLowerCase(`@${recommendedBy.name}`)}
-            style={{ color: "var(--color-brand-2)" }}
-          />
+    <div className="recommendation">
+      <div className="flex gap-xl align-items-center mb-xl">
+        <Avatar name={name} size="xl" thumbnail={photo || "/assets/destino/profile.png"}  />
+        <div className="recommendation__info">
+          <Text as="strong" className="my-0 color-primary">Destino indicado por</Text>
+          <Text size="xl" as="h4" style={{ margin: 0 }}>{name}</Text>
         </div>
-      </Grid>
-      <Text size="lg" html={`"${recommendedBy.recommendationText}"`} />
-    </SectionBase>
-  );
+      </div>
+      <Text className="recommendation__text color-text-secondary">{recommendationText}</Text>
+    </div>
+  )
+  // return (
+  //   <SectionBase>
+  //     <div className="mb-xl">
+  //       {recommendedBy.photo ? (
+  //         <Picture>{recommendedBy.}</Picture>
+  //       ) : (
+  //         <Picture>{"/assets/destino/profile.png"}</Picture>
+  //       )}
+  //       <div>
+  //         <Text
+  //           size="md"
+  //           html="<strong>Destino indicado por</strong>"
+  //           style={{ color: "var(--color-brand-1)" }}
+  //         />
+  //         <Text
+  //           size="md"
+  //           html={toLowerCase(`@${recommendedBy.name}`)}
+  //           style={{ color: "var(--color-brand-2)" }}
+  //         />
+  //       </div>
+  //     </div>
+  //     <Text size="lg" html={`"${recommendedBy.recommendationText}"`} />
+  //   </SectionBase>
+  // );
 };
