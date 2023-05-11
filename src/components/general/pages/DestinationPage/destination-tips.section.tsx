@@ -15,15 +15,16 @@ export const DestinationTipsSection = ({ tips = [] }: DestinationTipsSectionProp
   );
 };
 
-const Tip = ({ title, toolTip, mainText, icon }: PublicDestinationTip) => {
+const Tip = ({ title, subtitle, description, type }: PublicDestinationTip) => {
+  const icon = type // TODO: parse info
   return (
     <div className="tip">
       <Icon size="lg" className="color-primary mb-lg" name={icon} />
       <Text>
         <strong>{title}</strong>:
       </Text>
-      <Text style={{ margin: 0 }}>{mainText}</Text>
-      {toolTip ? <Text>{toolTip}</Text> : null}
+      <Text style={{ margin: 0 }}>{subtitle}</Text>
+      {description ? <Text>{description}</Text> : null}
     </div>
   );
 };

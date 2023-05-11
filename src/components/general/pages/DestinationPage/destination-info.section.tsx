@@ -1,6 +1,5 @@
-import { Box, CardHighlight, Picture, SectionBase, Text } from "@/components";
+import { CardHighlight, Picture, SectionBase, Text } from "@/components";
 import { DestinationProps } from "./destination-page.types";
-import { toLowerCase } from "@/helpers/strings.helper";
 import { PublicDestinationFeature } from "@/types";
 import { Avatar } from "mars-ds";
 
@@ -32,7 +31,8 @@ const DestinationInfoFeatures = ({ features = [] }: Pick<DestinationProps, "feat
   );
 };
 
-const DestinationFeature = ({ title, description, icon }: PublicDestinationFeature) => {
+const DestinationFeature = ({ title, description, type }: PublicDestinationFeature) => {
+  const icon = type // TODO: parse this value
   return (
     <div className="destination-feature">
       <div className="destination-feature__icon">
@@ -67,28 +67,4 @@ const DestinationInfoRecommendedBy = ({
       <Text className="recommendation__text color-text-secondary">{recommendationText}</Text>
     </div>
   )
-  // return (
-  //   <SectionBase>
-  //     <div className="mb-xl">
-  //       {recommendedBy.photo ? (
-  //         <Picture>{recommendedBy.}</Picture>
-  //       ) : (
-  //         <Picture>{"/assets/destino/profile.png"}</Picture>
-  //       )}
-  //       <div>
-  //         <Text
-  //           size="md"
-  //           html="<strong>Destino indicado por</strong>"
-  //           style={{ color: "var(--color-brand-1)" }}
-  //         />
-  //         <Text
-  //           size="md"
-  //           html={toLowerCase(`@${recommendedBy.name}`)}
-  //           style={{ color: "var(--color-brand-2)" }}
-  //         />
-  //       </div>
-  //     </div>
-  //     <Text size="lg" html={`"${recommendedBy.recommendationText}"`} />
-  //   </SectionBase>
-  // );
 };

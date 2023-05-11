@@ -2,44 +2,51 @@ import { Photo } from "./photo";
 
 export interface PublicDestination {
   title: string;
-  recommendedBy: PublicDestinationUser;
+  recommendedBy: PublicDestinationExpert;
   photos: Photo[];
   videos: PublicDestinationVideo[];
-  posts: string[];
+  posts: Post[];
   features: PublicDestinationFeature[];
   tips: PublicDestinationTip[];
   faq: PublicDestinationFaq[];
 }
 
 export interface PublicDestinationVideo {
-  provider: string;
+  provider: "youtube" | "vimeo" | string;
   source: string;
 }
 
 export interface PublicDestinationFeature {
   title: string;
   description: string;
-  icon: string;
+  type: string; // Lista de nomes para emojis
 }
 
 export interface PublicDestinationTip {
+  type: string;
   title: string;
-  icon: string;
-  mainText: string;
-  toolTip: string;
+  subtitle: string;
+  description: string;
 }
 
-export interface PublicDestinationUser {
+export interface PublicDestinationExpert {
   name: string;
   photo: string;
-  instagram: string;
-  tikTok: string;
-  blog: string;
   recommendationText: string;
+  social: Social[]
+}
+
+interface Social {
+  name: string;
+  url: string;
 }
 
 export interface PublicDestinationFaq {
   answer: string;
   icon?: string;
   question: string;
+}
+
+interface Post {
+ // TODO: implement rules
 }
