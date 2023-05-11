@@ -2,11 +2,15 @@
  * Do NOT change this file, because it is automatically generated
  * run "yarn component:index" to update
  */
+export * from "./buttons/Button";
 export * from "./buttons/ShareButton";
+export * from "./buttons/ToggleButton";
 export * from "./buttons/WhatsappButton";
 export * from "./common/Accordion";
 export * from "./common/AutoScrollNav";
 export * from "./common/Box";
+export * from "./common/CardHighlight";
+export * from "./common/CardYoutube";
 export * from "./common/Emoji";
 export * from "./common/LineDecoration";
 export * from "./common/Logo";

@@ -63,17 +63,58 @@ const mock = {
     recommendationText:
       "Pouquíssimos lugares no mundo oferecem beleza + preservação + baixíssima densidade demográfica + livre acesso. Porém, para que assim seja, o local é caro e cobra taxa de preservação para entrar na ilha e ingresso nas praias principais.",
   },
+  tips: [
+    {
+      title: "Número de dias para visitar",
+      icon: "clock",
+      mainText: "5 dias",
+      toolTip: "",
+    },
+    {
+      title: "Custo diário",
+      icon: "dollar-sign",
+      mainText: "R$250,00",
+      toolTip: "",
+    },
+    {
+      title: "Período recomendado",
+      icon: "calendar",
+      mainText: "o ano todo",
+      toolTip: "",
+    },
+    {
+      title: "Segurança",
+      icon: "shield",
+      mainText: "destino considerado seguro",
+      toolTip: "",
+    },
+  ],
+  videos: [
+    {
+      provider: "youtube",
+      source: "kSvaiM9Go2Y",
+    },
+  ],
 };
 
 export function DestinationPage({ destination, seo, navbar, footer }: DestinationPageProps) {
+  const {
+    features = [],
+    photos = [],
+    posts = [],
+    recommendedBy,
+    tips = [],
+    title,
+    videos = [],
+  } = { ...destination, ...mock };
   return (
     <PageBase navbar={navbar} footer={footer} seo={seo}>
-      <DestinationHeroSection title={destination.title} photos={destination.photos} />
-      <DestinationInfoSection features={mock.features} recommendedBy={mock.recommendedBy} />
-      <DestinationVideoSection videos={destination.videos} />
-      <DestinationTipsSection tips={destination.tips} />
-      <DestinationPostsSection posts={destination.posts} />
-      <DestinationFaqSection faq={mock.faq} title={destination.title} />
+      <DestinationHeroSection title={title} photos={photos} />
+      <DestinationInfoSection features={features} recommendedBy={recommendedBy} />
+      {videos.length ? <DestinationVideoSection title={title} videos={videos} /> : null}
+      {tips.length ? <DestinationTipsSection tips={tips} /> : null}
+      {posts.length ? <DestinationPostsSection posts={posts} /> : null}
+      <DestinationFaqSection faq={mock.faq} title={title} />
     </PageBase>
   );
 }

@@ -4,6 +4,7 @@ import { DestinationPage, type DestinationPageProps } from "@/components";
 import { CMSService } from "@/services/cms/cms-service";
 
 export default function DestinationPageRoute(props: DestinationPageProps) {
+  console.log(props)
   return <DestinationPage {...props} />;
 }
 
