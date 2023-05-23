@@ -1,4 +1,5 @@
-import { NoSSR, Playground } from "@/components";
+import { Playground } from "@/features";
+import { NoSSR } from "@/ui";
 
 const PlaygroundPage = () => (
   <NoSSR>

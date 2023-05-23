@@ -1,4 +1,4 @@
-import { Lead, LeadWithUid } from "@/types";
+import { Lead, LeadWithUid } from "@/core/types";
 import { ApiRequestService } from "../api-request.service";
 import { getByEmail } from "./get-by-email";
 import { saveLeadOnList } from "./launch-list";

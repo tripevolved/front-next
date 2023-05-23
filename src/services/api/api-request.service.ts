@@ -1,4 +1,4 @@
-import { ensureNotSlashEnds } from "@/helpers/url.helper";
+import { ensureNotSlashEnds } from "@/utils/helpers/url.helper";
 import axios from "axios";
 
 const API_URL = ensureNotSlashEnds(process.env.NEXT_PUBLIC_API_URL || "");

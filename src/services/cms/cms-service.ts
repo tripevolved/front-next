@@ -1,4 +1,4 @@
-import { TemplateProps } from "@/types";
+import { TemplateProps } from "@/core/types";
 import type { PageData, TemplateData } from "./cms.types";
 
 import { PageSerializer } from "./page.serializer";

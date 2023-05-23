@@ -1,5 +1,5 @@
 import dataSchemaModifier from "ribof/json-schema-modifier";
-import { toJson } from "@/helpers/json.helpers";
+import { toJson } from "@/utils/helpers/json.helpers";
 import { CMSService } from "./cms-service";
 
 const getPartBySlug = async (slug?: any): Promise<any> => {

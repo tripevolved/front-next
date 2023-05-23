@@ -1,4 +1,4 @@
-import { pageConfig } from "@/configs/page.config";
+import { pageConfig } from "@/core/configs/page.config";
 import { CMSService } from "@/services/cms/cms-service";
 import type { GetStaticPaths, GetStaticProps } from "next";
 

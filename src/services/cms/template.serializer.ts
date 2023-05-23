@@ -1,4 +1,4 @@
-import type { MenuGroupProps, TemplateProps } from "@/types";
+import type { MenuGroupProps, TemplateProps } from "@/core/types";
 import type { TemplateData } from "./cms.types";
 
 const NOT_FOUND_INDEX = -1;

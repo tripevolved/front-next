@@ -1,4 +1,4 @@
-import { AdminPage, SignIn } from "@/components";
+import { AdminPage, SignIn } from "@/features";
 
 export default function SignInPage() {
   return (

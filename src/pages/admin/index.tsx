@@ -1,4 +1,4 @@
-import { AdminPage } from "@/components";
+import { AdminPage } from "@/features";
 import { CMSService } from "@/services/cms/cms-service";
 import { Button } from "mars-ds";
 

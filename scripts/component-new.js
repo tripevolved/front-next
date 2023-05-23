@@ -1,5 +1,6 @@
-const readline = require("readline");
-const fs = require("fs-extra");
+const { join } = require("path");
+const { askQuestion } = require("./helpers/question");
+const { createDir, getFiles, saveFile } = require("./helpers/files");
 const { kebabCaseToPascalCase } = require("./helpers/strings");
 const {
   componentTemplate,
@@ -8,7 +9,8 @@ const {
   testTemplate,
 } = require("./templates/components.template.js");
 
-const PATH_COMPONENT = "./src/components";
+const PATH_UI = "./src/ui/components";
+const PATH_FEATURES = "./src/features";
 
 const TEMPLATE_MAPPER = [
   [".component.tsx", componentTemplate],
@@ -17,63 +19,65 @@ const TEMPLATE_MAPPER = [
   [".test.tsx", testTemplate],
 ];
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+async function main() {
+  const location = await askProjectLocation();
 
-function main() {
-  const componentName = process.argv[2];
-  if (componentName) return finalQuestion(componentName);
-  return initialQuestion();
+  const folder = await askPathLocation();
+  const path = join(location, folder);
+
+  const componentSnakeName = await askComponentName();
+
+  createNewComponent(path, componentSnakeName);
+
+  reIndex();
+
+  process.exit();
 }
 
-async function question(text) {
-  return new Promise((resolve) => rl.question(text, resolve));
+async function askProjectLocation() {
+  const q = "Seu component deve ficar dentro de:";
+  const options = ["ui/components", "features"];
+  const { response } = await askQuestion(q, options);
+  if (response === "1") return PATH_UI;
+  if (response === "2") return PATH_FEATURES;
 }
 
-async function initialQuestion() {
-  const text = "Qual o nome do componente? \nexemplos: button-icon, card, forms/text-field\n";
-  return question(text).then((pathName) => {
-    if (pathName) return finalQuestion(pathName);
-    console.log("O component precisa ter um nome");
-    console.log("O processo foi cancelado");
-    process.exit(0);
-  });
+async function askPathLocation() {
+  const options = getFiles(PATH_FEATURES).reduce((acc, fileName) => {
+    const path = fileName.replace(/.*features\/(.*?)\/.*/, "$1");
+    if (acc.includes(path) || /index/.test(path)) return acc;
+    return [...acc, path];
+  }, []);
+  const q = "Em qual diretório o seu componente deve ficar?";
+  const { response, option } = await askQuestion(q, ["* Quero criar um novo", ...options]);
+  if (response !== "1") return option;
+  return (await askQuestion("Informe qual é o nome do novo diretório")).response;
 }
 
-async function finalQuestion(pathName) {
-  const snakeName = pathName.replace(/.*\//, "");
-  const componentName = kebabCaseToPascalCase(pathName);
-  const components = TEMPLATE_MAPPER.reduce(
-    (acc, [ext]) => (acc += ` - ${componentName}/${snakeName}${ext}\n`),
-    ""
-  );
-  const text = `\nOs seguintes arquivos serão criados: \n\n${components}\n\n Confirmar a criação? [*/N]\n`;
-  return question(text).then((letter) => {
-    if (letter === "N") {
-      console.log("O processo foi cancelado");
-      return process.exit(0);
-    }
-    createNewComponent(pathName);
-    console.log(`o componente ${pathName} foi criado com sucesso`);
-    require("./component-index");
-    return process.exit(0);
-  });
+async function askComponentName() {
+  const q = [
+    "Qual o nome do componente?",
+    "Escreva no formato snake-case: button-icon, card, text-field",
+  ].join("\n");
+  return (await askQuestion(q)).response;
 }
 
-function createNewComponent(pathName) {
-  const snakeName = pathName.replace(/.*\//, "");
-  const name = kebabCaseToPascalCase(snakeName);
-  const groupPath = pathName.replace(snakeName, "");
-  const dir = `${PATH_COMPONENT}/${groupPath}${name}`;
-  fs.ensureDirSync(dir);
+function reIndex() {
+  require("./component-index");
+}
+
+function createNewComponent(path, snakeName) {
+  const pascalName = kebabCaseToPascalCase(snakeName);
+  const dir = join(path, pascalName);
+
+  createDir(dir);
   for (const [ext, fn] of TEMPLATE_MAPPER) {
     const dest = `${dir}/${snakeName}${ext}`;
-    const content = fn(name, snakeName);
-    fs.writeFileSync(dest, content);
+    const content = fn(pascalName, snakeName);
+    saveFile(dest, content);
     console.log(`Done: create ${dest}`);
   }
+  console.log("Component criado com sucesso!");
 }
 
 main();

@@ -1,7 +1,8 @@
-import { AdaptedRibo, NoSSR } from "@/components";
-import { toJson } from "@/helpers/json.helpers";
-import { LocalStorageService } from "@/services/store/local-storage.service";
+import { toJson } from "@/utils/helpers/json.helpers";
 import { useEffect, useState } from "react";
+import { AppRibo } from "@/core/app-ribo";
+import { LocalStorageService } from "@/services/store/local-storage.service";
+import { NoSSR } from "@/ui";
 
 const UPDATED_TIMEOUT = 2000;
 
@@ -25,7 +26,7 @@ const RiboMessageError = () => <div>O json precisa ser um objeto válido.</div>;
 const Ribo = ({ json }: { json: any }) => {
   if (typeof json !== "object") return <RiboMessageError />;
   try {
-    return <AdaptedRibo>{json}</AdaptedRibo>;
+    return <AppRibo>{json}</AppRibo>;
   } catch (error) {
     return <RiboMessageError />;
   }

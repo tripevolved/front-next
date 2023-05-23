@@ -1,4 +1,4 @@
-import { jsonToString, toJson } from "@/helpers/json.helpers";
+import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
 
 export const LocalStorageService = {
   get: (key: string) => {

@@ -1,4 +1,4 @@
-import { Photo } from "@/types";
+import { Photo } from "@/core/types";
 import { ApiRequestService } from "../api-request.service";
 
 interface Destination {

@@ -2,10 +2,10 @@ function componentTemplate(name, pathName) {
   const typeName = `${name}Props`;
   return `import type { ${typeName} } from "./${pathName}.types";
 
-import { makeClassName } from "@/helpers/classname.helpers";
+import { makeCn } from "@/utils/helpers/css.helpers";
 
 export function ${name}({ className, children, sx, ...props }: ${typeName}) {
-  const cn = makeClassName("${pathName}", className)(sx);
+  const cn = makeCn("${pathName}", className)(sx);
 
   return (
     <div className={cn} {...props}>
@@ -27,9 +27,9 @@ function styleTemplate(_name, pathName) {
 
 function typesTemplate(name, _pathName) {
   const typeName = `${name}Props`;
-  return `import { ComponentHTMLProps } from "@/types";
+  return `import type { BaseComponent } from "@/ui";
 
-export interface ${typeName} extends ComponentHTMLProps {};
+export interface ${typeName} extends BaseComponent {};
 `;
 }
 

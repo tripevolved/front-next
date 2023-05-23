@@ -1,31 +1,33 @@
 const warningDontChangeFile = `/**
- * Do NOT change this file, because it is automatically generated
+ * Automatically generated
  * run "yarn component:index" to update
  */\n`;
 
 const { camelCaseToKebabCase } = require("./helpers/strings");
 const { getFiles, saveFile } = require("./helpers/files");
 
-const COMPONENTS_FOLDER = "./src/components";
-const INTERNAL_COMPONENTS_FOLDER = `${COMPONENTS_FOLDER}/internal`;
-const GENERAL_COMPONENTS_FOLDER = `${COMPONENTS_FOLDER}/general`;
+const COMPONENTS_FOLDER = "./src/ui/components";
+const FEATURES_FOLDER = "./src/features";
+
+const INDEX_FOLDERS = [COMPONENTS_FOLDER, FEATURES_FOLDER];
 
 function main() {
   console.log("Start: index");
 
-  const groups = getGroupByFolder(COMPONENTS_FOLDER);
-  indexStyles(groups);
-  indexComponents(groups);
+  for (const folderGroup of INDEX_FOLDERS) {
+    const groups = getGroupByFolder(folderGroup);
+    indexStyles(groups, folderGroup);
+    indexComponents(groups);
 
-  indexByFolder(INTERNAL_COMPONENTS_FOLDER, "internal");
-  indexByFolder(GENERAL_COMPONENTS_FOLDER, "general");
+    indexByFolder(folderGroup, "Generator");
+  }
 
   console.log("Success");
   process.exit(0);
 }
 
 function indexByFolder(folder = "", name = "") {
-  console.log(`  > [Gen] index componnents group: ${name}`);
+  console.log(`  > [Gen] index components group: ${name}`);
   const group = getGroupByFolder(folder);
   indexRoot(group, folder);
 }
@@ -75,8 +77,7 @@ function indexComponents(groups = []) {
     let result = "";
 
     for (const file of files) {
-      if (/(test|spec|helpers?|utils?)\.tsx?$/.test(file)) continue;
-      if (!/.tsx?$/.test(file)) continue;
+      if (!/(types?|components?)\.tsx?$/.test(file)) continue;
       const fileName = file.replace(/\.tsx?/, "");
       result += `export * from "./${fileName}";\n`;
     }
@@ -86,7 +87,7 @@ function indexComponents(groups = []) {
   }
 }
 
-function indexStyles(groups = []) {
+function indexStyles(groups = [], folderGroup) {
   console.log("  > [Gen] index styles");
 
   let result = "";
@@ -95,18 +96,22 @@ function indexStyles(groups = []) {
     if (styles.length === 0) continue;
 
     for (const style of styles) {
-      result += `@import ".${path.replace("src/", "")}/${style}";\n`;
+      const relative = path.replace(folderGroup, "");
+      result += `@import ".${relative}/${style}";\n`;
     }
   }
 
-  save("./src/styles/components.scss", result);
+  save(`${folderGroup}/index.scss`, result);
 }
 
 function indexRoot(groups = [], dir = "") {
+  console.log(dir);
   let result = "";
   for (const { path, files } of groups) {
     if (files.length === 0) continue;
-    result += `export * from ".${path.replace(dir, "")}";\n`;
+    const relative = path.replace(dir, "");
+    if (!relative) continue;
+    result += `export * from ".${relative}";\n`;
   }
   save(`${dir}/index.ts`, result);
 }

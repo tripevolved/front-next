@@ -1,6 +1,7 @@
 import { type GetServerSideProps } from "next";
+
+import { DestinationPage, type DestinationPageProps } from "@/features";
 import { DestinationApiService } from "@/services/api/destination";
-import { DestinationPage, type DestinationPageProps } from "@/components";
 import { CMSService } from "@/services/cms/cms-service";
 
 export default function DestinationPageRoute(props: DestinationPageProps) {
