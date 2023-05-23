@@ -9,10 +9,23 @@
   &__photos {
     position: absolute;
     inset: 0 0 0 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.86) 100%),
-      url("https://images.prismic.io/tripevolved/18867367-1e73-4492-b27c-82d9a57ebdcd_Fernando+de+Noronha.jpeg?auto=compress,format&w=1400&h=800")
-        no-repeat center;
-    background-size: cover;
+
+    &::after {
+      position: absolute;
+      content: "";
+      inset: 0 0 0 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.86) 100%);
+    }
+    picture {
+      height: 100%;
+      width: 100%;
+    }
+    img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+
+    }
   }
 
   &__content {
