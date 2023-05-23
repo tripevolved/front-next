@@ -1,4 +1,4 @@
-import type { MenuProps, SocialProps } from "@/types";
+import type { MenuProps, SocialProps } from "@/core/types";
 import type { SeoNotSerialized } from "./seo.serializer";
 
 export interface PageData extends SeoNotSerialized {

@@ -1,7 +1,8 @@
-import { pageConfig } from "@/configs/page.config";
-import { ensureNotSlashEnds, ensureNotSlashStarts } from "@/helpers/url.helper";
-import { CMSService } from "@/services/cms/cms-service";
 import type { GetServerSideProps } from "next";
+
+import { pageConfig } from "@/core/configs/page.config";
+import { ensureNotSlashEnds, ensureNotSlashStarts } from "@/utils/helpers/url.helper";
+import { CMSService } from "@/services/cms/cms-service";
 
 const DOMAIN = ensureNotSlashEnds(pageConfig.url);
 

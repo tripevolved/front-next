@@ -1,4 +1,4 @@
-import { PublicDestination } from "@/types";
+import { PublicDestination } from "@/core/types";
 import { ApiRequestService } from "../api-request.service";
 
 export const getDestinationByName = async (destinationName: string): Promise<PublicDestination> => {

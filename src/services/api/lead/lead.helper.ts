@@ -1,4 +1,4 @@
-import { LeadWithUid } from "@/types";
+import { LeadWithUid } from "@/core/types";
 
 export const joinLead = (lead1: any, lead2: any): LeadWithUid => {
   return {

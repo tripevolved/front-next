@@ -1,4 +1,4 @@
-import type { LeadWithUid } from "@/types";
+import type { LeadWithUid } from "@/core/types";
 import { ApiRequestService } from "../api-request.service";
 import { getRefByEmail } from "./launch-list";
 import { LeadLocalService } from "./local";

@@ -1,5 +1,5 @@
-import { sendFormData } from "@/helpers/form.helpers";
-import { LeadRef, LeadWithUid } from "@/types";
+import { sendFormData } from "@/utils/helpers/form.helpers";
+import { LeadRef, LeadWithUid } from "@/core/types";
 import axios from "axios";
 
 const LAUNCH_LIST_URL = "https://getlaunchlist.com/s/0l3TDN";

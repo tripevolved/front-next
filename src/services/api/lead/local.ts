@@ -1,4 +1,4 @@
-import type { Lead } from "@/types";
+import type { Lead } from "@/core/types";
 import { LocalStorageService } from "@/services/store/local-storage.service";
 
 const KEY_LEAD = "lead";

@@ -1,9 +1,9 @@
 import type { PageData } from "./cms.types";
 
-import { toJson } from "@/helpers/json.helpers";
+import { toJson } from "@/utils/helpers/json.helpers";
 import { SeoSerializer } from "./seo.serializer";
 import { PopulateService } from "./populate.service";
-import { TemplateProps } from "@/types";
+import { TemplateProps } from "@/core/types";
 
 const makeDataJson = (slices: any[]) => {
   return slices.map(({ primary = {}, items = [] }) => {

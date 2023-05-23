@@ -1,15 +1,15 @@
-import { AdaptedRibo } from "@/components";
 import { NextSeo } from "next-seo";
-import { pageConfig } from "@/configs/page.config";
-import { CMSService } from "@/services/cms/cms-service";
-import { PageProps } from "@/types";
+import { pageConfig } from "@/core/configs/page.config";
+import { PageProps } from "@/core/types";
 import type { GetStaticProps } from "next";
+import { AppRibo } from "@/core/app-ribo";
+import { CMSService } from "@/services/cms/cms-service";
 
 export default function Page({ seo, ...children }: PageProps) {
   return (
     <>
       <NextSeo {...seo} />
-      <AdaptedRibo>{children}</AdaptedRibo>
+      <AppRibo>{children}</AppRibo>
     </>
   );
 }

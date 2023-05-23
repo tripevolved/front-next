@@ -1,6 +1,6 @@
 import { OpenGraphMedia } from "next-seo/lib/types";
 
-import type { SeoProps } from "@/types";
+import type { SeoProps } from "@/core/types";
 
 interface ImageProps {
   dimensions: { width: number | null; height: number | null };

@@ -1,8 +1,11 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require("fs-extra");
 
 function saveFile(dest, content) {
   fs.writeFileSync(dest, content);
+}
+
+function createDir(dir) {
+  return fs.ensureDirSync(dir);
 }
 
 function readFile(path) {
@@ -24,6 +27,7 @@ function getFiles(dir, $files) {
 }
 
 module.exports = {
+  createDir,
   getFiles,
   readFile,
   saveFile,

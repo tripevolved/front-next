@@ -1,4 +1,4 @@
-import { ensureNotSlashEnds } from "@/helpers/url.helper";
+import { ensureNotSlashEnds } from "@/utils/helpers/url.helper";
 import * as prismic from "@prismicio/client";
 
 const PRISMIC_URL = ensureNotSlashEnds(

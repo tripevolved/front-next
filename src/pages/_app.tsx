@@ -1,14 +1,14 @@
-import { seo } from "@/configs/seo.config";
-import GoogleScripts from "@/libs/google-scripts";
+import { seo } from "@/core/configs/seo.config";
+import GoogleScripts from "@/utils/libs/google-scripts";
 import { AppProvider } from "mars-ds";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import NextLink from "next/link";
 import { Analytics } from "@vercel/analytics/react";
 
-import { ProgressIndicator } from "@/components";
+import { ProgressIndicator } from "@/ui";
 
-import "@/styles/index.scss";
+import "@/ui/styles/index.scss";
 
 const LinkComponent = ({ url, ...props }: any) => {
   const isAnchor = /^#/.test(url);
