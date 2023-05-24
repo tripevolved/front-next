@@ -32,11 +32,10 @@ const DestinationInfoFeatures = ({ features = [] }: Pick<DestinationProps, "feat
 };
 
 const DestinationFeature = ({ title, description, type }: PublicDestinationFeature) => {
-  const icon = type // TODO: parse this value
   return (
     <div className="destination-feature">
       <div className="destination-feature__icon">
-        <EmojiIcon icon={icon || "/assets/destino/atracoes-culturais.png"} />
+        <FeatureIcon name={type} />
       </div>
       <div className="destination-feature__content">
         <Text as="h3" heading size="xs" className="destination-feature__title">
@@ -48,8 +47,9 @@ const DestinationFeature = ({ title, description, type }: PublicDestinationFeatu
   );
 };
 
-const EmojiIcon = ({ icon = "" }) => {
-  return <Picture src={icon} height={24} width={24} />;
+const FEATURE_ICON_SIZE = 28;
+const FeatureIcon = ({ name = "" }) => {
+  return <Picture src={`/assets/emojis/${name}.png`} height={FEATURE_ICON_SIZE} width={FEATURE_ICON_SIZE} />;
 };
 
 const DestinationInfoRecommendedBy = ({
@@ -58,7 +58,7 @@ const DestinationInfoRecommendedBy = ({
   return (
     <div className="recommendation">
       <div className="flex gap-xl align-items-center mb-xl">
-        <Avatar name={name} size="xl" thumbnail={photo || "/assets/destino/profile.png"}  />
+        <Avatar name={name} size="xl" thumbnail={photo} />
         <div className="recommendation__info">
           <Text as="strong" className="my-0 color-primary">Destino indicado por</Text>
           <Text size="xl" as="h4" style={{ margin: 0 }}>{name}</Text>

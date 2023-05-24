@@ -97,7 +97,8 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
     tips = [],
     title,
     videos = [],
-  } = { ...destination, ...mock };
+  } = destination;
+  console.log(destination)
   return (
     <PageBase navbar={navbar} footer={footer} seo={seo}>
       <DestinationHeroSection title={title} photos={photos} />
