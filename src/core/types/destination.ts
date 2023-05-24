@@ -16,6 +16,19 @@ export interface PublicDestinationVideo {
   source: string;
 }
 
+export type FeatureIcon =
+  | "culture"
+  | "food"
+  | "party"
+  | "relax"
+  | "attractions"
+  | "accommodation"
+  | "natural-beauty"
+  | "uniqueness"
+  | "adrenaline";
+
+export type TipeIcon = "climate" | "days-to-visit" | "daily-cost" | "generic" | "period" | "security";
+
 export interface PublicDestinationFeature {
   title: string;
   description: string;
@@ -33,7 +46,7 @@ export interface PublicDestinationExpert {
   name: string;
   photo: string;
   recommendationText: string;
-  social: Social[]
+  social: Social[];
 }
 
 interface Social {
@@ -48,5 +61,5 @@ export interface PublicDestinationFaq {
 }
 
 interface Post {
- // TODO: implement rules
+  // TODO: implement rules
 }

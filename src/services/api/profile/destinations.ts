@@ -5,6 +5,7 @@ interface Destination {
   id: string;
   name: string;
   coverImageUrl: string | null;
+  href: string;
 }
 
 interface DestinationResponse {
@@ -20,13 +21,13 @@ const destinationSerializer = (destination: DestinationResponse): Destination =>
     id: destination.destinationId,
     name: destination.name,
     coverImageUrl: destination.coverImage.sources.find(({ type }) => type === "md")?.url || null,
+    href: `/destinos/${destination.uniqueName}`,
   };
 };
 
 export const getDestinations = async (profileName: string): Promise<Destination[]> => {
   const url = `profiles/${profileName}`;
-  return ApiRequestService
-    .get(url)
+  return ApiRequestService.get(url)
     .then(({ data }) => data)
     .then(({ destinations = [] }) => destinations.map(destinationSerializer));
 };

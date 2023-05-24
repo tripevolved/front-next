@@ -12,7 +12,7 @@ import type { CustomProfileDestinationsProps } from "./custom-profile-destinatio
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useCallback, useMemo } from "react";
 import { useRouter } from "next/router";
-import { AutoScroll, Card, Grid, Skeleton } from "mars-ds";
+import { AutoScroll, Button, Card, Grid, Skeleton } from "mars-ds";
 import { ProfileApiService } from "@/services/api/profile";
 
 export function CustomProfileDestinations({
@@ -65,12 +65,13 @@ const DestinationBlock = ({ profileName }: DestinationsProps) => {
   const ProfileDestinations = useCallback(
     () => (
       <>
-        {destinations.map(({ id, name, coverImageUrl }) => (
+        {destinations.map(({ id, name, coverImageUrl, href }) => (
           <DestinationItem
             key={id}
             heading={name}
             image={coverImageUrl}
             profileName={profileName}
+            href={href}
           />
         ))}
       </>
@@ -113,11 +114,13 @@ interface DestinationItemProps extends BoxProps {
   heading?: string;
   image: string | null;
   profileName: string;
+  href: string;
 }
 
 const DestinationItem = ({
   className,
   heading,
+  href,
   image,
   profileName,
   sx,
@@ -129,10 +132,6 @@ const DestinationItem = ({
     "--cover-image": backgroundImage,
   });
 
-  const message = useMemo(() => {
-    return `Olá, eu já sei para onde quero ir: ${heading}! O meu perfil viajante é: ${profileName}`;
-  }, [heading, profileName]);
-
   return (
     <div className="destination-item">
       <Box as={Card} className={cn} {...props}>
@@ -140,9 +139,9 @@ const DestinationItem = ({
           <strong>{heading}</strong>
         </Text>
         <div>
-          <WhatsappButton message={message} hideIcon size="sm">
+          <Button href={href} size="sm">
             Quero ir
-          </WhatsappButton>
+          </Button>
         </div>
       </Box>
     </div>

@@ -27,31 +27,30 @@ const mock = {
       question: "Passagem aérea",
       type: "/assets/destino/passagem-aerea.svg",
       answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Passagem aérea conforme a sua escolha de Origem com destino escolhido e conforme a disponibilidade no site. Somente a emissão das passagens aéreas e reservas da hospedagem garantem valores.",
     },
     {
       question: "Hospedagem",
       type: "/assets/destino/hospedagem.svg",
       answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Hospedagem de acordo com a sua escolha, conforme a disponibilidade no site e categoria, podendo variar desde hotel simples até resort 5 estrelas. Somente a emissão das passagens aéreas e reservas da hospedagem garantem valores. Importante verificar tipo de tarifa da hospedagem se é reembolsável ou não reembolsável. Em caso de desistência da compra da viagem, será cobrada multa referente aos fornecedores caso haja.",
     },
     {
       question: "Roteiro completo",
       type: "/assets/destino/roteiro.svg",
-      answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      answer: "Roteiro completo com sugestão de passeios e atividades.",
     },
     {
       question: "Dicas gastronômicas",
       type: "/assets/destino/dicas-gastronomicas.svg",
       answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Indicação de restaurantes conforme avaliação dos clientes, lembrando que para essa indicação a Trip Evolved é completamente isenta de qualquer tipo de comissionamento, garantindo assim a transparência na escolha.",
     },
     {
       question: "Suporte durante a viagem",
       type: "/assets/destino/suporte.svg",
       answer:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Suporte durante toda a viagem desde a compra até o seu retorno a origem, precisou é só entra rem contato com o nosso suporte pelo whatsapp.",
     },
   ],
   tips: [
@@ -97,7 +96,7 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
     tips = [],
     title,
     videos = [],
-  } = { ...destination, ...mock };
+  } = destination;
   return (
     <PageBase navbar={navbar} footer={footer} seo={seo}>
       <DestinationHeroSection title={title} photos={photos} />
