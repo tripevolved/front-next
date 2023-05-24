@@ -1,10 +1,14 @@
 .destination-hero-section {
-  background-color: $color-background-neutral;
   height: 50vh;
   position: relative;
   display: flex;
   align-items: flex-end;
   padding: $spacing-xl;
+  background-color: $color-brand-2;
+
+  &--no-photo {
+    height: inherit;
+  }
 
   &__photos {
     position: absolute;
