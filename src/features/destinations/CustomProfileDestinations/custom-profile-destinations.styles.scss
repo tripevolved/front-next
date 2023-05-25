@@ -8,6 +8,7 @@
 .destination-item {
   display: flex;
   padding: 8px;
+  aspect-ratio: 1;
   width: calc(100% / 3);
   min-width: 220px;
   text-decoration: none;
