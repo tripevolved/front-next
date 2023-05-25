@@ -1,18 +1,11 @@
 import useSWR from "swr";
-import {
-  Box,
-  BoxProps,
-  EmptyState,
-  MediaObject,
-  Text,
-  WhatsappButton,
-} from "@/ui";
+import { Box, BoxProps, EmptyState, MediaObject, Text, WhatsappButton } from "@/ui";
 import type { CustomProfileDestinationsProps } from "./custom-profile-destinations.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useCallback, useMemo } from "react";
 import { useRouter } from "next/router";
-import { AutoScroll, Button, Card, Grid, Skeleton } from "mars-ds";
+import { AutoScroll, Button, Card, Grid, Link, Skeleton } from "mars-ds";
 import { ProfileApiService } from "@/services/api/profile";
 
 export function CustomProfileDestinations({
@@ -133,7 +126,7 @@ const DestinationItem = ({
   });
 
   return (
-    <div className="destination-item">
+    <Link href={href} className="destination-item">
       <Box as={Card} className={cn} {...props}>
         <Text as="h3" heading size="xs">
           <strong>{heading}</strong>
@@ -144,7 +137,7 @@ const DestinationItem = ({
           </Button>
         </div>
       </Box>
-    </div>
+    </Link>
   );
 };
 
