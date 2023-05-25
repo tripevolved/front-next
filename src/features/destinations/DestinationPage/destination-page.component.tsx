@@ -24,33 +24,34 @@ const mock = {
   ],
   faq: [
     {
-      question: "Passagem aérea",
+      question: "Transporte",
       type: "/assets/destino/passagem-aerea.svg",
       answer:
-        "Passagem aérea conforme a sua escolha de Origem com destino escolhido e conforme a disponibilidade no site. Somente a emissão das passagens aéreas e reservas da hospedagem garantem valores.",
+        "Escolheremos a melhor forma de transporte para você: passagem aérea, de ônibus ou aluguel de carro conforme a sua necessidade e escolha e conforme a disponibilidade no site. Somente a emissão das passagens aéreas ou de ônibus ou a reserva do automóvel garantem os valores.",
     },
     {
       question: "Hospedagem",
       type: "/assets/destino/hospedagem.svg",
       answer:
-        "Hospedagem de acordo com a sua escolha, conforme a disponibilidade no site e categoria, podendo variar desde hotel simples até resort 5 estrelas. Somente a emissão das passagens aéreas e reservas da hospedagem garantem valores. Importante verificar tipo de tarifa da hospedagem se é reembolsável ou não reembolsável. Em caso de desistência da compra da viagem, será cobrada multa referente aos fornecedores caso haja.",
+        'As hospedagens que disponibilizamos são escolhidas a dedo por nossos especialistas de viagem e terão o "selo Trip Evolved" destacado no momento da escolha, conforme a disponibilidade para sua viagem. Entretanto, você pode escolher outra hospedagem, se assim desejar. Importante verificar tipo de tarifa da hospedagem se é reembolsável ou não reembolsável. Em caso de desistência da compra da viagem, será cobrada multa referente aos fornecedores, caso haja.',
     },
     {
       question: "Roteiro completo",
       type: "/assets/destino/roteiro.svg",
-      answer: "Roteiro completo com sugestão de passeios e atividades.",
+      answer:
+        "Construiremos seu roteiro completo, entendendo suas necessidades e preferências e se você gosta de uma viagem mais cheia, com tudo o que tem direito, ou mais tranquila, para descansar e relaxar. Isso começa na escolha do destino e continua com a construção do roteiro com todos os passeios, atrações, restaurantes, bares e festas que se encaixarem no seu perfil de viajante e vontade na viagem.",
     },
     {
       question: "Dicas gastronômicas",
       type: "/assets/destino/dicas-gastronomicas.svg",
       answer:
-        "Indicação de restaurantes conforme avaliação dos clientes, lembrando que para essa indicação a Trip Evolved é completamente isenta de qualquer tipo de comissionamento, garantindo assim a transparência na escolha.",
+        "A indicação de restaurantes e bares é realizada conforme o seu perfil e suas escolhas. Levamos em consideração se você prefere massas, carnes, sushi ou aquele restaurante vegano maravilhoso. Além, é claro, da qualidade da gastronomia e do atendimento em cada um dos restaurantes que indicamos na plataforma.",
     },
     {
       question: "Suporte durante a viagem",
       type: "/assets/destino/suporte.svg",
       answer:
-        "Suporte durante toda a viagem desde a compra até o seu retorno a origem, precisou é só entra rem contato com o nosso suporte pelo whatsapp.",
+        "Você possui suporte durante toda a viagem, em 360º, desde a compra até retornar à sua cidade. Precisando, é só entrar em contato com nosso suporte via WhatsApp.",
     },
   ],
   tips: [
