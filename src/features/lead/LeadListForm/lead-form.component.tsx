@@ -1,5 +1,5 @@
 import type { Lead } from "@/core/types";
-import type { ButtonProps, GridProps,  } from "mars-ds";
+import type { ButtonProps, GridProps } from "mars-ds";
 
 import { SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
 import { LeadApiService } from "@/services/api/lead";
@@ -16,7 +16,7 @@ interface LeadFormProps extends GridProps {
 export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => {
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
-  const referral = router.query.ref;
+  const { affiliateId, ref: referral } = router.query;
 
   const handleSubmit: SubmitHandler<Lead> = async (data) => {
     setSubmitting(true);
@@ -43,6 +43,7 @@ export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => 
           mask="(99) 99999-9999"
         />
         <input type="hidden" name="ref" value={referral} />
+        <input type="hidden" name="affiliateId" value={affiliateId} />
         <SubmitButton
           /* eslint-disable-next-line react/no-children-prop */
           children="Entrar na lista"
