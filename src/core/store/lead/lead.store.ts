@@ -12,6 +12,7 @@ export const createLeadSlice: StateCreator<LeadSlice> = (set) => ({
       return { lead };
     }),
   leadStore: (lead: Lead) => {
-    set({ lead: { ...lead, ...FETCH_STATE.FETCHED } });
+    const fetchedState = lead.ref ? FETCH_STATE.FETCHED : FETCH_STATE.ERROR;
+    set({ lead: { ...lead, ...fetchedState } });
   },
 });

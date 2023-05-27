@@ -20,12 +20,17 @@ const LinkComponent = ({ url, ...props }: any) => {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { leadStore } = useAppStore();
+  const { leadStore, lead } = useAppStore();
 
   useEffect(() => {
-    // TODO: remove this useEffect rule in the future after the waiting list ends.
-    const localLead = LeadApiService.getLocal();
-    if (localLead) leadStore(localLead);
+    if (lead.error) {
+      LeadApiService.getByEmail(lead.email).then(leadStore);
+    } else if (!lead.fetched) {
+      // TODO: remove this rule in the future after the waiting list ends.
+      const localLead = LeadApiService.getLocal();
+      if (localLead) leadStore(localLead);
+    }
+
   }, []);
 
   return (
