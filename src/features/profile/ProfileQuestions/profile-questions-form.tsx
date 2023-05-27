@@ -44,8 +44,11 @@ export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) =>
     });
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const isNextButtonDisabled = useMemo(() => data[currentIndex]?.questions.every(({ id }) => !answers[id]), [answers, currentIndex]);
+  const isNextButtonDisabled = useMemo(
+    () => data[currentIndex]?.questions.every(({ id }) => !answers[id]),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [answers, currentIndex]
+  );
 
   useEffect(() => {
     const initialLocalAnswers = toJson(localAnswers);

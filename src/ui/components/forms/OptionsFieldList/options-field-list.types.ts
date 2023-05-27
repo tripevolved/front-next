@@ -1,7 +1,7 @@
 import type { ComponentHTMLProps } from "@/core/types";
 import type { OptionFieldProps } from "@/ui";
 
-type Value = string | string[]
+type Value = string | string[];
 type OnCheck = (value: Value) => void;
 
 export interface OptionsFieldListProps extends ComponentHTMLProps {

@@ -1,11 +1,10 @@
-import type { Lead } from "@/core/types";
+import type { Lead, LeadCreateDTO } from "@/core/types";
 import type { ButtonProps, GridProps } from "mars-ds";
 
 import { SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
 import { LeadApiService } from "@/services/api/lead";
 
 import { Grid, SubmitButton, TextField } from "mars-ds";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { useAppStore } from "@/core/store";
 
@@ -16,16 +15,14 @@ interface LeadFormProps extends GridProps {
 
 export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => {
   const [submitting, setSubmitting] = useState(false);
-  const { leadStore } = useAppStore();
-  const router = useRouter();
-  const { affiliateId, ref: referral, email: referredEmail } = router.query;
+  const { leadCreate, lead } = useAppStore();
 
-  const handleSubmit: SubmitHandler<Lead> = async (data) => {
+  const handleSubmit: SubmitHandler<LeadCreateDTO> = async (data) => {
     setSubmitting(true);
     try {
-      const lead = await LeadApiService.create(data);
-      leadStore(lead)
-      onSubmitCallback?.(lead);
+      const newLead = await LeadApiService.create(data);
+      leadCreate(newLead);
+      onSubmitCallback?.(newLead);
     } catch (error) {
       console.error(error);
       setSubmitting(false);
@@ -45,9 +42,9 @@ export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => 
           minLength={14}
           mask="(99) 99999-9999"
         />
-        <input type="hidden" name="ref" value={referral} />
-        <input type="hidden" name="affiliateId" value={affiliateId} />
-        <input type="hidden" name="referredEmail" value={referredEmail} />
+        <input type="hidden" name="inviterId" value={lead.invitedBy?.id} />
+        <input type="hidden" name="inviterEmail" value={lead.invitedBy?.email} />
+        <input type="hidden" name="affiliateId" value={lead.invitedBy?.affiliateId} />
         <SubmitButton
           /* eslint-disable-next-line react/no-children-prop */
           children="Entrar na lista"

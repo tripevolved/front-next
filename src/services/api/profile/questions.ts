@@ -32,4 +32,3 @@ export const getQuestions = async (): Promise<ProfileQuestionsResponse> => {
   const url = "questions/travel-profile";
   return ApiRequestService.get<ProfileQuestionsResponse>(url).then(({ data }) => data);
 };
-

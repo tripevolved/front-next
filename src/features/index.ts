@@ -13,6 +13,7 @@ export * from "./landing-pages/IntroductionCard";
 export * from "./landing-pages/SectionBaseInvite";
 export * from "./lead/LeadList";
 export * from "./lead/LeadListForm";
+export * from "./lead/LeadProvider";
 export * from "./profile/ProfileQuestions";
 export * from "./templates/Footer";
 export * from "./templates/Navbar";

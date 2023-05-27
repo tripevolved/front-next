@@ -40,12 +40,14 @@ const parseAnswers = (answers: AnswersDto): Answer[] => {
 
 export const sendAnswers = async ({ answers, email }: AnswersBody) => {
   const url = "profiles/answers";
-  const { uid } = await LeadApiService.getByEmail(email);
+  const lead = await LeadApiService.getByEmail(email);
+  if (!lead) throw new Error("Lead is not found");
 
+  const { id } = lead;
   const data = {
-    travelerId: uid,
+    travelerId: id,
     answers: parseAnswers(answers),
   } satisfies AnswersRequest;
 
-  return ApiRequestService.post<{ id: string }>(url, data).then(() => getResult({ uid }));
+  return ApiRequestService.post<{ id: string }>(url, data).then(() => getResult({ id }));
 };

@@ -1,6 +1,5 @@
-import { getByEmail } from "./get-by-email";
-import { getRefByEmail } from "./launch-list";
+import { findByEmail } from "./find";
 import { LeadLocalService } from "./local";
 import { create } from "./create";
 
-export const LeadApiService = { create, getLocal: LeadLocalService.get, getRefByEmail, getByEmail };
+export const LeadApiService = { create, getLocal: LeadLocalService.get, getByEmail: findByEmail };

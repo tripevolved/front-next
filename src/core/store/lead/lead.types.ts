@@ -6,5 +6,5 @@ export type LeadValue = Lead;
 export interface LeadSlice {
   lead: StoreState<LeadValue>;
   leadUpdate: UpdateState<LeadValue>;
-  leadStore: (lead: Lead) => void;
+  leadCreate: (lead: LeadValue | null) => void;
 }

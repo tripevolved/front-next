@@ -1,5 +1,3 @@
 import type { UserState } from "./user.types";
 
-export const initialUserState = {
-
-} satisfies UserState;
+export const initialUserState = {} satisfies UserState;

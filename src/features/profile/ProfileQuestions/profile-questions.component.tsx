@@ -9,7 +9,6 @@ import { Card, Notification } from "mars-ds";
 import { MediaObject, Picture, SectionBase, StepsLoader } from "@/ui";
 import { ProfileQuestionsForm } from "./profile-questions-form";
 import { useRouter } from "next/router";
-import { scrollToTop } from "@/utils/helpers/dom.helpers";
 import { delay } from "@/utils/helpers/delay.helpers";
 import { LeadForm } from "@/features";
 import { useAppStore } from "@/core/store";
@@ -34,7 +33,7 @@ const STEPS = [
 export function ProfileQuestions({ className, children, ...props }: ProfileQuestionsProps) {
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const { lead } = useAppStore();
+  const { lead, leadUpdate } = useAppStore();
 
   const router = useRouter();
 
@@ -43,21 +42,23 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
 
   const handleAnswers = (newAnswers?: AnswersDto) => {
     if (newAnswers) answers.current = newAnswers;
-    if (!lead?.email) setShowLeadForm(true);
-    else sendAnswers();
+    if (!lead.email) setShowLeadForm(true);
+    else sendAnswers(lead.email);
   };
 
-  const sendAnswers = async () => {
-    const email = lead?.email;
+  const sendAnswers = async (email: string) => {
     if (!email) {
       return Notification.error("Você precisa estar na Lista de espera para continuar");
     }
-    setSubmitting(true);
-    scrollToTop();
-    const result = await ProfileApiService.sendAnswers({ answers: answers.current, email }).catch(
-      () => null
-    );
-    profileSlug.current = result?.profileSlug;
+    try {
+      setSubmitting(true);
+      const data = { answers: answers.current, email };
+      const result = await ProfileApiService.sendAnswers(data);
+      profileSlug.current = result.profileSlug;
+    } catch (error) {
+      setSubmitting(false);
+      Notification.error("Devido à um erro não foi possível continuar");
+    }
   };
 
   const handleFinish = async (attempts = 3) => {
@@ -66,7 +67,8 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
       await delay(1000);
       handleFinish(attempts - 1);
     } else {
-      router.replace(`/perfil/${profileSlug.current}`);
+      await router.replace(`/perfil/${profileSlug.current}`);
+      leadUpdate({ profile: { slug: profileSlug.current } });
     }
   };
 
@@ -89,7 +91,7 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
           >
             <LeadForm
               gap={16}
-              onSubmitCallback={() => handleAnswers()}
+              onSubmitCallback={({ email }) => sendAnswers(email)}
               cta={{ children: "Descobrir meu perfil" }}
             />
           </MediaObject>

@@ -27,7 +27,13 @@ export type FeatureIcon =
   | "uniqueness"
   | "adrenaline";
 
-export type TipeIcon = "climate" | "days-to-visit" | "daily-cost" | "generic" | "period" | "security";
+export type TipeIcon =
+  | "climate"
+  | "days-to-visit"
+  | "daily-cost"
+  | "generic"
+  | "period"
+  | "security";
 
 export interface PublicDestinationFeature {
   title: string;

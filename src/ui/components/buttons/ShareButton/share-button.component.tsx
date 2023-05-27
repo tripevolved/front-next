@@ -31,7 +31,7 @@ export function ShareButton({
   const cn = makeCn("share-button", className)(sx);
 
   useEffect(() => {
-    const ref = lead ? lead.ref : "";
+    const ref = lead ? lead.launchList?.id : "";
     const firstName = lead?.name?.split(" ")[0] || "";
     const email = encodeURIComponent(lead?.email || "");
 

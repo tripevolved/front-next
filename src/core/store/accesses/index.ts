@@ -1,2 +1,2 @@
-export * from "./accesses.store"
-export * from "./accesses.types"
+export * from "./accesses.store";
+export * from "./accesses.types";
