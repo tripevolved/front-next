@@ -1,19 +1,19 @@
-import { Lead, LeadWithUid } from "@/core/types";
+import { Lead } from "@/core/types";
 import { ApiRequestService } from "../api-request.service";
 import { getByEmail } from "./get-by-email";
 import { saveLeadOnList } from "./launch-list";
-import { LeadLocalService } from "./local";
 import { mergeLead } from "./lead.helper";
 
-const createLeadInApi = async (lead: Pick<Lead, "email" | "name" | "phone">) => {
+// Ensure remove ref from response
+const createLeadInApi = async ({ ref, ...lead }: Lead) => {
   const url = `customers/create`;
   return ApiRequestService.post<{ id: string }>(url, lead).then(({ data }) => ({
-    uid: data.id as string,
     ...lead,
+    uid: data.id as string,
   }));
 };
 
-const getOrCreate = async (lead: Lead): Promise<LeadWithUid> => {
+const getOrCreate = async (lead: Lead): Promise<Lead> => {
   const savedLead = await getByEmail(lead.email).catch(() => null);
   if (savedLead) return mergeLead(savedLead, lead);
   return createLeadInApi(lead)
@@ -26,11 +26,8 @@ export const create = async (lead: Lead & { phone: string }) => {
   const parsedLead = { ...lead, phone: parsedPhone };
 
   const leadWithUid = await getOrCreate(parsedLead);
-  const launchResult = leadWithUid.ref ? {} : await saveLeadOnList(leadWithUid);
+  const launchResult = await saveLeadOnList(leadWithUid);
 
-  const updatedLead = mergeLead(launchResult, leadWithUid) satisfies LeadWithUid;
-
-  LeadLocalService.save(updatedLead);
-
+  const updatedLead = mergeLead(launchResult, leadWithUid) satisfies Lead;
   return updatedLead;
 };

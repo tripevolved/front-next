@@ -59,6 +59,7 @@
     "react-dom": "18.2.0",
     "react-youtube": "9.0.3",
     "ribof": "0.0.0-alpha.2",
-    "swr": "^2.1.5"
+    "swr": "^2.1.5",
+    "zustand": "^4.3.8"
   }
 }

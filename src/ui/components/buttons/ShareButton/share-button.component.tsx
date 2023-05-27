@@ -7,7 +7,7 @@ import copy from "copy-to-clipboard";
 import { getSocialSharingList } from "./share-button.helpers";
 import { pageConfig } from "@/core/configs/page.config";
 import { useEffect, useState } from "react";
-import { LeadApiService } from "@/services/api/lead";
+import { useAppStore } from "@/core/store";
 
 const DEFAULT_HEADING = "Compartilhar";
 const DEFAULT_MESSAGE =
@@ -26,12 +26,11 @@ export function ShareButton({
   ...props
 }: ShareButtonProps) {
   const [sharingLink, setSharingLink] = useState(pageConfig.url);
+  const { lead } = useAppStore();
 
   const cn = makeCn("share-button", className)(sx);
 
   useEffect(() => {
-    const lead = LeadApiService.getLocal();
-
     const ref = lead ? lead.ref : "";
     const firstName = lead?.name?.split(" ")[0] || "";
     const email = encodeURIComponent(lead?.email || "");
@@ -41,7 +40,7 @@ export function ShareButton({
     const fullURL = `${url}?ref=${ref}&inviter=${firstName}&email=${email}`;
 
     setSharingLink(fullURL);
-  }, [href, link]);
+  }, [href, link, lead]);
 
   const handleClick = () => {
     Modal.open(
