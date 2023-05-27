@@ -1,7 +1,8 @@
 import type { LeadValue } from "./lead.types";
 
 export const initialLeadValue = {
-  affiliateId: undefined,
+  affiliateId: "",
+  referralEmail: "",
   email: "",
   name: "",
   phone: "",

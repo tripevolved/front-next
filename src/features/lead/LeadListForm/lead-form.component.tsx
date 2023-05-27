@@ -18,7 +18,7 @@ export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => 
   const [submitting, setSubmitting] = useState(false);
   const { leadStore } = useAppStore();
   const router = useRouter();
-  const { affiliateId, ref: referral } = router.query;
+  const { affiliateId, ref: referral, email: referralEmail } = router.query;
 
   const handleSubmit: SubmitHandler<Lead> = async (data) => {
     setSubmitting(true);
@@ -47,6 +47,7 @@ export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => 
         />
         <input type="hidden" name="ref" value={referral} />
         <input type="hidden" name="affiliateId" value={affiliateId} />
+        <input type="hidden" name="referralEmail" value={referralEmail} />
         <SubmitButton
           /* eslint-disable-next-line react/no-children-prop */
           children="Entrar na lista"

@@ -2,7 +2,8 @@ export interface LeadRef {
   ref: string;
   friends?: number | string;
   position?: number | string;
-  affiliateId?: string;
+  affiliateId: string;
+  referralEmail: string;
 }
 
 export interface LeadWithUid extends Lead {

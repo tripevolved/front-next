@@ -11,5 +11,6 @@ export const mergeLead = (lead1: any, lead2: any): LeadWithUid => {
     email: lead1?.email || lead2?.email,
     phone: lead1?.phone || lead2?.phone,
     affiliateId: lead1?.affiliateId || lead2?.affiliateId,
+    referralEmail: lead1?.referralEmail || lead2?.referralEmail,
   };
 };
