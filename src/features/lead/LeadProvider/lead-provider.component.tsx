@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export const LeadProvider = ({ children }: { children: React.ReactNode }) => {
-  const { leadCreate: leadStore, leadUpdate, lead } = useAppStore();
+  const { leadCreate, leadUpdate, lead } = useAppStore();
   const { query } = useRouter();
   const { inviter: inviterName, email: inviterEmail, ref: inviterId, affiliateId } = query;
 
@@ -12,7 +12,7 @@ export const LeadProvider = ({ children }: { children: React.ReactNode }) => {
     if (!lead.fetched || !!lead.uid) {
       const email = lead.email || LeadApiService.getLocal()?.email;
       if (!email) return;
-      LeadApiService.getByEmail(email).then(leadStore);
+      LeadApiService.getByEmail(email).then(leadCreate);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

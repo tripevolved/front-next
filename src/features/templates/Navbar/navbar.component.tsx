@@ -8,7 +8,7 @@ import { useAppStore } from "@/core/store";
 
 const subscribedMenu = {
   label: "Página do inscrito",
-  href: "/inscrito"
+  href: "/inscrito",
 } satisfies MenuItemProps;
 
 export function Navbar({ menu: inheritedMenu = [] }: NavbarProps) {
@@ -19,9 +19,9 @@ export function Navbar({ menu: inheritedMenu = [] }: NavbarProps) {
   const { lead } = useAppStore();
 
   useEffect(() => {
-    if (!lead.uid) return;
+    if (!lead.id) return;
     setMenu([subscribedMenu, ...inheritedMenu]);
-  }, [inheritedMenu, lead.uid]);
+  }, [inheritedMenu, lead.id]);
 
   return (
     <nav className="navbar">

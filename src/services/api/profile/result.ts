@@ -6,6 +6,7 @@ interface ProfileResultDto {
 
 interface ProfileResponse {
   uniqueName: string;
+  // destinations: any[];
 }
 
 export const getResult = async ({ id: travelerId }: ProfileResultDto) => {
