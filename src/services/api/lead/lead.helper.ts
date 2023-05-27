@@ -1,6 +1,6 @@
-import { LeadWithUid } from "@/core/types";
+import { Lead } from "@/core/types";
 
-export const mergeLead = (lead1: any, lead2: any): LeadWithUid => {
+export const mergeLead = (lead1: any, lead2: any): Lead => {
   // TODO: refactoring this code please!
   return {
     ref: lead1?.ref || lead2?.ref,
@@ -12,5 +12,6 @@ export const mergeLead = (lead1: any, lead2: any): LeadWithUid => {
     phone: lead1?.phone || lead2?.phone,
     affiliateId: lead1?.affiliateId || lead2?.affiliateId,
     referredEmail: lead1?.referredEmail || lead2?.referredEmail,
+    inviterId: lead1?.inviterId || lead2?.inviterId,
   };
 };

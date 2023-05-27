@@ -6,13 +6,10 @@ export interface LeadRef {
   referredEmail: string;
 }
 
-export interface LeadWithUid extends Lead {
-  uid: string;
-}
-
 export interface Lead extends LeadRef {
-  uid?: string;
+  uid: string;
   name: string;
   email: string;
   phone: string;
+  inviterId?: string;
 }

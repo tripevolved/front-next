@@ -10,4 +10,5 @@ export const initialLeadValue = {
   friends: 0,
   position: 0,
   uid: "",
+  inviterId: "",
 } satisfies LeadValue;
