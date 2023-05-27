@@ -1,20 +1,22 @@
 import type { Lead } from "@/core/types";
 import { ApiRequestService } from "../api-request.service";
-import { getRefByEmail } from "./launch-list";
-import { mergeLead } from "./lead.helper";
+import { LaunchListService } from "@/services/launch-list";
 
-interface LeadResponse {
+interface LeadApiResponse {
   travelerId: string;
   inviterName: string;
   inviterId: string | null;
 }
 
-export const getByEmail = async (email: string): Promise<Lead> => {
-  const url = `/customers/${email}/state/public`;
-  const leadRef = await getRefByEmail(email);
-  const leadWithUid = await ApiRequestService.get<LeadResponse>(url).then(({ data }) => {
-    const leadPartial = { uid: data.travelerId, name: data.inviterName, inviterId: data.inviterId };
-    return mergeLead(leadPartial, leadRef);
-  });
-  return leadWithUid;
+export const getByEmail = async (email: string): Promise<Lead | null> => {
+  try {
+    const url = `/customers/${email}/state/public`;
+    const { data } = await ApiRequestService.get<LeadApiResponse>(url);
+    const { travelerId: id, inviterName: name, inviterId } = data;
+    const invitedBy = !inviterId ? null : { id: inviterId };
+    const launchList = await LaunchListService.get(email);
+    return { id, email, name, launchList, invitedBy };
+  } catch (error) {
+    return null;
+  }
 };

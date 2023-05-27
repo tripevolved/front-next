@@ -40,13 +40,12 @@ interface MenuItemProps {
 }
 
 interface TemplateProps {
-  navbar: NavbarProps,
-  footer: FooterProps,
-  seo: SeoProps,
+  navbar: NavbarProps;
+  footer: FooterProps;
+  seo: SeoProps;
   hideNavbar?: boolean;
   hideFooter?: boolean;
 }
-
 
 export type {
   PageProps,

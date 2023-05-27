@@ -1,33 +1,31 @@
-import { Lead } from "@/core/types";
+import type { Lead, LeadCreateDTO } from "@/core/types";
 import { ApiRequestService } from "../api-request.service";
 import { getByEmail } from "./get-by-email";
-import { saveLeadOnList } from "./launch-list";
-import { mergeLead } from "./lead.helper";
+import { LaunchListService } from "../../launch-list";
 
-// Ensure remove ref from response
-const createLeadInApi = async ({ ref, ...lead }: Lead) => {
+interface LeadApiResponse {
+  id: string;
+}
+
+const createLeadInApi = async (data: LeadCreateDTO): Promise<Lead> => {
   const url = `customers/create`;
-  return ApiRequestService.post<{ id: string }>(url, lead).then(({ data }) => ({
-    ...lead,
-    uid: data.id as string,
-  }));
+  const id = await ApiRequestService.post<LeadApiResponse>(url, data).then(
+    (response) => response.data.id
+  );
+
+  const { inviterId, affiliateId, inviterEmail, inviterName, ...rest } = data;
+
+  const invitedBy = { id: inviterId, email: inviterEmail, name: inviterName, affiliateId };
+
+  return { id, invitedBy, ...rest };
 };
 
-const getOrCreate = async (lead: Lead): Promise<Lead> => {
-  const savedLead = await getByEmail(lead.email).catch(() => null);
-  if (savedLead) return mergeLead(savedLead, lead);
-  return createLeadInApi(lead)
-    .catch(() => getByEmail(lead.email))
-    .then((data) => mergeLead(data, lead));
-};
+export const create = async (data: LeadCreateDTO) => {
+  const foundLead = await getByEmail(data.email);
+  if (foundLead) return foundLead;
 
-export const create = async (lead: Lead & { phone: string }) => {
-  const parsedPhone = `+55${lead.phone.replace(/\D/g, "")}`;
-  const parsedLead = { ...lead, phone: parsedPhone };
-
-  const leadWithUid = await getOrCreate(parsedLead);
-  const launchResult = await saveLeadOnList(leadWithUid);
-
-  const updatedLead = mergeLead(launchResult, leadWithUid) satisfies Lead;
-  return updatedLead;
+  data.phone = `+55${data.phone.replace(/\D/g, "")}`;
+  const newLead = await createLeadInApi(data);
+  const launchList = await LaunchListService.create(newLead);
+  return { ...newLead, launchList };
 };

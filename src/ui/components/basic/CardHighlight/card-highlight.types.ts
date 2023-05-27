@@ -1,3 +1,3 @@
 import { ComponentHTMLProps } from "@/core/types";
 
-export interface CardHighlightProps extends ComponentHTMLProps {};
+export interface CardHighlightProps extends ComponentHTMLProps {}

@@ -10,4 +10,4 @@ export interface OptionFieldProps extends ComponentHTMLProps {
   disabled?: boolean;
   id?: string;
   name?: string;
-};
+}

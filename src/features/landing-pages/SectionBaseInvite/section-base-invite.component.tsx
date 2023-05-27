@@ -5,14 +5,14 @@ import { useRouter } from "next/router";
 
 export function SectionBaseInvite({ className, tag, ...props }: SectionBaseProps) {
   const { query } = useRouter();
-  const { inviter = "", email } = query;
+  const { inviter: inviterName = "", email: inviterEmail } = query;
 
   const cn = makeCn("section-base-invite", className)();
 
   const textTag = useMemo(() => {
-    if (!(inviter || email) || typeof tag !== "string") return tag;
-    return `${inviter || email} ${tag}`;
-  }, [email, inviter, tag]);
+    if (!(inviterName || inviterEmail) || typeof tag !== "string") return tag;
+    return `${inviterName || inviterEmail} ${tag}`;
+  }, [inviterEmail, inviterName, tag]);
 
   return <SectionBase className={cn} tag={textTag} {...props} />;
 }

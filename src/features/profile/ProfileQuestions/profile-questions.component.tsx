@@ -34,7 +34,7 @@ const STEPS = [
 export function ProfileQuestions({ className, children, ...props }: ProfileQuestionsProps) {
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const { lead } = useAppStore();
+  const { leadUpdate, lead } = useAppStore();
 
   const router = useRouter();
 
@@ -43,20 +43,22 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
 
   const handleAnswers = (newAnswers?: AnswersDto) => {
     if (newAnswers) answers.current = newAnswers;
-    if (!lead?.email) setShowLeadForm(true);
-    else sendAnswers();
+    if (!lead.email) setShowLeadForm(true);
+    else sendAnswers(lead.email);
   };
 
-  const sendAnswers = async () => {
-    const email = lead?.email;
+  const sendAnswers = async (email?: string) => {
     if (!email) {
       return Notification.error("Você precisa estar na Lista de espera para continuar");
     }
     setSubmitting(true);
     scrollToTop();
     const result = await ProfileApiService.sendAnswers({ answers: answers.current, email }).catch(
-      () => null
+      () => (null)
     );
+    if (result) {
+      leadUpdate({ profile: { slug: result.profileSlug } })
+    }
     profileSlug.current = result?.profileSlug;
   };
 
@@ -89,7 +91,7 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
           >
             <LeadForm
               gap={16}
-              onSubmitCallback={() => handleAnswers()}
+              onSubmitCallback={({ email }) => sendAnswers(email)}
               cta={{ children: "Descobrir meu perfil" }}
             />
           </MediaObject>
