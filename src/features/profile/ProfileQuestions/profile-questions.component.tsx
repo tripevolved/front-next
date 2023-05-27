@@ -8,11 +8,11 @@ import { Card, Notification } from "mars-ds";
 
 import { MediaObject, Picture, SectionBase, StepsLoader } from "@/ui";
 import { ProfileQuestionsForm } from "./profile-questions-form";
-import { LeadApiService } from "@/services/api/lead";
 import { useRouter } from "next/router";
 import { scrollToTop } from "@/utils/helpers/dom.helpers";
 import { delay } from "@/utils/helpers/delay.helpers";
 import { LeadForm } from "@/features";
+import { useAppStore } from "@/core/store";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -34,6 +34,7 @@ const STEPS = [
 export function ProfileQuestions({ className, children, ...props }: ProfileQuestionsProps) {
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const { lead } = useAppStore();
 
   const router = useRouter();
 
@@ -42,14 +43,11 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
 
   const handleAnswers = (newAnswers?: AnswersDto) => {
     if (newAnswers) answers.current = newAnswers;
-    const lead = LeadApiService.getLocal();
-
     if (!lead?.email) setShowLeadForm(true);
     else sendAnswers();
   };
 
   const sendAnswers = async () => {
-    const lead = LeadApiService.getLocal();
     const email = lead?.email;
     if (!email) {
       return Notification.error("Você precisa estar na Lista de espera para continuar");

@@ -2,7 +2,6 @@ import { Lead, LeadWithUid } from "@/core/types";
 import { ApiRequestService } from "../api-request.service";
 import { getByEmail } from "./get-by-email";
 import { saveLeadOnList } from "./launch-list";
-import { LeadLocalService } from "./local";
 import { mergeLead } from "./lead.helper";
 
 const createLeadInApi = async (lead: Pick<Lead, "email" | "name" | "phone">) => {
@@ -29,8 +28,5 @@ export const create = async (lead: Lead & { phone: string }) => {
   const launchResult = leadWithUid.ref ? {} : await saveLeadOnList(leadWithUid);
 
   const updatedLead = mergeLead(launchResult, leadWithUid) satisfies LeadWithUid;
-
-  LeadLocalService.save(updatedLead);
-
   return updatedLead;
 };

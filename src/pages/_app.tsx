@@ -9,6 +9,9 @@ import { Analytics } from "@vercel/analytics/react";
 import { ProgressIndicator } from "@/ui";
 
 import "@/ui/styles/index.scss";
+import { useAppStore } from "@/core/store";
+import { useEffect } from "react";
+import { LeadApiService } from "@/services/api/lead";
 
 const LinkComponent = ({ url, ...props }: any) => {
   const isAnchor = /^#/.test(url);
@@ -17,6 +20,14 @@ const LinkComponent = ({ url, ...props }: any) => {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
+  const { leadStore } = useAppStore();
+
+  useEffect(() => {
+    // TODO: remove this useEffect rule in the future after the waiting list ends.
+    const localLead = LeadApiService.getLocal();
+    if (localLead) leadStore(localLead);
+  }, []);
+
   return (
     <>
       <Seo />
