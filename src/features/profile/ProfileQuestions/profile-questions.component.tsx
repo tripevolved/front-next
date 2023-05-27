@@ -46,14 +46,14 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
     else sendAnswers(lead.email);
   };
 
-  const sendAnswers = async (email?: string) => {
+  const sendAnswers = async (email: string) => {
     if (!email) {
       return Notification.error("Você precisa estar na Lista de espera para continuar");
     }
-
     try {
       setSubmitting(true);
-      const result = await ProfileApiService.sendAnswers({ answers: answers.current, email });
+      const data = { answers: answers.current, email };
+      const result = await ProfileApiService.sendAnswers(data);
       profileSlug.current = result.profileSlug;
     } catch (error) {
       setSubmitting(false);

@@ -15,14 +15,14 @@ interface LeadFormProps extends GridProps {
 
 export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => {
   const [submitting, setSubmitting] = useState(false);
-  const { leadCreate: leadStore, lead } = useAppStore();
+  const { leadCreate, lead } = useAppStore();
 
   const handleSubmit: SubmitHandler<LeadCreateDTO> = async (data) => {
     setSubmitting(true);
     try {
-      const lead = await LeadApiService.create(data);
-      leadStore(lead);
-      onSubmitCallback?.(lead);
+      const newLead = await LeadApiService.create(data);
+      leadCreate(newLead);
+      onSubmitCallback?.(newLead);
     } catch (error) {
       console.error(error);
       setSubmitting(false);

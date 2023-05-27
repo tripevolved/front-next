@@ -17,7 +17,7 @@ export const findByEmail = async (email: string): Promise<Lead | null> => {
     const launchList = await LaunchListService.findByEmail(email);
     return { id, email, name, launchList, invitedBy };
   } catch (error) {
-    console.info("Email not registered")
+    console.info("Email not registered");
     return null;
   }
 };
