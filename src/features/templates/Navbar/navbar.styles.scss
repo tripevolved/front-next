@@ -9,13 +9,10 @@
     padding: 0 $spacing-md;
   }
 
-
   &__menu {
     padding: 0 $spacing-md;
     margin: 0;
     display: flex;
-
-    gap: $spacing-lg;
 
     @media (max-width: $breakpoint-sm) {
       padding: 0 $spacing-xl $spacing-xl;

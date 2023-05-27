@@ -1,7 +1,6 @@
-import type { LeadWithUid } from "@/core/types";
+import type { Lead } from "@/core/types";
 import { ApiRequestService } from "../api-request.service";
 import { getRefByEmail } from "./launch-list";
-import { LeadLocalService } from "./local";
 import { mergeLead } from "./lead.helper";
 
 interface LeadResponse {
@@ -10,13 +9,12 @@ interface LeadResponse {
   inviterId: string | null;
 }
 
-export const getByEmail = async (email: string): Promise<LeadWithUid> => {
+export const getByEmail = async (email: string): Promise<Lead> => {
   const url = `/customers/${email}/state/public`;
   const leadRef = await getRefByEmail(email);
   const leadWithUid = await ApiRequestService.get<LeadResponse>(url).then(({ data }) => {
-    const leadPartial = { uid: data.travelerId, name: data.inviterName };
+    const leadPartial = { uid: data.travelerId, name: data.inviterName, inviterId: data.inviterId };
     return mergeLead(leadPartial, leadRef);
   });
-  LeadLocalService.save(leadWithUid);
   return leadWithUid;
 };

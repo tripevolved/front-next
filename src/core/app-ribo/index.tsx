@@ -4,6 +4,11 @@ import Ribo from "ribof/ribo";
 import * as mars from "mars-ds";
 import * as featureComponents from "@/features";
 import * as uiComponents from "@/ui";
+import { useAppStore } from "../store";
+
+const controllersList = {
+  getStore: () => useAppStore.getState(),
+};
 
 // This order fix development environment
 const componentsList = {
@@ -15,18 +20,15 @@ const componentsList = {
 export const settings = {
   defaultError: "",
   componentsList,
-  controllersList: {},
+  controllersList,
   modifiersList: {},
 };
 
-export const accesses = {
-  active: false,
-  data: {},
-};
-
 export function AppRibo({ children }: RiboProps["children"]) {
+  const data = useAppStore();
+
   return (
-    <Ribo settings={settings} accesses={accesses}>
+    <Ribo settings={settings} accesses={{ active: true, data }}>
       {children}
     </Ribo>
   );

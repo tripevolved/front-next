@@ -3,11 +3,11 @@ import type { NavbarProps } from "./navbar.types";
 import { Logo } from "@/ui";
 import { Button, Link, ToggleButton } from "mars-ds";
 import { useEffect, useState } from "react";
-import { LeadApiService } from "@/services/api/lead";
 import { MenuItemProps } from "@/core/types";
+import { useAppStore } from "@/core/store";
 
 const subscribedMenu = {
-  label: "Minha inscrição",
+  label: "Página do inscrito",
   href: "/inscrito"
 } satisfies MenuItemProps;
 
@@ -16,11 +16,12 @@ export function Navbar({ menu: inheritedMenu = [] }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const hasMenu = Boolean(menu?.length);
 
+  const { lead } = useAppStore();
+
   useEffect(() => {
-    const localLead = LeadApiService.getLocal();
-    if (!localLead) return;
+    if (!lead.uid) return;
     setMenu([subscribedMenu, ...inheritedMenu]);
-  }, [inheritedMenu]);
+  }, [inheritedMenu, lead.uid]);
 
   return (
     <nav className="navbar">

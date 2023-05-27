@@ -1,5 +1,5 @@
 import { sendFormData } from "@/utils/helpers/form.helpers";
-import { LeadRef, LeadWithUid } from "@/core/types";
+import { LeadRef, Lead } from "@/core/types";
 import axios from "axios";
 
 const LAUNCH_LIST_URL = "https://getlaunchlist.com/s/0l3TDN";
@@ -12,14 +12,13 @@ export const getRefByEmail = async (email: string): Promise<LeadRef> => {
     ref: String(data.match(/\?ref=(.*)/)?.[1] || ""),
     friends: Number(data.match(/(\d+) friends/, "$1")?.[1] || 0),
     position: Number(data.match(/>#(\d+)/, "$1")?.[1] || 0),
+    affiliateId: "",
+    referredEmail: "",
   }));
 
   return leadRef;
 };
 
-type LeadFormData = Pick<LeadWithUid, "email" | "name" | "phone" | "ref" | "uid">;
-
-export const saveLeadOnList = async ({ email, name, phone, uid, ref }: LeadFormData) => {
-  const data = { email, name, phone, uid, ref };
-  return sendFormData<LeadFormData>(LAUNCH_LIST_URL, data).then(() => getRefByEmail(email));
+export const saveLeadOnList = async (data: Lead) => {
+  return sendFormData<Lead>(LAUNCH_LIST_URL, data as any).then(() => getRefByEmail(data.email));
 };
