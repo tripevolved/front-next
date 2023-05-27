@@ -7,7 +7,7 @@ import { MenuItemProps } from "@/core/types";
 import { useAppStore } from "@/core/store";
 
 const subscribedMenu = {
-  label: "Minha inscrição",
+  label: "Página do inscrito",
   href: "/inscrito"
 } satisfies MenuItemProps;
 
