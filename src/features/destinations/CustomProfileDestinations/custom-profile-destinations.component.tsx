@@ -133,7 +133,7 @@ const DestinationItem = ({
         </Text>
         <div>
           <Button href={href} size="sm">
-            Quero ir
+            Descobrir destino
           </Button>
         </div>
       </Box>
