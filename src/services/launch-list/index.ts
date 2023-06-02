@@ -33,7 +33,7 @@ const parseInvitedBy = (invitedBy: Lead["invitedBy"]) => {
 };
 
 const create = async ({ invitedBy, ...lead }: Lead) => {
-  const data = { ...lead, ...parseInvitedBy(invitedBy) };
+  const data = { ...lead, ...parseInvitedBy(invitedBy), ref: invitedBy?.id };
   return sendFormData<Lead>(LAUNCH_LIST_URL, data as any).then(() => findByEmail(lead.email));
 };
 
