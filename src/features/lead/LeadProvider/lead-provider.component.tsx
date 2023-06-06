@@ -19,7 +19,10 @@ export const LeadProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!affiliateId && !inviterId) return;
-    const inviterIsMe = lead.email === inviterEmail || lead.launchList?.id === inviterId;
+    const inviterIsMe =
+      (lead.email && lead.email === inviterEmail) ||
+      (lead.launchList?.id && lead.launchList.id === inviterId);
+
     if (inviterIsMe) return;
 
     const invitedBy = {
