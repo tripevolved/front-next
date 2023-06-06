@@ -7,6 +7,7 @@ type ParseImageSourcesProps = Partial<{
   md: ImageItem;
   lg: ImageItem;
   xl: ImageItem;
+  xxl: ImageItem;
 }>;
 
 export const parseImageSources = ({
@@ -16,14 +17,16 @@ export const parseImageSources = ({
   md,
   lg,
   xl,
+  xxl,
 }: ParseImageSourcesProps) => {
-  const defaultSrc = src || base?.src || sm?.src || md?.src || lg?.src || xl?.src;
+  const defaultSrc = src || base?.src || sm?.src || md?.src || lg?.src || xl?.src || xxl?.src;
   return {
     base: defaultSrc,
     sm: sm?.src,
     md: md?.src,
     lg: lg?.src,
     xl: xl?.src,
+    xxl: xxl?.src,
   };
 };
 
@@ -35,7 +38,8 @@ export const PICTURE_TESTID = {
 
 export const PICTURE_MEDIA_SIZES = {
   SM: 300,
-  MD: 640,
-  LG: 920,
-  XL: 1440,
+  MD: 600,
+  LG: 800,
+  XL: 1400,
+  XXL: 1920,
 };

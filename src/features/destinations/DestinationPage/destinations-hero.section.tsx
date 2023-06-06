@@ -35,11 +35,11 @@ export const DestinationHeroSection = ({ title, photos = [] }: DestinationHeroSe
 const parseType = (type: string) => {
   return (
     {
-      md: "base",
-      lg: "sm",
-      xl: "md",
-      xxl: "lg",
-    }[type] || "lg"
+      sm: "md",
+      md: "lg",
+      lg: "xl",
+      xl: "xxl",
+    }[type] || "md"
   );
 };
 
