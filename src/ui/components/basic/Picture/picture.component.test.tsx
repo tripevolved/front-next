@@ -68,7 +68,7 @@ describe("<Picture>", () => {
         xl: { src: xlSrc },
       });
       const snapshot =
-        '<picture data-testid="picture" class="picture"><source data-testid="source" media="(min-width: 640px)" srcset="any_md_source" height="2" width="2" style="max-height: 2px;"><source data-testid="source" media="(min-width: 920px)" srcset="any_lg_source"><source data-testid="source" media="(min-width: 1440px)" srcset="any_xl_source"><img height="1" width="1" data-testid="image" src="any_source"></picture>';
+        '<picture data-testid="picture" class="picture"><source data-testid="source" media="(min-width: 600px)" srcset="any_md_source" height="2" width="2" style="max-height: 2px;"><source data-testid="source" media="(min-width: 800px)" srcset="any_lg_source"><source data-testid="source" media="(min-width: 1400px)" srcset="any_xl_source"><img height="1" width="1" data-testid="image" src="any_source"></picture>';
       expectDOMToBe(wrapper, snapshot);
     });
   });
