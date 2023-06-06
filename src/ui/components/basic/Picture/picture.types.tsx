@@ -18,6 +18,7 @@ interface ImageItemProps extends ImageItem {
   md?: ImageItem;
   lg?: ImageItem;
   xl?: ImageItem;
+  xxl?: ImageItem;
 }
 
 type PictureProps = undefined | string | PictureComponentProps;

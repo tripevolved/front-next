@@ -27,6 +27,7 @@ const PictureChildren = ({
   md,
   lg,
   xl,
+  xxl,
   title,
   maxHeight,
   alt,
@@ -34,8 +35,8 @@ const PictureChildren = ({
   ...props
 }: Omit<PictureComponentProps, "children">) => {
   const images = useMemo(
-    () => parseImageSources({ src, base, sm, md, lg, xl }),
-    [base, lg, md, sm, src, xl]
+    () => parseImageSources({ src, base, sm, md, lg, xl, xxl }),
+    [base, lg, md, sm, src, xl, xxl]
   );
 
   if (Object.values(images).every((value) => !value)) return null;
@@ -53,6 +54,7 @@ const PictureChildren = ({
       {images.md && <ImageSource mediaSize={PICTURE_MEDIA_SIZES.MD} {...md} src={images.md} />}
       {images.lg && <ImageSource mediaSize={PICTURE_MEDIA_SIZES.LG} {...lg} src={images.lg} />}
       {images.xl && <ImageSource mediaSize={PICTURE_MEDIA_SIZES.XL} {...xl} src={images.xl} />}
+      {images.xxl && <ImageSource mediaSize={PICTURE_MEDIA_SIZES.XXL} {...xxl} src={images.xxl} />}
       <img
         {...commonProps}
         data-testid={PICTURE_TESTID.IMAGE}
