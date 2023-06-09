@@ -1,10 +1,10 @@
 import { OptionsFieldList, OptionsFieldListProps, Text } from "@/ui";
-import { type ProfileQuestion } from "@/services/api/profile/questions";
+import { type Question } from "@/services/api/common/questions";
 import { Grid } from "mars-ds";
 import { useMemo } from "react";
 
 interface ProfileQuestionsItemProps
-  extends ProfileQuestion,
+  extends Question,
     Pick<OptionsFieldListProps, "onCheck" | "defaultValue" | "disabled"> {}
 
 export const ProfileQuestionsItem = ({
