@@ -11,6 +11,14 @@ export interface PublicDestination {
   faq: PublicDestinationFaq[];
 }
 
+export interface TripDestination {
+  title: string;
+  recommendedBy: PublicDestinationExpert;
+  photos: Photo[];
+  features: PublicDestinationFeature[];
+  tips: PublicDestinationTip[];
+}
+
 export interface PublicDestinationVideo {
   provider: "youtube" | "vimeo" | string;
   source: string;

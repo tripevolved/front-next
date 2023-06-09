@@ -7,6 +7,7 @@ export * from "./admin/Playground";
 export * from "./admin/SignIn";
 export * from "./destinations/CustomProfileDestinations";
 export * from "./destinations/DestinationPage";
+export * from "./trips/TripDetailsPage";
 export * from "./landing-pages/AwardCard";
 export * from "./landing-pages/HomeNumberedCard";
 export * from "./landing-pages/IntroductionCard";
