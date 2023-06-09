@@ -6,7 +6,7 @@ import { useMemo } from "react";
 interface DestinationFaqSectionProps extends Pick<DestinationProps, "faq" | "title"> {}
 
 export const DestinationFaqSection = ({ faq = [], title }: DestinationFaqSectionProps) => {
-  const message = `Olá, eu gostaria de solijá sei para onde quero ir: ${title}!`;
+  const message = `Olá, eu já sei para onde quero ir: ${title}!`;
 
   return (
     <SectionBase className="destination-faq-section text-center">

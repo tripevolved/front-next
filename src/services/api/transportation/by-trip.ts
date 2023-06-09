@@ -1,9 +1,9 @@
-import { TripDetails } from "@/core/types";
-import { ApiAuthorizedRequestService, ApiRequestService } from "../api-request.service";
+import { TripTransportation } from "@/core/types";
+import { ApiAuthorizedRequestService } from "../api-request.service";
 
-export const getTripDetailsById = async (tripId: string): Promise<TripDetails> => {
-  const url = `trips/${tripId}`;
-  const tripDetails = await ApiAuthorizedRequestService.get(url)
+export const getTransportationByTripId = async (tripId: string): Promise<TripTransportation> => {
+  const url = `transportation/${tripId}`;
+  const tripTransportation = await ApiAuthorizedRequestService.get(url)
     .then(({ data }) => data)
     .catch(function (error) {
       // TODO: improve this, maybe with a structure to return the error message and direct it somehow to a page
@@ -25,5 +25,5 @@ export const getTripDetailsById = async (tripId: string): Promise<TripDetails> =
       console.log(error.config);
       return null;
     });
-  return tripDetails;
+  return tripTransportation;
 };

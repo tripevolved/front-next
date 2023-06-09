@@ -1,8 +1,11 @@
-import type { TripDetailsProps, TripDetailsPageProps } from "./trip-details-page.types";
+import type { TripDetailsPageProps } from "./trip-details-page.types";
 import { PageBase } from "@/features";
 import { DestinationHeroSection } from "@/features/destinations/DestinationPage/destinations-hero.section";
 import { DestinationInfoSection } from "@/features/destinations/DestinationPage//destination-info.section";
 import { DestinationTipsSection } from "@/features/destinations/DestinationPage//destination-tips.section";
+import { TripTransportationSection } from "./trip-transportation.section";
+import { TripConfigurationSection } from "./trip-configuration.section";
+import { Accordion, SectionBase, Text, WhatsappButton } from "@/ui";
 
 const mock = {
   features: [
@@ -49,7 +52,8 @@ const mock = {
 
 export function TripDetails({ tripDetails, seo, navbar, footer }: TripDetailsPageProps) {
   const {
-    destination
+    destination,
+    configuration
   } = tripDetails;
   const {
     features = [],
@@ -58,11 +62,29 @@ export function TripDetails({ tripDetails, seo, navbar, footer }: TripDetailsPag
     tips = [],
     title,
   } = destination;
+  const message = "Oi! Quero alterar minha viagem, pode me ajudar?";
+
   return (
     <PageBase navbar={navbar} footer={footer} seo={seo}>
       <DestinationHeroSection title={title} photos={photos} />
+      <TripConfigurationSection configuration={configuration}/>
       <DestinationInfoSection features={features} recommendedBy={recommendedBy} />
       {tips.length ? <DestinationTipsSection tips={tips} /> : null}
+      <TripTransportationSection/>
+      <div>
+        <WhatsappButton
+          className="mt-2x"
+          style={{ width: 336 }}
+          variant={"custom"}
+          href={"#"}
+          backgroundColor={"var(--color-brand-2)"}
+          hoverBackgroundColor={"var(--color-secondary-900)"}
+          color={"white"}
+          message={message}
+        >
+          Quero alterar a viagem
+        </WhatsappButton>
+      </div>
     </PageBase>
   );
 }
