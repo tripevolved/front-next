@@ -5,7 +5,7 @@ import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 import { Grid, Caption, Loader, Button } from "mars-ds";
 import { useState, useMemo, useEffect } from "react";
 import { EmptyState, StepsProgressBar } from "@/ui";
-import { ProfileQuestionsItem } from "./profile-question-item";
+import { OptionsQuestionItem } from "@/features/questions/options-question-item";
 import { ProfileQuestionsNavigation } from "./profile-questions-navigation";
 
 import { ProfileApiService } from "@/services/api/profile";
@@ -86,7 +86,7 @@ export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) =>
         {data.map(({ page, questions = [] }, index) => (
           <div key={page}>
             {questions.map((question) => (
-              <ProfileQuestionsItem
+              <OptionsQuestionItem
                 key={question.id}
                 {...question}
                 disabled={index !== currentIndex}

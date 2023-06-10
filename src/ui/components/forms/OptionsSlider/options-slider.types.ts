@@ -1,3 +1,9 @@
 import type { SliderProps } from "mars-ds"
 
-export interface OptionsSliderProps extends SliderProps {}
+type OnSet = (value: number) => void;
+
+export interface OptionsSliderProps extends SliderProps {
+    disabled?: boolean;
+    onSet?: OnSet;
+    defaultValue: number;
+}

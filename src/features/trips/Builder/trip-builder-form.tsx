@@ -5,7 +5,7 @@ import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 import { Grid, Caption, Loader, Button } from "mars-ds";
 import { useState, useMemo, useEffect } from "react";
 import { EmptyState, StepsProgressBar } from "@/ui";
-import { ProfileQuestionsItem } from "@/features/profile/ProfileQuestions/profile-question-item";
+import { OptionsQuestionItem, SliderQuestionItem, DatePickerQuestionItem  } from "@/features/questions";
 import { ProfileQuestionsNavigation } from "@/features/profile/ProfileQuestions/profile-questions-navigation";
 
 import { TripsApiService } from "@/services/api/trip";
@@ -35,10 +35,18 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
     else onSubmit(answers);
   };
 
-  const handleCheck = (id: string) => (value: string | string[]) => {
+  const handleCheck = (id: string) => (value: string | string[] | number) => {
     setAnswers((state: any) => {
       const isEmptyArray = Array.isArray(value) && value.length === 0;
       const newState = { ...state, [id]: isEmptyArray ? null : value };
+      setLocalAnswers(jsonToString(newState));
+      return newState;
+    });
+  };
+
+  const handleDateChange = (id: string) => (value: [Date, Date]) => {
+    setAnswers((state: any) => {
+      const newState = { ...state, [id]: value };
       setLocalAnswers(jsonToString(newState));
       return newState;
     });
@@ -85,15 +93,40 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
       <main className="profile-questions__group mb-lg" style={style}>
         {data.map(({ page, questions = [] }, index) => (
           <div key={page}>
-            {questions.map((question) => (
-              <ProfileQuestionsItem
-                key={question.id}
-                {...question}
-                disabled={index !== currentIndex}
-                onCheck={handleCheck(question.id)}
-                defaultValue={answers[question.id]}
-              />
-            ))}
+            {questions.map((question) => {
+              const hasRangeField = question.type === "RANGE";
+              const hasCalendar = question.type === "DATEPICK";
+              return hasRangeField ? (
+                <SliderQuestionItem
+                  key={question.id}
+                  {...question}
+                  disabled={index !== currentIndex}
+                  minValue={question.minValue}
+                  maxValue={question.maxValue}
+                  step={question.step}
+                  dataType={question.dataType}
+                  defaultValue={answers[question.id]}
+                  onSet={handleCheck(question.id)}
+                />
+              ) : (hasCalendar ? (
+                <DatePickerQuestionItem
+                  key={question.id}
+                  {...question}
+                  disabled={index !== currentIndex}
+                  defaultValue={answers[question.id]}
+                  onSet={handleDateChange(question.id)}
+                />
+              ) : (
+                <OptionsQuestionItem
+                  key={question.id}
+                  {...question}
+                  disabled={index !== currentIndex}
+                  onCheck={handleCheck(question.id)}
+                  defaultValue={answers[question.id]}
+                />
+              ));
+            }
+            )}
           </div>
         ))}
       </main>
