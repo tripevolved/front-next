@@ -1,6 +1,6 @@
-import { OptionsFieldList, OptionsFieldListProps, OptionsSlider, Text } from "@/ui";
+import { OptionsFieldList, OptionsFieldListProps, OptionsSlider, DatePicker, Text } from "@/ui";
 import { type Question } from "@/services/api/common/questions";
-import { Grid } from "mars-ds";
+import { Grid, ListProps } from "mars-ds";
 import { useMemo } from "react";
 
 interface ProfileQuestionsItemProps
@@ -66,9 +66,11 @@ export const ProfileQuestionsItem = ({
             min={minValue ?? 1}
             max={maxValue ?? 500000}
             formatter={formatSlider}
+            step={step}
           />
           : (hasCalendar ? 
-          <div>CALENDAR</div> 
+          <DatePicker
+          />
           : null)
           )
         }
