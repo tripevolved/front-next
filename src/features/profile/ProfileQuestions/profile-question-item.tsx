@@ -1,6 +1,6 @@
 import { OptionsFieldList, OptionsFieldListProps, OptionsSlider, DatePicker, Text } from "@/ui";
 import { type Question } from "@/services/api/common/questions";
-import { Grid, ListProps } from "mars-ds";
+import { Grid } from "mars-ds";
 import { useMemo } from "react";
 
 interface ProfileQuestionsItemProps
@@ -32,6 +32,7 @@ export const ProfileQuestionsItem = ({
   const hasOptionsField = useMemo(() => type === "CHECKBOX" || type === "RADIO", [type]);
   const hasRangeField = useMemo(() => type === "RANGE", [type]);
   const hasCalendar = useMemo(() => type === "DATEPICK", [type]);
+
   const formatSlider = (num: number) => {
     if (dataType === "CURRENCY")
       return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', })
@@ -61,14 +62,14 @@ export const ProfileQuestionsItem = ({
             multiselect={multiselect}
             defaultValue={defaultValue}
           />
-        ) : (hasRangeField ? 
-          <OptionsSlider 
+        ) : (hasRangeField ?
+          <OptionsSlider
             min={minValue ?? 1}
             max={maxValue ?? 500000}
             formatter={formatSlider}
             step={step}
           />
-          : (hasCalendar ? 
+          : (hasCalendar ?
           <DatePicker
           />
           : null)
