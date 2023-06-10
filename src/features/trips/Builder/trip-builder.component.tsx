@@ -1,21 +1,22 @@
-import type { ProfileQuestionsProps } from "./profile-questions.types";
+import type { TripBuilderQuestionsProps } from "./trip-builder.types";
 import type { AnswersDto } from "@/services/api/profile/answers";
 
+import { TripsApiService } from "@/services/api/trip";
 import { ProfileApiService } from "@/services/api/profile";
 
 import { useRef, useState } from "react";
 import { Card, Notification } from "mars-ds";
 
 import { MediaObject, Picture, SectionBase, StepsLoader } from "@/ui";
-import { ProfileQuestionsForm } from "./profile-questions-form";
+import { TripBuilderQuestionsForm } from "./trip-builder-form";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 import { LeadForm } from "@/features";
 import { useAppStore } from "@/core/store";
 import { Text } from "@/ui";
 
-const EIGHT_SECONDS_IN_MS = 8 * 1000;
-const MILLISECONDS = EIGHT_SECONDS_IN_MS;
+const FOUR_SECONDS_IN_MS = 4 * 1000;
+const MILLISECONDS = FOUR_SECONDS_IN_MS;
 const STEPS = [
   {
     text: "Montando o seu perfil...",
@@ -31,7 +32,7 @@ const STEPS = [
   },
 ];
 
-export function ProfileQuestions({ className, children, ...props }: ProfileQuestionsProps) {
+export function TripBuilder({ className, children, ...props }: TripBuilderQuestionsProps) {
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const { lead, leadUpdate } = useAppStore();
@@ -101,7 +102,7 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
             />
           </Card>
         ) : (
-          <ProfileQuestionsForm onSubmit={handleAnswers} />
+          <TripBuilderQuestionsForm onSubmit={handleAnswers} />
         )}
       </Card>
     </SectionBase>

@@ -24,6 +24,8 @@ export * from "./buttons/ToggleButton";
 export * from "./buttons/WhatsappButton";
 export * from "./forms/OptionField";
 export * from "./forms/OptionsFieldList";
+export * from "./forms/OptionsSlider";
+export * from "./forms/DatePicker"
 export * from "./loaders/GlobalLoader";
 export * from "./loaders/ProgressIndicator";
 export * from "./loaders/StepsLoader";

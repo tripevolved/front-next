@@ -6,8 +6,6 @@ import { useMemo } from "react";
 interface DestinationFaqSectionProps extends Pick<DestinationProps, "faq" | "title"> {}
 
 export const DestinationFaqSection = ({ faq = [], title }: DestinationFaqSectionProps) => {
-  const message = `Olá, eu gostaria de solijá sei para onde quero ir: ${title}!`;
-
   return (
     <SectionBase className="destination-faq-section text-center">
       <Text heading as="h2" className="mb-sm">
@@ -22,18 +20,17 @@ export const DestinationFaqSection = ({ faq = [], title }: DestinationFaqSection
         ))}
       </Container>
       <div>
-        <WhatsappButton
+        <Button
           className="mt-2x"
           style={{ width: 336 }}
           variant={"custom"}
-          href={"#"}
+          href={"/viagens/builder"}
           backgroundColor={"var(--color-brand-2)"}
           hoverBackgroundColor={"var(--color-secondary-900)"}
           color={"white"}
-          message={message}
         >
           Quero ir
-        </WhatsappButton>
+        </Button>
       </div>
     </SectionBase>
   );

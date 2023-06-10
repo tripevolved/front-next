@@ -1,15 +1,19 @@
-import { OptionsFieldList, OptionsFieldListProps, Text } from "@/ui";
-import { type ProfileQuestion } from "@/services/api/profile/questions";
+import { OptionsFieldList, OptionsFieldListProps, OptionsSlider, DatePicker, Text } from "@/ui";
+import { type Question } from "@/services/api/common/questions";
 import { Grid } from "mars-ds";
 import { useMemo } from "react";
 
 interface ProfileQuestionsItemProps
-  extends ProfileQuestion,
+  extends Question,
     Pick<OptionsFieldListProps, "onCheck" | "defaultValue" | "disabled"> {}
 
 export const ProfileQuestionsItem = ({
   title,
   type,
+  minValue,
+  maxValue,
+  step,
+  dataType,
   possibleAnswers,
   onCheck,
   defaultValue,
@@ -25,6 +29,17 @@ export const ProfileQuestionsItem = ({
   );
 
   const multiselect = useMemo(() => type === "CHECKBOX", [type]);
+  const hasOptionsField = useMemo(() => type === "CHECKBOX" || type === "RADIO", [type]);
+  const hasRangeField = useMemo(() => type === "RANGE", [type]);
+  const hasCalendar = useMemo(() => type === "DATEPICK", [type]);
+
+  const formatSlider = (num: number) => {
+    if (dataType === "CURRENCY")
+      return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', })
+    if (dataType === "DAYS")
+      return num > 1 ? num + " dias" : num + " dia";
+    return num.toString();
+  };
 
   return (
     <Grid className="profile-questions-item" gap={24}>
@@ -39,13 +54,27 @@ export const ProfileQuestionsItem = ({
         ) : null}
       </div>
       <Grid gap={16} className="profile-questions-item__answers">
-        <OptionsFieldList
-          disabled={disabled}
-          onCheck={onCheck}
-          options={options}
-          multiselect={multiselect}
-          defaultValue={defaultValue}
-        />
+        {hasOptionsField ? (
+          <OptionsFieldList
+            disabled={disabled}
+            onCheck={onCheck}
+            options={options}
+            multiselect={multiselect}
+            defaultValue={defaultValue}
+          />
+        ) : (hasRangeField ?
+          <OptionsSlider
+            min={minValue ?? 1}
+            max={maxValue ?? 500000}
+            formatter={formatSlider}
+            step={step}
+          />
+          : (hasCalendar ?
+          <DatePicker
+          />
+          : null)
+          )
+        }
       </Grid>
     </Grid>
   );
