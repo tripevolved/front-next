@@ -19,9 +19,9 @@ const swrOptions = { revalidateOnFocus: false };
 const { getTripOnboardingQuestions, getTripQuestions } = TripsApiService;
 
 export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormProps) => {
-  const { data = [], error, isLoading } = useSwr("questions", getTripQuestions, swrOptions);
+  const { data = [], error, isLoading } = useSwr("tripQuestions", getTripQuestions, swrOptions);
 
-  const [localAnswers, setLocalAnswers] = useLocalStorage("travel-profile-answers");
+  const [localAnswers, setLocalAnswers] = useLocalStorage("trip-answers");
   const [answers, setAnswers] = useState<AnswersDto>({});
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -78,7 +78,7 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
     <Grid gap={48}>
       <div className="profile-questions__header">
         <Caption as="p" className="mb-lg profile-questions__caption">
-          Descobrir meu perfil de viajante
+          Descobrir minha trip
         </Caption>
         <StepsProgressBar position={currentIndex} total={total} />
       </div>

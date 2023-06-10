@@ -8,7 +8,7 @@ interface Option {
   type: OptionType;
 }
 
-type QuestionType = "CHECKBOX" | "RADIO";
+type QuestionType = "CHECKBOX" | "RADIO" | "RANGE" | "DATEPICK";
 
 export interface Question {
   id: string;
@@ -16,6 +16,10 @@ export interface Question {
   type: QuestionType;
   title: string;
   subtitle: string | null;
+  minValue?: number;
+  maxValue?: number;
+  dataType?: "CURRENCY" | "DAYS";
+  step?: number;
   possibleAnswers: Option[];
 }
 
