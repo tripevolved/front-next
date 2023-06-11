@@ -1,5 +1,5 @@
 import { Photo } from "@/core/types";
-import { ApiRequestService } from "../api-request.service";
+import { ApiRequest } from "@/services/api/request";
 
 interface Destination {
   id: string;
@@ -8,7 +8,11 @@ interface Destination {
   href: string;
 }
 
-interface DestinationResponse {
+interface DestinationsResponse {
+  destinations: DestinationItem[];
+}
+
+interface DestinationItem {
   coverImage: Photo;
   title: string;
   destinationId: string;
@@ -16,18 +20,15 @@ interface DestinationResponse {
   uniqueName: string;
 }
 
-const destinationSerializer = (destination: DestinationResponse): Destination => {
-  return {
-    id: destination.destinationId,
-    name: destination.name,
-    coverImageUrl: destination.coverImage.sources.find(({ type }) => type === "md")?.url || null,
-    href: `/destinos/${destination.uniqueName}`,
-  };
-};
+const serializer = ({ destinations }: DestinationsResponse): Destination[] =>
+  destinations.map(({ destinationId, name, coverImage, uniqueName }) => ({
+    id: destinationId,
+    name,
+    coverImageUrl: coverImage.sources.find(({ type }) => type === "md")?.url || null,
+    href: `/destinos/${uniqueName}`,
+  }));
 
-export const getDestinations = async (profileName: string): Promise<Destination[]> => {
-  const url = `profiles/${profileName}`;
-  return ApiRequestService.get(url)
-    .then(({ data }) => data)
-    .then(({ destinations = [] }) => destinations.map(destinationSerializer));
+export const getDestinations = async (profileName: string) => {
+  const route = `profiles/${profileName}`;
+  return ApiRequest.get<DestinationsResponse>(route).then(serializer);
 };

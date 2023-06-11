@@ -1,5 +1,5 @@
 import { OptionsFieldList, OptionsFieldListProps, OptionsSlider, DatePicker, Text } from "@/ui";
-import { type Question } from "@/services/api/common/questions";
+import { type Question } from "@/services/api/common/questions.types";
 import { Grid } from "mars-ds";
 import { useMemo } from "react";
 

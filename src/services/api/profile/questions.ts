@@ -1,7 +1,5 @@
-import { ApiRequestService } from "../api-request.service";
-import { QuestionsResponse } from "../common/questions";
+import { ApiRequest } from "@/services/api/request";
+import { QuestionsResponse } from "../common/questions.types";
 
-export const getQuestions = async (): Promise<QuestionsResponse> => {
-  const url = "questions/travel-profile";
-  return ApiRequestService.get<QuestionsResponse>(url).then(({ data }) => data);
-};
+export const getQuestions = async () =>
+  ApiRequest.get<QuestionsResponse>("questions/travel-profile");

@@ -1,4 +1,4 @@
-import { ApiRequestService } from "../api-request.service";
+import { ApiRequest } from "@/services/api/request";
 
 interface ProfileResultDto {
   id: string;
@@ -10,8 +10,8 @@ interface ProfileResponse {
 }
 
 export const getResult = async ({ id: travelerId }: ProfileResultDto) => {
-  const url = `profiles/traveler/${travelerId}`;
-  return ApiRequestService.get<ProfileResponse>(url).then(({ data }) => ({
-    profileSlug: data.uniqueName,
+  const route = `profiles/traveler/${travelerId}`;
+  return ApiRequest.get<ProfileResponse>(route).then(({ uniqueName }) => ({
+    profileSlug: uniqueName,
   }));
 };
