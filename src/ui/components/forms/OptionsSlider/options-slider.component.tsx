@@ -23,6 +23,7 @@ export function OptionsSlider({
 
   const handleSelect = (newValue: number) => {
     setValue(newValue);
+    onSelect?.(newValue);
     return;
   };
 

@@ -1,29 +1,25 @@
 import type { TripBuilderQuestionsProps } from "./trip-builder.types";
-import type { AnswersDto } from "@/services/api/profile/answers";
 
 import { TripsApiService } from "@/services/api/trip";
-import { ProfileApiService } from "@/services/api/profile";
 
 import { useRef, useState } from "react";
 import { Card, Notification } from "mars-ds";
 
-import { MediaObject, Picture, SectionBase, StepsLoader } from "@/ui";
+import { Picture, SectionBase, StepsLoader } from "@/ui";
 import { TripBuilderQuestionsForm } from "./trip-builder-form";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
-import { LeadForm } from "@/features";
-import { useAppStore } from "@/core/store";
-import { Text } from "@/ui";
+import { CreateTripDto } from "@/services/api/trip/create";
 
-const FOUR_SECONDS_IN_MS = 4 * 1000;
-const MILLISECONDS = FOUR_SECONDS_IN_MS;
+const EIGHT_SECONDS_IN_MS = 8 * 1000;
+const MILLISECONDS = EIGHT_SECONDS_IN_MS;
 const STEPS = [
   {
-    text: "Montando o seu perfil...",
+    text: "Construindo sua viagem...",
     iconName: "settings",
   },
   {
-    text: "Achamos 3 lugares para você curtir",
+    text: "Procurando atrações para seu roteiro...",
     iconName: "map",
   },
   {
@@ -33,30 +29,23 @@ const STEPS = [
 ];
 
 export function TripBuilder({ className, children, ...props }: TripBuilderQuestionsProps) {
-  const [showLeadForm, setShowLeadForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const { lead, leadUpdate } = useAppStore();
 
   const router = useRouter();
 
-  const answers = useRef<AnswersDto>({});
-  const profileSlug = useRef<string>();
+  const createTrip = useRef<CreateTripDto>({} as CreateTripDto);
+  const tripId = useRef<string>();
 
-  const handleAnswers = (newAnswers?: AnswersDto) => {
-    if (newAnswers) answers.current = newAnswers;
-    if (!lead.email) setShowLeadForm(true);
-    else sendAnswers(lead.email);
+  const handleCreateTrip = (tripDto?: CreateTripDto) => {
+    if (tripDto) createTrip.current = tripDto;
+    sendCreateTrip();
   };
 
-  const sendAnswers = async (email: string) => {
-    if (!email) {
-      return Notification.error("Você precisa estar na Lista de espera para continuar");
-    }
+  const sendCreateTrip = async () => {
     try {
       setSubmitting(true);
-      const data = { answers: answers.current, email };
-      const result = await ProfileApiService.sendAnswers(data);
-      profileSlug.current = result.profileSlug;
+      const result = await TripsApiService.postCreate(createTrip.current);
+      tripId.current = result.id;
     } catch (error) {
       setSubmitting(false);
       Notification.error("Devido à um erro não foi possível continuar");
@@ -64,13 +53,12 @@ export function TripBuilder({ className, children, ...props }: TripBuilderQuesti
   };
 
   const handleFinish = async (attempts = 3) => {
-    if (attempts < 1) profileSlug.current = "relax";
-    if (!profileSlug.current) {
+    if (attempts < 1) return; // TODO: send to error page
+    if (!tripId.current) {
       await delay(1000);
       handleFinish(attempts - 1);
     } else {
-      await router.replace(`/perfil/${profileSlug.current}`);
-      leadUpdate({ profile: { slug: profileSlug.current } });
+      await router.replace(`app/viagens/detalhes/${tripId.current}`);
     }
   };
 
@@ -85,24 +73,8 @@ export function TripBuilder({ className, children, ...props }: TripBuilderQuesti
       <Card className="profile-questions__card">
         {submitting ? (
           <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
-        ) : showLeadForm ? (
-          <Card className="color-brand-2">
-            <div className="text-center">
-              <Text className="lead-list-form__label py-xl" size="sm">
-                Estamos quase lá!
-              </Text>
-              <Text as="h3" className="lead-list-form__heading pb-xl" variant="heading">
-                Prencha para ver o resultado e receber uma boa surpresa no e-mail.
-              </Text>
-            </div>
-            <LeadForm
-              gap={16}
-              onSubmitCallback={({ email }) => sendAnswers(email)}
-              cta={{ children: "Descobrir meu perfil" }}
-            />
-          </Card>
         ) : (
-          <TripBuilderQuestionsForm onSubmit={handleAnswers} />
+          <TripBuilderQuestionsForm onSubmit={handleCreateTrip} />
         )}
       </Card>
     </SectionBase>

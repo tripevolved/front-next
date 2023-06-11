@@ -24,7 +24,7 @@ export const DestinationFaqSection = ({ faq = [], title }: DestinationFaqSection
           className="mt-2x"
           style={{ width: 336 }}
           variant={"custom"}
-          href={"/viagens/builder"}
+          href={"/viagens/construir"}
           backgroundColor={"var(--color-brand-2)"}
           hoverBackgroundColor={"var(--color-secondary-900)"}
           color={"white"}

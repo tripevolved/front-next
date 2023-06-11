@@ -1,6 +1,7 @@
 import { Photo } from "./photo";
 
 export interface PublicDestination {
+  id: string;
   title: string;
   recommendedBy: PublicDestinationExpert;
   photos: Photo[];
@@ -12,6 +13,7 @@ export interface PublicDestination {
 }
 
 export interface TripDestination {
+  id: string;
   title: string;
   recommendedBy: PublicDestinationExpert;
   photos: Photo[];

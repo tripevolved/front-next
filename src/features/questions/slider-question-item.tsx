@@ -38,7 +38,7 @@ export const SliderQuestionItem = ({
           formatter={formatSlider}
           step={step}
           defaultValue={defaultValue}
-          onSet={onSet}
+          onSelect={onSet}
           disabled={disabled}
         />
       </Grid>

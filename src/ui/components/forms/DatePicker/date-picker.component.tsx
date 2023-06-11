@@ -17,13 +17,15 @@ export function DatePicker({
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
+    onSet?.([start, end]);
   };
 
   /* TODO: insert a checkbox here to allow for flexible dates */
+  // TODO: make sure it is selected with start and end dates, not only start
   return (
     <Grid gap={16} {...props}>
       <ReactDatePicker
-        selected={dates?.[0]}
+        selected={startDate === undefined ? null : startDate}
         onChange={onChange}
         startDate={startDate}
         endDate={endDate}

@@ -9,58 +9,84 @@ import { OptionsQuestionItem, SliderQuestionItem, DatePickerQuestionItem  } from
 import { ProfileQuestionsNavigation } from "@/features/profile/ProfileQuestions/profile-questions-navigation";
 
 import { TripsApiService } from "@/services/api/trip";
-import type { AnswersDto } from "@/services/api/profile/answers";
+import { CreateTripDto } from "@/services/api/trip/create";
 
 export interface TripBuilderQuestionsFormProps {
-  onSubmit: (answers: AnswersDto) => void;
+  onSubmit: (trip: CreateTripDto) => void;
 }
 
 const swrOptions = { revalidateOnFocus: false };
-const { getTripOnboardingQuestions, getTripQuestions } = TripsApiService;
+const { getTripQuestions } = TripsApiService;
 
 export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormProps) => {
   const { data = [], error, isLoading } = useSwr("tripQuestions", getTripQuestions, swrOptions);
 
-  const [localAnswers, setLocalAnswers] = useLocalStorage("trip-answers");
-  const [answers, setAnswers] = useState<AnswersDto>({});
+  const [localCreateTrip, setLocalCreateTrip] = useLocalStorage("create-trip");
+  const [createTrip, setCreateTrip] = useState<CreateTripDto>({ tripBehavior: {} } as CreateTripDto);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const total = useMemo(() => data.length - 1, [data.length]);
-
   const style: any = useMemo(() => ({ "--position": currentIndex }), [currentIndex]);
 
   const handleSteps = (newIndex: number) => {
     if (newIndex < 0) return;
     if (total >= newIndex) setCurrentIndex(newIndex);
-    else onSubmit(answers);
+    else onSubmit(createTrip);
   };
 
-  const handleCheck = (id: string) => (value: string | string[] | number) => {
-    setAnswers((state: any) => {
+  const handleCheck = (id: string) => (value: string | string[]) => {
+    setCreateTrip((state: any) => {
+      const tripInfo = state as CreateTripDto;
+      if (tripInfo.tripBehavior === undefined) tripInfo.tripBehavior = {};
+
       const isEmptyArray = Array.isArray(value) && value.length === 0;
-      const newState = { ...state, [id]: isEmptyArray ? null : value };
-      setLocalAnswers(jsonToString(newState));
-      return newState;
+      if (!isEmptyArray) tripInfo.tripBehavior[id] = value as string[];
+
+      setLocalCreateTrip(jsonToString(tripInfo));
+      return tripInfo;
     });
   };
 
-  const handleDateChange = (id: string) => (value: [Date, Date]) => {
-    setAnswers((state: any) => {
-      const newState = { ...state, [id]: value };
-      setLocalAnswers(jsonToString(newState));
-      return newState;
+  const handleSlider = (dataType: "CURRENCY" | "DAYS" | undefined) => (value: number) => {
+    setCreateTrip((state: any) => {
+      const tripInfo = state as CreateTripDto;
+      
+      if (dataType === undefined) return tripInfo;
+
+      if (dataType === "CURRENCY") createTrip.maxBudget = value;
+      else createTrip.days = value;
+
+      setLocalCreateTrip(jsonToString(tripInfo));
+      return tripInfo;
     });
   };
 
+  const handleDateChange = () => (value: [Date, Date]) => {
+    setCreateTrip((state: any) => {
+      const tripInfo = state as CreateTripDto;
+      tripInfo.dates = value;
+
+      setLocalCreateTrip(jsonToString(tripInfo));
+      return tripInfo;
+    });
+  };
+
+  // TODO: improve this
   const isNextButtonDisabled = useMemo(
-    () => data[currentIndex]?.questions.every(({ id }) => !answers[id]),
+    () => data[currentIndex]?.questions.every(({ id }) => !createTrip),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [answers, currentIndex]
+    [createTrip, currentIndex]
   );
 
   useEffect(() => {
-    const initialLocalAnswers = toJson(localAnswers);
-    if (initialLocalAnswers) setAnswers(initialLocalAnswers as AnswersDto);
+    const initialCreateTrip = toJson(localCreateTrip);
+    if (initialCreateTrip) setCreateTrip(initialCreateTrip as CreateTripDto);
+    else {
+      var destinationId = localStorage.getItem("destination-id");
+      var tripInfo = { destinationId: destinationId } as CreateTripDto;
+      setLocalCreateTrip(jsonToString(tripInfo));
+      setCreateTrip(tripInfo);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -105,24 +131,24 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
                   maxValue={question.maxValue}
                   step={question.step}
                   dataType={question.dataType}
-                  defaultValue={answers[question.id]}
-                  onSet={handleCheck(question.id)}
+                  defaultValue={question.dataType === "CURRENCY" ? createTrip.maxBudget : createTrip.days}
+                  onSet={handleSlider(question.dataType)}
                 />
               ) : (hasCalendar ? (
                 <DatePickerQuestionItem
                   key={question.id}
                   {...question}
                   disabled={index !== currentIndex}
-                  defaultValue={answers[question.id]}
-                  onSet={handleDateChange(question.id)}
+                  dates={createTrip.dates}
+                  onSet={handleDateChange()}
                 />
               ) : (
                 <OptionsQuestionItem
                   key={question.id}
                   {...question}
                   disabled={index !== currentIndex}
+                  defaultValue={createTrip.tripBehavior === undefined ? undefined : createTrip.tripBehavior[question.id]}
                   onCheck={handleCheck(question.id)}
-                  defaultValue={answers[question.id]}
                 />
               ));
             }
