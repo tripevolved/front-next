@@ -1,4 +1,4 @@
-import type { SliderProps } from "mars-ds"
+import type { SliderProps } from "mars-ds";
 
 type OnSet = (value: number) => void;
 
