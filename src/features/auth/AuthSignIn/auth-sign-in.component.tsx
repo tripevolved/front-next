@@ -1,4 +1,4 @@
-import type { AuthFormProps } from "./sign-up.types";
+import type { AuthSignInProps } from "./auth-sign-in.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { Button, Card, Link, Notification, PasswordField, SubmitButton, TextField } from "mars-ds";
@@ -9,12 +9,12 @@ import { useState } from "react";
 import { useAppStore } from "@/core/store";
 import { useRouter } from "next/router";
 
-export function SignUp({ className, children, ...props }: AuthFormProps) {
+export function AuthSignIn({ className, children, ...props }: AuthSignInProps) {
   const [submitting, setSubmitting] = useState(false);
   const { setUser } = useAppStore();
   const router = useRouter();
 
-  const cn = makeCn("sign-up", className)();
+  const cn = makeCn("auth-sign-in", className)();
 
   const handleSubmit: SubmitHandler<LoginDTO> = async (data) => {
     setSubmitting(true);
@@ -31,16 +31,16 @@ export function SignUp({ className, children, ...props }: AuthFormProps) {
 
   return (
     <SectionBase container="xs" className={cn} {...props}>
-      <form className="sign-up__element" onSubmit={handleFormSubmit(handleSubmit)}>
+      <form className="auth-sign-in__element" onSubmit={handleFormSubmit(handleSubmit)}>
         <Picture
-          className="sign-up__logo"
+          className="auth-sign-in__logo"
           style={{ height: 40, width: 48 }}
           src="/brand/logo-symbol-circle.svg"
         />
-        <Text className="sign-up__title" heading size="xs">
+        <Text className="auth-sign-in__title" heading size="xs">
           Faça o login para continuar
         </Text>
-        <Card elevation="md" className="sign-up__card">
+        <Card elevation="md" className="auth-sign-in__card">
           <TextField
             className="mt-xl"
             type="email"
@@ -50,7 +50,7 @@ export function SignUp({ className, children, ...props }: AuthFormProps) {
             required
           />
           <PasswordField name="password" label="Senha" minLength={6} required />
-          <Link className="sign-up__link" href="/app/entrar/esqueci-a-senha">
+          <Link className="auth-sign-in__link" href="/app/entrar/esqueci-a-senha">
             Esqueci a senha
           </Link>
         </Card>

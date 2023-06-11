@@ -1,9 +1,9 @@
-import { SignUp, PageApp } from "@/features";
+import { AuthSignIn, PageApp } from "@/features";
 
 export default function SignInRoute() {
   return (
     <PageApp seo={{ title: "Entrar" }}>
-      <SignUp />
+      <AuthSignIn />
     </PageApp>
   )
 }
