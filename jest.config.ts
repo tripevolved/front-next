@@ -1,5 +1,4 @@
 import type { Config } from "@jest/types";
-
 import nextJest from "next/jest";
 
 const createJestConfig = nextJest({
@@ -14,6 +13,7 @@ const customJestConfig: Config.InitialOptions = {
   },
   clearMocks: true,
   verbose: true,
+  setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
 };
 
 module.exports = createJestConfig(customJestConfig);

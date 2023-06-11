@@ -5,5 +5,5 @@ export default function SignInRoute() {
     <PageApp seo={{ title: "Entrar" }}>
       <AuthSignIn />
     </PageApp>
-  )
+  );
 }
