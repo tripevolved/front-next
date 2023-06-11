@@ -1,11 +1,14 @@
 import { type LoginDTO, UserApiService } from "../api/user";
+import { LoginResponse } from "../api/user/login";
 import { CookieService } from "../cookie";
 
 const CREDENTIALS_KEY = "user-credentials";
 
 export type LoginArgs = LoginDTO;
+export type LoginCallback = (user: LoginResponse) => Promise<void>;
 
-const login = async (data: LoginArgs) => {
+const login = async (data: LoginArgs, callback?: LoginCallback) => {
+  console.log("login");
   const response = await UserApiService.login(data);
   const { idToken, accessToken, refreshToken, ...user } = response;
   const credentials = JSON.stringify({
@@ -15,6 +18,7 @@ const login = async (data: LoginArgs) => {
   });
 
   CookieService.set(CREDENTIALS_KEY, credentials);
+  await callback?.(response);
   return user;
 };
 
@@ -30,8 +34,9 @@ const getCredentials = () => {
   }
 };
 
-const logout = () => {
+const logout = (callback?: VoidFunction) => {
   CookieService.del(CREDENTIALS_KEY);
+  callback?.();
 };
 
 const isGuest = () => !getCredentials();

@@ -1,39 +1,22 @@
 import type { AuthSignInProps } from "./auth-sign-in.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { Button, Card, Link, Notification, PasswordField, SubmitButton, TextField } from "mars-ds";
-import { SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
+import { Button, Card, Link, PasswordField, SubmitButton, TextField } from "mars-ds";
+import { handleFormSubmit } from "@/utils/helpers/form.helpers";
 import { Picture, SectionBase, Text } from "@/ui";
-import { useState } from "react";
-import { useAppStore } from "@/core/store";
-import { useRouter } from "next/router";
-import { UserService, type LoginArgs } from "@/services/user";
+import { useLogin } from "./hooks/use-login";
 
 export function AuthSignIn({ className, children, ...props }: AuthSignInProps) {
-  const [submitting, setSubmitting] = useState(false);
-  const { setUser } = useAppStore();
-  const router = useRouter();
+  const { login, submitting } = useLogin();
 
   const cn = makeCn("auth-sign-in", className)();
 
-  const handleSubmit: SubmitHandler<LoginArgs> = async (data) => {
-    setSubmitting(true);
-    return UserService.login(data)
-      .then((user) => {
-        setUser(user);
-        router.replace("/app/painel");
-      })
-      .catch(() => {
-        Notification.error("E-mail ou senha inválidos.");
-        setSubmitting(false);
-      });
-  };
-
   return (
     <SectionBase container="xs" className={cn} {...props}>
-      <form className="auth-sign-in__element" onSubmit={handleFormSubmit(handleSubmit)}>
+      <form className="auth-sign-in__element" onSubmit={handleFormSubmit(login)}>
         <Picture
           className="auth-sign-in__logo"
+          alt="Logo da Trip Evolved"
           style={{ height: 40, width: 48 }}
           src="/brand/logo-symbol-circle.svg"
         />
@@ -48,8 +31,15 @@ export function AuthSignIn({ className, children, ...props }: AuthSignInProps) {
             label="E-mail"
             minLength={8}
             required
+            disabled={submitting}
           />
-          <PasswordField name="password" label="Senha" minLength={6} required />
+          <PasswordField
+            name="password"
+            label="Senha"
+            minLength={6}
+            required
+            disabled={submitting}
+          />
           <Link className="auth-sign-in__link" href="/app/entrar/esqueci-a-senha">
             Esqueci a senha
           </Link>
