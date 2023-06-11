@@ -9,7 +9,7 @@ interface LeadApiResponse {
 
 const postLead = async (data: LeadCreateDTO): Promise<Lead> => {
   const url = `customers/create`;
-  const { id } = await ApiRequest.post<LeadApiResponse>(url, data)
+  const { id } = await ApiRequest.post<LeadApiResponse>(url, data);
   const { inviterId, affiliateId, inviterEmail, inviterName, ...rest } = data;
   const invitedBy = { id: inviterId, email: inviterEmail, name: inviterName, affiliateId };
   return { id, invitedBy, ...rest };

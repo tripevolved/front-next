@@ -3,7 +3,9 @@ import { ApiRequest } from "@/services/api/request";
 
 export const getTransportationByTripId = async (tripId: string) => {
   const route = `transportation/${tripId}`;
-  const tripTransportation = await ApiRequest.get<TripTransportation>(route).catch(function (error) {
+  const tripTransportation = await ApiRequest.get<TripTransportation>(route).catch(function (
+    error
+  ) {
     // TODO: improve this, maybe with a structure to return the error message and direct it somehow to a page
     if (error.response) {
       // The request was made and the server responded with a status code

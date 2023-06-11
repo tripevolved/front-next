@@ -1,5 +1,4 @@
 import axios from "axios";
-import { join } from "path";
 
 import { ensureNotSlashEnds } from "@/utils/helpers/url.helper";
 import { UserService } from "@/services/user";
