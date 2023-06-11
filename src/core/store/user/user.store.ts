@@ -10,7 +10,7 @@ export const createUserSlice: StateCreator<UserSlice> = (set) => {
   return {
     user: initialUserState,
     updateUser: update,
-    setUser: (user: UserValue) => update({ ...user, ...FETCH_STATE.FETCHED }),
-    removeUser: () => set({ user: FETCH_STATE.UN_FETCHED }, true),
+    setUser: (user: UserValue) => set({ user: { ...user, ...FETCH_STATE.FETCHED } }),
+    clearUser: () => set({ user: initialUserState }),
   };
 };

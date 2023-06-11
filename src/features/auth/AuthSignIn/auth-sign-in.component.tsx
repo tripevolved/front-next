@@ -4,10 +4,10 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { Button, Card, Link, Notification, PasswordField, SubmitButton, TextField } from "mars-ds";
 import { SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
 import { Picture, SectionBase, Text } from "@/ui";
-import { type LoginDTO, UserService } from "@/services/api/user";
 import { useState } from "react";
 import { useAppStore } from "@/core/store";
 import { useRouter } from "next/router";
+import { UserService, type LoginArgs } from "@/services/user";
 
 export function AuthSignIn({ className, children, ...props }: AuthSignInProps) {
   const [submitting, setSubmitting] = useState(false);
@@ -16,7 +16,7 @@ export function AuthSignIn({ className, children, ...props }: AuthSignInProps) {
 
   const cn = makeCn("auth-sign-in", className)();
 
-  const handleSubmit: SubmitHandler<LoginDTO> = async (data) => {
+  const handleSubmit: SubmitHandler<LoginArgs> = async (data) => {
     setSubmitting(true);
     return UserService.login(data)
       .then((user) => {
