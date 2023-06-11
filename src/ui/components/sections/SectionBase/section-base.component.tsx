@@ -28,6 +28,7 @@ export function SectionBase({
     [cta, heading, image, tag, text]
   );
   return (
+    // @ts-ignore
     <MarsSectionBase className={cn} container={container} {...props}>
       {hasMediaObject ? (
         <MediaObject tag={tag} image={image} heading={heading} text={text} cta={cta} />

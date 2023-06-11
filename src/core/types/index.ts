@@ -4,3 +4,4 @@ export * from "./lead";
 export * from "./page";
 export * from "./photo";
 export * from "./trip";
+export * from "./user";
