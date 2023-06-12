@@ -1,22 +1,12 @@
-import type { User } from "@/core/types";
+import type { User, UserCredentials } from "@/core/types";
 
-import { ApiRequestService } from "../api-request.service";
+import { ApiRequest } from "@/services/api/request";
 
 export interface LoginDTO {
   email: string;
   password: string;
 }
 
-export interface LoginResponse {
-  idToken: string;
-  accessToken: string;
-  refreshToken: string;
-}
+export type LoginResponse = User & UserCredentials;
 
-export const login = async (body: LoginDTO): Promise<User> => {
-  const url = "/users/login";
-  return ApiRequestService.post<LoginResponse>(url, body).then(({ data }) => ({
-    ...data,
-    email: body.email,
-  }));
-};
+export const login = async (body: LoginDTO) => ApiRequest.post<LoginResponse>("/users/login", body);

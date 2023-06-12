@@ -10,6 +10,8 @@ import { ProgressIndicator } from "@/ui";
 
 import "@/ui/styles/index.scss";
 import { LeadProvider } from "@/features";
+import { Environment } from "@/utils/helpers/environment.helpers";
+import { AppAuthProvider } from "@/core/app-auth";
 
 const LinkComponent = ({ url, ...props }: any) => {
   const isAnchor = /^#/.test(url);
@@ -22,10 +24,12 @@ export default function App({ Component, pageProps }: AppProps) {
     <LeadProvider>
       <Seo />
       <GoogleScripts />
-      <Analytics />
+      {Environment.isProduction() ? <Analytics /> : null}
       <AppProvider linkComponent={LinkComponent}>
         <ProgressIndicator />
-        <Component {...pageProps} />
+        <AppAuthProvider>
+          <Component {...pageProps} />
+        </AppAuthProvider>
       </AppProvider>
     </LeadProvider>
   );

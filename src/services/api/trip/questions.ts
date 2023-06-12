@@ -1,12 +1,7 @@
-import { ApiAuthorizedRequestService } from "../api-request.service";
-import { QuestionsResponse } from "../common/questions";
+import { ApiRequest } from "@/services/api/request";
+import { QuestionsResponse } from "../common/questions.types";
 
-export const getTripQuestions = async (): Promise<QuestionsResponse> => {
-  const url = "questions/trip";
-  return ApiAuthorizedRequestService.get<QuestionsResponse>(url).then(({ data }) => data);
-};
+export const getTripQuestions = async () => ApiRequest.get<QuestionsResponse>("questions/trip");
 
-export const getTripOnboardingQuestions = async (): Promise<QuestionsResponse> => {
-  const url = "questions/onboarding";
-  return ApiAuthorizedRequestService.get<QuestionsResponse>(url).then(({ data }) => data);
-};
+export const getTripOnboardingQuestions = async () =>
+  ApiRequest.get<QuestionsResponse>("questions/onboarding");
