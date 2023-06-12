@@ -1,7 +1,7 @@
 import type { Lead, LeadCreateDTO } from "@/core/types";
-import { ApiRequestService } from "../api-request.service";
 import { findByEmail } from "./find";
-import { LaunchListService } from "../../launch-list";
+import { LaunchListService } from "@/services/launch-list";
+import { ApiRequest } from "@/services/api/request";
 
 interface LeadApiResponse {
   id: string;
@@ -9,9 +9,7 @@ interface LeadApiResponse {
 
 const postLead = async (data: LeadCreateDTO): Promise<Lead> => {
   const url = `customers/create`;
-  const id = await ApiRequestService.post<LeadApiResponse>(url, data).then(
-    (response) => response.data.id
-  );
+  const { id } = await ApiRequest.post<LeadApiResponse>(url, data);
   const { inviterId, affiliateId, inviterEmail, inviterName, ...rest } = data;
   const invitedBy = { id: inviterId, email: inviterEmail, name: inviterName, affiliateId };
   return { id, invitedBy, ...rest };

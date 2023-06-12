@@ -8,7 +8,6 @@ export type LoginArgs = LoginDTO;
 export type LoginCallback = (user: LoginResponse) => Promise<void>;
 
 const login = async (data: LoginArgs, callback?: LoginCallback) => {
-  console.log("login");
   const response = await UserApiService.login(data);
   const { idToken, accessToken, refreshToken, ...user } = response;
   const credentials = JSON.stringify({

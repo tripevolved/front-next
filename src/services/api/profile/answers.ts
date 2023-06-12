@@ -1,5 +1,5 @@
-import { ApiRequestService } from "../api-request.service";
-import { LeadApiService } from "../lead";
+import { ApiRequest } from "@/services/api/request";
+import { LeadApiService } from "@/services/api/lead";
 import { getResult } from "./result";
 
 interface AnswersRequest {
@@ -49,5 +49,5 @@ export const sendAnswers = async ({ answers, email }: AnswersBody) => {
     answers: parseAnswers(answers),
   } satisfies AnswersRequest;
 
-  return ApiRequestService.post<{ id: string }>(url, data).then(() => getResult({ id }));
+  return ApiRequest.post(url, data).then(() => getResult({ id }));
 };
