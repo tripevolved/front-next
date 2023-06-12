@@ -5,11 +5,15 @@ import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 import { Grid, Caption, Loader, Button } from "mars-ds";
 import { useState, useMemo, useEffect } from "react";
 import { EmptyState, StepsProgressBar } from "@/ui";
-import { OptionsQuestionItem, SliderQuestionItem, DatePickerQuestionItem  } from "@/features/questions";
-import { ProfileQuestionsNavigation } from "@/features/profile/ProfileQuestions/profile-questions-navigation";
 
 import { TripsApiService } from "@/services/api/trip";
 import { CreateTripDto } from "@/services/api/trip/create";
+import {
+  QuestionDatePicker,
+  QuestionOptions,
+  ProfileQuestionsNavigation,
+  QuestionSlider,
+} from "@/features";
 
 export interface TripBuilderQuestionsFormProps {
   onSubmit: (trip: CreateTripDto) => void;
@@ -22,7 +26,9 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
   const { data = [], error, isLoading } = useSwr("tripQuestions", getTripQuestions, swrOptions);
 
   const [localCreateTrip, setLocalCreateTrip] = useLocalStorage("create-trip");
-  const [createTrip, setCreateTrip] = useState<CreateTripDto>({ tripBehavior: {} } as CreateTripDto);
+  const [createTrip, setCreateTrip] = useState<CreateTripDto>({
+    tripBehavior: {},
+  } as CreateTripDto);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const total = useMemo(() => data.length - 1, [data.length]);
@@ -50,7 +56,7 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
   const handleSlider = (dataType: "CURRENCY" | "DAYS" | undefined) => (value: number) => {
     setCreateTrip((state: any) => {
       const tripInfo = state as CreateTripDto;
-      
+
       if (dataType === undefined) return tripInfo;
 
       if (dataType === "CURRENCY") createTrip.maxBudget = value;
@@ -122,7 +128,7 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
               const hasRangeField = question.type === "RANGE";
               const hasCalendar = question.type === "DATEPICK";
               return hasRangeField ? (
-                <SliderQuestionItem
+                <QuestionSlider
                   key={question.id}
                   {...question}
                   disabled={index !== currentIndex}
@@ -130,11 +136,13 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
                   maxValue={question.maxValue}
                   step={question.step}
                   dataType={question.dataType}
-                  defaultValue={question.dataType === "CURRENCY" ? createTrip.maxBudget : createTrip.days}
+                  defaultValue={
+                    question.dataType === "CURRENCY" ? createTrip.maxBudget : createTrip.days
+                  }
                   onSet={handleSlider(question.dataType)}
                 />
-              ) : (hasCalendar ? (
-                <DatePickerQuestionItem
+              ) : hasCalendar ? (
+                <QuestionDatePicker
                   key={question.id}
                   {...question}
                   disabled={index !== currentIndex}
@@ -142,16 +150,19 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
                   onSet={handleDateChange()}
                 />
               ) : (
-                <OptionsQuestionItem
+                <QuestionOptions
                   key={question.id}
                   {...question}
                   disabled={index !== currentIndex}
-                  defaultValue={createTrip.tripBehavior === undefined ? undefined : createTrip.tripBehavior[question.id]}
+                  defaultValue={
+                    createTrip.tripBehavior === undefined
+                      ? undefined
+                      : createTrip.tripBehavior[question.id]
+                  }
                   onCheck={handleCheck(question.id)}
                 />
-              ));
-            }
-            )}
+              );
+            })}
           </div>
         ))}
       </main>

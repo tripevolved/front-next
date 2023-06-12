@@ -1,13 +1,9 @@
-import { OptionsSliderProps, OptionsSlider, Text } from "@/ui";
-import { type Question } from "@/services/api/common/questions.types";
+import { OptionsSlider, Text } from "@/ui";
 import { formatByDataType } from "@/utils/helpers/number.helpers"
 import { Grid } from "mars-ds";
+import { QuestionSliderProps } from "./question-slider.types";
 
-interface SliderQuestionItemProps
-  extends Question,
-    Pick<OptionsSliderProps, "onSet" | "defaultValue" | "disabled"> {}
-
-export const SliderQuestionItem = ({
+export const QuestionSlider = ({
   title,
   minValue,
   maxValue,
@@ -16,7 +12,7 @@ export const SliderQuestionItem = ({
   onSet,
   defaultValue,
   disabled,
-}: SliderQuestionItemProps) => {
+}: QuestionSliderProps) => {
   const formatSlider = (num: number) => formatByDataType(num, dataType);
 
   return (

@@ -1,8 +1,8 @@
 import { act, renderHook, waitFor } from "@testing-library/react";
-import { useLogin } from "./use-login";
+import { useLogin } from "./use-login.hook";
 import { Notification } from "mars-ds";
 import * as AppStore from "@/core/store";
-import * as UseAfterLoginRedirect from "./use-after-login-redirect";
+import * as UseAfterLoginRedirect from "./use-after-login-redirect.hook";
 import { UserService } from "@/services/user";
 import { ERRORS } from "../auth-sign-in.constants";
 

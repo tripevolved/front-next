@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import { useAfterLoginRedirect } from "./use-after-login-redirect";
+import { useAfterLoginRedirect } from "./use-after-login-redirect.hook";
 import { mockUseRouter } from "@/utils/mocks/next-router.mock";
 import { DASHBOARD_ROUTE } from "../auth-sign-in.constants";
 

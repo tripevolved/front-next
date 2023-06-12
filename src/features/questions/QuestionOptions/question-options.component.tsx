@@ -1,20 +1,16 @@
-import { OptionsFieldList, OptionsFieldListProps, OptionsSlider, DatePicker, Text } from "@/ui";
-import { type Question } from "@/services/api/common/questions";
+import { OptionsFieldList, Text } from "@/ui";
 import { Grid } from "mars-ds";
 import { useMemo } from "react";
+import { QuestionOptionsProps } from "./question-options.types";
 
-interface OptionsQuestionItemProps
-  extends Question,
-    Pick<OptionsFieldListProps, "onCheck" | "defaultValue" | "disabled"> {}
-
-export const OptionsQuestionItem = ({
+export const QuestionOptions = ({
   title,
   type,
   possibleAnswers,
   onCheck,
   defaultValue,
   disabled,
-}: OptionsQuestionItemProps) => {
+}: QuestionOptionsProps) => {
   const options = useMemo(
     () =>
       possibleAnswers.map(({ title, id }) => ({

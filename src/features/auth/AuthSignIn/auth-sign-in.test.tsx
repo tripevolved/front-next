@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { AuthSignIn } from "./auth-sign-in.component";
-import * as UseLoginHook from "./hooks/use-login";
+import * as UseLoginHook from "./hooks/use-login.hook";
 
 jest.mock("./hooks/use-login");
 

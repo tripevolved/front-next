@@ -1,5 +1,5 @@
 import { ComponentHTMLProps } from "@/core/types";
-import type { PageAppProps } from "@/features/templates/PageApp"
+import type { PageAppProps } from "@/features/templates/PageApp";
 
 export interface TripBuilderQuestionsProps extends ComponentHTMLProps {
   destinationId?: string;

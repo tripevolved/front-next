@@ -1,17 +1,13 @@
-import { DatePickerProps, DatePicker, Text } from "@/ui";
-import { type Question } from "@/services/api/common/questions";
+import { DatePicker, Text } from "@/ui";
 import { Grid } from "mars-ds";
+import { QuestionDatePickerProps } from "./question-date-picker.types";
 
-interface DatePickerQuestionItemProps
-  extends Question,
-    Pick<DatePickerProps, "onSet" | "dates" | "disabled"> {}
-
-export const DatePickerQuestionItem = ({
+export const QuestionDatePicker = ({
   title,
   onSet,
   dates,
   disabled,
-}: DatePickerQuestionItemProps) => {
+}: QuestionDatePickerProps) => {
   return (
     <Grid className="profile-questions-item" gap={24}>
       <div className="mb-lg profile-questions-item__header">
