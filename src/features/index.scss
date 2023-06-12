@@ -3,6 +3,7 @@
  * run "yarn component:index" to update
  */
 @import "./admin/Playground/playground.styles.scss";
+@import "./auth/AuthSignIn/auth-sign-in.styles.scss";
 @import "./destinations/CustomProfileDestinations/custom-profile-destinations.styles.scss";
 @import "./destinations/DestinationPage/destination-page.styles.scss";
 @import "./landing-pages/AwardCard/award-card.styles.scss";
@@ -13,4 +14,6 @@
 @import "./profile/ProfileQuestions/profile-questions.styles.scss";
 @import "./templates/Footer/footer.styles.scss";
 @import "./templates/Navbar/navbar.styles.scss";
+@import "./templates/PageApp/page-app.styles.scss";
 @import "./templates/PageBase/page-base.styles.scss";
+@import "./trips/Builder/profile-questions.styles.scss";
