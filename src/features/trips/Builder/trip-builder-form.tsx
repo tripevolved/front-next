@@ -82,8 +82,7 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
     const initialCreateTrip = toJson(localCreateTrip);
     if (initialCreateTrip) setCreateTrip(initialCreateTrip as CreateTripDto);
     else {
-      var destinationId = localStorage.getItem("destination-id");
-      var tripInfo = { destinationId: destinationId } as CreateTripDto;
+      var tripInfo = {} as CreateTripDto;
       setLocalCreateTrip(jsonToString(tripInfo));
       setCreateTrip(tripInfo);
     }

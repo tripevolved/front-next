@@ -1,4 +1,4 @@
-import { ApiAuthorizedRequestService } from "../api-request.service";
+import { ApiRequest } from "@/services/api/request";
 import { LeadApiService } from "../lead";
 
 interface CreateTripRequest {
@@ -53,7 +53,7 @@ export const createTrip = async ({ destinationId, tripBehavior, days, dates, max
 
   // TODO: make sure we include idToken information in this call to remove the need to pass travelerid
 
-  const id = "dc803725-c926-419a-9bec-84d191fad476";
+  const travelerId = "dc803725-c926-419a-9bec-84d191fad476";
   
   const tripBehaviorAnswers = parseAnswers(tripBehavior);
   const parsedDates = {
@@ -61,18 +61,15 @@ export const createTrip = async ({ destinationId, tripBehavior, days, dates, max
     endDate: dates[1]
   } as TripDates;
   const trip = {
-    travelerId: id,
+    travelerId: travelerId,
     destinationId,
     tripBehavior: tripBehaviorAnswers,
     period: { maxDays: days, minDays: days },
     dates: parsedDates,
     maxBudget
   } satisfies CreateTripRequest;
-  const tripId = await ApiAuthorizedRequestService
-    .post<{ id: string }>(url, trip)
-    .then(
-        (response) => response.data.id
-    );
+  const { id } = await ApiRequest
+    .post<CreatedTrip>(url, trip);
 
-  return { id: tripId };
+  return { id };
 };

@@ -28,7 +28,7 @@ const STEPS = [
   },
 ];
 
-export function TripBuilder({ className, children, ...props }: TripBuilderQuestionsProps) {
+export function TripBuilder({ className, children, destinationId, ...props }: TripBuilderQuestionsProps) {
   const [submitting, setSubmitting] = useState(false);
 
   const router = useRouter();
@@ -37,7 +37,10 @@ export function TripBuilder({ className, children, ...props }: TripBuilderQuesti
   const tripId = useRef<string>();
 
   const handleCreateTrip = (tripDto?: CreateTripDto) => {
-    if (tripDto) createTrip.current = tripDto;
+    if (tripDto) {
+      if (destinationId !== undefined) tripDto.destinationId = destinationId;
+      createTrip.current = tripDto;
+    }
     sendCreateTrip();
   };
 

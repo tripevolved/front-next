@@ -2,6 +2,7 @@ import { Photo } from "./photo";
 
 export interface PublicDestination {
   id: string;
+  uniqueName: string;
   title: string;
   recommendedBy: PublicDestinationExpert;
   photos: Photo[];

@@ -1,15 +1,10 @@
 import { type GetServerSideProps } from "next";
-import { useEffect } from "react";
 
 import { DestinationPage, type DestinationPageProps } from "@/features";
 import { DestinationApiService } from "@/services/api/destination";
 import { CMSService } from "@/services/cms/cms-service";
 
 export default function DestinationPageRoute(props: DestinationPageProps) {
-  useEffect(() => {
-    localStorage.setItem("destination-id", props.destination.id);
-  })
-
   return <DestinationPage {...props} />;
 }
 

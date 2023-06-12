@@ -1,5 +1,5 @@
 import { OptionsSliderProps, OptionsSlider, Text } from "@/ui";
-import { type Question } from "@/services/api/common/questions";
+import { type Question } from "@/services/api/common/questions.types";
 import { formatByDataType } from "@/utils/helpers/number.helpers"
 import { Grid } from "mars-ds";
 

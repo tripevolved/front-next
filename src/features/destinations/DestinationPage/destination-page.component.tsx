@@ -96,6 +96,7 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
     recommendedBy,
     tips = [],
     title,
+    uniqueName,
     videos = [],
   } = destination;
   return (
@@ -105,7 +106,7 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
       {videos.length ? <DestinationVideoSection title={title} videos={videos} /> : null}
       {tips.length ? <DestinationTipsSection tips={tips} /> : null}
       {posts.length ? <DestinationPostsSection posts={posts} /> : null}
-      <DestinationFaqSection faq={mock.faq} title={title} />
+      <DestinationFaqSection faq={mock.faq} title={title} uniqueName={uniqueName} />
     </PageBase>
   );
 }
