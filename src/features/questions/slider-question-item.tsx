@@ -1,5 +1,6 @@
 import { OptionsSliderProps, OptionsSlider, Text } from "@/ui";
 import { type Question } from "@/services/api/common/questions";
+import { formatByDataType } from "@/utils/helpers/number.helpers"
 import { Grid } from "mars-ds";
 
 interface SliderQuestionItemProps
@@ -16,13 +17,7 @@ export const SliderQuestionItem = ({
   defaultValue,
   disabled,
 }: SliderQuestionItemProps) => {
-  const formatSlider = (num: number) => {
-    if (dataType === "CURRENCY")
-      return num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', })
-    if (dataType === "DAYS")
-      return num > 1 ? num + " dias" : num + " dia";
-    return num.toString();
-  };
+  const formatSlider = (num: number) => formatByDataType(num, dataType);
 
   return (
     <Grid className="profile-questions-item" gap={24}>
