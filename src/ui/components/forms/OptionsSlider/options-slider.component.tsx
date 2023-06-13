@@ -37,6 +37,7 @@ export function OptionsSlider({
         className={className}
         onSelect={handleSelect}
         disabled={disabled}
+        defaultValue={defaultValue}
       />
     </Grid>
   );
