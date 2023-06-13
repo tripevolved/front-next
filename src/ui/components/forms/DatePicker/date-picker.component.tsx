@@ -11,8 +11,14 @@ export function DatePicker({
   disabled,
   ...props 
 }: DatePickerProps) {
-  const [startDate, setStartDate] = useState(dates?.[0]);
-  const [endDate, setEndDate] = useState(dates?.[1]);
+  const initialStartDate = dates?.[0] !== null && dates?.[0] !== undefined ? new Date(dates?.[0]) : null;
+  const initialEndDate = dates?.[1] !== null && dates?.[1] !== undefined ? new Date(dates?.[1]) : null;
+  
+  console.log(initialStartDate);
+  console.log(initialEndDate);
+
+  const [startDate, setStartDate] = useState(initialStartDate);
+  const [endDate, setEndDate] = useState(initialEndDate);
   const onChange = (dates: any) => {
     const [start, end] = dates;
     setStartDate(start);

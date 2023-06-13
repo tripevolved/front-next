@@ -70,6 +70,7 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
   const handleDateChange = () => (value: [Date, Date]) => {
     setCreateTrip((state: any) => {
       const tripInfo = state as CreateTripDto;
+    
       tripInfo.dates = value;
 
       setLocalCreateTrip(jsonToString(tripInfo));

@@ -1,9 +1,9 @@
-import { PageApp, TripBuilder } from "@/features";
+import { PageApp, TripBuilderPage } from "@/features";
 
 export default function TripCreatePageRoute() {
   return (
     <PageApp seo={{ title: "Criar viagem" }}>
-      <TripBuilder />;
+      <TripBuilderPage />;
     </PageApp>
   );
 }

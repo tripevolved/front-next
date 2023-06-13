@@ -13,7 +13,7 @@ export const useTripBuilder = () => {
 
   const fetchBuilder = async (destinationUniqueName: string) => {
     setIsLoading(true);
-    setError(true);
+    setError(false);
     return DestinationApiService.getByName(destinationUniqueName)
       .then(setData)
       .catch(() => {
@@ -23,6 +23,7 @@ export const useTripBuilder = () => {
 
   useEffect(() => {
     if (toParam) fetchBuilder(toParam);
+    setIsLoading(false);
   }, [toParam]);
 
   return { isLoading, data, error };
