@@ -1,6 +1,5 @@
 import { ApiRequest } from "@/services/api/request";
 import { LeadApiService } from "../lead";
-import { error } from "console";
 
 interface CreateTripRequest {
   travelerId: string;
@@ -60,7 +59,7 @@ export const createTrip = async ({
 
   const lead = LeadApiService.getLocal();
   const travelerId = lead?.id;
-  if (travelerId === undefined) throw new Error("Traveler not found");
+  if (travelerId === undefined) throw new Error("Traveler not found" + lead);
 
   const tripBehaviorAnswers = parseAnswers(tripBehavior);
   const parsedDates = {
