@@ -61,7 +61,7 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
       await delay(1000);
       handleFinish(attempts - 1);
     } else {
-      await router.replace(`app/viagens/detalhes/${tripId.current}`);
+      await router.replace(`/app/viagens/detalhes/${tripId.current}`);
     }
   };
 
