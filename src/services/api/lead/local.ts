@@ -4,6 +4,7 @@ import { LocalStorageService } from "@/services/store/local-storage.service";
 const KEY_LEAD = "lead";
 
 interface LocalLead {
+  id?: string;
   email?: string;
 }
 

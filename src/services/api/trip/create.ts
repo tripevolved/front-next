@@ -1,5 +1,6 @@
 import { ApiRequest } from "@/services/api/request";
 import { LeadApiService } from "../lead";
+import { error } from "console";
 
 interface CreateTripRequest {
   travelerId: string;
@@ -57,9 +58,9 @@ export const createTrip = async ({
 }: CreateTripDto): Promise<CreatedTrip> => {
   const url = "trips/create";
 
-  // TODO: make sure we include idToken information in this call to remove the need to pass travelerid
-
-  const travelerId = "dc803725-c926-419a-9bec-84d191fad476";
+  const lead = LeadApiService.getLocal();
+  const travelerId = lead?.id;
+  if (travelerId === undefined) throw new Error("Traveler not found");
 
   const tripBehaviorAnswers = parseAnswers(tripBehavior);
   const parsedDates = {
