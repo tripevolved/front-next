@@ -1,6 +1,5 @@
 import { useAppStore } from "@/core/store";
 import { TravelerApiService } from "@/services/api/traveler";
-import { error } from "console";
 
 export const useAfterLoginState = () => {
   const { setTravelerState } = useAppStore();
@@ -10,7 +9,7 @@ export const useAfterLoginState = () => {
       .then((state) => {
         setTravelerState(state);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };

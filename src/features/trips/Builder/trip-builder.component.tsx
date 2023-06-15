@@ -2,6 +2,7 @@ import type { TripBuilderQuestionsProps } from "./trip-builder.types";
 
 import { TripsApiService } from "@/services/api/trip";
 import { RegisterApiService } from "@/services/api";
+import { useAppStore } from "@/core/store";
 
 import { useRef, useState, useEffect } from "react";
 import { Card, Notification } from "mars-ds";
@@ -12,7 +13,7 @@ import { TripBuilderQuestionsForm } from "./trip-builder-form";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 import { CreateTripDto } from "@/services/api/trip/create";
-import { RegisterCity } from "@/services/api/register/cities";
+import { useAfterLoginState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -34,8 +35,8 @@ const STEPS = [
 export function TripBuilder({ className, children, destinationId, ...props }: TripBuilderQuestionsProps) {
   const [submitting, setSubmitting] = useState(false);
   const [showCityForm, setShowCityForm] = useState(false);
-  // TODO: get travelerId from appstore
-  const [travelerId, setTravelerId] = useState('2228bafd-9bfc-47d5-bd54-f21942eed984');
+  const { travelerState } = useAppStore();
+  const { travelerStateGet } = useAfterLoginState();
 
   const router = useRouter();
 
@@ -44,6 +45,7 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
 
   const handleCreateTrip = (tripDto?: CreateTripDto) => {
     if (tripDto) {
+      tripDto.travelerId = travelerState.id;
       if (destinationId !== undefined) tripDto.destinationId = destinationId;
       createTrip.current = tripDto;
     }
@@ -51,9 +53,10 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
   };
 
   const handleRegisterCity = (cityId: string) => {
-    RegisterApiService.putRegisterCity({ cityId, travelerId })
+    RegisterApiService.putRegisterCity({ cityId, travelerId: travelerState.id })
       .then(() => {
         setShowCityForm(false);
+        travelerStateGet();
       })
       .catch(() => {
         Notification.error("Cidade inválida!");
@@ -82,8 +85,7 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
   };
 
   useEffect(() => {
-    // TODO: use traveler state to define if we need to show city form or not. Also, use to show the message here
-    setShowCityForm(true);
+    setShowCityForm(!travelerState.hasValidAddress);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

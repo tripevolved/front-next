@@ -1,7 +1,7 @@
 import type { StateCreator } from "zustand";
 import { TravelerStateSlice, TravelerStateValue } from "./traveler.types";
 import { initialTravelerStateValue } from "./traveler.constants";
-import { FETCH_STATE, makeState } from "../store.helpers";
+import { FETCH_STATE } from "../store.helpers";
 import { TravelerState } from "@/core/types";
 
 export const createTravelerStateSlice: StateCreator<TravelerStateSlice> = (set) => {
@@ -9,7 +9,7 @@ export const createTravelerStateSlice: StateCreator<TravelerStateSlice> = (set) 
     set((state) => ({ travelerState: { ...state.travelerState, ...newTravelerState } }));
 
   return {
-    travelerState: makeState<TravelerStateValue>(initialTravelerStateValue),
+    travelerState: initialTravelerStateValue,
     updateTravelerState: update,
     setTravelerState: (travelerState: TravelerState | null) => {
       if (!travelerState) return;

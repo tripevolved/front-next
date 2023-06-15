@@ -1,5 +1,4 @@
 import { ApiRequest } from "@/services/api/request";
-import { LeadApiService } from "../lead";
 
 interface CreateTripRequest {
   travelerId: string;
@@ -28,6 +27,7 @@ interface TripDates {
 }
 
 export type CreateTripDto = {
+  travelerId: string;
   destinationId: string;
   tripBehavior: Record<string, string[]>;
   days: number;
@@ -49,6 +49,7 @@ const parseAnswers = (answers: Record<string, string[]>): TripBehaviorAnswer[] =
 };
 
 export const createTrip = async ({
+  travelerId,
   destinationId,
   tripBehavior,
   days,
@@ -57,17 +58,13 @@ export const createTrip = async ({
 }: CreateTripDto): Promise<CreatedTrip> => {
   const url = "trips/create";
 
-  const lead = LeadApiService.getLocal();
-  const travelerId = lead?.id;
-  if (travelerId === undefined) throw new Error("Traveler not found" + lead);
-
   const tripBehaviorAnswers = parseAnswers(tripBehavior);
   const parsedDates = {
     startDate: dates[0],
     endDate: dates[1],
   } as TripDates;
   const trip = {
-    travelerId: travelerId,
+    travelerId,
     destinationId,
     tripBehavior: tripBehaviorAnswers,
     period: { maxDays: days, minDays: days },
