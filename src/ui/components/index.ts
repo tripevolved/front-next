@@ -22,6 +22,7 @@ export * from "./buttons/Button";
 export * from "./buttons/ShareButton";
 export * from "./buttons/ToggleButton";
 export * from "./buttons/WhatsappButton";
+export * from "./forms/AutoCompleteTextField";
 export * from "./forms/DatePicker";
 export * from "./forms/OptionField";
 export * from "./forms/OptionsFieldList";

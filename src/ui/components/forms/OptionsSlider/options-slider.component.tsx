@@ -23,6 +23,7 @@ export function OptionsSlider({
 
   const handleSelect = (newValue: number) => {
     setValue(newValue);
+    onSelect?.(newValue);
     return;
   };
 
@@ -36,6 +37,7 @@ export function OptionsSlider({
         className={className}
         onSelect={handleSelect}
         disabled={disabled}
+        defaultValue={defaultValue}
       />
     </Grid>
   );
