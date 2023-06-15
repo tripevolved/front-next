@@ -21,7 +21,9 @@ export function NoProfile({ className, children, sx, ...props }: NoProfileProps)
         Perfil do Viajante
       </Text>
 
-      <Text style={{ textAlign: "center", padding: "0 30px" }}>{text}</Text>
+      <Text className="no-profile__text" style={{ textAlign: "center", padding: "0 30px" }}>
+        {text}
+      </Text>
 
       <Button variant="custom">Descobrir meu perfil de Viajante </Button>
     </div>
