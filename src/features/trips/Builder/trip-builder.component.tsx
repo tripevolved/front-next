@@ -2,14 +2,16 @@ import type { TripBuilderQuestionsProps } from "./trip-builder.types";
 
 import { TripsApiService } from "@/services/api/trip";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Card, Notification } from "mars-ds";
 
 import { Picture, SectionBase, StepsLoader } from "@/ui";
+import { RegisterCityForm } from "@/features/register/RegisterCityForm";
 import { TripBuilderQuestionsForm } from "./trip-builder-form";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 import { CreateTripDto } from "@/services/api/trip/create";
+import { RegisterCity } from "@/services/api/register/cities";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -30,6 +32,7 @@ const STEPS = [
 
 export function TripBuilder({ className, children, destinationId, ...props }: TripBuilderQuestionsProps) {
   const [submitting, setSubmitting] = useState(false);
+  const [showCityForm, setShowCityForm] = useState(false);
 
   const router = useRouter();
 
@@ -43,6 +46,10 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
     }
     sendCreateTrip();
   };
+
+  const handleRegisterCity = (city?: RegisterCity) => {
+    setShowCityForm(false);
+  }
 
   const sendCreateTrip = async () => {
     try {
@@ -65,6 +72,11 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
     }
   };
 
+  useEffect(() => {
+    setShowCityForm(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <SectionBase className="profile-questions" container={"xs" as any} {...props}>
       <Picture
@@ -76,9 +88,13 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
       <Card className="profile-questions__card">
         {submitting ? (
           <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
-        ) : (
+        ) : 
+        (showCityForm ? (
+            <RegisterCityForm onSubmit={handleRegisterCity} />
+          )
+          : (
           <TripBuilderQuestionsForm onSubmit={handleCreateTrip} />
-        )}
+        ))}
       </Card>
     </SectionBase>
   );
