@@ -1,11 +1,29 @@
+import { Picture, Text, Button } from "@/ui";
 import type { NoProfileProps } from "./no-profile.types";
 
-import { SectionBase } from "@/ui";
+import { makeCn } from "@/utils/helpers/css.helpers";
 
-export function NoProfile({}: NoProfileProps) {
+export function NoProfile({ className, children, sx, ...props }: NoProfileProps) {
+  const cn = makeCn("no-profile", className)(sx);
+
+  const text =
+    "Separamos algumas perguntas para entender o perfil de viagem ideal para você. Responda a seguir e descubra nossas recomendações de destinos.";
+
   return (
-    <SectionBase container="xs">
-      <div>painel</div>
-    </SectionBase>
+    <div className={cn} {...props}>
+      <Picture src="/emoji/target-arrow.png" />
+
+      <Text
+        as="h2"
+        variant="heading"
+        style={{ textAlign: "center", marginBottom: 14, fontWeight: 700 }}
+      >
+        Perfil do Viajante
+      </Text>
+
+      <Text style={{ textAlign: "center", padding: "0 30px" }}>{text}</Text>
+
+      <Button variant="custom">Descobrir meu perfil de Viajante </Button>
+    </div>
   );
 }

@@ -3,7 +3,7 @@ import type { ButtonProps } from "./button.types";
 import { Button as MarsButton } from "mars-ds";
 import NextLink from "next/link";
 
-const Button = ({ backgroundColor, color, style, href, ...props }: ButtonProps) => {
+export const Button = ({ backgroundColor, color, style, href, ...props }: ButtonProps) => {
   const computedStyle = { backgroundColor, color, ...style };
   if (!href) {
     return <MarsButton style={computedStyle} href={href} {...props} />;
@@ -14,5 +14,3 @@ const Button = ({ backgroundColor, color, style, href, ...props }: ButtonProps) 
     </NextLink>
   );
 };
-
-export default Button;

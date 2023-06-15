@@ -1,0 +1,24 @@
+.no-profile {
+  background-color: $color-brand-5;
+  padding: 30px 20px;
+  color: $color-brand-2;
+  font-weight: 700;
+  border-radius: 20px 20px 0 0;
+  margin-top: -17px;
+
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  gap: 20px;
+
+  .picture {
+    display: flex;
+    justify-content: center;
+  }
+
+  button {
+    color: $color-brand-5;
+    background-color: $color-brand-2;
+    margin-top: 15px;
+  }
+}
