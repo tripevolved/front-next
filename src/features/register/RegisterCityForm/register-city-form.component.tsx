@@ -1,21 +1,16 @@
 import type { RegisterCityFormProps } from "./register-city-form.types";
 
 import { SubmitButton } from "mars-ds";
-import { handleFormSubmit } from "@/utils/helpers/form.helpers";
 import { Picture, Text, AutoCompleteTextField } from "@/ui";
-import { useSetCity } from "./use-set-city.hook";
 import { useState } from "react";
 import { RegisterApiService } from "@/services/api";
 import { HintData } from "@/ui";
 
 export function RegisterCityForm({ onSubmit }: RegisterCityFormProps) {
-  const { city, submitting } = useSetCity();
-  // TODO: use app store to get traveler id from state
   const [selectedCity, setSelectedCity] = useState('');
 
   const handleRegisterSubmit = () => {
-    handleFormSubmit(city);
-    onSubmit({ cityId: selectedCity, travelerId: '' });
+    onSubmit(selectedCity);
   }
 
   const handleCityData = async (search: string) => {
@@ -31,7 +26,7 @@ export function RegisterCityForm({ onSubmit }: RegisterCityFormProps) {
   };
 
   return (
-    <form className="register-city-form__element" onSubmit={handleRegisterSubmit}>
+    <>
       <Text className="register-city-form__title" heading size="xs">
         Para te ajudar a construir a viagem ideal, vamos fazer mais algumas perguntas.
       </Text>
@@ -59,18 +54,15 @@ export function RegisterCityForm({ onSubmit }: RegisterCityFormProps) {
         name="city"
         label="Cidade"
         required
-        disabled={submitting}
       />
       <SubmitButton
-        submitting={submitting}
         variant="custom"
         color="white"
         backgroundColor="var(--color-brand-2)"
         hoverBackgroundColor="var(--color-secondary-900)"
-        onSubmit={() => console.log("enviado!")}
-        disabled={submitting}>
-          Construir minha viagem
+        onClick={handleRegisterSubmit}>
+          Continuar
       </SubmitButton>
-    </form>
+    </>
   );
 }

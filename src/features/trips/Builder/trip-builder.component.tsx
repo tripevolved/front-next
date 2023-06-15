@@ -1,6 +1,7 @@
 import type { TripBuilderQuestionsProps } from "./trip-builder.types";
 
 import { TripsApiService } from "@/services/api/trip";
+import { RegisterApiService } from "@/services/api";
 
 import { useRef, useState, useEffect } from "react";
 import { Card, Notification } from "mars-ds";
@@ -33,6 +34,8 @@ const STEPS = [
 export function TripBuilder({ className, children, destinationId, ...props }: TripBuilderQuestionsProps) {
   const [submitting, setSubmitting] = useState(false);
   const [showCityForm, setShowCityForm] = useState(false);
+  // TODO: get travelerId from appstore
+  const [travelerId, setTravelerId] = useState('2228bafd-9bfc-47d5-bd54-f21942eed984');
 
   const router = useRouter();
 
@@ -47,8 +50,14 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
     sendCreateTrip();
   };
 
-  const handleRegisterCity = (city?: RegisterCity) => {
-    setShowCityForm(false);
+  const handleRegisterCity = (cityId: string) => {
+    RegisterApiService.putRegisterCity({ cityId, travelerId })
+      .then(() => {
+        setShowCityForm(false);
+      })
+      .catch(() => {
+        Notification.error("Cidade inválida!");
+      });
   }
 
   const sendCreateTrip = async () => {
@@ -73,6 +82,7 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
   };
 
   useEffect(() => {
+    // TODO: use traveler state to define if we need to show city form or not. Also, use to show the message here
     setShowCityForm(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
