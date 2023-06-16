@@ -4,7 +4,7 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { Button, Card, Link, PasswordField, SubmitButton, TextField } from "mars-ds";
 import { handleFormSubmit } from "@/utils/helpers/form.helpers";
 import { Picture, SectionBase, Text } from "@/ui";
-import { useLogin } from "./hooks/use-login";
+import { useLogin } from "./use-login.hook";
 
 export function AuthSignIn({ className, children, ...props }: AuthSignInProps) {
   const { login, submitting } = useLogin();

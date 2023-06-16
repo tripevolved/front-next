@@ -2,6 +2,7 @@ import { Picture, Text, Button } from "@/ui";
 import type { NoProfileProps } from "./no-profile.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
+import { BlogCardCarousel } from "../BlogCardCarousel";
 
 export function NoProfile({ className, children, sx, ...props }: NoProfileProps) {
   const cn = makeCn("no-profile", className)(sx);
@@ -26,6 +27,8 @@ export function NoProfile({ className, children, sx, ...props }: NoProfileProps)
       </Text>
 
       <Button variant="custom">Descobrir meu perfil de Viajante </Button>
+
+      <BlogCardCarousel title="As últimas do blog" />
     </div>
   );
 }

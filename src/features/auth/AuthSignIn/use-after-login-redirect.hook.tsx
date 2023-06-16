@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { DASHBOARD_ROUTE } from "../auth-sign-in.constants";
+import { DASHBOARD_ROUTE } from "./auth-sign-in.constants";
 
 export const useAfterLoginRedirect = () => {
   const router = useRouter();

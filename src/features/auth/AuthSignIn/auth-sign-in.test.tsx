@@ -2,9 +2,9 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { AuthSignIn } from "./auth-sign-in.component";
-import * as UseLoginHook from "./hooks/use-login";
+import * as UseLoginHook from "./use-login.hook";
 
-jest.mock("./hooks/use-login");
+jest.mock("./use-login.hook");
 
 const LOGIN_DATA = {
   email: "any@email.com",

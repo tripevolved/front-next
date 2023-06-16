@@ -1,0 +1,29 @@
+.register-city-form {
+  background-color: $color-background-neutral;
+  background-image: linear-gradient(180deg, $color-brand-1 250px, $color-background-neutral 250px);
+  height: 100%;
+  position: absolute;
+  inset: 0 0 0 0;
+  &__element,
+  &__card {
+    display: grid;
+    gap: $spacing-xl;
+  }
+
+  &__icon {
+    margin: auto;
+    text-align: left;
+  }
+  &__title {
+    text-align: center;
+  }
+
+  &__link {
+    &,
+    &:visited {
+      display: inline-block;
+      color: $color-text-secondary;
+      text-align: center;
+    }
+  }
+}

@@ -4,8 +4,10 @@
  */
 @import "./admin/Playground/playground.styles.scss";
 @import "./auth/AuthSignIn/auth-sign-in.styles.scss";
+@import "./dashboard/BlogCardCarousel/blog-card-carousel.styles.scss";
 @import "./dashboard/HeaderUserMenu/header-user-menu.styles.scss";
 @import "./dashboard/NoProfile/no-profile.styles.scss";
+@import "./dashboard/Painel/painel.styles.scss";
 @import "./destinations/CustomProfileDestinations/custom-profile-destinations.styles.scss";
 @import "./destinations/DestinationPage/destination-page.styles.scss";
 @import "./landing-pages/AwardCard/award-card.styles.scss";
@@ -14,6 +16,7 @@
 @import "./lead/LeadList/lead-list.styles.scss";
 @import "./lead/LeadListForm/lead-list-form.styles.scss";
 @import "./profile/ProfileQuestions/profile-questions.styles.scss";
+@import "./register/RegisterCityForm/register-city-form.styles.scss";
 @import "./templates/Footer/footer.styles.scss";
 @import "./templates/Navbar/navbar.styles.scss";
 @import "./templates/PageApp/page-app.styles.scss";
