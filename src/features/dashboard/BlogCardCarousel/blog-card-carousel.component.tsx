@@ -1,4 +1,4 @@
-import { Box, Text } from "@/ui";
+import { Box, CardBlog, Text } from "@/ui";
 import type { BlogCardCarouselProps } from "./blog-card-carousel.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -15,7 +15,17 @@ export function BlogCardCarousel({
   return (
     <Box className={cn} {...props}>
       <Text variant="heading">{title}</Text>
-      <Box className="blog-card-carousel__row"></Box>
+      <Box className="blog-card-carousel__row">
+        <CardBlog />
+        <CardBlog />
+        <CardBlog />
+        <CardBlog />
+        <CardBlog />
+        <CardBlog />
+        <CardBlog />
+        <CardBlog />
+        <CardBlog />
+      </Box>
     </Box>
   );
 }
