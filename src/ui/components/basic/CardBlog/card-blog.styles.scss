@@ -1,5 +1,33 @@
 .card-blog {
   background-color: $color-gray-4;
-  padding: 24px;
-  color: white;
+
+  border: 1px solid red;
+  border-radius: 10px;
+  width: 260px;
+  height: 270px;
+
+  img {
+    height: 153px;
+    width: 260px;
+    border-radius: 10px 10px 0 0;
+    object-fit: cover;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px 15px;
+    gap: 10px;
+
+    &__category-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    h2 {
+      color: $color-brand-2;
+      font-weight: 600;
+    }
+  }
 }

@@ -20,7 +20,7 @@ export function NoProfile({ className, children, sx, ...props }: NoProfileProps)
           variant="heading"
           style={{ textAlign: "center", marginBottom: 14, fontWeight: 700 }}
         >
-          Perfil do Viajante
+          Perfil do viajante
         </Text>
 
         <Text className="no-profile__text" style={{ textAlign: "center", padding: "0 30px" }}>

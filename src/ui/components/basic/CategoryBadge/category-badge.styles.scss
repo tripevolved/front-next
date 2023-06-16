@@ -1,0 +1,13 @@
+.category-badge {
+  padding: 5px 14px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border-radius: 100px;
+  z-index: 0;
+
+  border: 1px solid red;
+  p {
+    z-index: 3;
+  }
+}
