@@ -63,7 +63,7 @@ export function Painel({ className, children, sx, ...props }: PainelProps) {
   return (
     <div className={cn} {...props}>
       <HeaderUserMenu userName="Mariana">Te esperamos na sua próxima viagem</HeaderUserMenu>
-      <HasProfile />
+      <HasProfile profileType="relax" />
     </div>
   );
 }

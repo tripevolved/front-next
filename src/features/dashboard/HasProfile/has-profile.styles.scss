@@ -9,9 +9,33 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 22px;
 
-  p {
+  &__text-title {
+    color: $color-gray-1;
     text-align: center;
+  }
+
+  &__image-circle {
+    border-radius: 100%;
+    background-color: $color-brand-1;
+    height: 171px;
+    width: 171px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      margin-top: 20px;
+      margin-left: 5px;
+      z-index: 2;
+      object-fit: cover;
+      height: 155px;
+    }
+  }
+
+  &__text-profile {
+    font-weight: 700;
   }
 }
