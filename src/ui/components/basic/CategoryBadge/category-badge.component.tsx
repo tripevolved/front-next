@@ -15,7 +15,7 @@ export function CategoryBadge({
 
   return (
     <Box className={cn} {...props} style={{ backgroundColor: `${color}20` }}>
-      <Text size="md" color={color}>
+      <Text size="md" style={{ color }}>
         {description}
       </Text>
     </Box>

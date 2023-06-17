@@ -7,6 +7,7 @@ export * from "./admin/Playground";
 export * from "./admin/SignIn";
 export * from "./auth/AuthSignIn";
 export * from "./dashboard/BlogCardCarousel";
+export * from "./dashboard/HasProfile";
 export * from "./dashboard/HeaderUserMenu";
 export * from "./dashboard/NoProfile";
 export * from "./dashboard/Painel";

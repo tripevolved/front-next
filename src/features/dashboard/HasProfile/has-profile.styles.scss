@@ -1,0 +1,17 @@
+.has-profile {
+  background-color: $color-brand-7;
+  padding: 16px 20px 60px 20px;
+  color: $color-brand-2;
+  font-weight: 700;
+  border-radius: 20px 20px 0 0;
+  margin-top: -17px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 22px;
+
+  p {
+    text-align: center;
+  }
+}

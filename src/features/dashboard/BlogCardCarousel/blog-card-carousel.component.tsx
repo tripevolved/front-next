@@ -26,6 +26,14 @@ const blogPostList: CardBlogProps[] = [
         description: "Destinos",
         color: "#0AB9AD",
       },
+      {
+        description: "Brasil",
+        color: "#F5AC0A",
+      },
+      {
+        description: "Gastronomia",
+        color: "#8253f6",
+      },
     ],
   },
   {
@@ -36,6 +44,14 @@ const blogPostList: CardBlogProps[] = [
         description: "Destinos",
         color: "#0AB9AD",
       },
+      {
+        description: "Brasil",
+        color: "#F5AC0A",
+      },
+      {
+        description: "Turismo",
+        color: "#8253f6",
+      },
     ],
   },
   {
@@ -45,6 +61,10 @@ const blogPostList: CardBlogProps[] = [
       {
         description: "Destinos",
         color: "#0AB9AD",
+      },
+      {
+        description: "África",
+        color: "#F5AC0A",
       },
     ],
   },

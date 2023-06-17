@@ -20,7 +20,7 @@ export function CardBlog({
       <Box className="card-blog__content">
         <Box className="card-blog__content__category-row">
           {categories?.map((badge, i) => (
-            <CategoryBadge {...badge} />
+            <CategoryBadge {...badge} key={i} />
           ))}
         </Box>
         <Text variant="default" as="h2" size="xxl">
