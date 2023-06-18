@@ -7,7 +7,7 @@ export const usePasswordConfirmationToken = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
-  const queryId = router.query["unique-id"];
+  const queryId = router.query["uniqueId"];
   const uniqueId = typeof queryId === "string" ? queryId : undefined;
 
   const getDataByUniqueId = async () => {
