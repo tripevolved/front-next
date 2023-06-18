@@ -6,5 +6,5 @@ export const initialTravelerStateValue = {
   hasCurrentTrip: false,
   hasPastTrip: false,
   isActive: false,
-  hasValidAddress: false
+  hasValidAddress: false,
 } satisfies TravelerStateValue;

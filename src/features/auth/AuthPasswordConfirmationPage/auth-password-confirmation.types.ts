@@ -1,3 +1,3 @@
-import type { ComponentHTMLProps } from "@/core/types"
+import type { ComponentHTMLProps } from "@/core/types";
 
-export interface AuthPasswordConfirmationProps extends ComponentHTMLProps {};
+export interface AuthPasswordConfirmationProps extends ComponentHTMLProps {}

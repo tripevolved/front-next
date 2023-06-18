@@ -4,4 +4,4 @@ export const isEmptyChildren = (children?: any) => {
   if (typeof children === "string") return false;
   if (typeof children !== "object") return true;
   return Object.keys(children).length === 0;
-}
+};

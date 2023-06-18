@@ -31,13 +31,13 @@ async function getPage(slug = "home", attempts = 0): Promise<any> {
     const template = await getTemplate();
     const page = await getPageBySlug(slug);
     const result = await PageSerializer.handler(page.data as PageData, template);
-    if (!isEmptyChildren(result.children)) return result
+    if (!isEmptyChildren(result.children)) return result;
     const pageError = await getPageBySlug(ERROR_SLUG);
     return PageSerializer.handler(pageError.data as PageData, template);
   } catch (error) {
     return getPage(ERROR_SLUG, attempts + 1);
   }
-};
+}
 
 const getPageError = async () => getPage(ERROR_SLUG);
 

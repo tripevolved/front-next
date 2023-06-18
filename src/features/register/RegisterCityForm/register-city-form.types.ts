@@ -1,3 +1,3 @@
 export interface RegisterCityFormProps {
-    onSubmit: (cityId: string) => void;
-};
+  onSubmit: (cityId: string) => void;
+}
