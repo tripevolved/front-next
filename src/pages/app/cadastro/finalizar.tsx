@@ -1,9 +1,9 @@
-import { PageApp } from "@/features";
+import {  AuthPasswordConfirmation, PageApp } from "@/features";
 
-export default function SignUpRoute() {
+export default function SignUpConfirmationRoute() {
   return (
     <PageApp seo={{ title: "Finalizar cadastro" }}>
-      <div>Finalizar cadastro</div>
+      <AuthPasswordConfirmation />
     </PageApp>
   );
 }
