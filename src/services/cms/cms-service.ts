@@ -4,6 +4,7 @@ import type { PageData, TemplateData } from "./cms.types";
 import { PageSerializer } from "./page.serializer";
 import { createClient, makeGetterDataBySlug } from "./prismicio";
 import { TemplateSerializer } from "./template.serializer";
+import { isEmptyChildren } from "./page.helpers";
 
 const client = createClient();
 const CUSTOM_TYPE = {
@@ -11,6 +12,8 @@ const CUSTOM_TYPE = {
   PART: "part",
   TEMPLATE: "siteTemplate",
 };
+
+const ERROR_SLUG = "erro";
 
 const getPageBySlug = makeGetterDataBySlug(CUSTOM_TYPE.PAGES);
 const getPart = makeGetterDataBySlug(CUSTOM_TYPE.PART);
@@ -21,16 +24,22 @@ const getTemplate = async (): Promise<TemplateProps> =>
     .then(({ data }) => data as TemplateData)
     .then(TemplateSerializer.handle);
 
-const getPage = async (slug = "home") => {
+async function getPage(slug = "home", attempts = 0) {
+  // This line below ensures that there is NO infinite loop
+  if (attempts > 1) return {};
   try {
     const template = await getTemplate();
     const page = await getPageBySlug(slug);
-    return PageSerializer.handler(page.data as PageData, template);
+    const result = await PageSerializer.handler(page.data as PageData, template);
+    if (!isEmptyChildren(result.children)) return result
+    const pageError = await getPageBySlug(ERROR_SLUG);
+    return PageSerializer.handler(pageError.data as PageData, template);
   } catch (error) {
-    /* TODO: return error page */
-    return {};
+    return getPage(ERROR_SLUG, attempts + 1);
   }
 };
+
+const getPageError = async () => getPage(ERROR_SLUG);
 
 const getAllPageSlugs = async () => {
   try {
@@ -46,4 +55,4 @@ const getAllPageSlugs = async () => {
   }
 };
 
-export const CMSService = { getPage, getAllPageSlugs, getPart, getTemplate };
+export const CMSService = { getPage, getPageError, getAllPageSlugs, getPart, getTemplate };

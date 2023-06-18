@@ -5,7 +5,7 @@ import type { GetStaticProps } from "next";
 import { AppRibo } from "@/core/app-ribo";
 import { CMSService } from "@/services/cms/cms-service";
 
-export default function Page({ seo, ...children }: PageProps) {
+export default function PageError({ seo, ...children }: PageProps) {
   return (
     <>
       <NextSeo {...seo} />
@@ -16,11 +16,9 @@ export default function Page({ seo, ...children }: PageProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
   try {
-    const uid = "home";
-    const props = await CMSService.getPage(uid);
-    return { props, ...pageConfig.staticProps };
-  } catch (error) {
     const props = await CMSService.getPageError();
     return { props, ...pageConfig.staticProps };
+  } catch (error) {
+    return { props: {}, ...pageConfig.staticProps };
   }
 };
