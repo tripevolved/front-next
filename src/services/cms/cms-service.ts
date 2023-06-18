@@ -24,7 +24,7 @@ const getTemplate = async (): Promise<TemplateProps> =>
     .then(({ data }) => data as TemplateData)
     .then(TemplateSerializer.handle);
 
-async function getPage(slug = "home", attempts = 0) {
+async function getPage(slug = "home", attempts = 0): Promise<any> {
   // This line below ensures that there is NO infinite loop
   if (attempts > 1) return {};
   try {
