@@ -10,7 +10,7 @@ interface TripStore {
 
 interface LocalState {
   lead?: LocalLead;
-};
+}
 
 interface LocalLead {
   id?: string;
