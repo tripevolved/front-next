@@ -1,7 +1,8 @@
-import { Box, Picture, Text, LineDecoration } from "@/ui";
+import { Box, Picture, Text, DashedDivider } from "@/ui";
 import type { HasProfileProps } from "./has-profile.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
+import { DestinationsCarousel } from "@/features";
 
 export function HasProfile({ className, children, sx, profileType, ...props }: HasProfileProps) {
   const cn = makeCn("has-profile", className)(sx);
@@ -9,8 +10,10 @@ export function HasProfile({ className, children, sx, profileType, ...props }: H
   return (
     <Box className={cn} {...props}>
       <Text className="has-profile__text-title">Seu perfil de viajante é...</Text>
-      <Box className="has-profile__image-circle">
-        <Picture src={`/assets/perfil/${profileType}.svg`} />
+      <Box className="has-profile__image-container">
+        <Box className="has-profile__image-container__image-circle">
+          <Picture src={`/assets/perfil/${profileType}.svg`} />
+        </Box>
       </Box>
       <Text variant="heading" className="has-profile__text-profile">
         {profileType == "agitador" && "Agitador"}
@@ -32,6 +35,8 @@ export function HasProfile({ className, children, sx, profileType, ...props }: H
         {profileType == "turista-voraz" && "Turista voraz"}
         {profileType == "zona-de-conforto" && "Zona de Conforto"}
       </Text>
+      <DashedDivider />
+      <DestinationsCarousel title="Destinos que você pode gostar:" />
     </Box>
   );
 }

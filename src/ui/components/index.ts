@@ -9,6 +9,7 @@ export * from "./basic/CardBlog";
 export * from "./basic/CardHighlight";
 export * from "./basic/CardYoutube";
 export * from "./basic/CategoryBadge";
+export * from "./basic/DashedDivider";
 export * from "./basic/Emoji";
 export * from "./basic/LineDecoration";
 export * from "./basic/Logo";

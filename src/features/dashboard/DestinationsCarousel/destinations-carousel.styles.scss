@@ -1,0 +1,21 @@
+.destinations-carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  p {
+    color: $color-brand-1;
+    text-align: center;
+  }
+
+  &__row {
+    display: flex;
+    gap: 20px;
+    overflow-x: scroll;
+
+    &__container {
+      display: flex;
+      gap: 20px;
+    }
+  }
+}

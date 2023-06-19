@@ -11,6 +11,7 @@ export * from "./auth/AuthPasswordConfirmationPage";
 export * from "./auth/AuthSection";
 export * from "./auth/AuthSignIn";
 export * from "./dashboard/BlogCardCarousel";
+export * from "./dashboard/DestinationsCarousel";
 export * from "./dashboard/HasProfile";
 export * from "./dashboard/HeaderUserMenu";
 export * from "./dashboard/NoProfile";
