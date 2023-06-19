@@ -27,7 +27,7 @@ function styleTemplate(_name, pathName) {
 
 function typesTemplate(name, _pathName) {
   const typeName = `${name}Props`;
-  return `import type { ComponentHTMLProps } from "@/core/types";";
+  return `import type { ComponentHTMLProps } from "@/core/types";
 
 export interface ${typeName} extends ComponentHTMLProps {};
 `;

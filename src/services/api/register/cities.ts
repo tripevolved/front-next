@@ -10,10 +10,7 @@ export type CityResult = {
   name: string;
 };
 
-export const putCity = async ({
-  travelerId,
-  cityId
-}: RegisterCity) => {
+export const putCity = async ({ travelerId, cityId }: RegisterCity) => {
   const url = "customers/register/city";
 
   await ApiRequest.put(url, { travelerId, cityId });

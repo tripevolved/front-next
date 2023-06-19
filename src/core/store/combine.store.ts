@@ -16,7 +16,7 @@ export const useAppStore = create<StoreSlices>()(
         ...createAccessesSlice(...a),
         ...createLeadSlice(...a),
         ...createUserSlice(...a),
-        ...createTravelerStateSlice(...a)
+        ...createTravelerStateSlice(...a),
       }),
       { name: GLOBAL_STORE_NAME }
     )
