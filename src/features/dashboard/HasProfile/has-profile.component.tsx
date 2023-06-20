@@ -1,4 +1,4 @@
-import { Box, Picture, Text, DashedDivider } from "@/ui";
+import { Box, Picture, Text, DashedDivider, Button } from "@/ui";
 import type { HasProfileProps } from "./has-profile.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -36,6 +36,7 @@ export function HasProfile({ className, children, sx, profileType, ...props }: H
         {profileType == "zona-de-conforto" && "Zona de Conforto"}
       </Text>
       <DashedDivider />
+      <Button className="has-profile__cta"> Explorar destinos</Button>
       <DestinationsCarousel title="Destinos que você pode gostar:" />
     </Box>
   );

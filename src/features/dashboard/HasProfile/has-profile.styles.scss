@@ -43,4 +43,10 @@
     font-weight: 700;
     text-align: center;
   }
+
+  &__cta {
+    margin-bottom: 15px;
+    color: $color-gray-4;
+    background-color: $color-brand-2;
+  }
 }
