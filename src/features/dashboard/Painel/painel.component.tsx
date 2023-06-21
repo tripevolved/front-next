@@ -1,4 +1,4 @@
-import { HeaderUserMenu, HasProfile } from "@/features";
+import { HeaderUserMenu, HasTrip } from "@/features";
 import type { PainelProps } from "./painel.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -63,7 +63,7 @@ export function Painel({ className, children, sx, ...props }: PainelProps) {
   return (
     <div className={cn} {...props}>
       <HeaderUserMenu userName="Mariana">Te esperamos na sua próxima viagem</HeaderUserMenu>
-      <HasProfile profileType="relax" />
+      <HasTrip />
     </div>
   );
 }

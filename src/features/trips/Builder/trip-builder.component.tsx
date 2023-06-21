@@ -32,7 +32,12 @@ const STEPS = [
   },
 ];
 
-export function TripBuilder({ className, children, destinationId, ...props }: TripBuilderQuestionsProps) {
+export function TripBuilder({
+  className,
+  children,
+  destinationId,
+  ...props
+}: TripBuilderQuestionsProps) {
   const [submitting, setSubmitting] = useState(false);
   const [showCityForm, setShowCityForm] = useState(false);
   const { travelerState } = useAppStore();
@@ -61,7 +66,7 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
       .catch(() => {
         Notification.error("Cidade inválida!");
       });
-  }
+  };
 
   const sendCreateTrip = async () => {
     try {
@@ -100,13 +105,11 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
       <Card className="profile-questions__card">
         {submitting ? (
           <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
-        ) : 
-        (showCityForm ? (
-            <RegisterCityForm onSubmit={handleRegisterCity} />
-          )
-          : (
+        ) : showCityForm ? (
+          <RegisterCityForm onSubmit={handleRegisterCity} />
+        ) : (
           <TripBuilderQuestionsForm onSubmit={handleCreateTrip} />
-        ))}
+        )}
       </Card>
     </SectionBase>
   );
