@@ -16,13 +16,19 @@ export const DestinationHeroSection = ({ title, photos = [] }: DestinationHeroSe
     "destination-hero-section--no-photo": !cover,
   })();
 
+  const teste = "https://fakeimg.pl/500/?text=Gramado";
+
+  const backgroundImageConfig = teste
+    ? `linear-gradient(to bottom, rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.86)), url(${teste})`
+    : "linear-gradient(to bottom, #1a365d, rgba(0, 0, 0, 0.86))";
+
   return (
-    <section className={cn}>
-      {cover ? (
-        <div className="destination-hero-section__photos">
-          <Picture>{cover}</Picture>
-        </div>
-      ) : null}
+    <section
+      className={cn}
+      style={{
+        backgroundImage: backgroundImageConfig,
+      }}
+    >
       <Container className="destination-hero-section__content">
         <Text heading as="h1" size="lg">
           <strong>{title}</strong>

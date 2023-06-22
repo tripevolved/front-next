@@ -50,7 +50,7 @@ export function TripBuilder({
 
   const handleCreateTrip = (tripDto?: CreateTripDto) => {
     if (tripDto) {
-      tripDto.travelerId = travelerState.id;
+      tripDto.travelerId = "de3c2f37-197d-4100-bd6c-f2d3758fca00";
       if (destinationId !== undefined) tripDto.destinationId = destinationId;
       createTrip.current = tripDto;
     }
@@ -58,7 +58,10 @@ export function TripBuilder({
   };
 
   const handleRegisterCity = (cityId: string) => {
-    RegisterApiService.putRegisterCity({ cityId, travelerId: travelerState.id })
+    RegisterApiService.putRegisterCity({
+      cityId,
+      travelerId: "de3c2f37-197d-4100-bd6c-f2d3758fca00",
+    })
       .then(() => {
         setShowCityForm(false);
         travelerStateGet();
