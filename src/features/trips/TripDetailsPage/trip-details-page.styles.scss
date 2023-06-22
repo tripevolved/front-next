@@ -1,0 +1,15 @@
+.trip-configuration {
+  border: 1px dashed $color-brand-1;
+  background-color: $color-brand-7;
+  display: flex;
+  justify-content: space-between;
+
+  &__box {
+    display: flex;
+    gap: 2px;
+
+    h2 {
+      color: $color-gray-1;
+    }
+  }
+}

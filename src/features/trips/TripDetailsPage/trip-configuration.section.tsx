@@ -4,9 +4,9 @@ import { TripDetailsProps } from "./trip-details-page.types";
 interface TripConfigurationSectionProps extends Pick<TripDetailsProps, "configuration"> {}
 
 const config: TripConfigurationSectionProps["configuration"] = {
-  dates: "",
-  budget: "",
-  period: "",
+  dates: "20 a 25 Ago",
+  budget: "Até R$ 5mil",
+  period: "5 dias",
 };
 
 export const TripConfigurationSection = ({
@@ -14,37 +14,29 @@ export const TripConfigurationSection = ({
 }: TripConfigurationSectionProps) => {
   return (
     configuration && (
-      <SectionBase columns={{ md: [1, "320px"] }} gap={32} style={{ padding: 15 }}>
-        <CardHighlight
-          className="trip-configuration"
-          style={{
-            border: "1px dashed #0AB9AD",
-            backgroundColor: "#EEFBFA",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box style={{ display: "flex" }}>
+      <SectionBase columns={{ md: [1, "320px"] }} gap={32} style={{ padding: "22px 15px" }}>
+        <CardHighlight className="trip-configuration" style={{ padding: "17px 10px" }}>
+          <Box className="trip-configuration__box">
             <FeatureIcon name="food" />
-            <Text as="h2" size="md" className="trip-configuration__date">
-              {/* {configuration.dates} */}20 a 25 Ago
+            <Text as="h2" size="md" className="trip-configuration__text">
+              {configuration.dates}
             </Text>
           </Box>
-          <Box style={{ display: "flex" }}>
+          <Box className="trip-configuration__box">
             <FeatureIcon name="food" />
-            <Text as="h2" size="md" className="trip-configuration__date">
-              {/* {configuration.period} */}5 dias
+            <Text as="h2" size="md" className="trip-configuration__text">
+              {configuration.period}
             </Text>
           </Box>
-          <Box style={{ display: "flex" }}>
+          <Box className="trip-configuration__box">
             <FeatureIcon name="food" />
-            <Text as="h2" size="md" className="trip-configuration__date">
-              {/* {configuration.budget} */}Até R$5mil
+            <Text as="h2" size="md" className="trip-configuration__text">
+              {configuration.budget}
             </Text>
           </Box>
           <Box>
             <FeatureIcon name="food" />
-            EDITAR
+            Editar
           </Box>
         </CardHighlight>
       </SectionBase>
