@@ -84,18 +84,32 @@
   }
 }
 
-.destination-feature {
+.destination-feature__list {
+  padding: 25px 20px;
   display: flex;
-  padding: 16px 0;
-  &__icon {
-    min-width: 48px;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+
+  h2 {
+    font-weight: 700;
   }
-  &__title {
-    color: $color-brand-4;
-    margin-bottom: 12px;
-  }
-  &__description {
-    color: $color-text-secondary;
+
+  &__item {
+    display: flex;
+
+    &__icon {
+      min-width: 40px;
+    }
+
+    &__title {
+      color: $color-brand-4;
+    }
+
+    &__description {
+      margin-top: 7px !important;
+      color: $color-text-secondary;
+    }
   }
 }
 

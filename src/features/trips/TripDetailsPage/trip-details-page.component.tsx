@@ -14,27 +14,18 @@ import { useTripDetails } from "./trip-details.hook";
 export function TripDetailsPage() {
   const { isLoading, data, error } = useTripDetails();
 
-  if (error) return <EmptyState  />
-  if (isLoading) return <GlobalLoader />
-  if (data === undefined) return <EmptyState  />;
+  if (error) return <EmptyState />;
+  if (isLoading) return <GlobalLoader />;
+  if (data === undefined) return <EmptyState />;
 
-  const {
-    destination,
-    configuration
-  } = data;
-  const {
-    features = [],
-    photos = [],
-    recommendedBy,
-    tips = [],
-    title,
-  } = destination;
+  const { destination, configuration } = data;
+  const { features = [], photos = [], recommendedBy, tips = [], title } = destination;
   const message = "Oi! Quero alterar minha viagem, pode me ajudar?";
 
   return (
     <>
       <DestinationHeroSection title={title} photos={photos} />
-      <TripConfigurationSection configuration={configuration}/>
+      <TripConfigurationSection configuration={configuration} />
       <DestinationInfoSection features={features} recommendedBy={recommendedBy} />
       {tips.length ? <DestinationTipsSection tips={tips} /> : null}
       <TripTransportationSection />
