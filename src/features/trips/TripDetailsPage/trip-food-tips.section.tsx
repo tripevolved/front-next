@@ -32,7 +32,5 @@ export const TripFoodTipsSection = () => {
     );
   }
 
-  return (
-    <div>Dicas gastronômicas</div>
-  );
+  return <div className="trip-content-item">Dicas gastronômicas</div>;
 };

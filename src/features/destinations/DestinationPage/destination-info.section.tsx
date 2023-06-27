@@ -6,14 +6,6 @@ import { Avatar } from "mars-ds";
 interface DestinationInfoSectionProps
   extends Pick<DestinationProps, "features" | "recommendedBy"> {}
 
-const recommentaion: DestinationProps["recommendedBy"] = {
-  name: "Debora Heppi",
-  photo: "https://fakeimg.pl/300/",
-  recommendationText:
-    "Ouro Preto possui uma história riquíssima e conta com o maior conjunto de arquitetura barroca do Brasil. Cultura a cada passo!",
-  social: [],
-};
-
 export const DestinationInfoSection = ({
   features,
   recommendedBy,
@@ -21,8 +13,7 @@ export const DestinationInfoSection = ({
   return (
     <SectionBase columns={{ md: [1, "320px"] }} gap={32} style={{ padding: 20 }}>
       <DestinationInfoFeatures features={features} />
-      {/*recommendedBy && <DestinationInfoRecommendedBy {...recommendedBy} />*/}
-      <DestinationInfoRecommendedBy {...recommendedBy} />
+      {recommendedBy && <DestinationInfoRecommendedBy {...recommendedBy} />}
     </SectionBase>
   );
 };
@@ -71,7 +62,7 @@ const DestinationInfoRecommendedBy = ({
   photo,
   name,
   recommendationText,
-}: DestinationProps["recommendedBy"] = recommentaion) => {
+}: DestinationProps["recommendedBy"]) => {
   return (
     <div className="recommendation">
       <div className="flex gap-xl align-items-center mb-xl">
@@ -85,7 +76,9 @@ const DestinationInfoRecommendedBy = ({
           </Text>
         </div>
       </div>
-      <Text className="recommendation__text color-text-secondary">{recommendationText}</Text>
+      <Text className="recommendation__text color-text-secondary">
+        {recommendationText.length > 0 && `"${recommendationText}"`}
+      </Text>
     </div>
   );
 };

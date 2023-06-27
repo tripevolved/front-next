@@ -32,7 +32,5 @@ export const TripStaySection = () => {
     );
   }
 
-  return (
-    <div>Hospedagem encontrada</div>
-  );
+  return <div className="trip-content-item">Hospedagem encontrada</div>;
 };

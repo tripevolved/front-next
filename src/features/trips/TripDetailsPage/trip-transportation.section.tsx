@@ -3,7 +3,7 @@ import useSwr from "swr";
 import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
 import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 import { Grid, Caption, Loader, Button } from "mars-ds";
-import { EmptyState } from "@/ui";
+import { EmptyState, Box, Picture, Text } from "@/ui";
 
 import { TransportationApiService } from "@/services/api/transportation";
 
@@ -33,6 +33,15 @@ export const TripTransportationSection = () => {
   }
 
   return (
-    <div>Transporte encontrado</div>
+    <div className="trip-content-item trip-transportation-section">
+      <Box>
+        <Picture src="/assets/destino/passagem-aerea.svg" />
+      </Box>
+      <Box className="trip-content-item__desc">
+        <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
+          Passagem aérea
+        </Text>
+      </Box>
+    </div>
   );
 };

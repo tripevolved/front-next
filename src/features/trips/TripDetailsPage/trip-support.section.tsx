@@ -32,7 +32,5 @@ export const TripSupportSection = () => {
     );
   }
 
-  return (
-    <div>Suporte durante a viagem</div>
-  );
+  return <div className="trip-content-item">Suporte durante a viagem</div>;
 };

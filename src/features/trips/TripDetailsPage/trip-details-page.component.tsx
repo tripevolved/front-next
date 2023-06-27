@@ -8,7 +8,7 @@ import { TripFoodTipsSection } from "./trip-food-tips.section";
 import { TripSupportSection } from "./trip-support.section";
 import { TripPriceSection } from "./trip-price.section";
 import { TripConfigurationSection } from "./trip-configuration.section";
-import { WhatsappButton, EmptyState, GlobalLoader } from "@/ui";
+import { WhatsappButton, EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
 import { useTripDetails } from "./trip-details.hook";
 
 export function TripDetailsPage() {
@@ -28,11 +28,18 @@ export function TripDetailsPage() {
       <TripConfigurationSection configuration={configuration} />
       <DestinationInfoSection features={features} recommendedBy={recommendedBy} />
       {tips.length ? <DestinationTipsSection tips={tips} /> : null}
-      <TripTransportationSection />
-      <TripStaySection />
-      <TripScriptSection />
-      <TripFoodTipsSection />
-      <TripSupportSection />
+      <SectionBase className="what-includes-section">
+        <Text size="lg" className="what-includes-section__title">
+          {"O que inclui"}
+        </Text>
+        <Box className="what-includes-section__content">
+          <TripTransportationSection />
+          <TripStaySection />
+          <TripScriptSection />
+          <TripFoodTipsSection />
+          <TripSupportSection />
+        </Box>
+      </SectionBase>
       <TripPriceSection />
       <div>
         <WhatsappButton

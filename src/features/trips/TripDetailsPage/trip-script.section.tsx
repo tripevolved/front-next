@@ -32,7 +32,5 @@ export const TripScriptSection = () => {
     );
   }
 
-  return (
-    <div>Roteiro</div>
-  );
+  return <div className="trip-content-item">Roteiro</div>;
 };
