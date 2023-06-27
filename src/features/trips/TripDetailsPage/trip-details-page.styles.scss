@@ -162,3 +162,15 @@
     }
   }
 }
+
+.trip-script-section {
+  &__text {
+    color: $color-gray-1;
+  }
+
+  &__see-script {
+    font-size: 14px;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+}

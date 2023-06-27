@@ -3,7 +3,7 @@ import useSwr from "swr";
 import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
 import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 import { Grid, Caption, Loader, Button } from "mars-ds";
-import { EmptyState } from "@/ui";
+import { EmptyState, Box, Picture, Text } from "@/ui";
 
 import { TransportationApiService } from "@/services/api/transportation";
 
@@ -32,5 +32,21 @@ export const TripFoodTipsSection = () => {
     );
   }
 
-  return <div className="trip-content-item">Dicas gastronômicas</div>;
+  return (
+    <div className="trip-content-item">
+      <Box>
+        <Picture src={"/assets/destino/dicas-gastronomicas.svg"} />
+      </Box>
+      <Box className="trip-content-item__desc">
+        <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
+          Dicas gastronômicas
+        </Text>
+        <Text className="trip-script-section__text" style={{ color: "$color-gray-1" }}>
+          {
+            "A gastronomia de Ouro Preto é uma deliciosa mistura da culinária mineira com influências da cozinha portuguesa. A cidade oferece uma variedade de pratos típicos e iguarias que agradam aos mais diversos paladares."
+          }
+        </Text>
+      </Box>
+    </div>
+  );
 };
