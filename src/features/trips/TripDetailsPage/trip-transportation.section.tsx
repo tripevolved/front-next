@@ -41,6 +41,7 @@ export const TripTransportationSection = () => {
         <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
           Passagem aérea
         </Text>
+        <Box className="trip-transportation-section__transport"></Box>
       </Box>
     </div>
   );
