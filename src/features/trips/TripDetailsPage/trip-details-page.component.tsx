@@ -34,7 +34,7 @@ export function TripDetailsPage() {
         </Text>
         <Box className="what-includes-section__content">
           <TripTransportationSection />
-          <TripStaySection />
+          <TripStaySection stars={3} />
           <TripScriptSection />
           <TripFoodTipsSection />
           <TripSupportSection />

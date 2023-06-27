@@ -35,13 +35,26 @@ export const TripTransportationSection = () => {
   return (
     <div className="trip-content-item trip-transportation-section">
       <Box>
-        <Picture src="/assets/destino/passagem-aerea.svg" />
+        <Picture src={"/assets/destino/passagem-aerea.svg"} />
       </Box>
       <Box className="trip-content-item__desc">
         <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
           Passagem aérea
         </Text>
-        <Box className="trip-transportation-section__transport"></Box>
+        <Box className="trip-transportation-section__transport">
+          <Picture src="/assets/latam.png" />
+          <Box className="trip-transportation-section__transport__departure-and-arrival">
+            <Text className="trip-transportation-section__transport__departure-and-arrival__text">
+              Saída: {"Guarulhos - SP"}
+            </Text>
+            <Text
+              className="trip-transportation-section__transport__departure-and-arrival__text"
+              style={{ marginTop: 0 }}
+            >
+              Chegada: {"Confins - MG"}
+            </Text>
+          </Box>
+        </Box>
       </Box>
     </div>
   );
