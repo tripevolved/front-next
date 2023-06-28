@@ -3,7 +3,7 @@ import useSwr from "swr";
 import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
 import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 import { Grid, Caption, Loader, Button, Icon } from "mars-ds";
-import { EmptyState, Box, Text, Button as TButton } from "@/ui";
+import { EmptyState, Box, Text, Button as TButton, WhatsappButton } from "@/ui";
 
 import { TransportationApiService } from "@/services/api/transportation";
 import { TripPriceSection, TripPriceDetails } from "./trip-details-page.types";
@@ -50,6 +50,15 @@ export const MobileTripPriceSection = ({ priceList, totalValue }: TripPriceSecti
       <TButton backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)">
         Comprar a viagem por {formatByDataType(totalValue, "CURRENCY")}
       </TButton>
+      <WhatsappButton
+        style={{ width: "100%", color: "var(--color-brand-2)" }}
+        size="sm"
+        variant={"text"}
+        href={"#"}
+        hoverBackgroundColor={"var(--color-secondary-900)"}
+      >
+        {"Quero alterar a viagem"}
+      </WhatsappButton>
     </Box>
   );
 };
@@ -82,6 +91,16 @@ export const DesktopTripPriceSection = ({
         <TButton backgroundColor="var(--color-brand-1)" color="var(--color-gray-4)">
           Comprar a viagem por {formatByDataType(totalValue, "CURRENCY")}
         </TButton>
+
+        <WhatsappButton
+          style={{ width: "100%", color: "var(--color-brand-1)" }}
+          size="sm"
+          variant={"text"}
+          href={"#"}
+          hoverBackgroundColor={"var(--color-secondary-900)"}
+        >
+          Tem alguma Duvida? fale conosco
+        </WhatsappButton>
       </Box>
     </Box>
   );

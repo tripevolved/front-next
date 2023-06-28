@@ -55,20 +55,6 @@ export function TripDetailsPage() {
         </div>
       </SectionBase>
       <MobileTripPriceSection priceList={priceList} totalValue={3366.48} />
-      <div>
-        <WhatsappButton
-          className="mt-2x"
-          style={{ width: 336 }}
-          variant={"custom"}
-          href={"#"}
-          backgroundColor={"var(--color-brand-2)"}
-          hoverBackgroundColor={"var(--color-secondary-900)"}
-          color={"white"}
-          message={message}
-        >
-          Quero alterar a viagem
-        </WhatsappButton>
-      </div>
     </>
   );
 }
