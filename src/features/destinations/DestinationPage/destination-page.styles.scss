@@ -62,6 +62,10 @@
     }
     @media (min-width: $breakpoint-md) {
       flex-direction: row;
+
+      .tip {
+        width: 315px;
+      }
     }
   }
 }
