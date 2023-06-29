@@ -26,14 +26,11 @@ export function HasProfile({ className, children, sx, profileType, ...props }: H
         {profileType == "fa-da-rotina" && "Fã da Rotina"}
         {profileType == "garantido" && "Garantido"}
         {profileType == "gastronomico" && "Gastronômico"}
-        {profileType == "inicio" && "Início"}
         {profileType == "insaciavel" && "Insaciável"}
         {profileType == "intelectual" && "Intelectual"}
         {profileType == "negocios" && "Negócios"}
         {profileType == "relax" && "Relax"}
         {profileType == "so-se-vive-uma-vez" && "Só se vive uma vez"}
-        {profileType == "turista-voraz" && "Turista voraz"}
-        {profileType == "zona-de-conforto" && "Zona de Conforto"}
       </Text>
       <DashedDivider />
       <Button className="has-profile__cta"> Explorar destinos</Button>

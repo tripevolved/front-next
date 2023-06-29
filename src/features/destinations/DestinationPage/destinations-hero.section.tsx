@@ -16,10 +16,8 @@ export const DestinationHeroSection = ({ title, photos = [] }: DestinationHeroSe
     "destination-hero-section--no-photo": !cover,
   })();
 
-  const teste = "https://fakeimg.pl/500/?text=Gramado";
-
-  const backgroundImageConfig = teste
-    ? `linear-gradient(to bottom, rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.86)), url(${teste})`
+  const backgroundImageConfig = cover
+    ? `linear-gradient(to bottom, rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.86)), url(${cover})`
     : "linear-gradient(to bottom, #1a365d, rgba(0, 0, 0, 0.86))";
 
   return (

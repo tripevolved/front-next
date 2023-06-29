@@ -6,18 +6,15 @@ export type TravelerProfileType =
   | "intelectual"
   | "alternativo"
   | "gastronomico"
-  | "turista-voraz"
   | "colecionador-de-pulseirinha"
   | "so-se-vive-uma-vez"
   | "agitador"
   | "negocios"
   | "espiritual"
-  | "zona-de-conforto"
   | "dinamico"
   | "espiritual"
   | "fa-da-rotina"
   | "garantido"
-  | "inicio"
   | "insaciavel"
   | "automatico";
 
