@@ -27,7 +27,9 @@ export function NoProfile({ className, children, sx, ...props }: NoProfileProps)
           {text}
         </Text>
 
-        <Button variant="custom">Descobrir meu perfil de Viajante </Button>
+        <Button style={{ maxWidth: 375 }} variant="custom">
+          Descobrir meu perfil de Viajante{" "}
+        </Button>
       </div>
       <BlogCardCarousel title="As últimas do blog" style={{ backgroundColor: "#F6FBFB" }} />
     </>
