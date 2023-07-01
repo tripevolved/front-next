@@ -1,11 +1,9 @@
-import { HeaderUserMenu, HasTrip, NoProfile, HasProfile } from "@/features";
+import { HeaderUserMenu, HasTrip, NoProfile, HasProfile, TripDetailsPainel } from "@/features";
 import type { PainelProps } from "./painel.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { TravelerApiService } from "@/services/api/traveler";
-import { createTravelerStateSlice } from "@/core/store/traveler";
-import { useAppStore } from "@/core/store";
 import { TravelerState } from "@/core/types";
+import { useAppStore } from "@/core/store";
 
 type MockState = {
   noProfile: TravelerState;
@@ -44,6 +42,7 @@ const mockTravelerState: MockState = {
     hasValidAddress: false,
   },
   hasIncomingTrip: {
+    // trip-details-painel
     id: "3k2ujyg48773",
     travelerProfile: "aventureiro",
     name: "Mariana",
@@ -66,6 +65,10 @@ const mockTravelerState: MockState = {
 export function Painel({ className, children, sx, ...props }: PainelProps) {
   const cn = makeCn("painel", className)(sx);
 
+  const { travelerState } = useAppStore();
+
+  console.log("ESTADO DO VIAJANTE", travelerState);
+
   const getView = (travelerState: TravelerState) => {
     return !travelerState.travelerProfile ? (
       <NoProfile />
@@ -79,15 +82,20 @@ export function Painel({ className, children, sx, ...props }: PainelProps) {
       !travelerState.hasPastTrip &&
       !travelerState.isActive ? (
       <HasTrip />
+    ) : travelerState.travelerProfile &&
+      travelerState.hasCurrentTrip &&
+      !travelerState.hasPastTrip &&
+      travelerState.isActive ? (
+      <TripDetailsPainel />
     ) : null;
   };
 
   return (
     <div className={cn} {...props}>
-      <HeaderUserMenu userName={mockTravelerState.noProfile.name}>
+      <HeaderUserMenu userName={mockTravelerState.hasIncomingTrip.name}>
         Te esperamos na sua próxima viagem
       </HeaderUserMenu>
-      {getView(mockTravelerState.noProfile)}
+      {getView(mockTravelerState.hasIncomingTrip)}
     </div>
   );
 }

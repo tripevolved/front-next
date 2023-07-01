@@ -18,6 +18,8 @@ export * from "./dashboard/HeaderUserMenu";
 export * from "./dashboard/NoProfile";
 export * from "./dashboard/Painel";
 export * from "./dashboard/TravelerDestinationCard";
+export * from "./dashboard/TripAccordeon";
+export * from "./dashboard/TripDetailsPainel";
 export * from "./destinations/CustomProfileDestinations";
 export * from "./destinations/DestinationPage";
 export * from "./landing-pages/AwardCard";

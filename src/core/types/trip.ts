@@ -25,3 +25,38 @@ export interface TripConfiguration {
   period: string;
   budget: string;
 }
+
+// Traveler Dashboard
+export interface TripDashboard {
+  pedingActions: number;
+  documents: number;
+  flightAndTickets: number;
+  tips: number;
+  attractionsNumber: number;
+}
+
+export interface TripMatchedDestination {
+  destinationId: string;
+  isYourChoice: boolean;
+  matchScore: number;
+  price: number;
+  name: string;
+  uniqueName: string;
+}
+
+export interface TripProposal {
+  mainChoice: TripMatchedDestination;
+  otherChoices?: TripMatchedDestination[];
+}
+
+export interface TripAbstract {
+  id: string;
+  viewType: number;
+  destinationProposal: TripProposal;
+  tripDashboard: TripDashboard;
+}
+
+export interface AllTrips {
+  currentTrip: TripAbstract;
+  otherTrips: TripAbstract[];
+}
