@@ -1,9 +1,9 @@
-import { Box } from "@/ui";
 import type { TripDetailsPainelProps } from "./trip-details-painel.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { TripAbstract } from "@/core/types";
+import { TripAbstract, AllTrips } from "@/core/types";
 import { TripAccordeon } from "../TripAccordeon";
+import { HasTrip } from "../HasTrip";
 
 const mockTrips: TripAbstract[] = [
   {
@@ -28,15 +28,25 @@ const mockTrips: TripAbstract[] = [
     },
   },
 ];
+const mockAllTripsView: AllTrips = {
+  currentTrip: null,
+  otherTrips: mockTrips
+}
 
 export function TripDetailsPainel({ className, sx, ...props }: TripDetailsPainelProps) {
   const cn = makeCn("trip-details-painel", className)(sx);
 
+  const getView = (allTripsView: AllTrips) => {
+    return allTripsView.currentTrip ? (
+      <HasTrip />
+    ) : mockTrips.map((trip, i) => (
+      <TripAccordeon {...trip} key={i} />
+    ));
+  };
+
   return (
-    <Box className={cn} {...props}>
-      {mockTrips.map((trip, i) => (
-        <TripAccordeon {...trip} key={i} />
-      ))}
-    </Box>
+    <div className={cn} {...props}>
+      {getView(mockAllTripsView)}
+    </div>
   );
 }

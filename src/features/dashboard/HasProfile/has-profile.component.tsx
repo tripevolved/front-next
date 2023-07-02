@@ -8,7 +8,7 @@ export function HasProfile({ className, children, sx, profileType, ...props }: H
   const cn = makeCn("has-profile", className)(sx);
 
   return (
-    <Box className={cn} {...props}>
+    <div className={cn} {...props}>
       <Text className="has-profile__text-title">Seu perfil de viajante é...</Text>
       <Box className="has-profile__image-container">
         <Box className="has-profile__image-container__image-circle">
@@ -33,8 +33,8 @@ export function HasProfile({ className, children, sx, profileType, ...props }: H
         {profileType == "so-se-vive-uma-vez" && "Só se vive uma vez"}
       </Text>
       <DashedDivider />
-      <Button className="has-profile__cta"> Explorar destinos</Button>
+      <Button className="has-profile__cta">Descobrir minha trip</Button>
       <DestinationsCarousel title="Destinos que você pode gostar:" />
-    </Box>
+    </div>
   );
 }

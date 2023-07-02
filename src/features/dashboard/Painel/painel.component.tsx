@@ -70,16 +70,15 @@ export function Painel({ className, children, sx, ...props }: PainelProps) {
   console.log("ESTADO DO VIAJANTE", travelerState);
 
   const getView = (travelerState: TravelerState) => {
+    const hasTrip = travelerState.hasCurrentTrip || travelerState.hasPastTrip;
+
     return !travelerState.travelerProfile ? (
       <NoProfile />
-    ) : travelerState.travelerProfile &&
-      !travelerState.hasCurrentTrip &&
-      !travelerState.hasPastTrip &&
-      !travelerState.isActive ? (
-      <HasProfile profileType="relax" />
-    ) : travelerState.travelerProfile &&
-      travelerState.hasCurrentTrip &&
-      !travelerState.hasPastTrip &&
+    ) : travelerState.travelerProfile && !hasTrip ? (
+      <HasProfile profileType={travelerState.travelerProfile} />
+    ) : <TripDetailsPainel />
+    ; travelerState.travelerProfile &&
+      hasTrip &&
       !travelerState.isActive ? (
       <HasTrip />
     ) : travelerState.travelerProfile &&
@@ -92,10 +91,10 @@ export function Painel({ className, children, sx, ...props }: PainelProps) {
 
   return (
     <div className={cn} {...props}>
-      <HeaderUserMenu userName={mockTravelerState.hasIncomingTrip.name}>
+      <HeaderUserMenu userName={travelerState.name}>
         Te esperamos na sua próxima viagem
       </HeaderUserMenu>
-      {getView(mockTravelerState.hasIncomingTrip)}
+      {getView(travelerState)}
     </div>
   );
 }

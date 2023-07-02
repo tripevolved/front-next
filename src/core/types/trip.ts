@@ -57,6 +57,6 @@ export interface TripAbstract {
 }
 
 export interface AllTrips {
-  currentTrip: TripAbstract;
+  currentTrip: TripAbstract | null;
   otherTrips: TripAbstract[];
 }
