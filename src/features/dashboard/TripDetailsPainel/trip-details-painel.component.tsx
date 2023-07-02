@@ -2,8 +2,10 @@ import type { TripDetailsPainelProps } from "./trip-details-painel.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { TripAbstract, AllTrips } from "@/core/types";
+import { HeaderUserMenu } from "../HeaderUserMenu";
 import { TripAccordeon } from "../TripAccordeon";
 import { HasTrip } from "../HasTrip";
+import { useAppStore } from "@/core/store";
 
 const mockTrips: TripAbstract[] = [
   {
@@ -36,6 +38,8 @@ const mockAllTripsView: AllTrips = {
 export function TripDetailsPainel({ className, sx, ...props }: TripDetailsPainelProps) {
   const cn = makeCn("trip-details-painel", className)(sx);
 
+  const { travelerState } = useAppStore();
+
   const getView = (allTripsView: AllTrips) => {
     return allTripsView.currentTrip ? (
       <HasTrip />
@@ -46,6 +50,9 @@ export function TripDetailsPainel({ className, sx, ...props }: TripDetailsPainel
 
   return (
     <div className={cn} {...props}>
+      <HeaderUserMenu userName={travelerState.name}>
+        Te esperamos na sua próxima viagem
+      </HeaderUserMenu>
       {getView(mockAllTripsView)}
     </div>
   );

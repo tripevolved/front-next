@@ -80,15 +80,15 @@ export function BlogCardCarousel({
   const cn = makeCn("blog-card-carousel", className)(sx);
 
   return (
-    <Box className={cn} {...props}>
+    <div className={cn} {...props}>
       <Text variant="heading">{title}</Text>
-      <Box className="blog-card-carousel__row">
+      <div className="blog-card-carousel__row">
         <Box className="blog-card-carousel__row__container">
           {blogPostList.map((post, i) => (
             <CardBlog {...post} key={i} />
           ))}
         </Box>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }

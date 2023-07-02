@@ -22,7 +22,7 @@ export function HasTrip({ className, children, sx, ...props }: HasTripProps) {
 
   return (
     <>
-      <div className={cn} {...props}>
+      <Box className={cn} {...props}>
         <Text variant="heading" className="has-trip__header-title" size="sm">
           Conclua o pagamento e garanta sua viagem
         </Text>
@@ -33,7 +33,7 @@ export function HasTrip({ className, children, sx, ...props }: HasTripProps) {
         <Box className="has-trip__recommendations-area">
           <DestinationsCarousel title="Também recomendamos" />
         </Box>
-      </div>
+      </Box>
       <Box className="has-trip__footer">
         <BlogCardCarousel title="As últimas do blog" />
       </Box>

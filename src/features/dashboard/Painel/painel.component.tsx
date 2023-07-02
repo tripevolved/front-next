@@ -2,8 +2,10 @@ import { HeaderUserMenu, HasTrip, NoProfile, HasProfile, TripDetailsPainel } fro
 import type { PainelProps } from "./painel.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { TravelerState } from "@/core/types";
+import { TravelerProfileType, TravelerState } from "@/core/types";
 import { useAppStore } from "@/core/store";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 type MockState = {
   noProfile: TravelerState;
@@ -66,35 +68,36 @@ export function Painel({ className, children, sx, ...props }: PainelProps) {
   const cn = makeCn("painel", className)(sx);
 
   const { travelerState } = useAppStore();
+  
+  const [noProfile, setNoProfile] = useState(false);
+  const [travelerProfile, setTravelerProfile] = useState<TravelerProfileType>("relax");
+  const [name, setName] = useState("");
+  const router = useRouter();
 
   console.log("ESTADO DO VIAJANTE", travelerState);
 
-  const getView = (travelerState: TravelerState) => {
-    const hasTrip = travelerState.hasCurrentTrip || travelerState.hasPastTrip;
-
-    return !travelerState.travelerProfile ? (
-      <NoProfile />
-    ) : travelerState.travelerProfile && !hasTrip ? (
-      <HasProfile profileType={travelerState.travelerProfile} />
-    ) : <TripDetailsPainel />
-    ; travelerState.travelerProfile &&
-      hasTrip &&
-      !travelerState.isActive ? (
-      <HasTrip />
-    ) : travelerState.travelerProfile &&
-      travelerState.hasCurrentTrip &&
-      !travelerState.hasPastTrip &&
-      travelerState.isActive ? (
-      <TripDetailsPainel />
-    ) : null;
-  };
+  useEffect(() => {
+    setNoProfile(!travelerState.travelerProfile);
+    setTravelerProfile(!travelerState.travelerProfile ? "relax" : travelerState.travelerProfile);
+    setName(travelerState.name);
+  }, [travelerState])
+  
+  const hasTrip = travelerState.hasCurrentTrip || travelerState.hasPastTrip;
+  if (hasTrip) 
+  {
+    const redirectToTrip = '/app/viagens'
+    router.replace(redirectToTrip);
+    return;
+  }
 
   return (
     <div className={cn} {...props}>
-      <HeaderUserMenu userName={travelerState.name}>
+      <HeaderUserMenu userName={name}>
         Te esperamos na sua próxima viagem
       </HeaderUserMenu>
-      {getView(travelerState)}
+      (
+        noProfile ? <NoProfile /> : <HasProfile profileType={travelerProfile} />
+      )
     </div>
   );
 }
