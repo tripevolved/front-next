@@ -1,24 +1,25 @@
-import { useAppStore } from "@/core/store";
-import { AllTrips } from "@/core/types";
+import { TripAbstract } from "@/core/types";
 import { TripsApiService } from "@/services/api/trip";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
-export const useAllTrips = () => {
+export const useTripDashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<AllTrips>();
+  const [data, setData] = useState<TripAbstract>();
   const [error, setError] = useState(false);
 
-  const { travelerState } = useAppStore();
+  const router = useRouter();
+  const idParam = typeof router.query.id === "string" ? router.query.id : null;
 
-  const fetchAllTripsInformation = async (travelerId: string) => {
-    if (travelerId === null){
+  const fetchTripInformation = async (tripId: string | null) => {
+    if (tripId === null){
       setError(true);
       return;
-    }
+    }      
 
     setIsLoading(true);
     setError(false);
-    return TripsApiService.getAll(travelerId)
+    return TripsApiService.getByIdForDashboard(tripId)
       .then(setData)
       .catch(() => {
         setError(true);
@@ -26,11 +27,11 @@ export const useAllTrips = () => {
   };
 
   useEffect(() => {
-    if (!travelerState) setError(true);
+    if (!idParam) setError(true);
     
-    fetchAllTripsInformation(travelerState.id);
+    fetchTripInformation(idParam);
     setIsLoading(false);
-  }, [travelerState]);
+  }, [idParam]);
 
   return { isLoading, data, error };
 };

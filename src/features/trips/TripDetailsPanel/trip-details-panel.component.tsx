@@ -3,9 +3,8 @@ import type { TripDetailsPanelProps } from "./trip-details-panel.types";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { TripAbstract, AllTrips } from "@/core/types";
 import { HeaderUserMenu } from "../../dashboard/HeaderUserMenu";
-import { TripAccordeon } from "../TripAccordeon";
 import { HasTrip } from "../HasTrip";
-import { useAllTrips } from "./trip-details-panel.hook";
+import { useTripDashboard } from "./trip-details-panel.hook";
 import { useAppStore } from "@/core/store";
 import { useState, useEffect } from "react";
 import { EmptyState, GlobalLoader, Text } from "@/ui";
@@ -43,7 +42,7 @@ const mockAllTripsView: AllTrips = {
 export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelProps) {
   const cn = makeCn("trip-details-panel", className)(sx);
 
-  const { isLoading, data, error } = useAllTrips();
+  const { isLoading, data, error } = useTripDashboard();
   const { travelerState } = useAppStore();
   const [name, setName] = useState("");
 
@@ -51,21 +50,16 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
     setName(travelerState.name);
   }, [travelerState]);
 
-  
-
   const getView = () => {
     if (error) return <EmptyState />;
     if (isLoading) return <GlobalLoader />;
     if (data === undefined) return <EmptyState />;
 
-    return data.currentTrip ? (
-      <HasTrip trip={data.currentTrip} />
+    return data.destinationProposal ? (
+      <HasTrip trip={data} />
     ) : (
       <>
-      <Text size="xxl">Suas viagens</Text>
-      {data.otherTrips.map((trip, i) => (
-        <TripAccordeon trip={trip} key={i} />
-      ))}
+      {data.tripDashboard}
       </>
     );
   };
