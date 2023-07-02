@@ -1,9 +1,9 @@
-import { PageApp, TripDetailsPainel } from "@/features";
+import { PageApp, AllTripsPanel } from "@/features";
 
-export default function DashboardRoute() {
+export default function AllTripsPanelRoute() {
   return (
     <PageApp seo={{ title: "Painel" }}>
-      <TripDetailsPainel />
+      <AllTripsPanel />
     </PageApp>
   );
 }

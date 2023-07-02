@@ -1,11 +1,11 @@
-import type { TripDetailsPainelProps } from "./trip-details-painel.types";
+import type { TripDetailsPanelProps } from "./trip-details-panel.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { TripAbstract, AllTrips } from "@/core/types";
-import { HeaderUserMenu } from "../HeaderUserMenu";
+import { HeaderUserMenu } from "../../dashboard/HeaderUserMenu";
 import { TripAccordeon } from "../TripAccordeon";
 import { HasTrip } from "../HasTrip";
-import { useAllTrips } from "./trip-details-painel.hook";
+import { useAllTrips } from "./trip-details-panel.hook";
 import { useAppStore } from "@/core/store";
 import { useState, useEffect } from "react";
 import { EmptyState, GlobalLoader, Text } from "@/ui";
@@ -40,8 +40,8 @@ const mockAllTripsView: AllTrips = {
   otherTrips: mockTrips
 }
 
-export function TripDetailsPainel({ className, sx, ...props }: TripDetailsPainelProps) {
-  const cn = makeCn("trip-details-painel", className)(sx);
+export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelProps) {
+  const cn = makeCn("trip-details-panel", className)(sx);
 
   const { isLoading, data, error } = useAllTrips();
   const { travelerState } = useAppStore();

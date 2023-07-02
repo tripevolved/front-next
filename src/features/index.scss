@@ -9,13 +9,10 @@
 @import "./dashboard/BlogCardCarousel/blog-card-carousel.styles.scss";
 @import "./dashboard/DestinationsCarousel/destinations-carousel.styles.scss";
 @import "./dashboard/HasProfile/has-profile.styles.scss";
-@import "./dashboard/HasTrip/has-trip.styles.scss";
 @import "./dashboard/HeaderUserMenu/header-user-menu.styles.scss";
 @import "./dashboard/NoProfile/no-profile.styles.scss";
 @import "./dashboard/Painel/painel.styles.scss";
 @import "./dashboard/TravelerDestinationCard/traveler-destination-card.styles.scss";
-@import "./dashboard/TripAccordeon/trip-accordeon.styles.scss";
-@import "./dashboard/TripDetailsPainel/trip-details-painel.styles.scss";
 @import "./destinations/CustomProfileDestinations/custom-profile-destinations.styles.scss";
 @import "./destinations/DestinationPage/destination-page.styles.scss";
 @import "./landing-pages/AwardCard/award-card.styles.scss";
@@ -29,5 +26,9 @@
 @import "./templates/Navbar/navbar.styles.scss";
 @import "./templates/PageApp/page-app.styles.scss";
 @import "./templates/PageBase/page-base.styles.scss";
+@import "./trips/AllTripsPanel/all-trips-panel.styles.scss";
 @import "./trips/Builder/profile-questions.styles.scss";
+@import "./trips/HasTrip/has-trip.styles.scss";
+@import "./trips/TripAccordeon/trip-accordeon.styles.scss";
 @import "./trips/TripDetailsPage/trip-details-page.styles.scss";
+@import "./trips/TripDetailsPanel/trip-details-panel.styles.scss";

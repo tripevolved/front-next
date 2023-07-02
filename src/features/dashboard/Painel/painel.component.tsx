@@ -1,4 +1,4 @@
-import { HeaderUserMenu, HasTrip, NoProfile, HasProfile, TripDetailsPainel } from "@/features";
+import { HeaderUserMenu, NoProfile, HasProfile } from "@/features";
 import type { PainelProps } from "./painel.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -74,19 +74,20 @@ export function Painel({ className, children, sx, ...props }: PainelProps) {
   const [name, setName] = useState("");
   const router = useRouter();
 
+  const hasTrip = travelerState.hasCurrentTrip || travelerState.hasPastTrip;
+  const redirectToTrip = '/app/viagens';
+
   useEffect(() => {
     setNoProfile(!travelerState.travelerProfile);
     setTravelerProfile(!travelerState.travelerProfile ? "relax" : travelerState.travelerProfile);
     setName(travelerState.name);
-  }, [travelerState])
+
+    if (hasTrip)
+    {
+      router.replace(redirectToTrip);
+    }
+  }, [travelerState, hasTrip, router])
   
-  const hasTrip = travelerState.hasCurrentTrip || travelerState.hasPastTrip;
-  if (hasTrip) 
-  {
-    const redirectToTrip = '/app/viagens'
-    router.replace(redirectToTrip);
-    return;
-  }
 
   return (
     <div className={cn} {...props}>
