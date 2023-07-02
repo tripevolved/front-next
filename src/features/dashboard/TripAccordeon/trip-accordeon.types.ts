@@ -1,3 +1,5 @@
-import type { ComponentHTMLProps } from "@/core/types";
+import type { ComponentHTMLProps, TripAbstract } from "@/core/types";
 
-export interface TripAccordeonProps extends ComponentHTMLProps {};
+export interface TripAccordeonProps extends ComponentHTMLProps {
+    trip: TripAbstract
+};

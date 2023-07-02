@@ -8,11 +8,13 @@ import { HasTrip } from "../HasTrip";
 import { useAllTrips } from "./trip-details-painel.hook";
 import { useAppStore } from "@/core/store";
 import { useState, useEffect } from "react";
-import { EmptyState, GlobalLoader } from "@/ui";
+import { EmptyState, GlobalLoader, Text } from "@/ui";
 
 const mockTrips: TripAbstract[] = [
   {
     id: "ieuyfgas89w",
+    imageUrl: null,
+    period: "20 a 25 ago",
     destinationProposal: {
       mainChoice: {
         destinationId: "654a368w1dvasr8as",
@@ -47,7 +49,9 @@ export function TripDetailsPainel({ className, sx, ...props }: TripDetailsPainel
 
   useEffect(() => {
     setName(travelerState.name);
-  }, [travelerState])
+  }, [travelerState]);
+
+  
 
   const getView = () => {
     if (error) return <EmptyState />;
@@ -56,9 +60,14 @@ export function TripDetailsPainel({ className, sx, ...props }: TripDetailsPainel
 
     return data.currentTrip ? (
       <HasTrip trip={data.currentTrip} />
-    ) : data.otherTrips.map((trip, i) => (
-      <TripAccordeon {...trip} key={i} />
-    ));
+    ) : (
+      <>
+      <Text size="xxl">Suas viagens</Text>
+      {data.otherTrips.map((trip, i) => (
+        <TripAccordeon trip={trip} key={i} />
+      ))}
+      </>
+    );
   };
 
   return (

@@ -51,7 +51,9 @@ export interface TripProposal {
 
 export interface TripAbstract {
   id: string;
+  imageUrl: string | null;
   viewType: number;
+  period: string;
   destinationProposal: TripProposal;
   tripDashboard: TripDashboard;
 }

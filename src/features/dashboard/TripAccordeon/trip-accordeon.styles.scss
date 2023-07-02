@@ -1,5 +1,43 @@
 .trip-accordeon {
-  background-color: red;
-  padding: 24px;
-  color: white;
+  border-radius: 10px;
+  color: $color-gray-4;
+  width: 96%;
+  max-width: 780px;
+  height: 200px;
+  background-position: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__container {
+    display: flex;
+    padding: 15px;
+    position: relative;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+
+    p {
+      margin-top: 5px;
+      color: #94fff8;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+    position: absolute;
+    bottom: 0;
+
+    button {
+      color: $color-gray-4;
+    }
+  }
 }
