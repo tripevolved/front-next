@@ -75,6 +75,7 @@ export function Painel({ className, children, sx, ...props }: PainelProps) {
   const router = useRouter();
 
   console.log("ESTADO DO VIAJANTE", travelerState);
+  console.log("Traveler profile", !travelerState.travelerProfile);
 
   useEffect(() => {
     setNoProfile(!travelerState.travelerProfile);
@@ -95,9 +96,7 @@ export function Painel({ className, children, sx, ...props }: PainelProps) {
       <HeaderUserMenu userName={name}>
         Te esperamos na sua próxima viagem
       </HeaderUserMenu>
-      (
-        noProfile ? <NoProfile /> : <HasProfile profileType={travelerProfile} />
-      )
+      {noProfile ? <NoProfile /> : <HasProfile profileType={travelerProfile} />}
     </div>
   );
 }
