@@ -17,7 +17,7 @@ const travelCardContent: TravelerDestinationCardProps = {
   price: 3437.0,
 };
 
-export function HasTrip({ className, children, sx, ...props }: HasTripProps) {
+export function HasTrip({ trip, className, children, sx, ...props }: HasTripProps) {
   const cn = makeCn("has-trip", className)(sx);
 
   return (

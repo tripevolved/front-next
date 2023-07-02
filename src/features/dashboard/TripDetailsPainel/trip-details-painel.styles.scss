@@ -1,6 +1,6 @@
 .trip-details-painel {
   background-color: $color-brand-5;
-  padding: 30px 20px 60px 20px;
+  padding-bottom: 60px;
   color: $color-brand-2;
   font-weight: 700;
   border-radius: 20px 20px 0 0;
@@ -8,7 +8,7 @@
   width: 100%;
 
   display: flex;
-  flex-direction: column;
+  flex-direction: column;  
   align-items: center;
 
   gap: 20px;

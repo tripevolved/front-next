@@ -74,9 +74,6 @@ export function Painel({ className, children, sx, ...props }: PainelProps) {
   const [name, setName] = useState("");
   const router = useRouter();
 
-  console.log("ESTADO DO VIAJANTE", travelerState);
-  console.log("Traveler profile", !travelerState.travelerProfile);
-
   useEffect(() => {
     setNoProfile(!travelerState.travelerProfile);
     setTravelerProfile(!travelerState.travelerProfile ? "relax" : travelerState.travelerProfile);
