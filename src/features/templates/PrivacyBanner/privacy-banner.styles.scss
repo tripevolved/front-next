@@ -1,0 +1,24 @@
+.privacy-banner {
+  $banner-margin: $spacing-xl;
+  position: fixed;
+  bottom: $banner-margin;
+  right: $banner-margin;
+  left: $banner-margin;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: $banner-margin;
+  transition: transform ease-out 300ms, opacity ease 300ms;
+  transform: translateY(100%);
+  opacity: 0;
+  &--show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    max-width: 720px;
+    right: calc((100vw - 720px) / 2);
+    left: auto;
+  }
+}

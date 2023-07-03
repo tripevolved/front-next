@@ -1,7 +1,7 @@
 import { NextSeo } from "next-seo";
 import type { PageBaseProps } from "./page-base.types";
 
-import { ChatFloatingButton, Footer, Navbar } from "@/features";
+import { ChatFloatingButton, Footer, Navbar, PrivacyBanner } from "@/features";
 
 export function PageBase({ children, hideNavbar, hideFooter, navbar, footer, seo }: PageBaseProps) {
   return (
@@ -11,6 +11,7 @@ export function PageBase({ children, hideNavbar, hideFooter, navbar, footer, seo
       <main>{children}</main>
       {hideFooter ? null : <Footer {...footer} />}
       <ChatFloatingButton />
+      <PrivacyBanner />
     </>
   );
 }

@@ -29,6 +29,7 @@ export * from "./templates/Footer";
 export * from "./templates/Navbar";
 export * from "./templates/PageApp";
 export * from "./templates/PageBase";
+export * from "./templates/PrivacyBanner";
 export * from "./trips/Builder";
 export * from "./trips/TripBasePage";
 export * from "./trips/TripDetailsPage";
