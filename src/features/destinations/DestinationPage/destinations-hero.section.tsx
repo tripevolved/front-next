@@ -1,7 +1,7 @@
-import { Photo } from "@/core/types";
 import type { DestinationProps } from "./destination-page.types";
 
-import { Picture, Text } from "@/ui";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
+import { Text } from "@/ui";
 import { Container } from "mars-ds";
 import { makeCn } from "@/utils/helpers/css.helpers";
 
@@ -35,20 +35,3 @@ export const DestinationHeroSection = ({ title, photos = [] }: DestinationHeroSe
     </section>
   );
 };
-
-const parseType = (type: string) => {
-  return (
-    {
-      sm: "md",
-      md: "lg",
-      lg: "xl",
-      xl: "xxl",
-    }[type] || "md"
-  );
-};
-
-const parsePhoto = ({ sources = [] }: Photo) =>
-  sources.reduce(
-    (acc, { type, url, ...props }) => ({ ...acc, [parseType(type)]: { src: url, ...props } }),
-    {}
-  );

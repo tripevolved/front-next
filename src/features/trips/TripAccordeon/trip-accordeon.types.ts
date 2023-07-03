@@ -1,5 +1,5 @@
-import type { ComponentHTMLProps, TripAbstract } from "@/core/types";
+import type { ComponentHTMLProps, TripListView } from "@/core/types";
 
 export interface TripAccordeonProps extends ComponentHTMLProps {
-    trip: TripAbstract
+    trip: TripListView
 };

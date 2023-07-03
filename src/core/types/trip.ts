@@ -1,4 +1,5 @@
 import { TripDestination } from "@/core/types/destination";
+import { Photo } from "./photo";
 
 export interface TripDetails {
   id: string;
@@ -51,14 +52,19 @@ export interface TripProposal {
 
 export interface TripAbstract {
   id: string;
-  imageUrl: string | null;
-  viewType: number;
-  period: string;
+  viewType: "ORGANIZATION" | "PROPOSAL";
   destinationProposal: TripProposal;
   tripDashboard: TripDashboard;
 }
 
+export interface TripListView {
+  id: string;
+  title: string;
+  images: Photo[];
+  period: string;
+}
+
 export interface AllTrips {
-  currentTrip: TripAbstract | null;
-  otherTrips: TripAbstract[];
+  currentTrip: TripListView | null;
+  otherTrips: TripListView[];
 }

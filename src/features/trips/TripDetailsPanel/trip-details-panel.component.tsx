@@ -9,35 +9,27 @@ import { useAppStore } from "@/core/store";
 import { useState, useEffect } from "react";
 import { EmptyState, GlobalLoader, Text } from "@/ui";
 
-const mockTrips: TripAbstract[] = [
-  {
-    id: "ieuyfgas89w",
-    imageUrl: null,
-    period: "20 a 25 ago",
-    destinationProposal: {
-      mainChoice: {
-        destinationId: "654a368w1dvasr8as",
-        isYourChoice: true,
-        matchScore: 92,
-        name: "Ouro Preto",
-        price: 6584,
-        uniqueName: "ouro-preto",
-      },
-    },
-    viewType: 5,
-    tripDashboard: {
-      attractionsNumber: 7,
-      pedingActions: 2,
-      documents: 5,
-      flightAndTickets: 2,
-      tips: 3,
+const mockTrip: TripAbstract = {
+  id: "ieuyfgas89w",
+  destinationProposal: {
+    mainChoice: {
+      destinationId: "654a368w1dvasr8as",
+      isYourChoice: true,
+      matchScore: 92,
+      name: "Ouro Preto",
+      price: 6584,
+      uniqueName: "ouro-preto",
     },
   },
-];
-const mockAllTripsView: AllTrips = {
-  currentTrip: null,
-  otherTrips: mockTrips
-}
+  viewType: "ORGANIZATION",
+  tripDashboard: {
+    attractionsNumber: 7,
+    pedingActions: 2,
+    documents: 5,
+    flightAndTickets: 2,
+    tips: 3,
+  },
+};
 
 export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelProps) {
   const cn = makeCn("trip-details-panel", className)(sx);

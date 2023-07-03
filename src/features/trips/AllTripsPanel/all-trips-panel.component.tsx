@@ -1,44 +1,14 @@
 import type { AllTripsPanelProps } from "./all-trips-panel.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { TripAbstract, AllTrips } from "@/core/types";
+import { TripListView, AllTrips } from "@/core/types";
 import { HeaderUserMenu } from "../../dashboard/HeaderUserMenu";
 import { TripAccordeon } from "../TripAccordeon";
-import { HasTrip } from "../HasTrip";
 import { useAllTrips } from "./all-trips-panel.hook";
 import { useAppStore } from "@/core/store";
+import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { EmptyState, GlobalLoader, Text } from "@/ui";
-
-const mockTrips: TripAbstract[] = [
-  {
-    id: "ieuyfgas89w",
-    imageUrl: null,
-    period: "20 a 25 ago",
-    destinationProposal: {
-      mainChoice: {
-        destinationId: "654a368w1dvasr8as",
-        isYourChoice: true,
-        matchScore: 92,
-        name: "Ouro Preto",
-        price: 6584,
-        uniqueName: "ouro-preto",
-      },
-    },
-    viewType: 5,
-    tripDashboard: {
-      attractionsNumber: 7,
-      pedingActions: 2,
-      documents: 5,
-      flightAndTickets: 2,
-      tips: 3,
-    },
-  },
-];
-const mockAllTripsView: AllTrips = {
-  currentTrip: null,
-  otherTrips: mockTrips
-}
 
 export function AllTripsPanel({ className, sx, ...props }: AllTripsPanelProps) {
   const cn = makeCn("all-trips-panel", className)(sx);
@@ -46,20 +16,25 @@ export function AllTripsPanel({ className, sx, ...props }: AllTripsPanelProps) {
   const { isLoading, data, error } = useAllTrips();
   const { travelerState } = useAppStore();
   const [name, setName] = useState("");
+  const router = useRouter();
+  const seeAllTrips = router.query.seeAll === "true" ? true : false;
 
   useEffect(() => {
     setName(travelerState.name);
-  }, [travelerState]);
 
-  
+    if (data?.currentTrip && !seeAllTrips)
+    {
+      router.replace("/app/viagens/" + data.currentTrip.id);
+    }
+  }, [travelerState, router, data, seeAllTrips]);
 
   const getView = () => {
     if (error) return <EmptyState />;
     if (isLoading) return <GlobalLoader />;
     if (data === undefined) return <EmptyState />;
 
-    return data.currentTrip ? (
-      <HasTrip trip={data.currentTrip} />
+    return data.currentTrip && !seeAllTrips ? (
+      <></>
     ) : (
       <>
       <Text size="xxl">Suas viagens</Text>
