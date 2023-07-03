@@ -1,0 +1,32 @@
+.chat-floating-button {
+  $circle-size: 80px;
+  $circle-margin: $spacing-xl;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: auto $circle-margin $circle-margin auto;
+  background-color: #25D366;
+  height: $circle-size;
+  width: $circle-size;
+  border-radius: 50%;
+  box-shadow: $shadow-elevation-600;
+  animation: pulse-animation 10s linear infinite;
+  transition: background-color ease 300ms, box-shadow ease 300ms;
+  &, &:visited, &:active, &:hover {
+    color: white;
+  }
+  &:hover {
+    background-color: #128C7E;
+    box-shadow: $shadow-elevation-300, $shadow-elevation-600;
+  }
+
+  @keyframes pulse-animation {
+    0%, 100%, 95% {
+      transform: rotate(0) scale(1);
+    }
+    97% {
+      transform: rotate(15deg) scale(1.2);
+    }
+  }
+}
