@@ -54,8 +54,8 @@ export interface TripProposal {
 export interface TripAbstract {
   id: string;
   viewType: "ORGANIZATION" | "PROPOSAL";
-  destinationProposal: TripProposal;
-  tripDashboard: TripDashboard;
+  destinationProposal?: TripProposal;
+  tripDashboard?: TripDashboard;
 }
 
 export interface TripListView {

@@ -11,16 +11,6 @@ import { EmptyState, GlobalLoader, Text } from "@/ui";
 
 const mockTrip: TripAbstract = {
   id: "ieuyfgas89w",
-  destinationProposal: {
-    mainChoice: {
-      destinationId: "654a368w1dvasr8as",
-      isYourChoice: true,
-      matchScore: 92,
-      name: "Ouro Preto",
-      price: 6584,
-      uniqueName: "ouro-preto",
-    },
-  },
   viewType: "ORGANIZATION",
   tripDashboard: {
     attractionsNumber: 7,

@@ -7,7 +7,6 @@ import {
   BlogCardCarousel,
   DestinationsCarousel,
   TravelerDestinationCard,
-  TravelerDestinationCardProps,
 } from "@/features";
 
 export function HasTrip({ trip, className, children, sx, ...props }: HasTripProps) {
@@ -34,9 +33,17 @@ export function HasTrip({ trip, className, children, sx, ...props }: HasTripProp
           <TravelerDestinationCard {...mainChoiceCardContent} />
         </Box>
         <DashedDivider color="#0ab9ad" style={{ opacity: 0.6 }} />
-        <Box className="has-trip__recommendations-area">
-          <DestinationsCarousel title="Também recomendamos" />
-        </Box>
+        {
+          trip.otherChoices && trip.otherChoices.length > 0 ? (
+            <Box className="has-trip__recommendations-area">
+              <DestinationsCarousel 
+                title="Também recomendamos"
+                recommendedDestinations={trip.otherChoices.map((matchedDestination, i) => {
+                    const [image] = matchedDestination.images;
+                    return { matchRate: matchedDestination.matchScore * 100, cityName: matchedDestination.name, cityImageURL: parsePhoto(image) }; 
+                  })} />
+            </Box>) : <></>
+        }
       </Box>
       <Box className="has-trip__footer">
         <BlogCardCarousel title="As últimas do blog" />
