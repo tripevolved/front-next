@@ -25,20 +25,27 @@ export function TravelerDestinationCard({
         backgroundImage: `radial-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.8)), url('${cityImageURL}')`,
       }}
     >
-      <Box className="traveler-destination-card__header">
-        <Picture width={24} src="/emoji/target-arrow.png" />
-        <Text>
-          Match: <strong>{matchRate}%</strong>
-        </Text>
-      </Box>
+        <Box className="traveler-destination-card__header">
+          {matchRate ? (
+            <>
+              <Picture width={24} src="/emoji/target-arrow.png" />
+              <Text>
+                Match: <strong>{matchRate}%</strong>
+              </Text>
+            </>
+            ) : <></>
+          }
+        </Box>
       <Box className="traveler-destination-card__footer">
         <Box className="traveler-destination-card__footer__city-name">
           <Text variant="heading">{cityName}</Text>
           <Text>Para {travelersNumber} pessoas</Text>
         </Box>
-        <Text size="xxl" className="traveler-destination-card__footer__price">
-          <strong>{formatByDataType(price, "CURRENCY")}</strong>
-        </Text>
+        {price ? (
+          <Text size="xxl" className="traveler-destination-card__footer__price">
+            <strong>{formatByDataType(price, "CURRENCY")}</strong>
+          </Text>) : <></>
+        }
         <Button>Ver detalhes</Button>
       </Box>
     </Box>

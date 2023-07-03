@@ -39,6 +39,7 @@ export interface TripDashboard {
 export interface TripMatchedDestination {
   destinationId: string;
   isYourChoice: boolean;
+  images: Photo[];
   matchScore: number;
   price: number;
   name: string;

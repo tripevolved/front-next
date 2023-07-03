@@ -1,4 +1,5 @@
 import { Box, DashedDivider, Text } from "@/ui";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import type { HasTripProps } from "./has-trip.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -9,16 +10,19 @@ import {
   TravelerDestinationCardProps,
 } from "@/features";
 
-const travelCardContent: TravelerDestinationCardProps = {
-  matchRate: 98,
-  cityName: "Ouro Preto",
-  cityImageURL: "https://fakeimg.pl/300/?text=Outro Preto",
-  travelersNumber: 2,
-  price: 3437.0,
-};
-
 export function HasTrip({ trip, className, children, sx, ...props }: HasTripProps) {
   const cn = makeCn("has-trip", className)(sx);
+  const [photo] = trip.mainChoice.images;
+  const cover = photo ? parsePhoto(photo) : null;
+
+  console.log("trip", trip);
+  const mainChoiceCardContent = {
+    matchRate: trip.mainChoice.matchScore * 100,
+    cityName: trip.mainChoice.name,
+    cityImageURL: cover,
+    travelersNumber: 2, // TODO: receive this from backend
+    price: trip.mainChoice.price,
+  }
 
   return (
     <>
@@ -27,7 +31,7 @@ export function HasTrip({ trip, className, children, sx, ...props }: HasTripProp
           Conclua o pagamento e garanta sua viagem
         </Text>
         <Box className="has-trip__trip-area">
-          <TravelerDestinationCard {...travelCardContent} />
+          <TravelerDestinationCard {...mainChoiceCardContent} />
         </Box>
         <DashedDivider color="#0ab9ad" style={{ opacity: 0.6 }} />
         <Box className="has-trip__recommendations-area">
