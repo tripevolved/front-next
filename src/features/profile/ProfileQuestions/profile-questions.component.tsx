@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 import { LeadForm } from "@/features";
 import { useAppStore } from "@/core/store";
+import { Text } from "@/ui";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -84,17 +85,21 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
         {submitting ? (
           <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
         ) : showLeadForm ? (
-          <MediaObject
-            className="text-center"
-            heading="Estamos quase lá!"
-            text="Preencha para ver o resultado e receber uma boa surpresa no email."
-          >
+          <Card className="color-brand-2">
+            <div className="text-center">
+              <Text className="lead-list-form__label py-xl" size="sm">
+                Estamos quase lá!
+              </Text>
+              <Text as="h3" className="lead-list-form__heading pb-xl" variant="heading">
+                Prencha para ver o resultado e receber uma boa surpresa no e-mail.
+              </Text>
+            </div>
             <LeadForm
               gap={16}
               onSubmitCallback={({ email }) => sendAnswers(email)}
               cta={{ children: "Descobrir meu perfil" }}
             />
-          </MediaObject>
+          </Card>
         ) : (
           <ProfileQuestionsForm onSubmit={handleAnswers} />
         )}

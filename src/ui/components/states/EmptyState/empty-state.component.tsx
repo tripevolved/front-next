@@ -10,6 +10,7 @@ export function EmptyState({
   className,
   children,
   sx,
+  heading,
   text = DEFAULT_TEXT,
   image = DEFAULT_IMAGE,
   ...props
@@ -19,6 +20,7 @@ export function EmptyState({
   return (
     <div className={cn} {...props}>
       <Picture>{image}</Picture>
+      {heading ? <Text heading as="h4" size="xs">{heading}</Text> : null}
       <Text>{text}</Text>
       {children}
     </div>

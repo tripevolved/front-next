@@ -1,20 +1,16 @@
-import { OptionsFieldList, OptionsFieldListProps, Text } from "@/ui";
-import { type ProfileQuestion } from "@/services/api/profile/questions";
+import { OptionsFieldList, Text } from "@/ui";
 import { Grid } from "mars-ds";
 import { useMemo } from "react";
+import { QuestionOptionsProps } from "./question-options.types";
 
-interface ProfileQuestionsItemProps
-  extends ProfileQuestion,
-    Pick<OptionsFieldListProps, "onCheck" | "defaultValue" | "disabled"> {}
-
-export const ProfileQuestionsItem = ({
+export const QuestionOptions = ({
   title,
   type,
   possibleAnswers,
   onCheck,
   defaultValue,
   disabled,
-}: ProfileQuestionsItemProps) => {
+}: QuestionOptionsProps) => {
   const options = useMemo(
     () =>
       possibleAnswers.map(({ title, id }) => ({

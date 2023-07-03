@@ -20,6 +20,7 @@ export const getStaticProps: GetStaticProps = async () => {
     const props = await CMSService.getPage(uid);
     return { props, ...pageConfig.staticProps };
   } catch (error) {
-    return { props: {}, ...pageConfig.staticProps };
+    const props = await CMSService.getPageError();
+    return { props, ...pageConfig.staticProps };
   }
 };
