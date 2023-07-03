@@ -8,18 +8,31 @@ const destinationsList: CardDestinationProps[] = [
   {
     matchRate: 78,
     cityName: "Paraty",
-    cityImageURL: parsePhoto({ title: "Paraty", sources: [{ url:"https://fakeimg.pl/200/?text=Paraty", width: 80, height: 80, type: "md" }] }),
+    cityImageURL: parsePhoto({
+      title: "Paraty",
+      sources: [{ url: "https://fakeimg.pl/200/?text=Paraty", width: 80, height: 80, type: "md" }],
+    }),
   },
   {
     matchRate: 77,
     cityName: "Petrópolis",
-    cityImageURL: parsePhoto({ title: "Petrópolis", sources: [{ url:"https://fakeimg.pl/200/?text=Petrópolis", width: 80, height: 80, type: "md" }] }),
+    cityImageURL: parsePhoto({
+      title: "Petrópolis",
+      sources: [
+        { url: "https://fakeimg.pl/200/?text=Petrópolis", width: 80, height: 80, type: "md" },
+      ],
+    }),
   },
   {
     matchRate: 74,
     cityName: "Florianópolis",
-    cityImageURL: parsePhoto({ title: "Florianópolis", sources: [{ url:"https://fakeimg.pl/200/?text=Florianópolis", width: 80, height: 80, type: "md" }] }),
-  }
+    cityImageURL: parsePhoto({
+      title: "Florianópolis",
+      sources: [
+        { url: "https://fakeimg.pl/200/?text=Florianópolis", width: 80, height: 80, type: "md" },
+      ],
+    }),
+  },
 ];
 
 export function DestinationsCarousel({
@@ -37,9 +50,8 @@ export function DestinationsCarousel({
       <Text size="lg">{title}</Text>
       <Box className="destinations-carousel__row">
         <Box className="destinations-carousel__row__container">
-          {recommendedDestinations.map((dest, i) => (
-            <CardDestination {...dest} key={i} />
-          ))}
+          {recommendedDestinations &&
+            recommendedDestinations.map((dest, i) => <CardDestination {...dest} key={i} />)}
         </Box>
       </Box>
     </Box>

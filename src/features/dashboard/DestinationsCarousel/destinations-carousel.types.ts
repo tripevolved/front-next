@@ -2,6 +2,6 @@ import type { ComponentHTMLProps } from "@/core/types";
 import { CardDestinationProps } from "@/ui";
 
 export interface DestinationsCarouselProps extends ComponentHTMLProps {
-  recommendedDestinations: CardDestinationProps[],
+  recommendedDestinations: CardDestinationProps[];
   title: string;
 }

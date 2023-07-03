@@ -34,7 +34,7 @@ export function HasProfile({ className, children, sx, profileType, ...props }: H
       </Text>
       <DashedDivider />
       <Button className="has-profile__cta">Descobrir minha trip</Button>
-      <DestinationsCarousel title="Destinos que você pode gostar:" />
+      <DestinationsCarousel recommendedDestinations={[]} title="Destinos que você pode gostar:" />
     </Box>
   );
 }
