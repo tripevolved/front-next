@@ -1,9 +1,7 @@
 import type { ComponentHTMLProps } from "@/core/types";
+import { TripMatchedDestination } from "@/core/types";
 
-export interface TravelerDestinationCardProps extends ComponentHTMLProps {
-  matchRate: number | null;
-  cityName: string;
-  cityImageURL: {} | null;
-  travelersNumber: number | null;
-  price: number | null;
-}
+export type TravelerDestinationCardProps = ComponentHTMLProps &
+  TripMatchedDestination & {
+    travelersNumber?: number;
+  };

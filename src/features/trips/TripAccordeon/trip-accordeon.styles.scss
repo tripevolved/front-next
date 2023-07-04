@@ -1,9 +1,10 @@
 .trip-accordeon {
   border-radius: 10px;
   color: $color-gray-4;
-  width: 96%;
+  width: 100%;
   max-width: 780px;
-  height: 200px;
+  height: 150px;
+  background-size: cover;
   background-position: center;
 
   display: flex;
@@ -12,32 +13,25 @@
 
   &__container {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 15px;
-    position: relative;
-  }
+    height: 100%;
 
-  &__header {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 8px;
-
-    p {
+    &__header-text {
       margin-top: 5px;
       color: #94fff8;
     }
-  }
 
-  &__footer {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 8px;
-    position: absolute;
-    bottom: 0;
+    &__footer {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 8px;
 
-    button {
-      color: $color-gray-4;
+      &__city-name {
+        color: $color-gray-4;
+      }
     }
   }
 }
