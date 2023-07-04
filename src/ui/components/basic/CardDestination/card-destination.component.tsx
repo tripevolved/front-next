@@ -24,7 +24,7 @@ export function CardDestination({
       <Text size="sm" variant="heading" className="card-destination__city-name">
         {cityName}
       </Text>
-      <Button size="sm" children="Quero ir" />
+      <Button size="sm">Quero ir</Button>
     </Box>
   );
 }
