@@ -2,8 +2,6 @@ import { Box, Text, Picture } from "@/ui";
 import type { TripDashboardProps, TripDashboardItemProps } from "./trip-dashboard.types";
 import NextLink from "next/link";
 
-import { Button as MButton } from "mars-ds";
-
 import { makeCn } from "@/utils/helpers/css.helpers";
 
 export function TripDashboard({
