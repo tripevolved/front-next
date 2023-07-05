@@ -1,5 +1,6 @@
 import { Box, CardHighlight, Picture, SectionBase, Text } from "@/ui";
 import { TripDetailsProps } from "./trip-details-page.types";
+import { formatByDataType } from "@/utils/helpers/number.helpers";
 
 interface TripConfigurationSectionProps extends Pick<TripDetailsProps, "configuration"> {}
 
@@ -23,7 +24,7 @@ export const TripConfigurationSection = ({ configuration }: TripConfigurationSec
           <Box className="trip-configuration__box">
             <FeatureIcon name="cash" />
             <Text as="h2" size="md" className="trip-configuration__text">
-              {configuration.budget}
+              {formatByDataType(configuration.budget, "CURRENCY")}
             </Text>
           </Box>
           <Box className="trip-configuration__box-text">

@@ -10,7 +10,11 @@ import { TransportationApiService } from "@/services/api/transportation";
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
 
-export const TripScriptSection = () => {
+interface TripScriptSectionProps {
+  text: string;
+}
+
+export const TripScriptSection = ({ text }: TripScriptSectionProps) => {
   const { data = [], error, isLoading } = useSwr("transportation", getByTripId, swrOptions);
 
   if (isLoading) {
@@ -42,9 +46,7 @@ export const TripScriptSection = () => {
           Roteiro
         </Text>
         <Text className="trip-script-section__text">
-          {
-            "A cidade possui um rico patrimônio histórico, cultural e artístico, sendo considerada Patrimônio Cultural da Humanidade pela UNESCO desde 1980. Entre suas principais atrações estão a Igreja de São Francisco de Assis, considerada uma das obras-primas do barroco brasileiro."
-          }
+          {text}
         </Text>
         <Text size="xl" className="trip-script-section__see-script" style={{ marginTop: 0 }}>
           Ver prévia do roteiro

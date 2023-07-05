@@ -24,7 +24,7 @@ export interface TripTransportation {
 export interface TripConfiguration {
   dates: string;
   period: string;
-  budget: string;
+  budget: number;
 }
 
 // Traveler Dashboard
