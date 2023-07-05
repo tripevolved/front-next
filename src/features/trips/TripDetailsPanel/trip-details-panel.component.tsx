@@ -7,7 +7,8 @@ import { HasTrip } from "../HasTrip";
 import { useTripDashboard } from "./trip-details-panel.hook";
 import { useAppStore } from "@/core/store";
 import { useState, useEffect } from "react";
-import { EmptyState, GlobalLoader, Text } from "@/ui";
+import { EmptyState, GlobalLoader } from "@/ui";
+import { TripDashboard } from "@/features";
 
 const mockTrip: TripAbstract = {
   id: "ieuyfgas89w",
@@ -37,20 +38,16 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
     if (isLoading) return <GlobalLoader />;
     if (data === undefined) return <EmptyState />;
 
-    return data.destinationProposal ? (
+    return !data.destinationProposal ? (
       <HasTrip trip={data.destinationProposal} />
     ) : (
-      <>
-      {data.tripDashboard}
-      </>
+      <TripDashboard tripDashboard={mockTrip.tripDashboard!} name="Ouro Preto" />
     );
   };
 
   return (
     <div className={cn} {...props}>
-      <HeaderUserMenu userName={name}>
-        Te esperamos na sua próxima viagem
-      </HeaderUserMenu>
+      <HeaderUserMenu userName={name}>Te esperamos na sua próxima viagem</HeaderUserMenu>
       {getView()}
     </div>
   );

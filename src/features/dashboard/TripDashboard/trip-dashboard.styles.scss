@@ -1,0 +1,24 @@
+.trip-dashboard {
+  background-color: $color-brand-7;
+  height: 100vh;
+  border-radius: 20px 20px 0 0;
+  padding: 30px 22px;
+  margin-top: -18px;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 25px;
+
+  &__box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 18px;
+
+    &__row {
+      display: flex;
+      width: 100%;
+    }
+  }
+}
