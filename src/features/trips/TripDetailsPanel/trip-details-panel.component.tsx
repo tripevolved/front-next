@@ -38,6 +38,7 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
     if (isLoading) return <GlobalLoader />;
     if (data === undefined) return <EmptyState />;
 
+    // TODO: remove '!'
     return !data.destinationProposal ? (
       <HasTrip trip={data.destinationProposal} />
     ) : (
