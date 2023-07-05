@@ -1,10 +1,14 @@
-import { EmptyState, GlobalLoader, Box, Text, SectionBase, Picture } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
+import { Link } from "mars-ds";
 import { useTripScriptPreview } from "./trip-script-preview.hook";
 import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
+import { TripScriptBlockedSection } from "./trip-script-blocked.section";
+import { useRouter } from "next/router";
 
 export function TripScriptPreviewPanel() {
   const { isLoading, data, error } = useTripScriptPreview();
+  const router = useRouter();
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
@@ -14,9 +18,12 @@ export function TripScriptPreviewPanel() {
 
   return (
     <>
-      <Text as="h2" heading size="xs" className="trip-script__title">
-        Prévia do roteiro
-      </Text>
+      <Box>
+        <Text as="h2" heading size="xs" className="trip-script__title">
+          Prévia do roteiro
+        </Text>
+        <Link onClick={() => router.back()}>X (VOLTAR)</Link>
+      </Box>
       {days.map((tripScriptDay, i) => {
         return (
           <SectionBase className="trip-script-day-section" columns={{ md: ["720px"], lg: ["1020px"] }} key={i}>
@@ -43,6 +50,7 @@ export function TripScriptPreviewPanel() {
           </SectionBase>
         );
       })}
+      <TripScriptBlockedSection />
     </>
   );
 }
