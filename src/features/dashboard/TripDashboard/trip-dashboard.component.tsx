@@ -63,7 +63,7 @@ export const TripDashboardItem = ({
   type = "default",
 }: TripDashboardItemProps) => {
   return (
-    <NextLink href={href} style={{ textDecoration: "none", width: "100%" }}>
+    <NextLink href={href} style={{ textDecoration: "none", width: "100%" }} className="hover">
       <button className="trip-dashboard__box__row__item btn">
         <Box className="trip-dashboard__box__row__item__container" style={{ color }}>
           {type == "default" && (
