@@ -16,6 +16,7 @@ export interface PublicDestination {
 export interface TripDestination {
   id: string;
   title: string;
+  gastronomicInformation: string;
   recommendedBy: PublicDestinationExpert;
   photos: Photo[];
   features: PublicDestinationFeature[];

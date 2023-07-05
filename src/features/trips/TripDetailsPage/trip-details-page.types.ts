@@ -22,3 +22,7 @@ export interface TripPriceSection extends ComponentHTMLProps {
   priceList: TripPriceDetails[];
   totalValue: number;
 }
+
+export interface TripFoodTipsSectionProps {
+  text: string;
+}

@@ -28,6 +28,8 @@ export function TripDetailsPage() {
   const { features = [], photos = [], recommendedBy, tips = [], title } = destination;
   const message = "Oi! Quero alterar minha viagem, pode me ajudar?";
 
+  console.log("CONFIGURATION", configuration);
+
   return (
     <>
       <DestinationHeroSection title={title} photos={photos} />
@@ -49,7 +51,7 @@ export function TripDetailsPage() {
             <TripTransportationSection />
             <TripStaySection stars={3} />
             <TripScriptSection />
-            <TripFoodTipsSection />
+            <TripFoodTipsSection text={destination.gastronomicInformation} />
             <TripSupportSection />
           </Box>
         </div>

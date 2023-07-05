@@ -5,7 +5,7 @@ export interface TripDetails {
   id: string;
   destination: TripDestination;
   configuration: TripConfiguration;
-  transportation?: TripTransportation;
+  // transportation?: TripTransportation;
   // stay?: TripStay;
   // script?: TripScriptPreview;
   // foodTips: TripFoodTips;
