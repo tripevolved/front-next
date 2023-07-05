@@ -1,5 +1,7 @@
 import { EmptyState, GlobalLoader, Box, Text, SectionBase, Picture } from "@/ui";
 import { useTripScriptPreview } from "./trip-script-preview.hook";
+import { TripScriptActionSection } from "./trip-script-action.section";
+import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
 
 export function TripScriptPreviewPanel() {
   const { isLoading, data, error } = useTripScriptPreview();
@@ -10,9 +12,6 @@ export function TripScriptPreviewPanel() {
 
   const { days, isPreview } = data;
 
-  console.log("LOG", days);
-
-  // TODO: add return arrow to go back to trip
   return (
     <>
       <Text as="h2" heading size="xs" className="trip-script__title">
@@ -22,26 +21,24 @@ export function TripScriptPreviewPanel() {
         return (
           <SectionBase className="trip-script-day-section" columns={{ md: ["720px"], lg: ["1020px"] }} key={i}>
             <div className="trip-script-day-section__border">
-              <Text size="lg" className="trip-script-day-section__title">
-                {"Dia " + (i + 1)}
-              </Text>
-              <Box className="trip-script-day-section__content">
+              <Box className="trip-script-day-section__header">
+                <Text size="lg" className="trip-script-day-section__title">
+                  {"Dia " + (i + 1)}
+                </Text>
+                <Text size="md" className="trip-script-day-section__subtitle">
+                  {tripScriptDay.date}
+                </Text>
+                <TripScriptDetailedDay details={tripScriptDay.details} />
+              </Box>
+              <div className="trip-script-day-section__content">
                 <>
                   {tripScriptDay.actions.map((tripScriptAction, j) => {
                     return (
-                      <>
-                        <Picture>{tripScriptAction.iconSlug}</Picture>
-                        <Text size="lg" className="trip-script-action__title">
-                          {tripScriptAction.title}
-                        </Text>
-                        <Text size="md" className="trip-script-action__subtitle">
-                          {tripScriptAction.subtitle}
-                        </Text>
-                      </>
+                      <TripScriptActionSection action={tripScriptAction} key={j}/>
                     )
                   })}
                 </>
-              </Box>
+              </div>
             </div>
           </SectionBase>
         );

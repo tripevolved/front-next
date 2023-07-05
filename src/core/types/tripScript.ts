@@ -10,7 +10,7 @@ interface TripScriptDay {
   details: TripScriptDayDetail;
 }
 
-interface TripScriptAction {
+export interface TripScriptAction {
   iconSlug: string;
   title: string;
   subtitle: string;
@@ -19,7 +19,7 @@ interface TripScriptAction {
   attractionPartnerSlug: string | null;
 }
 
-interface TripScriptDayDetail {
+export interface TripScriptDayDetail {
   periods: TripScriptDayPeriod[];
 }
 

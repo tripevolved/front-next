@@ -45,10 +45,19 @@
     margin-bottom: 22px;
   }
 
+  &__subtitle {
+    font-weight: 500;
+    margin-bottom: 22px;
+  }
+
+  &__header {
+    display: flex;
+  }
+
   &__content {
     display: flex;
     flex-direction: column;
-    gap: 60px;
+    gap: 15px;
     width: 100%;
 
     @media (min-width: $breakpoint-md) {
@@ -56,44 +65,22 @@
       flex-wrap: wrap;
       gap: 30px;
     }
-
-    .trip-content-item {
-      display: flex;
-      gap: 22px;
-      display: flex;
-
-      &__desc {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-
-        &__title {
-          color: $color-brand-1;
-          font-weight: 700;
-        }
-      }
-
-      @media (min-width: $breakpoint-lg) {
-        width: 375px;
-      }
-    }
   }
 }
 
 .trip-script-action {
   display: flex;
-  gap: 22px;
+  gap: 10px;
   display: flex;
 
   &__title {
-    color: $color-brand-1;
+    color: $color-brand-2;
     font-weight: 700;
   }
 
   &__subtitle {
     color: $color-brand-2;
-    font-weight: 700;
+    font-weight: 500;
   }
 
   @media (min-width: $breakpoint-lg) {
