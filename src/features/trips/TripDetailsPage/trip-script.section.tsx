@@ -22,7 +22,7 @@ export const TripScriptSection = ({ text }: TripScriptSectionProps) => {
         <Text className="trip-script-section__text">
           {text}
         </Text>
-        <Link className="trip-script-section__see-script" style={{ marginTop: 0 }} href={"/app/viagens/roteiro/" + idParam}>
+        <Link className="trip-script-section__see-script" style={{ marginTop: 0 }} href={"/app/viagens/roteiro/previa/" + idParam}>
           Ver prévia do roteiro
         </Link>
       </Box>

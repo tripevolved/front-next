@@ -1,13 +1,13 @@
 import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
 import { Link } from "mars-ds";
-import { useTripScriptPreview } from "./trip-script-preview.hook";
-import { TripScriptPreviewActionSection } from "./trip-script-preview-action.section";
-import { TripScriptPreviewDetailedDay } from "./trip-script-preview-detailed-day.section";
-import { TripScriptPreviewBlockedSection } from "./trip-script-preview-blocked.section";
+import { useTripScript } from "./trip-script.hook";
+import { TripScriptActionSection } from "./trip-script-action.section";
+import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
+import { TripScriptBlockedSection } from "./trip-script-blocked.section";
 import { useRouter } from "next/router";
 
-export function TripScriptPreviewPanel() {
-  const { isLoading, data, error } = useTripScriptPreview();
+export function TripScriptPanel() {
+  const { isLoading, data, error } = useTripScript();
   const router = useRouter();
 
   if (error) return <EmptyState />;
@@ -35,13 +35,13 @@ export function TripScriptPreviewPanel() {
                 <Text size="md" className="trip-script-day-section__subtitle">
                   {tripScriptDay.date}
                 </Text>
-                <TripScriptPreviewDetailedDay details={tripScriptDay.details} />
+                <TripScriptDetailedDay details={tripScriptDay.details} />
               </Box>
               <div className="trip-script-day-section__content">
                 <>
                   {tripScriptDay.actions.map((tripScriptAction, j) => {
                     return (
-                      <TripScriptPreviewActionSection action={tripScriptAction} key={j}/>
+                      <TripScriptActionSection action={tripScriptAction} key={j}/>
                     )
                   })}
                 </>
@@ -50,7 +50,7 @@ export function TripScriptPreviewPanel() {
           </SectionBase>
         );
       })}
-      <TripScriptPreviewBlockedSection />
+      <TripScriptBlockedSection />
     </>
   );
 }
