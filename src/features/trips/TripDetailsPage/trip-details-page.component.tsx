@@ -8,7 +8,7 @@ import { TripFoodTipsSection } from "./trip-food-tips.section";
 import { TripSupportSection } from "./trip-support.section";
 import { DesktopTripPriceSection, MobileTripPriceSection } from "./trip-price.section";
 import { TripConfigurationSection } from "./trip-configuration.section";
-import { WhatsappButton, EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
 import { useTripDetails } from "./trip-details.hook";
 import { TripPriceDetails } from "./trip-details-page.types";
 
@@ -26,7 +26,6 @@ export function TripDetailsPage() {
 
   const { destination, configuration } = data;
   const { features = [], photos = [], recommendedBy, tips = [], title } = destination;
-  const message = "Oi! Quero alterar minha viagem, pode me ajudar?";
 
   return (
     <>
@@ -48,8 +47,8 @@ export function TripDetailsPage() {
           <Box className="what-includes-section__content">
             <TripTransportationSection />
             <TripStaySection stars={3} />
-            <TripScriptSection />
-            <TripFoodTipsSection />
+            <TripScriptSection  text={destination.description} />
+            <TripFoodTipsSection text={destination.gastronomicInformation} />
             <TripSupportSection />
           </Box>
         </div>

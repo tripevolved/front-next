@@ -5,7 +5,7 @@ export interface TripDetails {
   id: string;
   destination: TripDestination;
   configuration: TripConfiguration;
-  transportation?: TripTransportation;
+  // transportation?: TripTransportation;
   // stay?: TripStay;
   // script?: TripScriptPreview;
   // foodTips: TripFoodTips;
@@ -24,7 +24,7 @@ export interface TripTransportation {
 export interface TripConfiguration {
   dates: string;
   period: string;
-  budget: string;
+  budget: number;
 }
 
 // Traveler Dashboard
