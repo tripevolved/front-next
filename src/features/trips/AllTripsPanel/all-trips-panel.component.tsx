@@ -8,6 +8,7 @@ import { useAppStore } from "@/core/store";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { EmptyState, GlobalLoader, Text, Box } from "@/ui";
+import { Divider } from "mars-ds";
 
 export function AllTripsPanel({ className, sx, ...props }: AllTripsPanelProps) {
   const cn = makeCn("all-trips-panel", className)(sx);
@@ -16,7 +17,7 @@ export function AllTripsPanel({ className, sx, ...props }: AllTripsPanelProps) {
   const { travelerState } = useAppStore();
   const [name, setName] = useState("");
   const router = useRouter();
-  const seeAllTrips = router.query.seeAll === "true" ? true : false;
+  const seeAllTrips = router.query.verTodas === "true" ? true : false;
 
   useEffect(() => {
     setName(travelerState.name);
@@ -38,6 +39,11 @@ export function AllTripsPanel({ className, sx, ...props }: AllTripsPanelProps) {
         <Text size="xxl" style={{ fontWeight: 700 }}>
           Suas viagens
         </Text>
+        {data.currentTrip ? (
+          <>
+            <TripAccordeon trip={data.currentTrip} />
+            <Divider />
+          </>) : <></>}
         {data.otherTrips.map((trip, i) => (
           <TripAccordeon trip={trip} key={i} />
         ))}
