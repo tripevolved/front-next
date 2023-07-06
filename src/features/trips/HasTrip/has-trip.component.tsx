@@ -5,7 +5,7 @@ import type { HasTripProps } from "./has-trip.types";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { BlogCardCarousel, DestinationsCarousel, TravelerDestinationCard } from "@/features";
 
-export function HasTrip({ trip, className, children, sx, ...props }: HasTripProps) {
+export function HasTrip({ trip, tripId, className, children, sx, ...props }: HasTripProps) {
   const cn = makeCn("has-trip", className)(sx);
 
   return (
@@ -15,7 +15,7 @@ export function HasTrip({ trip, className, children, sx, ...props }: HasTripProp
           Conclua o pagamento e garanta sua viagem
         </Text>
         <Box className="has-trip__trip-area">
-          <TravelerDestinationCard {...trip.mainChoice} />
+          <TravelerDestinationCard tripId={tripId} {...trip.mainChoice} />
         </Box>
         {trip.otherChoices && trip.otherChoices.length > 0 ? (
           <>

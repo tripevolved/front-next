@@ -10,6 +10,7 @@ export function TravelerDestinationCard({
   className,
   children,
   sx,
+  tripId,
   matchScore,
   name,
   images,
@@ -59,7 +60,7 @@ export function TravelerDestinationCard({
         ) : (
           <></>
         )}
-        <Button>Ver detalhes</Button>
+        <Button href={"/app/viagens/criar/" + tripId}>Ver detalhes</Button>
       </Box>
     </Box>
   );

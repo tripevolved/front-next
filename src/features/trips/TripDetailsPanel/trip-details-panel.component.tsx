@@ -40,7 +40,7 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
     if (data === undefined) return <EmptyState />;
 
     return data.destinationProposal ? (
-      <HasTrip trip={data.destinationProposal} />
+      <HasTrip trip={data.destinationProposal} tripId={data.id} />
     ) : (
       <TripDashboard tripDashboard={data.tripDashboard!} tripId={data.id} />
     );

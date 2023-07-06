@@ -3,5 +3,6 @@ import { TripMatchedDestination } from "@/core/types";
 
 export type TravelerDestinationCardProps = ComponentHTMLProps &
   TripMatchedDestination & {
+    tripId: string;
     travelersNumber?: number;
   };
