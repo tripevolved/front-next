@@ -10,12 +10,6 @@ import { DesktopTripPriceSection, MobileTripPriceSection } from "./trip-price.se
 import { TripConfigurationSection } from "./trip-configuration.section";
 import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
 import { useTripDetails } from "./trip-details.hook";
-import { TripPriceDetails } from "./trip-details-page.types";
-
-const priceList: TripPriceDetails[] = [
-  { id: "ujy27i862349872", title: "Total", price: 3237 },
-  { id: "98749387hgvak", title: "Taxa de serviço", price: 129.48 },
-];
 
 export function TripDetailsPage() {
   const { isLoading, data, error } = useTripDetails();
@@ -30,11 +24,9 @@ export function TripDetailsPage() {
   return (
     <>
       <DestinationHeroSection title={title} photos={photos} />
-      <DesktopTripPriceSection
-        priceList={priceList}
+      <DesktopTripPriceSection tripId={data.id}
         cityName={title}
         travelersNumber={2}
-        totalValue={3366.48}
       />
       <TripConfigurationSection configuration={configuration} />
       <DestinationInfoSection features={features} recommendedBy={recommendedBy} />
@@ -53,7 +45,7 @@ export function TripDetailsPage() {
           </Box>
         </div>
       </SectionBase>
-      <MobileTripPriceSection priceList={priceList} totalValue={3366.48} />
+      <MobileTripPriceSection tripId={data.id} />
     </>
   );
 }

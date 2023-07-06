@@ -126,3 +126,9 @@ interface TripStayRoomFeature {
   title: string;
   type: string | null;
 }
+
+export interface TripPrice {
+  price: number;
+  serviceFee: number;
+  description: string | null;
+}

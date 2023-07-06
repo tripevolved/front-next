@@ -4,6 +4,7 @@ import { getAllByTravelerId } from "./all";
 import { getTripOnboardingQuestions, getTripQuestions } from "./questions";
 import { TripLocalService } from "./local";
 import { createTrip } from "./create";
+import { getTripPriceById } from "./price";
 
 export const TripsApiService = {
   getById: getTripDetailsById,
@@ -13,4 +14,5 @@ export const TripsApiService = {
   getTripOnboardingQuestions: getTripOnboardingQuestions,
   getTripQuestions: getTripQuestions,
   postCreate: createTrip,
+  getPriceById: getTripPriceById
 };

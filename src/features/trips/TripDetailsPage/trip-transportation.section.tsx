@@ -1,19 +1,15 @@
 import useSwr from "swr";
 
-import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
-import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
-import { Grid, Caption, Loader, Button } from "mars-ds";
-import { EmptyState, Box, Picture, Text, CardHighlight } from "@/ui";
+import { Loader, Button } from "mars-ds";
+import { EmptyState, Box, Picture, Text } from "@/ui";
 
 import { TransportationApiService } from "@/services/api";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
 
-export const TripTransportationSection = () => {
-  const { data = [], error, isLoading } = useSwr("transportation", getByTripId, swrOptions);
-
-  console.log("ERROR", error);
+export const TripTransportationSection = ({tripId}: { tripId: string }) => {
+  const { data, error, isLoading } = useSwr(tripId, getByTripId, swrOptions);
 
   if (isLoading) {
     return (
@@ -24,6 +20,31 @@ export const TripTransportationSection = () => {
   }
 
   if (error) {
+    return (
+      <>
+        <div className="trip-content-item trip-transportation-section">
+          <Box>
+            <Picture src={"/assets/destino/passagem-aerea.svg"} />
+          </Box>
+          <Box className="trip-content-item__desc">
+            <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
+              Transporte
+            </Text>
+            <Box className="trip-transportation-section__transport">
+              <Box className="trip-transportation-section__transport__departure-and-arrival">
+                <EmptyState />
+                <Button variant="neutral" onClick={() => location.reload()}>
+                  Tentar novamente
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </div>
+      </>
+    );
+  }
+
+  if (!data) {
     return (
       <>
         <div className="trip-content-item trip-transportation-section">

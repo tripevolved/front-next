@@ -1,19 +1,19 @@
 import useSwr from "swr";
 
-import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
-import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
-import { Grid, Caption, Loader, Button, Icon } from "mars-ds";
+import { Loader, Button, Icon } from "mars-ds";
 import { EmptyState, Box, Text, Button as TButton, WhatsappButton } from "@/ui";
+import { TripPriceDetails } from "./trip-details-page.types";
 
-import { TransportationApiService } from "@/services/api/transportation";
-import { TripPriceSection, TripPriceDetails } from "./trip-details-page.types";
+import { TripsApiService } from "@/services/api";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 
 const swrOptions = { revalidateOnFocus: false };
-const { getByTripId } = TransportationApiService;
+const { getPriceById } = TripsApiService;
 
-export const MobileTripPriceSection = ({ priceList, totalValue }: TripPriceSection) => {
-  const { data = [], error, isLoading } = useSwr("transportation", getByTripId, swrOptions);
+export const MobileTripPriceSection = ({ tripId }: { tripId: string }) => {
+  const { data, error, isLoading } = useSwr(tripId, getPriceById, swrOptions);
+
+  console.log(data);
 
   if (isLoading) {
     return (
@@ -34,6 +34,8 @@ export const MobileTripPriceSection = ({ priceList, totalValue }: TripPriceSecti
     );
   }
 
+  const total = data?.price! + data?.serviceFee!;
+
   return (
     <Box className="mobile-trip-price-section">
       <Box className="mobile-trip-price-section__header">
@@ -43,12 +45,11 @@ export const MobileTripPriceSection = ({ priceList, totalValue }: TripPriceSecti
         <Icon size="md" name="chevron-down" />
       </Box>
       <Box className="mobile-trip-price-section__price-list">
-        {priceList.map((item, i) => (
-          <PriceItem {...item} key={`${item.id}-${i}`} />
-        ))}
+        <PriceItem title="Total" price={data?.price!} />
+        <PriceItem title="Taxa de serviço" price={data?.serviceFee!} />
       </Box>
       <TButton backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)">
-        Comprar a viagem por {formatByDataType(totalValue, "CURRENCY")}
+        Comprar a viagem por {formatByDataType(total, "CURRENCY")}
       </TButton>
       <WhatsappButton
         style={{ width: "100%", color: "var(--color-brand-2)" }}
@@ -63,17 +64,42 @@ export const MobileTripPriceSection = ({ priceList, totalValue }: TripPriceSecti
   );
 };
 
-export type DesktopTripPriceSectionProps = TripPriceSection & {
+export type DesktopTripPriceSectionProps = {
+  tripId: string;
   cityName: string;
   travelersNumber: number;
 };
 
 export const DesktopTripPriceSection = ({
-  priceList,
-  totalValue,
+  tripId,
   cityName,
   travelersNumber,
 }: DesktopTripPriceSectionProps) => {
+  const { data, error, isLoading } = useSwr(tripId, getPriceById, swrOptions);
+
+  console.log(data);
+
+  if (isLoading) {
+    return (
+      <div className="profile-questions-form">
+        <Loader color="var(--color-brand-1)" size="md" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="profile-questions-form flex-column gap-lg">
+        <EmptyState />
+        <Button variant="neutral" onClick={() => location.reload()}>
+          Tentar novamente
+        </Button>
+      </div>
+    );
+  }
+
+  const total = data?.price! + data?.serviceFee!;
+
   return (
     <Box className="desktop-trip-price-section">
       <Box className="mobile-trip-price-section" style={{ display: "flex" }}>
@@ -84,12 +110,11 @@ export const DesktopTripPriceSection = ({
           <Text>Para {travelersNumber} pessoas</Text>
         </Box>
         <Box className="mobile-trip-price-section__price-list">
-          {priceList.map((item, i) => (
-            <PriceItem {...item} key={`${item.id}-${i}`} />
-          ))}
+          <PriceItem title="Total" price={data?.price!} />
+          <PriceItem title="Taxa de serviço" price={data?.serviceFee!} />
         </Box>
         <TButton backgroundColor="var(--color-brand-1)" color="var(--color-gray-4)">
-          Comprar a viagem por {formatByDataType(totalValue, "CURRENCY")}
+          Comprar a viagem por {formatByDataType(total, "CURRENCY")}
         </TButton>
 
         <WhatsappButton
@@ -99,7 +124,7 @@ export const DesktopTripPriceSection = ({
           href={"#"}
           hoverBackgroundColor={"var(--color-secondary-900)"}
         >
-          Tem alguma Duvida? fale conosco
+          {"Quero alterar a viagem"}
         </WhatsappButton>
       </Box>
     </Box>

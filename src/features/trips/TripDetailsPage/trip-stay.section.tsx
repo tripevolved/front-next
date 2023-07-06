@@ -1,8 +1,6 @@
 import useSwr from "swr";
 
-import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
-import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
-import { Grid, Caption, Loader, Button, Icon } from "mars-ds";
+import { Loader, Button, Icon } from "mars-ds";
 import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 
 import { StaysApiService } from "@/services/api";
@@ -10,8 +8,8 @@ import { StaysApiService } from "@/services/api";
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
 
-export const TripStaySection = ({ stars = 0 }: { stars: number }) => {
-  const { data = [], error, isLoading } = useSwr("stay", getByTripId, swrOptions);
+export const TripStaySection = ({ tripId }: { tripId: string }) => {
+  const { data, error, isLoading } = useSwr(tripId, getByTripId, swrOptions);
 
   if (isLoading) {
     return (
@@ -22,6 +20,29 @@ export const TripStaySection = ({ stars = 0 }: { stars: number }) => {
   }
 
   if (error) {
+    return (
+      <div className="trip-content-item trip-stay-section">
+        <Box>
+          <Picture src={"/assets/destino/hospedagem.svg"} />
+        </Box>
+        <Box className="trip-content-item__desc">
+          <Box className="trip-stay-section__header">
+            <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
+              Hospedagem
+            </Text>
+          </Box>
+          <Box className="trip-stay-section__content">
+            <EmptyState />
+            <Button variant="neutral" onClick={() => location.reload()}>
+              Tentar novamente
+            </Button>
+          </Box>
+        </Box>
+      </div>
+    );
+  }
+
+  if (!data) {
     return (
       <>
         <div className="trip-content-item trip-stay-section">
@@ -72,11 +93,11 @@ export const TripStaySection = ({ stars = 0 }: { stars: number }) => {
           </Box>
           <Box className="trip-stay-section__content">
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture src={"/assets/destino/hotel-casa-grande.png"} />
+              <Picture src={data.coverImageUrl!} />
               <Box className="trip-stay-section__content__stay-desc__box">
-                <Text>{"Hotel Casa Grande"}</Text>
+                <Text>{data.name}</Text>
                 <Box className="trip-stay-section__content__stay-desc__box__stars">
-                  {generateStars(stars)}
+                  {data.tags}
                 </Box>
               </Box>
             </Box>
