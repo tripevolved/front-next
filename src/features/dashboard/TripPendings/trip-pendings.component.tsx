@@ -1,0 +1,72 @@
+import { GeneralHeader, Box, Text, SectionBase, Picture } from "@/ui";
+import type { TripPendingsProps, TripPendingItemProps } from "./trip-pendings.types";
+
+import { makeCn } from "@/utils/helpers/css.helpers";
+import { useRouter } from "next/router";
+import { Button, Modal } from "mars-ds";
+import { useState } from "react";
+import { PendingDocumentsModal } from "../PendingDocumentsModal";
+
+const mock: TripPendingItemProps = {
+  id: "6f6sd54s68f4s6",
+  deadline: "2023-10-10",
+  description: "Envie os seus documentos para viagem",
+  title: "Enviar documentos",
+  slug: "documents",
+  isMandatory: true,
+};
+
+export function TripPendings({ className, children, sx, ...props }: TripPendingsProps) {
+  const cn = makeCn("trip-pendings", className)(sx);
+
+  const router = useRouter();
+  const tripId = router.query.id;
+
+  const text =
+    "Confira suas pendências. É importante cumprir a lista para que tudo saia como o planejado.";
+
+  return (
+    <div className={cn} {...props}>
+      <GeneralHeader title="Pendências da viagem" backButton href={`/app/viagens/${tripId}`} />
+      <SectionBase className="trip-pendings__section">
+        <Box className="trip-pendings__section__body">
+          <Text size="md" className="trip-pendings__section__body__sub-title">
+            {text}
+          </Text>
+
+          <Box className="trip-pendings__section__body__pending-list">
+            <TripPendingItem {...mock} />
+          </Box>
+        </Box>
+      </SectionBase>
+    </div>
+  );
+}
+
+const TripPendingItem = ({
+  id,
+  isMandatory,
+  slug,
+  title,
+  description,
+  deadline,
+}: TripPendingItemProps) => {
+  const handleClick = () => {
+    Modal.open(() => <>{slug === "documents" && <PendingDocumentsModal />}</>, {
+      size: "sm",
+      closable: true,
+    });
+  };
+
+  return (
+    <>
+      <Box className="trip-pending-item">
+        <div>
+          <Picture src={`/assets/trip-dashboard/pendings/${slug}.svg`} />
+          <Text>{title}</Text>
+        </div>
+        <Button iconName="chevron-right" variant="naked" size="sm" onClick={() => handleClick()} />
+      </Box>
+    </>
+  );
+};

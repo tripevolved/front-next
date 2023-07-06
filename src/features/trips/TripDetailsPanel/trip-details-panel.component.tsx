@@ -39,10 +39,10 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
     if (isLoading) return <GlobalLoader />;
     if (data === undefined) return <EmptyState />;
 
-    return data.destinationProposal ? (
+    return !data.destinationProposal ? (
       <HasTrip trip={data.destinationProposal} tripId={data.id} />
     ) : (
-      <TripDashboard tripDashboard={data.tripDashboard!} tripId={data.id} />
+      <TripDashboard tripDashboard={mockTrip.tripDashboard!} tripId={data.id} />
     );
   };
 
