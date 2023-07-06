@@ -48,7 +48,6 @@ export const TripTransportationSection = ({tripId}: { tripId: string }) => {
     );
   }
 
-
   if (!data) {
     return (
       <>
@@ -75,27 +74,45 @@ export const TripTransportationSection = ({tripId}: { tripId: string }) => {
   return (
     <div className="trip-content-item trip-transportation-section">
       <Box>
-        <Picture src={"/assets/destino/passagem-aerea.svg"} />
+        <Picture src={"/assets/transportation/" + data.iconSlug + ".svg"} />
       </Box>
       <Box className="trip-content-item__desc">
         <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
-          Passagem aérea
+          {getTitleFromType(data.iconSlug)}
         </Text>
         <Box className="trip-transportation-section__transport">
-          <Picture src="/assets/latam.png" />
+          <Picture src={data.partnerLogoUrl} />
           <Box className="trip-transportation-section__transport__departure-and-arrival">
             <Text className="trip-transportation-section__transport__departure-and-arrival__text">
-              Saída: {"Guarulhos - SP"}
+              {data.title}
             </Text>
-            <Text
-              className="trip-transportation-section__transport__departure-and-arrival__text"
-              style={{ marginTop: 0 }}
-            >
-              Chegada: {"Confins - MG"}
+            <Text className="trip-transportation-section__transport__departure-and-arrival__text">
+              Saída: {data.departure}
             </Text>
+            {data.estimatedArrival ? 
+              <Text
+                className="trip-transportation-section__transport__departure-and-arrival__text"
+                style={{ marginTop: 0 }}
+              >
+                Chegada prevista: {data.estimatedArrival}
+              </Text> : null
+            }
           </Box>
+          <Text>
+            {data.description}
+          </Text>
         </Box>
       </Box>
     </div>
   );
+};
+
+const getTitleFromType = (type: "car" | "flight" | "bus" | "train" | "rentalcar") => {
+  if (type === "car") return "Carro";
+  if (type === "flight") return "Passagem aérea";
+  if (type === "bus") return "Passagem de ônibus";
+  if (type === "train") return "Passagem de trem";
+  if (type === "rentalcar") return "Aluguel de carro";
+
+  return "Transporte";
 };

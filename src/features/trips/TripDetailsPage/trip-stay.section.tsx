@@ -1,7 +1,8 @@
 import useSwr from "swr";
 
 import { Loader, Button } from "mars-ds";
-import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
+import { Box, EmptyState, Picture, Text } from "@/ui";
+import { TripStayHighlightSection } from "./trip-stay-highlight.section";
 
 import { StaysApiService } from "@/services/api";
 
@@ -14,8 +15,6 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
   };
 
   const { data, error, isLoading } = useSwr("stay", getStay, swrOptions);
-
-  console.log("DATA", data);
 
   if (isLoading) {
     return (
@@ -105,24 +104,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
           </Box>
         </Box>
       </div>
-      <CardHighlight className="trip-stay-highlight-box">
-        <Text heading size="xs" className="trip-stay-highlight-box__title">
-          Destaques da hospedagem
-        </Text>
-        <Box className="trip-stay-highlight-box__content">
-          <Picture src="/assets/destino/pin.png" />
-          <Box className="trip-stay-highlight-box__content__desc">
-            <Text as="h3" heading size="xs">
-              {"Localização"}
-            </Text>
-            <Text>
-              {
-                "Localizada no centro, a hospedagem oferece comodidade para visitar as principais atrações do destino."
-              }
-            </Text>
-          </Box>
-        </Box>
-      </CardHighlight>
+      {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
     </>
   );
 };

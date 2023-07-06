@@ -14,11 +14,12 @@ export interface TripDetails {
 }
 
 export interface TripTransportation {
-  companyLogoUrl?: string;
-  type: string;
+  partnerLogoUrl?: string;
+  iconSlug: "car" | "flight" | "bus" | "train" | "rentalcar";
   title: string;
   departure: string;
-  arrival: string;
+  estimatedArrival: string;
+  description: string;
 }
 
 export interface TripConfiguration {
@@ -81,13 +82,13 @@ export interface TripStay {
   isSelected: boolean;
 }
 
-interface TripStayHighlight {
+export interface TripStayHighlight {
   title: string;
   description: string | null;
   type: string | null;
 }
 
-interface TripStayDetails {
+export interface TripStayDetails {
   images: TripStayImage[] | null;
   information: string;
   checkInTip: string | null;
