@@ -37,8 +37,8 @@ export function TripDetailsPage() {
             {"O que inclui"}
           </Text>
           <Box className="what-includes-section__content">
-            <TripTransportationSection />
-            <TripStaySection stars={3} />
+            <TripTransportationSection tripId={data.id} />
+            <TripStaySection tripId={data.id} />
             <TripScriptSection  text={destination.description} />
             <TripFoodTipsSection text={destination.gastronomicInformation} />
             <TripSupportSection />
