@@ -78,6 +78,7 @@ export interface TripStay {
   tags: string;
   highlight: TripStayHighlight;
   details: TripStayDetails;
+  isSelected: boolean;
 }
 
 interface TripStayHighlight {

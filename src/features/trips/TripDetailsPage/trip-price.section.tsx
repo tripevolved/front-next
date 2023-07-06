@@ -1,20 +1,11 @@
-import useSwr from "swr";
-
 import { Loader, Button, Icon } from "mars-ds";
 import { EmptyState, Box, Text, Button as TButton, WhatsappButton } from "@/ui";
 import { TripPriceDetails } from "./trip-details-page.types";
 
-import { TripsApiService } from "@/services/api";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
+import { TripPrice } from "@/core/types";
 
-const swrOptions = { revalidateOnFocus: false };
-const { getPriceById } = TripsApiService;
-
-export const MobileTripPriceSection = ({ tripId }: { tripId: string }) => {
-  const { data, error, isLoading } = useSwr(tripId, getPriceById, swrOptions);
-
-  console.log(data);
-
+export const MobileTripPriceSection = ({ isLoading, priceData, error }: { isLoading: boolean, priceData: TripPrice, error: boolean }) => {
   if (isLoading) {
     return (
       <div className="profile-questions-form">
@@ -34,7 +25,7 @@ export const MobileTripPriceSection = ({ tripId }: { tripId: string }) => {
     );
   }
 
-  const total = data?.price! + data?.serviceFee!;
+  const total = priceData?.price! + priceData?.serviceFee!;
 
   return (
     <Box className="mobile-trip-price-section">
@@ -45,8 +36,8 @@ export const MobileTripPriceSection = ({ tripId }: { tripId: string }) => {
         <Icon size="md" name="chevron-down" />
       </Box>
       <Box className="mobile-trip-price-section__price-list">
-        <PriceItem title="Total" price={data?.price!} />
-        <PriceItem title="Taxa de serviço" price={data?.serviceFee!} />
+        <PriceItem title="Total" price={priceData?.price!} />
+        <PriceItem title="Taxa de serviço" price={priceData?.serviceFee!} />
       </Box>
       <TButton backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)">
         Comprar a viagem por {formatByDataType(total, "CURRENCY")}
@@ -65,20 +56,20 @@ export const MobileTripPriceSection = ({ tripId }: { tripId: string }) => {
 };
 
 export type DesktopTripPriceSectionProps = {
-  tripId: string;
+  isLoading: boolean;
+  priceData: TripPrice;
+  error: boolean
   cityName: string;
   travelersNumber: number;
 };
 
 export const DesktopTripPriceSection = ({
-  tripId,
+  isLoading,
+  priceData,
+  error,
   cityName,
   travelersNumber,
 }: DesktopTripPriceSectionProps) => {
-  const { data, error, isLoading } = useSwr(tripId, getPriceById, swrOptions);
-
-  console.log(data);
-
   if (isLoading) {
     return (
       <div className="profile-questions-form">
@@ -98,7 +89,7 @@ export const DesktopTripPriceSection = ({
     );
   }
 
-  const total = data?.price! + data?.serviceFee!;
+  const total = priceData?.price! + priceData?.serviceFee!;
 
   return (
     <Box className="desktop-trip-price-section">
@@ -110,8 +101,8 @@ export const DesktopTripPriceSection = ({
           <Text>Para {travelersNumber} pessoas</Text>
         </Box>
         <Box className="mobile-trip-price-section__price-list">
-          <PriceItem title="Total" price={data?.price!} />
-          <PriceItem title="Taxa de serviço" price={data?.serviceFee!} />
+          <PriceItem title="Total" price={priceData?.price!} />
+          <PriceItem title="Taxa de serviço" price={priceData?.serviceFee!} />
         </Box>
         <TButton backgroundColor="var(--color-brand-1)" color="var(--color-gray-4)">
           Comprar a viagem por {formatByDataType(total, "CURRENCY")}

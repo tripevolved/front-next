@@ -1,6 +1,6 @@
 import useSwr from "swr";
 
-import { Loader, Button, Icon } from "mars-ds";
+import { Loader, Button } from "mars-ds";
 import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 
 import { StaysApiService } from "@/services/api";
@@ -9,7 +9,13 @@ const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
 
 export const TripStaySection = ({ tripId }: { tripId: string }) => {
-  const { data, error, isLoading } = useSwr(tripId, getByTripId, swrOptions);
+  const getStay = (key: string) => {
+    return getByTripId(tripId);
+  };
+
+  const { data, error, isLoading } = useSwr("stay", getStay, swrOptions);
+
+  console.log("DATA", data);
 
   if (isLoading) {
     return (
@@ -42,7 +48,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
     );
   }
 
-  if (!data) {
+  if (!data || !data.isSelected) {
     return (
       <>
         <div className="trip-content-item trip-stay-section">
@@ -66,14 +72,6 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
       </>
     );
   }
-
-  const generateStars = (qtd: number) => {
-    const auxList = [];
-    for (let index = 1; index <= qtd; index++) {
-      auxList.push(<Icon size="sm" name="star" color="#f5ac0a" />);
-    }
-    return <>{auxList.map((icon, i) => icon)}</>;
-  };
 
   return (
     <>

@@ -9,7 +9,11 @@ const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
 
 export const TripTransportationSection = ({tripId}: { tripId: string }) => {
-  const { data, error, isLoading } = useSwr(tripId, getByTripId, swrOptions);
+  const getTransportation = (key: string) => {
+    return getByTripId(tripId);
+  };
+
+  const { data, error, isLoading } = useSwr("transportation", getTransportation, swrOptions);
 
   if (isLoading) {
     return (
@@ -43,6 +47,7 @@ export const TripTransportationSection = ({tripId}: { tripId: string }) => {
       </>
     );
   }
+
 
   if (!data) {
     return (

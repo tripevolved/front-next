@@ -10,9 +10,11 @@ import { DesktopTripPriceSection, MobileTripPriceSection } from "./trip-price.se
 import { TripConfigurationSection } from "./trip-configuration.section";
 import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
 import { useTripDetails } from "./trip-details.hook";
+import { useTripPrice } from "./trip-price.hook";
 
 export function TripDetailsPage() {
   const { isLoading, data, error } = useTripDetails();
+  const { isPriceLoading, priceData, priceError } = useTripPrice();
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
@@ -24,7 +26,10 @@ export function TripDetailsPage() {
   return (
     <>
       <DestinationHeroSection title={title} photos={photos} />
-      <DesktopTripPriceSection tripId={data.id}
+      <DesktopTripPriceSection 
+        isLoading={isPriceLoading}
+        error={priceError}
+        priceData={priceData!}
         cityName={title}
         travelersNumber={2}
       />
@@ -45,7 +50,7 @@ export function TripDetailsPage() {
           </Box>
         </div>
       </SectionBase>
-      <MobileTripPriceSection tripId={data.id} />
+      <MobileTripPriceSection isLoading={isPriceLoading} error={priceError} priceData={priceData!} />
     </>
   );
 }
