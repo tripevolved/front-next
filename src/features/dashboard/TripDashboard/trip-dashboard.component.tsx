@@ -9,7 +9,7 @@ export function TripDashboard({
   children,
   sx,
   tripDashboard,
-  name,
+  tripId,
   ...props
 }: TripDashboardProps) {
   const cn = makeCn("trip-dashboard", className)(sx);
@@ -17,7 +17,7 @@ export function TripDashboard({
 
   return (
     <Box className={cn} {...props}>
-      <Text heading>{name}</Text>
+      <Text heading>{tripDashboard.name}</Text>
       <Box className="trip-dashboard__box">
         <Box className="trip-dashboard__box__row">
           <TripDashboardItem
@@ -43,7 +43,7 @@ export function TripDashboard({
             icon="script"
             description="Roteiro"
             qtd={attractionsNumber}
-            href="#"
+            href={"/app/viagens/roteiro/" + tripId}
             type="script"
           />
         </Box>

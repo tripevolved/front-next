@@ -29,6 +29,7 @@ export interface TripConfiguration {
 
 // Traveler Dashboard
 export interface TripDashboard {
+  name: string;
   pedingActions: number;
   documents: number;
   flightAndTickets: number;

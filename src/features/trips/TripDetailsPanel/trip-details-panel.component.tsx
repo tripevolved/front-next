@@ -1,7 +1,7 @@
 import type { TripDetailsPanelProps } from "./trip-details-panel.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { TripAbstract, AllTrips } from "@/core/types";
+import { TripAbstract } from "@/core/types";
 import { HeaderUserMenu } from "../../dashboard/HeaderUserMenu";
 import { HasTrip } from "../HasTrip";
 import { useTripDashboard } from "./trip-details-panel.hook";
@@ -14,6 +14,7 @@ const mockTrip: TripAbstract = {
   id: "ieuyfgas89w",
   viewType: "ORGANIZATION",
   tripDashboard: {
+    name: "Fernando de Noronha",
     attractionsNumber: 7,
     pedingActions: 2,
     documents: 5,
@@ -41,7 +42,7 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
     return data.destinationProposal ? (
       <HasTrip trip={data.destinationProposal} />
     ) : (
-      <TripDashboard tripDashboard={data.tripDashboard!} name="" />
+      <TripDashboard tripDashboard={data.tripDashboard!} tripId={data.id} />
     );
   };
 

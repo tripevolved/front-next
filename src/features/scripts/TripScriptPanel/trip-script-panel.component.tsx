@@ -3,7 +3,6 @@ import { Link } from "mars-ds";
 import { useTripScript } from "./trip-script.hook";
 import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
-import { TripScriptBlockedSection } from "./trip-script-blocked.section";
 import { useRouter } from "next/router";
 
 export function TripScriptPanel() {
@@ -50,7 +49,6 @@ export function TripScriptPanel() {
           </SectionBase>
         );
       })}
-      <TripScriptBlockedSection />
     </>
   );
 }
