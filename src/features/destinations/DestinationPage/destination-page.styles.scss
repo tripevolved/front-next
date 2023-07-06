@@ -1,10 +1,10 @@
 .destination-hero-section {
-  height: 50vh;
+  height: 38vh !important;
   position: relative;
   display: flex;
   align-items: flex-end;
   padding: $spacing-xl;
-  background-color: $color-brand-2;
+  background-position: center;
 
   &--no-photo {
     height: inherit;
@@ -34,34 +34,37 @@
   &__content {
     color: white;
     position: relative;
-    padding: $spacing-xl 0;
+    margin-bottom: 10px;
   }
 }
 
 .destination-tips-section {
   background-color: $color-brand-5;
+
+  &__title {
+    margin-bottom: 35px;
+  }
+
   &__container {
     display: flex;
-    flex-wrap: wrap;
-    $gap: 40px;
+    flex-direction: column;
+    $gap: 28px;
     gap: $gap;
-    .tip {
-      $columns: 2;
-      width: calc((100% - ($gap * ($columns - 1))) / $columns);
-      &--lg {
-        width: 100%;
-      }
-      > * {
-        max-width: 520px;
-      }
 
-      @media (min-width: $breakpoint-md) {
-        $columns: 4;
-        width: calc((100% - ($gap * ($columns - 1))) / $columns);
-        &--lg {
-          $columns: 2;
-          width: calc((100% - ($gap * ($columns - 1))) / $columns);
-        }
+    .tip {
+      display: flex;
+      gap: 16px;
+      color: $color-brand-2;
+
+      &__content-box {
+        flex: 1;
+      }
+    }
+    @media (min-width: $breakpoint-md) {
+      flex-direction: row;
+
+      .tip {
+        width: 315px;
       }
     }
   }
@@ -84,18 +87,32 @@
   }
 }
 
-.destination-feature {
+.destination-feature__list {
+  padding: 25px 20px;
   display: flex;
-  padding: 16px 0;
-  &__icon {
-    min-width: 48px;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+
+  h2 {
+    font-weight: 700;
   }
-  &__title {
-    color: $color-brand-4;
-    margin-bottom: 12px;
-  }
-  &__description {
-    color: $color-text-secondary;
+
+  &__item {
+    display: flex;
+
+    &__icon {
+      min-width: 40px;
+    }
+
+    &__title {
+      color: $color-brand-4;
+    }
+
+    &__description {
+      margin-top: 7px !important;
+      color: $color-text-secondary;
+    }
   }
 }
 

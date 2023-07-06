@@ -2,15 +2,15 @@ import useSwr from "swr";
 
 import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
 import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
-import { Grid, Caption, Loader, Button } from "mars-ds";
-import { EmptyState } from "@/ui";
+import { Grid, Caption, Loader, Button, Icon } from "mars-ds";
+import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 
 import { TransportationApiService } from "@/services/api/transportation";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
 
-export const TripStaySection = () => {
+export const TripStaySection = ({ stars = 0 }: { stars: number }) => {
   const { data = [], error, isLoading } = useSwr("stay", getByTripId, swrOptions);
 
   if (isLoading) {
@@ -32,7 +32,64 @@ export const TripStaySection = () => {
     );
   }
 
+  const generateStars = (qtd: number) => {
+    const auxList = [];
+    for (let index = 1; index <= qtd; index++) {
+      auxList.push(<Icon size="sm" name="star" color="#f5ac0a" />);
+    }
+    return <>{auxList.map((icon, i) => icon)}</>;
+  };
+
   return (
-    <div>Hospedagem encontrada</div>
+    <>
+      <div className="trip-content-item trip-stay-section">
+        <Box>
+          <Picture src={"/assets/destino/hospedagem.svg"} />
+        </Box>
+        <Box className="trip-content-item__desc">
+          <Box className="trip-stay-section__header">
+            <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
+              Hospedagem
+            </Text>
+            <Box className="trip-stay-section__header__edit">
+              <Picture src="/assets/trip/pencil.svg" />
+              Editar
+            </Box>
+          </Box>
+          <Box className="trip-stay-section__content">
+            <Box className="trip-stay-section__content__stay-desc">
+              <Picture src={"/assets/destino/hotel-casa-grande.png"} />
+              <Box className="trip-stay-section__content__stay-desc__box">
+                <Text>{"Hotel Casa Grande"}</Text>
+                <Box className="trip-stay-section__content__stay-desc__box__stars">
+                  {generateStars(stars)}
+                </Box>
+              </Box>
+            </Box>
+            <Text size="xl" className="trip-stay-section__content__details-text">
+              Ver detalhes
+            </Text>
+          </Box>
+        </Box>
+      </div>
+      <CardHighlight className="trip-stay-highlight-box">
+        <Text heading size="xs" className="trip-stay-highlight-box__title">
+          Destaques da hospedagem
+        </Text>
+        <Box className="trip-stay-highlight-box__content">
+          <Picture src="/assets/destino/pin.png" />
+          <Box className="trip-stay-highlight-box__content__desc">
+            <Text as="h3" heading size="xs">
+              {"Localização"}
+            </Text>
+            <Text>
+              {
+                "Localizada no centro, a hospedagem oferece comodidade para visitar as principais atrações do destino."
+              }
+            </Text>
+          </Box>
+        </Box>
+      </CardHighlight>
+    </>
   );
 };

@@ -32,7 +32,12 @@ const STEPS = [
   },
 ];
 
-export function TripBuilder({ className, children, destinationId, ...props }: TripBuilderQuestionsProps) {
+export function TripBuilder({
+  className,
+  children,
+  destinationId,
+  ...props
+}: TripBuilderQuestionsProps) {
   const [submitting, setSubmitting] = useState(false);
   const [showCityForm, setShowCityForm] = useState(false);
   const { travelerState } = useAppStore();
@@ -53,7 +58,10 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
   };
 
   const handleRegisterCity = (cityId: string) => {
-    RegisterApiService.putRegisterCity({ cityId, travelerId: travelerState.id })
+    RegisterApiService.putRegisterCity({
+      cityId,
+      travelerId: travelerState.id,
+    })
       .then(() => {
         setShowCityForm(false);
         travelerStateGet();
@@ -61,7 +69,7 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
       .catch(() => {
         Notification.error("Cidade inválida!");
       });
-  }
+  };
 
   const sendCreateTrip = async () => {
     try {
@@ -80,7 +88,7 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
       await delay(1000);
       handleFinish(attempts - 1);
     } else {
-      await router.replace(`/app/viagens/detalhes/${tripId.current}`);
+      await router.replace(`/app/viagens/criar/${tripId.current}`);
     }
   };
 
@@ -100,13 +108,11 @@ export function TripBuilder({ className, children, destinationId, ...props }: Tr
       <Card className="profile-questions__card">
         {submitting ? (
           <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
-        ) : 
-        (showCityForm ? (
-            <RegisterCityForm onSubmit={handleRegisterCity} />
-          )
-          : (
+        ) : showCityForm ? (
+          <RegisterCityForm onSubmit={handleRegisterCity} />
+        ) : (
           <TripBuilderQuestionsForm onSubmit={handleCreateTrip} />
-        ))}
+        )}
       </Card>
     </SectionBase>
   );

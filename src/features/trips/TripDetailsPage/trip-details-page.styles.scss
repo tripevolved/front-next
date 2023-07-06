@@ -1,0 +1,280 @@
+.trip-configuration {
+  border: 1px dashed $color-brand-1;
+  background-color: $color-brand-7;
+  display: flex;
+  justify-content: space-between;
+
+  &__box {
+    display: flex;
+    gap: 2px;
+
+    h2 {
+      color: $color-gray-1;
+    }
+  }
+
+  &__box-text {
+    color: $color-gray-2;
+  }
+}
+
+.what-includes-section {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  &__border {
+    border-radius: 10px;
+    width: fit-content;
+
+    @media (min-width: $breakpoint-md) {
+      padding: 20px;
+      border: 2px solid $color-gray-3;
+    }
+
+    @media (min-width: $breakpoint-lg) {
+      max-width: 850px;
+    }
+  }
+
+  &__title {
+    font-weight: 700;
+    margin-bottom: 22px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    width: 100%;
+
+    @media (min-width: $breakpoint-md) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .trip-content-item {
+      display: flex;
+      gap: 22px;
+      display: flex;
+
+      &__desc {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        &__title {
+          color: $color-brand-1;
+          font-weight: 700;
+        }
+      }
+
+      @media (min-width: $breakpoint-lg) {
+        width: 375px;
+      }
+    }
+  }
+}
+
+.trip-transportation-section {
+  &__transport {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+
+    &__departure-and-arrival {
+      &__text {
+        color: $color-gray-1;
+      }
+    }
+  }
+}
+
+.trip-stay-section {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 6px;
+
+    &__edit {
+      display: flex;
+      align-items: center;
+      color: $color-gray-1;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &__stay-desc {
+      display: flex;
+      gap: 20px;
+
+      img {
+        border-radius: 3px;
+      }
+
+      &__box {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        p {
+          color: $color-gray-1;
+        }
+
+        &__stars {
+          display: flex;
+          gap: 5px;
+        }
+      }
+    }
+
+    &__details-text {
+      text-decoration: underline;
+    }
+  }
+}
+
+.trip-stay-highlight-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 1px dashed $color-brand-1;
+  background-color: $color-brand-7;
+  padding: 20px;
+
+  width: 100%;
+
+  @media (min-width: $breakpoint-lg) {
+    width: 375px;
+  }
+
+  &__title {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  &__content {
+    display: flex;
+    gap: 8px;
+
+    &__desc {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      h3 {
+        color: $color-brand-1;
+        font-weight: 700;
+        font-size: 14px;
+      }
+
+      p {
+        color: $color-gray-1;
+      }
+    }
+  }
+}
+
+.trip-script-section {
+  &__text {
+    color: $color-gray-1;
+  }
+
+  &__see-script {
+    font-size: 14px;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+}
+
+.mobile-trip-price-section {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+  max-width: 760px;
+  color: $color-brand-2;
+
+  &__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__price-list {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+
+    &__price-item {
+      display: flex;
+      flex-direction: row !important;
+      flex: 1;
+      justify-content: space-between;
+
+      .label {
+        color: $color-gray-1;
+      }
+    }
+  }
+
+  &__price-list .animate {
+    display: flex;
+    height: fit-content;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+.desktop-trip-price-section {
+  display: none;
+  background-color: $color-gray-4;
+  position: absolute;
+  right: 60px;
+  z-index: 5;
+  border: 1px solid $color-gray-3;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 358px;
+  flex-direction: column;
+  margin: -185px -20px 0 0;
+  padding: 20px;
+
+  .mobile-trip-price-section {
+    gap: 30px;
+
+    &__header {
+      gap: 15px;
+      margin-bottom: 10px;
+
+      p:last-child {
+        color: $color-gray-1;
+      }
+    }
+  }
+  .mobile-trip-price-section__price-list__price-item:last-child {
+    p:last-child {
+      color: $color-brand-1;
+    }
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    display: flex;
+  }
+
+  @media (min-width: 1500px) {
+    right: 200px;
+  }
+}

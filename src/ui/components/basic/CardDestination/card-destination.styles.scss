@@ -1,0 +1,21 @@
+.card-destination {
+  color: $color-gray-4;
+  border-radius: 10px;
+  width: 195px;
+  height: 205px;
+  padding: 12px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 15px;
+
+  &__city-name {
+    color: $color-gray-4 !important;
+    text-align: start !important;
+  }
+
+  button {
+    color: $color-gray-4;
+  }
+}

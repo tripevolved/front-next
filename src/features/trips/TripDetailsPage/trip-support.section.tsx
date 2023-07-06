@@ -3,7 +3,7 @@ import useSwr from "swr";
 import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
 import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 import { Grid, Caption, Loader, Button } from "mars-ds";
-import { EmptyState } from "@/ui";
+import { EmptyState, Box, Text, Picture } from "@/ui";
 
 import { TransportationApiService } from "@/services/api/transportation";
 
@@ -33,6 +33,20 @@ export const TripSupportSection = () => {
   }
 
   return (
-    <div>Suporte durante a viagem</div>
+    <div className="trip-content-item">
+      <Box>
+        <Picture src={"/assets/destino/suporte.svg"} />
+      </Box>
+      <Box className="trip-content-item__desc">
+        <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
+          Suporte durante a viagem
+        </Text>
+        <Text className="trip-script-section__text" style={{ color: "$color-gray-1" }}>
+          {
+            "Para uma experiência única e livre de estresse, oferecemos suporte do início ao fim da sua trip, em 360º. Com tudo organizado e planejado, sua preocupação é uma só: curtir a viagem dos sonhos!"
+          }
+        </Text>
+      </Box>
+    </div>
   );
 };

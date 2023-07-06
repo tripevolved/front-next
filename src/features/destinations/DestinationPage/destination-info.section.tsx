@@ -11,17 +11,17 @@ export const DestinationInfoSection = ({
   recommendedBy,
 }: DestinationInfoSectionProps) => {
   return (
-    <SectionBase columns={{ md: [1, "320px"] }} gap={32}>
+    <SectionBase columns={{ md: [1, "320px"] }} gap={32} style={{ padding: 20 }}>
       <DestinationInfoFeatures features={features} />
-      <DestinationInfoRecommendedBy {...recommendedBy} />
+      {recommendedBy && <DestinationInfoRecommendedBy {...recommendedBy} />}
     </SectionBase>
   );
 };
 
 const DestinationInfoFeatures = ({ features = [] }: Pick<DestinationProps, "features">) => {
   return (
-    <CardHighlight className="destination-features">
-      <Text as="h2" heading className="mb-xl">
+    <CardHighlight className="destination-feature__list">
+      <Text as="h2" heading className="mb-sm" size="xs">
         Destaques do destino
       </Text>
       {features.map((props, key) => (
@@ -33,38 +33,52 @@ const DestinationInfoFeatures = ({ features = [] }: Pick<DestinationProps, "feat
 
 const DestinationFeature = ({ title, description, type }: PublicDestinationFeature) => {
   return (
-    <div className="destination-feature">
-      <div className="destination-feature__icon">
+    <div className="destination-feature__list__item">
+      <div className="destination-feature__list__item__icon">
         <FeatureIcon name={type} />
       </div>
-      <div className="destination-feature__content">
-        <Text as="h3" heading size="xs" className="destination-feature__title">
+      <div className="destination-feature__list__item__content">
+        <Text as="h3" size="lg" className="destination-feature__list__item__title">
           {title}
         </Text>
-        <Text className="destination-feature__description">{description}</Text>
+        <Text className="destination-feature__list__item__description">{description}</Text>
       </div>
     </div>
   );
 };
 
-const FEATURE_ICON_SIZE = 28;
+const FEATURE_ICON_SIZE = 23;
 const FeatureIcon = ({ name = "" }) => {
-  return <Picture src={`/assets/emojis/${name}.png`} height={FEATURE_ICON_SIZE} width={FEATURE_ICON_SIZE} />;
+  return (
+    <Picture
+      src={`/assets/emojis/${name}.png`}
+      height={FEATURE_ICON_SIZE}
+      width={FEATURE_ICON_SIZE}
+    />
+  );
 };
 
 const DestinationInfoRecommendedBy = ({
-  photo, name, recommendationText
+  photo,
+  name,
+  recommendationText,
 }: DestinationProps["recommendedBy"]) => {
   return (
     <div className="recommendation">
       <div className="flex gap-xl align-items-center mb-xl">
         <Avatar name={name} size="xl" thumbnail={photo} />
         <div className="recommendation__info">
-          <Text as="strong" className="my-0 color-primary">Destino indicado por</Text>
-          <Text size="xl" as="h4" style={{ margin: 0 }}>{name}</Text>
+          <Text as="strong" className="my-0 color-primary">
+            Destino indicado por
+          </Text>
+          <Text size="xl" as="h4" style={{ margin: 0 }}>
+            {name}
+          </Text>
         </div>
       </div>
-      <Text className="recommendation__text color-text-secondary">{recommendationText}</Text>
+      <Text className="recommendation__text color-text-secondary">
+        {recommendationText.length > 0 && `"${recommendationText}"`}
+      </Text>
     </div>
-  )
+  );
 };
