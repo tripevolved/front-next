@@ -5,10 +5,10 @@ import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 import { Grid, Caption, Loader, Button, Icon } from "mars-ds";
 import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 
-import { TransportationApiService } from "@/services/api/transportation";
+import { StaysApiService } from "@/services/api";
 
 const swrOptions = { revalidateOnFocus: false };
-const { getByTripId } = TransportationApiService;
+const { getByTripId } = StaysApiService;
 
 export const TripStaySection = ({ stars = 0 }: { stars: number }) => {
   const { data = [], error, isLoading } = useSwr("stay", getByTripId, swrOptions);
@@ -23,12 +23,26 @@ export const TripStaySection = ({ stars = 0 }: { stars: number }) => {
 
   if (error) {
     return (
-      <div className="profile-questions-form flex-column gap-lg">
-        <EmptyState />
-        <Button variant="neutral" onClick={() => location.reload()}>
-          Tentar novamente
-        </Button>
-      </div>
+      <>
+        <div className="trip-content-item trip-stay-section">
+          <Box>
+            <Picture src={"/assets/destino/hospedagem.svg"} />
+          </Box>
+          <Box className="trip-content-item__desc">
+            <Box className="trip-stay-section__header">
+              <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
+                Hospedagem
+              </Text>
+            </Box>
+            <Box className="trip-stay-section__content">
+              <div>
+                <Text heading as="h4" size="xs">Ainda não escolhemos a acomodação para sua viagem.</Text>
+                <Text>Fale conosco e vamos deixar tudo como você deseja!</Text>
+              </div>
+            </Box>
+          </Box>
+        </div>
+      </>
     );
   }
 

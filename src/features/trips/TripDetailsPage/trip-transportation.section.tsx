@@ -3,15 +3,17 @@ import useSwr from "swr";
 import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
 import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 import { Grid, Caption, Loader, Button } from "mars-ds";
-import { EmptyState, Box, Picture, Text } from "@/ui";
+import { EmptyState, Box, Picture, Text, CardHighlight } from "@/ui";
 
-import { TransportationApiService } from "@/services/api/transportation";
+import { TransportationApiService } from "@/services/api";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
 
 export const TripTransportationSection = () => {
   const { data = [], error, isLoading } = useSwr("transportation", getByTripId, swrOptions);
+
+  console.log("ERROR", error);
 
   if (isLoading) {
     return (
@@ -23,12 +25,24 @@ export const TripTransportationSection = () => {
 
   if (error) {
     return (
-      <div className="profile-questions-form flex-column gap-lg">
-        <EmptyState />
-        <Button variant="neutral" onClick={() => location.reload()}>
-          Tentar novamente
-        </Button>
-      </div>
+      <>
+        <div className="trip-content-item trip-transportation-section">
+          <Box>
+            <Picture src={"/assets/destino/passagem-aerea.svg"} />
+          </Box>
+          <Box className="trip-content-item__desc">
+            <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
+              Transporte
+            </Text>
+            <Box className="trip-transportation-section__transport">
+              <div>
+                <Text heading as="h4" size="xs">Ainda não escolhemos o transporte para sua viagem.</Text>
+                <Text>Fale conosco e vamos deixar tudo como você deseja!</Text>
+              </div>
+            </Box>
+          </Box>
+        </div>
+      </>
     );
   }
 
