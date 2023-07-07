@@ -1,5 +1,26 @@
 .pending-documents-modal {
-  background-color: red;
-  padding: 24px;
-  color: white;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 30px;
+  padding: 26px;
+
+  &__title {
+    font-weight: 700;
+    color: $color-brand-1;
+  }
+
+  &__field {
+    &__label {
+      font-weight: 400;
+    }
+
+    fieldset {
+      border: 1px solid $color-gray-3;
+    }
+  }
+
+  &__button {
+    color: $color-gray-4;
+  }
 }

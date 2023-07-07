@@ -4,17 +4,27 @@ import type { TripPendingsProps, TripPendingItemProps } from "./trip-pendings.ty
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useRouter } from "next/router";
 import { Button, Modal } from "mars-ds";
-import { useState } from "react";
 import { PendingDocumentsModal } from "../PendingDocumentsModal";
+import { ConfirmFlightModal } from "../ConfirmFlightModal";
 
-const mock: TripPendingItemProps = {
-  id: "6f6sd54s68f4s6",
-  deadline: "2023-10-10",
-  description: "Envie os seus documentos para viagem",
-  title: "Enviar documentos",
-  slug: "documents",
-  isMandatory: true,
-};
+const mock: TripPendingItemProps[] = [
+  {
+    id: "6f6sd54s68f4s6",
+    deadline: "2023-10-10",
+    description: "Envie os seus documentos para viagem",
+    title: "Enviar documentos",
+    slug: "documents",
+    isMandatory: true,
+  },
+  {
+    id: "684s6d58fg6sd",
+    deadline: "2023-11-14",
+    description: "Confirme os seus voos",
+    title: "Confirmar voos",
+    slug: "flight",
+    isMandatory: true,
+  },
+];
 
 export function TripPendings({ className, children, sx, ...props }: TripPendingsProps) {
   const cn = makeCn("trip-pendings", className)(sx);
@@ -35,7 +45,9 @@ export function TripPendings({ className, children, sx, ...props }: TripPendings
           </Text>
 
           <Box className="trip-pendings__section__body__pending-list">
-            <TripPendingItem {...mock} />
+            {mock.map((pending, i) => (
+              <TripPendingItem {...pending} key={i} />
+            ))}
           </Box>
         </Box>
       </SectionBase>
@@ -52,10 +64,18 @@ const TripPendingItem = ({
   deadline,
 }: TripPendingItemProps) => {
   const handleClick = () => {
-    Modal.open(() => <>{slug === "documents" && <PendingDocumentsModal />}</>, {
-      size: "sm",
-      closable: true,
-    });
+    Modal.open(
+      () => (
+        <>
+          {slug === "documents" && <PendingDocumentsModal />}
+          {slug === "flight" && <ConfirmFlightModal />}
+        </>
+      ),
+      {
+        size: "sm",
+        closable: true,
+      }
+    );
   };
 
   return (

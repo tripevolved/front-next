@@ -1,0 +1,60 @@
+.confirm-flight-modal {
+  background-color: #f7fcfc;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 30px;
+  padding: 26px;
+
+  &__title {
+    font-weight: 700;
+    color: $color-brand-1;
+  }
+
+  &__sub-title {
+    color: $color-gray-1;
+  }
+
+  &__flight-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 26px;
+  }
+
+  &__button {
+    color: $color-gray-4;
+  }
+}
+
+.flight-box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 12px;
+
+  &__card {
+    background-color: $color-gray-4;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+
+    &__column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      &__label {
+        color: $color-gray-1;
+        font-family: 400;
+      }
+
+      &__initials {
+        color: $color-brand-1;
+      }
+    }
+  }
+}
