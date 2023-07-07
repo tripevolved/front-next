@@ -25,7 +25,7 @@ export function TripDashboard({
             description="Pendências"
             qtd={pedingActions}
             color="#D84848"
-            href={`/app/viagens/pendencias/` /* TODO: add the trip id* */}
+            href={`/app/viagens/pendencias/${tripId}`}
           />
           <TripDashboardItem icon="documents" description="Documentos" qtd={documents} href="#" />
         </Box>
