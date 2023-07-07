@@ -32,6 +32,8 @@ export function TripPendings({ className, children, sx, ...props }: TripPendings
   const router = useRouter();
   const tripId = router.query.id;
 
+  const {} = 
+
   const text =
     "Confira suas pendências. É importante cumprir a lista para que tudo saia como o planejado.";
 
