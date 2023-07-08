@@ -5,18 +5,11 @@ export interface TripDetails {
   id: string;
   destination: TripDestination;
   configuration: TripConfiguration;
-  // transportation?: TripTransportation;
-  // stay?: TripStay;
-  // script?: TripScriptPreview;
-  // foodTips: TripFoodTips;
-  // support: TripSupportInformation;
-  // price: TripPriceDetails;
 }
 
 export interface TripTransportation {
   partnerLogoUrl?: string;
   iconSlug: "car" | "flight" | "bus" | "train" | "rentalcar";
-  title: string;
   departure: string;
   estimatedArrival: string;
   description: string;
@@ -85,7 +78,7 @@ export interface TripStay {
 export interface TripStayHighlight {
   title: string;
   description: string | null;
-  type: string | null;
+  type: "luxury" | "personnel" | "comfort" | "clean" | "rustic" | "location" | null;
 }
 
 export interface TripStayDetails {

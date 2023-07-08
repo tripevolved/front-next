@@ -84,9 +84,6 @@ export const TripTransportationSection = ({tripId}: { tripId: string }) => {
           <Picture src={data.partnerLogoUrl} />
           <Box className="trip-transportation-section__transport__departure-and-arrival">
             <Text className="trip-transportation-section__transport__departure-and-arrival__text">
-              {data.title}
-            </Text>
-            <Text className="trip-transportation-section__transport__departure-and-arrival__text">
               Saída: {data.departure}
             </Text>
             {data.estimatedArrival ? 
@@ -98,10 +95,10 @@ export const TripTransportationSection = ({tripId}: { tripId: string }) => {
               </Text> : null
             }
           </Box>
-          <Text>
-            {data.description}
-          </Text>
         </Box>
+        <Text>
+          {data.description}
+        </Text>
       </Box>
     </div>
   );

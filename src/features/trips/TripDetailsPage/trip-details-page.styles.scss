@@ -233,6 +233,13 @@
     }
   }
 
+  &__price-description {
+    color: $color-gray-1;
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+  }
+
   &__price-list .animate {
     display: flex;
     height: fit-content;

@@ -8,7 +8,7 @@ export const TripStayHighlightSection = ({ highlight }: { highlight: TripStayHig
         Destaques da hospedagem
       </Text>
       <Box className="trip-stay-highlight-box__content">
-        {highlight.type ? <Picture src={"/assets/destino/" + highlight.type + ".png"} /> : null}
+        {highlight.type ? <Picture src={"/assets/stays/" + highlight.type + ".png"} /> : null}
         <Box className="trip-stay-highlight-box__content__desc">
           <Text as="h3" heading size="xs">
             {highlight.title}

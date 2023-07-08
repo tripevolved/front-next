@@ -102,9 +102,9 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
               Ver detalhes
             </Text>
           </Box>
+          {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
         </Box>
       </div>
-      {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
     </>
   );
 };

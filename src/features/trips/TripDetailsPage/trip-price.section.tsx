@@ -38,6 +38,10 @@ export const MobileTripPriceSection = ({ isLoading, priceData, error }: { isLoad
       <Box className="mobile-trip-price-section__price-list">
         <PriceItem title="Total" price={priceData?.price!} />
         <PriceItem title="Taxa de serviço" price={priceData?.serviceFee!} />
+        {priceData.description ?
+          <Text className="mobile-trip-price-section__price-description">
+            *{priceData.description}
+          </Text> : null}
       </Box>
       <TButton backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)">
         Comprar a viagem por {formatByDataType(total, "CURRENCY")}
@@ -103,6 +107,10 @@ export const DesktopTripPriceSection = ({
         <Box className="mobile-trip-price-section__price-list">
           <PriceItem title="Total" price={priceData?.price!} />
           <PriceItem title="Taxa de serviço" price={priceData?.serviceFee!} />
+          {priceData.description ?
+            <Text className="mobile-trip-price-section__price-description">
+              *{priceData.description}
+            </Text> : null}
         </Box>
         <TButton backgroundColor="var(--color-brand-1)" color="var(--color-gray-4)">
           Comprar a viagem por {formatByDataType(total, "CURRENCY")}
