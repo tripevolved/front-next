@@ -51,7 +51,7 @@ export function TripPendings({ className, children, sx, ...props }: TripPendings
           </Text>
 
           <Box className="trip-pendings__section__body__pending-list">
-            {mock.map((pending, i) => (
+            {data.map((pending, i) => (
               <TripPendingItem {...pending} key={i} />
             ))}
           </Box>
