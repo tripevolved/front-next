@@ -1,4 +1,4 @@
-import { GeneralHeader, Box, Text, SectionBase, Picture } from "@/ui";
+import { GeneralHeader, Box, Text, SectionBase, Picture, EmptyState, GlobalLoader } from "@/ui";
 import type { TripPendingsProps, TripPendingItemProps } from "./trip-pendings.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { Button, Modal } from "mars-ds";
 import { PendingDocumentsModal } from "../PendingDocumentsModal";
 import { ConfirmFlightModal } from "../ConfirmFlightModal";
+import { useTripPendings } from "./trip-pendings.hook";
 
 const mock: TripPendingItemProps[] = [
   {
@@ -30,16 +31,19 @@ export function TripPendings({ className, children, sx, ...props }: TripPendings
   const cn = makeCn("trip-pendings", className)(sx);
 
   const router = useRouter();
-  const tripId = router.query.id;
-
-  const {} = 
+  const idParam = typeof router.query.id === "string" ? router.query.id : null;
 
   const text =
     "Confira suas pendências. É importante cumprir a lista para que tudo saia como o planejado.";
 
-  return (
-    <div className={cn} {...props}>
-      <GeneralHeader title="Pendências da viagem" backButton href={`/app/viagens/${tripId}`} />
+  const { isLoading, data, error } = useTripPendings();
+
+  const getView = () => {
+    if (error) return <EmptyState />;
+    if (isLoading) return <GlobalLoader />;
+    if (data === undefined) return <EmptyState />;
+
+    return (
       <SectionBase className="trip-pendings__section">
         <Box className="trip-pendings__section__body">
           <Text size="md" className="trip-pendings__section__body__sub-title">
@@ -53,6 +57,13 @@ export function TripPendings({ className, children, sx, ...props }: TripPendings
           </Box>
         </Box>
       </SectionBase>
+    );
+  };
+
+  return (
+    <div className={cn} {...props}>
+      <GeneralHeader title="Pendências da viagem" backButton href={`/app/viagens/${idParam}`} />
+      {getView()}
     </div>
   );
 }

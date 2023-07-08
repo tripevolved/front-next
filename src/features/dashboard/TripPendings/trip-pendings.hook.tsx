@@ -5,7 +5,7 @@ import { TripPendingAction } from "@/core/types";
 
 export const useTripPendings = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<TripPendingAction>();
+  const [data, setData] = useState<TripPendingAction[]>();
   const [error, setError] = useState(false);
 
   const router = useRouter();
