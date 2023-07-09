@@ -13,9 +13,9 @@ export function TripPaymentPage() {
   return (
     <>
       <SectionBase className="trip-payment-information">
-        <TripPayerSection />
-        <TripContactInformationSection />
-        <TripPayerAddressSection />
+        <TripPayerSection payer={null} />
+        <TripContactInformationSection contact={null} />
+        <TripPayerAddressSection address={null} />
         <TripPaymentMethodSection />
       </SectionBase>
       <SectionBase className="what-includes-section" columns={{ md: ["720px"], lg: ["1020px"] }}>

@@ -1,8 +1,10 @@
 import { Box, Text } from "@/ui";
 import { TextField } from "mars-ds";
-import { TripPayer } from "./trip-payment-page.types";
+import { TripPayerAddress } from "./trip-payment-page.types";
 
-interface TripPayerAddressSectionProps extends Pick<TripPayer, "address"> {}
+interface TripPayerAddressSectionProps {
+  address: TripPayerAddress | null;
+}
 
 export const TripPayerAddressSection = ({ address }: TripPayerAddressSectionProps) => {
   return (
@@ -17,7 +19,7 @@ export const TripPayerAddressSection = ({ address }: TripPayerAddressSectionProp
             label="CEP"
             required={true}
             disabled={false}
-            value={address.postalCode}
+            value={address?.postalCode}
             // onChange={handleTextChange}
         />
         <div>
@@ -27,7 +29,7 @@ export const TripPayerAddressSection = ({ address }: TripPayerAddressSectionProp
               label="Cidade"
               required={true}
               disabled={false}
-              value={address.city}
+              value={address?.city}
               // onChange={handleTextChange}
           />
           <TextField
@@ -36,7 +38,7 @@ export const TripPayerAddressSection = ({ address }: TripPayerAddressSectionProp
               label="UF"
               required={true}
               disabled={false}
-              value={address.stateProvince!}
+              value={address?.stateProvince!}
               // onChange={handleTextChange}
           />
         </div>
@@ -46,7 +48,7 @@ export const TripPayerAddressSection = ({ address }: TripPayerAddressSectionProp
             label="Endereço"
             required={true}
             disabled={false}
-            value={address.address}
+            value={address?.address}
             // onChange={handleTextChange}
         />
         <div>
@@ -56,7 +58,7 @@ export const TripPayerAddressSection = ({ address }: TripPayerAddressSectionProp
               label="Número"
               required={true}
               disabled={false}
-              value={address.number}
+              value={address?.number}
               // onChange={handleTextChange}
           />
           <TextField
@@ -65,7 +67,7 @@ export const TripPayerAddressSection = ({ address }: TripPayerAddressSectionProp
               label="Complemento"
               required={false}
               disabled={false}
-              value={address.complement!}
+              value={address?.complement!}
               // onChange={handleTextChange}
           />
         </div>
