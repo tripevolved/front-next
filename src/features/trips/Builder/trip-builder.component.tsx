@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 import { CreateTripDto } from "@/services/api/trip/create";
 import { useAfterLoginState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
+import { TripConfiguration } from "../TripConfiguration";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -111,6 +112,7 @@ export function TripBuilder({
         ) : showCityForm ? (
           <RegisterCityForm onSubmit={handleRegisterCity} />
         ) : (
+          // <TripConfiguration /> TODO: finish implementing this
           <TripBuilderQuestionsForm onSubmit={handleCreateTrip} />
         )}
       </Card>
