@@ -47,3 +47,4 @@ export * from "./trips/TripAccordeon";
 export * from "./trips/TripBasePage";
 export * from "./trips/TripDetailsPage";
 export * from "./trips/TripDetailsPanel";
+export * from "./trips/TripPaymentPage";

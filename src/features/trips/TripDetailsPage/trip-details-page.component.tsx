@@ -27,6 +27,7 @@ export function TripDetailsPage() {
     <>
       <DestinationHeroSection title={title} photos={photos} />
       <DesktopTripPriceSection 
+        tripId={data.id}
         isLoading={isPriceLoading}
         error={priceError}
         priceData={priceData!}
@@ -50,7 +51,7 @@ export function TripDetailsPage() {
           </Box>
         </div>
       </SectionBase>
-      <MobileTripPriceSection isLoading={isPriceLoading} error={priceError} priceData={priceData!} />
+      <MobileTripPriceSection tripId={data.id} isLoading={isPriceLoading} error={priceError} priceData={priceData!} />
     </>
   );
 }
