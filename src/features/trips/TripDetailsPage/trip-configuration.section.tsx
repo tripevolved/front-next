@@ -8,26 +8,26 @@ export const TripConfigurationSection = ({ configuration }: TripConfigurationSec
   return (
     configuration && (
       <SectionBase columns={{ md: [1, "320px"] }} gap={32} style={{ padding: "22px 15px" }}>
-        <CardHighlight className="trip-configuration" style={{ padding: "17px 10px" }}>
-          <Box className="trip-configuration__box">
+        <CardHighlight className="trip-configuration-section" style={{ padding: "17px 10px" }}>
+          <Box className="trip-configuration-section__box">
             <FeatureIcon name="calendar" />
-            <Text as="h2" size="md" className="trip-configuration__text">
+            <Text as="h2" size="md" className="trip-configuration-section__text">
               {configuration.dates}
             </Text>
           </Box>
-          <Box className="trip-configuration__box">
+          <Box className="trip-configuration-section__box">
             <FeatureIcon name="time" />
-            <Text as="h2" size="md" className="trip-configuration__text">
+            <Text as="h2" size="md" className="trip-configuration-section__text">
               {configuration.period}
             </Text>
           </Box>
-          <Box className="trip-configuration__box">
+          <Box className="trip-configuration-section__box">
             <FeatureIcon name="cash" />
-            <Text as="h2" size="md" className="trip-configuration__text">
+            <Text as="h2" size="md" className="trip-configuration-section__text">
               {formatByDataType(configuration.budget, "CURRENCY")}
             </Text>
           </Box>
-          <Box className="trip-configuration__box-text">
+          <Box className="trip-configuration-section__box-text">
             <FeatureIcon name="pencil" />
             Editar
           </Box>
