@@ -1,17 +1,20 @@
 import useSwr from "swr";
 
-import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
-import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
-import { Grid, Caption, Loader, Button, Icon } from "mars-ds";
-import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
+import { Loader, Button } from "mars-ds";
+import { Box, EmptyState, Picture, Text } from "@/ui";
+import { TripStayHighlightSection } from "./trip-stay-highlight.section";
 
-import { TransportationApiService } from "@/services/api/transportation";
+import { StaysApiService } from "@/services/api";
 
 const swrOptions = { revalidateOnFocus: false };
-const { getByTripId } = TransportationApiService;
+const { getByTripId } = StaysApiService;
 
-export const TripStaySection = ({ stars = 0 }: { stars: number }) => {
-  const { data = [], error, isLoading } = useSwr("stay", getByTripId, swrOptions);
+export const TripStaySection = ({ tripId }: { tripId: string }) => {
+  const getStay = (key: string) => {
+    return getByTripId(tripId);
+  };
+
+  const { data, error, isLoading } = useSwr("stay", getStay, swrOptions);
 
   if (isLoading) {
     return (
@@ -23,22 +26,51 @@ export const TripStaySection = ({ stars = 0 }: { stars: number }) => {
 
   if (error) {
     return (
-      <div className="profile-questions-form flex-column gap-lg">
-        <EmptyState />
-        <Button variant="neutral" onClick={() => location.reload()}>
-          Tentar novamente
-        </Button>
+      <div className="trip-content-item trip-stay-section">
+        <Box>
+          <Picture src={"/assets/destino/hospedagem.svg"} />
+        </Box>
+        <Box className="trip-content-item__desc">
+          <Box className="trip-stay-section__header">
+            <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
+              Hospedagem
+            </Text>
+          </Box>
+          <Box className="trip-stay-section__content">
+            <EmptyState />
+            <Button variant="neutral" onClick={() => location.reload()}>
+              Tentar novamente
+            </Button>
+          </Box>
+        </Box>
       </div>
     );
   }
 
-  const generateStars = (qtd: number) => {
-    const auxList = [];
-    for (let index = 1; index <= qtd; index++) {
-      auxList.push(<Icon size="sm" name="star" color="#f5ac0a" />);
-    }
-    return <>{auxList.map((icon, i) => icon)}</>;
-  };
+  if (!data || !data.isSelected) {
+    return (
+      <>
+        <div className="trip-content-item trip-stay-section">
+          <Box>
+            <Picture src={"/assets/destino/hospedagem.svg"} />
+          </Box>
+          <Box className="trip-content-item__desc">
+            <Box className="trip-stay-section__header">
+              <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
+                Hospedagem
+              </Text>
+            </Box>
+            <Box className="trip-stay-section__content">
+              <div>
+                <Text heading as="h4" size="xs">Ainda não escolhemos a acomodação para sua viagem.</Text>
+                <Text>Fale conosco e vamos deixar tudo como você deseja!</Text>
+              </div>
+            </Box>
+          </Box>
+        </div>
+      </>
+    );
+  }
 
   return (
     <>
@@ -58,11 +90,11 @@ export const TripStaySection = ({ stars = 0 }: { stars: number }) => {
           </Box>
           <Box className="trip-stay-section__content">
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture src={"/assets/destino/hotel-casa-grande.png"} />
+              <Picture src={data.coverImageUrl!} />
               <Box className="trip-stay-section__content__stay-desc__box">
-                <Text>{"Hotel Casa Grande"}</Text>
+                <Text>{data.name}</Text>
                 <Box className="trip-stay-section__content__stay-desc__box__stars">
-                  {generateStars(stars)}
+                  {data.tags}
                 </Box>
               </Box>
             </Box>
@@ -70,26 +102,9 @@ export const TripStaySection = ({ stars = 0 }: { stars: number }) => {
               Ver detalhes
             </Text>
           </Box>
+          {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
         </Box>
       </div>
-      <CardHighlight className="trip-stay-highlight-box">
-        <Text heading size="xs" className="trip-stay-highlight-box__title">
-          Destaques da hospedagem
-        </Text>
-        <Box className="trip-stay-highlight-box__content">
-          <Picture src="/assets/destino/pin.png" />
-          <Box className="trip-stay-highlight-box__content__desc">
-            <Text as="h3" heading size="xs">
-              {"Localização"}
-            </Text>
-            <Text>
-              {
-                "Localizada no centro, a hospedagem oferece comodidade para visitar as principais atrações do destino."
-              }
-            </Text>
-          </Box>
-        </Box>
-      </CardHighlight>
     </>
   );
 };

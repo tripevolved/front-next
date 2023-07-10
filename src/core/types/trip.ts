@@ -5,20 +5,14 @@ export interface TripDetails {
   id: string;
   destination: TripDestination;
   configuration: TripConfiguration;
-  // transportation?: TripTransportation;
-  // stay?: TripStay;
-  // script?: TripScriptPreview;
-  // foodTips: TripFoodTips;
-  // support: TripSupportInformation;
-  // price: TripPriceDetails;
 }
 
 export interface TripTransportation {
-  companyLogoUrl?: string;
-  type: string;
-  title: string;
+  partnerLogoUrl?: string;
+  iconSlug: "car" | "flight" | "bus" | "train" | "rentalcar";
   departure: string;
-  arrival: string;
+  estimatedArrival: string;
+  description: string;
 }
 
 export interface TripConfiguration {
@@ -69,4 +63,67 @@ export interface TripListView {
 export interface AllTrips {
   currentTrip: TripListView | null;
   otherTrips: TripListView[];
+}
+
+export interface TripStay {
+  id: string; // AccommodationId
+  coverImageUrl: string | null;
+  name: string;
+  tags: string;
+  highlight: TripStayHighlight;
+  details: TripStayDetails;
+  isSelected: boolean;
+}
+
+export interface TripStayHighlight {
+  title: string;
+  description: string | null;
+  type: "luxury" | "personnel" | "comfort" | "clean" | "rustic" | "location" | null;
+}
+
+export interface TripStayDetails {
+  images: TripStayImage[] | null;
+  information: string;
+  checkInTip: string | null;
+  address: string | null;
+  price: number;
+  features: TripStayFeature[];
+  rooms: TripStayRoom[];
+}
+
+interface TripStayImage {
+  url: string;
+  altText: string | null;
+}
+
+interface TripStayFeature {
+  title: string;
+  type: string | null;
+}
+
+export interface TripStayRoom {
+  id: string; // AccommodationRoomId
+  coverImageUrl: string;
+  title: string;
+  subtitle: string | null;
+  isSelected: boolean;
+  price: number;
+  details: TripStayRoomDetails;
+  features: TripStayRoomFeature[];
+}
+
+interface TripStayRoomDetails {
+  information: string;
+  amenities: string[] | null;
+}
+
+interface TripStayRoomFeature {
+  title: string;
+  type: string | null;
+}
+
+export interface TripPrice {
+  price: number;
+  serviceFee: number;
+  description: string | null;
 }

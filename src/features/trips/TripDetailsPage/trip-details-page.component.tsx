@@ -10,15 +10,11 @@ import { DesktopTripPriceSection, MobileTripPriceSection } from "./trip-price.se
 import { TripConfigurationSection } from "./trip-configuration.section";
 import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
 import { useTripDetails } from "./trip-details.hook";
-import { TripPriceDetails } from "./trip-details-page.types";
-
-const priceList: TripPriceDetails[] = [
-  { id: "ujy27i862349872", title: "Total", price: 3237 },
-  { id: "98749387hgvak", title: "Taxa de serviço", price: 129.48 },
-];
+import { useTripPrice } from "./trip-price.hook";
 
 export function TripDetailsPage() {
   const { isLoading, data, error } = useTripDetails();
+  const { isPriceLoading, priceData, priceError } = useTripPrice();
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
@@ -30,11 +26,12 @@ export function TripDetailsPage() {
   return (
     <>
       <DestinationHeroSection title={title} photos={photos} />
-      <DesktopTripPriceSection
-        priceList={priceList}
+      <DesktopTripPriceSection 
+        isLoading={isPriceLoading}
+        error={priceError}
+        priceData={priceData!}
         cityName={title}
         travelersNumber={2}
-        totalValue={3366.48}
       />
       <TripConfigurationSection configuration={configuration} />
       <DestinationInfoSection features={features} recommendedBy={recommendedBy} />
@@ -45,15 +42,15 @@ export function TripDetailsPage() {
             {"O que inclui"}
           </Text>
           <Box className="what-includes-section__content">
-            <TripTransportationSection />
-            <TripStaySection stars={3} />
+            <TripTransportationSection tripId={data.id} />
+            <TripStaySection tripId={data.id} />
             <TripScriptSection  text={destination.description} />
             <TripFoodTipsSection text={destination.gastronomicInformation} />
             <TripSupportSection />
           </Box>
         </div>
       </SectionBase>
-      <MobileTripPriceSection priceList={priceList} totalValue={3366.48} />
+      <MobileTripPriceSection isLoading={isPriceLoading} error={priceError} priceData={priceData!} />
     </>
   );
 }

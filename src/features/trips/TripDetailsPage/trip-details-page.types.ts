@@ -15,13 +15,7 @@ export interface TripDetailsPageProps extends ComponentHTMLProps {
 export type TripPriceDetails = {
   title: string;
   price: number;
-  id: string;
 };
-
-export interface TripPriceSection extends ComponentHTMLProps {
-  priceList: TripPriceDetails[];
-  totalValue: number;
-}
 
 export interface TripFoodTipsSectionProps {
   text: string;
