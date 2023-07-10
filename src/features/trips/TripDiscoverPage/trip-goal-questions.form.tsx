@@ -5,54 +5,78 @@ import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 import { Grid, Caption, Loader, Button } from "mars-ds";
 import { useState, useMemo, useEffect } from "react";
 import { EmptyState, StepsProgressBar } from "@/ui";
-import { QuestionOptions } from "@/features/questions/QuestionOptions";
-import { QuestionNavigationController } from "@/features";
 
-import { ProfileApiService } from "@/services/api/profile";
-import type { AnswersDto } from "@/services/api/profile/answers";
+import { TripsApiService } from "@/services/api/trip";
+import { CreateTripDto } from "@/services/api/trip/create";
+import {
+  QuestionOptions,
+  QuestionNavigationController
+} from "@/features";
 
-export interface ProfileQuestionsFormProps {
-  onSubmit: (answers: AnswersDto) => void;
+export interface TripBuilderQuestionsFormProps {
+  onSubmit: (trip: CreateTripDto) => void;
 }
 
 const swrOptions = { revalidateOnFocus: false };
-const { getQuestions } = ProfileApiService;
+const { getTripQuestions } = TripsApiService;
 
-export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) => {
-  const { data = [], error, isLoading } = useSwr("questions", getQuestions, swrOptions);
+export const TripGoalQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormProps) => {
+  const { data = [], error, isLoading } = useSwr("trip-questions", getTripQuestions, swrOptions);
 
-  const [localAnswers, setLocalAnswers] = useLocalStorage("travel-profile-answers");
-  const [answers, setAnswers] = useState<AnswersDto>({});
+  const [localAnswers, setLocalAnswers] = useLocalStorage("trip-answers");
+  const [answers, setAnswers] = useState<Record<string, boolean>>({});
+
+  const [localCreateTrip, setLocalCreateTrip] = useLocalStorage("create-trip");
+  const [createTrip, setCreateTrip] = useState<CreateTripDto>({
+    tripBehavior: {},
+  } as CreateTripDto);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const total = useMemo(() => data.length - 1, [data.length]);
-
   const style: any = useMemo(() => ({ "--position": currentIndex }), [currentIndex]);
 
   const handleSteps = (newIndex: number) => {
     if (newIndex < 0) return;
     if (total >= newIndex) setCurrentIndex(newIndex);
-    else onSubmit(answers);
+    else onSubmit(createTrip);
   };
 
   const handleCheck = (id: string) => (value: string | string[]) => {
+    setCreateTrip((state: any) => {
+      const tripInfo = state as CreateTripDto;
+      if (tripInfo.tripBehavior === undefined) tripInfo.tripBehavior = {};
+
+      const isEmptyArray = Array.isArray(value) && value.length === 0;
+      if (!isEmptyArray) tripInfo.tripBehavior[id] = value as string[];
+
+      setLocalCreateTrip(jsonToString(tripInfo));
+      return tripInfo;
+    });
     setAnswers((state: any) => {
       const isEmptyArray = Array.isArray(value) && value.length === 0;
-      const newState = { ...state, [id]: isEmptyArray ? null : value };
+      const newState = { ...state, [id]: isEmptyArray ? null : true };
       setLocalAnswers(jsonToString(newState));
       return newState;
     });
   };
 
   const isNextButtonDisabled = useMemo(
-    () => data[currentIndex]?.questions.every(({ id }) => !answers[id]),
+    () => data[currentIndex]?.questions.every(({ id }) => answers[id] === false || answers[id] === undefined),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [answers, currentIndex]
   );
 
   useEffect(() => {
+    const initialCreateTrip = toJson(localCreateTrip);
+    if (initialCreateTrip) setCreateTrip(initialCreateTrip as CreateTripDto);
+    else {
+      var tripInfo = {} as CreateTripDto;
+      setLocalCreateTrip(jsonToString(tripInfo));
+      setCreateTrip(tripInfo);
+    }
+
     const initialLocalAnswers = toJson(localAnswers);
-    if (initialLocalAnswers) setAnswers(initialLocalAnswers as AnswersDto);
+    if (initialLocalAnswers) setAnswers(initialLocalAnswers as Record<string, boolean>);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -78,22 +102,28 @@ export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) =>
     <Grid gap={48}>
       <div className="profile-questions__header">
         <Caption as="p" className="mb-lg profile-questions__caption">
-          Descobrir meu perfil de viajante
+          Descobrir minha trip
         </Caption>
         <StepsProgressBar position={currentIndex} total={total} />
       </div>
       <main className="profile-questions__group mb-lg" style={style}>
         {data.map(({ page, questions = [] }, index) => (
           <div key={page}>
-            {questions.map((question) => (
-              <QuestionOptions
-                key={question.id}
-                {...question}
-                disabled={index !== currentIndex}
-                onCheck={handleCheck(question.id)}
-                defaultValue={answers[question.id]}
-              />
-            ))}
+            {questions.map((question) => {
+              return (
+                <QuestionOptions
+                  key={question.id}
+                  {...question}
+                  disabled={index !== currentIndex}
+                  defaultValue={
+                    createTrip.tripBehavior === undefined
+                      ? undefined
+                      : createTrip.tripBehavior[question.id]
+                  }
+                  onCheck={handleCheck(question.id)}
+                />
+              );
+            })}
           </div>
         ))}
       </main>

@@ -11,7 +11,7 @@ import { CreateTripDto } from "@/services/api/trip/create";
 import {
   QuestionDatePicker,
   QuestionOptions,
-  ProfileQuestionsNavigation,
+  QuestionNavigationController,
   QuestionSlider,
 } from "@/features";
 
@@ -189,7 +189,7 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
         ))}
       </main>
       <div className="profile-questions__footer">
-        <ProfileQuestionsNavigation
+        <QuestionNavigationController
           position={currentIndex}
           total={total}
           onNavigation={handleSteps}

@@ -1,14 +1,8 @@
 import { ToggleButton, Button } from "mars-ds";
 import { useMemo } from "react";
+import { ProfileQuestionsNavigationProps } from "./question-navigation-controller.types";
 
-interface ProfileQuestionsNavigationProps {
-  position: number;
-  total: number;
-  onNavigation: (newPosition: number) => void;
-  isNextButtonDisabled?: boolean;
-}
-
-export const ProfileQuestionsNavigation = ({
+export const QuestionNavigationController = ({
   position = 0,
   total = 1,
   onNavigation,

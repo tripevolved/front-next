@@ -1,19 +1,17 @@
 import type { TripBuilderQuestionsProps } from "./trip-builder.types";
 
 import { TripsApiService } from "@/services/api/trip";
-import { RegisterApiService } from "@/services/api";
 import { useAppStore } from "@/core/store";
 
 import { useRef, useState, useEffect } from "react";
 import { Card, Notification } from "mars-ds";
+import { RegisterCity } from "@/features";
 
 import { Picture, SectionBase, StepsLoader } from "@/ui";
-import { RegisterCityForm } from "@/features/register/RegisterCityForm";
 import { TripBuilderQuestionsForm } from "./trip-builder-form";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 import { CreateTripDto } from "@/services/api/trip/create";
-import { useAfterLoginState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -41,7 +39,6 @@ export function TripBuilder({
   const [submitting, setSubmitting] = useState(false);
   const [showCityForm, setShowCityForm] = useState(false);
   const { travelerState } = useAppStore();
-  const { travelerStateGet } = useAfterLoginState();
 
   const router = useRouter();
 
@@ -55,20 +52,6 @@ export function TripBuilder({
       createTrip.current = tripDto;
     }
     sendCreateTrip();
-  };
-
-  const handleRegisterCity = (cityId: string) => {
-    RegisterApiService.putRegisterCity({
-      cityId,
-      travelerId: travelerState.id,
-    })
-      .then(() => {
-        setShowCityForm(false);
-        travelerStateGet();
-      })
-      .catch(() => {
-        Notification.error("Cidade inválida!");
-      });
   };
 
   const sendCreateTrip = async () => {
@@ -92,6 +75,10 @@ export function TripBuilder({
     }
   };
 
+  const handleCityRegisterFinish = () => {
+    setShowCityForm(false);
+  };
+
   useEffect(() => {
     setShowCityForm(!travelerState.hasValidAddress);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,7 +96,7 @@ export function TripBuilder({
         {submitting ? (
           <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
         ) : showCityForm ? (
-          <RegisterCityForm onSubmit={handleRegisterCity} />
+          <RegisterCity travelerId={travelerState.id} onFinish={handleCityRegisterFinish} />
         ) : (
           <TripBuilderQuestionsForm onSubmit={handleCreateTrip} />
         )}
