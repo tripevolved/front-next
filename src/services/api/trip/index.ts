@@ -5,6 +5,7 @@ import { getTripOnboardingQuestions, getTripQuestions } from "./questions";
 import { TripLocalService } from "./local";
 import { createTrip } from "./create";
 import { getTripPendings } from "./pendings";
+import { getTripPriceById } from "./price";
 
 export const TripsApiService = {
   getById: getTripDetailsById,
@@ -15,4 +16,5 @@ export const TripsApiService = {
   getTripQuestions: getTripQuestions,
   postCreate: createTrip,
   getTripPendings,
+  getPriceById: getTripPriceById,
 };

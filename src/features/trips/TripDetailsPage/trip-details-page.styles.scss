@@ -58,7 +58,6 @@
     .trip-content-item {
       display: flex;
       gap: 22px;
-      display: flex;
 
       &__desc {
         flex: 1;
@@ -90,6 +89,12 @@
         color: $color-gray-1;
       }
     }
+  }
+
+  &__empty {
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
   }
 }
 
@@ -226,6 +231,13 @@
         color: $color-gray-1;
       }
     }
+  }
+
+  &__price-description {
+    color: $color-gray-1;
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
   }
 
   &__price-list .animate {
