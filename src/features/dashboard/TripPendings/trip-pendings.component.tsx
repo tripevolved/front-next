@@ -51,9 +51,11 @@ export function TripPendings({ className, children, sx, ...props }: TripPendings
           </Text>
 
           <Box className="trip-pendings__section__body__pending-list">
-            {data.map((pending, i) => (
-              <TripPendingItem {...pending} key={i} />
-            ))}
+            {data.length ? (
+              data.map((pending, i) => <TripPendingItem {...pending} key={i} />)
+            ) : (
+              <Text style={{ color: "#D84848" }}>Erro ao verificar as pendências da Trip...</Text>
+            )}
           </Box>
         </Box>
       </SectionBase>
