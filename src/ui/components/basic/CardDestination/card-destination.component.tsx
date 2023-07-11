@@ -1,7 +1,8 @@
-import { Box, Text, Button } from "@/ui";
 import type { CardDestinationProps } from "./card-destination.types";
+import { Box, Text } from "@/ui";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
+import { Button } from "mars-ds";
 
 export function CardDestination({
   className,

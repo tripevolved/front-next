@@ -1,9 +1,10 @@
-import { Box, Button, Picture, Text } from "@/ui";
 import type { TravelerDestinationCardProps } from "./traveler-destination-card.types";
+import { Box, Picture, Text } from "@/ui";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
+import { Button } from "mars-ds";
 import { useEffect } from "react";
 
 export function TravelerDestinationCard({
@@ -44,9 +45,7 @@ export function TravelerDestinationCard({
               Match: <strong>{matchScore}%</strong>
             </Text>
           </>
-        ) : (
-          <></>
-        )}
+        ) : null}
       </Box>
       <Box className="traveler-destination-card__footer">
         <Box className="traveler-destination-card__footer__city-name">
@@ -57,9 +56,7 @@ export function TravelerDestinationCard({
           <Text size="xxl" className="traveler-destination-card__footer__price">
             <strong>{formatByDataType(price, "CURRENCY")}</strong>
           </Text>
-        ) : (
-          <></>
-        )}
+        ) : null}
         <Button href={"/app/viagens/criar/" + tripId}>Ver detalhes</Button>
       </Box>
     </Box>
