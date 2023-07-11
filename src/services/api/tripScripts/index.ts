@@ -3,5 +3,5 @@ import { getTripScript } from "./full";
 
 export const TripScriptsApiService = {
   getPreview: getTripScriptPreview,
-  getFull: getTripScript
+  getFull: getTripScript,
 };

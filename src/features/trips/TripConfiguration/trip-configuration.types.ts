@@ -1,5 +1,3 @@
 import { ComponentHTMLProps } from "@/core/types";
 
-export interface TripConfigurationProps extends ComponentHTMLProps {
-  
-}
+export interface TripConfigurationProps extends ComponentHTMLProps {}
