@@ -1,19 +1,17 @@
-import type { TripBuilderQuestionsProps } from "./trip-builder.types";
+import type { CreateTripProps } from "./create-trip.types";
 
 import { TripsApiService } from "@/services/api/trip";
-import { RegisterApiService } from "@/services/api";
 import { useAppStore } from "@/core/store";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import { Card, Notification } from "mars-ds";
+import { useAfterLoginState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
 
 import { Picture, SectionBase, StepsLoader } from "@/ui";
-import { RegisterCityForm } from "@/features/register/RegisterCityForm";
-import { TripBuilderQuestionsForm } from "./trip-builder-form";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 import { CreateTripDto } from "@/services/api/trip/create";
-import { useAfterLoginState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
+import { CreateTripForm } from "./create-trip.form";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -32,14 +30,14 @@ const STEPS = [
   },
 ];
 
-export function TripBuilder({
+export function CreateTrip({
   className,
   children,
   destinationId,
+  redirectTo,
   ...props
-}: TripBuilderQuestionsProps) {
+}: CreateTripProps) {
   const [submitting, setSubmitting] = useState(false);
-  const [showCityForm, setShowCityForm] = useState(false);
   const { travelerState } = useAppStore();
   const { travelerStateGet } = useAfterLoginState();
 
@@ -57,25 +55,12 @@ export function TripBuilder({
     sendCreateTrip();
   };
 
-  const handleRegisterCity = (cityId: string) => {
-    RegisterApiService.putRegisterCity({
-      cityId,
-      travelerId: travelerState.id,
-    })
-      .then(() => {
-        setShowCityForm(false);
-        travelerStateGet();
-      })
-      .catch(() => {
-        Notification.error("Cidade inválida!");
-      });
-  };
-
   const sendCreateTrip = async () => {
     try {
       setSubmitting(true);
       const result = await TripsApiService.postCreate(createTrip.current);
       tripId.current = result.id;
+      travelerStateGet();
     } catch (error) {
       setSubmitting(false);
       Notification.error("Devido à um erro não foi possível continuar");
@@ -88,14 +73,9 @@ export function TripBuilder({
       await delay(1000);
       handleFinish(attempts - 1);
     } else {
-      await router.replace(`/app/viagens/criar/${tripId.current}`);
+      await router.replace(redirectTo + tripId.current);
     }
   };
-
-  useEffect(() => {
-    setShowCityForm(!travelerState.hasValidAddress);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <SectionBase className="profile-questions" container={"xs" as any} {...props}>
@@ -108,10 +88,8 @@ export function TripBuilder({
       <Card className="profile-questions__card">
         {submitting ? (
           <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
-        ) : showCityForm ? (
-          <RegisterCityForm onSubmit={handleRegisterCity} />
         ) : (
-          <TripBuilderQuestionsForm onSubmit={handleCreateTrip} />
+          <CreateTripForm redirectTo={redirectTo} onFinish={handleCreateTrip} />
         )}
       </Card>
     </SectionBase>
