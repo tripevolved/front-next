@@ -86,7 +86,7 @@ export function Painel({ className, children, sx, ...props }: PainelProps) {
     {
       router.replace(redirectToTrip);
     }
-  }, [travelerState, hasTrip, router])
+  }, [travelerState, hasTrip, router]);
   
 
   return (

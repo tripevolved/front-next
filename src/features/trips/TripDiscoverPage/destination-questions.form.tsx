@@ -5,23 +5,22 @@ import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 import { Grid, Caption, Loader, Button } from "mars-ds";
 import { useState, useMemo, useEffect } from "react";
 import { EmptyState, StepsProgressBar } from "@/ui";
-import { QuestionOptions } from "@/features/questions/QuestionOptions";
-import { QuestionNavigationController } from "@/features";
+import { QuestionOptions, QuestionNavigationController } from "@/features";
 
-import { ProfileApiService } from "@/services/api/profile";
+import { TripsApiService } from "@/services/api";
 import type { AnswersDto } from "@/services/api/profile/answers";
 
-export interface ProfileQuestionsFormProps {
+export interface TripDiscoverQuestionsFormProps {
   onSubmit: (answers: AnswersDto) => void;
 }
 
 const swrOptions = { revalidateOnFocus: false };
-const { getQuestions } = ProfileApiService;
+const { getTripDestinationQuestions } = TripsApiService;
 
-export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) => {
-  const { data = [], error, isLoading } = useSwr("questions", getQuestions, swrOptions);
+export const DestinationQuestionsForm = ({ onSubmit }: TripDiscoverQuestionsFormProps) => {
+  const { data = [], error, isLoading } = useSwr("destination-questions", getTripDestinationQuestions, swrOptions);
 
-  const [localAnswers, setLocalAnswers] = useLocalStorage("travel-profile-answers");
+  const [localAnswers, setLocalAnswers] = useLocalStorage("destination-answers");
   const [answers, setAnswers] = useState<AnswersDto>({});
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -78,7 +77,7 @@ export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) =>
     <Grid gap={48}>
       <div className="profile-questions__header">
         <Caption as="p" className="mb-lg profile-questions__caption">
-          Descobrir meu perfil de viajante
+          Descobrir minha trip
         </Caption>
         <StepsProgressBar position={currentIndex} total={total} />
       </div>

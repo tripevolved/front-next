@@ -38,9 +38,9 @@ export const MobileTripPriceSection = ({ isLoading, priceData, error }: { isLoad
       <Box className="mobile-trip-price-section__price-list">
         <PriceItem title="Total" price={priceData?.price!} />
         <PriceItem title="Taxa de serviço" price={priceData?.serviceFee!} />
-        {priceData.description ?
+        {priceData?.description ?
           <Text className="mobile-trip-price-section__price-description">
-            *{priceData.description}
+            *{priceData?.description}
           </Text> : null}
       </Box>
       <TButton backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)">

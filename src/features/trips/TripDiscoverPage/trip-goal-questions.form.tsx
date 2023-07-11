@@ -9,21 +9,19 @@ import { EmptyState, StepsProgressBar } from "@/ui";
 import { TripsApiService } from "@/services/api/trip";
 import { CreateTripDto } from "@/services/api/trip/create";
 import {
-  QuestionDatePicker,
   QuestionOptions,
-  ProfileQuestionsNavigation,
-  QuestionSlider,
+  QuestionNavigationController
 } from "@/features";
 
-export interface TripBuilderQuestionsFormProps {
-  onSubmit: (trip: CreateTripDto) => void;
+export interface TripGoalQuestionFormProps {
+  onSubmit: () => void;
 }
 
 const swrOptions = { revalidateOnFocus: false };
 const { getTripQuestions } = TripsApiService;
 
-export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormProps) => {
-  const { data = [], error, isLoading } = useSwr("tripQuestions", getTripQuestions, swrOptions);
+export const TripGoalQuestionsForm = ({ onSubmit }: TripGoalQuestionFormProps) => {
+  const { data = [], error, isLoading } = useSwr("trip-questions", getTripQuestions, swrOptions);
 
   const [localAnswers, setLocalAnswers] = useLocalStorage("trip-answers");
   const [answers, setAnswers] = useState<Record<string, boolean>>({});
@@ -40,7 +38,7 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
   const handleSteps = (newIndex: number) => {
     if (newIndex < 0) return;
     if (total >= newIndex) setCurrentIndex(newIndex);
-    else onSubmit(createTrip);
+    else onSubmit();
   };
 
   const handleCheck = (id: string) => (value: string | string[]) => {
@@ -57,41 +55,6 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
     setAnswers((state: any) => {
       const isEmptyArray = Array.isArray(value) && value.length === 0;
       const newState = { ...state, [id]: isEmptyArray ? null : true };
-      setLocalAnswers(jsonToString(newState));
-      return newState;
-    });
-  };
-
-  const handleSlider = (id: string, dataType: "CURRENCY" | "DAYS" | undefined) => (value: number) => {
-    setCreateTrip((state: any) => {
-      const tripInfo = state as CreateTripDto;
-
-      if (dataType === undefined) return tripInfo;
-
-      if (dataType === "CURRENCY") createTrip.maxBudget = value;
-      else createTrip.days = value;
-
-      setLocalCreateTrip(jsonToString(tripInfo));
-      return tripInfo;
-    });
-    setAnswers((state: any) => {
-      const newState = { ...state, [id]: true };
-      setLocalAnswers(jsonToString(newState));
-      return newState;
-    });
-  };
-
-  const handleDateChange = (id: string) => (value: [Date, Date]) => {
-    setCreateTrip((state: any) => {
-      const tripInfo = state as CreateTripDto;
-    
-      tripInfo.dates = value;
-
-      setLocalCreateTrip(jsonToString(tripInfo));
-      return tripInfo;
-    });
-    setAnswers((state: any) => {
-      const newState = { ...state, [id]: true };
       setLocalAnswers(jsonToString(newState));
       return newState;
     });
@@ -147,31 +110,7 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
         {data.map(({ page, questions = [] }, index) => (
           <div key={page}>
             {questions.map((question) => {
-              const hasRangeField = question.type === "RANGE";
-              const hasCalendar = question.type === "DATEPICK";
-              return hasRangeField ? (
-                <QuestionSlider
-                  key={question.id}
-                  {...question}
-                  disabled={index !== currentIndex}
-                  minValue={question.minValue}
-                  maxValue={question.maxValue}
-                  step={question.step}
-                  dataType={question.dataType}
-                  defaultValue={
-                    question.dataType === "CURRENCY" ? createTrip.maxBudget : createTrip.days
-                  }
-                  onSet={handleSlider(question.id, question.dataType)}
-                />
-              ) : hasCalendar ? (
-                <QuestionDatePicker
-                  key={question.id}
-                  {...question}
-                  disabled={index !== currentIndex}
-                  dates={createTrip.dates}
-                  onSet={handleDateChange(question.id)}
-                />
-              ) : (
+              return (
                 <QuestionOptions
                   key={question.id}
                   {...question}
@@ -189,7 +128,7 @@ export const TripBuilderQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormP
         ))}
       </main>
       <div className="profile-questions__footer">
-        <ProfileQuestionsNavigation
+        <QuestionNavigationController
           position={currentIndex}
           total={total}
           onNavigation={handleSteps}
