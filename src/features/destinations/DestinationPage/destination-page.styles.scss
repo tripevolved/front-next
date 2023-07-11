@@ -1,10 +1,11 @@
 .destination-hero-section {
-  height: 38vh !important;
+  height: 40vh;
   position: relative;
   display: flex;
   align-items: flex-end;
   padding: $spacing-xl;
   background-position: center;
+  background-color: $color-brand-2;
 
   &--no-photo {
     height: inherit;
@@ -34,16 +35,12 @@
   &__content {
     color: white;
     position: relative;
-    margin-bottom: 10px;
+    padding: $spacing-xl 0;
   }
 }
 
 .destination-tips-section {
   background-color: $color-brand-5;
-
-  &__title {
-    margin-bottom: 35px;
-  }
 
   &__container {
     display: flex;
@@ -87,7 +84,7 @@
   }
 }
 
-.destination-feature__list {
+.destination-info-feature {
   padding: 25px 20px;
   display: flex;
   flex-direction: column;
@@ -97,22 +94,22 @@
   h2 {
     font-weight: 700;
   }
+}
 
-  &__item {
-    display: flex;
+.destination-feature {
+  display: flex;
 
-    &__icon {
-      min-width: 40px;
-    }
+  &__icon {
+    min-width: 40px;
+  }
 
-    &__title {
-      color: $color-brand-4;
-    }
+  &__title {
+    color: $color-brand-4;
+  }
 
-    &__description {
-      margin-top: 7px !important;
-      color: $color-text-secondary;
-    }
+  &__description {
+    margin-top: 7px !important;
+    color: $color-text-secondary;
   }
 }
 

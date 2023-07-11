@@ -11,7 +11,7 @@ interface DestinationTipsSectionProps extends Pick<DestinationProps, "tips"> {}
 export const DestinationTipsSection = ({ tips = [] }: DestinationTipsSectionProps) => {
   return (
     <SectionBase className="destination-tips-section">
-      <Text heading size="sm" className="destination-tips-section__title">
+      <Text heading size="sm" className="destination-tips-section__title mb-2x pb-1x">
         Dicas do destino
       </Text>
       <div className="destination-tips-section__container">
