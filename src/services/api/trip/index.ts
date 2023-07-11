@@ -2,10 +2,11 @@ import { getTripDetailsById } from "./details";
 import { getTripDetailsByIdForDashboard } from "./dashboard";
 import { getAllByTravelerId } from "./all";
 import { getTripDestinationQuestions, getTripQuestions } from "./questions";
-import { putMatchedDestinations } from "./matches";
+import { putMatchedDestinations, getMatchedDestinations } from "./matches";
 import { TripLocalService } from "./local";
 import { createTrip } from "./create";
 import { getTripPriceById } from "./price";
+import { putDestinationIdForTrip } from "./destination-set";
 
 export const TripsApiService = {
   getById: getTripDetailsById,
@@ -16,5 +17,7 @@ export const TripsApiService = {
   getTripQuestions: getTripQuestions,
   postCreate: createTrip,
   getPriceById: getTripPriceById,
-  getMatchedDestinations: putMatchedDestinations
+  getMatchedDestinations: getMatchedDestinations,
+  setMatchedDestinations: putMatchedDestinations,
+  setDestinationId: putDestinationIdForTrip
 };

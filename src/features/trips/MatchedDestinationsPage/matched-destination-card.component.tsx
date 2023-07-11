@@ -12,11 +12,13 @@ export function MatchedDestinationCard({
   children,
   sx,
   tripId,
+  destinationId,
   matchScore,
   name,
   images,
   travelersNumber = 1,
   uniqueName,
+  onChoice,
   ...props
 }: MatchedDestinationCardProps) {
   const cn = makeCn("matched-destination-card", className)(sx);
@@ -53,7 +55,7 @@ export function MatchedDestinationCard({
           <Text variant="heading">{name}</Text>
           <Text>Para {travelersNumber} pessoa(s)</Text>
         </Box>
-        <Button href={"/app/viagens/criar/" + tripId}>Ver detalhes</Button>
+        <Button onClick={() => onChoice(destinationId)}>Ver detalhes</Button>
       </Box>
     </Box>
   );
@@ -64,11 +66,13 @@ export function OtherCoiceMatchedDestinationCard({
   children,
   sx,
   tripId,
+  destinationId,
   matchScore,
   name,
   images,
   travelersNumber = 1,
   uniqueName,
+  onChoice,
   ...props
 }: MatchedDestinationCardProps) {
   const cn = makeCn("other-choice-destination-card", className)(sx);
@@ -80,7 +84,7 @@ export function OtherCoiceMatchedDestinationCard({
   }, [images]);
 
   return (
-    <Link href={"/app/viagens/criar/" + tripId} className="other-choice-destination-card__link">
+    <Link onClick={() => onChoice(destinationId)} className="other-choice-destination-card__link">
       <Box
         className={cn}
         {...props}

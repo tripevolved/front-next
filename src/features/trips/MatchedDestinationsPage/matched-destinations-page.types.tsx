@@ -9,6 +9,7 @@ export type MatchedDestinationCardProps = ComponentHTMLProps &
     tripId: string;
     images: Photo[];
     travelersNumber?: number;
+    onChoice: (destinationId: string) => void;
   };
 
 export interface OtherChoicesCarouselProps extends ComponentHTMLProps {
