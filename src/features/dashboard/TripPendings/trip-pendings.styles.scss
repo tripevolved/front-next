@@ -1,0 +1,53 @@
+.trip-pendings {
+  background-color: #f7fcfc;
+  height: 100vh;
+
+  &__section {
+    padding-top: 0;
+
+    &__body {
+      background-color: #f7fcfc;
+      padding: 20px;
+      border-radius: 20px 20px 0 0;
+      font-weight: 700;
+      margin-top: -18px;
+
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 28px;
+
+      &__sub-title {
+        color: $color-gray-1;
+        font-weight: 400;
+      }
+
+      &__pending-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+
+.trip-pending-item {
+  border-radius: 10px;
+  padding: 22px 16px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: $color-gray-4;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+}

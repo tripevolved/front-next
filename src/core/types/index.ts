@@ -6,4 +6,5 @@ export * from "./photo";
 export * from "./travelerState";
 export * from "./trip";
 export * from "./tripScript";
+export * from "./tripPending";
 export * from "./user";

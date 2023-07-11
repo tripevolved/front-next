@@ -7,7 +7,6 @@ import { BlogCardCarousel, DestinationsCarousel, TravelerDestinationCard } from 
 
 export function HasTrip({ trip, tripId, className, children, sx, ...props }: HasTripProps) {
   const cn = makeCn("has-trip", className)(sx);
-
   return (
     <>
       <Box className={cn} {...props}>
