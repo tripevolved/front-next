@@ -6,3 +6,7 @@ export const formatByDataType = (num: number, dataType: "CURRENCY" | "DAYS" | un
   if (dataType === "DAYS") return num > 1 ? num + " dias" : num + " dia";
   return num.toString();
 };
+
+export const formatToPercentage = (num: number) => {
+  return num.toLocaleString("pt-BR", { style: "percent", minimumFractionDigits: 2 });
+};
