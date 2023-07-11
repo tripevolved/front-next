@@ -42,7 +42,7 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
     return data.destinationProposal ? (
       <HasTrip trip={data.destinationProposal} tripId={data.id} />
     ) : (
-      <TripDashboard tripDashboard={mockTrip.tripDashboard!} tripId={data.id} />
+      <TripDashboard tripDashboard={data.tripDashboard!} tripId={data.id} />
     );
   };
 
