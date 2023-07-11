@@ -28,13 +28,12 @@ export const TripBuilderPage = () => {
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
   
-  const props = { destinationId: data?.id };
   const destination = data?.title!;
   
   if (step === "register-city") return (<RegisterCity travelerId={travelerId} onFinish={() => setNextStep("configuration")} />);
   if (step === "configuration") return (<TripConfigurationSet onSubmit={() => setNextStep("trip-goal")} />);
   if (step === "trip-goal") return (<TripGoalQuestions travelerId={travelerId} onSubmit={() => setNextStep("finish")} />);
-  if (step === "finish") return (<CreateTrip redirectTo={`/app/viagens/criar/`} />);
+  if (step === "finish") return (<CreateTrip redirectTo={`/app/viagens/criar/`} destinationId={data?.id} />);
 
   return (
     <TripBuilderStartSection destinationName={destination} onSubmit={() => setNextStep("register-city")} />);

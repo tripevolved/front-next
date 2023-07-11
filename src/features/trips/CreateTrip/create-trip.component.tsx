@@ -2,15 +2,16 @@ import type { CreateTripProps } from "./create-trip.types";
 
 import { TripsApiService } from "@/services/api/trip";
 import { useAppStore } from "@/core/store";
-import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 
 import { useRef, useState } from "react";
-import { Card, Notification, TextField, Container } from "mars-ds";
+import { Card, Notification } from "mars-ds";
+import { useAfterLoginState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
 
-import { Picture, SectionBase, StepsLoader, Text, Box, Button } from "@/ui";
+import { Picture, SectionBase, StepsLoader } from "@/ui";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 import { CreateTripDto } from "@/services/api/trip/create";
+import { CreateTripForm } from "./create-trip.form";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -34,37 +35,37 @@ export function CreateTrip({
   children,
   destinationId,
   redirectTo,
-  onFinish,
   ...props
 }: CreateTripProps) {
   const [submitting, setSubmitting] = useState(false);
   const { travelerState } = useAppStore();
+  const { travelerStateGet } = useAfterLoginState();
 
   const router = useRouter();
 
-  const [localCreateTrip, setLocalCreateTrip] = useLocalStorage("create-trip");
-  const [createTrip, setCreateTrip] = useState<CreateTripDto>({
-    tripBehavior: {},
-  } as CreateTripDto);
+  const createTrip = useRef<CreateTripDto>({} as CreateTripDto);
+  const tripId = useRef<string>();
 
-  useEffect(() => {
-    const initialCreateTrip = toJson(localCreateTrip);
-    if (initialCreateTrip) setCreateTrip(initialCreateTrip as CreateTripDto);
-    else {
-      var tripInfo = {} as CreateTripDto;
-      setLocalCreateTrip(jsonToString(tripInfo));
-      setCreateTrip(tripInfo);
+  const handleCreateTrip = (tripDto?: CreateTripDto) => {
+    if (tripDto) {
+      tripDto.travelerId = travelerState.id;
+      if (destinationId !== undefined) tripDto.destinationId = destinationId;
+      createTrip.current = tripDto;
     }
+    sendCreateTrip();
+  };
 
-    const initialLocalAnswers = toJson(localAnswers);
-    if (initialLocalAnswers) setAnswers(initialLocalAnswers as Record<string, boolean>);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const onSubmitCreateTrip = () => {
-    console.log(createTrip);
-    onFinish(createTrip);
-  }
+  const sendCreateTrip = async () => {
+    try {
+      setSubmitting(true);
+      const result = await TripsApiService.postCreate(createTrip.current);
+      tripId.current = result.id;
+      travelerStateGet();
+    } catch (error) {
+      setSubmitting(false);
+      Notification.error("Devido à um erro não foi possível continuar");
+    }
+  };
 
   const handleFinish = async (attempts = 3) => {
     if (attempts < 1) return; // TODO: send to error page
@@ -88,18 +89,7 @@ export function CreateTrip({
         {submitting ? (
           <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
         ) : (
-          <Box className="trip-profile-start__box">
-            <Container container={"xs" as any}>
-              <Text className="trip-profile-start__text mb-lg" heading={true} size="xl">Estamos quase lá! :)</Text>
-              <Text>
-                Para finalizar, quantas pessoas viajam com você? (incluindo você mesmo)
-              </Text>
-              <TextField type="number" max={4} min={1} value={2}></TextField>
-              <Button onClick={onSubmitCreateTrip} className="mt-xl" variant="custom" backgroundColor="var(--color-brand-2)" hoverBackgroundColor="var(--color-secondary-900)" color="white">
-                Receber minha recomendação
-              </Button>
-            </Container>
-          </Box>
+          <CreateTripForm redirectTo={redirectTo} onFinish={handleCreateTrip} />
         )}
       </Card>
     </SectionBase>
