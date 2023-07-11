@@ -13,14 +13,14 @@ import {
   QuestionNavigationController
 } from "@/features";
 
-export interface TripBuilderQuestionsFormProps {
-  onSubmit: (trip: CreateTripDto) => void;
+export interface TripGoalQuestionFormProps {
+  onSubmit: () => void;
 }
 
 const swrOptions = { revalidateOnFocus: false };
 const { getTripQuestions } = TripsApiService;
 
-export const TripGoalQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormProps) => {
+export const TripGoalQuestionsForm = ({ onSubmit }: TripGoalQuestionFormProps) => {
   const { data = [], error, isLoading } = useSwr("trip-questions", getTripQuestions, swrOptions);
 
   const [localAnswers, setLocalAnswers] = useLocalStorage("trip-answers");
@@ -38,7 +38,7 @@ export const TripGoalQuestionsForm = ({ onSubmit }: TripBuilderQuestionsFormProp
   const handleSteps = (newIndex: number) => {
     if (newIndex < 0) return;
     if (total >= newIndex) setCurrentIndex(newIndex);
-    else onSubmit(createTrip);
+    else onSubmit();
   };
 
   const handleCheck = (id: string) => (value: string | string[]) => {

@@ -43,6 +43,7 @@ export * from "./templates/PageBase";
 export * from "./templates/PrivacyBanner";
 export * from "./trips/AllTripsPanel";
 export * from "./trips/Builder";
+export * from "./trips/CreateTrip";
 export * from "./trips/HasTrip";
 export * from "./trips/TripAccordeon";
 export * from "./trips/TripBasePage";
