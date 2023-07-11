@@ -1,8 +1,8 @@
-import { Text, Box, Button } from "@/ui";
+import { Text, Box } from "@/ui";
 import type { PendingDocumentsModalProps } from "./pending-documents-modal.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { TextField, TextFieldProps } from "mars-ds";
+import { Button, TextField, TextFieldProps } from "mars-ds";
 import { useEffect, useRef } from "react";
 
 export function PendingDocumentsModal({
@@ -47,7 +47,7 @@ export function PendingDocumentsModal({
         />
       </Box>
 
-      <Button className="pending-documents-modal__button"> Enviar </Button>
+      <Button className="pending-documents-modal__button">Enviar</Button>
     </div>
   );
 }

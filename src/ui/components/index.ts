@@ -24,7 +24,6 @@ export * from "./basic/Pricing";
 export * from "./basic/StepsProgressBar";
 export * from "./basic/Tag";
 export * from "./basic/Text";
-export * from "./buttons/Button";
 export * from "./buttons/ShareButton";
 export * from "./buttons/ToggleButton";
 export * from "./buttons/WhatsappButton";

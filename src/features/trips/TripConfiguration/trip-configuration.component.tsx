@@ -8,8 +8,8 @@ import {
   QuestionSlider,
 } from "@/features";
 import { TripConfigurationProps } from "./trip-configuration.types";
-import { SectionBase, Picture, DashedDivider, Button } from "@/ui";
-import { Card } from "mars-ds";
+import { SectionBase, Picture, DashedDivider } from "@/ui";
+import { Button, Card } from "mars-ds";
 
 export const TripConfigurationSet = ({ onSubmit, ...props }: TripConfigurationProps) => {
   const [localCreateTrip, setLocalCreateTrip] = useLocalStorage("create-trip");
@@ -34,7 +34,7 @@ export const TripConfigurationSet = ({ onSubmit, ...props }: TripConfigurationPr
   const handleDateChange = () => (value: [Date, Date]) => {
     setCreateTrip((state: any) => {
       const tripInfo = state as CreateTripDto;
-    
+
       tripInfo.dates = value;
 
       setLocalCreateTrip(jsonToString(tripInfo));

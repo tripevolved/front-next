@@ -1,5 +1,5 @@
-import { Box, Button, Text, CardDestination, CardDestinationProps } from "@/ui";
 import type { DestinationsCarouselProps } from "./destinations-carousel.types";
+import { Box, Text, CardDestination, CardDestinationProps } from "@/ui";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";

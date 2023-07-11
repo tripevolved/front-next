@@ -1,5 +1,5 @@
 import { Loader, Button, Icon } from "mars-ds";
-import { EmptyState, Box, Text, Button as TButton, WhatsappButton } from "@/ui";
+import { EmptyState, Box, Text, WhatsappButton } from "@/ui";
 import { TripPriceDetails } from "./trip-details-page.types";
 
 import { formatByDataType } from "@/utils/helpers/number.helpers";
@@ -43,9 +43,9 @@ export const MobileTripPriceSection = ({ isLoading, priceData, error }: { isLoad
             *{priceData?.description}
           </Text> : null}
       </Box>
-      <TButton backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)">
+      <Button backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)">
         Comprar a viagem por {formatByDataType(total, "CURRENCY")}
-      </TButton>
+      </Button>
       <WhatsappButton
         style={{ width: "100%", color: "var(--color-brand-2)" }}
         size="sm"
@@ -112,9 +112,9 @@ export const DesktopTripPriceSection = ({
               *{priceData.description}
             </Text> : null}
         </Box>
-        <TButton backgroundColor="var(--color-brand-1)" color="var(--color-gray-4)">
+        <Button backgroundColor="var(--color-brand-1)" color="var(--color-gray-4)">
           Comprar a viagem por {formatByDataType(total, "CURRENCY")}
-        </TButton>
+        </Button>
 
         <WhatsappButton
           style={{ width: "100%", color: "var(--color-brand-1)" }}

@@ -1,3 +1,3 @@
 import type { ComponentHTMLProps } from "@/core/types";
 
-export interface PendingDocumentsModalProps extends ComponentHTMLProps {};
+export interface PendingDocumentsModalProps extends ComponentHTMLProps {}

@@ -2,7 +2,7 @@ export interface TripScript {
   tripId: string;
   isPreview: boolean;
   days: TripScriptDay[];
-};
+}
 
 interface TripScriptDay {
   date: string;

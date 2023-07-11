@@ -1,8 +1,9 @@
-import { Box, Picture, Text, DashedDivider, Button } from "@/ui";
+import { Box, Picture, Text, DashedDivider } from "@/ui";
 import type { HasProfileProps } from "./has-profile.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { DestinationsCarousel } from "@/features";
+import { Button } from "mars-ds";
 
 export function HasProfile({ className, children, sx, profileType, ...props }: HasProfileProps) {
   const cn = makeCn("has-profile", className)(sx);
@@ -15,7 +16,7 @@ export function HasProfile({ className, children, sx, profileType, ...props }: H
           <Picture src={`/assets/perfil/${profileType}.svg`} />
         </Box>
       </Box>
-      <Text variant="heading" className="has-profile__text-profile">
+      <Text heading className="has-profile__text-profile">
         {profileType == "agitador" && "Agitador"}
         {profileType == "alternativo" && "Alternativo"}
         {profileType == "automatico" && "Automático"}

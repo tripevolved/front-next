@@ -3,4 +3,10 @@ import { getDestinations } from "./destinations";
 import { getQuestions } from "./questions";
 import { getResult } from "./result";
 
-export const ProfileApiService = { getDestinations, getQuestions, sendAnswers, sendAnswersByTravelerId, getResult };
+export const ProfileApiService = {
+  getDestinations,
+  getQuestions,
+  sendAnswers,
+  sendAnswersByTravelerId,
+  getResult,
+};

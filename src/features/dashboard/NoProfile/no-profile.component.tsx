@@ -1,8 +1,9 @@
-import { Picture, Text, Button } from "@/ui";
+import { Picture, Text } from "@/ui";
 import type { NoProfileProps } from "./no-profile.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { BlogCardCarousel } from "../BlogCardCarousel";
+import { Button } from "mars-ds";
 
 export function NoProfile({ className, children, sx, ...props }: NoProfileProps) {
   const cn = makeCn("no-profile", className)(sx);

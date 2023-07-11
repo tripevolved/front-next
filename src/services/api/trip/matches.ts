@@ -8,7 +8,7 @@ export type MatchedDestination = {
   uniqueName: string;
   images: Photo[];
   details: string | null;
-}
+};
 
 export type MatchedDestinationReturn = {
   tripId: string;
@@ -16,14 +16,20 @@ export type MatchedDestinationReturn = {
   otherChoices: MatchedDestination[];
 };
 
-export const putMatchedDestinations = async ({ tripId } : { tripId: string }): Promise<any> => {
+export const putMatchedDestinations = async ({ tripId }: { tripId: string }): Promise<any> => {
   const url = "trips/matches/" + tripId;
   const ok = await ApiRequest.put(url, null);
 
   return ok;
 };
 
-export const getMatchedDestinations = async ({ tripId, attempts = 3 } : { tripId: string, attempts?: number }): Promise<MatchedDestinationReturn> => {
+export const getMatchedDestinations = async ({
+  tripId,
+  attempts = 3,
+}: {
+  tripId: string;
+  attempts?: number;
+}): Promise<MatchedDestinationReturn> => {
   const url = "trips/matches/" + tripId;
   const match = await ApiRequest.get<MatchedDestinationReturn>(url);
 

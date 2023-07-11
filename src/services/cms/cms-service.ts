@@ -70,4 +70,12 @@ const getAllPageSlugs = async () => {
   }
 };
 
-export const CMSService = { getPage, getPageError, getAllPageSlugs, getPart, getTemplate, getSection, getSectionError };
+export const CMSService = {
+  getPage,
+  getPageError,
+  getAllPageSlugs,
+  getPart,
+  getTemplate,
+  getSection,
+  getSectionError,
+};
