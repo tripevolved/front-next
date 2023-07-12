@@ -4,7 +4,7 @@ export interface Photo {
   sources: PhotoSource[];
 }
 
-type PhotoType = "md" | "lg" | "xl" | "xxl";
+export type PhotoType = "md" | "lg" | "xl" | "xxl";
 
 export interface PhotoSource {
   width: number;
