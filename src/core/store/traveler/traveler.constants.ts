@@ -7,4 +7,4 @@ export const initialTravelerStateValue = {
   hasPastTrip: false,
   isActive: false,
   hasValidAddress: false,
-} satisfies TravelerStateValue;
+} as TravelerStateValue;

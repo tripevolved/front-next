@@ -1,0 +1,10 @@
+.header-user-menu {
+  background-color: $color-brand-1;
+  padding: 40px 24px;
+  color: white;
+  width: 100%;
+
+  @media (min-width: $breakpoint-lg) {
+    padding: 100px 25%;
+  }
+}

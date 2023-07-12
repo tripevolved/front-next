@@ -1,6 +1,7 @@
 import type { ComponentHTMLProps } from "@/core/types";
-import type { ButtonProps, TextProps } from "@/ui";
+import type { TextProps } from "@/ui";
 import type { SubmitHandler } from "@/utils/helpers/form.helpers";
+import { ButtonProps } from "mars-ds";
 
 export interface AuthFormSectionProps extends ComponentHTMLProps {
   heading?: string | TextProps;

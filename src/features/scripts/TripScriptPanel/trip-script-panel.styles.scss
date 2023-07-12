@@ -1,0 +1,89 @@
+.trip-script {
+  display: flex;
+  gap: 22px;
+  display: flex;
+
+  &__desc {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &__title {
+      color: $color-brand-1;
+      font-weight: 700;
+    }
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    width: 375px;
+  }
+}
+
+.trip-script-day-section {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  &__border {
+    border-radius: 10px;
+    width: fit-content;
+
+    @media (min-width: $breakpoint-md) {
+      padding: 20px;
+      border: 2px solid $color-gray-3;
+    }
+
+    @media (min-width: $breakpoint-lg) {
+      max-width: 850px;
+    }
+  }
+
+  &__title {
+    font-weight: 700;
+    margin-bottom: 22px;
+  }
+
+  &__subtitle {
+    font-weight: 500;
+    margin-bottom: 22px;
+  }
+
+  &__header {
+    display: flex;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+
+    @media (min-width: $breakpoint-md) {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+  }
+}
+
+.trip-script-action {
+  display: flex;
+  gap: 10px;
+  display: flex;
+
+  &__title {
+    color: $color-brand-2;
+    font-weight: 700;
+  }
+
+  &__subtitle {
+    color: $color-brand-2;
+    font-weight: 500;
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    width: 375px;
+  }
+}

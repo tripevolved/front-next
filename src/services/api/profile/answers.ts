@@ -21,6 +21,11 @@ export interface AnswersBody {
   email: string;
 }
 
+export interface AnswersBodyById {
+  answers: AnswersDto;
+  travelerId: string;
+}
+
 const parseAnswers = (answers: AnswersDto): Answer[] => {
   const result: Answer[] = [];
   const answerDate = new Date().toISOString();
@@ -50,4 +55,14 @@ export const sendAnswers = async ({ answers, email }: AnswersBody) => {
   } satisfies AnswersRequest;
 
   return ApiRequest.post(url, data).then(() => getResult({ id }));
+};
+
+export const sendAnswersByTravelerId = async ({ answers, travelerId }: AnswersBodyById) => {
+  const url = "profiles/answers";
+  const data = {
+    travelerId: travelerId,
+    answers: parseAnswers(answers),
+  } satisfies AnswersRequest;
+
+  return ApiRequest.post(url, data);
 };
