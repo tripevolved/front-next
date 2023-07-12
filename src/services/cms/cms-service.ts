@@ -39,22 +39,7 @@ async function getPage(slug = "home", attempts = 0): Promise<any> {
   }
 }
 
-async function getSection(slug = "home", attempts = 0): Promise<any> {
-  // This line below ensures that there is NO infinite loop
-  if (attempts > 1) return {};
-  try {
-    const page = await getPageBySlug(slug);
-    const result = await PageSerializer.sectionHandler(page.data as PageData);
-    if (!isEmptyChildren(result.children)) return result.children[0];
-    const pageError = await getPageBySlug(ERROR_SLUG);
-    return PageSerializer.sectionHandler(pageError.data as PageData);
-  } catch (error) {
-    return getSection(ERROR_SLUG, attempts + 1);
-  }
-}
-
 const getPageError = async () => getPage(ERROR_SLUG);
-const getSectionError = async () => getSection(ERROR_SLUG);
 
 const getAllPageSlugs = async () => {
   try {
@@ -70,12 +55,4 @@ const getAllPageSlugs = async () => {
   }
 };
 
-export const CMSService = {
-  getPage,
-  getPageError,
-  getAllPageSlugs,
-  getPart,
-  getTemplate,
-  getSection,
-  getSectionError,
-};
+export const CMSService = { getPage, getPageError, getAllPageSlugs, getPart, getTemplate };

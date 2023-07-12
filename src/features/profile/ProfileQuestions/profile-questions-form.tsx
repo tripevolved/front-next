@@ -6,7 +6,7 @@ import { Grid, Caption, Loader, Button } from "mars-ds";
 import { useState, useMemo, useEffect } from "react";
 import { EmptyState, StepsProgressBar } from "@/ui";
 import { QuestionOptions } from "@/features/questions/QuestionOptions";
-import { QuestionNavigationController } from "@/features";
+import { ProfileQuestionsNavigation } from "./profile-questions-navigation.component";
 
 import { ProfileApiService } from "@/services/api/profile";
 import type { AnswersDto } from "@/services/api/profile/answers";
@@ -98,7 +98,7 @@ export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) =>
         ))}
       </main>
       <div className="profile-questions__footer">
-        <QuestionNavigationController
+        <ProfileQuestionsNavigation
           position={currentIndex}
           total={total}
           onNavigation={handleSteps}

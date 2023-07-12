@@ -22,7 +22,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res, params }) =>
     CMSService.getTemplate(),
   ]);
 
-  const seo = { ...template.seo, title: destination.title };
+  const seo = { ...template.seo, title: destination.title }
 
   const props = { destination, ...template, seo };
 

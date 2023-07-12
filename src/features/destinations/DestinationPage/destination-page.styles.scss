@@ -1,10 +1,9 @@
 .destination-hero-section {
-  height: 40vh;
+  height: 50vh;
   position: relative;
   display: flex;
   align-items: flex-end;
   padding: $spacing-xl;
-  background-position: center;
   background-color: $color-brand-2;
 
   &--no-photo {
@@ -41,27 +40,28 @@
 
 .destination-tips-section {
   background-color: $color-brand-5;
-
   &__container {
     display: flex;
-    flex-direction: column;
-    $gap: 28px;
+    flex-wrap: wrap;
+    $gap: 40px;
     gap: $gap;
-
     .tip {
-      display: flex;
-      gap: 16px;
-      color: $color-brand-2;
-
-      &__content-box {
-        flex: 1;
+      $columns: 2;
+      width: calc((100% - ($gap * ($columns - 1))) / $columns);
+      &--lg {
+        width: 100%;
       }
-    }
-    @media (min-width: $breakpoint-md) {
-      flex-direction: row;
+      > * {
+        max-width: 520px;
+      }
 
-      .tip {
-        width: 315px;
+      @media (min-width: $breakpoint-md) {
+        $columns: 4;
+        width: calc((100% - ($gap * ($columns - 1))) / $columns);
+        &--lg {
+          $columns: 2;
+          width: calc((100% - ($gap * ($columns - 1))) / $columns);
+        }
       }
     }
   }
@@ -84,31 +84,17 @@
   }
 }
 
-.destination-info-feature {
-  padding: 25px 20px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 16px;
-
-  h2 {
-    font-weight: 700;
-  }
-}
-
 .destination-feature {
   display: flex;
-
+  padding: 16px 0;
   &__icon {
-    min-width: 40px;
+    min-width: 48px;
   }
-
   &__title {
     color: $color-brand-4;
+    margin-bottom: 12px;
   }
-
   &__description {
-    margin-top: 7px !important;
     color: $color-text-secondary;
   }
 }

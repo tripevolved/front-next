@@ -11,12 +11,3 @@ export type TripDetailsProps = TripDetails;
 export interface TripDetailsPageProps extends ComponentHTMLProps {
   tripDetails: TripDetailsProps;
 }
-
-export type TripPriceDetails = {
-  title: string;
-  price: number;
-};
-
-export interface TripFoodTipsSectionProps {
-  text: string;
-}

@@ -31,12 +31,4 @@ const handler = async (pageData: PageData, template: TemplateProps) => {
   return { ...restTemplate, ...page, seo };
 };
 
-const sectionHandler = async (pageData: PageData) => {
-  const { seo: pageSeo, ...parsedPage } = parsePage(pageData);
-
-  const page = await PopulateService.handler(parsedPage);
-
-  return { ...page };
-};
-
-export const PageSerializer = { handler, sectionHandler };
+export const PageSerializer = { handler };

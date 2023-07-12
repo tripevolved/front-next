@@ -1,31 +1,38 @@
-import { Box, Text, Picture } from "@/ui";
-import { Link } from "mars-ds";
-import { useRouter } from "next/router";
+import useSwr from "swr";
 
-interface TripScriptSectionProps {
-  text: string;
-}
+import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
+import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
+import { Grid, Caption, Loader, Button } from "mars-ds";
+import { EmptyState } from "@/ui";
 
-export const TripScriptSection = ({ text }: TripScriptSectionProps) => {
-  const router = useRouter();
-  const idParam = typeof router.query.id === "string" ? router.query.id : null;
+import { TransportationApiService } from "@/services/api/transportation";
+
+const swrOptions = { revalidateOnFocus: false };
+const { getByTripId } = TransportationApiService;
+
+export const TripScriptSection = () => {
+  const { data = [], error, isLoading } = useSwr("transportation", getByTripId, swrOptions);
+
+  if (isLoading) {
+    return (
+      <div className="profile-questions-form">
+        <Loader color="var(--color-brand-1)" size="md" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="profile-questions-form flex-column gap-lg">
+        <EmptyState />
+        <Button variant="neutral" onClick={() => location.reload()}>
+          Tentar novamente
+        </Button>
+      </div>
+    );
+  }
 
   return (
-    <div className="trip-content-item trip-script-section">
-      <Box>
-        <Picture src={"/assets/destino/roteiro.svg"} />
-      </Box>
-      <Box className="trip-content-item__desc">
-        <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
-          Roteiro
-        </Text>
-        <Text className="trip-script-section__text">
-          {text}
-        </Text>
-        <Link className="trip-script-section__see-script" style={{ marginTop: 0 }} href={"/app/viagens/roteiro/previa/" + idParam}>
-          Ver prévia do roteiro
-        </Link>
-      </Box>
-    </div>
+    <div>Roteiro</div>
   );
 };
