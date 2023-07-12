@@ -1,14 +1,22 @@
 import { useState } from "react";
-import { PasswordField, PasswordStrongField } from "mars-ds";
+import { useRouter } from "next/router";
+
+import { PasswordField, PasswordStrongField, Card, Button } from "mars-ds";
+import { AuthSection } from "../AuthSection";
 import { AuthFormSection } from "../AuthFormSection";
 import { SubmitHandler } from "@/utils/helpers/form.helpers";
+import { UserApiService } from "@/services/api/user";
+import { SignUpResponse } from "@/services/api/user/sign-up";
+import { EmptyState } from "@/ui";
 
 type PasswordConfirmationData = Record<string, string>;
 
 export function  AuthPasswordConfirmationForm() {
-  const { submitting, confirmAccount } = useAccountConfirmation();
+  const { submitting, error, signUpResponse, confirmAccount } = useAccountConfirmation();
   const [data, setData] = useState<PasswordConfirmationData>({});
   const [passwordOK, setPasswordOK] = useState(false);
+
+  const router = useRouter();
 
   const passwordConfirmationOK = data["password"] === data["passwordConfirmation"];
   const isValid = passwordOK && passwordConfirmationOK;
@@ -17,6 +25,21 @@ export function  AuthPasswordConfirmationForm() {
     const { value, name } = event.target as HTMLInputElement;
     setData((state: PasswordConfirmationData) => ({ ...state, [name]: value }));
   };
+
+  if (error || (signUpResponse && !signUpResponse.isSignUpSuccessful)) {
+    return (
+      <AuthSection heading="Houve um problema com seu cadastro">
+        <Card elevation="md" className="auth-section__card">
+          <EmptyState text={signUpResponse?.message} />
+        </Card>
+        <Button href="/">Voltar à home</Button>
+      </AuthSection>
+    );
+  }
+
+  if (signUpResponse && signUpResponse.isSignUpSuccessful){
+    router.replace("/app/entrar");
+  }
 
   return (
     <AuthFormSection
@@ -47,11 +70,22 @@ export function  AuthPasswordConfirmationForm() {
 const useAccountConfirmation = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(false);
+  const [signUpResponse, setSignUpResponse] = useState<SignUpResponse>();
+
+  const router = useRouter();
+  const uniqueIdParam = typeof router.query.uniqueId === "string" ? router.query.uniqueId : null;
+  const emailParam = typeof router.query.email === "string" ? router.query.email : "";
 
   const confirmAccount: SubmitHandler<{ password: string }> = ({ password }) => {
-    setSubmitting(true)
-    console.log(password)
+    setSubmitting(true);
+    setError(false);
+
+    return UserApiService.signUp({ email: emailParam, password, signUpUniqueId: uniqueIdParam })
+      .then(setSignUpResponse)
+      .catch(() => {
+        setError(true);
+      });
   };
 
-  return { submitting, error, confirmAccount };
+  return { submitting, error, signUpResponse, confirmAccount };
 };
