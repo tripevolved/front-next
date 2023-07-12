@@ -1,7 +1,3 @@
-export const RawScript = ({ children }: any) => (
-  <script
-    dangerouslySetInnerHTML={{
-      __html: children,
-    }}
-  />
+export const RawScript = ({ children: __html }: { children: string }) => (
+  <script dangerouslySetInnerHTML={{ __html }} />
 );
