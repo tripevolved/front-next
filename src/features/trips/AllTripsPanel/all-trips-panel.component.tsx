@@ -23,7 +23,7 @@ export function AllTripsPanel({ className, sx, ...props }: AllTripsPanelProps) {
     setName(travelerState.name);
 
     if (data?.currentTrip && !seeAllTrips) {
-      router.replace("/app/viagens/" + data.currentTrip.id);
+      // router.replace("/app/viagens/" + data.currentTrip.id);
     }
   }, [travelerState, router, data, seeAllTrips]);
 

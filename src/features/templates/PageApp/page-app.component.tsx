@@ -3,8 +3,8 @@ import type { PageAppProps } from "./page-app.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 
-export function PageApp({ children, seo }: PageAppProps) {
-  const cn = makeCn("page-app")();
+export function PageApp({ children, seo, className }: PageAppProps) {
+  const cn = makeCn("page-app", className)();
 
   return (
     <>

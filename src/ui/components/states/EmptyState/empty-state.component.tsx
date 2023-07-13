@@ -1,28 +1,11 @@
-import { Picture, Text } from "@/ui";
-import type { EmptyStateProps } from "./empty-state.types";
+import type { StateTemplateProps } from "@/ui";
+import { StateTemplate } from "@/ui";
 
-import { makeCn } from "@/utils/helpers/css.helpers";
-
-const DEFAULT_TEXT = "Ops! algo não saiu como esperado!";
+const DEFAULT_TEXT = "Este conteúdo não foi encontrado :(";
 const DEFAULT_IMAGE = "/assets/states/empty-state.svg";
 
-export function EmptyState({
-  className,
-  children,
-  sx,
-  heading,
-  text = DEFAULT_TEXT,
-  image = DEFAULT_IMAGE,
-  ...props
-}: EmptyStateProps) {
-  const cn = makeCn("empty-state", className)(sx);
-
+export function EmptyState(props: StateTemplateProps) {
   return (
-    <div className={cn} {...props}>
-      <Picture>{image}</Picture>
-      {heading ? <Text heading as="h4" size="xs">{heading}</Text> : null}
-      <Text>{text}</Text>
-      {children}
-    </div>
+    <StateTemplate image={DEFAULT_IMAGE} text={DEFAULT_TEXT} {...props} />
   );
 }
