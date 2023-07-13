@@ -4,7 +4,7 @@ import type { PendingDocumentsModalProps } from "./pending-documents-modal.types
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { TextField, Button } from "mars-ds";
 import { useTripPendingDocuments } from "./pending-documentos-modal.hook";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Traveler } from "@/core/types";
 
 export function PendingDocumentsModal({
@@ -16,9 +16,19 @@ export function PendingDocumentsModal({
 }: PendingDocumentsModalProps) {
   const cn = makeCn("pending-documents-modal", className)(sx);
 
+  const { isLoading, data, error } = useTripPendingDocuments(tripId);
+
   const [travelersDocs, setTravelersDocs] = useState<Traveler[]>([]);
 
-  const { isLoading, data, error } = useTripPendingDocuments(tripId);
+  const setNewDocs = (doc: "rg" | "cpf" | "email", index: number, value: string) => {
+    const updateTravelersDocs = [...travelersDocs];
+    updateTravelersDocs[index] = {
+      ...updateTravelersDocs[index],
+      [doc]: value,
+    };
+
+    setTravelersDocs(updateTravelersDocs);
+  };
 
   const getView = () => {
     if (error) return <EmptyState />;
@@ -34,38 +44,26 @@ export function PendingDocumentsModal({
             </Text>
             {!pending.rg && (
               <TextField
-                onChange={(e: any) =>
-                  setTravelersDocs([
-                    ...travelersDocs,
-                    { id: pending.id, travelerId: pending.travelerId, rg: e.target.value },
-                  ])
-                }
+                value={pending.rg}
+                onBlur={(e: any) => setNewDocs("rg", i, e.target.value)}
                 className="pending-documents-modal__field__text-field"
                 label="Digite o número de RG do viajante"
               />
             )}
             {!pending.cpf && (
               <TextField
+                value={pending.cpf}
                 className="pending-documents-modal__field__text-field"
                 label="Digite o número de CPF do viajante"
-                onChange={(e: any) =>
-                  setTravelersDocs([
-                    ...travelersDocs,
-                    { id: pending.id, travelerId: pending.travelerId, cpf: e.target.value },
-                  ])
-                }
+                onBlur={(e: any) => setNewDocs("cpf", i, e.target.value)}
               />
             )}
             {!pending.email && (
               <TextField
+                value={pending.email}
                 className="pending-documents-modal__field__text-field"
                 label="Digite o e-mail do viajante"
-                onChange={(e: any) =>
-                  setTravelersDocs([
-                    ...travelersDocs,
-                    { id: pending.id, travelerId: pending.travelerId, email: e.target.value },
-                  ])
-                }
+                onBlur={(e: any) => setNewDocs("email", i, e.target.value)}
               />
             )}
           </Box>
@@ -75,19 +73,30 @@ export function PendingDocumentsModal({
           className="pending-documents-modal__button"
           onClick={() => console.log("OS DADOS", travelersDocs)}
         >
-          {" "}
-          Enviar{" "}
+          Enviar
         </Button>
       </>
     );
   };
+
+  useEffect(() => {
+    if (data?.travelers) {
+      const initialTravelersDocs = data.travelers.map((traveler) => ({
+        rg: traveler.rg || "",
+        cpf: traveler.cpf || "",
+        email: traveler.email || "",
+        id: traveler.id,
+        travelerId: traveler.travelerId,
+      }));
+      setTravelersDocs(initialTravelersDocs);
+    }
+  }, [data]);
 
   return (
     <div className={cn} {...props}>
       <Text heading size="xs" className="pending-documents-modal__title">
         Enviar documentos
       </Text>
-
       {getView()}
     </div>
   );
