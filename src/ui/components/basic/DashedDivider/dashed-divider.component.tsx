@@ -13,7 +13,7 @@ export function DashedDivider({
 
   return (
     <div className={cn} {...props}>
-      <div style={{ border: `1px dashed ${color}` }}></div>
+      <div style={{ border: `1px dashed ${color}` }} />
     </div>
   );
 }

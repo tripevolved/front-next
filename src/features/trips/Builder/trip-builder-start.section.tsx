@@ -1,6 +1,6 @@
-import { TripBuilderStartProps } from "./trip-builder.types";
-import { Box, Button, Picture, SectionBase } from "@/ui";
-import { Container } from "mars-ds";
+import type { TripBuilderStartProps } from "./trip-builder.types";
+import { Box, Picture, SectionBase } from "@/ui";
+import { Button, Container } from "mars-ds";
 import { Text } from "@/ui";
 
 export function TripBuilderStartSection({ destinationName, onSubmit, className, children, ...props }: TripBuilderStartProps) {

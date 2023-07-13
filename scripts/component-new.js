@@ -22,7 +22,7 @@ const TEMPLATE_MAPPER = [
 async function main() {
   const location = await askProjectLocation();
 
-  const folder = await askPathLocation();
+  const folder = await askPathLocation(location);
   const path = join(location, folder);
 
   const componentSnakeName = await askComponentName();
@@ -42,9 +42,10 @@ async function askProjectLocation() {
   if (response === "2") return PATH_FEATURES;
 }
 
-async function askPathLocation() {
-  const options = getFiles(PATH_FEATURES).reduce((acc, fileName) => {
-    const path = fileName.replace(/.*features\/(.*?)\/.*/, "$1");
+async function askPathLocation(location) {
+  const options = getFiles(location).reduce((acc, fileName) => {
+    const regex = new RegExp(`${location}/(.*?)/.*`);
+    const path = fileName.replace(regex, "$1");
     if (acc.includes(path) || /index/.test(path)) return acc;
     return [...acc, path];
   }, []);

@@ -11,7 +11,7 @@ export const DestinationInfoSection = ({
   recommendedBy,
 }: DestinationInfoSectionProps) => {
   return (
-    <SectionBase columns={{ md: [1, "320px"] }} gap={32} style={{ padding: 20 }}>
+    <SectionBase columns={{ md: [1, "320px"] }} gap={32}>
       <DestinationInfoFeatures features={features} />
       {recommendedBy && <DestinationInfoRecommendedBy {...recommendedBy} />}
     </SectionBase>
@@ -20,7 +20,7 @@ export const DestinationInfoSection = ({
 
 const DestinationInfoFeatures = ({ features = [] }: Pick<DestinationProps, "features">) => {
   return (
-    <CardHighlight className="destination-feature__list">
+    <CardHighlight className="destination-info-feature">
       <Text as="h2" heading className="mb-sm" size="xs">
         Destaques do destino
       </Text>
@@ -33,15 +33,15 @@ const DestinationInfoFeatures = ({ features = [] }: Pick<DestinationProps, "feat
 
 const DestinationFeature = ({ title, description, type }: PublicDestinationFeature) => {
   return (
-    <div className="destination-feature__list__item">
-      <div className="destination-feature__list__item__icon">
+    <div className="destination-feature">
+      <div className="destination-feature__icon">
         <FeatureIcon name={type} />
       </div>
-      <div className="destination-feature__list__item__content">
-        <Text as="h3" size="lg" className="destination-feature__list__item__title">
+      <div className="destination-feature__content">
+        <Text as="h3" size="lg" className="destination-feature__title">
           {title}
         </Text>
-        <Text className="destination-feature__list__item__description">{description}</Text>
+        <Text className="destination-feature__description">{description}</Text>
       </div>
     </div>
   );

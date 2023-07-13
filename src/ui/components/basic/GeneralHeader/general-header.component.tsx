@@ -1,8 +1,7 @@
-import { Button } from "../../buttons/Button";
-import { SectionBase } from "../../sections/SectionBase";
-import { Box } from "../Box";
-import { Text } from "../Text";
 import type { GeneralHeaderProps } from "./general-header.types";
+
+import { Button } from "mars-ds";
+import { Box, SectionBase, Text } from "@/ui";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 

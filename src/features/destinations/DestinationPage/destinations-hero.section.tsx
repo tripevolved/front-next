@@ -1,7 +1,7 @@
 import type { DestinationProps } from "./destination-page.types";
 
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
-import { Text } from "@/ui";
+import { Picture, Text } from "@/ui";
 import { Container } from "mars-ds";
 import { makeCn } from "@/utils/helpers/css.helpers";
 
@@ -11,22 +11,15 @@ export const DestinationHeroSection = ({ title, photos = [] }: DestinationHeroSe
   // TODO: Implements carousel
   const [photo] = photos;
   const cover = photo ? parsePhoto(photo) : undefined;
-
   const cn = makeCn("destination-hero-section", {
     "destination-hero-section--no-photo": !cover,
   })();
 
-  const backgroundImageConfig = cover
-    ? `linear-gradient(to bottom, rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.86)), url(${cover})`
-    : "linear-gradient(to bottom, #1a365d, rgba(0, 0, 0, 0.86))";
-
   return (
     <section
       className={cn}
-      style={{
-        backgroundImage: backgroundImageConfig,
-      }}
     >
+      {cover ? <Picture className="destination-hero-section__photos">{cover}</Picture> : null}
       <Container className="destination-hero-section__content">
         <Text heading as="h1" size="lg">
           <strong>{title}</strong>

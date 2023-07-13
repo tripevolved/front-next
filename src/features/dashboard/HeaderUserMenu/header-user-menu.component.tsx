@@ -1,5 +1,5 @@
 import type { HeaderUserMenuProps } from "./header-user-menu.types";
-import { Text, Picture } from "@/ui";
+import { Text } from "@/ui";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 
@@ -14,8 +14,8 @@ export function HeaderUserMenu({
 
   return (
     <div className={cn} {...props}>
-      <Text size="xs" heading>
-        Olá, {userName} <Picture src="/emoji/emoji-hi-hand.png" />
+      <Text size="sm" heading>
+        Olá, {userName} 👋
       </Text>
       {children}
     </div>

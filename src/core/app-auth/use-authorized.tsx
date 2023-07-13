@@ -12,11 +12,13 @@ export const useAuthorized = () => {
     redirect(pathname);
   };
 
+  const isAuth = UserService.isAuth();
+
   const isAuthorized = useMemo(
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    () => !isProtectedRoute(asPath) || UserService.isAuth(),
+    () => !isProtectedRoute(asPath) || isAuth,
     [asPath]
   );
 
-  return { isAuthorized, redirectToSignIn };
+  return { isAuthorized, isAuth, redirectToSignIn };
 };

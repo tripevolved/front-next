@@ -1,8 +1,8 @@
-import { Text, Box, Button, EmptyState, GlobalLoader } from "@/ui";
+import { Text, Box, EmptyState, GlobalLoader } from "@/ui";
 import type { PendingDocumentsModalProps } from "./pending-documents-modal.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { TextField } from "mars-ds";
+import { TextField, Button } from "mars-ds";
 import { useTripPendingDocuments } from "./pending-documentos-modal.hook";
 import { useState } from "react";
 import { Traveler } from "@/core/types";

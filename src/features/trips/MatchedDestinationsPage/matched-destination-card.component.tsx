@@ -1,11 +1,11 @@
-import { Box, Button, Picture, Text } from "@/ui";
 import type { MatchedDestinationCardProps } from "./matched-destinations-page.types";
+import { Box, Picture, Text } from "@/ui";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { formatToPercentage } from "@/utils/helpers/number.helpers";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { useEffect } from "react";
-import { Link } from "mars-ds";
+import { Button, Link } from "mars-ds";
 
 export function MatchedDestinationCard({
   className,
@@ -101,9 +101,7 @@ export function OtherCoiceMatchedDestinationCard({
                 Match: <strong>{formatToPercentage(matchScore)}</strong>
               </Text>
             </>
-          ) : (
-            <></>
-          )}
+          ) : null}
         </Box>
         <Box className="other-choice-destination-card__footer">
           <Box className="other-choice-destination-card__footer__city-name">
