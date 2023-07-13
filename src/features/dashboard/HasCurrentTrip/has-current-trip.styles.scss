@@ -2,13 +2,13 @@
   .card-trip__content {
     display: flex;
     justify-content: space-between;
-    align-items: end;
+    align-items: flex-end;
     gap: $spacing-sm;
   }
   &__period {
     white-space: nowrap;
     display: flex;
     gap: $spacing-sm;
-    align-items: start;
+    align-items: flex-start;
   }
 }
