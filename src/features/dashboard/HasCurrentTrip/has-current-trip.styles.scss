@@ -1,0 +1,14 @@
+.trip-item {
+  .card-trip__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: $spacing-sm;
+  }
+  &__period {
+    white-space: nowrap;
+    display: flex;
+    gap: $spacing-sm;
+    align-items: flex-start;
+  }
+}
