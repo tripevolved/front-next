@@ -44,7 +44,7 @@ const Tip = ({ title, subtitle, description, type = "generic" }: PublicDestinati
       </Box>
       <Box className="tip__content-box">
         <Text>
-          <strong>{title}</strong>: {subtitle ? subtitle : "---"}
+          <strong>{title}</strong>{subtitle ? ": " + subtitle : null}
         </Text>
         {description ? <Text size="sm">{description}</Text> : null}
       </Box>
