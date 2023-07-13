@@ -57,7 +57,7 @@ function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
         ))}
       </Grid>
       <div className="text-center py-xl">
-        <Button href="/app/viagens/criar" variant="secondary" iconName="plus">
+        <Button href="/app/viagens/descobrir" variant="secondary" iconName="plus">
           Descobrir mais uma viagem
         </Button>
       </div>
