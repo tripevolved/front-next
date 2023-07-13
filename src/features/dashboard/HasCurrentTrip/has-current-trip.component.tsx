@@ -7,7 +7,7 @@ import { TripsApiService } from "@/services/api";
 
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
-import { Button, Grid, Icon, Loader, Tabs } from "mars-ds";
+import { Button, Grid, Icon, Link, Loader, Tabs } from "mars-ds";
 import { CardTrip, EmptyState, ErrorState, Text } from "@/ui";
 
 export function HasCurrentTrip() {
@@ -58,25 +58,27 @@ function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
       </Grid>
       <div className="text-center py-xl">
         <Button href="/app/viagens/criar" variant="secondary" iconName="plus">
-          Simular mais uma viagem
+          Descobrir mais uma viagem
         </Button>
       </div>
     </Grid>
   );
 }
 
-function TripItem({ title = "Sem nome", images, period }: TripListView) {
+function TripItem({ id, title = "Sem nome", images, period }: TripListView) {
   const [photo] = images;
   const image = photo ? parsePhoto(photo) : undefined;
 
   return (
-    <CardTrip image={image} title={title} className="trip-item">
-      {typeof period === "string" ? (
-        <div className="trip-item__period">
-          <Icon name="calendar" size="sm" />
-          <Text>{period.replace(".", "").toUpperCase()}</Text>
-        </div>
-      ) : null}
-    </CardTrip>
+    <Link href={`/app/viagens/${id}`} className="trip-item">
+      <CardTrip image={image} title={title}>
+        {typeof period === "string" ? (
+          <div className="trip-item__period">
+            <Icon name="calendar" size="sm" />
+            <Text>{period.replace(".", "").toUpperCase()}</Text>
+          </div>
+        ) : null}
+      </CardTrip>
+    </Link>
   );
 }

@@ -1,6 +1,8 @@
 .trip-item {
+  width: 100%;
+
   .card-trip__content {
-    display: flex;
+    display: flex;  
     justify-content: space-between;
     align-items: flex-end;
     gap: $spacing-sm;
