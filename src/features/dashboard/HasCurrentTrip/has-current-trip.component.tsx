@@ -7,7 +7,7 @@ import { TripsApiService } from "@/services/api";
 
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
-import { Button, Grid, Icon, Link, Loader, Tabs } from "mars-ds";
+import { Button, Grid, Icon, Loader, Tabs } from "mars-ds";
 import { CardTrip, EmptyState, ErrorState, Text } from "@/ui";
 
 export function HasCurrentTrip() {
@@ -70,15 +70,13 @@ function TripItem({ id, title = "Sem nome", images, period }: TripListView) {
   const image = photo ? parsePhoto(photo) : undefined;
 
   return (
-    <Link href={`/app/viagens/${id}`} className="trip-item">
-      <CardTrip image={image} title={title}>
-        {typeof period === "string" ? (
-          <div className="trip-item__period">
-            <Icon name="calendar" size="sm" />
-            <Text>{period.replace(".", "").toUpperCase()}</Text>
-          </div>
-        ) : null}
-      </CardTrip>
-    </Link>
+    <CardTrip image={image} title={title} href={`/app/viagens/${id}`} className="trip-item">
+      {typeof period === "string" ? (
+        <div className="trip-item__period">
+          <Icon name="calendar" size="sm" />
+          <Text>{period.replace(".", "").toUpperCase()}</Text>
+        </div>
+      ) : null}
+    </CardTrip>
   );
 }
