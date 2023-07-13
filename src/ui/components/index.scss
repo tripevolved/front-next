@@ -19,6 +19,7 @@
 @import "./basic/Pricing/pricing.styles.scss";
 @import "./basic/StepsProgressBar/steps-progress-bar.styles.scss";
 @import "./basic/Tag/tag.styles.scss";
+@import "./cards/CardTrip/card-trip.styles.scss";
 @import "./forms/AutoCompleteTextField/auto-complete-text-field.styles.scss";
 @import "./forms/OptionField/option-field.styles.scss";
 @import "./loaders/GlobalLoader/global-loader.styles.scss";
@@ -26,4 +27,4 @@
 @import "./loaders/StepsLoader/steps-loader.styles.scss";
 @import "./sections/SectionBase/section-base.styles.scss";
 @import "./sections/SectionFaq/section-faq.styles.scss";
-@import "./states/EmptyState/empty-state.styles.scss";
+@import "./states/StateTemplate/state-template.styles.scss";

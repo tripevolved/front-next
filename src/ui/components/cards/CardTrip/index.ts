@@ -2,5 +2,5 @@
  * Automatically generated
  * run "yarn component:index" to update
  */
-export * from "./painel.component";
-export * from "./painel.types";
+export * from "./card-trip.component";
+export * from "./card-trip.types";

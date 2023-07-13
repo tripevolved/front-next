@@ -1,9 +1,9 @@
-import { PageApp, Painel } from "@/features";
+import { DashboardHome, PageApp } from "@/features";
 
 export default function DashboardRoute() {
   return (
     <PageApp seo={{ title: "Painel" }}>
-      <Painel />
+      <DashboardHome />
     </PageApp>
   );
 }

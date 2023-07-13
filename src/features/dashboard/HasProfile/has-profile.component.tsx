@@ -1,41 +1,42 @@
-import { Box, Picture, Text, DashedDivider } from "@/ui";
-import type { HasProfileProps } from "./has-profile.types";
+import type { TravelerProfileType } from "@/core/types";
 
-import { makeCn } from "@/utils/helpers/css.helpers";
-import { DestinationsCarousel } from "@/features";
-import { Button } from "mars-ds";
+import { useAppStore } from "@/core/store";
 
-export function HasProfile({ className, children, sx, profileType, ...props }: HasProfileProps) {
-  const cn = makeCn("has-profile", className)(sx);
+import { Text, MediaObject } from "@/ui";
+
+const PROFILE_NAMES: Record<TravelerProfileType, string> = {
+  "agitador": "Agitador",
+  "alternativo": "Alternativo",
+  "automatico": "Automático",
+  "aventureiro": "Aventureiro",
+  "colecionador-de-pulseirinha": "Colecionador de Pulseirinha",
+  "dinamico": "Dinamico",
+  "espiritual": "Espiritual",
+  "fa-da-rotina": "Fã da Rotina",
+  "garantido": "Garantido",
+  "gastronomico": "Gastronômico",
+  "insaciavel": "Insaciável",
+  "intelectual": "Intelectual",
+  "negocios": "Negócios",
+  "relax": "Relax",
+  "so-se-vive-uma-vez": "Só se vive uma vez",
+};
+
+export function HasProfile() {
+  const { travelerProfile } = useAppStore((state) => state.travelerState);
+  if (!travelerProfile) return null;
 
   return (
-    <Box className={cn} {...props}>
-      <Text className="has-profile__text-title">Seu perfil de viajante é...</Text>
-      <Box className="has-profile__image-container">
-        <Box className="has-profile__image-container__image-circle">
-          <Picture src={`/assets/perfil/${profileType}.svg`} />
-        </Box>
-      </Box>
-      <Text heading className="has-profile__text-profile">
-        {profileType == "agitador" && "Agitador"}
-        {profileType == "alternativo" && "Alternativo"}
-        {profileType == "automatico" && "Automático"}
-        {profileType == "aventureiro" && "Aventureiro"}
-        {profileType == "colecionador-de-pulseirinha" && "Colecionador de Pulseirinha"}
-        {profileType == "dinamico" && "Dinamico"}
-        {profileType == "espiritual" && "Espiritual"}
-        {profileType == "fa-da-rotina" && "Fã da Rotina"}
-        {profileType == "garantido" && "Garantido"}
-        {profileType == "gastronomico" && "Gastronômico"}
-        {profileType == "insaciavel" && "Insaciável"}
-        {profileType == "intelectual" && "Intelectual"}
-        {profileType == "negocios" && "Negócios"}
-        {profileType == "relax" && "Relax"}
-        {profileType == "so-se-vive-uma-vez" && "Só se vive uma vez"}
-      </Text>
-      <DashedDivider />
-      <Button className="has-profile__cta">Descobrir minha trip</Button>
-      <DestinationsCarousel recommendedDestinations={[]} title="Destinos que você pode gostar:" />
-    </Box>
+    <section className="has-profile">
+      <Text className="color-text-secondary mb-lg">Seu perfil de viajante é...</Text>
+      <MediaObject
+        image={`/assets/perfil/${travelerProfile}.svg`}
+        heading={{
+          size: 'sm',
+          as:"h3",
+          children: PROFILE_NAMES[travelerProfile]
+        }}
+      />
+    </section>
   );
 }
