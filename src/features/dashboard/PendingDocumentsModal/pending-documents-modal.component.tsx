@@ -3,7 +3,7 @@ import type { PendingDocumentsModalProps } from "./pending-documents-modal.types
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { TextField, Button } from "mars-ds";
-import { useTripPendingDocuments } from "./pending-documentos-modal.hook";
+import { useTripPendingDocuments } from "./pending-documents-modal.hook";
 import { useEffect, useState } from "react";
 import { Traveler, TripTravelers } from "@/core/types";
 
