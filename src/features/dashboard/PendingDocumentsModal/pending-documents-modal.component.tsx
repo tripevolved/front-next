@@ -16,7 +16,7 @@ export function PendingDocumentsModal({
 }: PendingDocumentsModalProps) {
   const cn = makeCn("pending-documents-modal", className)(sx);
 
-  const { isLoading, data, error, sendDocs, dataSended } = useTripPendingDocuments(tripId);
+  const { isLoading, data, error, sendDocs, dataSent } = useTripPendingDocuments(tripId);
 
   const [travelersDocs, setTravelersDocs] = useState<Traveler[]>([]);
 
@@ -107,8 +107,8 @@ export function PendingDocumentsModal({
       >
         {error && "Algo inesperado aconteceu"}
         {isLoading && "Enviando..."}
-        {dataSended && "Documentos enviados!"}
-        {!error && !isLoading && !dataSended && "Enviar"}
+        {dataSent && "Documentos enviados!"}
+        {!error && !isLoading && !dataSent && "Enviar"}
       </Button>
     </div>
   );

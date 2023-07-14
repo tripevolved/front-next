@@ -15,7 +15,7 @@ export const useTripPendingDocuments = (idParam: string | null) => {
     return TravelerApiService.setTripTravelers(data)
       .then(() => {
         setIsLoading(false);
-        setDataSended(true);
+        setDataSent(true);
       })
       .catch(() => {
         setIsLoading(false);
@@ -48,6 +48,6 @@ export const useTripPendingDocuments = (idParam: string | null) => {
     data,
     error,
     sendDocs,
-    dataSended,
+    dataSent,
   };
 };
