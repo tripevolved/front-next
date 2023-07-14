@@ -4,7 +4,7 @@ import { TravelerApiService } from "@/services/api/traveler";
 
 export const useTripPendingDocuments = (idParam: string | null) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [dataSended, setDataSended] = useState(false);
+  const [dataSent, setDataSent] = useState(false);
   const [data, setData] = useState<TripTravelers>();
   const [error, setError] = useState(false);
 
