@@ -30,6 +30,11 @@ export function PendingDocumentsModal({
     setTravelersDocs(updateTravelersDocs);
   };
 
+  const handleButton = () => {
+    try {
+    } catch (e: any) {}
+  };
+
   const getView = () => {
     if (error) return <EmptyState />;
     if (isLoading) return <GlobalLoader />;
@@ -69,10 +74,7 @@ export function PendingDocumentsModal({
           </Box>
         ))}
 
-        <Button
-          className="pending-documents-modal__button"
-          onClick={() => console.log("OS DADOS", travelersDocs)}
-        >
+        <Button className="pending-documents-modal__button" onClick={() => handleButton()}>
           Enviar
         </Button>
       </>
