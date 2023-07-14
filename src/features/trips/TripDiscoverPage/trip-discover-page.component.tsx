@@ -38,8 +38,8 @@ export const TripDiscoverPage = () => {
 
   return (
     <ProfileStartSection 
-      title={!travelerState.travelerProfile ? undefined : "Responda a seguir e descubra nossas recomendações de destinos."}
-      subtitle={!travelerState.travelerProfile ? undefined : "Você também pode refazer seu perfil de viajante, se achar necessário"}
+      title={!travelerState.travelerProfile ? undefined : "Descubra nossas recomendações de destinos!"}
+      subtitle={!travelerState.travelerProfile ? undefined : "Vamos fazer algumas perguntas para entender o que você precisa e quer em sua viagem para construir tudo, personalizado para você."}
       onSubmit={() => setNextStep("build-profile")}
     />);
 }

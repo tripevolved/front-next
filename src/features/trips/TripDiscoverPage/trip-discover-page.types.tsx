@@ -1,4 +1,4 @@
-import { ComponentHTMLProps } from "@/core/types";
+import { ComponentHTMLProps, TravelerProfileType } from "@/core/types";
 
 export interface TripDiscoverStepProps extends ComponentHTMLProps {
   onSubmit: () => void;
@@ -14,7 +14,7 @@ export interface TravelerProfileBuilderSectionProps extends TripDiscoverStepProp
 }
 
 export interface TravelerProfileSectionProps extends TripDiscoverStepProps {
-  travelerProfile: string;
+  travelerProfile: TravelerProfileType;
 }
 
 export interface TripDiscoverQuestionProps extends TripDiscoverStepProps {
