@@ -4,7 +4,7 @@ import { useAppStore } from "@/core/store";
 
 import { Text, MediaObject } from "@/ui";
 
-const PROFILE_NAMES: Record<TravelerProfileType, string> = {
+export const PROFILE_NAMES: Record<TravelerProfileType, string> = {
   "agitador": "Agitador",
   "alternativo": "Alternativo",
   "automatico": "Automático",
