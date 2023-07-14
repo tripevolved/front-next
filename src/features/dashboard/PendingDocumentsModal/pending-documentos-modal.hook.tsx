@@ -4,8 +4,24 @@ import { TravelerApiService } from "@/services/api/traveler";
 
 export const useTripPendingDocuments = (idParam: string | null) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [dataSended, setDataSended] = useState(false);
   const [data, setData] = useState<TripTravelers>();
   const [error, setError] = useState(false);
+
+  const sendDocs = async (data: TripTravelers) => {
+    setIsLoading(true);
+    setError(false);
+
+    return TravelerApiService.setTripTravelers(data)
+      .then(() => {
+        setIsLoading(false);
+        setDataSended(true);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        setError(true);
+      });
+  };
 
   const fetchPendingDocuments = async (tripId: string | null) => {
     if (tripId === null) {
@@ -17,7 +33,7 @@ export const useTripPendingDocuments = (idParam: string | null) => {
     setError(false);
     return TravelerApiService.getTripTravelers(tripId)
       .then(setData)
-      .catch(() => setError(false));
+      .catch(() => setError(true));
   };
 
   useEffect(() => {
@@ -31,5 +47,7 @@ export const useTripPendingDocuments = (idParam: string | null) => {
     isLoading,
     data,
     error,
+    sendDocs,
+    dataSended,
   };
 };

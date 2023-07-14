@@ -5,7 +5,7 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { TextField, Button } from "mars-ds";
 import { useTripPendingDocuments } from "./pending-documentos-modal.hook";
 import { useEffect, useState } from "react";
-import { Traveler } from "@/core/types";
+import { Traveler, TripTravelers } from "@/core/types";
 
 export function PendingDocumentsModal({
   className,
@@ -16,7 +16,7 @@ export function PendingDocumentsModal({
 }: PendingDocumentsModalProps) {
   const cn = makeCn("pending-documents-modal", className)(sx);
 
-  const { isLoading, data, error } = useTripPendingDocuments(tripId);
+  const { isLoading, data, error, sendDocs, dataSended } = useTripPendingDocuments(tripId);
 
   const [travelersDocs, setTravelersDocs] = useState<Traveler[]>([]);
 
@@ -31,8 +31,11 @@ export function PendingDocumentsModal({
   };
 
   const handleButton = () => {
-    try {
-    } catch (e: any) {}
+    const body = { ...data } as TripTravelers;
+
+    body.travelers = [...travelersDocs];
+
+    sendDocs(body);
   };
 
   const getView = () => {
@@ -42,7 +45,7 @@ export function PendingDocumentsModal({
 
     return (
       <>
-        {data.travelers.map((pending, i) => (
+        {data.travelers.map((pending: Traveler, i: number) => (
           <Box className="pending-documents-modal__field" key={i}>
             <Text size="lg" className="pending-documents-modal__field__label">
               Viajante {i + 1}: {pending.fullName}
@@ -73,10 +76,6 @@ export function PendingDocumentsModal({
             )}
           </Box>
         ))}
-
-        <Button className="pending-documents-modal__button" onClick={() => handleButton()}>
-          Enviar
-        </Button>
       </>
     );
   };
@@ -100,6 +99,17 @@ export function PendingDocumentsModal({
         Enviar documentos
       </Text>
       {getView()}
+
+      <Button
+        className="pending-documents-modal__button"
+        disabled={isLoading || error}
+        onClick={() => handleButton()}
+      >
+        {error && "Algo inesperado aconteceu"}
+        {isLoading && "Enviando..."}
+        {dataSended && "Documentos enviados!"}
+        {!error && !isLoading && !dataSended && "Enviar"}
+      </Button>
     </div>
   );
 }
