@@ -1,4 +1,4 @@
-import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, SectionBase, GeneralHeader } from "@/ui";
 import { Link } from "mars-ds";
 import { useTripScript } from "./trip-script.hook";
 import { TripScriptActionSection } from "./trip-script-action.section";
@@ -9,6 +9,8 @@ export function TripScriptPanel() {
   const { isLoading, data, error } = useTripScript();
   const router = useRouter();
 
+  const idParam = typeof router.query.id === "string" ? router.query.id : null;
+
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
   if (data === undefined) return <EmptyState />;
@@ -17,38 +19,33 @@ export function TripScriptPanel() {
 
   return (
     <>
-      <Box>
-        <Text as="h2" heading size="xs" className="trip-script__title">
-          Prévia do roteiro
-        </Text>
-        <Link onClick={() => router.back()}>X (VOLTAR)</Link>
-      </Box>
-      {days.map((tripScriptDay, i) => {
-        return (
-          <SectionBase className="trip-script-day-section" columns={{ md: ["720px"], lg: ["1020px"] }} key={i}>
-            <div className="trip-script-day-section__border">
-              <Box className="trip-script-day-section__header">
-                <Text size="lg" className="trip-script-day-section__title">
-                  {"Dia " + (i + 1)}
-                </Text>
-                <Text size="md" className="trip-script-day-section__subtitle">
-                  {tripScriptDay.date}
-                </Text>
-                <TripScriptDetailedDay details={tripScriptDay.details} />
-              </Box>
-              <div className="trip-script-day-section__content">
-                <>
-                  {tripScriptDay.actions.map((tripScriptAction, j) => {
-                    return (
-                      <TripScriptActionSection action={tripScriptAction} key={j}/>
-                    )
-                  })}
-                </>
+      <GeneralHeader backButton title="Roteiro" href={`/app/viagens/${idParam}`} />
+      <SectionBase className="trip-script">
+        {days.map((tripScriptDay, i) => {
+          return (
+            <div className="trip-script-day-section" key={i}>
+              <div className="trip-script-day-section__border">
+                <Box className="trip-script-day-section__header">
+                  <Text size="lg" className="trip-script-day-section__title">
+                    {"Dia " + (i + 1)}
+                  </Text>
+                  <Text size="md" className="trip-script-day-section__subtitle">
+                    {tripScriptDay.date}
+                  </Text>
+                  <TripScriptDetailedDay details={tripScriptDay.details} />
+                </Box>
+                <div className="trip-script-day-section__content">
+                  <>
+                    {tripScriptDay.actions.map((tripScriptAction, j) => {
+                      return <TripScriptActionSection action={tripScriptAction} key={j} />;
+                    })}
+                  </>
+                </div>
               </div>
             </div>
-          </SectionBase>
-        );
-      })}
+          );
+        })}
+      </SectionBase>
     </>
   );
 }
