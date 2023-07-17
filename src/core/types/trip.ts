@@ -14,6 +14,7 @@ export interface TripTransportation {
   departure: string;
   estimatedArrival: string;
   description: string;
+  isSelected: Boolean;
 }
 
 export interface TripConfiguration {
