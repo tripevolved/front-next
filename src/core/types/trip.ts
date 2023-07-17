@@ -1,6 +1,7 @@
 import { TripDestination } from "@/core/types/destination";
 import { Photo } from "./photo";
 import { Traveler } from "./traveler";
+import { BooleanField } from "@prismicio/types";
 
 export interface TripDetails {
   id: string;
@@ -14,6 +15,7 @@ export interface TripTransportation {
   departure: string;
   estimatedArrival: string;
   description: string;
+  isSelected: Boolean;
 }
 
 export interface TripConfiguration {
