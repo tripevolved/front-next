@@ -1,5 +1,4 @@
 import { EmptyState, GlobalLoader, Box, Text, SectionBase, GeneralHeader } from "@/ui";
-import { Link } from "mars-ds";
 import { useTripScript } from "./trip-script.hook";
 import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
