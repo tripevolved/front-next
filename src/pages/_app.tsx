@@ -12,6 +12,7 @@ import "@/ui/styles/index.scss";
 import { LeadProvider } from "@/features";
 import { Environment } from "@/utils/helpers/environment.helpers";
 import { AppAuthProvider } from "@/core/app-auth";
+import { useEffect, useState } from "react";
 
 const LinkComponent = ({ url, ...props }: any) => {
   const isAnchor = /^#/.test(url);
@@ -28,7 +29,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <AppProvider linkComponent={LinkComponent}>
         <ProgressIndicator />
         <AppAuthProvider>
-          <Component {...pageProps} />
+          <NoSSR enabled={Environment.isProduction()}>
+            <Component {...pageProps} />
+          </NoSSR>
         </AppAuthProvider>
       </AppProvider>
     </LeadProvider>
@@ -63,3 +66,19 @@ const Seo = () => (
     }}
   />
 );
+
+type NoSSRProps = {
+  enabled?: boolean;
+  children?: any;
+}
+
+const NoSSR = ({ children = null, enabled = false }: NoSSRProps) => {
+  const [ready, setReady] = useState(enabled);
+
+  useEffect(() => {
+    if (!enabled) setReady(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  return ready ? children : null;
+}
