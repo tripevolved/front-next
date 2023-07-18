@@ -1,9 +1,10 @@
 const axios = require("axios");
 
+const ref = "ZLZ7nBIAACIAh1VS";
 const JSON_DESTINATIONS =
-  "https://tripevolved.cdn.prismic.io/api/v2/documents/search?ref=ZLGtyhIAAHFXcZQg&q=%5B%5B%3Ad+%3D+at%28document.id%2C+%22ZE-x1xAAACkA4MxL%22%29+%5D%5D";
+  `https://tripevolved.cdn.prismic.io/api/v2/documents/search?ref=${ref}&q=%5B%5B%3Ad+%3D+at%28document.id%2C+%22ZE-x1xAAACkA4MxL%22%29+%5D%5D`;
 
-const search = "vitoria";
+const search = "campo-grande";
 
 const parse = (data) =>
   data.map(({ image }) => {
@@ -20,7 +21,7 @@ const main = async () => {
   const photos = data.results[0].data.photos;
   const photo = photos.find(({ image }) => image.alt === search);
   const result = parse([photo]);
-  console.log(JSON.stringify([result]));
+  console.log(JSON.stringify(result));
 };
 
 main();
