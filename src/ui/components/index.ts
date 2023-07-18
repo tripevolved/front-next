@@ -41,3 +41,4 @@ export * from "./sections/SectionFaq";
 export * from "./states/EmptyState";
 export * from "./states/ErrorState";
 export * from "./states/StateTemplate";
+export * from "./user/UserAvatar";

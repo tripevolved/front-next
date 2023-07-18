@@ -1,0 +1,48 @@
+.page-app-menu {
+  padding: $spacing-md;
+  position: relative;
+  height: 0;
+  padding: 0;
+  &__toggle {
+    position: absolute;
+    top: $spacing-md;
+    right: $spacing-md;
+    color: white;
+  }
+}
+
+.menu-modal {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: $spacing-xl;
+  }
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    .divider:last-child {
+      display: none;
+    }
+  }
+  &__title {
+    text-transform: uppercase;
+    color: $color-gray-1;
+    padding: $spacing-md 0;
+  }
+  &__action {
+    width: 100%;
+    justify-content: space-between !important;
+    border: none;
+    &:disabled {
+      justify-content: flex-end !important;
+      .icon {
+        display: none;
+      }
+    }
+  }
+}

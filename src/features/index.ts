@@ -47,6 +47,7 @@ export * from "./templates/Navbar";
 export * from "./templates/PageApp";
 export * from "./templates/PageAppBody";
 export * from "./templates/PageAppHeader";
+export * from "./templates/PageAppMenu";
 export * from "./templates/PageBase";
 export * from "./templates/PrivacyBanner";
 export * from "./trips/AllTripsPanel";
