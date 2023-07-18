@@ -1,16 +1,21 @@
 import { useAppStore } from "@/core/store";
-import { ModalContent, Text, UserAvatar } from "@/ui";
-import { Avatar, Button, Divider, Modal, ToggleButton } from "mars-ds";
+import { LogoMainInverse, ModalContent, Text, UserAvatar } from "@/ui";
+import { Button, Container, Divider, Link, Modal, ToggleButton } from "mars-ds";
 
 export function PageAppMenu() {
   return (
-    <nav className="page-app-menu container container--md">
-      <ToggleButton
-        className="page-app-menu__toggle"
-        iconName="menu"
-        title="abrir menu"
-        onClick={() => Modal.open(MenuModal, { closable: true, size: "lg" })}
-      />
+    <nav className="page-app-menu">
+      <Container container="md">
+        <Link href="/app/painel" title="Ir para o painel">
+          <LogoMainInverse />
+        </Link>
+        <ToggleButton
+          className="page-app-menu__toggle"
+          iconName="menu"
+          title="Abrir o menu"
+          onClick={() => Modal.open(MenuModal, { closable: true, size: "lg" })}
+        />
+      </Container>
     </nav>
   );
 }
@@ -30,7 +35,7 @@ const MENU = [
     links: [
       {
         label: "Comprar viagem",
-        href: "/app/viagens/descobrir"
+        href: "/app/viagens/descobrir",
       },
       {
         label: "Contratar suporte",
@@ -39,7 +44,7 @@ const MENU = [
       {
         label: "Sair da conta",
         iconName: "log-out",
-        href: "/app/sair"
+        href: "/app/sair",
       },
     ],
   },

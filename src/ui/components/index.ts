@@ -2,20 +2,17 @@
  * Automatically generated
  * run "yarn component:index" to update
  */
+export * from "./assets/Emoji";
+export * from "./assets/Logo";
+export * from "./assets/LogoMainInverse";
 export * from "./basic/Accordion";
 export * from "./basic/AutoScrollNav";
 export * from "./basic/Box";
-export * from "./basic/CardBlog";
-export * from "./basic/CardDestination";
-export * from "./basic/CardHighlight";
-export * from "./basic/CardYoutube";
 export * from "./basic/CategoryBadge";
 export * from "./basic/DashedDivider";
-export * from "./basic/Emoji";
 export * from "./basic/FeatureIcon";
 export * from "./basic/GeneralHeader";
 export * from "./basic/LineDecoration";
-export * from "./basic/Logo";
 export * from "./basic/MediaObject";
 export * from "./basic/ModalContent";
 export * from "./basic/NoSSR";
@@ -27,7 +24,11 @@ export * from "./basic/Text";
 export * from "./buttons/ShareButton";
 export * from "./buttons/ToggleButton";
 export * from "./buttons/WhatsappButton";
+export * from "./cards/CardBlog";
+export * from "./cards/CardDestination";
+export * from "./cards/CardHighlight";
 export * from "./cards/CardTrip";
+export * from "./cards/CardYoutube";
 export * from "./forms/AutoCompleteTextField";
 export * from "./forms/DatePicker";
 export * from "./forms/OptionField";

@@ -2,24 +2,24 @@
  * Automatically generated
  * run "yarn component:index" to update
  */
+@import "./assets/Emoji/emoji.styles.scss";
+@import "./assets/Logo/logo.styles.scss";
 @import "./basic/Accordion/accordion.styles.scss";
 @import "./basic/AutoScrollNav/auto-scroll-nav.styles.scss";
-@import "./basic/CardBlog/card-blog.styles.scss";
-@import "./basic/CardDestination/card-destination.styles.scss";
-@import "./basic/CardHighlight/card-highlight.styles.scss";
-@import "./basic/CardYoutube/card-youtube.styles.scss";
 @import "./basic/CategoryBadge/category-badge.styles.scss";
 @import "./basic/DashedDivider/dashed-divider.styles.scss";
-@import "./basic/Emoji/emoji.styles.scss";
 @import "./basic/GeneralHeader/general-header.styles.scss";
-@import "./basic/Logo/logo.styles.scss";
 @import "./basic/MediaObject/media-object.styles.scss";
 @import "./basic/ModalContent/modal-content.styles.scss";
 @import "./basic/Picture/picture.styles.scss";
 @import "./basic/Pricing/pricing.styles.scss";
 @import "./basic/StepsProgressBar/steps-progress-bar.styles.scss";
 @import "./basic/Tag/tag.styles.scss";
+@import "./cards/CardBlog/card-blog.styles.scss";
+@import "./cards/CardDestination/card-destination.styles.scss";
+@import "./cards/CardHighlight/card-highlight.styles.scss";
 @import "./cards/CardTrip/card-trip.styles.scss";
+@import "./cards/CardYoutube/card-youtube.styles.scss";
 @import "./forms/AutoCompleteTextField/auto-complete-text-field.styles.scss";
 @import "./forms/OptionField/option-field.styles.scss";
 @import "./loaders/GlobalLoader/global-loader.styles.scss";

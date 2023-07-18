@@ -1,12 +1,14 @@
 .page-app-menu {
   padding: $spacing-md;
-  position: relative;
-  height: 0;
-  padding: 0;
+  background-color: $color-brand-1;
+  padding: $spacing-sm $spacing-lg;
+  border-bottom: 1px solid #2222;
+  > * {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__toggle {
-    position: absolute;
-    top: $spacing-md;
-    right: $spacing-md;
     color: white;
   }
 }
