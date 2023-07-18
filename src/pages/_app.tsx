@@ -6,7 +6,7 @@ import type { AppProps } from "next/app";
 import NextLink from "next/link";
 import { Analytics } from "@vercel/analytics/react";
 
-import { ProgressIndicator } from "@/ui";
+import { NoSSR, ProgressIndicator } from "@/ui";
 
 import "@/ui/styles/index.scss";
 import { LeadProvider } from "@/features";
@@ -66,19 +66,3 @@ const Seo = () => (
     }}
   />
 );
-
-type NoSSRProps = {
-  enabled?: boolean;
-  children?: any;
-}
-
-const NoSSR = ({ children = null, enabled = false }: NoSSRProps) => {
-  const [ready, setReady] = useState(enabled);
-
-  useEffect(() => {
-    if (!enabled) setReady(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  return ready ? children : null;
-}
