@@ -9,6 +9,7 @@ import {
   PageAppHeader,
 } from "@/features";
 import { DashedDivider, Text } from "@/ui";
+import { Avatar } from "mars-ds";
 import { useMemo } from "react";
 
 export function DashboardHome() {
@@ -23,12 +24,17 @@ export function DashboardHome() {
   }, []);
 
   return (
-    <PageApp seo={{ title: "Painel" }} className={"dashboard-home"}>
+    <PageApp seo={{ title: "Painel" }} className="dashboard-home">
       <PageAppHeader>
-        <Text heading as="div" size="sm" className="mb-sm">
-          Olá, <strong>{firstName}</strong> 👋
-        </Text>
-        <Text size="lg">{statusMessage}</Text>
+        <div className="dashboard-home__header">
+          <Avatar size="xl" thumbnail="/brand/logo-symbol-circle.svg" />
+          <div>
+            <Text heading as="div" size="sm" className="mb-xs">
+              Olá, <strong>{firstName}</strong> 👋
+            </Text>
+            <Text size="lg">{statusMessage}</Text>
+          </div>
+        </div>
       </PageAppHeader>
       <PageAppBody>
         {travelerProfile ? <HasProfile /> : <NoProfile />}
