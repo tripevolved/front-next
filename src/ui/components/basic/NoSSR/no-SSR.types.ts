@@ -1,3 +1,4 @@
 export interface NoSSRProps {
-  children: React.ReactNode;
+  children?: any;
+  enabled?: boolean;
 }

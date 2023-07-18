@@ -117,8 +117,8 @@ function indexRoot(groups = [], dir = "") {
 }
 
 function save(dest, content) {
-  const warnningContent = `${warningDontChangeFile}${content}`;
-  saveFile(dest, warnningContent);
+  const warningContent = `${warningDontChangeFile}${content}`;
+  saveFile(dest, warningContent);
 }
 
 main();
