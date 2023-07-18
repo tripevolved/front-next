@@ -1,14 +1,20 @@
 .trip-script {
   background-color: #f7fcfc;
   height: 100vh;
-  padding-top: 0;
+  padding: 0;
+
+  @media (min-width: $breakpoint-md) {
+    padding: 0 24px 24px;
+  }
 }
 
 .trip-script-day-section {
+  background-color: #f7fcfc;
   width: 100%;
-  padding: 0;
   display: flex;
   flex-direction: column;
+  border-radius: 20px 20px 0 0;
+  margin-top: -18px;
 
   &__border {
     border-radius: 10px;
@@ -26,16 +32,21 @@
 
   &__title {
     font-weight: 700;
-    margin-bottom: 22px;
   }
 
   &__subtitle {
     font-weight: 500;
-    margin-bottom: 22px;
+  }
+
+  &__title,
+  &__subtitle {
+    margin: 0 !important;
   }
 
   &__header {
     display: flex;
+    align-items: center;
+    gap: 15px;
   }
 
   &__content {

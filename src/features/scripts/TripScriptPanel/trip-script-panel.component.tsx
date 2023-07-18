@@ -3,6 +3,7 @@ import { useTripScript } from "./trip-script.hook";
 import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
 import { useRouter } from "next/router";
+import { title } from "process";
 
 export function TripScriptPanel() {
   const { isLoading, data, error } = useTripScript();
@@ -20,10 +21,10 @@ export function TripScriptPanel() {
     <>
       <GeneralHeader backButton title="Roteiro" href={`/app/viagens/${idParam}`} />
       <SectionBase className="trip-script">
-        {days.map((tripScriptDay, i) => {
-          return (
-            <div className="trip-script-day-section" key={i}>
-              <div className="trip-script-day-section__border">
+        <div className="trip-script-day-section">
+          {days.map((tripScriptDay, i) => {
+            return (
+              <div className="trip-script-day-section__border" key={i}>
                 <Box className="trip-script-day-section__header">
                   <Text size="lg" className="trip-script-day-section__title">
                     {"Dia " + (i + 1)}
@@ -31,7 +32,7 @@ export function TripScriptPanel() {
                   <Text size="md" className="trip-script-day-section__subtitle">
                     {tripScriptDay.date}
                   </Text>
-                  <TripScriptDetailedDay details={tripScriptDay.details} />
+                  {!isPreview && <TripScriptDetailedDay details={tripScriptDay.details} />}
                 </Box>
                 <div className="trip-script-day-section__content">
                   <>
@@ -41,9 +42,9 @@ export function TripScriptPanel() {
                   </>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </SectionBase>
     </>
   );
