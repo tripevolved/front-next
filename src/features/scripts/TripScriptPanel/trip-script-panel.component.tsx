@@ -3,7 +3,7 @@ import { useTripScript } from "./trip-script.hook";
 import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
 import { useRouter } from "next/router";
-import { Icon } from "mars-ds";
+import { Card, Icon } from "mars-ds";
 
 export function TripScriptPanel() {
   const { isLoading, data, error } = useTripScript();
@@ -37,9 +37,22 @@ export function TripScriptPanel() {
                 </Box>
                 <div className="trip-script-day-section__content">
                   <>
-                    {tripScriptDay.actions.map((tripScriptAction, j) => {
-                      return <TripScriptActionSection action={tripScriptAction} key={j} />;
-                    })}
+                    {tripScriptDay.actions.length ? (
+                      tripScriptDay.actions.map((tripScriptAction, j) => {
+                        return <TripScriptActionSection action={tripScriptAction} key={j} />;
+                      })
+                    ) : (
+                      <Card className="trip-script-action" elevation="xl">
+                        <div className="trip-script-action__icon-box">
+                          <Icon name="home" size="sm" />
+                        </div>
+                        <Box className="trip-script-action__box">
+                          <Text size="lg" className="trip-script-action__title">
+                            Dia livre
+                          </Text>
+                        </Box>
+                      </Card>
+                    )}
                   </>
                 </div>
               </div>
