@@ -57,7 +57,7 @@
     "classnames": "^2.3.2",
     "copy-to-clipboard": "^3.3.3",
     "js-cookie": "^3.0.5",
-    "mars-ds": "1.0.0-alpha.7",
+    "mars-ds": "2.0.0-alpha.1",
     "next": "13.1.4",
     "next-seo": "^5.15.0",
     "react": "18.2.0",

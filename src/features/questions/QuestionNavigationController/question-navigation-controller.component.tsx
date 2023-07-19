@@ -1,4 +1,4 @@
-import { ToggleButton, Button } from "mars-ds";
+import { Button } from "mars-ds";
 import { useMemo } from "react";
 import { ProfileQuestionsNavigationProps } from "./question-navigation-controller.types";
 
@@ -12,17 +12,18 @@ export const QuestionNavigationController = ({
 
   return (
     <div className="profile-questions-navigation">
-      <ToggleButton
+      <Button
+        variant="neutral"
         className="profile-questions-navigation__previous"
         disabled={position < 1}
-        iconName="arrow-left"
+        iconName="chevron-left"
         onClick={() => onNavigation(position - 1)}
-      />
+      >
+        Anterior
+      </Button>
       <Button
-        variant="custom"
-        color="white"
-        backgroundColor="var(--color-brand-2)"
-        hoverBackgroundColor="var(--color-secondary-900)"
+        // @ts-ignore
+        variant="tertiary"
         className="profile-questions-navigation__next"
         onClick={() => onNavigation(position + 1)}
         disabled={position > total || isNextButtonDisabled}

@@ -5909,10 +5909,10 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
-mars-ds@1.0.0-alpha.7:
-  version "1.0.0-alpha.7"
-  resolved "https://registry.npmjs.org/mars-ds/-/mars-ds-1.0.0-alpha.7.tgz"
-  integrity sha512-f1OXr0H5gu6YkdRsYsdLwvJf6pZhgWmS9w1RnIh7jhwEtAmQFl6GiCw8HyfS51UFC9vV7LW9/BcgbMP81eMhJA==
+mars-ds@2.0.0-alpha.1:
+  version "2.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/mars-ds/-/mars-ds-2.0.0-alpha.1.tgz#ff4be38470a910d70e4ff6e64377374c1745e2db"
+  integrity sha512-LqCR3q2lqEBz3GPU7glH1d89Qjv1wwbcx3AqBJqlneAeuz1jmXeuM4rqqn1M78KYEqafuOSg99OBvJZVZCmmCw==
   dependencies:
     "@types/dompurify" "^2.3.4"
     dompurify "^2.4.0"

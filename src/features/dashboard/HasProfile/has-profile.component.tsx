@@ -1,7 +1,5 @@
 import type { TravelerProfileType } from "@/core/types";
 
-import { useAppStore } from "@/core/store";
-
 import { Text, MediaObject } from "@/ui";
 
 export const PROFILE_NAMES: Record<TravelerProfileType, string> = {
@@ -22,8 +20,7 @@ export const PROFILE_NAMES: Record<TravelerProfileType, string> = {
   "so-se-vive-uma-vez": "Só se vive uma vez",
 };
 
-export function HasProfile() {
-  const { travelerProfile } = useAppStore((state) => state.travelerState);
+export function HasProfile({ travelerProfile }: { travelerProfile: TravelerProfileType }) {
   if (!travelerProfile) return null;
 
   return (
