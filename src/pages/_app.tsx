@@ -6,12 +6,13 @@ import type { AppProps } from "next/app";
 import NextLink from "next/link";
 import { Analytics } from "@vercel/analytics/react";
 
-import { ProgressIndicator } from "@/ui";
+import { NoSSR, ProgressIndicator } from "@/ui";
 
 import "@/ui/styles/index.scss";
 import { LeadProvider } from "@/features";
 import { Environment } from "@/utils/helpers/environment.helpers";
 import { AppAuthProvider } from "@/core/app-auth";
+import { useEffect, useState } from "react";
 
 const LinkComponent = ({ url, ...props }: any) => {
   const isAnchor = /^#/.test(url);
@@ -28,7 +29,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <AppProvider linkComponent={LinkComponent}>
         <ProgressIndicator />
         <AppAuthProvider>
-          <Component {...pageProps} />
+          <NoSSR enabled={Environment.isProduction()}>
+            <Component {...pageProps} />
+          </NoSSR>
         </AppAuthProvider>
       </AppProvider>
     </LeadProvider>

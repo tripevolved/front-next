@@ -48,7 +48,7 @@ export const TripTransportationSection = ({tripId}: { tripId: string }) => {
     );
   }
 
-  if (!data) {
+  if (!data || !data.isSelected) {
     return (
       <>
         <div className="trip-content-item trip-transportation-section">
