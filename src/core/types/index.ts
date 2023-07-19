@@ -3,6 +3,7 @@ export * from "./destination";
 export * from "./lead";
 export * from "./page";
 export * from "./photo";
+export * from "./traveler";
 export * from "./travelerState";
 export * from "./trip";
 export * from "./tripScript";

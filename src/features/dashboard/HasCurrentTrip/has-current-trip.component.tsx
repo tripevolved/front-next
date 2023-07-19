@@ -57,20 +57,20 @@ function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
         ))}
       </Grid>
       <div className="text-center py-xl">
-        <Button href="/app/viagens/criar" variant="secondary" iconName="plus">
-          Simular mais uma viagem
+        <Button href="/app/viagens/descobrir" variant="secondary" iconName="plus">
+          Descobrir mais uma viagem
         </Button>
       </div>
     </Grid>
   );
 }
 
-function TripItem({ title = "Sem nome", images, period }: TripListView) {
+function TripItem({ id, title = "Sem nome", images, period }: TripListView) {
   const [photo] = images;
   const image = photo ? parsePhoto(photo) : undefined;
 
   return (
-    <CardTrip image={image} title={title} className="trip-item">
+    <CardTrip image={image} title={title} href={`/app/viagens/${id}`} className="trip-item">
       {typeof period === "string" ? (
         <div className="trip-item__period">
           <Icon name="calendar" size="sm" />

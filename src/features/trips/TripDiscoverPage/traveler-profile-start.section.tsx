@@ -44,6 +44,14 @@ export function ProfileStartSection({
           >
             Descobrir minha trip
           </Button>
+          <div>
+            <Button
+              className="mt-sm"
+              variant="naked"
+            >
+              Já sei para onde ir
+            </Button>
+          </div>
         </Container>
       </Box>
     </SectionBase>

@@ -27,7 +27,7 @@ export function HasTrip({ trip, tripId, className, children, sx, ...props }: Has
                   return {
                     matchRate: matchedDestination.matchScore * 100,
                     cityName: matchedDestination.name,
-                    cityImageURL: parsePhoto(image),
+                    cityImageURL: image?.sources || image?.title ? parsePhoto(image) : image,
                   };
                 })}
               />
