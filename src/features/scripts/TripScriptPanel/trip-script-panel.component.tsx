@@ -3,7 +3,7 @@ import { useTripScript } from "./trip-script.hook";
 import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
 import { useRouter } from "next/router";
-import { title } from "process";
+import { Icon } from "mars-ds";
 
 export function TripScriptPanel() {
   const { isLoading, data, error } = useTripScript();
@@ -27,12 +27,13 @@ export function TripScriptPanel() {
               <div className="trip-script-day-section__border" key={i}>
                 <Box className="trip-script-day-section__header">
                   <Text size="lg" className="trip-script-day-section__title">
+                    <span style={{ fontSize: 22, color: "var(--color-brand-1)" }}>&#x2022;</span>{" "}
                     {"Dia " + (i + 1)}
                   </Text>
                   <Text size="md" className="trip-script-day-section__subtitle">
                     {tripScriptDay.date}
                   </Text>
-                  {!isPreview && <TripScriptDetailedDay details={tripScriptDay.details} />}
+                  {isPreview && <TripScriptDetailedDay details={tripScriptDay.details} />}
                 </Box>
                 <div className="trip-script-day-section__content">
                   <>

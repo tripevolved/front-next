@@ -1,20 +1,21 @@
 .trip-script {
-  background-color: #f7fcfc;
   height: 100vh;
   padding: 0;
 
   @media (min-width: $breakpoint-md) {
-    padding: 0 24px 24px;
+    padding: 0 24px 24px 0;
   }
 }
 
 .trip-script-day-section {
-  background-color: #f7fcfc;
+  background-color: #e7f9f9;
   width: 100%;
   display: flex;
+  padding: 16px 20px;
   flex-direction: column;
   border-radius: 20px 20px 0 0;
   margin-top: -18px;
+  gap: 34px;
 
   &__border {
     border-radius: 10px;
@@ -67,15 +68,20 @@
   display: flex;
   gap: 10px;
   display: flex;
+  padding: 10px;
 
   &__title {
     color: $color-brand-2;
-    font-weight: 700;
+    font-weight: 400;
   }
 
   &__subtitle {
-    color: $color-brand-2;
+    color: $color-gray-1;
     font-weight: 500;
+  }
+
+  &__icon > img {
+    min-width: 23px;
   }
 
   @media (min-width: $breakpoint-lg) {
