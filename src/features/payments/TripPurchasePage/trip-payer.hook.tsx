@@ -6,14 +6,14 @@ import { useAppStore } from "@/core/store";
 export const useTripPayer = () => {
   const { travelerState } = useAppStore();
   const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<TripPayer>();
+  const [tripPayer, setTripPayer] = useState<TripPayer>();
   const [error, setError] = useState(false);
 
   const fetchPayerInformation = async (travelerId: string) => {
     setIsLoading(true);
     setError(false);
     return PaymentsApiService.getPayerById(travelerId)
-      .then(setData)
+      .then(setTripPayer)
       .catch(() => {
         setError(true);
       });
@@ -26,5 +26,5 @@ export const useTripPayer = () => {
     setIsLoading(false);
   }, [travelerState.id]);
 
-  return { isLoading, data, error };
+  return { isLoading, tripPayer, error };
 };
