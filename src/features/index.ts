@@ -39,6 +39,7 @@ export * from "./questions/QuestionNavigationController";
 export * from "./questions/QuestionOptions";
 export * from "./questions/QuestionSlider";
 export * from "./register/RegisterCityForm";
+export * from "./scripts/CardsSuggestion";
 export * from "./scripts/TripScriptPanel";
 export * from "./scripts/TripScriptPreviewPanel";
 export * from "./templates/ChatFloatingButton";
