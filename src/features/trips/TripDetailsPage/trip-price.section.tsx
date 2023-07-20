@@ -5,7 +5,7 @@ import { TripPriceDetails } from "./trip-details-page.types";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 import { TripPrice } from "@/core/types";
 
-export const MobileTripPriceSection = ({ isLoading, priceData, error }: { isLoading: boolean, priceData: TripPrice, error: boolean }) => {
+export const MobileTripPriceSection = ({ isLoading, priceData, error, tripId }: { isLoading: boolean, priceData: TripPrice, error: boolean, tripId: string }) => {
   if (isLoading) {
     return (
       <div className="profile-questions-form">
@@ -43,7 +43,7 @@ export const MobileTripPriceSection = ({ isLoading, priceData, error }: { isLoad
             *{priceData?.description}
           </Text> : null}
       </Box>
-      <Button backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)">
+      <Button backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)" href={`/app/viagens/comprar/${tripId}`}>
         Comprar a viagem por {formatByDataType(total, "CURRENCY")}
       </Button>
       <WhatsappButton
@@ -65,6 +65,7 @@ export type DesktopTripPriceSectionProps = {
   error: boolean
   cityName: string;
   travelersNumber: number;
+  tripId: string;
 };
 
 export const DesktopTripPriceSection = ({
@@ -73,6 +74,7 @@ export const DesktopTripPriceSection = ({
   error,
   cityName,
   travelersNumber,
+  tripId
 }: DesktopTripPriceSectionProps) => {
   if (isLoading) {
     return (
@@ -112,7 +114,11 @@ export const DesktopTripPriceSection = ({
               *{priceData.description}
             </Text> : null}
         </Box>
-        <Button backgroundColor="var(--color-brand-1)" color="var(--color-gray-4)">
+        <Button
+          className="mobile-trip-price-section__price-button"
+          backgroundColor="var(--color-brand-1)"
+          color="var(--color-gray-4)"
+          href={`/app/viagens/comprar/${tripId}`}>
           Comprar a viagem por {formatByDataType(total, "CURRENCY")}
         </Button>
 

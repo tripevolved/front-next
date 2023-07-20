@@ -21,11 +21,7 @@ export function AllTripsPanel({ className, sx, ...props }: AllTripsPanelProps) {
 
   useEffect(() => {
     setName(travelerState.name);
-
-    if (data?.currentTrip && !seeAllTrips) {
-      // router.replace("/app/viagens/" + data.currentTrip.id);
-    }
-  }, [travelerState, router, data, seeAllTrips]);
+  }, [travelerState]);
 
   const getView = () => {
     if (error) return <EmptyState />;

@@ -1,0 +1,20 @@
+.trip-purchase {
+  &__section {
+    &__input {
+      padding: 6px 0;
+      width: 100%;
+    }
+
+    &__content {
+      padding-top: 12px;
+    }
+  }
+
+  &__footer {
+    padding: 24px 0;
+
+    &__button {
+      width: 100%;
+    }
+  }
+}
