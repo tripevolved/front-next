@@ -4,9 +4,7 @@ import { useTripPayer } from "./trip-payer.hook";
 import { Button, Grid, RadioFields, SelectField, TextField } from "mars-ds";
 
 export function TripPurchasePage() {
-  // const { isLoading, data, error } = useTripPayer();
-  const isLoading = false;
-  const error = false;
+  const { isLoading, data, error } = useTripPayer();
 
   const options = [
     { label: "1x de X", value: 1 }
@@ -26,40 +24,50 @@ export function TripPurchasePage() {
           <Text heading={true} size="xs">Dados do viajante comprador</Text>
           <TextField
             className="trip-purchase__section__input"
-            label="Nome do viajante comprador" />
+            label="Nome do viajante comprador"
+            value={data?.fullName} />
           <TextField
             className="trip-purchase__section__input"
-            label="CPF do viajante comprador" />
+            label="CPF do viajante comprador"
+            value={data?.cpf}
+            mask={"999.999.999-99"} />
         </Box>
         <DashedDivider/>
         <Box className="trip-purchase__section">
           <Text heading={true} size="xs">Contato</Text>
-          <Text className="trip-purchase__section__content" heading={false} size="md">EMAIL</Text>
+          <Text className="trip-purchase__section__content" heading={false} size="md">{data?.email}</Text>
         </Box>
         <DashedDivider/>
         <Box className="trip-purchase__section">
           <Text heading={true} size="xs">Endereço de cobrança</Text>
           <TextField
             className="trip-purchase__section__input"
-            label="CEP" />
+            label="CEP"
+            value={data?.address?.postalCode}
+            mask={"99999-999"} />
           <Grid columns={2}>
             <TextField
               className="trip-purchase__section__input"
-              label="Cidade" />
+              label="Cidade"
+              value={data?.address?.city} />
             <TextField
               className="trip-purchase__section__input"
-              label="UF" />
+              label="UF"
+              value={data?.address?.stateProvince!} />
           </Grid>
           <TextField
             className="trip-purchase__section__input"
-            label="Endereço" />
+            label="Endereço"
+            value={data?.address?.address} />
           <Grid columns={2}>
             <TextField
               className="trip-purchase__section__input"
-              label="Número" />
+              label="Número"
+              value={data?.address?.number} />
             <TextField
               className="trip-purchase__section__input"
-              label="Complemento" />
+              label="Complemento"
+              value={data?.address?.complement!} />
           </Grid>
         </Box>
         <DashedDivider/>
@@ -73,6 +81,7 @@ export function TripPurchasePage() {
           <Grid columns={2} className="trip-purchase__section__input">
           </Grid>
           <SelectField
+            label="Parcelamento"
             options={options}
             defaultOption={options[0]}
             className="trip-purchase__section__input"
