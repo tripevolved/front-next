@@ -1,19 +1,13 @@
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import type { NoSSRProps } from "./no-SSR.types";
 
-export class NoSSR extends Component<NoSSRProps> {
-  state = {
-    canRender: false,
-  };
+export const NoSSR = ({ children = null, enabled = false }: NoSSRProps) => {
+  const [ready, setReady] = useState(enabled);
 
-  componentDidMount() {
-    this.setState({ canRender: true });
-  }
+  useEffect(() => {
+    if (!enabled) setReady(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  render() {
-    const { children } = this.props;
-    const { canRender } = this.state;
-
-    return canRender ? children : <span>Loading</span>;
-  }
+  return ready ? children : null;
 }

@@ -1,3 +1,7 @@
 .dashboard-home {
-
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xl;
+  }
 }
