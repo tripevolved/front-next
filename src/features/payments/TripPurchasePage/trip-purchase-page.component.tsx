@@ -1,12 +1,15 @@
-import { EmptyState, GlobalLoader, Box, Text, DashedDivider, OptionsFieldList, OptionsSelectField } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, DashedDivider, OptionsSelectField } from "@/ui";
 import { PageAppBody, PageAppHeader } from "@/features";
 import { useTripPayer } from "./trip-payer.hook";
 import { useTripPrice } from "@/features/trips/TripDetailsPage/trip-price.hook";
 import { useRouter } from "next/router";
-import { Button, Grid, RadioFields, SelectField, TextField, Notification } from "mars-ds";
+import { Button, Grid, RadioFields, TextField, Notification } from "mars-ds";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
-import { TripPayer, TripPayerAddress, TripPayment, TripPaymentCreditCardInfo } from "@/core/types";
+import { TripPayer, TripPayerAddress, TripPayment, TripPaymentCreditCardInfo, TripPaymentMethod } from "@/core/types";
 import { PaymentsApiService } from "@/services/api";
+import { useState } from "react";
+import { CreditCardInformationSection } from "./credit-card-information.section";
+import { PixInformationSection } from "./pix-information.section";
 
 const MIN_PAYMENT = 100;
 const MAX_INSTALLMENTS = 6;
@@ -14,6 +17,7 @@ const MAX_INSTALLMENTS = 6;
 export function TripPurchasePage() {
   const { isLoading, tripPayer, error } = useTripPayer();
   const { priceData } = useTripPrice();
+  const [paymentMethod, setPaymentMethod] = useState<TripPaymentMethod>();
   
   const router = useRouter();
   const tripId = typeof router.query.id === "string" ? router.query.id : null;
@@ -46,6 +50,7 @@ export function TripPurchasePage() {
         address: event.target.address.value,
         complement: event.target.complement.value,
         number: event.target.number.value,
+        neighborhood: event.target.neighborhood.value,
         city: event.target.city.value,
         stateProvince: event.target.stateProvince.value,
         country: "Brasil"
@@ -59,10 +64,10 @@ export function TripPurchasePage() {
       installments: event.target.installments.value,
       method: event.target.method.value,
       creditCard: {
-        // number: event.target.creditCardNumber.value,
-        // expirationMonth: event.target.creditCardExpirationMonth.value,
-        // expirationYear: event.target.creditCardExpirationYear.value,
-        // cvc: event.target.creditCardCvc.value,
+        number: event.target.creditCardNumber.value,
+        expirationMonth: event.target.creditCardExpirationMonth.value,
+        expirationYear: event.target.creditCardExpirationYear.value,
+        cvc: event.target.creditCardCvc.value,
       } as TripPaymentCreditCardInfo
     } as TripPayment;
 
@@ -136,7 +141,7 @@ export function TripPurchasePage() {
               className="trip-purchase__section__input"
               label="Endereço"
               value={tripPayer?.address?.address} />
-            <Grid columns={[1,2]}>
+            <Grid columns={[1,1,3]}>
               <TextField
                 id="number" name="number"
                 required={true}
@@ -148,6 +153,12 @@ export function TripPurchasePage() {
                 className="trip-purchase__section__input"
                 label="Complemento"
                 value={tripPayer?.address?.complement ?? ""} />
+              <TextField
+                id="neighborhood" name="neighborhood"
+                required={true}
+                className="trip-purchase__section__input"
+                label="Bairro"
+                value={tripPayer?.address?.neighborhood ?? ""} />
             </Grid>
           </Box>
           <DashedDivider className="trip-purchase__divider" />
@@ -160,8 +171,7 @@ export function TripPurchasePage() {
               required={true}
               className="trip-purchase__section__radio"
               options={paymentOptions}
-              defaultOption={paymentOptions[0]}
-              />
+              onChange={(event: any) => { setPaymentMethod(event.target.value); }} />
             <OptionsSelectField
               id="installments"
               name="installments"
@@ -169,9 +179,13 @@ export function TripPurchasePage() {
               label="Parcelamento"
               options={getOptions()}
               defaultOption={getOptions()[0]}
-              className="trip-purchase__section__input"
-              />
+              className="trip-purchase__section__input" />
           </Box>
+          {paymentMethod && 
+            (paymentMethod === "CREDIT_CARD"
+              ? <CreditCardInformationSection />
+              : <PixInformationSection />)
+          }
           <Box className="trip-purchase__footer">
             <Button
               className="trip-purchase__footer__button"
