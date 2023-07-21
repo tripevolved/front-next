@@ -1,4 +1,4 @@
-import { TripPayer, TripPayment } from "@/core/types";
+import { TripPayment } from "@/core/types";
 import { ApiRequest } from "@/services/api/request";
 
 export interface TripPaymentResult {

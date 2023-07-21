@@ -2,6 +2,7 @@ export type TripPaymentMethod = "PIX" | "CREDIT_CARD";
 
 export interface TripPayment {
   tripId: string;
+  ipAddress: string;
   payer: TripPayer;
   amount: number;
   installments: number;
@@ -33,8 +34,8 @@ export interface TripPayerAddress {
   address: string;
   complement: string | null;
   number: string;
-  neighborhood: string | null;
+  neighborhood: string;
   city: string;
-  stateProvince: string | null;
+  stateProvince: string;
   country: string;
 }

@@ -198,7 +198,7 @@ export function TripPurchasePage() {
                 required={true}
                 className="trip-purchase__section__input"
                 label="UF"
-                value={tripPayer?.address?.stateProvince ?? ""} />
+                value={tripPayer?.address?.stateProvince} />
             </Grid>
             <TextField
               id="address" name="address"
@@ -222,7 +222,7 @@ export function TripPurchasePage() {
                 required={true}
                 className="trip-purchase__section__input"
                 label="Bairro"
-                value={tripPayer?.address?.neighborhood ?? ""} />
+                value={tripPayer?.address?.neighborhood} />
             </Grid>
           </Box>
           <DashedDivider className="trip-purchase__divider" />
