@@ -1,9 +1,9 @@
-import { EmptyState, GlobalLoader, Box, Text, DashedDivider, OptionsSelectField, GeneralHeader } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, DashedDivider, OptionsSelectField, GeneralHeader, AutoCompleteTextField } from "@/ui";
 import { PageAppBody, PageAppHeader } from "@/features";
 import { useTripPayer } from "./trip-payer.hook";
 import { useTripPrice } from "@/features/trips/TripDetailsPage/trip-price.hook";
 import { useRouter } from "next/router";
-import { Button, Grid, RadioFields, TextField, Notification, Modal, Loader } from "mars-ds";
+import { Button, Grid, RadioFields, TextField, Notification, Modal, Loader, TextFieldLabel } from "mars-ds";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 import { TripPayer, TripPayerAddress, TripPayment, TripPaymentCreditCardInfo, TripPaymentMethod } from "@/core/types";
 import { PaymentsApiService } from "@/services/api";
@@ -20,6 +20,7 @@ export function TripPurchasePage() {
   const { isLoading, tripPayer, error } = useTripPayer();
   const { priceData } = useTripPrice();
   const [paymentMethod, setPaymentMethod] = useState<TripPaymentMethod>();
+  const [writeGender, setWriteGender] = useState(false);
   
   const router = useRouter();
   const tripId = typeof router.query.id === "string" ? router.query.id : null;
@@ -36,17 +37,26 @@ export function TripPurchasePage() {
     return options;
   }
   const paymentOptions = [{ label: "Cartão de crédito", value: "CREDIT_CARD" }, { label: "Pix", value: "PIX" }];
+  const genderOptions = [
+    { label: "Feminino", value: "female" },
+    { label: "Masculino", value: "male" },
+    { label: "Não-binário", value: "non_binary" },
+    { label: "Transgênero", value: "transgender" },
+    { label: "Intersexo", value: "intersex" },
+    { label: "Prefiro não dizer", value: "" },
+    { label: "Quero escrever", value: "write"}
+  ]
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    // TODO: understand what to do with optional fields
+    let gender = event.target.gender.value;
     const tripPayer = {
       fullName: event.target.fullName.value,
       email: event.target.email.value,
       phone:event.target.phone.value,
       cpf: event.target.cpf.value,
-      gender: "M", // TODO: adjust
+      gender: gender === "write" ? event.target.genderText.value : gender,
       address: {
         postalCode: event.target.postalCode.value,
         address: event.target.address.value,
@@ -59,18 +69,21 @@ export function TripPurchasePage() {
       } as TripPayerAddress
     } as TripPayer;
 
+    const paymentMethod = event.target.method.value;
+    let isCreditCard = paymentMethod === "CREDIT_CARD";
+
     const tripPayment = {
       tripId: event.target.tripId.value,
       payer: tripPayer,
       amount: event.target.amount.value,
       installments: event.target.installments.value,
-      method: event.target.method.value,
-      creditCard: {
+      method: paymentMethod,
+      creditCard: isCreditCard ? {
         number: event.target.creditCardNumber.value,
         expirationMonth: event.target.creditCardExpirationMonth.value,
         expirationYear: event.target.creditCardExpirationYear.value,
         cvc: event.target.creditCardCvc.value,
-      } as TripPaymentCreditCardInfo
+      } as TripPaymentCreditCardInfo : null
     } as TripPayment;
     
     openLoadingModal();
@@ -140,6 +153,21 @@ export function TripPurchasePage() {
               label="CPF do viajante comprador"
               value={tripPayer?.cpf}
               mask={"999.999.999-99"} />
+            <OptionsSelectField
+              id="gender"
+              name="gender"
+              required={true}
+              label="Qual opção melhor descreve você?"
+              options={genderOptions}
+              onSelect={(option) => { console.log(option.value); if (option.value == "write") setWriteGender(true); else setWriteGender(false); }}
+              className="trip-purchase__section__input" />
+            {writeGender && (
+              <TextField
+                id="genderText"
+                name="genderText"
+                className="trip-purchase__section__input"
+                label="Opção que melhor descreve você" />
+            )}
           </Box>
           <DashedDivider className="trip-purchase__divider"/>
           <Box className="trip-purchase__section">
