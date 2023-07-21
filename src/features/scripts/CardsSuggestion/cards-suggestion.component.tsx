@@ -2,13 +2,14 @@ import { Card } from "mars-ds";
 import { Text, Picture } from "@/ui";
 import { CardsSuggestionProps } from "./cards-suggestion.types";
 import { useState } from "react";
+import { redirect } from "next/navigation";
 
 export const CardSuggestion = ({ icon, text, onClick }: CardsSuggestionProps) => {
   return (
-    <Card className="card-suggestion" style={{ border: "1px dashed var(--color-brand-2)" }}>
+    <Card className="cards-suggestion">
       <Picture src={`/assets/script/${icon}-suggestion.svg`} />
-      <Text className="card-suggestion__text">{text}</Text>
-      <Text className="card-suggestion__discard" onClick={onClick}>
+      <Text className="cards-suggestion__text">{text}</Text>
+      <Text className="cards-suggestion__discard" onClick={onClick}>
         Descartar
       </Text>
     </Card>

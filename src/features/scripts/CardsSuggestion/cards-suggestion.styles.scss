@@ -1,5 +1,17 @@
 .cards-suggestion {
-  background-color: red;
-  padding: 24px;
-  color: white;
+  border: 1px dashed $color-brand-2;
+  background: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+
+  &__text {
+    font-weight: 400;
+  }
+
+  &__discard {
+    margin-top: 0 !important;
+    color: $color-gray-1;
+  }
 }
