@@ -1,5 +1,4 @@
 import { Box, Text, DashedDivider } from "@/ui";
-import { Grid, TextField } from "mars-ds";
 
 export function PixInformationSection() {
   return (
@@ -7,6 +6,7 @@ export function PixInformationSection() {
       <DashedDivider className="trip-purchase__divider" />
       <Box className="trip-purchase__section">
         <Text heading={true} size="xs">Pix</Text>
+        <Text size="lg">Pix não está disponível nesse momento.</Text>
       </Box>
     </>
   );
