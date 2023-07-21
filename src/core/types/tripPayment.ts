@@ -1,3 +1,21 @@
+export type TripPaymentMethod = "PIX" | "CREDIT_CARD";
+
+export interface TripPayment {
+  tripId: string;
+  payer: TripPayer;
+  amount: number;
+  installments: number;
+  method: TripPaymentMethod;
+  creditCard: TripPaymentCreditCardInfo | null;
+}
+
+export interface TripPaymentCreditCardInfo {
+  number: string;
+  expirationMonth: number;
+  expirationYear: number;
+  cvc: string;
+}
+
 export interface TripPayer {
   fullName: string;
   email: string;

@@ -1,0 +1,96 @@
+.select-field {
+    $below: calc($breakpoint-sm - 1px);
+    $above: $breakpoint-sm;
+    $filter-height: 72px;
+  
+    position: relative;
+    &__options {
+      display: none;
+      position: fixed;
+      z-index: 2;
+      &-fallback {
+        text-align: center;
+        padding: $spacing-lg;
+      }
+      &-item {
+        &--is-selected {
+          background-color: $color-neutral-ghost;
+          .dropdown-menu__text {
+            font-weight: 500;
+          }
+        }
+      }
+      @media (max-width: $below) {
+        top: $spacing-sm;
+        left: $spacing-sm;
+        right: $spacing-sm;
+        bottom: $spacing-sm;
+        z-index: 101;
+        .dropdown-menu__list {
+          max-height: 100%;
+        }
+      }
+      @media (min-width: $above) {
+        transform: translateY(calc(var(--y, 0px) + 8px));
+        .dropdown-menu__list {
+          max-height: 220px;
+        }
+      }
+    }
+    &--is-dropdown-above {
+      .select-field__options {
+        @media (min-width: $above) {
+          top: unset;
+          bottom: 64px;
+        }
+      }
+    }
+    &--is-open {
+      .select-field {
+        &__options {
+          display: block;
+        }
+        &__toggle-icon {
+          transform: scale(-1);
+        }
+      }
+      @media (max-width: $below) {
+        &:before {
+          content: "";
+          display: block;
+          background-color: $color-background-overlay;
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          z-index: 100;
+        }
+      }
+      &.select-field--has-filter {
+        @media (max-width: $below) {
+          .select-field__options {
+            min-width: calc(100vw - ($spacing-sm * 2));
+            top: calc($filter-height + $spacing-sm);
+          }
+          .field__content {
+            position: fixed;
+            height: $filter-height;
+            width: 100vw;
+            padding: 0 $spacing-lg;
+            z-index: 102;
+            top: 0;
+            left: 0;
+            background-color: $color-background-primary;
+            box-shadow: $shadow-elevation-500;
+          }
+        }
+      }
+    }
+  
+    .select-field__toggle-icon {
+      &:before {
+        left: -4px;
+      }
+    }
+  }
