@@ -7,7 +7,6 @@ export function PixInformationSection() {
       <DashedDivider className="trip-purchase__divider" />
       <Box className="trip-purchase__section">
         <Text heading={true} size="xs">Pix</Text>
-        
       </Box>
     </>
   );

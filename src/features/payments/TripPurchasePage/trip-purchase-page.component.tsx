@@ -3,13 +3,15 @@ import { PageAppBody, PageAppHeader } from "@/features";
 import { useTripPayer } from "./trip-payer.hook";
 import { useTripPrice } from "@/features/trips/TripDetailsPage/trip-price.hook";
 import { useRouter } from "next/router";
-import { Button, Grid, RadioFields, TextField, Notification } from "mars-ds";
+import { Button, Grid, RadioFields, TextField, Notification, Modal } from "mars-ds";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 import { TripPayer, TripPayerAddress, TripPayment, TripPaymentCreditCardInfo, TripPaymentMethod } from "@/core/types";
 import { PaymentsApiService } from "@/services/api";
 import { useState } from "react";
 import { CreditCardInformationSection } from "./credit-card-information.section";
 import { PixInformationSection } from "./pix-information.section";
+import { TripPaymentResult } from "@/services/api/payments/payTrip";
+import { TripPurchaseResponseSection } from "./trip-purchase-response.section";
 
 const MIN_PAYMENT = 100;
 const MAX_INSTALLMENTS = 6;
@@ -72,10 +74,29 @@ export function TripPurchasePage() {
     } as TripPayment;
 
     const result = await PaymentsApiService.putTripPayment(tripPayment);
-    if (!result?.isSuccess) {
-      Notification.error(result.message);
+    if (!result) {
+      Notification.error("Houve um erro de pagamento!");
+    } else {
+      openFinishModal(result);
     }
   }
+
+  const openFinishModal = (result: TripPaymentResult) => {
+    Modal.open(
+      () => (
+        <>
+          <TripPurchaseResponseSection
+            tripId={tripId!}
+            isSuccess={result.isSuccess}
+            message={result.message!} />
+        </>
+      ),
+      {
+        size: "lg",
+        closable: !result.isSuccess,
+      }
+    );
+  };
     
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
