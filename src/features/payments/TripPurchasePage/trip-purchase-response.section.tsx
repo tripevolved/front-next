@@ -12,7 +12,7 @@ export function TripPurchaseResponseSection({ tripId, isSuccess, message }: Trip
     <Box className="trip-purchase__response">
       {!isSuccess ? (
         <>
-        <Picture className="trip-purchase__response-item" src="/assets/payments/error.png" />
+          <Picture className="trip-purchase__response-item" src="/assets/payments/error.png" />
           <Text className="trip-purchase__response-item" heading={true} size="xl">Erro de pagamento</Text>
           <Text className="trip-purchase__response-item" size="lg">Parece que há um problema com seu pagamento.</Text>
           <Text className="trip-purchase__response-item" size="sm">Mais informações: {message}</Text>

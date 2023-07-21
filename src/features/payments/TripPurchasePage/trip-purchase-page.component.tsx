@@ -3,7 +3,7 @@ import { PageAppBody, PageAppHeader } from "@/features";
 import { useTripPayer } from "./trip-payer.hook";
 import { useTripPrice } from "@/features/trips/TripDetailsPage/trip-price.hook";
 import { useRouter } from "next/router";
-import { Button, Grid, RadioFields, TextField, Notification, Modal } from "mars-ds";
+import { Button, Grid, RadioFields, TextField, Notification, Modal, Loader } from "mars-ds";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 import { TripPayer, TripPayerAddress, TripPayment, TripPaymentCreditCardInfo, TripPaymentMethod } from "@/core/types";
 import { PaymentsApiService } from "@/services/api";
@@ -73,6 +73,7 @@ export function TripPurchasePage() {
       } as TripPaymentCreditCardInfo
     } as TripPayment;
     
+    openLoadingModal();
     const result = await PaymentsApiService.putTripPayment(tripPayment);
     if (!result) {
       Notification.error("Houve um erro de pagamento!");
@@ -94,6 +95,21 @@ export function TripPurchasePage() {
       {
         size: "lg",
         closable: !result.isSuccess
+      }
+    );
+  };
+
+  const openLoadingModal = () => {
+    Modal.open(
+      () => (
+        <Box className="trip-purchase__response">
+          <Loader />
+          <Text className="trip-purchase__response-item" size="lg">Estamos processando sua compra.</Text>
+        </Box>
+      ),
+      {
+        size: "lg",
+        closable: true
       }
     );
   };
