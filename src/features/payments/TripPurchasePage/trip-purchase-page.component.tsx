@@ -1,4 +1,4 @@
-import { EmptyState, GlobalLoader, Box, Text, DashedDivider, OptionsSelectField } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, DashedDivider, OptionsSelectField, GeneralHeader } from "@/ui";
 import { PageAppBody, PageAppHeader } from "@/features";
 import { useTripPayer } from "./trip-payer.hook";
 import { useTripPrice } from "@/features/trips/TripDetailsPage/trip-price.hook";
@@ -72,7 +72,7 @@ export function TripPurchasePage() {
         cvc: event.target.creditCardCvc.value,
       } as TripPaymentCreditCardInfo
     } as TripPayment;
-
+    
     const result = await PaymentsApiService.putTripPayment(tripPayment);
     if (!result) {
       Notification.error("Houve um erro de pagamento!");
@@ -93,7 +93,7 @@ export function TripPurchasePage() {
       ),
       {
         size: "lg",
-        closable: !result.isSuccess,
+        closable: !result.isSuccess
       }
     );
   };
@@ -102,10 +102,7 @@ export function TripPurchasePage() {
   if (isLoading) return <GlobalLoader />;
   return (
     <>
-      <PageAppHeader>
-        COMPONENTE PARA VOLTAR
-        <Text heading={true} size="sm">Comprar viagem</Text>
-      </PageAppHeader>
+      <GeneralHeader title="Comprar viagem" backButton={true} href={`/app/viagens/criar/${tripId}`} />
       <PageAppBody>
         <form onSubmit={handleSubmit}>
           <Box className="trip-purchase__section">
