@@ -17,7 +17,7 @@ export function GeneralHeader({
   const cn = makeCn("general-header", className)(sx);
 
   return (
-    <SectionBase className={cn} {...props}>
+    <div className={cn} {...props}>
       <Box className="general-header__box">
         {backButton && (
           <Button
@@ -31,6 +31,6 @@ export function GeneralHeader({
           {title}
         </Text>
       </Box>
-    </SectionBase>
+    </div>
   );
 }

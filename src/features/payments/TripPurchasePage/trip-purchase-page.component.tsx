@@ -102,7 +102,9 @@ export function TripPurchasePage() {
   if (isLoading) return <GlobalLoader />;
   return (
     <>
-      <GeneralHeader title="Comprar viagem" backButton={true} href={`/app/viagens/criar/${tripId}`} />
+      <PageAppHeader>
+        <GeneralHeader title="Comprar viagem" backButton={true} href={`/app/viagens/criar/${tripId}`} />
+      </PageAppHeader>
       <PageAppBody>
         <form onSubmit={handleSubmit}>
           <Box className="trip-purchase__section">
