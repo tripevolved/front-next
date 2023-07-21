@@ -163,7 +163,8 @@ export function TripPurchasePage() {
               defaultOption={paymentOptions[0]}
               />
             <OptionsSelectField
-              id="installments" name="installments"
+              id="installments"
+              name="installments"
               required={true}
               label="Parcelamento"
               options={getOptions()}

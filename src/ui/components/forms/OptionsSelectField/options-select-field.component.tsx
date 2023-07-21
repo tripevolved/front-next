@@ -29,6 +29,8 @@ export const OptionsSelectField = ({
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
 
+  const {id, ...textFieldProps} = props;
+
   useEffect(() => {
     if (defaultOption) {
       const option = options.find(
@@ -206,7 +208,7 @@ export const OptionsSelectField = ({
   };
 
   const rightIconButton = {
-    name: "expand",
+    name: "chevron-down",
     className: "select-field__toggle-icon",
     onClick: handleRightButtonClick,
     ...rightIconButtonProps,
@@ -238,8 +240,11 @@ export const OptionsSelectField = ({
   return (
     <div className={cn} ref={selectFieldRef} style={style}>
       <div onClick={handleClickToProtectArea}>
+        <input type="hidden" {...props} value={option.value} />
         <TextField
-          {...props}
+          {...textFieldProps}
+          id={`field-${props.id}`}
+          name={`field-${props.name}`}
           disabled={disabled}
           className={classNames({ "field--is-focused": isOpen })}
           inputDisabled={inputDisabled}
