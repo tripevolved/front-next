@@ -19,16 +19,11 @@ export function TripScriptPanel() {
 
   const { days, isPreview } = data;
 
-  const suggestRestaurantsAndAttractions = (actions: TripScriptAction[]) => {
-    const attraction = actions.find((action) => action.iconSlug === "attraction");
-    const gastronomy = actions.find((action) => action.iconSlug === "gastronomy");
-
-    return (
-      <>
-        {!attraction && <AttractionsSuggestion />}
-        {!gastronomy && <GastronomySuggestion />}
-      </>
-    );
+  const suggestRestaurantsAndAttractions = (action: TripScriptAction) => {
+    if (!action.isSelected) {
+      return <>{action.type === "RESTAURANT" && <GastronomySuggestion />}</>;
+    }
+    return <></>;
   };
 
   return (
