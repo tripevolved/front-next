@@ -43,8 +43,8 @@ export const MobileTripPriceSection = ({ isLoading, priceData, error, tripId }: 
             *{priceData?.description}
           </Text> : null}
       </Box>
-      <Button backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)" href={`/app/viagens/comprar/${tripId}`}>
-        Comprar a viagem por {formatByDataType(total, "CURRENCY")}
+      <Button disabled={priceData.isPaid} backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)" href={`/app/viagens/comprar/${tripId}`}>
+        {priceData.isPaid ? "A viagem já está paga." : `Comprar a viagem por ${formatByDataType(total, "CURRENCY")}`}
       </Button>
       <WhatsappButton
         style={{ width: "100%", color: "var(--color-brand-2)" }}
@@ -115,11 +115,12 @@ export const DesktopTripPriceSection = ({
             </Text> : null}
         </Box>
         <Button
+          disabled={priceData.isPaid}
           className="mobile-trip-price-section__price-button"
           backgroundColor="var(--color-brand-1)"
           color="var(--color-gray-4)"
           href={`/app/viagens/comprar/${tripId}`}>
-          Comprar a viagem por {formatByDataType(total, "CURRENCY")}
+          {priceData.isPaid ? "A viagem já está paga." : `Comprar a viagem por ${formatByDataType(total, "CURRENCY")}`}
         </Button>
 
         <WhatsappButton
