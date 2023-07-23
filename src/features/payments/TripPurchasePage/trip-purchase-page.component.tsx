@@ -12,6 +12,7 @@ import { CreditCardInformationSection } from "./credit-card-information.section"
 import { PixInformationSection } from "./pix-information.section";
 import { TripPaymentResult } from "@/services/api/payments/payTrip";
 import { TripPurchaseResponseSection } from "./trip-purchase-response.section";
+import { IsPaidSection } from "./is-paid.section";
 
 const MIN_PAYMENT = 100;
 const MAX_INSTALLMENTS = 6;
@@ -126,9 +127,26 @@ export function TripPurchasePage() {
       }
     );
   };
+
+  const openIsPaidModal = () => {
+    Modal.open(
+      () => (
+        <>
+          <IsPaidSection tripId={tripId!} />
+        </>
+      ),
+      {
+        size: "lg",
+        closable: false
+      }
+    );
+  };
     
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
+
+  if (priceData?.isPaid) openIsPaidModal();
+
   return (
     <>
       <PageAppHeader>
