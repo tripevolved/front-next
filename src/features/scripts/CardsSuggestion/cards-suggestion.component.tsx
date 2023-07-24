@@ -23,7 +23,7 @@ export const AttractionsSuggestion = () => {
     <>
       {visible && (
         <CardSuggestion
-          text="Ver indicações de bares e festas"
+          text="Ver indicações de atrações"
           icon="attraction"
           onClick={() => setVisible(false)}
         />
@@ -41,6 +41,38 @@ export const GastronomySuggestion = () => {
         <CardSuggestion
           text="Ver indicações de restaurantes"
           icon="gastronomy"
+          onClick={() => setVisible(false)}
+        />
+      )}
+    </>
+  );
+};
+
+export const BarSuggestion = () => {
+  const [visible, setVisible] = useState(true);
+
+  return (
+    <>
+      {visible && (
+        <CardSuggestion
+          text="Ver indicações de bares"
+          icon="bar"
+          onClick={() => setVisible(false)}
+        />
+      )}
+    </>
+  );
+};
+
+export const PartySuggestion = () => {
+  const [visible, setVisible] = useState(true);
+
+  return (
+    <>
+      {visible && (
+        <CardSuggestion
+          text="Ver indicações de festas"
+          icon="party"
           onClick={() => setVisible(false)}
         />
       )}

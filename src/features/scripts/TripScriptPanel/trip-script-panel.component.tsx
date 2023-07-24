@@ -5,7 +5,12 @@ import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
 import { useRouter } from "next/router";
 import { Card, Icon } from "mars-ds";
 import { TripScriptAction } from "@/core/types";
-import { AttractionsSuggestion, GastronomySuggestion } from "@/features";
+import {
+  AttractionsSuggestion,
+  GastronomySuggestion,
+  BarSuggestion,
+  PartySuggestion,
+} from "@/features";
 
 export function TripScriptPanel() {
   const { isLoading, data, error } = useTripScript();
@@ -21,9 +26,17 @@ export function TripScriptPanel() {
 
   const suggestRestaurantsAndAttractions = (action: TripScriptAction) => {
     if (!action.isSelected) {
-      return <>{action.type === "RESTAURANT" && <GastronomySuggestion />}</>;
+      return (
+        <>
+          <TripScriptActionSection action={action} />
+          {action.type === "RESTAURANT" && <GastronomySuggestion />}
+          {action.type === "BAR" && <BarSuggestion />}
+          {action.type === "PARTY" && <PartySuggestion />}
+          {action.type === "EVENT" && <AttractionsSuggestion />}
+        </>
+      );
     }
-    return <></>;
+    return <TripScriptActionSection action={action} />;
   };
 
   return (
@@ -48,9 +61,8 @@ export function TripScriptPanel() {
                   {tripScriptDay.actions.length ? (
                     <>
                       {tripScriptDay.actions.map((tripScriptAction, j) => {
-                        return <TripScriptActionSection action={tripScriptAction} key={j} />;
+                        return suggestRestaurantsAndAttractions(tripScriptAction);
                       })}
-                      {suggestRestaurantsAndAttractions(tripScriptDay.actions)}
                     </>
                   ) : (
                     <Card className="trip-script-action" elevation="xl">
