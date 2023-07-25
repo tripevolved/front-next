@@ -7,7 +7,7 @@ import { TripPrice } from "@/core/types";
 
 export interface TripPriceSectionProps {
   isLoading: boolean;
-  priceData: TripPrice;
+  priceData?: TripPrice;
   error: boolean;
   destination: string;
 }
@@ -113,7 +113,7 @@ export const DesktopTripPriceSection = ({
         <Box className="mobile-trip-price-section__price-list">
           <PriceItem title="Total" price={priceData?.price!} />
           <PriceItem title="Taxa de serviço" price={priceData?.serviceFee!} />
-          {priceData.description ?
+          {priceData?.description ?
             <Text className="mobile-trip-price-section__price-description">
               *{priceData.description}
             </Text> : null}
