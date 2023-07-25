@@ -5,7 +5,14 @@ import { TripPriceDetails } from "./trip-details-page.types";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 import { TripPrice } from "@/core/types";
 
-export const MobileTripPriceSection = ({ isLoading, priceData, error }: { isLoading: boolean, priceData: TripPrice, error: boolean }) => {
+export interface TripPriceSectionProps {
+  isLoading: boolean;
+  priceData: TripPrice;
+  error: boolean;
+  destination: string;
+}
+
+export const MobileTripPriceSection = ({ isLoading, priceData, error, destination }: TripPriceSectionProps) => {
   if (isLoading) {
     return (
       <div className="profile-questions-form">
@@ -51,6 +58,7 @@ export const MobileTripPriceSection = ({ isLoading, priceData, error }: { isLoad
         size="sm"
         variant={"text"}
         href={"#"}
+        message={`Quero alterar minha viagem para ${destination}!`}
         hoverBackgroundColor={"var(--color-secondary-900)"}
       >
         {"Quero alterar a viagem"}
@@ -59,10 +67,7 @@ export const MobileTripPriceSection = ({ isLoading, priceData, error }: { isLoad
   );
 };
 
-export type DesktopTripPriceSectionProps = {
-  isLoading: boolean;
-  priceData: TripPrice;
-  error: boolean
+export interface DesktopTripPriceSectionProps extends TripPriceSectionProps {
   cityName: string;
   travelersNumber: number;
 };
@@ -73,6 +78,7 @@ export const DesktopTripPriceSection = ({
   error,
   cityName,
   travelersNumber,
+  destination
 }: DesktopTripPriceSectionProps) => {
   if (isLoading) {
     return (
@@ -121,6 +127,7 @@ export const DesktopTripPriceSection = ({
           size="sm"
           variant={"text"}
           href={"#"}
+          message={`Quero alterar minha viagem para ${destination}!`}
           hoverBackgroundColor={"var(--color-secondary-900)"}
         >
           {"Quero alterar a viagem"}
