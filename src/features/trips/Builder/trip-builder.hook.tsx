@@ -10,7 +10,6 @@ export const useTripBuilder = () => {
 
   const router = useRouter();
   const toParam = typeof router.query.para === "string" ? router.query.para : null;
-  console.log(toParam);
 
   const fetchBuilder = async (destinationUniqueName: string) => {
     setIsLoading(true);
