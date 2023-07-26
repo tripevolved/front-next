@@ -1,0 +1,34 @@
+.tooltip-card {
+  position: relative;
+  min-width: 20px;
+
+  &__icon {
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  &__tooltip {
+    z-index: 5;
+    max-width: 300px;
+    border: 1px solid $color-gray-3;
+    position: absolute;
+    top: calc(30% + 5px);
+    left: calc(-100% + -30px);
+    transform: translateX(-50%) scale(0);
+    background-color: $color-gray-4;
+    padding: 22px;
+    transition: transform 0.3s ease-in-out;
+
+    &__title {
+      color: $color-brand-1;
+    }
+
+    &__text {
+      color: $color-gray-1;
+    }
+  }
+
+  :hover &__tooltip {
+    transform: translateX(-50%) scale(1);
+  }
+}

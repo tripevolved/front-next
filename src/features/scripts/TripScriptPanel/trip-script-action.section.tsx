@@ -1,4 +1,4 @@
-import { Box, CardHighlight, Text, Picture } from "@/ui";
+import { Box, CardHighlight, Text, Picture, TooltipCard } from "@/ui";
 import { TripScriptAction } from "@/core/types";
 import { Card, Icon } from "mars-ds";
 
@@ -13,6 +13,7 @@ export const TripScriptActionSection = ({ action }: TripScriptActionSectionProps
       <Box className="trip-script-action__box">
         <Text size="lg" className="trip-script-action__title">
           {action.title}
+          {action.tooltip && <TooltipCard text={action.tooltip} />}
         </Text>
         <Text size="md" className="trip-script-action__subtitle">
           {action.subtitle}
