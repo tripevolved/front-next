@@ -2,11 +2,13 @@ import axios from "axios";
 
 import { ensureNotSlashEnds } from "@/utils/helpers/url.helper";
 import { UserService } from "@/services/user";
+import { clientInfoInterceptor } from "./ client-info.interceptor";
 
 const API_URL = ensureNotSlashEnds(process.env.NEXT_PUBLIC_API_URL || "");
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 
 type ApiRequestMethod = "get" | "post" | "put" | "delete" | "patch";
+
 
 const makeInstance = (method: ApiRequestMethod) => {
   const baseURL = `${API_URL}/api`;
@@ -14,6 +16,7 @@ const makeInstance = (method: ApiRequestMethod) => {
   const Authorization = credentials ? `Bearer ${credentials.accessToken}` : undefined;
   const headers = { "X-API-Key": API_KEY, Authorization };
   const instance = axios.create({ baseURL, headers });
+  instance.interceptors.request.use(clientInfoInterceptor);
   return instance[method];
 };
 
