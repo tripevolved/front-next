@@ -1,8 +1,8 @@
 import type { CardsSuggestionProps } from "./cards-suggestion.types";
 import { render } from "@testing-library/react";
-import { CardsSuggestion } from "./cards-suggestion.component";
+import { CardSuggestion } from "./cards-suggestion.component";
 
-const makeSut = (props?: CardsSuggestionProps) => render(<CardsSuggestion {...props} />);
+const makeSut = (props?: CardsSuggestionProps) => render(<CardSuggestion {...props} />);
 
 describe("<CardsSuggestion>", () => {
   it("should render component", () => {
