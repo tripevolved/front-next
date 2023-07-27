@@ -1,6 +1,6 @@
-import { Box, CardHighlight, Text, Picture, TooltipCard } from "@/ui";
+import { Box, Text, Picture, TooltipCard } from "@/ui";
 import { TripScriptAction } from "@/core/types";
-import { Card, Icon } from "mars-ds";
+import { Card } from "mars-ds";
 
 interface TripScriptActionSectionProps {
   action: TripScriptAction;

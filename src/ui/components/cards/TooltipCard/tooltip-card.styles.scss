@@ -8,12 +8,14 @@
   }
 
   &__tooltip {
-    z-index: 5;
-    max-width: 300px;
+    z-index: 1000;
+    min-width: 200px;
+    width: 100%;
+    max-width: 350px;
     border: 1px solid $color-gray-3;
     position: absolute;
     top: calc(30% + 5px);
-    left: calc(-100% + -30px);
+    left: calc(100% - 90px);
     transform: translateX(-50%) scale(0);
     background-color: $color-gray-4;
     padding: 22px;
