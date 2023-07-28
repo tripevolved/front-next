@@ -43,6 +43,7 @@ export * from "./scripts/CardsSuggestion";
 export * from "./scripts/TripDayAttractions";
 export * from "./scripts/TripScriptPanel";
 export * from "./scripts/TripScriptPreviewPanel";
+export * from "./scripts/UpdateAttractions";
 export * from "./templates/ChatFloatingButton";
 export * from "./templates/Footer";
 export * from "./templates/Navbar";

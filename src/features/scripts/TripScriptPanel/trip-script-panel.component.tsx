@@ -3,7 +3,7 @@ import { useTripScript } from "./trip-script.hook";
 import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
 import { useRouter } from "next/router";
-import { Card, Icon } from "mars-ds";
+import { Card, Icon, Button } from "mars-ds";
 import { TripScriptAction } from "@/core/types";
 import {
   AttractionsSuggestion,
@@ -56,7 +56,23 @@ export function TripScriptPanel() {
                     <Text size="md" className="trip-script-day-section__subtitle">
                       {tripScriptDay.date}
                     </Text>
-                    {isPreview && <TripScriptDetailedDay details={tripScriptDay.details} />}
+                    {isPreview ? (
+                      <TripScriptDetailedDay details={tripScriptDay.details} />
+                    ) : (
+                      <Button
+                        size="sm"
+                        variant="naked"
+                        className="trip-script-day-section__edit-button"
+                      >
+                        <Icon
+                          name="edit-2"
+                          size="sm"
+                          color="var(--color-brand-1)"
+                          style={{ marginRight: 5 }}
+                        />
+                        Editar
+                      </Button>
+                    )}
                   </Box>
                   <div className="trip-script-day-section__content">
                     {tripScriptDay.actions.length ? (

@@ -4,7 +4,8 @@ export interface TripScript {
   days: TripScriptDay[];
 }
 
-interface TripScriptDay {
+export interface TripScriptDay {
+  id: string;
   date: string;
   actions: TripScriptAction[];
   details: TripScriptDayDetail;
@@ -13,6 +14,7 @@ interface TripScriptDay {
 export type TripScriptActionType = "RESTAURANT" | "BAR" | "EVENT" | "PARTY";
 
 export interface TripScriptAction {
+  id?: string;
   iconSlug: string;
   title: string;
   subtitle: string;

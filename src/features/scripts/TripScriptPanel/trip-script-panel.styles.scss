@@ -23,6 +23,12 @@
     margin-top: -48px;
   }
 
+  &__edit-button {
+    color: $color-gray-2;
+    justify-self: flex-end;
+    font-size: 16px;
+  }
+
   &__border {
     border-radius: 10px;
     width: 100%;
@@ -50,6 +56,7 @@
   &__header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 15px;
   }
 
