@@ -1,18 +1,15 @@
 import { Box, Text, Picture } from "@/ui";
+import { Card } from "mars-ds";
 
 export const TripScriptPreviewBlockedSection = () => {
   return (
-    <div className="trip-content-item">
-      <Box>
-        <Picture src={"/assets/destino/suporte.svg"} />
-      </Box>
-      <Box className="trip-content-item__desc">
-        <Text className="trip-script-section__text" style={{ color: "$color-gray-1" }}>
-          {
-            "Prossiga para o pagamento para ter acesso ao roteiro completo"
-          }
+    <div className="trip-script-preview-blocked-section">
+      <Card className="trip-script-preview-blocked-section__box">
+        <Picture src={"/assets/script/lock.svg"} />
+        <Text className="trip-script-preview-blocked-section__box__text" heading size="xs">
+          {"Prossiga para o pagamento para ter acesso ao roteiro completo"}
         </Text>
-      </Box>
+      </Card>
     </div>
   );
 };

@@ -10,6 +10,8 @@ interface TripScriptDay {
   details: TripScriptDayDetail;
 }
 
+export type TripScriptActionType = "RESTAURANT" | "BAR" | "EVENT" | "PARTY";
+
 export interface TripScriptAction {
   iconSlug: string;
   title: string;
@@ -17,6 +19,8 @@ export interface TripScriptAction {
   tooltip: string | null;
   attractionId: string | null;
   attractionPartnerSlug: string | null;
+  isSelected: boolean;
+  type?: TripScriptActionType;
 }
 
 export interface TripScriptDayDetail {

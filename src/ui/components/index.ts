@@ -29,6 +29,7 @@ export * from "./cards/CardDestination";
 export * from "./cards/CardHighlight";
 export * from "./cards/CardTrip";
 export * from "./cards/CardYoutube";
+export * from "./cards/TooltipCard";
 export * from "./forms/AutoCompleteTextField";
 export * from "./forms/DatePicker";
 export * from "./forms/OptionField";
