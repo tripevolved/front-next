@@ -12,10 +12,10 @@ export const useTripScript = () => {
   const idParam = typeof router.query.id === "string" ? router.query.id : null;
 
   const fetchTripInformation = async (tripId: string | null) => {
-    if (tripId === null){
+    if (tripId === null) {
       setError(true);
       return;
-    }      
+    }
 
     setIsLoading(true);
     setError(false);
@@ -28,10 +28,10 @@ export const useTripScript = () => {
 
   useEffect(() => {
     if (!idParam) setError(true);
-    
+
     fetchTripInformation(idParam);
     setIsLoading(false);
   }, [idParam]);
 
-  return { isLoading, data, error };
+  return { isLoading, setIsLoading, data, error };
 };

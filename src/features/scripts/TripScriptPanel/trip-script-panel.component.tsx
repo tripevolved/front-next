@@ -4,16 +4,18 @@ import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
 import { useRouter } from "next/router";
 import { Card, Icon, Button } from "mars-ds";
-import { TripScriptAction } from "@/core/types";
+import { TripScriptAction, TripScriptDay } from "@/core/types";
 import {
   AttractionsSuggestion,
   GastronomySuggestion,
   BarSuggestion,
   PartySuggestion,
 } from "@/features";
+import { useAppStore } from "@/core/store";
 
 export function TripScriptPanel() {
-  const { isLoading, data, error } = useTripScript();
+  const { isLoading, setIsLoading, data, error } = useTripScript();
+  const { setTripScriptDay } = useAppStore();
   const router = useRouter();
 
   const idParam = typeof router.query.id === "string" ? router.query.id : null;
@@ -37,6 +39,16 @@ export function TripScriptPanel() {
       );
     }
     return <TripScriptActionSection action={action} />;
+  };
+
+  const handleEditButton = (tripDay: TripScriptDay) => {
+    setTripScriptDay(tripDay);
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      router.push("/app/viagens/roteiro/atracoes/");
+    }, 2000);
   };
 
   return (
@@ -63,6 +75,7 @@ export function TripScriptPanel() {
                         size="sm"
                         variant="naked"
                         className="trip-script-day-section__edit-button"
+                        onClick={() => handleEditButton(tripScriptDay)}
                       >
                         <Icon
                           name="edit-2"

@@ -1,2 +1,2 @@
+export * from "./trip-day.store";
 export * from "./trip-day.types";
-export * from "./trip-day.constants";
