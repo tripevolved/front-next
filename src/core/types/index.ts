@@ -1,5 +1,6 @@
 export * from "./component";
 export * from "./destination";
+export * from "./flights";
 export * from "./lead";
 export * from "./page";
 export * from "./photo";

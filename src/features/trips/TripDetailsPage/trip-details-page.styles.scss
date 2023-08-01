@@ -105,12 +105,18 @@
     display: flex;
     justify-content: space-between;
     padding-right: 6px;
+    gap: 12px;
 
     &__edit {
-      display: flex;
+      margin: auto;
       align-items: center;
       color: $color-gray-1;
     }
+  }
+
+  &__icon {
+    min-height: 32px;
+    min-width: 32px;
   }
 
   &__content {

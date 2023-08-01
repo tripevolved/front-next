@@ -29,10 +29,11 @@ export function TripDetailsPage() {
       <DesktopTripPriceSection 
         isLoading={isPriceLoading}
         error={priceError}
-        priceData={priceData!}
+        priceData={priceData}
         cityName={title}
         travelersNumber={2}
         tripId={data.id}
+        destination={destination.title}
       />
       <TripConfigurationSection configuration={configuration} />
       <DestinationInfoSection features={features} recommendedBy={recommendedBy} />
@@ -51,7 +52,7 @@ export function TripDetailsPage() {
           </Box>
         </div>
       </SectionBase>
-      <MobileTripPriceSection isLoading={isPriceLoading} error={priceError} priceData={priceData!} tripId={data.id} />
+      <MobileTripPriceSection isLoading={isPriceLoading} error={priceError} priceData={priceData!} tripId={data.id} destination={destination.title} />
     </>
   );
 }
