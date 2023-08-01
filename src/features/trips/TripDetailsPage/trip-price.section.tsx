@@ -22,7 +22,7 @@ export const MobileTripPriceSection = ({ isLoading, priceData, error, destinatio
     );
   }
 
-  if (error) {
+  if (error || !priceData) {
     return (
       <div className="profile-questions-form flex-column gap-lg">
         <EmptyState />
@@ -80,7 +80,7 @@ export const DesktopTripPriceSection = ({
   error,
   cityName,
   travelersNumber,
-  tripId
+  tripId,
   destination
 }: DesktopTripPriceSectionProps) => {
   if (isLoading) {
@@ -91,7 +91,7 @@ export const DesktopTripPriceSection = ({
     );
   }
 
-  if (error) {
+  if (error || !priceData) {
     return (
       <div className="profile-questions-form flex-column gap-lg">
         <EmptyState />
