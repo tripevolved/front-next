@@ -1,0 +1,42 @@
+.trip-purchase {
+  &__section {
+    &__input {
+      padding: 6px 0;
+      width: 100%;
+    }
+
+    &__radio {
+      padding: 12px 0;
+      columns: 2;
+    }
+
+    &__content {
+      padding-top: 12px;
+    }
+  }
+
+  &__footer {
+    padding: 24px 0;
+
+    &__button {
+      width: 100%;
+    }
+  }
+
+  &__divider {
+    padding: 24px 0;
+  }
+
+  &__response {
+    padding: 20% 10%;
+    text-align: center;
+
+    &-item {
+      padding: 0 4px 18px 4px;
+    }
+
+    &-button {
+      width: 100%;
+    }
+  }
+}

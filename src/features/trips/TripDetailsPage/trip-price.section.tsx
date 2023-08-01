@@ -10,9 +10,10 @@ export interface TripPriceSectionProps {
   priceData?: TripPrice;
   error: boolean;
   destination: string;
+  tripId: String;
 }
 
-export const MobileTripPriceSection = ({ isLoading, priceData, error, destination }: TripPriceSectionProps) => {
+export const MobileTripPriceSection = ({ isLoading, priceData, error, destination, tripId }: TripPriceSectionProps) => {
   if (isLoading) {
     return (
       <div className="profile-questions-form">
@@ -21,7 +22,7 @@ export const MobileTripPriceSection = ({ isLoading, priceData, error, destinatio
     );
   }
 
-  if (error) {
+  if (error || !priceData) {
     return (
       <div className="profile-questions-form flex-column gap-lg">
         <EmptyState />
@@ -50,8 +51,8 @@ export const MobileTripPriceSection = ({ isLoading, priceData, error, destinatio
             *{priceData?.description}
           </Text> : null}
       </Box>
-      <Button backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)">
-        Comprar a viagem por {formatByDataType(total, "CURRENCY")}
+      <Button disabled={priceData.isPaid} backgroundColor="var(--color-brand-2)" color="var(--color-gray-4)" href={`/app/viagens/comprar/${tripId}`}>
+        {priceData.isPaid ? "A viagem já está paga." : `Comprar a viagem por ${formatByDataType(total, "CURRENCY")}`}
       </Button>
       <WhatsappButton
         style={{ width: "100%", color: "var(--color-brand-2)" }}
@@ -70,6 +71,7 @@ export const MobileTripPriceSection = ({ isLoading, priceData, error, destinatio
 export interface DesktopTripPriceSectionProps extends TripPriceSectionProps {
   cityName: string;
   travelersNumber: number;
+  tripId: string;
 };
 
 export const DesktopTripPriceSection = ({
@@ -78,6 +80,7 @@ export const DesktopTripPriceSection = ({
   error,
   cityName,
   travelersNumber,
+  tripId,
   destination
 }: DesktopTripPriceSectionProps) => {
   if (isLoading) {
@@ -88,7 +91,7 @@ export const DesktopTripPriceSection = ({
     );
   }
 
-  if (error) {
+  if (error || !priceData) {
     return (
       <div className="profile-questions-form flex-column gap-lg">
         <EmptyState />
@@ -118,8 +121,13 @@ export const DesktopTripPriceSection = ({
               *{priceData.description}
             </Text> : null}
         </Box>
-        <Button backgroundColor="var(--color-brand-1)" color="var(--color-gray-4)">
-          Comprar a viagem por {formatByDataType(total, "CURRENCY")}
+        <Button
+          disabled={priceData.isPaid}
+          className="mobile-trip-price-section__price-button"
+          backgroundColor="var(--color-brand-1)"
+          color="var(--color-gray-4)"
+          href={`/app/viagens/comprar/${tripId}`}>
+          {priceData.isPaid ? "A viagem já está paga." : `Comprar a viagem por ${formatByDataType(total, "CURRENCY")}`}
         </Button>
 
         <WhatsappButton

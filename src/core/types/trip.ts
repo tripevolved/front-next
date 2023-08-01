@@ -125,6 +125,7 @@ interface TripStayRoomFeature {
 }
 
 export interface TripPrice {
+  isPaid: boolean;
   price: number;
   serviceFee: number;
   description: string | null;

@@ -7,6 +7,7 @@
   &__box {
     display: flex;
     gap: 2px;
+    padding: 0px 20px;
 
     h2 {
       color: $color-gray-1;
@@ -15,6 +16,7 @@
 
   &__box-text {
     color: $color-gray-2;
+    padding: 0px 20px;
   }
 }
 
@@ -239,6 +241,10 @@
     }
   }
 
+  &__price-button {
+    text-align: center;
+  }
+
   &__price-description {
     color: $color-gray-1;
     width: 100%;
@@ -267,7 +273,7 @@
   width: 100%;
   max-width: 358px;
   flex-direction: column;
-  margin: -185px -20px 0 0;
+  margin: -40px -25px 0 0;
   padding: 20px;
 
   .mobile-trip-price-section {

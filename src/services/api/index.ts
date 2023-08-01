@@ -1,5 +1,6 @@
 export * from "./destination";
 export * from "./lead";
+export * from "./payments";
 export * from "./profile";
 export * from "./register";
 export * from "./stays";
