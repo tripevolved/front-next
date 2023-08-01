@@ -52,7 +52,7 @@ export * from "./templates/PageAppHeader";
 export * from "./templates/PageAppMenu";
 export * from "./templates/PageBase";
 export * from "./templates/PrivacyBanner";
-export * from "./trips/AllTripsPanel";
+export * from "./trips/ReservationsPanel";
 export * from "./trips/Builder";
 export * from "./trips/CreateTrip";
 export * from "./trips/HasTrip";
