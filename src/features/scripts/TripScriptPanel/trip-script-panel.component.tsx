@@ -30,7 +30,6 @@ export function TripScriptPanel() {
     if (!action.isSelected) {
       return (
         <>
-          <TripScriptActionSection action={action} />
           {action.type === "RESTAURANT" && <GastronomySuggestion />}
           {action.type === "BAR" && <BarSuggestion />}
           {action.type === "PARTY" && <PartySuggestion />}
@@ -47,7 +46,7 @@ export function TripScriptPanel() {
 
     setTimeout(() => {
       setIsLoading(false);
-      router.push("/app/viagens/roteiro/atracoes/");
+      router.push(`/app/viagens/roteiro/atracoes/${idParam}`);
     }, 2000);
   };
 
