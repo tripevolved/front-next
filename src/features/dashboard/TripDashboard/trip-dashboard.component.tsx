@@ -34,7 +34,7 @@ export function TripDashboard({
             icon="flight-and-tickets"
             description="Voos e Reservas"
             qtd={flightAndTickets}
-            href="#"
+            href={`/app/viagens/reservas/${tripId}`}
           />
           <TripDashboardItem icon="tips" description="Dicas" qtd={tips} href="#" />
         </Box>
