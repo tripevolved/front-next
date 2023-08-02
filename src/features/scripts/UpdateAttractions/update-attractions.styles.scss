@@ -1,2 +1,10 @@
 .update-attractions {
+  background-color: #ffffff;
+  height: 100vh;
+
+  &__list-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
 }

@@ -22,6 +22,7 @@ export interface TripScriptAction {
   attractionId: string | null;
   attractionPartnerSlug: string | null;
   isSelected: boolean;
+  isEditable: boolean;
   type?: TripScriptActionType;
 }
 

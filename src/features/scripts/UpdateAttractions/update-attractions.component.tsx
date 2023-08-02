@@ -5,6 +5,7 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { useRouter } from "next/router";
 import { useUpdateAttractions } from "./update-attractions.hook";
 import { TripScriptDay } from "@/core/types";
+import { TripScriptActionSection } from "../TripScriptPanel/trip-script-action.section";
 
 export function UpdateAttractions({ className, children, sx, ...props }: UpdateAttractionsProps) {
   const cn = makeCn("update-attractions", className)(sx);
@@ -12,11 +13,19 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
 
   const tripIdParam = typeof router.query.id === "string" ? router.query.id : null;
 
-  const { data, error, isLoading } = useUpdateAttractions();
+  const { data, setData, error, isLoading } = useUpdateAttractions();
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
   if (data === undefined || data === ({} as TripScriptDay)) return <EmptyState />;
+
+  const deleteTripAction = (index: number) => {
+    const updatedActionList = [...data.actions];
+
+    updatedActionList.splice(index, 1);
+
+    setData({ ...data, actions: updatedActionList });
+  };
 
   return (
     <>
@@ -26,7 +35,19 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
         title={`Editar ${data.date}`}
       />
       <SectionBase className={cn} {...props}>
-        <Text heading>MAIS LEGAL</Text>
+        <div className="update-attractions__list-area">
+          {data.actions.map(
+            (action, i) =>
+              action.isEditable && (
+                <TripScriptActionSection
+                  action={action}
+                  key={i}
+                  isEditPage
+                  onClick={() => deleteTripAction(i)}
+                />
+              )
+          )}
+        </div>
       </SectionBase>
     </>
   );
