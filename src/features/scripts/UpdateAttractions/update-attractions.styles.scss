@@ -2,9 +2,26 @@
   background-color: #ffffff;
   height: 100vh;
 
+  div.container.container--lg {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
   &__list-area {
     display: flex;
     flex-direction: column;
     gap: 12px;
+
+    &__add-action-button {
+      text-align: left;
+      color: $color-brand-1;
+    }
+  }
+
+  &__save-button {
+    width: 100%;
+    max-width: 400px;
+    color: $color-gray-4;
   }
 }
