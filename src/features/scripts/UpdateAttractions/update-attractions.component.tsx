@@ -28,6 +28,10 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
     setData({ ...data, actions: updatedActionList });
   };
 
+  const handleAddActionButton = () => {
+    // Modal.open()
+  };
+
   return (
     <>
       <GeneralHeader
@@ -56,7 +60,9 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
             + Adicionar mais atrações
           </Button>
         </div>
-        <Button className="update-attractions__save-button">Salvar</Button>
+        <Button onClick={handleAddActionButton} className="update-attractions__save-button">
+          Salvar
+        </Button>
       </SectionBase>
     </>
   );

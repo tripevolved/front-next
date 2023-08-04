@@ -1,11 +1,13 @@
 .update-attractions {
   background-color: #ffffff;
   height: 100vh;
+  max-height: 500px;
 
   div.container.container--lg {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100%;
   }
 
   &__list-area {
@@ -23,5 +25,9 @@
     width: 100%;
     max-width: 400px;
     color: $color-gray-4;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    max-height: none;
   }
 }
