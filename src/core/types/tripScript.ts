@@ -34,3 +34,13 @@ interface TripScriptDayPeriod {
   title: string;
   actions: TripScriptAction[];
 }
+
+export interface TripScriptAttraction {
+  id: string;
+  isAlreadySelected: boolean;
+  isHighlyRecommended: boolean;
+  name: string;
+  address: string;
+  availabilityInfo: string;
+  purchasePrice: number;
+}

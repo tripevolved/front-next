@@ -24,6 +24,7 @@ export * from "./basic/Text";
 export * from "./buttons/ShareButton";
 export * from "./buttons/ToggleButton";
 export * from "./buttons/WhatsappButton";
+export * from "./cards/AddAttractionCard";
 export * from "./cards/CardBlog";
 export * from "./cards/CardDestination";
 export * from "./cards/CardHighlight";

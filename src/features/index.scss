@@ -30,6 +30,7 @@
 @import "./payments/TripPurchasePage/trip-purchase-page.styles.scss";
 @import "./profile/ProfileQuestions/profile-questions.styles.scss";
 @import "./register/RegisterCityForm/register-city-form.styles.scss";
+@import "./scripts/AddAttractionsModal/add-attractions-modal.styles.scss";
 @import "./scripts/CardsSuggestion/cards-suggestion.styles.scss";
 @import "./scripts/TripDayAttractions/trip-day-attractions.styles.scss";
 @import "./scripts/TripScriptPanel/trip-script-panel.styles.scss";
@@ -43,10 +44,10 @@
 @import "./templates/PageAppMenu/page-app-menu.styles.scss";
 @import "./templates/PageBase/page-base.styles.scss";
 @import "./templates/PrivacyBanner/privacy-banner.styles.scss";
-@import "./trips/ReservationsPanel/reservations-panel.styles.scss";
 @import "./trips/Builder/profile-questions.styles.scss";
 @import "./trips/HasTrip/has-trip.styles.scss";
 @import "./trips/MatchedDestinationsPage/matched-destinations-page.styles.scss";
+@import "./trips/ReservationsPanel/reservations-panel.styles.scss";
 @import "./trips/TripAccordeon/trip-accordeon.styles.scss";
 @import "./trips/TripConfiguration/trip-configuration.styles.scss";
 @import "./trips/TripDetailsPage/trip-details-page.styles.scss";

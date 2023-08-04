@@ -7,6 +7,7 @@ import { useUpdateAttractions } from "./update-attractions.hook";
 import { TripScriptDay } from "@/core/types";
 import { TripScriptActionSection } from "../TripScriptPanel/trip-script-action.section";
 import { Button, Modal } from "mars-ds";
+import { AddAttractionsModal } from "@/features";
 
 export function UpdateAttractions({ className, children, sx, ...props }: UpdateAttractionsProps) {
   const cn = makeCn("update-attractions", className)(sx);
@@ -29,7 +30,8 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
   };
 
   const handleAddActionButton = () => {
-    // Modal.open()
+    tripIdParam &&
+      Modal.open(() => <AddAttractionsModal tripId={tripIdParam} />, { closable: true });
   };
 
   return (
@@ -56,13 +58,12 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
             className="update-attractions__list-area__add-action-button"
             size="sm"
             variant="naked"
+            onClick={() => handleAddActionButton()}
           >
             + Adicionar mais atrações
           </Button>
         </div>
-        <Button onClick={handleAddActionButton} className="update-attractions__save-button">
-          Salvar
-        </Button>
+        <Button className="update-attractions__save-button">Salvar</Button>
       </SectionBase>
     </>
   );
