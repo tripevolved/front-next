@@ -34,6 +34,7 @@ export * from "./forms/AutoCompleteTextField";
 export * from "./forms/DatePicker";
 export * from "./forms/OptionField";
 export * from "./forms/OptionsFieldList";
+export * from "./forms/OptionsSelectField";
 export * from "./forms/OptionsSlider";
 export * from "./loaders/GlobalLoader";
 export * from "./loaders/ProgressIndicator";

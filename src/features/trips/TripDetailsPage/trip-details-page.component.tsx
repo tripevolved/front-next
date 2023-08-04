@@ -32,6 +32,7 @@ export function TripDetailsPage() {
         priceData={priceData}
         cityName={title}
         travelersNumber={2}
+        tripId={data.id}
         destination={destination.title}
       />
       <TripConfigurationSection configuration={configuration} />
@@ -51,7 +52,7 @@ export function TripDetailsPage() {
           </Box>
         </div>
       </SectionBase>
-      <MobileTripPriceSection isLoading={isPriceLoading} error={priceError} priceData={priceData} destination={destination.title} />
+      <MobileTripPriceSection isLoading={isPriceLoading} error={priceError} priceData={priceData!} tripId={data.id} destination={destination.title} />
     </>
   );
 }
