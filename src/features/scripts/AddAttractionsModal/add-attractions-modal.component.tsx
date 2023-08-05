@@ -4,6 +4,8 @@ import type { AddAttractionsModalProps } from "./add-attractions-modal.types";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAddAttractions } from "./add-attractions-modal.hook";
 import { TripScriptAttraction } from "@/core/types";
+import { Button } from "mars-ds";
+import { useState } from "react";
 
 export function AddAttractionsModal({
   className,
@@ -13,6 +15,10 @@ export function AddAttractionsModal({
   ...props
 }: AddAttractionsModalProps) {
   const cn = makeCn("add-attractions-modal", className)(sx);
+
+  const [attractionsList, setAttractionsList] = useState<TripScriptAttraction[]>(
+    [] as TripScriptAttraction[]
+  );
 
   const { data, isLoading, error } = useAddAttractions(tripId);
 
@@ -32,13 +38,20 @@ export function AddAttractionsModal({
       </Box>
       <Box className="add-attractions-modal__list">
         {data.length ? (
-          data.map((attraction, i) => <AddAttractionCard attraction={attraction} key={i} />)
+          data.map((attraction, i) => (
+            <AddAttractionCard
+              attraction={attraction}
+              onAddClick={() => setAttractionsList([...attractionsList, attraction])}
+              key={i}
+            />
+          ))
         ) : (
           <Text style={{ color: "#D35050" }}>
             Puxa... Não conseguimos encontrar novas atrações para você
           </Text>
         )}
       </Box>
+      <Button className="add-attractions-modal__save-button">Salvar</Button>
     </div>
   );
 }

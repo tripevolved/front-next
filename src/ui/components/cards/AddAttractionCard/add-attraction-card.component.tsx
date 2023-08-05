@@ -9,6 +9,7 @@ export function AddAttractionCard({
   children,
   sx,
   attraction,
+  onAddClick,
   ...props
 }: AddAttractionCardProps) {
   const cn = makeCn("add-attraction-card", className)(sx);
@@ -20,7 +21,7 @@ export function AddAttractionCard({
         <Text className="add-attraction-card__content__name">{attraction.name}</Text>
         <Text className="add-attraction-card__content__address">{attraction.address}</Text>
       </Box>
-      <Icon name="plus-circle" color="var(--color-brand-1)" />
+      <Icon name="plus-circle" color="var(--color-brand-1)" onClick={() => onAddClick()} />
     </Card>
   );
 }

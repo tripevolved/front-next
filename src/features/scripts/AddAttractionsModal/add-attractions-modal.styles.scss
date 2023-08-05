@@ -1,5 +1,8 @@
 .add-attractions-modal {
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 
   &__header {
     &__title {
@@ -17,5 +20,11 @@
     width: 100%;
     flex-direction: column;
     gap: 16px;
+  }
+
+  &__save-button {
+    align-self: flex-end;
+    width: 100%;
+    color: $color-gray-4;
   }
 }
