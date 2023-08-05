@@ -1,8 +1,9 @@
-import { AddAttractionCard, Box, Text } from "@/ui";
+import { AddAttractionCard, Box, EmptyState, GlobalLoader, Text } from "@/ui";
 import type { AddAttractionsModalProps } from "./add-attractions-modal.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAddAttractions } from "./add-attractions-modal.hook";
+import { TripScriptAttraction } from "@/core/types";
 
 export function AddAttractionsModal({
   className,
@@ -14,6 +15,10 @@ export function AddAttractionsModal({
   const cn = makeCn("add-attractions-modal", className)(sx);
 
   const { data, isLoading, error } = useAddAttractions(tripId);
+
+  if (error) return <EmptyState />;
+  if (isLoading) return <GlobalLoader />;
+  if (data === undefined || data === ([] as TripScriptAttraction[])) return <EmptyState />;
 
   return (
     <div className={cn} {...props}>
