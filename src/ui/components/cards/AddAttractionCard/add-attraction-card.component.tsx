@@ -10,6 +10,7 @@ export function AddAttractionCard({
   sx,
   attraction,
   onAddClick,
+  onViewClick,
   ...props
 }: AddAttractionCardProps) {
   const cn = makeCn("add-attraction-card", className)(sx);
@@ -17,7 +18,7 @@ export function AddAttractionCard({
   return (
     <Card className={cn} {...props} elevation="xl">
       <Picture src="/assets/script/attraction.svg" className="add-attraction-card__icon" />
-      <Box className="add-attraction-card__content">
+      <Box className="add-attraction-card__content" onClick={() => onViewClick()}>
         <Text className="add-attraction-card__content__name">{attraction.name}</Text>
         <Text className="add-attraction-card__content__address">{attraction.address}</Text>
       </Box>

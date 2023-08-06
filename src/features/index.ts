@@ -42,6 +42,7 @@ export * from "./questions/QuestionSlider";
 export * from "./register/RegisterCityForm";
 export * from "./scripts/AddAttractionsModal";
 export * from "./scripts/CardsSuggestion";
+export * from "./scripts/SeeAttractionDetailsModal";
 export * from "./scripts/TripDayAttractions";
 export * from "./scripts/TripScriptPanel";
 export * from "./scripts/TripScriptPreviewPanel";

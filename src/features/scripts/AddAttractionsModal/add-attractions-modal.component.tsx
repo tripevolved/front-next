@@ -4,8 +4,9 @@ import type { AddAttractionsModalProps } from "./add-attractions-modal.types";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAddAttractions } from "./add-attractions-modal.hook";
 import { TripScriptAttraction } from "@/core/types";
-import { Button } from "mars-ds";
+import { Button, Modal } from "mars-ds";
 import { useState } from "react";
+import { SeeAttractionDetailsModal } from "@/features";
 
 export function AddAttractionsModal({
   className,
@@ -26,6 +27,13 @@ export function AddAttractionsModal({
   if (isLoading) return <GlobalLoader />;
   if (data === undefined || data === ([] as TripScriptAttraction[])) return <EmptyState />;
 
+  const handleSeeDetails = (attraction: TripScriptAttraction) => {
+    Modal.open(() => <SeeAttractionDetailsModal attraction={attraction} />, {
+      closable: true,
+      size: "md",
+    });
+  };
+
   return (
     <div className={cn} {...props}>
       <Box className="add-attractions-modal__header">
@@ -42,6 +50,7 @@ export function AddAttractionsModal({
             <AddAttractionCard
               attraction={attraction}
               onAddClick={() => setAttractionsList([...attractionsList, attraction])}
+              onViewClick={() => handleSeeDetails(attraction)}
               key={i}
             />
           ))

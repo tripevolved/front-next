@@ -1,0 +1,17 @@
+.see-attraction-details-modal {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 22px;
+  gap: 30px;
+
+  &__header {
+    &__title {
+      color: $color-brand-1;
+    }
+
+    &__subtitle {
+      color: $color-gray-1;
+    }
+  }
+}
