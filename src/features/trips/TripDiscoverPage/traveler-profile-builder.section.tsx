@@ -9,7 +9,7 @@ import { Card, Notification } from "mars-ds";
 import { Picture, SectionBase, StepsLoader } from "@/ui";
 import { ProfileQuestionsForm } from "@/features/profile/ProfileQuestions/profile-questions-form";
 import { delay } from "@/utils/helpers/delay.helpers";
-import { useAfterLoginState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
+import { useSynchronizeTravelerState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -28,16 +28,21 @@ const STEPS = [
   },
 ];
 
-export function ProfileBuilderSection({ travelerId, className, children, ...props }: TravelerProfileBuilderSectionProps) {
+export function ProfileBuilderSection({
+  travelerId,
+  className,
+  children,
+  ...props
+}: TravelerProfileBuilderSectionProps) {
   const [submitting, setSubmitting] = useState(false);
-  const { travelerStateGet } = useAfterLoginState();
+  const { syncTravelerState } = useSynchronizeTravelerState();
 
   const answers = useRef<AnswersDto>({});
   const profileSlug = useRef<string>();
 
   const handleAnswers = (newAnswers?: AnswersDto) => {
     if (newAnswers) answers.current = newAnswers;
-    
+
     sendAnswers();
   };
 
@@ -59,7 +64,7 @@ export function ProfileBuilderSection({ travelerId, className, children, ...prop
       await delay(1000);
       handleFinish(attempts - 1);
     } else {
-      travelerStateGet();
+      syncTravelerState();
     }
   };
 

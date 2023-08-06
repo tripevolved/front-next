@@ -12,6 +12,7 @@ import { EmptyState, StepsProgressBar } from "@/ui";
 
 import { QuestionNavigationController } from "../QuestionNavigationController";
 import { QuestionOptions } from "../QuestionOptions";
+import { useAnimation } from "@/utils/hooks/animation.hook";
 
 const swrOptions = { revalidateOnFocus: false };
 
@@ -20,6 +21,8 @@ export function QuestionsBuilder({
   hideStepper,
   controllerKey,
   controller,
+  title = "Descobrir meu perfil de viajante",
+  disableLocalSave,
 }: QuestionsBuilderProps) {
   const { data = [], error, isLoading } = useSwr(controllerKey, controller, swrOptions);
 
@@ -27,11 +30,17 @@ export function QuestionsBuilder({
   const [answers, setAnswers] = useState<AnswersDto>({});
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const animation = useAnimation();
+
   const total = useMemo(() => data.length - 1, [data.length]);
+
+  const setCurrentIndexAnimation = async (index: number) => {
+    animation.trigger(currentIndex < index, () => setCurrentIndex(index));
+  };
 
   const handleSteps = (newIndex: number) => {
     if (newIndex < 0) return;
-    if (total >= newIndex) setCurrentIndex(newIndex);
+    if (total >= newIndex) setCurrentIndexAnimation(newIndex);
     else onSubmit(answers);
   };
 
@@ -39,13 +48,16 @@ export function QuestionsBuilder({
     setAnswers((state: any) => {
       const isEmptyArray = Array.isArray(value) && value.length === 0;
       const newState = { ...state, [id]: isEmptyArray ? null : value };
-      setLocalAnswers(jsonToString(newState));
+      if (!disableLocalSave) setLocalAnswers(jsonToString(newState));
       return newState;
     });
   };
 
   const isNextButtonDisabled = useMemo(
-    () => data[currentIndex]?.questions.every(({ id }) => !answers[id]),
+    () => {
+      if (!Object.keys(answers).length) return true;
+      return data[currentIndex]?.questions.every(({ id }) => !answers[id])
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [answers, currentIndex]
   );
@@ -54,53 +66,28 @@ export function QuestionsBuilder({
   const questions = useMemo(() => data[currentIndex]?.questions || [], [data.length, currentIndex]);
 
   useEffect(() => {
+    if (disableLocalSave) return;
     const initialLocalAnswers = toJson(localAnswers);
     if (initialLocalAnswers) setAnswers(initialLocalAnswers as AnswersDto);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (isLoading) {
-    return (
-      <Grid>
-        <Skeleton active height={24} />
-        <br />
-        <Skeleton active variant={SkeletonVariants.Paragraph} />
-        <br />
-        <Skeleton active height={24} />
-        <Skeleton active height={24} />
-        <Skeleton active height={24} />
-        <Skeleton active height={24} />
-        <Skeleton active height={24} />
-        <br />
-        <Grid columns={3}>
-          <Skeleton active height={48} />
-          <Skeleton active height={48} />
-        </Grid>
-      </Grid>
-    );
-  }
+  if (isLoading) return <LoadingState />;
 
-  if (error)
-    return (
-      <EmptyState>
-        <Button variant="neutral" iconName="rotate-ccw" onClick={() => location.reload()}>
-          Tentar novamente
-        </Button>
-      </EmptyState>
-    );
+  if (error) return <ErrorState />
 
   return (
-    <Grid gap={48}>
+    <Grid gap={48} className="questions-builder">
       {hideStepper ? null : (
         <Grid gap={16}>
           <Caption as="p" className="color-text-secondary">
-            Descobrir meu perfil de viajante
+            {title}
           </Caption>
           <StepsProgressBar position={currentIndex} total={total} />
         </Grid>
       )}
       <main className="mb-lg">
-        <div>
+        <div style={animation.style}>
           {questions.map((question: any) => (
             <QuestionOptions
               key={question.id}
@@ -112,6 +99,7 @@ export function QuestionsBuilder({
         </div>
       </main>
       <QuestionNavigationController
+        style={animation.style}
         position={currentIndex}
         total={total}
         onNavigation={handleSteps}
@@ -120,3 +108,30 @@ export function QuestionsBuilder({
     </Grid>
   );
 }
+
+const ErrorState = () => (
+  <EmptyState>
+    <Button variant="neutral" iconName="rotate-ccw" onClick={() => location.reload()}>
+      Tentar novamente
+    </Button>
+  </EmptyState>
+);
+
+const LoadingState = () => (
+  <Grid>
+    <Skeleton active height={24} />
+    <br />
+    <Skeleton active variant={SkeletonVariants.Paragraph} />
+    <br />
+    <Skeleton active height={24} />
+    <Skeleton active height={24} />
+    <Skeleton active height={24} />
+    <Skeleton active height={24} />
+    <Skeleton active height={24} />
+    <br />
+    <Grid columns={3}>
+      <Skeleton active height={48} />
+      <Skeleton active height={48} />
+    </Grid>
+  </Grid>
+);

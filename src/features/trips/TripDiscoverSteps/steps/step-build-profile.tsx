@@ -1,14 +1,14 @@
 import type { TripDiscoverStepContentProps, QuestionsBuilderOnSubmit } from "@/features";
-import type { TravelerProfileType } from "@/core/types";
 
 import { useState } from "react";
 import { useAppStore } from "@/core/store";
 
 import { ProfileApiService } from "@/services/api/profile";
 
-import { Button, Grid, Notification } from "mars-ds";
-import { QuestionsBuilder, HasProfile } from "@/features";
-import { StepsLoader, Text } from "@/ui";
+import { Notification } from "mars-ds";
+import { QuestionsBuilder } from "@/features";
+import { StepsLoader } from "@/ui";
+import { useSynchronizeTravelerState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
 
 const CONTROLLER_KEY = "travel-profile-answers";
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
@@ -31,16 +31,17 @@ const STEPS = [
 export function StepBuildProfile({ onNext }: TripDiscoverStepContentProps) {
   const email = useAppStore((state) => state.user.email);
   const leadUpdate = useAppStore((state) => state.leadUpdate);
+  const { syncTravelerState } = useSynchronizeTravelerState();
 
   const [submitting, setSubmitting] = useState(false);
-  const [travelerProfile, setTravelerProfile] = useState<TravelerProfileType | null>(null);
 
   const handleSubmit: QuestionsBuilderOnSubmit = async (answers) => {
     setSubmitting(true);
     try {
       const { profileSlug } = await ProfileApiService.sendAnswers({ answers, email });
       leadUpdate({ profile: { slug: profileSlug } });
-      setTravelerProfile(profileSlug as TravelerProfileType);
+      // Ensure update traveler state
+      await syncTravelerState();
     } catch (error) {
       Notification.error("Devido à um erro não foi possível salvar as suas respostas");
       console.error(error);
@@ -48,35 +49,13 @@ export function StepBuildProfile({ onNext }: TripDiscoverStepContentProps) {
     }
   };
 
-  if (submitting) {
-    return (
-      <StepsLoader
-        steps={STEPS}
-        milliseconds={MILLISECONDS}
-        onFinish={() => setSubmitting(false)}
-      />
-    );
-  }
+  const handleFinish = () => {
+    setSubmitting(false);
+    onNext();
+  };
 
-  if (travelerProfile) {
-    return (
-      <Grid className="text-center">
-        <HasProfile travelerProfile={travelerProfile} />
-        <Text className="color-text-secondary">
-          Agora que já sabemos qual é o seu perfil de viajante, clique em continuar para descobrir a
-          sua trip:
-        </Text>
-        <Button
-          // @ts-ignore
-          variant="tertiary"
-          iconName="chevron-right"
-          isRtl
-          onClick={onNext}
-        >
-          Continuar
-        </Button>
-      </Grid>
-    );
+  if (submitting) {
+    return <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />;
   }
 
   return (
@@ -84,7 +63,6 @@ export function StepBuildProfile({ onNext }: TripDiscoverStepContentProps) {
       controller={ProfileApiService.getQuestions}
       controllerKey={CONTROLLER_KEY}
       onSubmit={handleSubmit}
-      hideStepper
     />
   );
 }

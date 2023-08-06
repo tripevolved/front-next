@@ -5,7 +5,7 @@ import { useAppStore } from "@/core/store";
 
 import { useRef, useState } from "react";
 import { Card, Notification } from "mars-ds";
-import { useAfterLoginState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
+import { useSynchronizeTravelerState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
 
 import { Picture, SectionBase, StepsLoader } from "@/ui";
 import { useRouter } from "next/router";
@@ -39,7 +39,7 @@ export function CreateTrip({
 }: CreateTripProps) {
   const [submitting, setSubmitting] = useState(false);
   const { travelerState } = useAppStore();
-  const { travelerStateGet } = useAfterLoginState();
+  const { syncTravelerState } = useSynchronizeTravelerState();
 
   const router = useRouter();
 
@@ -60,7 +60,7 @@ export function CreateTrip({
       setSubmitting(true);
       const result = await TripsApiService.postCreate(createTrip.current);
       tripId.current = result.id;
-      travelerStateGet();
+      syncTravelerState();
     } catch (error) {
       setSubmitting(false);
       Notification.error("Devido à um erro não foi possível continuar");

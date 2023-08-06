@@ -12,21 +12,28 @@ export function PageTrip({ className, children, seo }: PageAppProps) {
     <>
       {seo ? <NextSeo {...seo} /> : null}
       <main className={cn}>
-        <Card as="aside" className="page-trip__aside theme-dark">
-          <div className="page-trip__menu">
-            <ToggleButton title="Voltar para o painel" iconName="arrow-left" href="/app/painel" />
-            <LogoMainInverse />
+        <PageTripAside title={seo?.title} />
+        <Card as="section" className="page-trip__content">
+          <div>
+            {children}
           </div>
-          <Picture
-            src="/assets/trip/trip-cover.png"
-            md={{ src: "/assets/trip/trip-cover-2x.png" }}
-          />
-          <Text heading className="page-trip__aside__title">
-            {seo?.title}
-          </Text>
         </Card>
-        <Card as="section" className="page-trip__content">{children}</Card>
       </main>
     </>
   );
 }
+
+const PageTripAside = ({ title = "" }) => {
+  return (
+    <Card as="aside" className="page-trip__aside theme-dark">
+      <div className="page-trip__menu">
+        <ToggleButton title="Voltar para o painel" iconName="x" href="/app/painel" />
+        <LogoMainInverse />
+      </div>
+      <Picture src="/assets/trip/trip-cover.png" md={{ src: "/assets/trip/trip-cover-2x.png" }} />
+      <Text heading className="page-trip__aside__title">
+        {title}
+      </Text>
+    </Card>
+  );
+};

@@ -21,17 +21,15 @@ export const PROFILE_NAMES: Record<TravelerProfileType, string> = {
 };
 
 export function HasProfile({ travelerProfile }: { travelerProfile: TravelerProfileType }) {
-  if (!travelerProfile) return null;
-
   return (
     <section className="has-profile">
       <Text className="color-text-secondary mb-lg">Seu perfil de viajante é...</Text>
       <MediaObject
         image={`/assets/perfil/${travelerProfile}.svg`}
         heading={{
-          size: 'sm',
-          as:"h3",
-          children: PROFILE_NAMES[travelerProfile]
+          size: "sm",
+          as: "h3",
+          children: PROFILE_NAMES[travelerProfile],
         }}
       />
     </section>

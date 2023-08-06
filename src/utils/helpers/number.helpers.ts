@@ -7,6 +7,10 @@ export const formatByDataType = (num: number, dataType: "CURRENCY" | "DAYS" | un
   return num.toString();
 };
 
-export const formatToPercentage = (num: number) => {
-  return num.toLocaleString("pt-BR", { style: "percent", minimumFractionDigits: 2 });
-};
+export const formatToDayBR = (num: number) => `${num} dia${num > 1 ? "s" : ""}`;
+
+export const formatToCurrencyBR = (num: number) =>
+  num.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+export const formatToPercentage = (num: number) =>
+  num.toLocaleString("pt-BR", { style: "percent", minimumFractionDigits: 2 });

@@ -1,41 +1,50 @@
-import { Grid } from "mars-ds";
+import { useState } from "react";
 import type { DatePickerProps } from "./date-picker.types";
 
-import { useState } from "react";
-import ReactDatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// https://hypeserver.github.io/react-date-range
+// https://www.npmjs.com/package/react-date-range
+import { DateRange } from "react-date-range";
+// @ts-ignore
+import { pt as localePt } from "react-date-range/dist/locale";
+import { addDays } from "date-fns";
+import "react-date-range/dist/styles.css"; // main css file
 
-export function DatePicker({ 
-  dates,
-  onSet,
-  disabled,
-  ...props 
-}: DatePickerProps) {
-  const initialStartDate = dates?.[0] !== null && dates?.[0] !== undefined ? new Date(dates?.[0]) : null;
-  const initialEndDate = dates?.[1] !== null && dates?.[1] !== undefined ? new Date(dates?.[1]) : null;
+const KEY = "selection";
+const FIVE_MONTHS_IN_DAYS = 30 * 5;
 
-  const [startDate, setStartDate] = useState(initialStartDate);
-  const [endDate, setEndDate] = useState(initialEndDate);
-  const onChange = (dates: any) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
-    onSet?.([start, end]);
+export function DatePicker({ onSelect, maxDays = FIVE_MONTHS_IN_DAYS }: DatePickerProps) {
+  const [rangeValue, setRangeValue] = useState<any>([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: KEY,
+    },
+  ]);
+
+  const handleChange = (newRangeValue: any) => {
+    setRangeValue([newRangeValue]);
+    onSelect?.({
+      endDate: newRangeValue.endDate ? new Date(newRangeValue.endDate) : undefined,
+      startDate: newRangeValue.startDate ? new Date(newRangeValue.startDate) : undefined,
+    });
   };
 
-  /* TODO: insert a checkbox here to allow for flexible dates */
-  // TODO: make sure it is selected with start and end dates, not only start
   return (
-    <Grid gap={16} {...props}>
-      <ReactDatePicker
-        selected={startDate === undefined ? null : startDate}
-        onChange={onChange}
-        startDate={startDate}
-        endDate={endDate}
-        selectsRange
-        inline
-        disabled={disabled}
-      />
-    </Grid>
+    <div className="date-picker">
+      <div className="data-picker__content">
+        <DateRange
+          ranges={rangeValue}
+          onChange={(item) => handleChange(item[KEY])}
+          minDate={new Date()}
+          maxDate={addDays(new Date(), maxDays)}
+          dateDisplayFormat="d/MMM/YYY"
+          locale={localePt}
+          rangeColors={["var(--color-primary-700)", "var(--color-brand-1)", "var(--color-brand-2)"]}
+          displayMode="dateRange"
+          showMonthAndYearPickers={false}
+          showDateDisplay={false}
+        />
+      </div>
+    </div>
   );
 }

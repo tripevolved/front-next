@@ -4,10 +4,9 @@ import { TravelerProfileType } from "@/core/types";
 import { ProfileBuilderSection } from "./traveler-profile-builder.section";
 import { ProfileSection } from "./traveler-profile.section";
 import { ProfileStartSection } from "./traveler-profile-start.section";
-import { RegisterCity, TripConfigurationSet, CreateTrip, PageTrip, TripDiscoverSteps } from "@/features";
+import { TripConfigurationSet, CreateTrip, PageTrip, TripDiscoverSteps } from "@/features";
 import { DestinationQuestions } from "./destination-questions.section";
 import { TripGoalQuestions } from "./trip-goal-questions.section";
-import { StepsProgressBar } from "@/ui";
 
 type TripDiscoverStep = "none" | "build-profile" | "profile" | "register-city" | "destinations" | "configuration" | "trip-goal" | "finish";
 
@@ -19,23 +18,12 @@ export const TripDiscoverPage = () => {
   )
 }
 
-const TripDiscoverSteps2 = () => {
-  const { id, hasValidAddress, travelerProfile = "relax" } = useAppStore(state => state.travelerState);
+const initialStep = "profile"
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [total, setTotal] = useState(10);
-
-  return (
-    <div className="trip-discover-steps">
-      <StepsProgressBar position={currentIndex} total={total} />
-    </div>
-  )
-}
-
-const TripDiscoverPage2 = () => {
+export const TripDiscoverPage_DISABLED = () => {
   const { travelerState } = useAppStore();
 
-  const [step, setStep] = useState<TripDiscoverStep>("none");
+  const [step, setStep] = useState<TripDiscoverStep>(initialStep);
   const [travelerId, setTravelerId] = useState("");
   const [travelerProfile, setTravelerProfile] = useState<TravelerProfileType>("relax");
 
@@ -53,7 +41,7 @@ const TripDiscoverPage2 = () => {
 
   if (step === "build-profile") return (<ProfileBuilderSection travelerId={travelerId} onSubmit={() => setNextStep("profile")} />);
   if (step === "profile") return (<ProfileSection travelerProfile={travelerProfile} onSubmit={() => setNextStep("register-city")} />);
-  if (step === "register-city") return (<RegisterCity travelerId={travelerId} onFinish={() => setNextStep("destinations")} />);
+  // if (step === "register-city") return (<RegisterCity travelerId={travelerId} onFinish={() => setNextStep("destinations")} />);
   if (step === "destinations") return (<DestinationQuestions travelerId={travelerId} onSubmit={() => setNextStep("configuration")} />);
   if (step === "configuration") return (<TripConfigurationSet onSubmit={() => setNextStep("trip-goal")} />);
   if (step === "trip-goal") return (<TripGoalQuestions travelerId={travelerId} onSubmit={() => setNextStep("finish")} />);
