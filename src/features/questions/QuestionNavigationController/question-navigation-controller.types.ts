@@ -5,4 +5,7 @@ export interface ProfileQuestionsNavigationProps {
   isNextButtonDisabled?: boolean;
   className?: string;
   style?: any;
+  submitting?: boolean;
+  nextButtonLabel?: string;
+  finishButtonLabel?: string;
 }

@@ -3,4 +3,3 @@
  * run "yarn component:index" to update
  */
 export * from "./trip-discover-steps.component";
-export * from "./trip-discover-steps.types";

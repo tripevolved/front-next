@@ -8,8 +8,11 @@ export type QuestionsBuilderOnSubmit = (answers: AnswersDto) => void;
 export interface QuestionsBuilderProps {
   title?: string;
   onSubmit: QuestionsBuilderOnSubmit;
-  hideStepper?: boolean;
   controllerKey: string;
   controller: Controller;
   disableLocalSave?: boolean;
+  submitting?: boolean;
+  hideStepper?: boolean;
+  nextButtonLabel?: string;
+  finishButtonLabel?: string;
 }

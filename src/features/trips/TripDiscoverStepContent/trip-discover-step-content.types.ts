@@ -1,10 +1,9 @@
 import type { ComponentHTMLProps } from "@/core/types";
-import type { TripDiscoverStep } from "@/features";
 
-export type TripDiscoverGoToStepName = (stepName: TripDiscoverStep) => void
+export type TripDiscoverGoToStepName = (stepName: string) => void
 
 export interface TripDiscoverStepContentProps extends ComponentHTMLProps {
-  onNext: VoidFunction;
+  onNext: (data?: Record<string, any>) => void;
   onPrevious: VoidFunction;
   goToStepName: TripDiscoverGoToStepName;
 };

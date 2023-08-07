@@ -17,7 +17,7 @@ const NO_PROFILE_TEXT = {
     "O perfil do viajante vai te mostrar que além de gostar de praia, você também gosta de agito ou de descanso. Além de gostar de frio, você gosta de belas paisagens e de uma culinária diferenciada. Esses detalhes fazem a viagem ser inesquecível, porque viajar não é só ir para outros lugares, mas vivenciar a experiência é que engrandece a alma e cria memórias.",
 };
 
-export function InitialStep({ goToStepName }: TripDiscoverStepContentProps) {
+export function InitialStep({ onNext, goToStepName }: TripDiscoverStepContentProps) {
   const { travelerProfile } = useAppStore((state) => state.travelerState);
 
   const { title, subtitle } = travelerProfile ? HAS_PROFILE_TEXT : NO_PROFILE_TEXT;
@@ -34,7 +34,7 @@ export function InitialStep({ goToStepName }: TripDiscoverStepContentProps) {
           // label="recomendado"
           labelTheme={LabelThemes.Ghost}
           title="Descobrir minha trip"
-          onClick={() => goToStepName(travelerProfile ? "profile" : "build-profile")}
+          onClick={() => travelerProfile ? goToStepName("register-city") : onNext()}
         />
         <ItemButton
           iconName="navigation"

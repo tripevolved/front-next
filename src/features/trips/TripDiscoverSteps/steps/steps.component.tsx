@@ -1,18 +1,13 @@
-import { TripDiscoverStepContentProps } from "../../TripDiscoverStepContent";
-import type { TripDiscoverStep } from "../trip-discover-steps.types";
-
+import type { TripDiscoverStepContentProps } from "@/features";
 import { StepBuildProfile } from "./step-build-profile";
-import { StepConfiguration } from "./step-configuration";
-import { StepDestinations } from "./step-destinations";
-import { StepFinish } from "./step-finish";
 import { InitialStep } from "./step-initial";
 import { StepProfile } from "./step-profile";
 import { StepRegisterCity } from "./step-register-city";
-import { StepTripGoal } from "./step-trip-goal";
+import { StepTrip } from "./step-trip";
 
 type GroupSteps = {
   title: string;
-  name: TripDiscoverStep;
+  name: string;
   component: (props: TripDiscoverStepContentProps) => JSX.Element;
 };
 
@@ -40,21 +35,6 @@ export const GROUP_STEPS: GroupSteps[] = [
   {
     title: "Descobrir minha trip",
     name: "destinations",
-    component: StepDestinations,
-  },
-  {
-    title: "",
-    name: "configuration",
-    component: StepConfiguration,
-  },
-  {
-    title: "",
-    name: "trip-goal",
-    component: StepTripGoal,
-  },
-  {
-    title: "Finalização",
-    name: "finish",
-    component: StepFinish,
+    component: StepTrip,
   },
 ];

@@ -1,19 +1,17 @@
-import type { TripDiscoverStepsProps, TripDiscoverGoToStepName } from "@/features";
+import type { TripDiscoverGoToStepName } from "@/features";
 
-import { makeCn } from "@/utils/helpers/css.helpers";
-import { useMemo, useState } from "react";
-import { Grid } from "mars-ds";
+import { useEffect, useMemo, useState } from "react";
 import { GROUP_STEPS } from "./steps";
 import { useRouter } from "next/router";
+import { useAnimation } from "@/utils/hooks/animation.hook";
 
-const INITIAL_CURRENT_INDEX = 5;
+const INITIAL_CURRENT_INDEX = 0;
 
-export function TripDiscoverSteps({ className, children, ...props }: TripDiscoverStepsProps) {
+export function TripDiscoverSteps() {
   const router = useRouter();
 
-  const cn = makeCn("trip-discover-steps", className)();
-
   const [currentIndex, setCurrentIndex] = useState(INITIAL_CURRENT_INDEX);
+  const slider = useAnimation()
 
   const { component: Component, ...stepProps } = useMemo(
     () => GROUP_STEPS[currentIndex],
@@ -25,26 +23,37 @@ export function TripDiscoverSteps({ className, children, ...props }: TripDiscove
 
   const handleSetCurrentIndex = (nextIndex: number) => {
     const index = preventNextIndex(nextIndex);
+    slider.trigger(index > currentIndex);
     setCurrentIndex(index);
     const stepName = GROUP_STEPS[index].name;
-    router.push({ ...router, query: { stepName }}, undefined, { shallow: true })
+    router.push({ ...router, query: { stepName } }, undefined, { shallow: true });
   };
 
   const goToStepName: TripDiscoverGoToStepName = (stepName) => {
     const nextIndex = GROUP_STEPS.findIndex(({ name }) => name === stepName);
+    console.log(nextIndex)
+    if (nextIndex < 0) return;
     handleSetCurrentIndex(nextIndex);
   };
 
-  const handleNext = (offset = 1) => setCurrentIndex((index) => preventNextIndex(index + offset));
+  const handleNext = (offset = 1) =>
+    handleSetCurrentIndex(preventNextIndex(currentIndex + offset));
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    const stepName = router.query.stepName;
+    if (typeof stepName === "string") goToStepName(stepName);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady]);
 
   return (
-    <Grid className={cn} {...props}>
+    <div style={slider.style}>
       <Component
         goToStepName={goToStepName}
         onNext={() => handleNext(1)}
         onPrevious={() => handleNext(-1)}
         {...stepProps}
       />
-    </Grid>
+    </div>
   );
 }

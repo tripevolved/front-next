@@ -24,6 +24,7 @@
 
   &__content {
     background-color: transparent;
+    overflow-x: hidden;
   }
 
   @media (min-width: $breakpoint-md) {
@@ -45,10 +46,10 @@
       }
     }
 
-    &__content {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
+    // &__content {
+    //   display: flex;
+    //   flex-direction: column;
+    //   justify-content: center;
+    // }
   }
 }

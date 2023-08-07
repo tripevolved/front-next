@@ -19,10 +19,13 @@ const swrOptions = { revalidateOnFocus: false };
 export function QuestionsBuilder({
   onSubmit,
   hideStepper,
+  nextButtonLabel,
+  finishButtonLabel,
   controllerKey,
   controller,
   title = "Descobrir meu perfil de viajante",
   disableLocalSave,
+  submitting,
 }: QuestionsBuilderProps) {
   const { data = [], error, isLoading } = useSwr(controllerKey, controller, swrOptions);
 
@@ -56,7 +59,7 @@ export function QuestionsBuilder({
   const isNextButtonDisabled = useMemo(
     () => {
       if (!Object.keys(answers).length) return true;
-      return data[currentIndex]?.questions.every(({ id }) => !answers[id])
+      return data[currentIndex]?.questions.every(({ id }) => !answers[id]);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [answers, currentIndex]
@@ -72,9 +75,9 @@ export function QuestionsBuilder({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (isLoading) return <LoadingState />;
+  if (error) return <ErrorState />;
 
-  if (error) return <ErrorState />
+  if (isLoading) return <LoadingState />;
 
   return (
     <Grid gap={48} className="questions-builder">
@@ -104,6 +107,9 @@ export function QuestionsBuilder({
         total={total}
         onNavigation={handleSteps}
         isNextButtonDisabled={isNextButtonDisabled}
+        submitting={submitting}
+        nextButtonLabel={nextButtonLabel}
+        finishButtonLabel={finishButtonLabel}
       />
     </Grid>
   );
@@ -118,7 +124,7 @@ const ErrorState = () => (
 );
 
 const LoadingState = () => (
-  <Grid>
+  <Grid gap={16}>
     <Skeleton active height={24} />
     <br />
     <Skeleton active variant={SkeletonVariants.Paragraph} />

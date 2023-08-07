@@ -1,4 +1,4 @@
-import { Button } from "mars-ds";
+import { Button, SubmitButton } from "mars-ds";
 import { useMemo } from "react";
 import { ProfileQuestionsNavigationProps } from "./question-navigation-controller.types";
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -9,9 +9,15 @@ export const QuestionNavigationController = ({
   total = 1,
   onNavigation,
   isNextButtonDisabled,
+  submitting,
   style,
+  nextButtonLabel = "Próxima",
+  finishButtonLabel = "Concluir",
 }: ProfileQuestionsNavigationProps) => {
-  const label = useMemo(() => (position === total ? "Concluir" : "Próxima"), [position, total]);
+  const label = useMemo(
+    () => (position === total ? finishButtonLabel : nextButtonLabel),
+    [finishButtonLabel, nextButtonLabel, position, total]
+  );
   const cn = makeCn("profile-questions-navigation", className)();
   const showPreviousButton = total > 1;
   return (
@@ -27,15 +33,16 @@ export const QuestionNavigationController = ({
           Anterior
         </Button>
       ) : null}
-      <Button
+      <SubmitButton
         // @ts-ignore
         variant="tertiary"
         className="profile-questions-navigation__next"
         onClick={() => onNavigation(position + 1)}
         disabled={position > total || isNextButtonDisabled}
+        submitting={submitting}
       >
         {label}
-      </Button>
+      </SubmitButton>
     </div>
   );
 };
