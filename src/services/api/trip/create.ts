@@ -1,4 +1,5 @@
 import { ApiRequest } from "@/services/api/request";
+import { AnswersDto } from "../profile/answers";
 
 interface CreateTripRequest {
   travelerId: string;
@@ -29,7 +30,7 @@ interface TripDates {
 export type CreateTripDto = {
   travelerId: string;
   destinationId: string;
-  tripBehavior: Record<string, string[]>;
+  tripBehavior: AnswersDto;
   days: number;
   dates: [Date, Date];
   maxBudget: number;
@@ -39,12 +40,14 @@ export type CreatedTrip = {
   id: string;
 };
 
-const parseAnswers = (answers: Record<string, string[]>): TripBehaviorAnswer[] => {
+const parseAnswers = (answers: AnswersDto): TripBehaviorAnswer[] => {
   const result: TripBehaviorAnswer[] = [];
 
-  for (const [questionId, ids] of Object.entries(answers)) {
-    result.push({ questionId, answers: ids });
+  for (const questionId in answers) {
+    const ids = answers[questionId];
+    result.push({ questionId, answers: Array.isArray(ids) ? ids : [ids] });
   }
+
   return result;
 };
 
