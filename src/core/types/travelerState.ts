@@ -14,7 +14,8 @@ export type TravelerProfileType =
   | "fa-da-rotina"
   | "garantido"
   | "insaciavel"
-  | "automatico";
+  | "automatico"
+  | "musicalidade";
 
 export interface TravelerState {
   id: string;

@@ -1,9 +1,12 @@
 import { OptionsSlider, Text } from "@/ui";
-import { formatByDataType } from "@/utils/helpers/number.helpers"
+import { formatByDataType } from "@/utils/helpers/number.helpers";
 import { Grid } from "mars-ds";
 import { QuestionSliderProps } from "./question-slider.types";
 
-interface InternalQuestionSliderProps extends Pick<QuestionSliderProps, "title" | "minValue" | "maxValue" | "step" | "dataType" | "onSet" | "defaultValue" | "disabled">{}
+type InternalQuestionSliderProps = Pick<
+  QuestionSliderProps,
+  "title" | "minValue" | "maxValue" | "step" | "dataType" | "onSet" | "defaultValue" | "disabled"
+>;
 
 export const QuestionSlider = ({
   title,
@@ -13,7 +16,7 @@ export const QuestionSlider = ({
   dataType,
   onSet,
   defaultValue,
-  disabled
+  disabled,
 }: InternalQuestionSliderProps) => {
   const formatSlider = (num: number) => formatByDataType(num, dataType);
 

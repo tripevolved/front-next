@@ -6,7 +6,7 @@ import { ProfileApiService } from "@/services/api/profile";
 import { useRef, useState } from "react";
 import { Card, Notification } from "mars-ds";
 
-import { MediaObject, Picture, SectionBase, StepsLoader } from "@/ui";
+import { Picture, SectionBase, StepsLoader } from "@/ui";
 import { ProfileQuestionsForm } from "./profile-questions-form";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
@@ -53,6 +53,7 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
     }
     try {
       setSubmitting(true);
+      profileSlug.current = undefined;
       const data = { answers: answers.current, email };
       const result = await ProfileApiService.sendAnswers(data);
       profileSlug.current = result.profileSlug;
@@ -65,7 +66,7 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
   const handleFinish = async (attempts = 3) => {
     if (attempts < 1) profileSlug.current = "relax";
     if (!profileSlug.current) {
-      await delay(1000);
+      await delay(2000);
       handleFinish(attempts - 1);
     } else {
       await router.replace(`/perfil/${profileSlug.current}`);

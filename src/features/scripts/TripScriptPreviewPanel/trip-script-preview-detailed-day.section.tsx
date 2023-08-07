@@ -1,55 +1,79 @@
 import { Box, CardHighlight, Picture, SectionBase, Text, FeatureIcon } from "@/ui";
 import { TripScriptDayDetail } from "@/core/types";
 import { useState } from "react";
-import { Link } from "mars-ds";
+import { Link, Modal } from "mars-ds";
+import { TripScriptPreviewBlockedSection } from "./trip-script-preview-blocked.section";
 
 interface TripScriptPreviewDetailedDayProps {
   details: TripScriptDayDetail;
 }
 
 export const TripScriptPreviewDetailedDay = ({ details }: TripScriptPreviewDetailedDayProps) => {
-  const [show, setShow] = useState(false);
-
-  return (
-    <SectionBase>
-      <Link onClick={() => setShow(!show)}>Ver detalhes do dia</Link>
-      {show && (
-        <>
-        {details.periods.map((period, i) => {
-          return (
-            <>
-              <Box className="trip-script-day-section__header">
-                <Text size="lg" className="trip-script-day-section__title">
-                  {period.title}
-                </Text>
-              </Box>
-              {period.actions.map((action, j) => {
-                return (
-                  <>
-                    <CardHighlight className="trip-detailed-day">
-                      <CardHighlight className="trip-script-action" style={{ padding: "17px 10px" }}>
-                        <FeatureIcon name={action.iconSlug} />
-                        <Box className="trip-script-action__box">
-                          <Text size="lg" className="trip-script-action__title">
-                            {action.title}
-                          </Text>
-                          <Text size="md" className="trip-script-action__subtitle">
-                            {action.subtitle}
+  const handleClick = () => {
+    Modal.open(
+      () => (
+        <Box className="trip-script-preview-detailed-day__modal">
+          <div className="trip-script-preview-detailed-day__modal__container">
+            {details.periods.map((period, i) => {
+              return (
+                <div className="trip-script-preview-detailed-day__modal__container__item" key={i}>
+                  <Text
+                    size="lg"
+                    className="trip-script-preview-detailed-day__modal__container__item__title"
+                  >
+                    <span style={{ fontSize: 22, color: "var(--color-brand-1)" }}>&#x2022;</span>{" "}
+                    {period.title}
+                  </Text>
+                  {period.actions.map((action, j) => {
+                    return (
+                      action.isSelected && (
+                        <Box
+                          className="trip-script-preview-detailed-day__modal__container__item__action"
+                          key={j}
+                        >
+                          <Box className="trip-script-preview-detailed-day__modal__container__item__action__header">
+                            <Picture
+                              className="trip-script-preview-detailed-day__modal__container__item__action__header__icon"
+                              src={`/assets/script/${action.iconSlug}.svg`}
+                            />
+                            <Box className="trip-script-preview-detailed-day__modal__container__item__action__header__content">
+                              <Text
+                                size="md"
+                                className="trip-script-preview-detailed-day__modal__container__item__action__header__content__title"
+                              >
+                                {action.title}
+                              </Text>
+                              <Text
+                                size="xs"
+                                className="trip-script-preview-detailed-day__modal__container__item__action__header__content__subtitle"
+                              >
+                                {action.subtitle}
+                              </Text>
+                            </Box>
+                          </Box>
+                          <Text
+                            size="xs"
+                            className="trip-script-preview-detailed-day__modal__container__item__action__description"
+                          >
+                            {action.tooltip}
                           </Text>
                         </Box>
-                      </CardHighlight>
-                      <Text heading size="xs" className="trip-stay-highlight-box__title">
-                        {action.tooltip}
-                      </Text>
-                    </CardHighlight>
-                  </>
-                )
-              })}
-            </>
-          );
-        })}
-        </>
-      )}
-    </SectionBase>
-  );
+                      )
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+          <TripScriptPreviewBlockedSection />
+        </Box>
+      ),
+      {
+        size: "sm",
+        closable: true,
+      }
+    );
+  };
+
+  return <Link onClick={() => handleClick()}>Ver detalhes do dia</Link>;
 };

@@ -1,6 +1,6 @@
-import { Box, CardHighlight, Text } from "@/ui";
-import { FeatureIcon } from "@/ui";
+import { Box, Picture, Text, TooltipCard } from "@/ui";
 import { TripScriptAction } from "@/core/types";
+import { Card } from "mars-ds";
 
 interface TripScriptPreviewActionSectionProps {
   action: TripScriptAction;
@@ -8,16 +8,20 @@ interface TripScriptPreviewActionSectionProps {
 
 export const TripScriptPreviewActionSection = ({ action }: TripScriptPreviewActionSectionProps) => {
   return (
-    <CardHighlight className="trip-script-action" style={{ padding: "17px 10px" }}>
-      <FeatureIcon name={action.iconSlug} />
-      <Box className="trip-script-action__box">
-        <Text size="lg" className="trip-script-action__title">
+    <Card className="trip-script-preview-action" elevation="xl">
+      <Picture
+        className="trip-script-preview-action__icon"
+        src={`/assets/script/${action.iconSlug}.svg`}
+      />
+      <Box className="trip-script-preview-action__box">
+        <Text size="lg" className="trip-script-preview-action__title">
           {action.title}
+          {action.tooltip && <TooltipCard text={action.tooltip} />}
         </Text>
-        <Text size="md" className="trip-script-action__subtitle">
+        <Text size="md" className="trip-script-preview-action__subtitle">
           {action.subtitle}
         </Text>
       </Box>
-    </CardHighlight>
+    </Card>
   );
 };

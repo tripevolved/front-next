@@ -9,3 +9,10 @@ export const toDateOnlyString = (date: Date) => {
 
   return date.toDateString();
 };
+
+export const toFullDate = (date: Date | null | undefined) => {
+  if (date === undefined || date === null) return null;
+
+  let newDate = new Date(date);
+  return `${newDate.toLocaleDateString()} - ${newDate.toLocaleTimeString()}`;
+};

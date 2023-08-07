@@ -75,7 +75,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
   return (
     <>
       <div className="trip-content-item trip-stay-section">
-        <Box>
+        <Box className="trip-stay-section__icon">
           <Picture src={"/assets/destino/hospedagem.svg"} />
         </Box>
         <Box className="trip-content-item__desc">

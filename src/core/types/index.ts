@@ -1,5 +1,6 @@
 export * from "./component";
 export * from "./destination";
+export * from "./flights";
 export * from "./lead";
 export * from "./page";
 export * from "./photo";
@@ -7,5 +8,6 @@ export * from "./traveler";
 export * from "./travelerState";
 export * from "./trip";
 export * from "./tripScript";
+export * from "./tripPayment";
 export * from "./tripPending";
 export * from "./user";
