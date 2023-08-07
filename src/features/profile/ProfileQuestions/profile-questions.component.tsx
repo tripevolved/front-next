@@ -6,7 +6,7 @@ import { ProfileApiService } from "@/services/api/profile";
 import { useRef, useState } from "react";
 import { Card, Notification } from "mars-ds";
 
-import { MediaObject, Picture, SectionBase, StepsLoader } from "@/ui";
+import { Picture, SectionBase, StepsLoader } from "@/ui";
 import { ProfileQuestionsForm } from "./profile-questions-form";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";

@@ -3,4 +3,9 @@ export interface ProfileQuestionsNavigationProps {
   total: number;
   onNavigation: (newPosition: number) => void;
   isNextButtonDisabled?: boolean;
+  className?: string;
+  style?: any;
+  submitting?: boolean;
+  nextButtonLabel?: string;
+  finishButtonLabel?: string;
 }
