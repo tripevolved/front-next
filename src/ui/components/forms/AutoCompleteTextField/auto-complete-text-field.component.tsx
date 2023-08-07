@@ -2,7 +2,6 @@ import { TextField, Card, Link } from "mars-ds";
 import type { AutoCompleteTextFieldProps, HintData } from "./auto-complete-text-field.types";
 
 import { useState, useEffect } from "react";
-import "react-datepicker/dist/react-datepicker.css";
 
 export function AutoCompleteTextField({
   className,
@@ -45,7 +44,7 @@ export function AutoCompleteTextField({
     }
 
     const timeOutId = setTimeout(() => setSearchQuery(text), 2000);
-    return () => { 
+    return () => {
       clearTimeout(timeOutId);
     }
   }, [text]);
