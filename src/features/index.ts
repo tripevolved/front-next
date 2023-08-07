@@ -35,7 +35,6 @@ export * from "./lead/LeadListForm";
 export * from "./lead/LeadProvider";
 export * from "./payments/TripPurchasePage";
 export * from "./profile/ProfileQuestions";
-export * from "./questions/QuestionDatePicker";
 export * from "./questions/QuestionNavigationController";
 export * from "./questions/QuestionOptions";
 export * from "./questions/QuestionSlider";

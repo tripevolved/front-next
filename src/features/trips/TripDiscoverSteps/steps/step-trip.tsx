@@ -119,32 +119,3 @@ export const StepTrip = ({}: TripDiscoverStepContentProps) => {
     </Grid>
   );
 };
-
-const a = {
-  travelerId: "de3c2f37-197d-4100-bd6c-f2d3758fca00",
-  tripBehavior: [
-    {
-      questionId: "f5ec7104-acb7-4d53-a29f-1a25cd9dbd11",
-      answers: ["f3f44c30-7518-4da9-8bd8-61f61643ef08"],
-    },
-  ],
-  period: { maxDays: 15, minDays: 15 },
-  dates: { startDate: "2023-08-23T03:00:00.000Z", endDate: "2023-08-25T03:00:00.000Z" },
-  maxBudget: 10000,
-};
-
-const b = {
-  travelerId: "de3c2f37-197d-4100-bd6c-f2d3758fca00",
-  tripBehavior: [
-    {
-      questionId: "0",
-      answers: {
-        questionId: "f5ec7104-acb7-4d53-a29f-1a25cd9dbd11",
-        answers: ["f3f44c30-7518-4da9-8bd8-61f61643ef08", "e741eaa1-0853-4940-9f13-bc60130a768e"],
-      },
-    },
-  ],
-  period: { maxDays: 3, minDays: 3 },
-  dates: { startDate: "2023-08-15T03:00:00.000Z", endDate: "2023-08-17T03:00:00.000Z" },
-  maxBudget: 4000,
-};
