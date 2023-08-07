@@ -4,18 +4,22 @@ import type { UpdateAttractionsProps } from "./update-attractions.types";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useRouter } from "next/router";
 import { useUpdateAttractions } from "./update-attractions.hook";
-import { TripScriptDay } from "@/core/types";
+import { TripScriptDay, UpdateScriptAction } from "@/core/types";
 import { TripScriptActionSection } from "../TripScriptPanel/trip-script-action.section";
 import { Button, Modal } from "mars-ds";
 import { AddAttractionsModal } from "@/features";
+import { useState } from "react";
 
 export function UpdateAttractions({ className, children, sx, ...props }: UpdateAttractionsProps) {
   const cn = makeCn("update-attractions", className)(sx);
   const router = useRouter();
+  const [attractionList, setAttractionsList] = useState<UpdateScriptAction[]>(
+    [] as UpdateScriptAction[]
+  );
 
   const tripIdParam = typeof router.query.id === "string" ? router.query.id : null;
 
-  const { data, setData, error, isLoading } = useUpdateAttractions();
+  const { data, setData, error, isLoading, updateTripScript } = useUpdateAttractions();
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
@@ -29,9 +33,18 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
     setData({ ...data, actions: updatedActionList });
   };
 
+  const handleAttractionClick = (attraction: UpdateScriptAction) => {
+    setAttractionsList([...attractionList, attraction]);
+  };
+
   const handleAddActionButton = () => {
     tripIdParam &&
-      Modal.open(() => <AddAttractionsModal tripId={tripIdParam} />, { closable: true });
+      Modal.open(
+        () => (
+          <AddAttractionsModal tripId={tripIdParam} onClickAttraction={handleAttractionClick} />
+        ),
+        { closable: true }
+      );
   };
 
   return (
@@ -63,7 +76,12 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
             + Adicionar mais atrações
           </Button>
         </div>
-        <Button className="update-attractions__save-button">Salvar</Button>
+        <Button
+          className="update-attractions__save-button"
+          onClick={() => updateTripScript(attractionList)}
+        >
+          Salvar
+        </Button>
       </SectionBase>
     </>
   );

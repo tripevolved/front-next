@@ -43,4 +43,15 @@ export interface TripScriptAttraction {
   address: string;
   availabilityInfo: string;
   purchasePrice: number;
+  attractionId?: string;
+}
+
+export interface UpdateScriptAction {
+  id: string;
+  attractionId?: string;
+}
+
+export interface UpdateTripScriptPayload {
+  id: string;
+  actions: UpdateScriptAction[];
 }

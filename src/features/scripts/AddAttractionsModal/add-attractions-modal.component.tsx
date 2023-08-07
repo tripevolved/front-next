@@ -13,13 +13,10 @@ export function AddAttractionsModal({
   children,
   sx,
   tripId,
+  onClickAttraction,
   ...props
 }: AddAttractionsModalProps) {
   const cn = makeCn("add-attractions-modal", className)(sx);
-
-  const [attractionsList, setAttractionsList] = useState<TripScriptAttraction[]>(
-    [] as TripScriptAttraction[]
-  );
 
   const { data, isLoading, error } = useAddAttractions(tripId);
 
@@ -28,10 +25,20 @@ export function AddAttractionsModal({
   if (data === undefined || data === ([] as TripScriptAttraction[])) return <EmptyState />;
 
   const handleSeeDetails = (attraction: TripScriptAttraction) => {
-    Modal.open(() => <SeeAttractionDetailsModal attraction={attraction} />, {
-      closable: true,
-      size: "md",
-    });
+    Modal.open(
+      () => (
+        <SeeAttractionDetailsModal
+          attraction={attraction}
+          addAttractionClick={() =>
+            onClickAttraction({ id: attraction.id, attractionId: attraction.attractionId })
+          }
+        />
+      ),
+      {
+        closable: true,
+        size: "md",
+      }
+    );
   };
 
   return (
@@ -49,7 +56,9 @@ export function AddAttractionsModal({
           data.map((attraction, i) => (
             <AddAttractionCard
               attraction={attraction}
-              onAddClick={() => setAttractionsList([...attractionsList, attraction])}
+              onAddClick={() =>
+                onClickAttraction({ id: attraction.id, attractionId: attraction.attractionId })
+              }
               onViewClick={() => handleSeeDetails(attraction)}
               key={i}
             />
