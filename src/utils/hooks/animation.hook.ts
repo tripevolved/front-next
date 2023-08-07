@@ -16,7 +16,7 @@ export const useAnimation = (props: AnimationProps = {}) => {
       transform: `translateX(${forward ? "-100%" : "100%"})`,
       opacity: 0,
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active, forward]);
 
   const trigger = async (forward: boolean, fn?: VoidFunction) => {
@@ -25,7 +25,7 @@ export const useAnimation = (props: AnimationProps = {}) => {
     await delay(timing);
     setActive(false);
     fn?.();
-  }
+  };
 
   return { active, style, trigger };
-}
+};

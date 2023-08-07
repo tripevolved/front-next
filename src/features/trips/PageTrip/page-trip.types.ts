@@ -1,3 +1,3 @@
 import type { ComponentHTMLProps } from "@/core/types";
 
-export interface PageTripProps extends ComponentHTMLProps {};
+export interface PageTripProps extends ComponentHTMLProps {}

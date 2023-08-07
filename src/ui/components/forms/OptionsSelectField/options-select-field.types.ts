@@ -10,6 +10,6 @@ export interface SelectFieldProps extends Omit<TextFieldProps, "rightIconButton"
 export type SelectFieldOption = {
   label: string;
   value?: string;
-}
+};
 
 export type SelectFieldOptions = SelectFieldOption[];
