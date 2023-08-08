@@ -74,14 +74,10 @@ export function TripScriptPanel() {
                         size="sm"
                         variant="naked"
                         className="trip-script-day-section__edit-button"
+                        iconName="edit-2"
+                        isRtl
                         onClick={() => handleEditButton(tripScriptDay)}
                       >
-                        <Icon
-                          name="edit-2"
-                          size="sm"
-                          color="var(--color-brand-1)"
-                          style={{ marginRight: 5 }}
-                        />
                         Editar
                       </Button>
                     )}
