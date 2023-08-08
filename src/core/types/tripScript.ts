@@ -14,7 +14,7 @@ export interface TripScriptDay {
 export type TripScriptActionType = "RESTAURANT" | "BAR" | "EVENT" | "PARTY";
 
 export interface TripScriptAction {
-  id?: string;
+  id: string;
   iconSlug: string;
   title: string;
   subtitle: string;

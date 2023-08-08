@@ -1,21 +1,10 @@
 import type { TripScriptDay, TripScriptAction } from "@/core/types";
 
-const actions = [
-  {
-    id: "",
-    iconSlug: "",
-    title: "",
-    subtitle: "",
-    tooltip: "",
-    attractionId: "",
-    attractionPartnerSlug: "",
-    isSelected: false,
-    type: "BAR",
-  },
-] as TripScriptAction[];
-
-export const initialTripScriptDayValue = {
+export const initialTripScriptDayValue: TripScriptDay = {
   id: "",
   date: "",
-  actions,
-} as TripScriptDay;
+  actions: [],
+  details: {
+    periods: [],
+  },
+};

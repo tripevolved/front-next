@@ -44,10 +44,7 @@ export function TripScriptPanel() {
     setTripScriptDay(tripDay);
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push(`/app/viagens/roteiro/atracoes/${idParam}`);
-    }, 2000);
+    router.push(`/app/viagens/roteiro/atracoes/${idParam}`);
   };
 
   return (

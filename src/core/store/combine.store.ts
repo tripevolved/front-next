@@ -6,7 +6,7 @@ import { type AccessesSlice, createAccessesSlice } from "./accesses";
 import { type LeadSlice, createLeadSlice } from "./lead";
 import { type UserSlice, createUserSlice } from "./user";
 import { type TravelerStateSlice, createTravelerStateSlice } from "./traveler";
-import { type TripScriptDaySlice, createTripScriptDaySlice } from "./trip-day";
+import { type TripScriptDaySlice, currentTripScriptDaySlice } from "./trip-day";
 
 export type StoreSlices = AccessesSlice &
   LeadSlice &
@@ -22,7 +22,7 @@ export const useAppStore = create<StoreSlices>()(
         ...createLeadSlice(...a),
         ...createUserSlice(...a),
         ...createTravelerStateSlice(...a),
-        ...createTripScriptDaySlice(...a),
+        ...currentTripScriptDaySlice(...a),
       }),
       { name: GLOBAL_STORE_NAME }
     )
