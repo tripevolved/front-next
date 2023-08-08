@@ -5,7 +5,6 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAddAttractions } from "./add-attractions-modal.hook";
 import { TripScriptAttraction } from "@/core/types";
 import { Button, Modal } from "mars-ds";
-import { useState } from "react";
 import { SeeAttractionDetailsModal } from "@/features";
 
 export function AddAttractionsModal({
@@ -14,6 +13,7 @@ export function AddAttractionsModal({
   sx,
   tripId,
   onClickAttraction,
+  onSaveClick,
   ...props
 }: AddAttractionsModalProps) {
   const cn = makeCn("add-attractions-modal", className)(sx);
@@ -69,7 +69,9 @@ export function AddAttractionsModal({
           </Text>
         )}
       </Box>
-      <Button className="add-attractions-modal__save-button">Salvar</Button>
+      <Button className="add-attractions-modal__save-button" onClick={() => onSaveClick()}>
+        Salvar
+      </Button>
     </div>
   );
 }

@@ -3,6 +3,7 @@ import type { SeeAttractionDetailsModalProps } from "./see-attraction-details-mo
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { Button, Divider, Icon } from "mars-ds";
+import { formatByDataType } from "@/utils/helpers/number.helpers";
 
 export function SeeAttractionDetailsModal({
   className,
@@ -20,7 +21,9 @@ export function SeeAttractionDetailsModal({
         <Text heading className="see-attraction-details-modal__header__title">
           {attraction.name}
         </Text>
-        <Text className="see-attraction-details-modal__header__subtitle">{`Turismo - ${attraction.purchasePrice}`}</Text>
+        <Text className="see-attraction-details-modal__header__subtitle">
+          {attraction.purchasePrice && formatByDataType(attraction.purchasePrice, "CURRENCY")}
+        </Text>
       </Box>
       {attraction.availabilityInfo && (
         <Box className="see-attraction-details-modal__body">
@@ -29,9 +32,6 @@ export function SeeAttractionDetailsModal({
           </Text>
           <Text className="see-attraction-details-modal__body__description">
             {attraction.availabilityInfo}
-            {
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tincidunt molestie vehicula. Pellentesque libero purus, accumsan a nulla eu, ornare sollicitudin nisl."
-            }
           </Text>
         </Box>
       )}

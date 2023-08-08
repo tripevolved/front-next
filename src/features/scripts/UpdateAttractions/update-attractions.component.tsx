@@ -41,7 +41,11 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
     tripIdParam &&
       Modal.open(
         () => (
-          <AddAttractionsModal tripId={tripIdParam} onClickAttraction={handleAttractionClick} />
+          <AddAttractionsModal
+            tripId={tripIdParam}
+            onClickAttraction={handleAttractionClick}
+            onSaveClick={() => updateTripScript(attractionList)}
+          />
         ),
         { closable: true }
       );
