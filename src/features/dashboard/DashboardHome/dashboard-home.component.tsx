@@ -37,7 +37,7 @@ export function DashboardHome() {
         </div>
       </PageAppHeader>
       <PageAppBody>
-        {travelerProfile ? <HasProfile /> : <NoProfile />}
+        {travelerProfile ? <HasProfile travelerProfile={travelerProfile} /> : <NoProfile />}
         <DashedDivider style={{ padding: "32px 0" }} />
         {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
       </PageAppBody>

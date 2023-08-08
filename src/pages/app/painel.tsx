@@ -1,5 +1,1 @@
-import { DashboardHome } from "@/features";
-
-export default function DashboardRoute() {
-  return <DashboardHome />;
-}
+export { DashboardHome as default } from "@/features";

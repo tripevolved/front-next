@@ -1,0 +1,55 @@
+.page-trip {
+  background-color: $color-gray-4;
+
+  &__menu {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    > * {
+      color: $color-white;
+    }
+    .link.btn {
+      padding: $spacing-md;
+    }
+  }
+  &__aside {
+    background-color: $color-brand-1;
+    color: $color-white;
+    border-radius: 0;
+    .picture,
+    &__title {
+      display: none;
+    }
+  }
+
+  &__content {
+    background-color: transparent;
+    overflow-x: hidden;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    min-height: 100vh;
+    gap: 32px;
+    padding: $spacing-lg;
+
+    &__aside {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 32px;
+      border-radius: $border-radius-lg;
+      .picture,
+      &__title {
+        display: inherit;
+      }
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}

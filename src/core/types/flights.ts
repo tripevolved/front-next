@@ -35,7 +35,7 @@ export interface TripFlightLeg {
 }
 
 export interface TripFlightLuggageInfo {
-  type: "normal",
+  type: "normal";
   maxWeight: number;
   maxSize: number | null;
 }
