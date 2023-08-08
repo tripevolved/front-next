@@ -2,7 +2,6 @@ import { AddAttractionCard, Box, EmptyState, GlobalLoader, Text } from "@/ui";
 import type { AddAttractionsModalProps } from "./add-attractions-modal.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { useAddAttractions } from "./add-attractions-modal.hook";
 import { TripScriptAttraction } from "@/core/types";
 import { Button, Modal } from "mars-ds";
 import { SeeAttractionDetailsModal } from "@/features";

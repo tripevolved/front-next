@@ -1,5 +1,5 @@
 import { EmptyState, GlobalLoader, Box, Text, SectionBase, GeneralHeader, Picture } from "@/ui";
-import { useTripScript } from "./trip-script.hook";
+import useSwr from "swr";
 import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
 import { useRouter } from "next/router";
@@ -12,13 +12,15 @@ import {
   PartySuggestion,
 } from "@/features";
 import { useAppStore } from "@/core/store";
+import { TripScriptsApiService } from "@/services/api";
 
 export function TripScriptPanel() {
-  const { isLoading, setIsLoading, data, error } = useTripScript();
-  const { setTripScriptDay } = useAppStore();
   const router = useRouter();
-
   const idParam = typeof router.query.id === "string" ? router.query.id : null;
+  const fetcher = async () => TripScriptsApiService.getFull(idParam!);
+
+  const { isLoading, data, error } = useSwr(idParam, fetcher);
+  const { setTripScriptDay } = useAppStore();
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
@@ -42,7 +44,6 @@ export function TripScriptPanel() {
 
   const handleEditButton = (tripDay: TripScriptDay) => {
     setTripScriptDay(tripDay);
-    setIsLoading(true);
 
     router.push(`/app/viagens/roteiro/atracoes/${idParam}`);
   };
@@ -72,7 +73,6 @@ export function TripScriptPanel() {
                         variant="naked"
                         className="trip-script-day-section__edit-button"
                         iconName="edit-2"
-                        isRtl
                         onClick={() => handleEditButton(tripScriptDay)}
                       >
                         Editar
