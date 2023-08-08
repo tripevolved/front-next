@@ -4,7 +4,8 @@ export interface TripScript {
   days: TripScriptDay[];
 }
 
-interface TripScriptDay {
+export interface TripScriptDay {
+  id: string;
   date: string;
   actions: TripScriptAction[];
   details: TripScriptDayDetail;
@@ -13,6 +14,7 @@ interface TripScriptDay {
 export type TripScriptActionType = "RESTAURANT" | "BAR" | "EVENT" | "PARTY";
 
 export interface TripScriptAction {
+  id: string;
   iconSlug: string;
   title: string;
   subtitle: string;
@@ -20,6 +22,7 @@ export interface TripScriptAction {
   attractionId: string | null;
   attractionPartnerSlug: string | null;
   isSelected: boolean;
+  isEditable: boolean;
   type?: TripScriptActionType;
 }
 
@@ -30,4 +33,25 @@ export interface TripScriptDayDetail {
 interface TripScriptDayPeriod {
   title: string;
   actions: TripScriptAction[];
+}
+
+export interface TripScriptAttraction {
+  id: string;
+  isAlreadySelected: boolean;
+  isHighlyRecommended: boolean;
+  name: string;
+  address: string;
+  availabilityInfo: string;
+  purchasePrice: number;
+  attractionId?: string;
+}
+
+export interface UpdateScriptAction {
+  id: string;
+  attractionId?: string;
+}
+
+export interface UpdateTripScriptPayload {
+  id: string;
+  actions: UpdateScriptAction[];
 }

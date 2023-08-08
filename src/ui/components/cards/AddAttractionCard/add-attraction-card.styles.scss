@@ -1,0 +1,23 @@
+.add-attraction-card {
+  background-color: $color-gray-4;
+  padding: 16px 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  &__icon {
+    width: 30px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 4px;
+
+    &__address {
+      margin-top: 0 !important;
+      color: $color-gray-1;
+    }
+  }
+}

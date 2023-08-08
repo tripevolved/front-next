@@ -16,11 +16,20 @@
   padding: 16px 20px;
   flex-direction: column;
   border-radius: 20px 20px 0 0;
-  margin-top: -18px;
+  margin-top: -15px;
   gap: 34px;
 
   @media (min-width: $breakpoint-md) {
     margin-top: -48px;
+  }
+
+  &__edit-button {
+    color: $color-gray-2;
+    font-size: 14px;
+
+    svg {
+      color: $color-brand-1;
+    }
   }
 
   &__border {
@@ -50,6 +59,7 @@
   &__header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 15px;
   }
 
