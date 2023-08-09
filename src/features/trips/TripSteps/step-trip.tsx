@@ -1,4 +1,4 @@
-import type { TripDiscoverStepContentProps } from "@/features";
+import type { StepComponentProps } from "@/features";
 import { Caption, Grid, Notification } from "mars-ds";
 import { useRef, useState } from "react";
 import { StepDestinations } from "./step-destinations";
@@ -52,7 +52,7 @@ const LOADING_STEPS = [
 ];
 const DEFAULT_INITIAL_INDEX = 0;
 
-export const StepTrip = ({}: TripDiscoverStepContentProps) => {
+export const StepTrip = ({}: StepComponentProps) => {
   const travelerId = useAppStore((state) => state.travelerState.id);
 
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);

@@ -1,11 +1,11 @@
 import { useAppStore } from "@/core/store";
-import { HasProfile, type TripDiscoverStepContentProps } from "@/features";
+import { HasProfile, type StepComponentProps } from "@/features";
 import { useSynchronizeTravelerState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
 import { ErrorState, Text } from "@/ui";
 import { Button } from "mars-ds";
 import { useEffect } from "react";
 
-export function StepProfile({ onNext, onPrevious }: TripDiscoverStepContentProps) {
+export function StepProfile({ onNext, onPrevious }: StepComponentProps) {
   const travelerProfile = useAppStore((state) => state.travelerState.travelerProfile);
   const { syncTravelerState } = useSynchronizeTravelerState();
 

@@ -1,4 +1,4 @@
-import type { TripDiscoverStepContentProps } from "@/features";
+import type { StepComponentProps } from "@/features";
 import { Text } from "@/ui";
 import { formatToPlural } from "@/utils/helpers/number.helpers";
 import { Grid, Slider, SubmitButton } from "mars-ds";
@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const DEFAULT_ADULTS = 2;
 
-export function StepFinish({ onNext }: TripDiscoverStepContentProps) {
+export function StepFinish({ onNext }: StepComponentProps) {
   const [submitting, setSubmitting] = useState(false);
   const [adults, setAdults] = useState(DEFAULT_ADULTS);
 
@@ -41,8 +41,8 @@ export function StepFinish({ onNext }: TripDiscoverStepContentProps) {
         // @ts-ignore
         variant="tertiary"
         disabled={submitting}
-        onClick={handleSubmit}
         submitting={submitting}
+        onClick={handleSubmit}
       >
         Receber minha recomendação
       </SubmitButton>

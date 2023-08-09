@@ -1,5 +1,3 @@
-import { useAppStore } from "@/core/store";
-import type { TripDiscoverStepContentProps } from "@/features";
 import { RegisterApiService } from "@/services/api";
 import { Box, EmptyState, ErrorState, Text } from "@/ui";
 import { delay } from "@/utils/helpers/delay.helpers";
@@ -15,9 +13,13 @@ import {
 } from "mars-ds";
 import { useRef, useState } from "react";
 
-export function StepRegisterCity({ onNext }: TripDiscoverStepContentProps) {
-  const travelerId = useAppStore((state) => state.travelerState.id);
+type StepCityProps = {
+  title: string;
+  onSelectCity?: (cityId: string) => void;
+  isLoading?: boolean;
+};
 
+export function StepCity({ onSelectCity: onSubmit, title, isLoading }: StepCityProps) {
   const [cityId, setCityId] = useState("");
   const [options, setOptions] = useState<RadioOption[]>([]);
 
@@ -50,32 +52,33 @@ export function StepRegisterCity({ onNext }: TripDiscoverStepContentProps) {
   };
 
   const handleSubmit = async () => {
+    if (typeof onSubmit !== "function") return;
     try {
       setSubmitting(true);
-      await RegisterApiService.putRegisterCity({
-        cityId,
-        travelerId,
-      });
-      onNext();
+      await onSubmit(cityId);
     } catch (error) {
       setSubmitting(false);
-      Notification.error("Não foi possível salvar a informação devido à um erro.");
+      Notification.error("Não foi possível prosseguir devido à um erro.");
     }
   };
 
   return (
     <Grid gap={24}>
-      <Text heading size="xs">
-        Em que cidade você mora atualmente?
-      </Text>
+      <Skeleton active={isLoading}>
+        <Text heading size="xs">
+          {title}
+        </Text>
+      </Skeleton>
       <Grid gap={16}>
-        <TextField
-          name="search"
-          label="Buscar cidade"
-          onChange={onSearchChange}
-          leftIconButton={{ name: "search" }}
-          disabled={submitting}
-        />
+        <Skeleton active={isLoading}>
+          <TextField
+            name="search"
+            label="Buscar cidade"
+            onChange={onSearchChange}
+            leftIconButton={{ name: "search" }}
+            disabled={submitting}
+          />
+        </Skeleton>
         <Box>
           {error ? (
             <ErrorState />
@@ -91,15 +94,17 @@ export function StepRegisterCity({ onNext }: TripDiscoverStepContentProps) {
             />
           )}
         </Box>
-        <SubmitButton
-          submitting={submitting}
-          // @ts-ignore
-          variant="tertiary"
-          disabled={!cityId}
-          onClick={handleSubmit}
-        >
-          Continuar
-        </SubmitButton>
+        <Skeleton active={isLoading}>
+          <SubmitButton
+            submitting={submitting}
+            // @ts-ignore
+            variant="tertiary"
+            disabled={!cityId}
+            onClick={handleSubmit}
+          >
+            Continuar
+          </SubmitButton>
+        </Skeleton>
       </Grid>
     </Grid>
   );

@@ -1,10 +1,10 @@
-import type { TripDiscoverStepContentProps } from "@/features";
+import type { StepComponentProps } from "@/features";
 import { DatePicker, Text } from "@/ui";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { Grid, Slider, SubmitButton } from "mars-ds";
 import { useState } from "react";
 
-export function StepConfiguration({ onNext }: TripDiscoverStepContentProps) {
+export function StepConfiguration({ onNext }: StepComponentProps) {
   const [dates, setDates] = useState<(Date | undefined)[]>([]);
   const [maxBudget, setMaxBudget] = useState(4000);
   const [days, setDays] = useState(1);
