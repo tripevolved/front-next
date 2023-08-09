@@ -13,6 +13,7 @@ declare global {
 }
 
 export const clientInfoInterceptor = async (config: InternalAxiosRequestConfig) => {
+  if (typeof window === "undefined") return config;
   try {
     if (!window.clientIp) {
       const { data } = await axios.get<IpInfo>("https://api.ipify.org/?format=json");
