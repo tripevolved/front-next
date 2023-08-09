@@ -3,6 +3,7 @@ import type { TripDashboardProps, TripDashboardItemProps } from "./trip-dashboar
 import NextLink from "next/link";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
+import { PageAppBody } from "@/features";
 
 export function TripDashboard({
   className,
@@ -16,39 +17,41 @@ export function TripDashboard({
   const { pedingActions, attractionsNumber, documents, flightAndTickets, tips } = tripDashboard;
 
   return (
-    <Box className={cn} {...props}>
-      <Text heading>{tripDashboard.name}</Text>
-      <Box className="trip-dashboard__box">
-        <Box className="trip-dashboard__box__row">
-          <TripDashboardItem
-            icon="pending-alert"
-            description="Pendências"
-            qtd={pedingActions}
-            color="#D84848"
-            href={`/app/viagens/pendencias/${tripId}`}
-          />
-          <TripDashboardItem icon="documents" description="Documentos" qtd={documents} href="#" />
-        </Box>
-        <Box className="trip-dashboard__box__row">
-          <TripDashboardItem
-            icon="flight-and-tickets"
-            description="Voos e Reservas"
-            qtd={flightAndTickets}
-            href={`/app/viagens/reservas/${tripId}`}
-          />
-          <TripDashboardItem icon="tips" description="Dicas" qtd={tips} href="#" />
-        </Box>
-        <Box className="trip-dashboard__box__row">
-          <TripDashboardItem
-            icon="script"
-            description="Roteiro"
-            qtd={attractionsNumber}
-            href={"/app/viagens/roteiro/" + tripId}
-            type="script"
-          />
+    <PageAppBody>
+      <Box className={cn} {...props}>
+        <Text heading>{tripDashboard.name}</Text>
+        <Box className="trip-dashboard__box">
+          <Box className="trip-dashboard__box__row">
+            <TripDashboardItem
+              icon="pending-alert"
+              description="Pendências"
+              qtd={pedingActions}
+              color="#D84848"
+              href={`/app/viagens/pendencias/${tripId}`}
+            />
+            <TripDashboardItem icon="documents" description="Documentos" qtd={documents} href="#" />
+          </Box>
+          <Box className="trip-dashboard__box__row">
+            <TripDashboardItem
+              icon="flight-and-tickets"
+              description="Voos e Reservas"
+              qtd={flightAndTickets}
+              href={`/app/viagens/reservas/${tripId}`}
+            />
+            <TripDashboardItem icon="tips" description="Dicas" qtd={tips} href="#" />
+          </Box>
+          <Box className="trip-dashboard__box__row">
+            <TripDashboardItem
+              icon="script"
+              description="Roteiro"
+              qtd={attractionsNumber}
+              href={"/app/viagens/roteiro/" + tripId}
+              type="script"
+            />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </PageAppBody>
   );
 }
 
