@@ -1,22 +1,26 @@
 import { EmptyState, GlobalLoader, Box, Text, SectionBase, GeneralHeader, Picture } from "@/ui";
-import { useTripScript } from "./trip-script.hook";
+import useSwr from "swr";
 import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
 import { useRouter } from "next/router";
-import { Card, Icon } from "mars-ds";
-import { TripScriptAction } from "@/core/types";
+import { Card, Icon, Button } from "mars-ds";
+import { TripScriptAction, TripScriptDay } from "@/core/types";
 import {
   AttractionsSuggestion,
   GastronomySuggestion,
   BarSuggestion,
   PartySuggestion,
 } from "@/features";
+import { useAppStore } from "@/core/store";
+import { TripScriptsApiService } from "@/services/api";
 
 export function TripScriptPanel() {
-  const { isLoading, data, error } = useTripScript();
   const router = useRouter();
-
   const idParam = typeof router.query.id === "string" ? router.query.id : null;
+  const fetcher = async () => TripScriptsApiService.getFull(idParam!);
+
+  const { isLoading, data, error } = useSwr(idParam, fetcher);
+  const { setTripScriptDay } = useAppStore();
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
@@ -28,7 +32,6 @@ export function TripScriptPanel() {
     if (!action.isSelected) {
       return (
         <>
-          <TripScriptActionSection action={action} />
           {action.type === "RESTAURANT" && <GastronomySuggestion />}
           {action.type === "BAR" && <BarSuggestion />}
           {action.type === "PARTY" && <PartySuggestion />}
@@ -37,6 +40,12 @@ export function TripScriptPanel() {
       );
     }
     return <TripScriptActionSection action={action} />;
+  };
+
+  const handleEditButton = (tripDay: TripScriptDay) => {
+    setTripScriptDay(tripDay);
+
+    router.push(`/app/viagens/roteiro/atracoes/${idParam}`);
   };
 
   return (
@@ -56,7 +65,19 @@ export function TripScriptPanel() {
                     <Text size="md" className="trip-script-day-section__subtitle">
                       {tripScriptDay.date}
                     </Text>
-                    {isPreview && <TripScriptDetailedDay details={tripScriptDay.details} />}
+                    {isPreview ? (
+                      <TripScriptDetailedDay details={tripScriptDay.details} />
+                    ) : (
+                      <Button
+                        size="sm"
+                        variant="naked"
+                        className="trip-script-day-section__edit-button"
+                        iconName="edit-2"
+                        onClick={() => handleEditButton(tripScriptDay)}
+                      >
+                        Editar
+                      </Button>
+                    )}
                   </Box>
                   <div className="trip-script-day-section__content">
                     {tripScriptDay.actions.length ? (
