@@ -1,4 +1,4 @@
-import type { TripDiscoverStepContentProps, QuestionsBuilderOnSubmit } from "@/features";
+import type { StepComponentProps, QuestionsBuilderOnSubmit } from "@/features";
 
 import { useState } from "react";
 import { useAppStore } from "@/core/store";
@@ -28,7 +28,7 @@ const STEPS = [
   },
 ];
 
-export function StepBuildProfile({ onNext }: TripDiscoverStepContentProps) {
+export function StepBuildProfile({ onNext }: StepComponentProps) {
   const email = useAppStore((state) => state.user.email);
   const leadUpdate = useAppStore((state) => state.leadUpdate);
   const { syncTravelerState } = useSynchronizeTravelerState();

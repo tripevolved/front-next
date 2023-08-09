@@ -6,6 +6,7 @@ import { DestinationVideoSection } from "./destination-video.section";
 import { DestinationTipsSection } from "./destination-tips.section";
 import { DestinationPostsSection } from "./destinations-posts.section";
 import { DestinationFaqSection } from "./destination-faq.section";
+import { Button } from "mars-ds";
 
 const mock = {
   features: [
@@ -98,6 +99,7 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
     title,
     uniqueName,
     videos = [],
+    id,
   } = destination;
   return (
     <PageBase navbar={navbar} footer={footer} seo={seo}>
@@ -106,7 +108,19 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
       {videos.length ? <DestinationVideoSection title={title} videos={videos} /> : null}
       {tips.length ? <DestinationTipsSection tips={tips} /> : null}
       {posts.length ? <DestinationPostsSection posts={posts} /> : null}
-      <DestinationFaqSection faq={mock.faq} title={title} uniqueName={uniqueName} />
+      <DestinationFaqSection faq={mock.faq} title={title}>
+        <div>
+          <Button
+            className="mt-2x"
+            style={{ width: 336 }}
+            // @ts-ignore
+            variant="tertiary"
+            href={`/app/viagens/criar?para=${uniqueName}`}
+          >
+            Quero ir
+          </Button>
+        </div>
+      </DestinationFaqSection>
     </PageBase>
   );
 }

@@ -2,4 +2,4 @@
  * Automatically generated
  * run "yarn component:index" to update
  */
-export * from "./trip-discover-steps.component";
+export * from "./trip-creation-page.component";

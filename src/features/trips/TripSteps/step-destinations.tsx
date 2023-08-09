@@ -1,5 +1,5 @@
 import { useAppStore } from "@/core/store";
-import { QuestionsBuilder, type TripDiscoverStepContentProps } from "@/features";
+import { QuestionsBuilder, type StepComponentProps } from "@/features";
 import { useSynchronizeTravelerState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
 import { ProfileApiService, TripsApiService } from "@/services/api";
 import { AnswersDto } from "@/services/api/profile/answers";
@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const CONTROLLER_KEY = "destination-questions";
 
-export function StepDestinations({ onNext }: TripDiscoverStepContentProps) {
+export function StepDestinations({ onNext }: StepComponentProps) {
   const [submitting, setSubmitting] = useState(false);
 
   const travelerId = useAppStore((state) => state.travelerState.id);

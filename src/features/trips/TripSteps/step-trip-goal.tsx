@@ -1,8 +1,8 @@
-import { QuestionsBuilder, type TripDiscoverStepContentProps } from "@/features";
+import { QuestionsBuilder, type StepComponentProps } from "@/features";
 import { TripsApiService } from "@/services/api";
 import { AnswersDto } from "@/services/api/profile/answers";
 
-export function StepTripGoal({ onNext }: TripDiscoverStepContentProps) {
+export function StepTripGoal({ onNext }: StepComponentProps) {
   const handleSubmit = async (tripBehavior: AnswersDto) => {
     onNext({ tripBehavior });
   };
