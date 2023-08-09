@@ -22,9 +22,9 @@ export function StepCityDestination({ onNext }: StepComponentProps) {
 
   useEffect(() => {
     if (!router.isReady) return;
-    const destinationId = router.query.para;
-    if (typeof destinationId === "string") {
-      byPass(destinationId);
+    const destinationName = router.query.para;
+    if (typeof destinationName === "string") {
+      byPass(destinationName);
       return;
     }
     setIsLoading(false);
