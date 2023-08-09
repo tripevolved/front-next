@@ -14,5 +14,11 @@ export function StepCityRegistration({ onNext }: StepComponentProps) {
     onNext();
   };
 
-  return <StepCity title="Em que cidade você mora atualmente?" onSelectCity={onSubmit} />;
+  return (
+    <StepCity
+      title="Em que cidade você mora atualmente?"
+      fetcher={RegisterApiService.getCities}
+      onSelectCity={onSubmit}
+    />
+  );
 }

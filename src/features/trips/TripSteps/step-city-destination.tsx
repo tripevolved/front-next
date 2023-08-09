@@ -28,11 +28,17 @@ export function StepCityDestination({ onNext }: StepComponentProps) {
       return;
     }
     setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
   const onSubmit = async (destinationId: string) => onNext({ destinationId });
 
   return (
-    <StepCity title="Para onde você quer viajar?" onSelectCity={onSubmit} isLoading={isLoading} />
+    <StepCity
+      title="Para onde você quer viajar?"
+      fetcher={DestinationApiService.search}
+      onSelectCity={onSubmit}
+      isLoading={isLoading}
+    />
   );
 }
