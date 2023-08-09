@@ -3,6 +3,7 @@ import type { StepComponentProps } from "@/features";
 import { Text } from "@/ui";
 import { Grid, ItemButton, LabelThemes, LabelVariants } from "mars-ds";
 import { useAppStore } from "@/core/store";
+import { useRouter } from "next/router";
 
 const HAS_PROFILE_TEXT = {
   title: "Descubra nossas recomendações de destinos!",
@@ -19,6 +20,7 @@ const NO_PROFILE_TEXT = {
 
 export function InitialStep({ onNext, goToStepName }: StepComponentProps) {
   const { travelerProfile } = useAppStore((state) => state.travelerState);
+  const router = useRouter();
 
   const { title, subtitle } = travelerProfile ? HAS_PROFILE_TEXT : NO_PROFILE_TEXT;
 
@@ -31,7 +33,6 @@ export function InitialStep({ onNext, goToStepName }: StepComponentProps) {
       <Grid>
         <ItemButton
           iconName="compass"
-          // label="recomendado"
           labelTheme={LabelThemes.Ghost}
           title="Descobrir minha trip"
           onClick={() => travelerProfile ? goToStepName("register-city") : onNext()}
@@ -39,11 +40,10 @@ export function InitialStep({ onNext, goToStepName }: StepComponentProps) {
         <ItemButton
           iconName="navigation"
           title="Já sei para onde ir"
-          label="em breve"
           labelVariant={LabelVariants.Default}
           labelTheme={LabelThemes.Ghost}
-          className="opacity-50"
-          disabled
+          // TODO: use href
+          onClick={() => router.replace("/app/viagens/criar")}
         />
       </Grid>
     </Grid>
