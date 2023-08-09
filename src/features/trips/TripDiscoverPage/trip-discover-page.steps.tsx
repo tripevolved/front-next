@@ -1,5 +1,5 @@
 import type { TemplateStepsBuilderProps } from "@/features";
-import { InitialStep } from "../TripSteps/step-initial";
+import { InitialStep } from "../TripSteps/step-initial.component";
 import { StepBuildProfile } from "../TripSteps/step-build-profile";
 import { StepProfile } from "../TripSteps/step-profile";
 import { StepCityRegistration } from "../TripSteps/step-city-registration";
