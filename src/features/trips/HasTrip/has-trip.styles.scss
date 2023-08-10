@@ -17,10 +17,18 @@
 
   &__trip-area {
     width: 100%;
-    padding: 0 20px;
     margin-bottom: 40px;
     display: flex;
     justify-content: center;
+
+    &__card {
+      &__content {
+        white-space: nowrap;
+        display: flex;
+        gap: $spacing-sm;
+        align-items: flex-start;
+      }
+    }
   }
 
   &__recommendations-area {

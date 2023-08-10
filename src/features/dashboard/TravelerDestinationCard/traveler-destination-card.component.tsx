@@ -1,5 +1,5 @@
 import type { TravelerDestinationCardProps } from "./traveler-destination-card.types";
-import { Box, Picture, Text } from "@/ui";
+import { Box, CardTrip, Picture, Text } from "@/ui";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
@@ -29,14 +29,7 @@ export function TravelerDestinationCard({
   }, [images]);
 
   return (
-    <Box
-      className={cn}
-      {...props}
-      style={{
-        backgroundImage: `radial-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.8)), url('${cover}')`,
-        backgroundColor: "var(--color-brand-1)",
-      }}
-    >
+    <CardTrip className={cn} {...props} image={cover} href={`/app/viagens/criar/${tripId}`}>
       <Box className="traveler-destination-card__header">
         {matchScore ? (
           <>
@@ -57,8 +50,7 @@ export function TravelerDestinationCard({
             <strong>{formatByDataType(price, "CURRENCY")}</strong>
           </Text>
         ) : null}
-        <Button href={"/app/viagens/criar/" + tripId}>Ver detalhes</Button>
       </Box>
-    </Box>
+    </CardTrip>
   );
 }

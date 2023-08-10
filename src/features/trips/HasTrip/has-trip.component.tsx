@@ -1,9 +1,10 @@
-import { Box, DashedDivider, Text } from "@/ui";
+import { Box, CardTrip, DashedDivider, Text } from "@/ui";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import type { HasTripProps } from "./has-trip.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { DestinationsCarousel, PageAppBody, TravelerDestinationCard } from "@/features";
+import { Icon } from "mars-ds";
 
 export function HasTrip({ trip, tripId, className, children, sx, ...props }: HasTripProps) {
   const cn = makeCn("has-trip", className)(sx);

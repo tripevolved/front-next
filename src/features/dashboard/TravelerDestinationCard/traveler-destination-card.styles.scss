@@ -1,15 +1,10 @@
 .traveler-destination-card {
   border-radius: 10px;
-  padding: 15px;
   color: $color-gray-4;
   width: 100%;
   max-width: 780px;
-  height: 370px;
-  background-position: center;
-  background-size: cover;
 
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
 
   &__header {
@@ -35,7 +30,7 @@
       margin-bottom: 8px;
     }
 
-    button {
+    &__button {
       color: $color-gray-4;
     }
   }
