@@ -1,4 +1,4 @@
-import { EmptyState, GlobalLoader, Box, Text, SectionBase, GeneralHeader, Picture } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
 import useSwr from "swr";
 import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
@@ -10,6 +10,8 @@ import {
   GastronomySuggestion,
   BarSuggestion,
   PartySuggestion,
+  PageAppHeader,
+  PageAppBody,
 } from "@/features";
 import { useAppStore } from "@/core/store";
 import { TripScriptsApiService } from "@/services/api";
@@ -50,63 +52,83 @@ export function TripScriptPanel() {
 
   return (
     <>
-      <GeneralHeader backButton title="Roteiro" href={`/app/viagens/${idParam}`} />
-      <SectionBase className="trip-script">
-        <div className="trip-script-day-section">
-          {days ? (
-            days.map((tripScriptDay, i) => {
-              return (
-                <div className="trip-script-day-section__border" key={i}>
-                  <Box className="trip-script-day-section__header">
-                    <Text size="lg" className="trip-script-day-section__title">
-                      <span style={{ fontSize: 22, color: "var(--color-brand-1)" }}>&#x2022;</span>{" "}
-                      {"Dia " + (i + 1)}
-                    </Text>
-                    <Text size="md" className="trip-script-day-section__subtitle">
-                      {tripScriptDay.date}
-                    </Text>
-                    {isPreview ? (
-                      <TripScriptDetailedDay details={tripScriptDay.details} />
-                    ) : (
-                      <Button
-                        size="sm"
-                        variant="naked"
-                        className="trip-script-day-section__edit-button"
-                        iconName="edit-2"
-                        onClick={() => handleEditButton(tripScriptDay)}
-                      >
-                        Editar
-                      </Button>
-                    )}
-                  </Box>
-                  <div className="trip-script-day-section__content">
-                    {tripScriptDay.actions.length ? (
-                      <>
-                        {tripScriptDay.actions.map((tripScriptAction, j) => {
-                          return suggestRestaurantsAndAttractions(tripScriptAction);
-                        })}
-                      </>
-                    ) : (
-                      <Card className="trip-script-action" elevation="xl">
-                        <div className="trip-script-action__icon-box">
-                          <Icon name="home" size="sm" />
-                        </div>
-                        <Box className="trip-script-action__box">
-                          <Text size="lg" className="trip-script-action__title">
-                            Dia livre
-                          </Text>
-                        </Box>
-                      </Card>
-                    )}
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <Text>Ainda não definimos seu roteiro de viagem...</Text>
-          )}
+      <PageAppHeader>
+        <div className="trip-script-header">
+          <Button
+            href={`/app/viagens/${idParam}`}
+            iconName="arrow-left"
+            variant="naked"
+            className="back-button"
+            size="sm"
+          />
+          <div>
+            <Text heading as="div" size="sm" className="mb-xs">
+              Roteiro
+            </Text>
+            <Text size="md">Veja todos os eventos da sua viagem</Text>
+          </div>
         </div>
-      </SectionBase>
+      </PageAppHeader>
+      <PageAppBody>
+        <SectionBase className="trip-script">
+          <div className="trip-script-day-section">
+            {days ? (
+              days.map((tripScriptDay, i) => {
+                return (
+                  <div className="trip-script-day-section__border" key={i}>
+                    <Box className="trip-script-day-section__header">
+                      <Text size="lg" className="trip-script-day-section__title">
+                        <span style={{ fontSize: 22, color: "var(--color-brand-1)" }}>
+                          &#x2022;
+                        </span>{" "}
+                        {"Dia " + (i + 1)}
+                      </Text>
+                      <Text size="md" className="trip-script-day-section__subtitle">
+                        {tripScriptDay.date}
+                      </Text>
+                      {isPreview ? (
+                        <TripScriptDetailedDay details={tripScriptDay.details} />
+                      ) : (
+                        <Button
+                          size="sm"
+                          variant="naked"
+                          className="trip-script-day-section__edit-button"
+                          iconName="edit-2"
+                          onClick={() => handleEditButton(tripScriptDay)}
+                        >
+                          Editar
+                        </Button>
+                      )}
+                    </Box>
+                    <div className="trip-script-day-section__content">
+                      {tripScriptDay.actions.length ? (
+                        <>
+                          {tripScriptDay.actions.map((tripScriptAction, j) => {
+                            return suggestRestaurantsAndAttractions(tripScriptAction);
+                          })}
+                        </>
+                      ) : (
+                        <Card className="trip-script-action" elevation="xl">
+                          <div className="trip-script-action__icon-box">
+                            <Icon name="home" size="sm" />
+                          </div>
+                          <Box className="trip-script-action__box">
+                            <Text size="lg" className="trip-script-action__title">
+                              Dia livre
+                            </Text>
+                          </Box>
+                        </Card>
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <Text>Ainda não definimos seu roteiro de viagem...</Text>
+            )}
+          </div>
+        </SectionBase>
+      </PageAppBody>
     </>
   );
 }
