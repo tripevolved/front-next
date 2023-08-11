@@ -4,7 +4,6 @@ import type { HasTripProps } from "./has-trip.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { DestinationsCarousel, PageAppBody, TravelerDestinationCard } from "@/features";
-import { Icon } from "mars-ds";
 
 export function HasTrip({ trip, tripId, className, children, sx, ...props }: HasTripProps) {
   const cn = makeCn("has-trip", className)(sx);
@@ -35,9 +34,7 @@ export function HasTrip({ trip, tripId, className, children, sx, ...props }: Has
                 />
               </Box>
             </>
-          ) : (
-            <></>
-          )}
+          ) : null}
         </Box>
       </PageAppBody>
       {/* <Box className="has-trip__footer">
