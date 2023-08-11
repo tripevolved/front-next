@@ -7,32 +7,22 @@ import { HasTrip } from "../HasTrip";
 import { useTripDashboard } from "./trip-details-panel.hook";
 import { useAppStore } from "@/core/store";
 import { useState, useEffect } from "react";
-import { EmptyState, GlobalLoader } from "@/ui";
-import { TripDashboard } from "@/features";
-
-const mockTrip: TripAbstract = {
-  id: "ieuyfgas89w",
-  viewType: "ORGANIZATION",
-  tripDashboard: {
-    name: "Fernando de Noronha",
-    attractionsNumber: 7,
-    pedingActions: 2,
-    documents: 5,
-    flightAndTickets: 2,
-    tips: 3,
-  },
-};
+import { EmptyState, GlobalLoader, Text } from "@/ui";
+import { PageAppHeader, TripDashboard } from "@/features";
+import { Avatar } from "mars-ds";
 
 export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelProps) {
   const cn = makeCn("trip-details-panel", className)(sx);
 
+  const {
+    name = "viajante",
+    hasCurrentTrip,
+    travelerProfile,
+  } = useAppStore((state) => state.travelerState);
+  const firstName = name.replace(/\s.*/, "");
+
   const { isLoading, data, error } = useTripDashboard();
   const { travelerState } = useAppStore();
-  const [name, setName] = useState("");
-
-  useEffect(() => {
-    setName(travelerState.name);
-  }, [travelerState]);
 
   const getView = () => {
     if (error) return <EmptyState />;
@@ -48,7 +38,18 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
 
   return (
     <div className={cn} {...props}>
-      <HeaderUserMenu userName={name}>Te esperamos na sua próxima viagem</HeaderUserMenu>
+      {/* <HeaderUserMenu userName={name}>Te esperamos na sua próxima viagem</HeaderUserMenu> */}
+      <PageAppHeader>
+        <div className="trip-details-panel__header">
+          <Avatar size="xl" thumbnail="/brand/logo-symbol-circle.svg" />
+          <div>
+            <Text heading as="div" size="sm" className="mb-xs">
+              Olá, <strong>{firstName}</strong> 👋
+            </Text>
+            <Text size="lg">Estes são os detalhes da sua viagem</Text>
+          </div>
+        </div>
+      </PageAppHeader>
       {getView()}
     </div>
   );
