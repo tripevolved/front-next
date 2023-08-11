@@ -1,4 +1,3 @@
-import { RegisterApiService } from "@/services/api";
 import { Box, EmptyState, ErrorState, Text } from "@/ui";
 import { delay } from "@/utils/helpers/delay.helpers";
 import {
@@ -17,9 +16,10 @@ type StepCityProps = {
   title: string;
   onSelectCity?: (cityId: string) => void;
   isLoading?: boolean;
+  fetcher: (search: string) => Promise<{ id: string; name: string }[]>;
 };
 
-export function StepCity({ onSelectCity: onSubmit, title, isLoading }: StepCityProps) {
+export function StepCity({ onSelectCity: onSubmit, title, isLoading, fetcher }: StepCityProps) {
   const [cityId, setCityId] = useState("");
   const [options, setOptions] = useState<RadioOption[]>([]);
 
@@ -39,7 +39,7 @@ export function StepCity({ onSelectCity: onSubmit, title, isLoading }: StepCityP
     if (debounce.current !== time) return;
     try {
       setLoading(true);
-      const cities = await RegisterApiService.getCities(search);
+      const cities = await fetcher(search);
       const newOptions = cities.map(({ name, id }) => ({ label: name, value: id }));
       setOptions(newOptions);
       setEmpty(newOptions.length === 0);
