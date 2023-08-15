@@ -106,7 +106,9 @@ export function OtherCoiceMatchedDestinationCard({
         <Box className="other-choice-destination-card__footer">
           <Box className="other-choice-destination-card__footer__city-name">
             <Text variant="heading">{name}</Text>
-            <Text>Para {travelersNumber} pessoa(s)</Text>
+            <Text style={{ color: "var(--color-gray-4", fontWeight: "normal" }}>
+              Para {travelersNumber} pessoa(s)
+            </Text>
           </Box>
         </Box>
       </Box>

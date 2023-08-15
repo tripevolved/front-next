@@ -30,8 +30,7 @@
   padding: 15px;
   color: $color-gray-4;
   width: 100%;
-  max-width: 780px;
-  height: 370px;
+  min-height: 300px;
   background-position: center;
   background-size: cover;
 
@@ -64,6 +63,14 @@
 
     button {
       color: $color-gray-4;
+      width: 100%;
+      max-width: 350px;
+      align-self: center;
+    }
+
+    @media (min-width: $breakpoint-md) {
+      flex-direction: row;
+      justify-content: space-between;
     }
   }
 }
@@ -75,7 +82,7 @@
   width: 100%;
 
   p {
-    color: $color-brand-1;
+    color: $color-gray-4;
     text-align: center;
   }
 
@@ -88,6 +95,14 @@
     &__container {
       display: flex;
       gap: 20px;
+
+      @media (min-width: $breakpoint-md) {
+        width: 100%;
+      }
+    }
+
+    @media (min-width: $breakpoint-md) {
+      overflow-x: none;
     }
   }
 
@@ -98,15 +113,19 @@
     height: 240px;
     padding: 12px;
     justify-content: space-between;
-  
+
     display: flex;
     flex-direction: column;
     gap: 15px;
 
     &__link {
       text-decoration: none;
+
+      @media (min-width: $breakpoint-md) {
+        width: 100%;
+      }
     }
-  
+
     &__city-name {
       color: $color-gray-4 !important;
       text-align: start !important;
@@ -117,24 +136,27 @@
       justify-content: flex-start;
       align-items: center;
       gap: 8px;
-  
+
       p {
         margin-top: 5px;
         color: #94fff8;
       }
     }
-  
+
     &__footer {
       display: flex;
       flex-direction: column;
       width: 100%;
       gap: 8px;
-  
+
       &__price {
         font-size: 20px;
         margin-bottom: 8px;
       }
     }
+
+    @media (min-width: $breakpoint-md) {
+      width: 100%;
+    }
   }
 }
-
