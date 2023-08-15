@@ -95,6 +95,14 @@
     &__container {
       display: flex;
       gap: 20px;
+
+      @media (min-width: $breakpoint-md) {
+        width: 100%;
+      }
+    }
+
+    @media (min-width: $breakpoint-md) {
+      overflow-x: none;
     }
   }
 
@@ -112,6 +120,10 @@
 
     &__link {
       text-decoration: none;
+
+      @media (min-width: $breakpoint-md) {
+        width: 100%;
+      }
     }
 
     &__city-name {
@@ -141,6 +153,10 @@
         font-size: 20px;
         margin-bottom: 8px;
       }
+    }
+
+    @media (min-width: $breakpoint-md) {
+      width: 100%;
     }
   }
 }
