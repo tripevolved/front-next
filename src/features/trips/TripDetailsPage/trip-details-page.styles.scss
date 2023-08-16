@@ -87,8 +87,16 @@
     align-items: center;
 
     &__departure-and-arrival {
-      &__text {
-        color: $color-gray-1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      &__item {
+        max-width: 280px;
+
+        &__address {
+          color: $color-gray-1;
+        }
       }
     }
   }
