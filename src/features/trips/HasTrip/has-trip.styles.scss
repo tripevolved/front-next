@@ -1,10 +1,8 @@
 .has-trip {
   background-color: $color-brand-7;
-  padding-top: 30px;
   color: $color-brand-2;
   font-weight: 700;
-  border-radius: 20px 20px 0 0;
-  margin-top: -17px;
+  min-height: 70vh;
 
   display: flex;
   flex-direction: column;
@@ -19,10 +17,18 @@
 
   &__trip-area {
     width: 100%;
-    padding: 0 20px;
     margin-bottom: 40px;
     display: flex;
     justify-content: center;
+
+    &__card {
+      &__content {
+        white-space: nowrap;
+        display: flex;
+        gap: $spacing-sm;
+        align-items: flex-start;
+      }
+    }
   }
 
   &__recommendations-area {
@@ -45,8 +51,6 @@
   }
 
   @media (min-width: $breakpoint-lg) {
-    margin-top: -68px;
-    width: 50%;
     gap: 30px;
   }
 }

@@ -15,6 +15,13 @@ export interface TripTransportation {
   estimatedArrival: string;
   description: string;
   isSelected: Boolean;
+  fromAddress?: string;
+  fromName?: string;
+  isBuilding: boolean;
+  isRouteFinished: boolean;
+  message: string;
+  toAddress?: string;
+  toName?: string;
 }
 
 export interface TripConfiguration {

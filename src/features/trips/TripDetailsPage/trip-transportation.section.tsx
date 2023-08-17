@@ -1,14 +1,15 @@
 import useSwr from "swr";
 
-import { Loader, Button } from "mars-ds";
-import { EmptyState, Box, Picture, Text } from "@/ui";
+import { Loader, Button, Icon } from "mars-ds";
+import { EmptyState, Box, Picture, Text, CardHighlight } from "@/ui";
 
 import { TransportationApiService } from "@/services/api";
+import { TripTransportation } from "@/core/types";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
 
-export const TripTransportationSection = ({tripId}: { tripId: string }) => {
+export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
   const getTransportation = (key: string) => {
     return getByTripId(tripId);
   };
@@ -59,12 +60,14 @@ export const TripTransportationSection = ({tripId}: { tripId: string }) => {
             <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
               Transporte
             </Text>
-            <Box className="trip-transportation-section__transport">
+            <CardHighlight className="trip-transportation-section__transport">
               <div>
-                <Text heading as="h4" size="xs">Ainda não escolhemos o transporte para sua viagem.</Text>
+                <Text as="h2" size="lg">
+                  Ainda não escolhemos o transporte para sua viagem.
+                </Text>
                 <Text>Fale conosco e vamos deixar tudo como você deseja!</Text>
               </div>
-            </Box>
+            </CardHighlight>
           </Box>
         </div>
       </>
@@ -81,24 +84,54 @@ export const TripTransportationSection = ({tripId}: { tripId: string }) => {
           {getTitleFromType(data.iconSlug)}
         </Text>
         <Box className="trip-transportation-section__transport">
-          <Picture src={data.partnerLogoUrl} />
-          <Box className="trip-transportation-section__transport__departure-and-arrival">
-            <Text className="trip-transportation-section__transport__departure-and-arrival__text">
-              Saída: {data.departure}
-            </Text>
-            {data.estimatedArrival ? 
-              <Text
-                className="trip-transportation-section__transport__departure-and-arrival__text"
-                style={{ marginTop: 0 }}
-              >
-                Chegada prevista: {data.estimatedArrival}
-              </Text> : null
-            }
-          </Box>
+          {!data.isRouteFinished ? (
+            <CardHighlight style={{ width: "100%", display: "flex", gap: 16 }}>
+              <Text>{data.message}</Text>
+            </CardHighlight>
+          ) : (
+            <>
+              <Picture
+                src={data.partnerLogoUrl}
+                className="trip-transportation-section__transport__partner-logo"
+              />
+              <Box className="trip-transportation-section__transport__departure-and-arrival">
+                {data.departure && (
+                  <div className="trip-transportation-section__transport__departure-and-arrival__item">
+                    <Text className="trip-transportation-section__transport__departure-and-arrival__item__date">
+                      Saída: {data.departure}
+                    </Text>
+                    <Text
+                      style={{ marginTop: 0 }}
+                      className="trip-transportation-section__transport__departure-and-arrival__item__address"
+                      size="sm"
+                    >
+                      {data.fromName} - {data.fromAddress}
+                    </Text>
+                  </div>
+                )}
+                {data.estimatedArrival ? (
+                  <div className="trip-transportation-section__transport__departure-and-arrival__item">
+                    <Text className="trip-transportation-section__transport__departure-and-arrival__item__date">
+                      Chegada prevista: {data.estimatedArrival}
+                    </Text>
+                    <Text
+                      size="sm"
+                      style={{ marginTop: 0 }}
+                      className="trip-transportation-section__transport__departure-and-arrival__item__address"
+                    >
+                      {data.toName} - {data.toAddress}
+                    </Text>
+                  </div>
+                ) : null}
+                {data.description && (
+                  <div className="trip-transportation-section__transport__departure-and-arrival__item">
+                    <Text style={{ color: "var(--color-gray-1)" }}>{data.description}</Text>
+                  </div>
+                )}
+              </Box>
+            </>
+          )}
         </Box>
-        <Text>
-          {data.description}
-        </Text>
       </Box>
     </div>
   );

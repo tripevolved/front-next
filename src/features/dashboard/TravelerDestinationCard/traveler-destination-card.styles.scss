@@ -1,15 +1,10 @@
 .traveler-destination-card {
   border-radius: 10px;
-  padding: 15px;
   color: $color-gray-4;
   width: 100%;
   max-width: 780px;
-  height: 370px;
-  background-position: center;
-  background-size: cover;
 
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
 
   &__header {
@@ -33,10 +28,6 @@
     &__price {
       font-size: 20px;
       margin-bottom: 8px;
-    }
-
-    button {
-      color: $color-gray-4;
     }
   }
 }
