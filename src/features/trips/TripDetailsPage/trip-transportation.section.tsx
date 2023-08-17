@@ -9,22 +9,6 @@ import { TripTransportation } from "@/core/types";
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
 
-const mockData: TripTransportation = {
-  departure: "23/06/2023 03:45 PM",
-  description: "", //"Descrição a respeito do transporte que será feito por carro. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis interdum sem nisi, nec hendrerit massa tristique aliquet.",
-  estimatedArrival: "23/06/2023 08:37 PM",
-  iconSlug: "flight",
-  isBuilding: false,
-  isRouteFinished: true,
-  isSelected: true,
-  message: "Mensagem que deve aparecer com isRouteFinished: false",
-  fromAddress: "Rua da Barra Mansa, 24",
-  fromName: "Aeroporto da Pampulha",
-  partnerLogoUrl: "/brand/logo-symbol-circle.svg",
-  toAddress: "Avenida da Alegria, 8759",
-  toName: "Rodoviária Intinerante",
-};
-
 export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
   const getTransportation = (key: string) => {
     return getByTripId(tripId);
@@ -77,7 +61,6 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
               Transporte
             </Text>
             <CardHighlight className="trip-transportation-section__transport">
-              <Icon name="alert-triangle" size={"lg"} color="var(--color-brand-4)" />
               <div>
                 <Text as="h2" size="lg">
                   Ainda não escolhemos o transporte para sua viagem.
@@ -101,51 +84,52 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
           {getTitleFromType(data.iconSlug)}
         </Text>
         <Box className="trip-transportation-section__transport">
-          <Picture
-            src={data.partnerLogoUrl}
-            className="trip-transportation-section__transport__partner-logo"
-          />
           {!data.isRouteFinished ? (
             <CardHighlight style={{ width: "100%", display: "flex", gap: 16 }}>
-              <Icon name="alert-triangle" size={"lg"} color="var(--color-brand-4)" />
               <Text>{data.message}</Text>
             </CardHighlight>
           ) : (
-            <Box className="trip-transportation-section__transport__departure-and-arrival">
-              {data.departure && (
-                <div className="trip-transportation-section__transport__departure-and-arrival__item">
-                  <Text className="trip-transportation-section__transport__departure-and-arrival__item__date">
-                    Saída: {data.departure}
-                  </Text>
-                  <Text
-                    style={{ marginTop: 0 }}
-                    className="trip-transportation-section__transport__departure-and-arrival__item__address"
-                    size="sm"
-                  >
-                    {data.fromName} - {data.fromAddress}
-                  </Text>
-                </div>
-              )}
-              {data.estimatedArrival ? (
-                <div className="trip-transportation-section__transport__departure-and-arrival__item">
-                  <Text className="trip-transportation-section__transport__departure-and-arrival__item__date">
-                    Chegada prevista: {data.estimatedArrival}
-                  </Text>
-                  <Text
-                    size="sm"
-                    style={{ marginTop: 0 }}
-                    className="trip-transportation-section__transport__departure-and-arrival__item__address"
-                  >
-                    {data.toName} - {data.toAddress}
-                  </Text>
-                </div>
-              ) : null}
-              {data.description && (
-                <div className="trip-transportation-section__transport__departure-and-arrival__item">
-                  <Text style={{ color: "var(--color-gray-1)" }}>{data.description}</Text>
-                </div>
-              )}
-            </Box>
+            <>
+              <Picture
+                src={data.partnerLogoUrl}
+                className="trip-transportation-section__transport__partner-logo"
+              />
+              <Box className="trip-transportation-section__transport__departure-and-arrival">
+                {data.departure && (
+                  <div className="trip-transportation-section__transport__departure-and-arrival__item">
+                    <Text className="trip-transportation-section__transport__departure-and-arrival__item__date">
+                      Saída: {data.departure}
+                    </Text>
+                    <Text
+                      style={{ marginTop: 0 }}
+                      className="trip-transportation-section__transport__departure-and-arrival__item__address"
+                      size="sm"
+                    >
+                      {data.fromName} - {data.fromAddress}
+                    </Text>
+                  </div>
+                )}
+                {data.estimatedArrival ? (
+                  <div className="trip-transportation-section__transport__departure-and-arrival__item">
+                    <Text className="trip-transportation-section__transport__departure-and-arrival__item__date">
+                      Chegada prevista: {data.estimatedArrival}
+                    </Text>
+                    <Text
+                      size="sm"
+                      style={{ marginTop: 0 }}
+                      className="trip-transportation-section__transport__departure-and-arrival__item__address"
+                    >
+                      {data.toName} - {data.toAddress}
+                    </Text>
+                  </div>
+                ) : null}
+                {data.description && (
+                  <div className="trip-transportation-section__transport__departure-and-arrival__item">
+                    <Text style={{ color: "var(--color-gray-1)" }}>{data.description}</Text>
+                  </div>
+                )}
+              </Box>
+            </>
           )}
         </Box>
       </Box>

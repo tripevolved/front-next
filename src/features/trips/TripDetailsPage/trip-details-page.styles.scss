@@ -84,7 +84,7 @@
   &__transport {
     display: flex;
     gap: 14px;
-    align-items: center;
+    align-items: flex-start;
 
     &__departure-and-arrival {
       display: flex;
