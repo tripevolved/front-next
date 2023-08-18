@@ -13,6 +13,7 @@ import { PixInformationSection } from "./pix-information.section";
 import { TripPaymentResult } from "@/services/api/payments/payTrip";
 import { TripPurchaseResponseSection } from "./trip-purchase-response.section";
 import { IsPaidSection } from "./is-paid.section";
+import { useAppStore } from "@/core/store";
 
 const MIN_PAYMENT = 100;
 const MAX_INSTALLMENTS = 6;
@@ -20,6 +21,7 @@ const MAX_INSTALLMENTS = 6;
 export function TripPurchasePage() {
   const { isLoading, tripPayer, error } = useTripPayer();
   const { priceData } = useTripPrice();
+  const { travelerState } = useAppStore();
   const [paymentMethod, setPaymentMethod] = useState<TripPaymentMethod>();
   const [writeGender, setWriteGender] = useState(false);
   
@@ -190,7 +192,7 @@ export function TripPurchasePage() {
           <DashedDivider className="trip-purchase__divider"/>
           <Box className="trip-purchase__section">
             <Text heading={true} size="xs">Contato</Text>
-            <Text className="trip-purchase__section__content" heading={false} size="md">{tripPayer?.email}</Text>
+            <Text className="trip-purchase__section__content" heading={false} size="md">{tripPayer?.email ?? travelerState.email}</Text>
             <input type="hidden" name="email" id="email" value={tripPayer?.email} />
             <input type="hidden" name="phone" id="phone" value={tripPayer?.phone} />
           </Box>
