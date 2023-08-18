@@ -82,6 +82,11 @@ export interface TripStay {
   highlight: TripStayHighlight;
   details: TripStayDetails;
   isSelected: boolean;
+  isBuilding: boolean;
+  message: string;
+  cancellationInfo: string;
+  isReserved: boolean;
+  reservationMessage: string;
 }
 
 export interface TripStayHighlight {
@@ -93,10 +98,11 @@ export interface TripStayHighlight {
 export interface TripStayDetails {
   images: TripStayImage[] | null;
   information: string;
-  checkInTip: string | null;
+  checkInHour: string | null;
   address: string | null;
   price: number;
-  features: TripStayFeature[];
+  currency: string;
+  services: TripStayService[];
   rooms: TripStayRoom[];
 }
 
@@ -105,7 +111,7 @@ interface TripStayImage {
   altText: string | null;
 }
 
-interface TripStayFeature {
+interface TripStayService {
   title: string;
   type: string | null;
 }

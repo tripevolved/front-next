@@ -1,13 +1,69 @@
 import useSwr from "swr";
 
 import { Loader, Button } from "mars-ds";
-import { Box, EmptyState, Picture, Text } from "@/ui";
+import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 import { TripStayHighlightSection } from "./trip-stay-highlight.section";
 
 import { StaysApiService } from "@/services/api";
+import { TripStay } from "@/core/types";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
+
+const mockData: TripStay = {
+  coverImageUrl: "https://picsum.photos/50/",
+  cancellationInfo: "Informação de cancelamento",
+  isBuilding: false,
+  isReserved: false,
+  message: "Mensagem legal de Teste",
+  reservationMessage: "Mensagem de reservação",
+  details: {
+    address: "Quadra QS 112",
+    checkInHour: "8h às 20h",
+    services: [
+      { title: "Sencional", type: "Esse tipo" },
+      { title: "Moderno", type: "tipo modernizado" },
+    ],
+    images: [
+      { url: "https://picsum.photos/300/200", altText: "" },
+      { url: "https://picsum.photos/400/300", altText: "" },
+    ],
+    information: "Informação legal da acomodação",
+    price: 67.09,
+    currency: "R$",
+    rooms: [
+      {
+        coverImageUrl: "https://picsum.photos/300/200",
+        details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
+        features: [{ title: "Feature daora", type: "legal" }],
+        id: "i2u3g429",
+        isSelected: true,
+        price: 20.0,
+        subtitle: "subtitulo",
+        title: "titulo",
+      },
+      {
+        coverImageUrl: "https://picsum.photos/300/200",
+        details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
+        features: [{ title: "Feature daora", type: "legal" }],
+        id: "i2u3g429",
+        isSelected: true,
+        price: 20.0,
+        subtitle: "subtitulo",
+        title: "titulo",
+      },
+    ],
+  },
+  highlight: {
+    description: "Um ótimo lugar para quem gosta montanhas e grandes altitudes",
+    title: "Nas Alturas",
+    type: "location",
+  },
+  id: "12kuj3h6244er",
+  isSelected: true,
+  name: "Alto mais Alto",
+  tags: "3 estrelas",
+};
 
 export const TripStaySection = ({ tripId }: { tripId: string }) => {
   const getStay = (key: string) => {
@@ -47,7 +103,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
     );
   }
 
-  if (!data || !data.isSelected) {
+  if (!mockData || !mockData.isSelected) {
     return (
       <>
         <div className="trip-content-item trip-stay-section">
@@ -60,12 +116,14 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
                 Hospedagem
               </Text>
             </Box>
-            <Box className="trip-stay-section__content">
+            <CardHighlight className="trip-stay-section__content">
               <div>
-                <Text heading as="h4" size="xs">Ainda não escolhemos a acomodação para sua viagem.</Text>
+                <Text as="h2" size="lg">
+                  Ainda não escolhemos a acomodação para sua viagem.
+                </Text>
                 <Text>Fale conosco e vamos deixar tudo como você deseja!</Text>
               </div>
-            </Box>
+            </CardHighlight>
           </Box>
         </div>
       </>
@@ -90,11 +148,11 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
           </Box>
           <Box className="trip-stay-section__content">
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture src={data.coverImageUrl!} />
+              <Picture src={mockData.coverImageUrl!} />
               <Box className="trip-stay-section__content__stay-desc__box">
-                <Text>{data.name}</Text>
+                <Text size="lg">{mockData.name}</Text>
                 <Box className="trip-stay-section__content__stay-desc__box__stars">
-                  {data.tags}
+                  {mockData.tags}
                 </Box>
               </Box>
             </Box>
@@ -102,7 +160,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
               Ver detalhes
             </Text>
           </Box>
-          {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
+          {mockData.highlight ? <TripStayHighlightSection highlight={mockData.highlight} /> : null}
         </Box>
       </div>
     </>

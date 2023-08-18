@@ -116,7 +116,7 @@
     gap: 12px;
 
     &__edit {
-      margin: auto;
+      margin-left: auto;
       align-items: center;
       color: $color-gray-1;
     }
@@ -152,6 +152,7 @@
         &__stars {
           display: flex;
           gap: 5px;
+          color: $color-brand-4;
         }
       }
     }
@@ -171,10 +172,6 @@
   padding: 20px;
 
   width: 100%;
-
-  @media (min-width: $breakpoint-lg) {
-    width: 375px;
-  }
 
   &__title {
     font-size: 14px;
