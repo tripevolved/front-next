@@ -52,15 +52,8 @@ export function TripScriptPanel() {
 
   return (
     <>
-      <PageAppHeader>
+      <PageAppHeader href={`/app/viagens/${idParam}`} backButton>
         <div className="trip-script-header">
-          <Button
-            href={`/app/viagens/${idParam}`}
-            iconName="arrow-left"
-            variant="naked"
-            className="back-button"
-            size="sm"
-          />
           <div>
             <Text heading as="div" size="sm" className="mb-xs">
               Roteiro
