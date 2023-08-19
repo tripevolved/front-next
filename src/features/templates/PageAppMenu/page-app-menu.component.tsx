@@ -34,6 +34,10 @@ const MENU = [
     title: "Mais opções",
     links: [
       {
+        label: "Home",
+        href: "/app/painel",
+      },
+      {
         label: "Comprar viagem",
         href: "/app/viagens/descobrir",
       },
