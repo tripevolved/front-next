@@ -11,7 +11,6 @@ export * from "./basic/Box";
 export * from "./basic/CategoryBadge";
 export * from "./basic/DashedDivider";
 export * from "./basic/FeatureIcon";
-export * from "./basic/GeneralHeader";
 export * from "./basic/LineDecoration";
 export * from "./basic/MediaObject";
 export * from "./basic/ModalContent";

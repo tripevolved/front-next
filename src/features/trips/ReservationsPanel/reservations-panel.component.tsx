@@ -1,8 +1,8 @@
 import type { ReservationsPanelProps } from "./reservations-panel.types";
 
-import { PageAppBody } from "@/features";
+import { PageAppHeader, PageAppBody } from "@/features";
 import { useTripFlights } from "./trip-flights.hook";
-import { EmptyState, GlobalLoader, Box, GeneralHeader, Text, Picture, DashedDivider } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, Picture, DashedDivider } from "@/ui";
 import { Button } from "mars-ds";
 import { toFullDate } from "@/utils/helpers/dates.helpers";
 
@@ -15,7 +15,7 @@ export function ReservationsPanel({ className, sx, ...props }: ReservationsPanel
 
   return (
     <>
-      <GeneralHeader title="Voos e Reservas" backButton href={`/app/viagens/${tripId}`} />
+      <PageAppHeader title="Voos e Reservas" backButton href={`/app/viagens/${tripId}`} />
       <PageAppBody>
         {data && data.map((reservation, i) => {
           return (

@@ -1,4 +1,4 @@
-import { EmptyState, GlobalLoader, Box, Text, DashedDivider, OptionsSelectField, GeneralHeader, AutoCompleteTextField } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, DashedDivider, OptionsSelectField, AutoCompleteTextField } from "@/ui";
 import { PageAppBody, PageAppHeader } from "@/features";
 import { useTripPayer } from "./trip-payer.hook";
 import { useTripPrice } from "@/features/trips/TripDetailsPage/trip-price.hook";
@@ -149,9 +149,7 @@ export function TripPurchasePage() {
 
   return (
     <>
-      <PageAppHeader>
-        <GeneralHeader title="Comprar viagem" backButton={true} href={`/app/viagens/criar/${tripId}`} />
-      </PageAppHeader>
+      <PageAppHeader title="Comprar viagem" backButton={true} href={`/app/viagens/criar/${tripId}`} />
       <PageAppBody>
         <form onSubmit={handleSubmit}>
           <Box className="trip-purchase__section">

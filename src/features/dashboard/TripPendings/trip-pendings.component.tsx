@@ -1,4 +1,4 @@
-import { GeneralHeader, Box, Text, SectionBase, Picture, EmptyState, GlobalLoader } from "@/ui";
+import { Box, Text, SectionBase, Picture, EmptyState, GlobalLoader } from "@/ui";
 import type { TripPendingsProps, TripPendingItemProps } from "./trip-pendings.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -7,6 +7,7 @@ import { Button, Modal } from "mars-ds";
 import { PendingDocumentsModal } from "../PendingDocumentsModal";
 import { ConfirmFlightModal } from "../ConfirmFlightModal";
 import { useTripPendings } from "./trip-pendings.hook";
+import { PageAppHeader } from "@/features/templates/PageAppHeader";
 
 export function TripPendings({ className, children, sx, ...props }: TripPendingsProps) {
   const cn = makeCn("trip-pendings", className)(sx);
@@ -45,7 +46,7 @@ export function TripPendings({ className, children, sx, ...props }: TripPendings
 
   return (
     <div className={cn} {...props}>
-      <GeneralHeader title="Pendências da viagem" backButton href={`/app/viagens/${idParam}`} />
+      <PageAppHeader title="Pendências da viagem" backButton href={`/app/viagens/${idParam}`} />
       {getView()}
     </div>
   );
