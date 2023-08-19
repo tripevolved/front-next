@@ -65,12 +65,12 @@ function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
   );
 }
 
-function TripItem({ id, title = "Sem nome", images, period }: TripListView) {
+function TripItem({ id, title = "Sem nome", status, images, period }: TripListView) {
   const [photo] = images;
   const image = photo ? parsePhoto(photo) : undefined;
 
   return (
-    <CardTrip image={image} title={title} href={`/app/viagens/${id}`} className="trip-item">
+    <CardTrip image={image} title={title} status={status} href={`/app/viagens/${id}`} className="trip-item">
       {typeof period === "string" ? (
         <div className="trip-item__period">
           <Icon name="calendar" size="sm" />
