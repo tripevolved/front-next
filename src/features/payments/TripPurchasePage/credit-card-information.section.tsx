@@ -18,15 +18,18 @@ export function CreditCardInformationSection() {
             id="creditCardExpirationMonth" name="creditCardExpirationMonth"
             required={true}
             className="trip-purchase__section__input"
-            label="Mês de validade" />
+            label="Mês de validade"
+            maxLength={2} />
           <TextField
             id="creditCardExpirationYear" name="creditCardExpirationYear"
             className="trip-purchase__section__input"
-            label="Ano de validade" />
+            label="Ano de validade"
+            maxLength={2} />
           <TextField
             id="creditCardCvc" name="creditCardCvc"
             className="trip-purchase__section__input"
-            label="CVV" />
+            label="CVV"
+            maxLength={3} />
         </Grid>
       </Box>
     </>

@@ -30,6 +30,7 @@ export function TripPurchasePage() {
   
   const getOptions = () => {
     let maxInstallments = Math.min(Math.floor(priceTotal / MIN_PAYMENT), MAX_INSTALLMENTS);
+    if (maxInstallments === 0) maxInstallments = 1;
     
     const options = [];
     for (let i = 1; i <= maxInstallments; i++) {
@@ -90,7 +91,7 @@ export function TripPurchasePage() {
     openLoadingModal();
     const result = await PaymentsApiService.putTripPayment(tripPayment);
     if (!result) {
-      Notification.error("Houve um erro de pagamento!");
+      openFinishModal({ isSuccess: false, message: "Houve um erro no pagamento!", tripId: tripId! });
     } else {
       openFinishModal(result);
     }
@@ -175,7 +176,7 @@ export function TripPurchasePage() {
               required={true}
               label="Qual opção melhor descreve você?"
               options={genderOptions}
-              onSelect={(option) => { console.log(option.value); if (option.value == "write") setWriteGender(true); else setWriteGender(false); }}
+              onSelect={(option) => { if (option.value == "write") setWriteGender(true); else setWriteGender(false); }}
               className="trip-purchase__section__input" />
             {writeGender && (
               <TextField
