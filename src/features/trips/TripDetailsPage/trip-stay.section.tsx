@@ -5,65 +5,9 @@ import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 import { TripStayHighlightSection } from "./trip-stay-highlight.section";
 
 import { StaysApiService } from "@/services/api";
-import { TripStay } from "@/core/types";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
-
-const mockData: TripStay = {
-  coverImageUrl: "https://picsum.photos/50/",
-  cancellationInfo: "Informação de cancelamento",
-  isBuilding: false,
-  isReserved: false,
-  message: "Mensagem legal de Teste",
-  reservationMessage: "Mensagem de reservação",
-  details: {
-    address: "Quadra QS 112",
-    checkInHour: "8h às 20h",
-    services: [
-      { title: "Sensacional", type: "Esse tipo" },
-      { title: "Moderno", type: "tipo modernizado" },
-    ],
-    images: [
-      { url: "https://picsum.photos/300/200", altText: "" },
-      { url: "https://picsum.photos/400/300", altText: "" },
-    ],
-    information: "Informação legal da acomodação",
-    price: 67.09,
-    currency: "R$",
-    rooms: [
-      {
-        coverImageUrl: "https://picsum.photos/300/200",
-        details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
-        features: [{ title: "Feature daora", type: "legal" }],
-        id: "i2u3g429",
-        isSelected: true,
-        price: 20.0,
-        subtitle: "subtitulo",
-        title: "titulo",
-      },
-      {
-        coverImageUrl: "https://picsum.photos/300/200",
-        details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
-        features: [{ title: "Feature daora", type: "legal" }],
-        id: "i2u3g429",
-        isSelected: true,
-        price: 20.0,
-        subtitle: "subtitulo",
-        title: "titulo",
-      },
-    ],
-  },
-  highlight: {
-    description: "Um ótimo lugar para quem gosta montanhas e grandes altitudes",
-    title: "Nas Alturas",
-    type: "location",
-  },
-  id: "12kuj3h6244er",
-  isSelected: true,
-  name: "Alto mais Alto",
-  tags: "3 estrelas",
-};
 
 export const TripStaySection = ({ tripId }: { tripId: string }) => {
   const getStay = (key: string) => {
@@ -103,7 +47,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
     );
   }
 
-  if (!mockData || !mockData.isSelected) {
+  if (!data || !data.isSelected) {
     return (
       <>
         <div className="trip-content-item trip-stay-section">
@@ -148,19 +92,17 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
           </Box>
           <Box className="trip-stay-section__content">
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture src={mockData.coverImageUrl!} />
+              <Picture src={data.coverImageUrl!} />
               <Box className="trip-stay-section__content__stay-desc__box">
-                <Text size="lg">{mockData.name}</Text>
-                <Box className="trip-stay-section__content__stay-desc__box__stars">
-                  {mockData.tags}
-                </Box>
+                <Text size="lg">{data.name}</Text>
+                <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>
               </Box>
             </Box>
             <Text size="xl" className="trip-stay-section__content__details-text">
               Ver detalhes
             </Text>
           </Box>
-          {mockData.highlight ? <TripStayHighlightSection highlight={mockData.highlight} /> : null}
+          {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
         </Box>
       </div>
     </>

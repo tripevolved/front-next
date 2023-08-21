@@ -1,4 +1,4 @@
-import { EmptyState, GeneralHeader, GlobalLoader, SectionBase, Text } from "@/ui";
+import { EmptyState, GlobalLoader, SectionBase, Text } from "@/ui";
 import type { UpdateAttractionsProps } from "./update-attractions.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -7,7 +7,7 @@ import { useUpdateAttractions } from "./update-attractions.hook";
 import { TripScriptDay, UpdateScriptAction } from "@/core/types";
 import { TripScriptActionSection } from "../TripScriptPanel/trip-script-action.section";
 import { Button, Modal } from "mars-ds";
-import { AddAttractionsModal } from "@/features";
+import { AddAttractionsModal, PageAppHeader } from "@/features";
 import { useState } from "react";
 
 export function UpdateAttractions({ className, children, sx, ...props }: UpdateAttractionsProps) {
@@ -53,7 +53,7 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
 
   return (
     <>
-      <GeneralHeader
+      <PageAppHeader
         backButton
         href={`/app/viagens/roteiro/${tripIdParam}`}
         title={`Editar ${data.date}`}

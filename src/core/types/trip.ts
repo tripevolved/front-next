@@ -33,7 +33,7 @@ export interface TripConfiguration {
 // Traveler Dashboard
 export interface TripDashboard {
   name: string;
-  pedingActions: number;
+  pendingActions: number;
   documents: number;
   flightAndTickets: number;
   tips: number;
@@ -65,6 +65,7 @@ export interface TripAbstract {
 export interface TripListView {
   id: string;
   title: string;
+  status: string;
   images: Photo[];
   period: string;
 }

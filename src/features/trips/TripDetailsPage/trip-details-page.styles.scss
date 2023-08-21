@@ -182,6 +182,10 @@
     display: flex;
     gap: 8px;
 
+    &__icon {
+      max-width: 30px;
+    }
+
     &__desc {
       flex: 1;
       display: flex;

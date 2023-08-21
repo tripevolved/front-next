@@ -19,12 +19,12 @@ export const TripScriptActionSection = ({
       <Box className="trip-script-action__box">
         <Text size="lg" className="trip-script-action__title">
           {action.title}
-          {action.tooltip && <TooltipCard text={action.tooltip} />}
         </Text>
         <Text size="md" className="trip-script-action__subtitle">
           {action.subtitle}
         </Text>
       </Box>
+      {action.tooltip && <TooltipCard text={action.tooltip} className="trip-script-action__title__tooltip" />}
       {isEditPage && onClick && (
         <Icon
           name="trash-2"

@@ -1,4 +1,4 @@
-import { EmptyState, GlobalLoader, Box, Text, DashedDivider, OptionsSelectField, GeneralHeader, AutoCompleteTextField } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, DashedDivider, OptionsSelectField, AutoCompleteTextField } from "@/ui";
 import { PageAppBody, PageAppHeader } from "@/features";
 import { useTripPayer } from "./trip-payer.hook";
 import { useTripPrice } from "@/features/trips/TripDetailsPage/trip-price.hook";
@@ -13,6 +13,7 @@ import { PixInformationSection } from "./pix-information.section";
 import { TripPaymentResult } from "@/services/api/payments/payTrip";
 import { TripPurchaseResponseSection } from "./trip-purchase-response.section";
 import { IsPaidSection } from "./is-paid.section";
+import { useAppStore } from "@/core/store";
 
 const MIN_PAYMENT = 100;
 const MAX_INSTALLMENTS = 6;
@@ -20,6 +21,7 @@ const MAX_INSTALLMENTS = 6;
 export function TripPurchasePage() {
   const { isLoading, tripPayer, error } = useTripPayer();
   const { priceData } = useTripPrice();
+  const { travelerState } = useAppStore();
   const [paymentMethod, setPaymentMethod] = useState<TripPaymentMethod>();
   const [writeGender, setWriteGender] = useState(false);
   
@@ -30,6 +32,7 @@ export function TripPurchasePage() {
   
   const getOptions = () => {
     let maxInstallments = Math.min(Math.floor(priceTotal / MIN_PAYMENT), MAX_INSTALLMENTS);
+    if (maxInstallments === 0) maxInstallments = 1;
     
     const options = [];
     for (let i = 1; i <= maxInstallments; i++) {
@@ -90,7 +93,7 @@ export function TripPurchasePage() {
     openLoadingModal();
     const result = await PaymentsApiService.putTripPayment(tripPayment);
     if (!result) {
-      Notification.error("Houve um erro de pagamento!");
+      openFinishModal({ isSuccess: false, message: "Houve um erro no pagamento!", tripId: tripId! });
     } else {
       openFinishModal(result);
     }
@@ -149,9 +152,7 @@ export function TripPurchasePage() {
 
   return (
     <>
-      <PageAppHeader>
-        <GeneralHeader title="Comprar viagem" backButton={true} href={`/app/viagens/criar/${tripId}`} />
-      </PageAppHeader>
+      <PageAppHeader title="Comprar viagem" backButton={true} href={`/app/viagens/criar/${tripId}`} />
       <PageAppBody>
         <form onSubmit={handleSubmit}>
           <Box className="trip-purchase__section">
@@ -177,7 +178,7 @@ export function TripPurchasePage() {
               required={true}
               label="Qual opção melhor descreve você?"
               options={genderOptions}
-              onSelect={(option) => { console.log(option.value); if (option.value == "write") setWriteGender(true); else setWriteGender(false); }}
+              onSelect={(option) => { if (option.value == "write") setWriteGender(true); else setWriteGender(false); }}
               className="trip-purchase__section__input" />
             {writeGender && (
               <TextField
@@ -190,7 +191,7 @@ export function TripPurchasePage() {
           <DashedDivider className="trip-purchase__divider"/>
           <Box className="trip-purchase__section">
             <Text heading={true} size="xs">Contato</Text>
-            <Text className="trip-purchase__section__content" heading={false} size="md">{tripPayer?.email}</Text>
+            <Text className="trip-purchase__section__content" heading={false} size="md">{tripPayer?.email ?? travelerState.email}</Text>
             <input type="hidden" name="email" id="email" value={tripPayer?.email} />
             <input type="hidden" name="phone" id="phone" value={tripPayer?.phone} />
           </Box>
