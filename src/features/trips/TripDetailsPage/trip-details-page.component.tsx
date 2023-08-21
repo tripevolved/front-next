@@ -1,3 +1,5 @@
+import useSwr from "swr";
+
 import { DestinationHeroSection } from "@/features/destinations/DestinationPage/destinations-hero.section";
 import { DestinationInfoSection } from "@/features/destinations/DestinationPage//destination-info.section";
 import { DestinationTipsSection } from "@/features/destinations/DestinationPage//destination-tips.section";
@@ -9,16 +11,38 @@ import { TripSupportSection } from "./trip-support.section";
 import { DesktopTripPriceSection, MobileTripPriceSection } from "./trip-price.section";
 import { TripConfigurationSection } from "./trip-configuration.section";
 import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
-import { useTripDetails } from "./trip-details.hook";
+import { PageAppBody } from "@/features/templates/PageAppBody";
+import { PageAppHeader } from "@/features/templates/PageAppHeader";
+
 import { useTripPrice } from "./trip-price.hook";
+import { useTripDetails } from "./trip-details.hook";
 
 export function TripDetailsPage() {
-  const { isLoading, data, error } = useTripDetails();
+  const { data, isEmpty, isLoading } = useTripDetails();
+
   const { isPriceLoading, priceData, priceError } = useTripPrice();
 
-  if (error) return <EmptyState />;
-  if (isLoading) return <GlobalLoader />;
-  if (data === undefined) return <EmptyState />;
+  if (!data) {
+    return (
+      <>
+        <PageAppHeader backButton href="/app/painel" title="Viagem" />
+        <PageAppBody>
+          <div className="flex flex-column h-100 justify-content-center">
+            {isEmpty ? (
+              <EmptyState />
+            ) : (
+              <>
+                <GlobalLoader inline />
+                <Text className="text-center color-text-secondary">
+                  {isLoading ? "Carregando..." : "Aguarde enquanto a sua viagem está sendo criada"}
+                </Text>
+              </>
+            )}
+          </div>
+        </PageAppBody>
+      </>
+    );
+  }
 
   const { destination, configuration } = data;
   const { features = [], photos = [], recommendedBy, tips = [], title } = destination;
@@ -26,7 +50,7 @@ export function TripDetailsPage() {
   return (
     <>
       <DestinationHeroSection title={title} photos={photos} />
-      <DesktopTripPriceSection 
+      <DesktopTripPriceSection
         isLoading={isPriceLoading}
         error={priceError}
         priceData={priceData}
@@ -46,13 +70,19 @@ export function TripDetailsPage() {
           <Box className="what-includes-section__content">
             <TripTransportationSection tripId={data.id} />
             <TripStaySection tripId={data.id} />
-            <TripScriptSection  text={destination.description} />
+            <TripScriptSection text={destination.description} />
             <TripFoodTipsSection text={destination.gastronomicInformation} />
             <TripSupportSection />
           </Box>
         </div>
       </SectionBase>
-      <MobileTripPriceSection isLoading={isPriceLoading} error={priceError} priceData={priceData!} tripId={data.id} destination={destination.title} />
+      <MobileTripPriceSection
+        isLoading={isPriceLoading}
+        error={priceError}
+        priceData={priceData!}
+        tripId={data.id}
+        destination={destination.title}
+      />
     </>
   );
 }

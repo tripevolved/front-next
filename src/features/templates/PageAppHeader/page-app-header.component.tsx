@@ -1,5 +1,5 @@
 import { Box, SectionBase, Text } from "@/ui";
-import { Button, Avatar } from "mars-ds";
+import { Button, Avatar, ToggleButton } from "mars-ds";
 import type { PageAppHeaderProps } from "./page-app-header.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -11,11 +11,12 @@ export function PageAppHeader({ title, backButton, href, className, children, sx
     <SectionBase className={cn} container="md" {...props}>
       <Box className="page-app-header__box">
         {backButton ? (
-          <Button
+          <ToggleButton
             size="md"
             iconName="arrow-left"
             href={href}
-            className="page-app-header__box__back-button"
+            className="mr-md"
+            variant="neutral"
           />
         ) : <Avatar size="xl" thumbnail="/brand/logo-symbol-circle.svg" className="page-app-header__box__avatar" />}
         {title ? (
@@ -26,7 +27,7 @@ export function PageAppHeader({ title, backButton, href, className, children, sx
           <>
             {children}
           </>
-        )}        
+        )}
       </Box>
     </SectionBase>
   );
