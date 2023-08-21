@@ -38,10 +38,8 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
 
   return (
     <div className={cn} {...props}>
-      {/* <HeaderUserMenu userName={name}>Te esperamos na sua próxima viagem</HeaderUserMenu> */}
-      <PageAppHeader>
+      <PageAppHeader backButton href={`/app/painel`}>
         <div className="trip-details-panel__header">
-          <Avatar size="xl" thumbnail="/brand/logo-symbol-circle.svg" />
           <div>
             <Text heading as="div" size="sm" className="mb-xs">
               Olá, <strong>{firstName}</strong> 👋

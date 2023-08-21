@@ -27,7 +27,6 @@ export function DashboardHome() {
     <PageApp seo={{ title: "Painel" }} className="dashboard-home">
       <PageAppHeader>
         <div className="dashboard-home__header">
-          <Avatar size="xl" thumbnail="/brand/logo-symbol-circle.svg" />
           <div>
             <Text heading as="div" size="sm" className="mb-xs">
               Olá, <strong>{firstName}</strong> 👋
