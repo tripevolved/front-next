@@ -31,8 +31,7 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
 
     return data.destinationProposal ? (
       <HasTrip trip={data.destinationProposal} tripId={data.id} />
-    ) : (
-      <TripDashboard tripDashboard={data.tripDashboard!} tripId={data.id} />
+    ) : (data.tripDashboard ? <TripDashboard tripDashboard={data.tripDashboard!} tripId={data.id} /> : <EmptyState text="Não foi possível abrir essa viagem" />
     );
   };
 

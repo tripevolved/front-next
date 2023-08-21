@@ -34,7 +34,7 @@
   &__recommendations-area {
     padding-left: 20px;
 
-    div > p {
+    &__title {
       color: $color-brand-2;
       text-align: left;
       font-weight: 700;
