@@ -21,6 +21,7 @@ export interface TravelerState {
   id: string;
   travelerProfile: TravelerProfileType | null;
   name: string;
+  email: string;
   hasCurrentTrip: boolean;
   hasPastTrip: boolean;
   isActive: boolean;

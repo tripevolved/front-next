@@ -12,7 +12,8 @@ export function CreditCardInformationSection() {
           name="creditCardNumber"
           required={true}
           className="trip-purchase__section__input"
-          label="Número do cartão" />
+          label="Número do cartão"
+          mask={"9999 9999 9999 9999"} />
         <Grid columns={[1, 1, 2]}>
           <TextField
             id="creditCardExpirationMonth" name="creditCardExpirationMonth"
