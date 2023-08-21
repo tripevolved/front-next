@@ -14,7 +14,7 @@ export function TripDashboard({
   ...props
 }: TripDashboardProps) {
   const cn = makeCn("trip-dashboard", className)(sx);
-  const { pedingActions, attractionsNumber, documents, flightAndTickets, tips } = tripDashboard;
+  const { pendingActions, attractionsNumber, documents, flightAndTickets, tips } = tripDashboard;
 
   return (
     <PageAppBody>
@@ -25,11 +25,11 @@ export function TripDashboard({
             <TripDashboardItem
               icon="pending-alert"
               description="Pendências"
-              qtd={pedingActions}
+              qtd={pendingActions}
               color="#D84848"
               href={`/app/viagens/pendencias/${tripId}`}
             />
-            <TripDashboardItem icon="documents" description="Documentos" qtd={documents} href="#" />
+            <TripDashboardItem icon="documents" description="Documentos" qtd={documents} href={`/app/viagens/documentos/${tripId}`} />
           </Box>
           <Box className="trip-dashboard__box__row">
             <TripDashboardItem
@@ -38,7 +38,7 @@ export function TripDashboard({
               qtd={flightAndTickets}
               href={`/app/viagens/reservas/${tripId}`}
             />
-            <TripDashboardItem icon="tips" description="Dicas" qtd={tips} href="#" />
+            <TripDashboardItem icon="tips" description="Dicas" qtd={tips} href={`/app/viagens/dicas/${tripId}`} />
           </Box>
           <Box className="trip-dashboard__box__row">
             <TripDashboardItem

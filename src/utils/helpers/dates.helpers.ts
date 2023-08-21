@@ -6,6 +6,7 @@ export const toDateOnly = (date: Date | null | undefined) => {
 
 export const toDateOnlyString = (date: Date) => {
   if (date === undefined || date === null) return "";
+  if (typeof(date) !== typeof(Date)) return new Date(date).toDateString();
 
   return date.toDateString();
 };
@@ -15,4 +16,18 @@ export const toFullDate = (date: Date | null | undefined) => {
 
   let newDate = new Date(date);
   return `${newDate.toLocaleDateString()} - ${newDate.toLocaleTimeString()}`;
+};
+
+export const toLocaleShortDateOnlyString = (date: Date) => {
+  if (date === undefined || date === null) return "";
+  if (typeof(date) !== typeof(Date)) return new Date(date).toLocaleDateString();
+
+  return date.toLocaleDateString();
+};
+
+export const toTimeOnlyString = (date: Date) => {
+  if (date === undefined || date === null) return "";
+  if (typeof(date) !== typeof(Date)) return new Date(date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+  return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 };
