@@ -1,3 +1,6 @@
 import { getStayByTripId, getAllReservedStaysByTripId } from "./by-trip";
 
-export const StaysApiService = { getByTripId: getStayByTripId, getAllReservedByTripId: getAllReservedStaysByTripId };
+export const StaysApiService = {
+  getByTripId: getStayByTripId,
+  getAllReservedByTripId: getAllReservedStaysByTripId,
+};
