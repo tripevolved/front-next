@@ -1,15 +1,14 @@
-import { Box, DashedDivider, StepsLoader } from "@/ui";
+import { StepsLoader } from "@/ui";
 import { useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
-import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import type { HasTripProps } from "./has-trip.types";
 import { Notification } from "mars-ds";
 
 import { TripsApiService } from "@/services/api";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { DestinationsCarousel, MatchedDestinationsProposal, PageAppBody, TravelerDestinationCard } from "@/features";
+import { MatchedDestinationsProposal, PageAppBody } from "@/features";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
