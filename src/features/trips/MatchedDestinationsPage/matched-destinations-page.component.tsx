@@ -79,14 +79,13 @@ export const MatchedDestinationsPage = ({
 
   return (
     <>
-      <PageAppHeader>
+      <PageAppHeader backButton href={`/app/painel`}>
         <div className="trip-details-panel__header">
-          <Avatar size="xl" thumbnail="/brand/logo-symbol-circle.svg" />
           <div>
             <Text heading as="div" size="sm" className="mb-xs">
               Olá, <strong>{firstName}</strong> 👋
             </Text>
-            <Text size="lg">Verique seus destinos</Text>
+            <Text size="lg">Verifique os destinos que recomendamos para sua viagem</Text>
           </div>
         </div>
       </PageAppHeader>
@@ -100,6 +99,7 @@ export const MatchedDestinationsPage = ({
             </Text>
             <Box className="has-trip__trip-area">
               <MatchedDestinationCard
+                travelersNumber={data?.mainChoice?.travelers ?? 2}
                 tripId={data?.tripId!}
                 {...data?.mainChoice!}
                 onChoice={handleCreateTrip}
@@ -113,6 +113,7 @@ export const MatchedDestinationsPage = ({
                     return {
                       tripId: data.tripId,
                       onChoice: handleCreateTrip,
+                      travelersNumber: matchedDestination.travelers ?? 2,
                       ...matchedDestination,
                     };
                   })}

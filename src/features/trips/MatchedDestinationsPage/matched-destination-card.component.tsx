@@ -16,7 +16,7 @@ export function MatchedDestinationCard({
   matchScore,
   name,
   images,
-  travelersNumber = 1,
+  travelersNumber = 2,
   uniqueName,
   onChoice,
   ...props
@@ -26,7 +26,9 @@ export function MatchedDestinationCard({
 
   useEffect(() => {
     const [photo] = images && images.length ? images : [];
+    console.log(photo);
     cover = photo ? parsePhoto(photo) : undefined;
+    console.log(cover);
   }, [images]);
 
   return (
