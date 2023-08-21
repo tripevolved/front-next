@@ -13,6 +13,7 @@ import { TripsApiService } from "@/services/api";
 import { PageAppBody } from "@/features/templates/PageAppBody";
 import { PageAppHeader } from "@/features";
 import { useAppStore } from "@/core/store";
+import { MatchedDestinationsProposal } from "./matched-destinations-proposal.component";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -93,34 +94,13 @@ export const MatchedDestinationsPage = ({
         {submitting ? (
           <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
         ) : (
-          <Box className={cn} {...props}>
-            <Text variant="heading" className="has-trip__header-title" size="sm">
-              Sua viagem ideal é para...
-            </Text>
-            <Box className="has-trip__trip-area">
-              <MatchedDestinationCard
-                travelersNumber={data?.mainChoice?.travelers ?? 2}
-                tripId={data?.tripId!}
-                {...data?.mainChoice!}
-                onChoice={handleCreateTrip}
-              />
-            </Box>
-            {data?.otherChoices && data.otherChoices.length > 0 ? (
-              <Box className="has-trip__recommendations-area" style={{ paddingLeft: 0 }}>
-                <OtherChoicesCarousel
-                  title="Outras opções"
-                  recommendedDestinations={data.otherChoices.map((matchedDestination, i) => {
-                    return {
-                      tripId: data.tripId,
-                      onChoice: handleCreateTrip,
-                      travelersNumber: matchedDestination.travelers ?? 2,
-                      ...matchedDestination,
-                    };
-                  })}
-                />
-              </Box>
-            ) : null}
-          </Box>
+          <MatchedDestinationsProposal
+            className={cn}
+            tripId={data?.tripId!}
+            mainChoice={data?.mainChoice}
+            otherChoices={data?.otherChoices}
+            handleCreateTrip={handleCreateTrip}
+          />
         )}
       </PageAppBody>
     </>
