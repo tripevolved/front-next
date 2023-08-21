@@ -5,6 +5,8 @@ import { MatchedDestination } from "@/services/api/trip/matches";
 import { ComponentHTMLProps } from "@/core/types";
 
 export interface MatchedDestinationsProposalProps extends ComponentHTMLProps {
+  title: string;
+  otherChoicesTitle?: string;
   tripId?: string;
   mainChoice?: MatchedDestination | null;
   otherChoices?: MatchedDestination[] | null;
@@ -12,6 +14,8 @@ export interface MatchedDestinationsProposalProps extends ComponentHTMLProps {
 }
 
 export const MatchedDestinationsProposal = ({
+  title,
+  otherChoicesTitle,
   tripId,
   mainChoice,
   otherChoices,
@@ -22,7 +26,7 @@ export const MatchedDestinationsProposal = ({
   return (
     <Box className={className} {...props}>
       <Text variant="heading" className="has-trip__header-title" size="sm">
-        Sua viagem ideal é para...
+        {title}
       </Text>
       <Box className="has-trip__trip-area">
         <MatchedDestinationCard
@@ -35,7 +39,7 @@ export const MatchedDestinationsProposal = ({
       {otherChoices && otherChoices.length > 0 ? (
         <Box className="has-trip__recommendations-area" style={{ paddingLeft: 0 }}>
           <OtherChoicesCarousel
-            title="Outras opções"
+            title={otherChoicesTitle ?? "Outras opções"}
             recommendedDestinations={otherChoices.map((matchedDestination, i) => {
               return {
                 tripId: tripId!,

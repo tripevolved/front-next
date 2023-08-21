@@ -4,11 +4,9 @@ import { useMatchedDestinations } from "./matched-destinations.hook";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 
-import { EmptyState, GlobalLoader, SectionBase, Box, Text, StepsLoader } from "@/ui";
-import { Avatar, Notification } from "mars-ds";
+import { EmptyState, GlobalLoader, Text, StepsLoader } from "@/ui";
+import { Notification } from "mars-ds";
 import { MatchedDestinationsPageProps } from "./matched-destinations-page.types";
-import { MatchedDestinationCard } from "./matched-destination-card.component";
-import { OtherChoicesCarousel } from "./other-choices-carousel.component";
 import { TripsApiService } from "@/services/api";
 import { PageAppBody } from "@/features/templates/PageAppBody";
 import { PageAppHeader } from "@/features";
@@ -34,8 +32,7 @@ const STEPS = [
 
 export const MatchedDestinationsPage = ({
   className,
-  sx,
-  ...props
+  sx
 }: MatchedDestinationsPageProps) => {
   const { isLoading, data, error } = useMatchedDestinations();
   const cn = makeCn("has-trip", className)(sx);
@@ -95,6 +92,8 @@ export const MatchedDestinationsPage = ({
           <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
         ) : (
           <MatchedDestinationsProposal
+            title="Sua viagem ideal é para..."
+            otherChoicesTitle="Outras opções"
             className={cn}
             tripId={data?.tripId!}
             mainChoice={data?.mainChoice}
