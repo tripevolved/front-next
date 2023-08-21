@@ -21,7 +21,7 @@ const mockData: TripStay = {
     address: "Quadra QS 112",
     checkInHour: "8h às 20h",
     services: [
-      { title: "Sencional", type: "Esse tipo" },
+      { title: "Sensacional", type: "Esse tipo" },
       { title: "Moderno", type: "tipo modernizado" },
     ],
     images: [
