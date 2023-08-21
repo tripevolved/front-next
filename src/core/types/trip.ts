@@ -6,6 +6,7 @@ export interface TripDetails {
   id: string;
   destination: TripDestination;
   configuration: TripConfiguration;
+  isBuilding: boolean;
 }
 
 export interface TripTransportation {
