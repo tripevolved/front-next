@@ -1,7 +1,7 @@
 .page-app-header {
   background-color: $color-brand-1;
   color: $color-white;
-  padding: 32px 0;
+  padding: 32px 16px;
 
   &__box {
     width: 100%;
@@ -13,15 +13,6 @@
       margin-right: 20px;
     }
 
-    &__back-button {
-      padding-left: 0;
-      padding-right: 20px;
-      color: $color-gray-4;
-
-      a {
-        color: $color-gray-4;
-      }
-    }
     .btn--primary:hover {
       background-color: $color-brand-1;
     }
