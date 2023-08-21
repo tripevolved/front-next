@@ -1,7 +1,7 @@
 import useSwr from "swr";
 
 import { Loader, Button } from "mars-ds";
-import { Box, EmptyState, Picture, Text } from "@/ui";
+import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 import { TripStayHighlightSection } from "./trip-stay-highlight.section";
 
 import { StaysApiService } from "@/services/api";
@@ -60,12 +60,14 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
                 Hospedagem
               </Text>
             </Box>
-            <Box className="trip-stay-section__content">
+            <CardHighlight className="trip-stay-section__content">
               <div>
-                <Text heading as="h4" size="xs">Ainda não escolhemos a acomodação para sua viagem.</Text>
+                <Text as="h2" size="lg">
+                  Ainda não escolhemos a acomodação para sua viagem.
+                </Text>
                 <Text>Fale conosco e vamos deixar tudo como você deseja!</Text>
               </div>
-            </Box>
+            </CardHighlight>
           </Box>
         </div>
       </>
@@ -92,10 +94,8 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
             <Box className="trip-stay-section__content__stay-desc">
               <Picture src={data.coverImageUrl!} />
               <Box className="trip-stay-section__content__stay-desc__box">
-                <Text>{data.name}</Text>
-                <Box className="trip-stay-section__content__stay-desc__box__stars">
-                  {data.tags}
-                </Box>
+                <Text size="lg">{data.name}</Text>
+                <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>
               </Box>
             </Box>
             <Text size="xl" className="trip-stay-section__content__details-text">
