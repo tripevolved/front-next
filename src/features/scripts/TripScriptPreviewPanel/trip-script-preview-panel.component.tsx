@@ -1,9 +1,10 @@
-import { EmptyState, GlobalLoader, Box, Text, SectionBase, GeneralHeader } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
 import { useTripScriptPreview } from "./trip-script-preview.hook";
 import { TripScriptPreviewActionSection } from "./trip-script-preview-action.section";
 import { TripScriptPreviewDetailedDay } from "./trip-script-preview-detailed-day.section";
 import { TripScriptPreviewBlockedSection } from "./trip-script-preview-blocked.section";
 import { useRouter } from "next/router";
+import { PageAppHeader } from "@/features/templates/PageAppHeader";
 
 export function TripScriptPreviewPanel() {
   const { isLoading, data, error } = useTripScriptPreview();
@@ -19,7 +20,7 @@ export function TripScriptPreviewPanel() {
 
   return (
     <>
-      <GeneralHeader backButton title="Prévia do Roteiro" href={`/app/viagens/criar/${idParam}`} />
+      <PageAppHeader backButton title="Prévia do Roteiro" href={`/app/viagens/criar/${idParam}`} />
       <SectionBase className="trip-script-preview">
         <div className="trip-script-preview-day-section">
           {days ? (

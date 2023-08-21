@@ -65,6 +65,7 @@ export interface TripAbstract {
 export interface TripListView {
   id: string;
   title: string;
+  status: string;
   images: Photo[];
   period: string;
 }

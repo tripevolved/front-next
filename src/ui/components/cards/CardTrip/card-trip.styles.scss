@@ -38,6 +38,19 @@
     }
   }
 
+  &__header {
+    padding: $spacing-lg;
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    &__tag {
+      background-color: $color-brand-4;
+    }
+  }
+
   &__content {
     padding: $spacing-xl;
     color: white;
