@@ -1,49 +1,35 @@
-import { Box, CardHighlight, Picture, SectionBase, Text } from "@/ui";
+import { CardHighlight, Text } from "@/ui";
 import { TripDetailsProps } from "./trip-details-page.types";
-import { formatByDataType } from "@/utils/helpers/number.helpers";
+import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
+import { Icon } from "mars-ds";
 
-interface TripConfigurationSectionProps extends Pick<TripDetailsProps, "configuration"> {}
-
-export const TripConfigurationSection = ({ configuration }: TripConfigurationSectionProps) => {
+export const TripConfigurationSection = ({
+  dates,
+  period,
+  budget,
+}: TripDetailsProps["configuration"]) => {
   return (
-    configuration && (
-      <SectionBase columns={{ md: [1, "320px"] }} gap={32} style={{ padding: "22px 15px" }}>
-        <CardHighlight className="trip-configuration" style={{ padding: "17px 10px" }}>
-          <Box className="trip-configuration__box">
-            <FeatureIcon name="calendar" />
-            <Text as="h2" size="md" className="trip-configuration__text">
-              {configuration.dates}
-            </Text>
-          </Box>
-          <Box className="trip-configuration__box">
-            <FeatureIcon name="time" />
-            <Text as="h2" size="md" className="trip-configuration__text">
-              {configuration.period}
-            </Text>
-          </Box>
-          <Box className="trip-configuration__box">
-            <FeatureIcon name="cash" />
-            <Text as="h2" size="md" className="trip-configuration__text">
-              {formatByDataType(configuration.budget, "CURRENCY")}
-            </Text>
-          </Box>
-          <Box className="trip-configuration__box-text">
-            <FeatureIcon name="pencil" />
-            Editar
-          </Box>
-        </CardHighlight>
-      </SectionBase>
-    )
+    <CardHighlight className="trip-configuration">
+      <Feature iconName="calendar">{dates.replace(".", "")}</Feature>
+      <Feature iconName="clock">{period}</Feature>
+      <Feature iconName="dollar-sign">{formatToCurrencyBR(budget)}</Feature>
+      {/* <Button iconName="edit-2" size="sm" variant="neutral" disabled>Editar</Button> */}
+    </CardHighlight>
   );
 };
 
-const FEATURE_ICON_SIZE = 15;
-const FeatureIcon = ({ name = "" }) => {
+interface IconFeatureProps {
+  iconName: string;
+  children: React.ReactNode;
+}
+
+const Feature = ({ iconName, children }: IconFeatureProps) => {
   return (
-    <Picture
-      src={`/assets/trip/${name}.svg`}
-      height={FEATURE_ICON_SIZE}
-      width={FEATURE_ICON_SIZE}
-    />
+    <div className="trip-configuration__feature">
+      <Icon name={iconName} className="color-primary" />
+      <Text as="h3" size="md" className="">
+        {children}
+      </Text>
+    </div>
   );
 };

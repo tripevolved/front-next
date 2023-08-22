@@ -1,22 +1,14 @@
 .trip-configuration {
-  border: 1px dashed $color-brand-1;
+  border-color: $color-brand-1;
   background-color: $color-brand-7;
+  flex-wrap: wrap;
   display: flex;
-  justify-content: space-between;
+  gap: 24px;
 
-  &__box {
-    display: flex;
-    gap: 2px;
-    padding: 0px 20px;
-
-    h2 {
-      color: $color-gray-1;
-    }
-  }
-
-  &__box-text {
-    color: $color-gray-2;
-    padding: 0px 20px;
+  &__feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
   }
 }
 
