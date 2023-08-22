@@ -81,6 +81,7 @@ export interface TripPrice {
   price: number;
   serviceFee: number;
   description: string | null;
+  total: number;
 }
 
 export interface TripTravelers {
