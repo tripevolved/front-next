@@ -1,11 +1,12 @@
 import type { MatchedDestinationCardProps } from "./matched-destinations-page.types";
-import { Box, Picture, Text } from "@/ui";
+import { Box, CardTrip, Picture, Text } from "@/ui";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { formatToPercentage } from "@/utils/helpers/number.helpers";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { useEffect } from "react";
 import { Button, Link } from "mars-ds";
+import Image from "next/image";
 
 export function MatchedDestinationCard({
   className,
@@ -16,52 +17,37 @@ export function MatchedDestinationCard({
   matchScore,
   name,
   images,
-  travelersNumber = 1,
+  travelersNumber = 2,
   uniqueName,
   onChoice,
   ...props
 }: MatchedDestinationCardProps) {
   const cn = makeCn("matched-destination-card", className)(sx);
-  let cover;
 
-  useEffect(() => {
-    const [photo] = images && images.length ? images : [];
-    cover = photo ? parsePhoto(photo) : undefined;
-  }, [images]);
+  const [photo] = images && images.length ? images : [];
+  const cover = photo ? parsePhoto(photo) : undefined;
+  console.log(matchScore);
+
+  const getHeader = () => (matchScore ? (
+      <div className="matched-destination-card__header">
+        <Image src={"/emoji/target-arrow.png"} alt="target" width={32} height={32}/>
+        <Text>
+          Match: <strong>{formatToPercentage(matchScore)}</strong>
+        </Text>
+      </div>
+    ) : null
+  );
 
   return (
-    <Box
-      className={cn}
-      {...props}
-      style={{
-        backgroundImage: `radial-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.8)), url('${cover}')`,
-        backgroundColor: "var(--color-brand-1)",
-      }}
-    >
-      <Box className="matched-destination-card__header">
-        {matchScore ? (
-          <>
-            <Picture width={24} src="/emoji/target-arrow.png" />
-            <Text>
-              Match: <strong>{formatToPercentage(matchScore)}</strong>
-            </Text>
-          </>
-        ) : (
-          <></>
-        )}
-      </Box>
+    <CardTrip image={cover} title={name} subtitle={`Para ${travelersNumber} pessoas`} header={getHeader()} onClick={() => onChoice(destinationId)} className="trip-item">
       <Box className="matched-destination-card__footer">
-        <Box className="matched-destination-card__footer__city-name">
-          <Text variant="heading">{name}</Text>
-          <Text>Para {travelersNumber} pessoa(s)</Text>
-        </Box>
         <Button onClick={() => onChoice(destinationId)}>Ver detalhes</Button>
       </Box>
-    </Box>
+    </CardTrip>
   );
 }
 
-export function OtherCoiceMatchedDestinationCard({
+export function OtherChoiceMatchedDestinationCard({
   className,
   children,
   sx,
@@ -76,42 +62,20 @@ export function OtherCoiceMatchedDestinationCard({
   ...props
 }: MatchedDestinationCardProps) {
   const cn = makeCn("other-choice-destination-card", className)(sx);
-  let cover;
+  const [photo] = images && images.length ? images : [];
+  const cover = photo ? parsePhoto(photo) : undefined;
 
-  useEffect(() => {
-    const [photo] = images && images.length ? images : [];
-    cover = photo ? parsePhoto(photo) : undefined;
-  }, [images]);
+  const getHeader = () => (matchScore ? (
+    <div className="matched-destination-card__header">
+      <Image src={"/emoji/target-arrow.png"} alt="target" width={32} height={32}/>
+      <Text>
+        Match: <strong>{formatToPercentage(matchScore)}</strong>
+      </Text>
+    </div>
+  ) : null
+);
 
   return (
-    <Link onClick={() => onChoice(destinationId)} className="other-choice-destination-card__link">
-      <Box
-        className={cn}
-        {...props}
-        style={{
-          backgroundImage: `radial-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.8)), url('${cover}')`,
-          backgroundColor: "var(--color-brand-1)",
-        }}
-      >
-        <Box className="other-choice-destination-card__header">
-          {matchScore ? (
-            <>
-              <Picture width={24} src="/emoji/target-arrow.png" />
-              <Text>
-                Match: <strong>{formatToPercentage(matchScore)}</strong>
-              </Text>
-            </>
-          ) : null}
-        </Box>
-        <Box className="other-choice-destination-card__footer">
-          <Box className="other-choice-destination-card__footer__city-name">
-            <Text variant="heading">{name}</Text>
-            <Text style={{ color: "var(--color-gray-4", fontWeight: "normal" }}>
-              Para {travelersNumber} pessoa(s)
-            </Text>
-          </Box>
-        </Box>
-      </Box>
-    </Link>
+    <CardTrip image={cover} title={name} subtitle={`Para ${travelersNumber} pessoas`} header={getHeader()} onClick={() => onChoice(destinationId)} className="trip-item" />
   );
 }

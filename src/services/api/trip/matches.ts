@@ -5,6 +5,7 @@ export type MatchedDestination = {
   destinationId: string;
   matchScore: number;
   name: string;
+  travelers: number | null;
   uniqueName: string;
   images: Photo[];
   details: string | null;

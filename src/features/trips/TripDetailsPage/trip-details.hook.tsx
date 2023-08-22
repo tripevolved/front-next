@@ -1,37 +1,27 @@
-import { TripDetails } from "@/core/types";
-import { TripsApiService } from "@/services/api/trip";
+import { TripsApiService } from "@/services/api";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
+
+const REFRESH_INTERVAL = 3000; // 3 seconds
+const NOT_REFRESH = 0;
 
 export const useTripDetails = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<TripDetails>();
-  const [error, setError] = useState(false);
-
+  const [isBuilding, setIsBuilding] = useState(false);
   const router = useRouter();
-  const idParam = typeof router.query.id === "string" ? router.query.id : null;
+  const tripId = typeof router.query.id === "string" ? router.query.id : "";
 
-  const fetchTripInformation = async (tripId: string | null) => {
-    if (tripId === null){
-      setError(true);
-      return;
-    }      
-
-    setIsLoading(true);
-    setError(false);
-    return TripsApiService.getById(tripId)
-      .then(setData)
-      .catch(() => {
-        setError(true);
-      });
-  };
+  const { isLoading, data, error } = useSWR(
+    `trip/${tripId}`,
+    () => TripsApiService.getById(tripId),
+    { refreshInterval: isBuilding ? REFRESH_INTERVAL : NOT_REFRESH }
+  );
 
   useEffect(() => {
-    if (!idParam) setError(true);
-    
-    fetchTripInformation(idParam);
-    setIsLoading(false);
-  }, [idParam]);
+    if (!isLoading) setIsBuilding(!!data?.isBuilding);
+  }, [data, isLoading]);
 
-  return { isLoading, data, error };
+  const isEmpty = !isLoading && !isBuilding && (!data || error);
+
+  return { isLoading, data, error, isBuilding, isEmpty };
 };

@@ -8,7 +8,7 @@ import { TripsApiService } from "@/services/api";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 import { Button, Grid, Icon, Loader, Tabs } from "mars-ds";
-import { CardTrip, EmptyState, ErrorState, Text } from "@/ui";
+import { Tag, CardTrip, EmptyState, ErrorState, Text } from "@/ui";
 
 export function HasCurrentTrip() {
   return (
@@ -69,8 +69,16 @@ function TripItem({ id, title = "Sem nome", status, images, period }: TripListVi
   const [photo] = images;
   const image = photo ? parsePhoto(photo) : undefined;
 
+  const getHeader = () => (
+    <div className="card-trip__header">
+      <Tag className="card-trip__header__tag">
+        <Text size="xs"><strong>{status}</strong></Text>
+      </Tag>
+    </div>
+  );
+
   return (
-    <CardTrip image={image} title={title} status={status} href={`/app/viagens/${id}`} className="trip-item">
+    <CardTrip image={image} title={title} header={getHeader()} href={`/app/viagens/${id}`} className="trip-item">
       {typeof period === "string" ? (
         <div className="trip-item__period">
           <Icon name="calendar" size="sm" />
