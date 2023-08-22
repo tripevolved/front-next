@@ -1,0 +1,28 @@
+.destination-infos {
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+
+  h2 {
+    font-weight: 700;
+  }
+}
+
+.destination-infos-item {
+  display: flex;
+
+  &__icon {
+    min-width: 40px;
+  }
+
+  &__title {
+    color: $color-brand-4;
+  }
+
+  &__description {
+    margin-top: 7px !important;
+    color: $color-text-secondary;
+  }
+}
