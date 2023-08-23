@@ -13,7 +13,11 @@ import { Avatar } from "mars-ds";
 import { useMemo } from "react";
 
 export function DashboardHome() {
-  const { name = "viajante", hasCurrentTrip, travelerProfile } = useAppStore((state) => state.travelerState);
+  const {
+    name = "viajante",
+    hasCurrentTrip,
+    travelerProfile,
+  } = useAppStore((state) => state.travelerState);
   const firstName = name.replace(/\s.*/, "");
 
   const statusMessage = useMemo(() => {
