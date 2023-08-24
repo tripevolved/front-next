@@ -4,6 +4,7 @@ import type { TripStayDetailsModalProps } from "./trip-stay-details-modal.types"
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { TripStayFeature } from "@/core/types";
 import { FC } from "react";
+import { Divider } from "mars-ds";
 
 export function TripStayDetailsModal({
   className,
@@ -22,7 +23,7 @@ export function TripStayDetailsModal({
             {"Hotel Casa Grande"}
           </Text>
           <Text>
-            Hotel {"3 estrelas"} em {"Ouro Preto"}
+            Hotel {stayData.currency} em {"Ouro Preto"}
           </Text>
         </div>
         {/** TODO: apply image carousel here */}
@@ -33,15 +34,22 @@ export function TripStayDetailsModal({
           Informações
         </Text>
         <Text className="trip-stay-details-modal__content__description">
-          {
-            "O hotel conta com frigobar, ar condicionado, toalhas e Wi-fi. Café da manhã incluso na diária."
-          }
+          {stayData.information}
         </Text>
         <div className="trip-stay-details-modal__content__service-list">
           {stayData.services.map((service, i) => (
             <TripStayServiceItem {...service} key={i} />
           ))}
         </div>
+        <Box className="trip-stay-details-modal__content__check-in-address">
+          <Divider />
+          <Text>
+            <Picture src="/assets/stays/time.png" /> {stayData.checkInHour}
+          </Text>
+          <Text>
+            <Picture src="/assets/stays/pin.png" /> {stayData.address}
+          </Text>
+        </Box>
       </Box>
     </div>
   );

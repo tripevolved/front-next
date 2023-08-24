@@ -26,7 +26,7 @@ const mockData: TripStay = {
       { title: "Ar condicionado", type: "ac" },
       { title: "Boa cama", type: "bed" },
       { title: "Café da Manhã", type: "breakfast" },
-      { title: "Wifi", type: "wifi" },
+      { title: "Wi-Fi", type: "wifi" },
     ],
     images: [
       { url: "https://picsum.photos/300/200", altText: "" },
