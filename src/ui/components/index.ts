@@ -8,6 +8,7 @@ export * from "./assets/LogoMainInverse";
 export * from "./basic/Accordion";
 export * from "./basic/AutoScrollNav";
 export * from "./basic/Box";
+export * from "./basic/Carousel";
 export * from "./basic/CategoryBadge";
 export * from "./basic/DashedDivider";
 export * from "./basic/FeatureIcon";
