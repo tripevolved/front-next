@@ -56,6 +56,7 @@
     "axios": "^1.2.3",
     "classnames": "^2.3.2",
     "copy-to-clipboard": "^3.3.3",
+    "embla-carousel-react": "^8.0.0-rc12",
     "js-cookie": "^3.0.5",
     "mars-ds": "2.0.0-alpha.1",
     "next": "13.1.4",
