@@ -1,3 +1,5 @@
-import type { ComponentHTMLProps } from "@/core/types";
+import type { ComponentHTMLProps, TripStayDetails } from "@/core/types";
 
-export interface TripStayDetailsModalProps extends ComponentHTMLProps {};
+export interface TripStayDetailsModalProps extends ComponentHTMLProps {
+  stayData: TripStayDetails;
+}

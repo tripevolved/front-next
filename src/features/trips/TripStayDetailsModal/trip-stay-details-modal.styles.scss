@@ -1,5 +1,47 @@
 .trip-stay-details-modal {
-  background-color: red;
-  padding: 24px;
-  color: white;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+
+  &__initial-info {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &__header {
+      color: $color-gray-1;
+      padding: 0 24px;
+
+      &__title {
+        color: $color-brand-1;
+      }
+    }
+  }
+
+  &__content {
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+
+    &__description {
+      color: $color-gray-1;
+    }
+
+    &__service-list {
+      display: flex;
+      gap: 18px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+  }
+}
+
+.trip-stay-feature-item {
+  display: flex;
+  gap: 8px;
+  color: $color-brand-1;
 }

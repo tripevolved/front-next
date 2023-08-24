@@ -23,8 +23,10 @@ const mockData: TripStay = {
     address: "Quadra QS 112",
     checkInHour: "8h às 20h",
     services: [
-      { title: "Sensacional", type: "Esse tipo" },
-      { title: "Moderno", type: "tipo modernizado" },
+      { title: "Ar condicionado", type: "ac" },
+      { title: "Boa cama", type: "bed" },
+      { title: "Café da Manhã", type: "breakfast" },
+      { title: "Wifi", type: "wifi" },
     ],
     images: [
       { url: "https://picsum.photos/300/200", altText: "" },
@@ -75,7 +77,10 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
   const { data, error, isLoading } = useSwr("stay", getStay, swrOptions);
 
   const handleSeeDetails = () => {
-    Modal.open(() => <TripStayDetailsModal />, { closable: true, size: "md" });
+    Modal.open(() => <TripStayDetailsModal stayData={mockData.details} />, {
+      closable: true,
+      size: "md",
+    });
   };
 
   if (isLoading) {
