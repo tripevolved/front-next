@@ -1,8 +1,11 @@
 .trip-stay-details-modal {
+  border-radius: 17px 17px 0 0;
   padding: 24px 0;
   display: flex;
   flex-direction: column;
   gap: 35px;
+  overflow-y: scroll;
+  max-height: 600px;
 
   &__initial-info {
     width: 100%;
@@ -37,6 +40,27 @@
       width: 100%;
       flex-wrap: wrap;
     }
+
+    &__check-in-address {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      gap: 15px;
+
+      &__item {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+      }
+    }
+  }
+
+  &__rooms {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 24px;
+    gap: 18px;
   }
 }
 
@@ -44,4 +68,51 @@
   display: flex;
   gap: 8px;
   color: $color-brand-1;
+}
+
+.trip-stay-room-card {
+  width: 100%;
+  padding: 12px;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+
+    &__info {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+
+      &__image {
+        img {
+          width: 80px;
+          height: 80px;
+          object-position: center;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+      }
+
+      &__data {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      &__price {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        justify-self: flex-end;
+      }
+    }
+
+    &__button-area {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+  }
 }
