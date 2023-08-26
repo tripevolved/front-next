@@ -12,6 +12,7 @@ export function TripStayDetailsModal({
   children,
   sx,
   stayData,
+  name,
   ...props
 }: TripStayDetailsModalProps) {
   const cn = makeCn("trip-stay-details-modal", className)(sx);
@@ -21,11 +22,9 @@ export function TripStayDetailsModal({
       <Box className="trip-stay-details-modal__initial-info">
         <div className="trip-stay-details-modal__initial-info__header">
           <Text size="sm" heading className="trip-stay-details-modal__initial-info__header__title">
-            {"Hotel Casa Grande"}
+            {name}
           </Text>
-          <Text>
-            Hotel {stayData.currency} em {"Ouro Preto"}
-          </Text>
+          <Text>Hotel em {stayData.address}</Text>
         </div>
         {/** TODO: apply image carousel here */}
         <Picture src="https://picsum.photos/400/300" />
@@ -104,9 +103,9 @@ export const TripStayRoomCard = ({
             <TripStayServiceItem type={features[0].type} title={features[0].title} />
           </div>
           <div className="trip-stay-room-card__content__info__price">
-            <Text size="xl">{formatByDataType(price, "CURRENCY")}</Text>
+            <Text size="lg">{formatByDataType(price, "CURRENCY")}</Text>
 
-            <Text>ver mais</Text>
+            <Text style={{ color: "var(--color-gray-1)" }}>ver mais</Text>
           </div>
         </div>
         <div

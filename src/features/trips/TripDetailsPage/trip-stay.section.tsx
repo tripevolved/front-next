@@ -43,7 +43,7 @@ const mockData: TripStay = {
         id: "i2u3g429",
         isSelected: true,
         price: 20.0,
-        subtitle: "subtitulo",
+        subtitle: "Acomoda 2 pessoas",
         title: "Suíte simples",
       },
       {
@@ -53,7 +53,7 @@ const mockData: TripStay = {
         id: "i2u3g429",
         isSelected: true,
         price: 20.0,
-        subtitle: "subtitulo",
+        subtitle: "acomoda 4 pessoas",
         title: "Suíte deluxe",
       },
     ],
@@ -77,7 +77,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
   const { data, error, isLoading } = useSwr("stay", getStay, swrOptions);
 
   const handleSeeDetails = () => {
-    Modal.open(() => <TripStayDetailsModal stayData={mockData.details} />, {
+    Modal.open(() => <TripStayDetailsModal stayData={mockData.details} name={mockData.name} />, {
       closable: true,
       size: "md",
     });
