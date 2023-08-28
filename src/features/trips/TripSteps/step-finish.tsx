@@ -1,8 +1,11 @@
 import type { StepComponentProps } from "@/features";
-import { Text } from "@/ui";
-import { formatToPlural } from "@/utils/helpers/number.helpers";
-import { Grid, Slider, SubmitButton } from "mars-ds";
+
 import { useState } from "react";
+
+import { IncrementField, Text } from "@/ui";
+import { Grid, SubmitButton } from "mars-ds";
+
+import { formatToPlural } from "@/utils/helpers/number.helpers";
 
 const DEFAULT_ADULTS = 2;
 
@@ -23,10 +26,11 @@ export function StepFinish({ onNext }: StepComponentProps) {
           Quantas pessoas vão viajar?
         </Text>
         <Text className="color-text-secondary mt-sm" size="md">
-          (Incluindo você mesmo)
+          Máximo de 4 adultos (Incluindo você mesmo)
         </Text>
       </div>
-      <Slider
+      <IncrementField
+        className="slider--with-steps"
         name="adults"
         formatter={formatToPlural("adulto", "adultos")}
         min={1}
@@ -49,3 +53,4 @@ export function StepFinish({ onNext }: StepComponentProps) {
     </Grid>
   );
 }
+

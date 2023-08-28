@@ -9,7 +9,7 @@ export function StepConfiguration({ onNext }: StepComponentProps) {
   const [maxBudget, setMaxBudget] = useState(4000);
   const [days, setDays] = useState(1);
 
-  const isDisabled = !dates[0] || !dates[1];
+  const isDisabled = !dates[0] || !dates[1] || days < 2;
 
   const handleSubmit = async () => {
     onNext({ dates, days, maxBudget });
@@ -17,9 +17,14 @@ export function StepConfiguration({ onNext }: StepComponentProps) {
 
   return (
     <Grid gap={24}>
-      <Text heading size="xs">
-        Em qual período pode viajar?
-      </Text>
+      <div>
+        <Text heading size="xs">
+          Em qual período pode viajar?
+        </Text>
+        <Text size="sm" className="profile-questions-item__header__caption">
+          Selecione ao menos dois dias
+        </Text>
+      </div>
       <DatePicker
         onSelect={({ startDate, endDate, daysAmount }) => {
           setDates([startDate, endDate]);

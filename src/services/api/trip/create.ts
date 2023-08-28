@@ -8,6 +8,13 @@ interface CreateTripRequest {
   period: TripPeriod;
   dates: TripDates;
   maxBudget: number;
+  travelers: Travelers;
+}
+
+interface Travelers {
+  type: number;
+  adults: number;
+  children: number;
 }
 
 interface TripBehaviorAnswer {
@@ -34,6 +41,7 @@ export type CreateTripDto = {
   days: number;
   dates: [Date, Date];
   maxBudget: number;
+  travelers: Pick<Travelers, "adults">;
 };
 
 export type CreatedTrip = {
@@ -58,6 +66,7 @@ export const createTrip = async ({
   days,
   dates,
   maxBudget,
+  travelers,
 }: CreateTripDto): Promise<CreatedTrip> => {
   const url = "trips/create";
 
@@ -73,6 +82,11 @@ export const createTrip = async ({
     period: { maxDays: days, minDays: days },
     dates: parsedDates,
     maxBudget,
+    travelers: {
+      adults: travelers.adults || 2,
+      children: 0,
+      type: 0,
+    },
   } satisfies CreateTripRequest;
   const { id } = await ApiRequest.post<CreatedTrip>(url, trip);
 

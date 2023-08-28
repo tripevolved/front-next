@@ -33,6 +33,7 @@ export * from "./cards/CardYoutube";
 export * from "./cards/TooltipCard";
 export * from "./forms/AutoCompleteTextField";
 export * from "./forms/DatePicker";
+export * from "./forms/IncrementField";
 export * from "./forms/OptionField";
 export * from "./forms/OptionsFieldList";
 export * from "./forms/OptionsSelectField";
