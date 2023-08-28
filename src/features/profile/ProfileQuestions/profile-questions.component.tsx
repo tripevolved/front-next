@@ -13,7 +13,6 @@ import { delay } from "@/utils/helpers/delay.helpers";
 import { LeadForm } from "@/features";
 import { useAppStore } from "@/core/store";
 import { Text } from "@/ui";
-import { useSynchronizeTravelerState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -37,7 +36,6 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
   const [showLeadForm, setShowLeadForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const { lead, leadUpdate } = useAppStore();
-  const { syncTravelerState } = useSynchronizeTravelerState();
 
   const router = useRouter();
 
@@ -60,8 +58,6 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
       const data = { answers: answers.current, email };
       const result = await ProfileApiService.sendAnswers(data);
       profileSlug.current = result.profileSlug;
-      // Ensure update traveler state
-      await syncTravelerState();
     } catch (error) {
       setSubmitting(false);
       Notification.error("Devido à um erro não foi possível continuar");
@@ -97,7 +93,7 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
                 Estamos quase lá!
               </Text>
               <Text as="h3" className="lead-list-form__heading pb-xl" variant="heading">
-                Prencha para ver o resultado e receber uma boa surpresa no e-mail.
+                Preencha para ver o resultado e receber uma boa surpresa no e-mail.
               </Text>
             </div>
             <LeadForm
