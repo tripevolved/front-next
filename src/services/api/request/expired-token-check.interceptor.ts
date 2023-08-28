@@ -10,7 +10,7 @@ const handleExpiredToken = () => {
   location.replace(`/app/entrar?redirectTo=${redirectTo}`);
 };
 
-export const expiredTokenCheckInterceptor = async (config: AxiosResponse | AxiosError) => {
+export const expiredTokenCheckInterceptor = async (config: AxiosResponse) => {
   if (config.status === 401) handleExpiredToken();
   return config;
 };
