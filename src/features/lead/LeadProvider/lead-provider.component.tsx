@@ -8,20 +8,39 @@ export const LeadProvider = ({ children }: { children: React.ReactNode }) => {
   const leadCreate = useAppStore((state) => state.leadCreate);
   const leadUpdate = useAppStore((state) => state.leadUpdate);
 
-  const { query } = useRouter();
+  const router = useRouter();
 
   const invitedBy = {
-    name: normalizeQueryValue(query.inviter),
-    email: normalizeQueryValue(query.email),
-    id: normalizeQueryValue(query.ref),
-    affiliateId: normalizeQueryValue(query.affiliateId),
+    name: normalizeQueryValue(router.query.inviter),
+    email: normalizeQueryValue(router.query.email),
+    id: normalizeQueryValue(router.query.ref),
+    affiliateId: normalizeQueryValue(router.query.affiliateId),
   };
+
+  const hasLeadData = Boolean(lead.fetched && lead.email);
+
+  const tryFindLead = async (email: string) => {
+    try {
+      const dataLead = await LeadApiService.getByEmail(email)
+      if (dataLead) leadCreate(dataLead);
+      else router.replace("/");
+    } catch (error) {
+      router.replace("/");
+    }
+  };
+
+  useEffect(() => {
+    if (!/inscrito/.test(location.pathname)) return;
+    if (!invitedBy.email) return;
+    if (hasLeadData) return;
+    tryFindLead(invitedBy.email);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [invitedBy.email]);
 
   useEffect(() => {
     if (!lead.fetched || !!lead.uid) {
       const email = lead.email || LeadApiService.getLocal()?.email;
-      if (!email) return;
-      LeadApiService.getByEmail(email).then(leadCreate);
+      if (email) tryFindLead(email);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
