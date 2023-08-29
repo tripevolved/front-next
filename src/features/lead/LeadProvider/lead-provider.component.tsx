@@ -4,9 +4,18 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export const LeadProvider = ({ children }: { children: React.ReactNode }) => {
-  const { leadCreate, leadUpdate, lead } = useAppStore();
+  const lead = useAppStore((state) => state.lead);
+  const leadCreate = useAppStore((state) => state.leadCreate);
+  const leadUpdate = useAppStore((state) => state.leadUpdate);
+
   const { query } = useRouter();
-  const { inviter: inviterName, email: inviterEmail, ref: inviterId, affiliateId } = query;
+
+  const invitedBy = {
+    name: normalizeQueryValue(query.inviter),
+    email: normalizeQueryValue(query.email),
+    id: normalizeQueryValue(query.ref),
+    affiliateId: normalizeQueryValue(query.affiliateId),
+  };
 
   useEffect(() => {
     if (!lead.fetched || !!lead.uid) {
@@ -18,25 +27,23 @@ export const LeadProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    if (!affiliateId && !inviterId) return;
+    if (!invitedBy.affiliateId && !invitedBy.id) return;
+
     const inviterIsMe =
-      (lead.email && lead.email === inviterEmail) ||
-      (lead.launchList?.id && lead.launchList.id === inviterId);
+      (lead.email && lead.email === invitedBy.email) ||
+      (lead.launchList?.id && lead.launchList.id === invitedBy.id);
 
     if (inviterIsMe) return;
 
-    const invitedBy = {
-      ...lead.invitedBy,
-      id: normalizeQueryValue(inviterId),
-      email: normalizeQueryValue(inviterEmail),
-      name: normalizeQueryValue(inviterName),
-      affiliateId: normalizeQueryValue(affiliateId),
-    };
-    leadUpdate({ invitedBy });
+    leadUpdate({ invitedBy: { ...lead.invitedBy, ...invitedBy } });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [affiliateId, inviterId]);
+  }, [invitedBy.affiliateId, invitedBy.id]);
 
   return <>{children}</>;
 };
 
-const normalizeQueryValue = (value?: string | string[]) => (value ? String(value) : undefined);
+const normalizeQueryValue = (value?: string | string[]) => {
+  if (typeof value !== "string") return;
+  return decodeURIComponent(value);
+};
