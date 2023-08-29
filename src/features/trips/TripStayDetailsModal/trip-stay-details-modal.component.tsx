@@ -4,9 +4,10 @@ import type { TripStayDetailsModalProps } from "./trip-stay-details-modal.types"
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { TripStayFeature, TripStayRoom } from "@/core/types";
 import { useState } from "react";
-import { Button, Card, Divider } from "mars-ds";
+import { Button, Card, Divider, Modal } from "mars-ds";
 import { Carousel } from "@/ui";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
+import { TripStayRoomDetailsModal } from "../TripStayRoomDetailsModal";
 
 export function TripStayDetailsModal({
   className,
@@ -29,7 +30,12 @@ export function TripStayDetailsModal({
         </div>
         <Carousel height={220}>
           {stayData.images?.map((image, i) => (
-            <Picture src={image.url} alt={image.altText!} key={i} height={"100%"} />
+            <Picture
+              className="trip-stay-details-modal__initial-info__image"
+              src={image.url}
+              alt={image.altText!}
+              key={i}
+            />
           ))}
         </Carousel>
       </Box>
@@ -90,6 +96,10 @@ export const TripStayRoomCard = ({
 }: TripStayRoom) => {
   const [selected, setSelected] = useState(false);
 
+  const handleSeeMore = (room: TripStayRoom) => {
+    Modal.open(() => <TripStayRoomDetailsModal room={room} />, { size: "sm", closable: true });
+  };
+
   return (
     <Card
       className="trip-stay-room-card"
@@ -109,7 +119,23 @@ export const TripStayRoomCard = ({
           <div className="trip-stay-room-card__content__info__price">
             <Text size="lg">{formatByDataType(price, "CURRENCY")}</Text>
 
-            <Text style={{ color: "var(--color-gray-1)" }}>ver mais</Text>
+            <Text
+              style={{ color: "var(--color-gray-1)", textDecoration: "underline" }}
+              onClick={() =>
+                handleSeeMore({
+                  id,
+                  isSelected,
+                  features,
+                  details,
+                  subtitle,
+                  title,
+                  price,
+                  coverImageUrl,
+                })
+              }
+            >
+              ver mais
+            </Text>
           </div>
         </div>
         <div

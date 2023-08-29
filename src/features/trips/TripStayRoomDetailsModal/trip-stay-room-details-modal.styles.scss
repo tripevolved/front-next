@@ -1,0 +1,18 @@
+.trip-stay-room-details-modal {
+  padding: 26px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+
+  &__title {
+    padding: 0 24px;
+  }
+
+  &__cover-image {
+    width: 100%;
+
+    img {
+      width: 100%;
+    }
+  }
+}
