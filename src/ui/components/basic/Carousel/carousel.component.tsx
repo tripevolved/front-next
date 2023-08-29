@@ -25,7 +25,7 @@ export const Carousel = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
-  const computedStyle = { "--height": parseNumericValue(height), ...style };
+  const computedStyle = { height: parseNumericValue(height), ...style };
   const cn = classNames("carousel", className);
 
   const scrollTo = useCallback((index: number) => embla && embla.scrollTo(index), [embla]);
@@ -35,7 +35,7 @@ export const Carousel = ({
     const newIndex = embla.selectedScrollSnap();
     setSelectedIndex(newIndex);
     onSelect?.(newIndex);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [embla, setSelectedIndex]);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export const Carousel = ({
     if (typeof currentIndex === "number" && currentIndex !== selectedIndex) {
       scrollTo(currentIndex);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex]);
 
   return (

@@ -3,8 +3,9 @@ import type { TripStayDetailsModalProps } from "./trip-stay-details-modal.types"
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { TripStayFeature, TripStayRoom } from "@/core/types";
-import { FC, useState } from "react";
+import { useState } from "react";
 import { Button, Card, Divider } from "mars-ds";
+import { Carousel } from "@/ui";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 
 export function TripStayDetailsModal({
@@ -26,8 +27,11 @@ export function TripStayDetailsModal({
           </Text>
           <Text>Hotel em {stayData.address}</Text>
         </div>
-        {/** TODO: apply image carousel here */}
-        <Picture src="https://picsum.photos/400/300" />
+        <Carousel height={220}>
+          {stayData.images?.map((image, i) => (
+            <Picture src={image.url} alt={image.altText!} key={i} height={"100%"} />
+          ))}
+        </Carousel>
       </Box>
       <Box className="trip-stay-details-modal__content">
         <Text heading size="xs" className="trip-stay-details-modal__content__title">

@@ -29,8 +29,9 @@ const mockData: TripStay = {
       { title: "Wi-Fi", type: "wifi" },
     ],
     images: [
-      { url: "https://picsum.photos/300/200", altText: "" },
-      { url: "https://picsum.photos/400/300", altText: "" },
+      { url: "https://picsum.photos/300/200", altText: "Primeira imagem" },
+      { url: "https://picsum.photos/400/300", altText: "Segunda imagem" },
+      { url: "https://picsum.photos/500/400", altText: "Terceira imagem" },
     ],
     information: "Informação legal da acomodação",
     price: 67.09,
