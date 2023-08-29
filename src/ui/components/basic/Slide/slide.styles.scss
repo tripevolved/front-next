@@ -1,0 +1,37 @@
+.slide {
+  padding: $spacing-xl;
+  height: var(--height, 300px);
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  &__background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    picture,
+    img {
+      max-width: unset;
+      object-fit: cover;
+      height: var(--height, 300px);
+      width: 100%;
+    }
+  }
+  &__content {
+    position: relative;
+    width: 100%;
+    max-width: 60%;
+    &__overline {
+      letter-spacing: 1.2px;
+    }
+  }
+
+  &--is-container {
+    &-full {
+      .slide__content {
+        max-width: 600px;
+      }
+    }
+  }
+}
