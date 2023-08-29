@@ -10,9 +10,9 @@ import { addDays, differenceInDays } from "date-fns";
 import "react-date-range/dist/styles.css"; // main css file
 
 const KEY = "selection";
-const FIVE_MONTHS_IN_DAYS = 30 * 5;
+const MAX_DAYS = 365; // ONE YEAR
 
-export function DatePicker({ onSelect, maxDays = FIVE_MONTHS_IN_DAYS }: DatePickerProps) {
+export function DatePicker({ onSelect, maxDays = MAX_DAYS }: DatePickerProps) {
   const [rangeValue, setRangeValue] = useState<any>([
     {
       startDate: addDays(new Date(), 1),

@@ -3,6 +3,9 @@ import axios from "axios";
 import { ensureNotSlashEnds } from "@/utils/helpers/url.helper";
 import { UserService } from "@/services/user";
 import { clientInfoInterceptor } from "./client-info.interceptor";
+import {
+  expiredTokenInterceptor,
+} from "./expired-token-check.interceptor";
 
 const API_URL = ensureNotSlashEnds(process.env.NEXT_PUBLIC_API_URL || "");
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
@@ -16,6 +19,7 @@ const makeInstance = (method: ApiRequestMethod) => {
   const headers = { "X-API-Key": API_KEY, Authorization };
   const instance = axios.create({ baseURL, headers });
   instance.interceptors.request.use(clientInfoInterceptor);
+  instance.interceptors.response.use(undefined, expiredTokenInterceptor);
   return instance[method];
 };
 
