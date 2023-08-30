@@ -120,7 +120,11 @@ export const TripStayRoomCard = ({
             <Text size="lg">{formatByDataType(price, "CURRENCY")}</Text>
 
             <Text
-              style={{ color: "var(--color-gray-1)", textDecoration: "underline" }}
+              style={{
+                color: "var(--color-gray-1)",
+                textDecoration: "underline",
+                cursor: "pointer",
+              }}
               onClick={() =>
                 handleSeeMore({
                   id,

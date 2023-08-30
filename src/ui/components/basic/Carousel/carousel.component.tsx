@@ -21,7 +21,7 @@ export const Carousel = ({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
-  const computedStyle = { height: parseNumericValue(height), ...style };
+  const computedStyle = { "--height": parseNumericValue(height), ...style };
   const cn = classNames("carousel", className);
 
   const scrollTo = useCallback((index: number) => embla && embla.scrollTo(index), [embla]);

@@ -12,64 +12,6 @@ import { TripStayDetailsModal } from "../TripStayDetailsModal";
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
 
-const mockData: TripStay = {
-  coverImageUrl: "https://picsum.photos/50/",
-  cancellationInfo: "Informação de cancelamento",
-  isBuilding: false,
-  isReserved: false,
-  message: "Mensagem legal de Teste",
-  reservationMessage: "Mensagem de reservação",
-  details: {
-    address: "Quadra QS 112",
-    checkInHour: "8h às 20h",
-    services: [
-      { title: "Ar condicionado", type: "ac" },
-      { title: "Boa cama", type: "bed" },
-      { title: "Café da Manhã", type: "breakfast" },
-      { title: "Wi-Fi", type: "wifi" },
-    ],
-    images: [
-      { url: "https://picsum.photos/300/200", altText: "Primeira imagem" },
-      { url: "https://picsum.photos/400/300", altText: "Segunda imagem" },
-      { url: "https://picsum.photos/500/400", altText: "Terceira imagem" },
-    ],
-    information: "Informação legal da acomodação",
-    price: 67.09,
-    currency: "R$",
-    rooms: [
-      {
-        coverImageUrl: "https://picsum.photos/300/200",
-        details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
-        features: [{ title: "Wifi", type: "wifi" }],
-        id: "i2u3g429",
-        isSelected: true,
-        price: 20.0,
-        subtitle: "Acomoda 2 pessoas",
-        title: "Suíte simples",
-      },
-      {
-        coverImageUrl: "https://picsum.photos/300/200",
-        details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
-        features: [{ title: "Ar Condicionado", type: "ac" }],
-        id: "i2u3g429",
-        isSelected: true,
-        price: 20.0,
-        subtitle: "acomoda 4 pessoas",
-        title: "Suíte deluxe",
-      },
-    ],
-  },
-  highlight: {
-    description: "Um ótimo lugar para quem gosta montanhas e grandes altitudes",
-    title: "Nas Alturas",
-    type: "comfort",
-  },
-  id: "12kuj3h6244er",
-  isSelected: true,
-  name: "Alto mais Alto",
-  tags: "3 estrelas",
-};
-
 export const TripStaySection = ({ tripId }: { tripId: string }) => {
   const getStay = (key: string) => {
     return getByTripId(tripId);
@@ -78,7 +20,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
   const { data, error, isLoading } = useSwr("stay", getStay, swrOptions);
 
   const handleSeeDetails = () => {
-    Modal.open(() => <TripStayDetailsModal stayData={mockData.details} name={mockData.name} />, {
+    Modal.open(() => <TripStayDetailsModal stayData={data!.details} name={data!.name} />, {
       closable: true,
       size: "md",
     });
@@ -115,7 +57,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
     );
   }
 
-  if (!mockData || !mockData.isSelected) {
+  if (!data || !data.isSelected) {
     return (
       <>
         <div className="trip-content-item trip-stay-section">
@@ -160,12 +102,10 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
           </Box>
           <Box className="trip-stay-section__content">
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture src={mockData.coverImageUrl!} />
+              <Picture src={data.coverImageUrl!} />
               <Box className="trip-stay-section__content__stay-desc__box">
-                <Text size="lg">{mockData.name}</Text>
-                <Box className="trip-stay-section__content__stay-desc__box__stars">
-                  {mockData.tags}
-                </Box>
+                <Text size="lg">{data.name}</Text>
+                <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>
               </Box>
             </Box>
             <Button
@@ -176,7 +116,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
               Ver detalhes
             </Button>
           </Box>
-          {mockData.highlight ? <TripStayHighlightSection highlight={mockData.highlight} /> : null}
+          {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
         </Box>
       </div>
     </>
