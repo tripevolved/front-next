@@ -6,7 +6,6 @@ import { TripStayHighlightSection } from "./trip-stay-highlight.section";
 import { Modal } from "mars-ds";
 
 import { StaysApiService } from "@/services/api";
-import { TripStay } from "@/core/types";
 import { TripStayDetailsModal } from "../TripStayDetailsModal";
 
 const swrOptions = { revalidateOnFocus: false };
