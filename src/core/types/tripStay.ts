@@ -57,11 +57,6 @@ interface TripStayRoomDetails {
   amenities: string[] | null;
 }
 
-//interface TripStayRoomFeature {
-//  title: string;
-//  type: string | null;
-//}
-
 interface TripStayRoomFeature extends TripStayFeature {}
 
 export interface TripStayReservation {
