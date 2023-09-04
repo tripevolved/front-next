@@ -4,11 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
 import classNames from "classnames";
-
-const parseNumericValue = (value?: string | number) => {
-  const isNumber = !Number.isNaN(Number(value));
-  return isNumber ? `${value}px` : value;
-};
+import { parseNumericValue } from "@/utils/helpers/css.helpers";
 
 export const Carousel = ({
   children,

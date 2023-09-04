@@ -18,6 +18,7 @@ export * from "./basic/ModalContent";
 export * from "./basic/NoSSR";
 export * from "./basic/Picture";
 export * from "./basic/Pricing";
+export * from "./basic/Slide";
 export * from "./basic/StepsProgressBar";
 export * from "./basic/Tag";
 export * from "./basic/Text";
