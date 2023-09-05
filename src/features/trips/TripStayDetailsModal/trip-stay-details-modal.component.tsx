@@ -28,7 +28,7 @@ export function TripStayDetailsModal({
           </Text>
           <Text>Hotel em {stayData.address}</Text>
         </div>
-        <Carousel height={220}>
+        {stayData.images && <Carousel height={220}>
           {stayData.images?.map((image, i) => (
             <Picture
               className="trip-stay-details-modal__initial-info__image"
@@ -37,7 +37,7 @@ export function TripStayDetailsModal({
               key={i}
             />
           ))}
-        </Carousel>
+        </Carousel>}
       </Box>
       <Box className="trip-stay-details-modal__content">
         <Text heading size="xs" className="trip-stay-details-modal__content__title">
@@ -46,11 +46,11 @@ export function TripStayDetailsModal({
         <Text className="trip-stay-details-modal__content__description">
           {stayData.information}
         </Text>
-        <div className="trip-stay-details-modal__content__service-list">
+        {stayData.services && <div className="trip-stay-details-modal__content__service-list">
           {stayData.services.map((service, i) => (
             <TripStayServiceItem {...service} key={i} />
           ))}
-        </div>
+        </div>}
         <Box className="trip-stay-details-modal__content__check-in-address">
           <Divider />
           <div className="trip-stay-details-modal__content__check-in-address__item">
@@ -63,14 +63,14 @@ export function TripStayDetailsModal({
           </div>
         </Box>
       </Box>
-      <Box className="trip-stay-details-modal__rooms">
+      {stayData.rooms && <Box className="trip-stay-details-modal__rooms">
         <Text heading size="xs" style={{ marginBottom: 10 }}>
           Quartos
         </Text>
         {stayData.rooms.map((room, i) => (
           <TripStayRoomCard {...room} key={i} />
         ))}
-      </Box>
+      </Box>}
     </div>
   );
 }
