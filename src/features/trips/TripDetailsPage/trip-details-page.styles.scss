@@ -3,12 +3,19 @@
   background-color: $color-brand-7;
   flex-wrap: wrap;
   display: flex;
+  justify-content: space-between;
   gap: 24px;
 
   &__feature {
     display: inline-flex;
     align-items: center;
     gap: 12px;
+  }
+
+  &__button {
+    span > svg {
+      stroke: $color-brand-1;
+    }
   }
 }
 
