@@ -48,7 +48,7 @@ const makeSut = (props?: TripStayDetailsModalProps) => {
       },
     ],
   };
-  render(<TripStayDetailsModal {...props} stayData={mockDetails} name="Teste" className="teste"/>)
+  render(<TripStayDetailsModal {...props} stayData={mockDetails} name="Teste" />)
 };
 
 describe("<TripStayDetailsModal>", () => {
