@@ -87,7 +87,9 @@ export function TripEditConfiguration({
 
   if (submitting) {
     return (
-      <StepsLoader steps={LOADING_STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
+      <div style={{ width: "100%", height: 500, display: "flex", alignItems: "center" }}>
+        <StepsLoader steps={LOADING_STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
+      </div>
     );
   }
 
