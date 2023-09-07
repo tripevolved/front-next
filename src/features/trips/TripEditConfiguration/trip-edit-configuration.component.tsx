@@ -95,8 +95,12 @@ export function TripEditConfiguration({
 
   return (
     <div className={`${cn} gap-lg p-lg`} {...props}>
-      <Text heading style={{ color: "var(--color-brand-1)" }}>
-        Configurações da sua Viagem
+      <Text
+        heading
+        size="md"
+        style={{ color: "var(--color-brand-1)", textAlign: "left", width: "100%" }}
+      >
+        Configurações da Viagem
       </Text>
       <Box style={animation.style}>
         <Component
