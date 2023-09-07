@@ -106,7 +106,6 @@ export function TripEditConfiguration({
         <Component
           onNext={handleNext}
           onPrevious={() => setCurrentIndex((state) => state - 1)}
-          goToStepName={() => undefined}
         />
       </Box>
     </div>
