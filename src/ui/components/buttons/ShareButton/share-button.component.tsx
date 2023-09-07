@@ -1,4 +1,4 @@
-import { Button, ButtonProps, Modal, TextField } from "mars-ds";
+import { Button, ButtonProps, Modal, Skeleton, TextField } from "mars-ds";
 import type { ShareButtonProps, SocialSharingModalProps } from "./share-button.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -25,22 +25,24 @@ export function ShareButton({
   heading = DEFAULT_HEADING,
   ...props
 }: ShareButtonProps) {
+  const [loading, setLoading] = useState(true);
   const [sharingLink, setSharingLink] = useState(pageConfig.url);
-  const { lead } = useAppStore();
+  const { ref, inviter, email, fetching } = useAppStore(({ lead }) => ({
+    ref: lead.launchList?.id || "",
+    inviter: lead?.name?.split(" ")[0] || "",
+    email: encodeURIComponent(lead?.email || ""),
+    fetching: lead.fetching,
+  }));
 
   const cn = makeCn("share-button", className)(sx);
 
   useEffect(() => {
-    const ref = lead ? lead.launchList?.id : "";
-    const firstName = lead?.name?.split(" ")[0] || "";
-    const email = encodeURIComponent(lead?.email || "");
-
+    setLoading(true);
     const url = href || link || pageConfig.url;
-
-    const fullURL = `${url}?ref=${ref}&inviter=${firstName}&email=${email}`;
-
+    const fullURL = `${url}?ref=${ref}&inviter=${inviter}&email=${email}`;
     setSharingLink(fullURL);
-  }, [href, link, lead]);
+    setLoading(false);
+  }, [email, href, inviter, link, ref]);
 
   const handleClick = () => {
     Modal.open(
@@ -60,9 +62,11 @@ export function ShareButton({
 
   return (
     <Box className={cn}>
-      <Button variant="secondary" iconName="share" onClick={handleClick} {...props}>
-        {label}
-      </Button>
+      <Skeleton active={loading || fetching}>
+        <Button variant="secondary" iconName="share" onClick={handleClick} {...props}>
+          {label}
+        </Button>
+      </Skeleton>
     </Box>
   );
 }
