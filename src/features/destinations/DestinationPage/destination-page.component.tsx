@@ -7,6 +7,9 @@ import { DestinationTipsSection } from "./destination-tips.section";
 import { DestinationPostsSection } from "./destinations-posts.section";
 import { DestinationFaqSection } from "./destination-faq.section";
 import { Button } from "mars-ds";
+import { UserCredentials } from "@/services/user/credentials";
+import { useRouter } from "next/router";
+import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
 
 const mock = {
   features: [
@@ -101,6 +104,18 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
     videos = [],
     id,
   } = destination;
+  const router = useRouter();
+  const userData = UserCredentials.get();
+
+  const handleClick = (route: string) => {
+    if (userData?.idToken) {
+      router.push(route);
+    } else {
+      const wLink = getWhatsappLink(`Olá gostaria de ir para este destino: ${title}`);
+      router.push(wLink);
+    }
+  };
+
   return (
     <PageBase navbar={navbar} footer={footer} seo={seo}>
       <DestinationHeroSection title={title} photos={photos} />
