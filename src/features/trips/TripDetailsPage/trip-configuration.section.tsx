@@ -23,7 +23,6 @@ export const TripConfigurationSection = ({
       <Feature iconName="clock">{period}</Feature>
       <Feature iconName="dollar-sign">{formatToCurrencyBR(budget)}</Feature>
       <Button
-        style={{ color: "var(--color-gray-2)" }}
         className="trip-configuration__button"
         iconName="edit-2"
         size="sm"
