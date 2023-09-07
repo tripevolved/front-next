@@ -1,4 +1,5 @@
 import { useAppStore } from "@/core/store";
+import { FETCH_STATE } from "@/core/store/store.helpers";
 import { LeadApiService } from "@/services/api";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -20,8 +21,9 @@ export const LeadProvider = ({ children }: { children: React.ReactNode }) => {
   const hasLeadData = Boolean(lead.fetched && lead.email);
 
   const tryFindLead = async (email: string) => {
+    leadUpdate(FETCH_STATE.FETCHING);
     try {
-      const dataLead = await LeadApiService.getByEmail(email)
+      const dataLead = await LeadApiService.getByEmail(email);
       if (dataLead) leadCreate(dataLead);
       else router.replace("/");
     } catch (error) {
@@ -34,7 +36,7 @@ export const LeadProvider = ({ children }: { children: React.ReactNode }) => {
     if (!invitedBy.email) return;
     if (hasLeadData) return;
     tryFindLead(invitedBy.email);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [invitedBy.email]);
 
   useEffect(() => {

@@ -27,10 +27,11 @@ export function ShareButton({
 }: ShareButtonProps) {
   const [loading, setLoading] = useState(true);
   const [sharingLink, setSharingLink] = useState(pageConfig.url);
-  const { ref, inviter, email } = useAppStore(({ lead }) => ({
+  const { ref, inviter, email, fetching } = useAppStore(({ lead }) => ({
     ref: lead.launchList?.id || "",
     inviter: lead?.name?.split(" ")[0] || "",
     email: encodeURIComponent(lead?.email || ""),
+    fetching: lead.fetching,
   }));
 
   const cn = makeCn("share-button", className)(sx);
@@ -61,7 +62,7 @@ export function ShareButton({
 
   return (
     <Box className={cn}>
-      <Skeleton active={loading}>
+      <Skeleton active={loading || fetching}>
         <Button variant="secondary" iconName="share" onClick={handleClick} {...props}>
           {label}
         </Button>
