@@ -5,7 +5,9 @@ import type { TripEditConfigurationProps } from "./trip-edit-configuration.types
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAnimation } from "@/utils/hooks/animation.hook";
-import { Box, Text } from "@/ui";
+import { Box, StepsLoader, Text } from "@/ui";
+import { TripsApiService } from "@/services/api";
+import { Notification } from "mars-ds";
 
 const CONFIG_STEPS = [
   {
@@ -19,21 +21,50 @@ const CONFIG_STEPS = [
     component: StepFinish,
   },
 ];
-
+const NINE_SECONDS_IN_MS = 9 * 1000;
+const MILLISECONDS = NINE_SECONDS_IN_MS;
+const LOADING_STEPS = [
+  {
+    text: "Reconstruindo sua viagem...",
+    iconName: "settings",
+  },
+  {
+    text: "Procurando atrações para seu roteiro...",
+    iconName: "map",
+  },
+  {
+    text: "Estamos selecionando as melhores opções",
+    iconName: "search",
+  },
+];
 const DEFAULT_INITIAL_INDEX = 0;
 
 export function TripEditConfiguration({
   className,
   children,
   sx,
+  tripId,
   ...props
 }: TripEditConfigurationProps) {
   const cn = makeCn("trip-edit-configuration", className)(sx);
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
+  const [submitting, setSubmitting] = useState(false);
 
   const data = useRef<Record<string, any>>({});
 
   const animation = useAnimation();
+
+  const handleSubmit = async () => {
+    data.current = { ...data.current, tripId };
+    try {
+      // @ts-ignore
+      const result = await TripsApiService.setTripConfiguration({ ...data.current });
+      setSubmitting(true);
+    } catch (error) {
+      setSubmitting(false);
+      Notification.error("Devido à um erro não foi possível criar a sua trip.");
+    }
+  };
 
   const handleNext = (newData?: Record<string, any>) => {
     if (newData) {
@@ -44,11 +75,21 @@ export function TripEditConfiguration({
       setCurrentIndex(nextIndex);
       animation.trigger(true);
     } else {
-      // Do something
+      handleSubmit();
     }
   };
 
+  const handleFinish = () => {
+    location.reload();
+  };
+
   const { component: Component } = CONFIG_STEPS[currentIndex];
+
+  if (submitting) {
+    return (
+      <StepsLoader steps={LOADING_STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
+    );
+  }
 
   return (
     <div className={`${cn} gap-lg p-lg`} {...props}>

@@ -43,7 +43,7 @@ export const editTrip = async ({
       type: 0,
     },
   } satisfies EditTripConfigurationRequest;
-  const { id } = await ApiRequest.post<EditTrip>(url, trip);
+  const { id } = await ApiRequest.put<EditTrip>(url, trip);
 
   return { id };
 };

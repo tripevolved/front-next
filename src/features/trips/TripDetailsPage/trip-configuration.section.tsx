@@ -8,10 +8,14 @@ export const TripConfigurationSection = ({
   dates,
   period,
   budget,
-}: TripDetailsProps["configuration"]) => {
+  tripId,
+}: TripDetailsProps["configuration"] & { tripId: string }) => {
   const handleButton = () => {
-    Modal.open(() => <TripEditConfiguration className="p-md"/>, {size: 'md', closable: true})
-  }
+    Modal.open(() => <TripEditConfiguration tripId={tripId} className="p-md" />, {
+      size: "md",
+      closable: true,
+    });
+  };
 
   return (
     <CardHighlight className="trip-configuration">
@@ -19,7 +23,7 @@ export const TripConfigurationSection = ({
       <Feature iconName="clock">{period}</Feature>
       <Feature iconName="dollar-sign">{formatToCurrencyBR(budget)}</Feature>
       <Button
-        style={{ color:"var(--color-gray-2)"}}
+        style={{ color: "var(--color-gray-2)" }}
         className="trip-configuration__button"
         iconName="edit-2"
         size="sm"
