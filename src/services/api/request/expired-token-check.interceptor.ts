@@ -11,7 +11,7 @@ const handleExpiredToken = () => {
 };
 
 export const expiredTokenInterceptor = (config: AxiosError) => {
-  const isUnauthorized = config.status === 401 || config.response?.status === 401
+  const isUnauthorized = config.status === 401 || config.response?.status === 401;
   if (isUnauthorized) handleExpiredToken();
   return config;
 };
