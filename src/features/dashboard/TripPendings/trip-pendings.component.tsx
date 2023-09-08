@@ -8,6 +8,8 @@ import { PendingDocumentsModal } from "../PendingDocumentsModal";
 import { ConfirmFlightModal } from "../ConfirmFlightModal";
 import { useTripPendings } from "./trip-pendings.hook";
 import { PageAppHeader } from "@/features/templates/PageAppHeader";
+import useSwr from "swr";
+import { TripsApiService } from "@/services/api";
 
 export function TripPendings({ className, children, sx, ...props }: TripPendingsProps) {
   const cn = makeCn("trip-pendings", className)(sx);
@@ -15,10 +17,11 @@ export function TripPendings({ className, children, sx, ...props }: TripPendings
   const router = useRouter();
   const idParam = typeof router.query.id === "string" ? router.query.id : null;
 
+  const fetcher = async () => TripsApiService.getTripPendings(idParam!);
+  const { isLoading, error, data } = useSwr(idParam, fetcher);
+
   const text =
     "Confira suas pendências. É importante cumprir a lista para que tudo saia como o planejado.";
-
-  const { isLoading, data, error } = useTripPendings();
 
   const getView = () => {
     if (error) return <EmptyState />;

@@ -1,18 +1,22 @@
 import type { TripDetailsPanelProps } from "./trip-details-panel.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { TripAbstract } from "@/core/types";
-import { HeaderUserMenu } from "../../dashboard/HeaderUserMenu";
 import { HasTrip } from "../HasTrip";
-import { useTripDashboard } from "./trip-details-panel.hook";
 import { useAppStore } from "@/core/store";
-import { useState, useEffect } from "react";
 import { EmptyState, GlobalLoader, Text } from "@/ui";
 import { PageAppHeader, TripDashboard } from "@/features";
-import { Avatar } from "mars-ds";
+import { useRouter } from "next/router";
+import { TripsApiService } from "@/services/api";
+import useSwr from "swr";
 
 export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelProps) {
   const cn = makeCn("trip-details-panel", className)(sx);
+
+  const router = useRouter();
+  const idParam = typeof router.query.id === "string" ? router.query.id : null;
+
+  const fetcher = async () => TripsApiService.getByIdForDashboard(idParam!);
+  const { isLoading, error, data } = useSwr(idParam, fetcher);
 
   const {
     name = "viajante",
@@ -21,7 +25,6 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
   } = useAppStore((state) => state.travelerState);
   const firstName = name.replace(/\s.*/, "");
 
-  const { isLoading, data, error } = useTripDashboard();
   const { travelerState } = useAppStore();
 
   const getView = () => {
@@ -31,7 +34,10 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
 
     return data.destinationProposal ? (
       <HasTrip trip={data.destinationProposal} tripId={data.id} />
-    ) : (data.tripDashboard ? <TripDashboard tripDashboard={data.tripDashboard!} tripId={data.id} /> : <EmptyState text="Não foi possível abrir essa viagem" />
+    ) : data.tripDashboard ? (
+      <TripDashboard tripDashboard={data.tripDashboard!} tripId={data.id} />
+    ) : (
+      <EmptyState text="Não foi possível abrir essa viagem" />
     );
   };
 

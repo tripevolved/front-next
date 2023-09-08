@@ -1,22 +1,26 @@
 import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
-import { useTripScriptPreview } from "./trip-script-preview.hook";
 import { TripScriptPreviewActionSection } from "./trip-script-preview-action.section";
 import { TripScriptPreviewDetailedDay } from "./trip-script-preview-detailed-day.section";
 import { TripScriptPreviewBlockedSection } from "./trip-script-preview-blocked.section";
 import { useRouter } from "next/router";
 import { PageAppHeader } from "@/features/templates/PageAppHeader";
+import useSwr from "swr";
+import { TripScriptsApiService } from "@/services/api";
 
 export function TripScriptPreviewPanel() {
-  const { isLoading, data, error } = useTripScriptPreview();
   const router = useRouter();
 
   const idParam = typeof router.query.id === "string" ? router.query.id : null;
+
+  const fetcher = () => TripScriptsApiService.getPreview(idParam!);
+  const { isLoading, data, error } = useSwr(idParam, fetcher);
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
   if (data === undefined) return <EmptyState />;
 
   const { days, isPreview } = data;
+  // TODO: refact the data view, screen is too small
 
   return (
     <>
