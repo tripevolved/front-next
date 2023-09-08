@@ -35,9 +35,10 @@ interface TripStayImage {
   altText: string | null;
 }
 
-interface TripStayFeature {
+export interface TripStayFeature {
   title: string;
-  type: string | null;
+  // TODO: redefine these types
+  type: "ac" | "wifi" | "breakfast" | "bed" | "close_to_attractions" | null;
 }
 
 export interface TripStayRoom {
@@ -56,10 +57,7 @@ interface TripStayRoomDetails {
   amenities: string[] | null;
 }
 
-interface TripStayRoomFeature {
-  title: string;
-  type: string | null;
-}
+interface TripStayRoomFeature extends TripStayFeature {}
 
 export interface TripStayReservation {
   id: string; // reservation id

@@ -2,6 +2,8 @@
   overflow: hidden;
   position: relative;
   display: grid;
+  grid-template-rows: auto;
+  align-items: center;
   &__container {
     display: flex;
     > * {
