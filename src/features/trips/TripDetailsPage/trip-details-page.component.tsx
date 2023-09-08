@@ -50,7 +50,9 @@ export function TripDetailsPage() {
         <Grid columns={{ md: "1fr 320px" }}>
           <Card className="page-app-body__card">
             <Grid growing={false}>
-              {configuration ? <TripConfigurationSection {...configuration} /> : null}
+              {configuration ? (
+                <TripConfigurationSection {...configuration} tripId={data.id} />
+              ) : null}
               {features.length ? <DestinationInfos features={features} /> : null}
               {recommendedBy ? <DestinationRecommendedBy {...recommendedBy} /> : null}
             </Grid>
