@@ -12,8 +12,8 @@ const handleExpiredToken = async () => {
   location.replace(`/app/entrar?redirectTo=${redirectTo}`);
 };
 
-export const expiredTokenInterceptor = async (config: AxiosError) => {
-  const isUnauthorized = config.status === 401 || config.response?.status === 401
-  if (isUnauthorized) await handleExpiredToken();
+export const expiredTokenInterceptor = (config: AxiosError) => {
+  const isUnauthorized = config.status === 401 || config.response?.status === 401;
+  if (isUnauthorized) handleExpiredToken();
   return config;
 };

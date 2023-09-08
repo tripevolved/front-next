@@ -28,18 +28,18 @@ export function TripStayDetailsModal({
           </Text>
           <Text>Hotel em {stayData.address}</Text>
         </div>
-        {stayData.images && (
+        {stayData.images ? (
           <Carousel height={220}>
-            {stayData.images?.map((image, i) => (
+            {stayData.images.map((image, key) => (
               <Picture
                 className="trip-stay-details-modal__initial-info__image"
                 src={image.url}
                 alt={image.altText!}
-                key={i}
+                key={key}
               />
             ))}
           </Carousel>
-        )}
+        ) : null}
       </Box>
       <Box className="trip-stay-details-modal__content">
         <Text heading size="xs" className="trip-stay-details-modal__content__title">
@@ -67,7 +67,7 @@ export function TripStayDetailsModal({
           </div>
         </Box>
       </Box>
-      {stayData.rooms && (
+      {stayData.rooms ? (
         <Box className="trip-stay-details-modal__rooms">
           <Text heading size="xs" style={{ marginBottom: 10 }}>
             Quartos
@@ -76,7 +76,7 @@ export function TripStayDetailsModal({
             <TripStayRoomCard {...room} key={i} />
           ))}
         </Box>
-      )}
+      ) : null}
     </div>
   );
 }
