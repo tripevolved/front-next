@@ -3,6 +3,7 @@
   background-color: $color-brand-7;
   flex-wrap: wrap;
   display: flex;
+  justify-content: space-between;
   gap: 24px;
 
   &__feature {
@@ -10,6 +11,7 @@
     align-items: center;
     gap: 12px;
   }
+
 }
 
 .what-includes-section {
