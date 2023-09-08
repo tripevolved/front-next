@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { Button, Modal } from "mars-ds";
 import { PendingDocumentsModal } from "../PendingDocumentsModal";
 import { ConfirmFlightModal } from "../ConfirmFlightModal";
-import { useTripPendings } from "./trip-pendings.hook";
 import { PageAppHeader } from "@/features/templates/PageAppHeader";
 import useSwr from "swr";
 import { TripsApiService } from "@/services/api";
