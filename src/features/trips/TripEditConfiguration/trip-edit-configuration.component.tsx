@@ -103,10 +103,8 @@ export function TripEditConfiguration({
         Configurações da Viagem
       </Text>
       <Box style={animation.style}>
-        <Component
-          onNext={handleNext}
-          onPrevious={() => setCurrentIndex((state) => state - 1)}
-        />
+        {/** @ts-ignore */}
+        <Component onNext={handleNext} onPrevious={() => setCurrentIndex((state) => state - 1)} />
       </Box>
     </div>
   );
