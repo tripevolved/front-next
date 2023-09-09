@@ -8,6 +8,7 @@ import { createTrip } from "./create";
 import { getTripPendings } from "./pendings";
 import { getTripPriceById } from "./price";
 import { putDestinationIdForTrip } from "./destination-set";
+import { editTrip } from "./configuration";
 
 export const TripsApiService = {
   getById: getTripDetailsById,
@@ -22,4 +23,5 @@ export const TripsApiService = {
   getMatchedDestinations: getMatchedDestinations,
   setMatchedDestinations: putMatchedDestinations,
   setDestinationId: putDestinationIdForTrip,
+  setTripConfiguration: editTrip,
 };

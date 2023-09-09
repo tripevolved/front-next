@@ -1,0 +1,11 @@
+.trip-edit-configuration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  height: 600px;
+
+  @media (min-width: $breakpoint-md) {
+    height: 800px; 
+  }
+}

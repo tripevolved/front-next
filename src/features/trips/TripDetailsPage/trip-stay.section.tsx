@@ -3,8 +3,10 @@ import useSwr from "swr";
 import { Loader, Button } from "mars-ds";
 import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 import { TripStayHighlightSection } from "./trip-stay-highlight.section";
+import { Modal } from "mars-ds";
 
 import { StaysApiService } from "@/services/api";
+import { TripStayDetailsModal } from "../TripStayDetailsModal";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
@@ -15,6 +17,13 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
   };
 
   const { data, error, isLoading } = useSwr("stay", getStay, swrOptions);
+
+  const handleSeeDetails = () => {
+    Modal.open(() => <TripStayDetailsModal stayData={data!.details} name={data!.name} />, {
+      closable: true,
+      size: "md",
+    });
+  };
 
   if (isLoading) {
     return (
@@ -98,9 +107,13 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
                 <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>
               </Box>
             </Box>
-            <Text size="xl" className="trip-stay-section__content__details-text">
+            <Button
+              variant="naked"
+              className="trip-stay-section__content__details-text"
+              onClick={() => handleSeeDetails()}
+            >
               Ver detalhes
-            </Text>
+            </Button>
           </Box>
           {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
         </Box>

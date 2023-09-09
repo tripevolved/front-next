@@ -11,7 +11,7 @@ interface CreateTripRequest {
   travelers: Travelers;
 }
 
-interface Travelers {
+export interface Travelers {
   type: number;
   adults: number;
   children: number;
@@ -22,12 +22,12 @@ interface TripBehaviorAnswer {
   answers: string[];
 }
 
-interface TripPeriod {
+export interface TripPeriod {
   minDays: number;
   maxDays: number;
 }
 
-interface TripDates {
+export interface TripDates {
   startDate?: Date;
   endDate?: Date;
   month?: number;
