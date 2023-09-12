@@ -9,44 +9,6 @@ import { Photo } from "@/core/types";
 interface DestinationHeroSectionProps extends Pick<DestinationProps, "title" | "photos"> {}
 
 export const DestinationHeroSection = ({ title, photos = [] }: DestinationHeroSectionProps) => {
-  // TODO: Implements carousel
-
-  const mockPhoto: Photo[] = [
-    {
-      title: "Primeira Foto",
-      sources: [
-        {
-          url: "https://picsum.photos/1000/500",
-          height: 500,
-          width: 1000,
-          type: "xl",
-        },
-        {
-          url: "https://picsum.photos/900/450",
-          height: 450,
-          width: 900,
-          type: "lg",
-        },
-      ],
-    },
-    {
-      title: "Segunda Foto",
-      sources: [
-        {
-          url: "https://picsum.photos/1100/550",
-          height: 550,
-          width: 1100,
-          type: "xl",
-        },
-        {
-          url: "https://picsum.photos/1000/500",
-          height: 500,
-          width: 1000,
-          type: "lg",
-        },
-      ],
-    },
-  ];
 
   const getImageList = (imageList: Photo[]): { title: string; src: string, [x: string]: string }[] => {
     // @ts-ignore
