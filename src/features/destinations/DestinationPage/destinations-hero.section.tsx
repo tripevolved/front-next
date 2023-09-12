@@ -57,7 +57,7 @@ export const DestinationHeroSection = ({ title, photos = [] }: DestinationHeroSe
 
   const imgList = getImageList(photos);
   const cn = makeCn("destination-hero-section", {
-    "destination-hero-section--no-photo": imgList.length ? undefined : true,
+    "destination-hero-section--no-photo": Boolean(imgList.length),
   })();
 
   return (
