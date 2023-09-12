@@ -71,7 +71,6 @@ export const DestinationHeroSection = ({ title, photos = [] }: DestinationHeroSe
       ) : (
         <Picture className="destination-hero-section__photos">{imgList[0]}</Picture>
       )}
-      {/* cover ? <Picture className="destination-hero-section__photos">{cover}</Picture> : null */}
       <Container className="destination-hero-section__content">
         <Text heading as="h1" size="lg">
           <strong>{title}</strong>
