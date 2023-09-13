@@ -6,6 +6,9 @@ import { TextField, Button } from "mars-ds";
 import { useTripPendingDocuments } from "./pending-documents-modal.hook";
 import { useEffect, useState } from "react";
 import { Traveler, TripTravelers } from "@/core/types";
+import { TravelerApiService } from "@/services/api/traveler";
+import useSwr from 'swr';
+import { useRouter } from "next/router";
 
 export function PendingDocumentsModal({
   className,
@@ -16,7 +19,13 @@ export function PendingDocumentsModal({
 }: PendingDocumentsModalProps) {
   const cn = makeCn("pending-documents-modal", className)(sx);
 
-  const { isLoading, data, error, sendDocs, dataSent } = useTripPendingDocuments(tripId);
+  const router = useRouter();
+  const idParam = typeof router.query.id === "string" ? router.query.id : null;
+  const fetcher = async () => TravelerApiService.getTripTravelers(idParam!);
+
+  const { isLoading, data, error: errorFetch } = useSwr(idParam, fetcher);
+
+  const { error: errorSentDocs, sendDocs, dataSent } = useTripPendingDocuments(tripId);
 
   const [travelersDocs, setTravelersDocs] = useState<Traveler[]>([]);
 
@@ -39,7 +48,7 @@ export function PendingDocumentsModal({
   };
 
   const getView = () => {
-    if (error) return <EmptyState />;
+    if (errorFetch) return <EmptyState />;
     if (isLoading) return <GlobalLoader />;
     if (data === undefined) return <EmptyState />;
 
@@ -102,13 +111,13 @@ export function PendingDocumentsModal({
 
       <Button
         className="pending-documents-modal__button"
-        disabled={isLoading || error}
+        disabled={isLoading || errorFetch}
         onClick={() => handleButton()}
       >
-        {error && "Algo inesperado aconteceu"}
+        {errorFetch && "Algo inesperado aconteceu"}
         {isLoading && "Enviando..."}
         {dataSent && "Documentos enviados!"}
-        {!error && !isLoading && !dataSent && "Enviar"}
+        {!errorFetch && !isLoading && !dataSent && "Enviar"}
       </Button>
     </div>
   );
