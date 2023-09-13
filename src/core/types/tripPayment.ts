@@ -35,7 +35,7 @@ export interface TripPayerAddress {
   complement: string | null;
   number: string;
   neighborhood: string;
-  city: string;
+  city: string; 
   stateProvince: string;
   country: string;
 }

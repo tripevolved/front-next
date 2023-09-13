@@ -15,5 +15,8 @@
     "youtube",
     "Youtube",
     "zustand"
-  ]
+  ],
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorBlinking": "smooth",
+  "editor.formatOnSave": true
 }
