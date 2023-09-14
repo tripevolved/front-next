@@ -186,8 +186,9 @@ export function TripPurchasePage() {
   };
 
   const handleAddressSearch = async (zipCode?: string) => {
+    // @ts-ignore
     if (!zipCode?.length < 9) return;
-    const cleanPostalCode = zipCode.replace(/-/g, "");
+    const cleanPostalCode = zipCode!.replace(/-/g, "");
 
     const addressData = await ViaCepService.getAddress(cleanPostalCode);
     if (!addressData) return;
