@@ -186,20 +186,20 @@ export function TripPurchasePage() {
   };
 
   const handleAddressSearch = async (zipCode?: string) => {
-    if (zipCode) {
-      const cleanPostalCode = zipCode.replace(/-/g, "");
+    if (!zipCode?.length < 9) return;
+    const cleanPostalCode = zipCode.replace(/-/g, "");
 
-      const addressData = await ViaCepService.getAddress(cleanPostalCode);
+    const addressData = await ViaCepService.getAddress(cleanPostalCode);
+    if (!addressData) return;
 
-      const newAddress: Partial<TripPayerAddress> = {
-        address: addressData?.logradouro,
-        neighborhood: addressData?.bairro,
-        city: addressData?.localidade,
-        stateProvince: addressData?.uf,
-      };
+    const newAddress: Partial<TripPayerAddress> = {
+      address: addressData?.logradouro,
+      neighborhood: addressData?.bairro,
+      city: addressData?.localidade,
+      stateProvince: addressData?.uf,
+    };
 
-      setAddress(newAddress);
-    }
+    setAddress(newAddress);
   };
 
   if (error) return <EmptyState />;
