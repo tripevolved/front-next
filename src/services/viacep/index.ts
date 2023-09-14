@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const VIACEP_URL = 'https://viacep.com.br/ws';
+const VIACEP_URL = "https://viacep.com.br/ws";
 
 export interface ViaCepDTO {
   cep: string;
@@ -19,10 +19,10 @@ const getAddressByPostalCode = async (postalCode: string | number): Promise<ViaC
   try {
     const url = `${VIACEP_URL}/${postalCode}/json/`;
     const { data } = await axios.get<ViaCepDTO>(url);
-    return data
+    return data;
   } catch (error) {
     return null;
   }
-}
+};
 
-export const ViaCepService = { getAddress: getAddressByPostalCode }
+export const ViaCepService = { getAddress: getAddressByPostalCode };
