@@ -9,13 +9,6 @@ export interface TripPurchaseResponseSectionProps {
 }
 
 export function TripPurchaseResponseSection({ tripId, isSuccess, message }: TripPurchaseResponseSectionProps) {
-
-  const handleHandle = () => {
-    Modal.open(() => <PendingDocumentsModal tripId={tripId} />, {
-      size: 'md',
-      closable: true
-    })
-  }
   return (
     <Box className="trip-purchase__response">
       {!isSuccess ? (
@@ -44,7 +37,7 @@ export function TripPurchaseResponseSection({ tripId, isSuccess, message }: Trip
             backgroundColor="var(--color-brand-2)"
             hoverBackgroundColor="var(--color-secondary-900)"
             color="white"
-            onClick={() => handleHandle()}
+            href={`/app/viagens/${tripId}/pendencias/viajantes`}
           >
             Ver minha viagem
           </Button>

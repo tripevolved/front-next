@@ -20,10 +20,9 @@ export function PendingDocumentsModal({
   const cn = makeCn("pending-documents-modal", className)(sx);
 
   const router = useRouter();
-  const idParam = typeof router.query.id === "string" ? router.query.id : null;
-  const fetcher = async () => TravelerApiService.getTripTravelers(idParam!);
+  const fetcher = async () => TravelerApiService.getTripTravelers(tripId!);
 
-  const { isLoading, data, error: errorFetch } = useSwr(idParam, fetcher);
+  const { isLoading, data, error: errorFetch } = useSwr(tripId, fetcher);
 
   const { error: errorSentDocs, sendDocs, dataSent } = useTripPendingDocuments(tripId);
 
