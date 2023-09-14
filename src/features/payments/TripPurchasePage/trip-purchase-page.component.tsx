@@ -48,7 +48,12 @@ export function TripPurchasePage() {
   const { travelerState } = useAppStore();
   const [paymentMethod, setPaymentMethod] = useState<TripPaymentMethod>();
   const [writeGender, setWriteGender] = useState(false);
-  const [address, setAddress] = useState<Partial<TripPayerAddress>>({} as TripPayerAddress);
+  const [address, setAddress] = useState<Partial<TripPayerAddress>>({
+    address: tripPayer?.address.address || '',
+    neighborhood: tripPayer?.address.neighborhood || '',
+    city: tripPayer?.address.city || '',
+    stateProvince: tripPayer?.address.stateProvince || ''
+  });
 
   const router = useRouter();
   const tripId = typeof router.query.id === "string" ? router.query.id : null;
@@ -187,9 +192,9 @@ export function TripPurchasePage() {
 
   const handleAddressSearch = async (zipCode?: string) => {
     // @ts-ignore
-    if (!zipCode?.length < 9) return;
+    if (zipCode?.length < 9) return;
     const cleanPostalCode = zipCode!.replace(/-/g, "");
-
+    
     const addressData = await ViaCepService.getAddress(cleanPostalCode);
     if (!addressData) return;
 
@@ -292,7 +297,7 @@ export function TripPurchasePage() {
                 className="trip-purchase__section__input"
                 required={true}
                 label="Cidade"
-                value={tripPayer?.address?.city || address.city}
+                value={address.city}
               />
               <TextField
                 id="stateProvince"
@@ -300,7 +305,7 @@ export function TripPurchasePage() {
                 required={true}
                 className="trip-purchase__section__input"
                 label="UF"
-                value={tripPayer?.address?.stateProvince || address.stateProvince}
+                value={address.stateProvince}
               />
             </Grid>
             <TextField
@@ -308,7 +313,7 @@ export function TripPurchasePage() {
               name="address"
               className="trip-purchase__section__input"
               label="Endereço"
-              value={tripPayer?.address?.address || address.address}
+              value={address.address}
             />
             <Grid columns={[1, 1, 3]}>
               <TextField
@@ -332,7 +337,7 @@ export function TripPurchasePage() {
                 required={true}
                 className="trip-purchase__section__input"
                 label="Bairro"
-                value={tripPayer?.address?.neighborhood || address.neighborhood}
+                value={address.neighborhood}
               />
             </Grid>
           </Box>
