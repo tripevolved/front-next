@@ -59,6 +59,7 @@ export * from "./templates/TemplateStepsBuilder";
 export * from "./trips/HasTrip";
 export * from "./trips/MatchedDestinationsPage";
 export * from "./trips/PageTrip";
+export * from "./trips/PendingsSwitcher";
 export * from "./trips/ReservationsPanel";
 export * from "./trips/TripAccordeon";
 export * from "./trips/TripBasePage";

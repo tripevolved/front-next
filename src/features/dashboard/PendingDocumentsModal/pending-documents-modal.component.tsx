@@ -7,7 +7,7 @@ import { useTripPendingDocuments } from "./pending-documents-modal.hook";
 import { useEffect, useState } from "react";
 import { Traveler, TripTravelers } from "@/core/types";
 import { TravelerApiService } from "@/services/api/traveler";
-import useSwr from 'swr';
+import useSwr from "swr";
 import { useRouter } from "next/router";
 
 export function PendingDocumentsModal({
@@ -28,7 +28,7 @@ export function PendingDocumentsModal({
 
   const [travelersDocs, setTravelersDocs] = useState<Traveler[]>([]);
 
-  const setNewDocs = (doc: "rg" | "cpf" | "email", index: number, value: string) => {
+  const setNewDocs = (doc: "rg" | "cpf" | "email" | "fullName", index: number, value: string) => {
     const updateTravelersDocs = [...travelersDocs];
     updateTravelersDocs[index] = {
       ...updateTravelersDocs[index],
@@ -43,13 +43,52 @@ export function PendingDocumentsModal({
 
     body.travelers = [...travelersDocs];
 
-    sendDocs(body);
+    console.log("dados", body);
+
+    // sendDocs(body);
+  };
+
+  const buildTravelersForm = (travelerCount: number) => {
+    return Array.from({ length: travelerCount }).map((_, index) => (
+      <Box className="pending-documents-modal__field" key={index}>
+        <Text size="lg" className="pending-documents-modal__field__label mb-md">
+          Viajante {index + 1}:
+        </Text>
+        <TextField
+          required
+          onBlur={(e: any) => setNewDocs("fullName", index, e.target.value)}
+          className="pending-documents-modal__field__text-field"
+          label="Digite o nome completo do viajante"
+        />
+        <TextField
+          required
+          className="pending-documents-modal__field__text-field"
+          label="Digite o e-mail do viajante"
+          onBlur={(e: any) => setNewDocs("email", index, e.target.value)}
+        />
+        <TextField
+          required
+          onBlur={(e: any) => setNewDocs("rg", index, e.target.value)}
+          className="pending-documents-modal__field__text-field"
+          label="Digite o número de RG do viajante"
+          mask={"99.999.999-9"}
+        />
+        <TextField
+          required
+          className="pending-documents-modal__field__text-field"
+          label="Digite o número de CPF do viajante"
+          mask={"999.999.999-99"}
+          onBlur={(e: any) => setNewDocs("cpf", index, e.target.value)}
+        />
+      </Box>
+    ));
   };
 
   const getView = () => {
     if (errorFetch) return <EmptyState />;
     if (isLoading) return <GlobalLoader />;
     if (data === undefined) return <EmptyState />;
+    if (!data.travelers.length) return buildTravelersForm(data.travelerCount);
 
     return (
       <>
@@ -64,6 +103,7 @@ export function PendingDocumentsModal({
                 onBlur={(e: any) => setNewDocs("rg", i, e.target.value)}
                 className="pending-documents-modal__field__text-field"
                 label="Digite o número de RG do viajante"
+                mask={"99.999.999-9"}
               />
             )}
             {!pending.cpf && (
@@ -71,6 +111,7 @@ export function PendingDocumentsModal({
                 value={pending.cpf}
                 className="pending-documents-modal__field__text-field"
                 label="Digite o número de CPF do viajante"
+                mask={"999.999.999-99"}
                 onBlur={(e: any) => setNewDocs("cpf", i, e.target.value)}
               />
             )}
@@ -89,7 +130,7 @@ export function PendingDocumentsModal({
   };
 
   useEffect(() => {
-    if (data?.travelers) {
+    if (data?.travelers && data.travelers.length) {
       const initialTravelersDocs = data.travelers.map((traveler) => ({
         rg: traveler.rg || "",
         cpf: traveler.cpf || "",

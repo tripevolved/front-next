@@ -67,8 +67,8 @@ const TripPendingItem = ({
     Modal.open(
       () => (
         <>
-          {slug === "documents" && <PendingDocumentsModal tripId={tripid} />}
-          {slug === "flight" && <ConfirmFlightModal />}
+          {slug === "documentos" && <PendingDocumentsModal tripId={tripid} className="p-lg" />}
+          {slug === "voo" && <ConfirmFlightModal />}
         </>
       ),
       {
