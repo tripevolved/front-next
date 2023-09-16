@@ -22,9 +22,14 @@ export function PendingDocumentsModal({
   const router = useRouter();
   const fetcher = async () => TravelerApiService.getTripTravelers(tripId!);
 
-  const { isLoading, data, error: errorFetch } = useSwr(tripId, fetcher);
+  const { isLoading: isLoadingFetch, data, error: errorFetch } = useSwr(tripId, fetcher);
 
-  const { error: errorSentDocs, sendDocs, dataSent } = useTripPendingDocuments(tripId);
+  const {
+    error: errorSentDocs,
+    sendDocs,
+    dataSent,
+    isLoading: isLoadingSentDocs,
+  } = useTripPendingDocuments();
 
   const [travelersDocs, setTravelersDocs] = useState<Traveler[]>([]);
 
@@ -45,7 +50,7 @@ export function PendingDocumentsModal({
 
     console.log("dados", body);
 
-    // sendDocs(body);
+    sendDocs(body);
   };
 
   const buildTravelersForm = (travelerCount: number) => {
@@ -86,7 +91,7 @@ export function PendingDocumentsModal({
 
   const getView = () => {
     if (errorFetch) return <EmptyState />;
-    if (isLoading) return <GlobalLoader />;
+    if (isLoadingFetch) return <GlobalLoader />;
     if (data === undefined) return <EmptyState />;
     if (!data.travelers.length) return buildTravelersForm(data.travelerCount);
 
@@ -151,13 +156,14 @@ export function PendingDocumentsModal({
 
       <Button
         className="pending-documents-modal__button"
-        disabled={isLoading || errorFetch}
+        disabled={isLoadingFetch || errorFetch || !errorSentDocs}
         onClick={() => handleButton()}
       >
-        {errorFetch && "Algo inesperado aconteceu"}
-        {isLoading && "Enviando..."}
-        {dataSent && "Documentos enviados!"}
-        {!errorFetch && !isLoading && !dataSent && "Enviar"}
+        {errorFetch ? "Algo inesperado aconteceu" : null}
+        {isLoadingSentDocs ? "Enviando..." : null}
+        {dataSent ? "Documentos enviados!" : null}
+        {errorSentDocs ? "Erro ao enviar os documentos..." : null}
+        {!errorFetch && !isLoadingFetch && !dataSent && "Enviar"}
       </Button>
     </div>
   );

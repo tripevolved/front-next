@@ -2,7 +2,6 @@ import type { PendingsSwitcherProps } from "./pendings-switcher.types";
 
 import { Text } from "@/ui";
 import { useRouter } from "next/router";
-import useSWR from "swr";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { PageAppBody, PageAppHeader } from "@/features/";
