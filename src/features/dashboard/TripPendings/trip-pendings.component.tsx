@@ -63,21 +63,6 @@ const TripPendingItem = ({
   deadline,
   tripid,
 }: TripPendingItemProps) => {
-  const handleClick = () => {
-    Modal.open(
-      () => (
-        <>
-          {slug === "documentos" && <PendingDocumentsModal tripId={tripid} className="p-lg" />}
-          {slug === "voo" && <ConfirmFlightModal />}
-        </>
-      ),
-      {
-        size: "sm",
-        closable: true,
-      }
-    );
-  };
-
   return (
     <>
       <Box className="trip-pending-item">
@@ -85,7 +70,12 @@ const TripPendingItem = ({
           <Picture src={`/assets/trip-dashboard/pendings/${slug}.svg`} />
           <Text>{title}</Text>
         </div>
-        <Button iconName="chevron-right" variant="naked" size="sm" onClick={() => handleClick()} />
+        <Button
+          iconName="chevron-right"
+          variant="naked"
+          size="sm"
+          href={`/app/viagens/${tripid}/pendencias/${slug}`}
+        />
       </Box>
     </>
   );
