@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { Traveler, TripTravelers } from "@/core/types";
 import { TravelerApiService } from "@/services/api/traveler";
 import useSwr from "swr";
-import { useRouter } from "next/router";
 
 export function PendingDocumentsModal({
   className,
@@ -19,7 +18,6 @@ export function PendingDocumentsModal({
 }: PendingDocumentsModalProps) {
   const cn = makeCn("pending-documents-modal", className)(sx);
 
-  const router = useRouter();
   const fetcher = async () => TravelerApiService.getTripTravelers(tripId!);
 
   const { isLoading: isLoadingFetch, data, error: errorFetch } = useSwr(tripId, fetcher);
@@ -47,8 +45,6 @@ export function PendingDocumentsModal({
     const body = { ...data } as TripTravelers;
 
     body.travelers = [...travelersDocs];
-
-    console.log("dados", body);
 
     sendDocs(body);
   };
@@ -90,10 +86,11 @@ export function PendingDocumentsModal({
   };
 
   const getView = () => {
+    console.log("FETECH DOS DADOS", data);
     if (errorFetch) return <EmptyState />;
     if (isLoadingFetch) return <GlobalLoader />;
     if (data === undefined) return <EmptyState />;
-    if (!data.travelers.length) return buildTravelersForm(data.travelerCount);
+    if (data.travelers?.length === 0) return buildTravelersForm(data.travelerCount);
 
     return (
       <>
@@ -135,13 +132,13 @@ export function PendingDocumentsModal({
   };
 
   useEffect(() => {
-    if (data?.travelers && data.travelers.length) {
+    if (data && data?.travelers.length) {
       const initialTravelersDocs = data.travelers.map((traveler) => ({
         rg: traveler.rg || "",
         cpf: traveler.cpf || "",
         email: traveler.email || "",
-        id: traveler.id,
-        travelerId: traveler.travelerId,
+        id: traveler.id || "",
+        travelerId: traveler.travelerId || "",
       }));
       setTravelersDocs(initialTravelersDocs);
     }

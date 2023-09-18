@@ -30,7 +30,7 @@ export function PendingsSwitcher({ className, children, sx, ...props }: Pendings
 
   return (
     <>
-      <PageAppHeader backButton href={`/app/viagens`}>
+      <PageAppHeader backButton href={`/app/viagens/${idParam}`}>
         <div className="dashboard-home__header">
           <div>
             <Text heading as="div" size="sm" className="mb-xs">
