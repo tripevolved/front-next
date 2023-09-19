@@ -7,9 +7,20 @@ import { Modal } from "mars-ds";
 
 import { StaysApiService } from "@/services/api";
 import { TripStayDetailsModal } from "../TripStayDetailsModal";
+import { TripStay } from "@/core/types";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
+
+const mockObject: TripStay = {
+  id: "65sd4a651aset8hne3",
+  cancellationInfo: "Informação de cancelamento",
+  coverImageUrl: "https://picsum.photos/200",
+  isBuilding: false,
+  message: "Mensagem de Teste somente para MOck",
+  reservationMessage: "Mensagem para reservas",
+  name: "Lugar de Paz",
+};
 
 export const TripStaySection = ({ tripId }: { tripId: string }) => {
   const getStay = (key: string) => {
@@ -56,7 +67,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
     );
   }
 
-  if (!data || !data.isSelected) {
+  if (!mockObject || !mockObject.isSelected) {
     return (
       <>
         <div className="trip-content-item trip-stay-section">
@@ -101,10 +112,12 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
           </Box>
           <Box className="trip-stay-section__content">
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture src={data.coverImageUrl!} />
+              <Picture src={mockObject.coverImageUrl!} />
               <Box className="trip-stay-section__content__stay-desc__box">
-                <Text size="lg">{data.name}</Text>
-                <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>
+                <Text size="lg">{mockObject.name}</Text>
+                <Box className="trip-stay-section__content__stay-desc__box__stars">
+                  {mockObject.tags}
+                </Box>
               </Box>
             </Box>
             <Button
@@ -115,7 +128,9 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
               Ver detalhes
             </Button>
           </Box>
-          {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
+          {mockObject.highlight ? (
+            <TripStayHighlightSection highlight={mockObject.highlight} />
+          ) : null}
         </Box>
       </div>
     </>
