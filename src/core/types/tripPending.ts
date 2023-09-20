@@ -1,5 +1,5 @@
 export type TripPendingActionType =
-  | 'viajantes'
+  | "viajantes"
   | "documentos"
   | "compartilhar"
   | "voo"
