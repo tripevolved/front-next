@@ -1,8 +1,10 @@
 import type { PendingsSwitcherProps } from "./pendings-switcher.types";
 import { render } from "@testing-library/react";
-import { PendingsSwitcher } from "./pendings-switcher.component";
+import { PendingSwitcher } from "./pendings-switcher.component";
+import { mockUseRouter } from "@/utils/mocks/next-router.mock";
 
-const makeSut = (props?: PendingsSwitcherProps) => render(<PendingsSwitcher {...props} />);
+mockUseRouter();
+const makeSut = (props?: PendingsSwitcherProps) => render(<PendingSwitcher {...props} />);
 
 describe("<PendingsSwitcher>", () => {
   it("should render component", () => {

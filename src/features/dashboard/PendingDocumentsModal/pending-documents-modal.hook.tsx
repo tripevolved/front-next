@@ -1,31 +1,34 @@
 import { useState } from "react";
 import { TripTravelers } from "@/core/types";
 import { TravelerApiService } from "@/services/api/traveler";
+import { Notification } from "mars-ds";
+import { useRouter } from "next/router";
 
-export const useTripPendingDocuments = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [dataSent, setDataSent] = useState(false);
+export const usePostTripPendingDocuments = () => {
+  const router = useRouter();
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 
-  const sendDocs = async (data: TripTravelers) => {
-    setIsLoading(true);
+  const onSubmit = async (data: TripTravelers) => {
+    setIsSubmitting(true);
     setError(false);
 
     return TravelerApiService.setTripTravelers(data)
       .then(() => {
-        setIsLoading(false);
-        setDataSent(true);
+        setSuccess(true);
+        Notification.success("Documentos enviados!");
+        const tripId = String(router.query.id);
+        const pathname = `/app/viagens/${tripId}/pendencias`;
+        router.replace(pathname);
       })
       .catch(() => {
-        setIsLoading(false);
         setError(true);
-      });
+        Notification.error("Um erro inesperado ocorreu.");
+      })
+      .finally(() => setIsSubmitting(false));
   };
 
-  return {
-    isLoading,
-    error,
-    sendDocs,
-    dataSent,
-  };
+  return { isSubmitting, error, onSubmit, success };
 };

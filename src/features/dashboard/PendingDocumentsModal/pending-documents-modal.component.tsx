@@ -1,167 +1,117 @@
-import { Text, Box, EmptyState, GlobalLoader } from "@/ui";
 import type { PendingDocumentsModalProps } from "./pending-documents-modal.types";
+import type { Traveler, TripTravelers } from "@/core/types";
 
-import { makeCn } from "@/utils/helpers/css.helpers";
-import { TextField, Button } from "mars-ds";
-import { useTripPendingDocuments } from "./pending-documents-modal.hook";
-import { useEffect, useState } from "react";
-import { Traveler, TripTravelers } from "@/core/types";
+import { Text, EmptyState, GlobalLoader } from "@/ui";
+import { TextField, FormWithSubmitButton, makeArray } from "mars-ds";
+import { usePostTripPendingDocuments } from "./pending-documents-modal.hook";
+import { useState } from "react";
 import { TravelerApiService } from "@/services/api/traveler";
 import useSwr from "swr";
 
-export function PendingDocumentsModal({
-  className,
-  children,
-  sx,
-  tripId,
-  ...props
-}: PendingDocumentsModalProps) {
-  const cn = makeCn("pending-documents-modal", className)(sx);
+export function PendingDocumentsModal({ tripId }: PendingDocumentsModalProps) {
+  const uniqueKeyName = `travel-pending-${tripId}-type-traveler`;
+  const fetcher = async () => TravelerApiService.getTripTravelers(tripId);
+  const { isLoading, data, error } = useSwr<TripTravelers>(uniqueKeyName, fetcher);
 
-  const fetcher = async () => TravelerApiService.getTripTravelers(tripId!);
+  const pendingDocuments = usePostTripPendingDocuments();
 
-  const { isLoading: isLoadingFetch, data, error: errorFetch } = useSwr(tripId, fetcher);
+  const [travelers, setTravelers] = useState<Record<string, Traveler>>({});
 
-  const {
-    error: errorSentDocs,
-    sendDocs,
-    dataSent,
-    isLoading: isLoadingSentDocs,
-  } = useTripPendingDocuments();
-
-  const [travelersDocs, setTravelersDocs] = useState<Traveler[]>([]);
-
-  const setNewDocs = (doc: "rg" | "cpf" | "email" | "fullName", index: number, value: string) => {
-    const updateTravelersDocs = [...travelersDocs];
-    updateTravelersDocs[index] = {
-      ...updateTravelersDocs[index],
-      [doc]: value,
-    };
-
-    setTravelersDocs(updateTravelersDocs);
+  const handleChange = (name: string, value: string, id: string) => {
+    setTravelers((state) => ({
+      ...state,
+      [id]: { ...state[id], [name]: value, id },
+    }));
   };
 
-  const handleButton = () => {
-    const body = { ...data } as TripTravelers;
-
-    body.travelers = [...travelersDocs];
-
-    sendDocs(body);
+  const handleSubmit = async () => {
+    const payload = { ...(data as TripTravelers), travelers: Object.values(travelers) };
+    await pendingDocuments.onSubmit(payload);
   };
 
-  const buildTravelersForm = (travelerCount: number) => {
-    return Array.from({ length: travelerCount }).map((_, index) => (
-      <Box className="pending-documents-modal__field" key={index}>
-        <Text size="lg" className="pending-documents-modal__field__label mb-md">
-          Viajante {index + 1}:
-        </Text>
-        <TextField
-          required
-          onBlur={(e: any) => setNewDocs("fullName", index, e.target.value)}
-          className="pending-documents-modal__field__text-field"
-          label="Digite o nome completo do viajante"
-        />
-        <TextField
-          required
-          className="pending-documents-modal__field__text-field"
-          label="Digite o e-mail do viajante"
-          onBlur={(e: any) => setNewDocs("email", index, e.target.value)}
-        />
-        <TextField
-          required
-          onBlur={(e: any) => setNewDocs("rg", index, e.target.value)}
-          className="pending-documents-modal__field__text-field"
-          label="Digite o número de RG do viajante"
-          mask={"99.999.999-9"}
-        />
-        <TextField
-          required
-          className="pending-documents-modal__field__text-field"
-          label="Digite o número de CPF do viajante"
-          mask={"999.999.999-99"}
-          onBlur={(e: any) => setNewDocs("cpf", index, e.target.value)}
-        />
-      </Box>
-    ));
-  };
+  if (error) return <EmptyState />;
+  if (isLoading) return <GlobalLoader />;
+  if (!data) return <EmptyState />;
 
-  const getView = () => {
-    console.log("FETECH DOS DADOS", data);
-    if (errorFetch) return <EmptyState />;
-    if (isLoadingFetch) return <GlobalLoader />;
-    if (data === undefined) return <EmptyState />;
-    if (data.travelers?.length === 0) return buildTravelersForm(data.travelerCount);
-
-    return (
-      <>
-        {data.travelers.map((pending: Traveler, i: number) => (
-          <Box className="pending-documents-modal__field" key={i}>
-            <Text size="lg" className="pending-documents-modal__field__label">
-              Viajante {i + 1}: {pending.fullName}
-            </Text>
-            {!pending.rg && (
-              <TextField
-                value={pending.rg}
-                onBlur={(e: any) => setNewDocs("rg", i, e.target.value)}
-                className="pending-documents-modal__field__text-field"
-                label="Digite o número de RG do viajante"
-                mask={"99.999.999-9"}
-              />
-            )}
-            {!pending.cpf && (
-              <TextField
-                value={pending.cpf}
-                className="pending-documents-modal__field__text-field"
-                label="Digite o número de CPF do viajante"
-                mask={"999.999.999-99"}
-                onBlur={(e: any) => setNewDocs("cpf", i, e.target.value)}
-              />
-            )}
-            {!pending.email && (
-              <TextField
-                value={pending.email}
-                className="pending-documents-modal__field__text-field"
-                label="Digite o e-mail do viajante"
-                onBlur={(e: any) => setNewDocs("email", i, e.target.value)}
-              />
-            )}
-          </Box>
-        ))}
-      </>
-    );
-  };
-
-  useEffect(() => {
-    if (data && data?.travelers.length) {
-      const initialTravelersDocs = data.travelers.map((traveler) => ({
-        rg: traveler.rg || "",
-        cpf: traveler.cpf || "",
-        email: traveler.email || "",
-        id: traveler.id || "",
-        travelerId: traveler.travelerId || "",
-      }));
-      setTravelersDocs(initialTravelersDocs);
-    }
-  }, [data]);
+  const dataTravelers: (Traveler | undefined)[] = data.travelers.length
+    ? data.travelers
+    : makeArray(data.travelerCount);
 
   return (
-    <div className={cn} {...props}>
-      <Text heading size="xs" className="pending-documents-modal__title">
-        Enviar documentos
-      </Text>
-      {getView()}
-
-      <Button
-        className="pending-documents-modal__button"
-        disabled={isLoadingFetch || errorFetch || !errorSentDocs}
-        onClick={() => handleButton()}
-      >
-        {errorFetch ? "Algo inesperado aconteceu" : null}
-        {isLoadingSentDocs ? "Enviando..." : null}
-        {dataSent ? "Documentos enviados!" : null}
-        {errorSentDocs ? "Erro ao enviar os documentos..." : null}
-        {!errorFetch && !isLoadingFetch && !dataSent && "Enviar"}
-      </Button>
-    </div>
+    <FormWithSubmitButton
+      onSubmit={handleSubmit}
+      submitButtonLabel="Enviar"
+      submitting={pendingDocuments.isSubmitting}
+    >
+      {dataTravelers.map((values, index) => (
+        <TravelerPendingForm
+          key={index}
+          index={index}
+          title={`Viajante ${index + 1}`}
+          values={values as any}
+          onChangeValue={handleChange}
+        />
+      ))}
+    </FormWithSubmitButton>
   );
 }
+
+interface TravelerPendingFormProps {
+  title: string;
+  onChangeValue: (name: string, value: string, id: string) => void;
+  index: number;
+  values?: Partial<Traveler>;
+}
+
+const TravelerPendingForm = ({ title, index, onChangeValue, values }: TravelerPendingFormProps) => {
+  const id = values?.id || String(index);
+
+
+  const handleValue = (name: string) => (event: React.MouseEvent<HTMLInputElement>) => {
+    const target = event.target as HTMLInputElement;
+    const value = target.value;
+    onChangeValue(name, value, id);
+  };
+
+
+  const fullTitle = values?.fullName ? `${title}: ${values.fullName}` : title;
+
+  return (
+    <>
+      <Text size="lg" className="mt-lg">
+        {fullTitle}
+      </Text>
+      <TextField
+        required
+        label="Digite o nome completo do viajante"
+        id={`${id}.fullName`}
+        value={values?.fullName}
+        onChange={handleValue("fullName")}
+      />
+      <TextField
+        required
+        label="Digite o número de RG do viajante"
+        id={`${id}.rg`}
+        onChange={handleValue("rg")}
+        mask={"99.999.999-9"}
+        value={values?.rg}
+      />
+      <TextField
+        required
+        label="Digite o número de CPF do viajante"
+        id={`${id}.cpf`}
+        onChange={handleValue("cpf")}
+        mask={"999.999.999-99"}
+        value={values?.cpf}
+      />
+      <TextField
+        required
+        label="Digite o e-mail do viajante"
+        id={`${id}.email`}
+        type="email"
+        onChange={handleValue("email")}
+        value={values?.email}
+      />
+    </>
+  );
+};
