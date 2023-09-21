@@ -2,7 +2,7 @@ import { Box, Text, SectionBase, Picture, EmptyState, GlobalLoader } from "@/ui"
 import type { TripPendingItemProps } from "./trip-pendings.types";
 
 import { useRouter } from "next/router";
-import { Button } from "mars-ds";
+import { Button, ItemButton, ItemButtonProps, LabelThemes, LabelVariants } from "mars-ds";
 
 import useSwr from "swr";
 import { TripsApiService } from "@/services/api";
@@ -16,16 +16,16 @@ export function TripPending() {
   const { isLoading, error, data } = useSwr(uniqueKeyName, fetcher);
 
   const text =
-    "Confira suas pendências. É importante cumprir a lista para que tudo saia como o planejado.";
+    "Verifique suas pendências. É importante cumprir a lista para que tudo saia como o planejado.";
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
   if (!data) return <EmptyState />;
 
   return (
-    <SectionBase className="trip-pendings__section">
+    <SectionBase className="trip-pendings__section py-md">
       <Box className="trip-pendings__section__body">
-        <Text size="md" className="trip-pendings__section__body__sub-title">
+        <Text size="lg" className="trip-pendings__section__body__sub-title">
           {text}
         </Text>
 
@@ -42,28 +42,36 @@ export function TripPending() {
 }
 
 const TripPendingItem = ({
-  id,
-  isMandatory,
   slug,
   title,
-  description,
-  deadline,
   tripid,
+  description,
+  isMandatory,
 }: TripPendingItemProps) => {
-  return (
-    <>
-      <Box className="trip-pending-item">
-        <div>
-          <Picture src={`/assets/trip-dashboard/pendings/${slug}.svg`} />
-          <Text>{title}</Text>
-        </div>
-        <Button
-          iconName="chevron-right"
-          variant="naked"
-          size="sm"
-          href={`/app/viagens/${tripid}/pendencias/${slug}`}
-        />
-      </Box>
-    </>
-  );
+  const getIconAndName = (slug: TripPendingItemProps["slug"]): ItemButtonProps => {
+    const href = `/app/viagens/${tripid}/pendencias/${slug}`;
+
+    if (slug === "viajantes")
+      return {
+        iconName: "users",
+        title: title || "Viajantes",
+        subtitle: description || "Informe os dados dos viajantes",
+        href,
+        label: isMandatory ? "Importante" : undefined,
+        labelVariant: isMandatory ? LabelVariants.Warning : undefined,
+        labelTheme: LabelThemes.Ghost,
+      };
+
+    return {
+      iconName: "alert-circle",
+      title,
+      subtitle: description,
+      href,
+      label: isMandatory ? "Importante" : undefined,
+      labelVariant: isMandatory ? LabelVariants.Warning : undefined,
+      labelTheme: LabelThemes.Ghost,
+    };
+  };
+
+  return <ItemButton {...getIconAndName(slug)} />;
 };
