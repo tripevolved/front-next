@@ -27,9 +27,14 @@ export function TripDashboard({
               description="Pendências"
               qtd={pendingActions}
               color="#D84848"
-              href={`/app/viagens/pendencias/${tripId}`}
+              href={`/app/viagens/${tripId}/pendencias/`}
             />
-            <TripDashboardItem icon="documents" description="Documentos" qtd={documents} href={`/app/viagens/documentos/${tripId}`} />
+            <TripDashboardItem
+              icon="documents"
+              description="Documentos"
+              qtd={documents}
+              href={`/app/viagens/documentos/${tripId}`}
+            />
           </Box>
           <Box className="trip-dashboard__box__row">
             <TripDashboardItem
@@ -38,7 +43,12 @@ export function TripDashboard({
               qtd={flightAndTickets}
               href={`/app/viagens/reservas/${tripId}`}
             />
-            <TripDashboardItem icon="tips" description="Dicas" qtd={tips} href={`/app/viagens/dicas/${tripId}`} />
+            <TripDashboardItem
+              icon="tips"
+              description="Dicas"
+              qtd={tips}
+              href={`/app/viagens/dicas/${tripId}`}
+            />
           </Box>
           <Box className="trip-dashboard__box__row">
             <TripDashboardItem

@@ -1,3 +1,4 @@
+import { PendingDocumentsModal } from "@/features/dashboard/PendingDocumentsModal";
 import { Box, Text, Picture } from "@/ui";
 import { Button, Modal } from "mars-ds";
 
@@ -36,7 +37,8 @@ export function TripPurchaseResponseSection({ tripId, isSuccess, message }: Trip
             backgroundColor="var(--color-brand-2)"
             hoverBackgroundColor="var(--color-secondary-900)"
             color="white"
-            href={`/app/viagens/${tripId}`}>
+            href={`/app/viagens/${tripId}/pendencias/viajantes`}
+          >
             Ver minha viagem
           </Button>
         </>

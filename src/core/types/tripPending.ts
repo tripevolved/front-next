@@ -1,14 +1,16 @@
 export type TripPendingActionType =
-  | "documents"
-  | "share"
-  | "flight"
-  | "flight-seating"
-  | "room"
-  | "attractions"
-  | "special-request"
-  | "purchase-luggage"
+  | "viajantes"
+  | "documentos"
+  | "compartilhar"
+  | "voo"
+  | "assentos-voo"
+  | "quarto"
+  | "atracoes"
+  | "pedido-especial"
+  | "compra-bagagem"
   | "transfer"
-  | "insurance";
+  | "seguro"
+  | "outro";
 
 export interface TripPendingAction {
   id: string;

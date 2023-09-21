@@ -5,7 +5,7 @@ import { getTripDestinationQuestions, getTripQuestions } from "./questions";
 import { putMatchedDestinations, getMatchedDestinations } from "./matches";
 import { TripLocalService } from "./local";
 import { createTrip } from "./create";
-import { getTripPendings } from "./pendings";
+import { getTripPending } from "./pendings";
 import { getTripPriceById } from "./price";
 import { putDestinationIdForTrip } from "./destination-set";
 import { editTrip } from "./configuration";
@@ -18,7 +18,7 @@ export const TripsApiService = {
   getTripDestinationQuestions: getTripDestinationQuestions,
   getTripQuestions: getTripQuestions,
   postCreate: createTrip,
-  getTripPendings,
+  getTripPending,
   getPriceById: getTripPriceById,
   getMatchedDestinations: getMatchedDestinations,
   setMatchedDestinations: putMatchedDestinations,
