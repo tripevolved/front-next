@@ -69,3 +69,8 @@ export interface TripStayReservation {
   roomDetail: string;
   fullAddress: string;
 }
+
+export interface TripHotelList {
+  curated: TripStay[];
+  others?: TripStay[];
+}

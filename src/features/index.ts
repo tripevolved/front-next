@@ -67,6 +67,7 @@ export * from "./trips/TripDetailsPage";
 export * from "./trips/TripDetailsPanel";
 export * from "./trips/TripDiscoverPage";
 export * from "./trips/TripEditConfiguration";
+export * from "./trips/TripHotelList";
 export * from "./trips/TripPricingBox";
 export * from "./trips/TripStayDetailsModal";
 export * from "./trips/TripStayRoomDetailsModal";

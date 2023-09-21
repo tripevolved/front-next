@@ -7,6 +7,7 @@ import { Modal } from "mars-ds";
 
 import { StaysApiService } from "@/services/api";
 import { TripStayDetailsModal } from "../TripStayDetailsModal";
+import { TripHotelList } from "../TripHotelList";
 import { TripStay } from "@/core/types";
 
 const swrOptions = { revalidateOnFocus: false };
@@ -20,6 +21,7 @@ const mockObject: TripStay = {
   message: "Mensagem de Teste somente para MOck",
   reservationMessage: "Mensagem para reservas",
   name: "Lugar de Paz",
+  isSelected: true,
 };
 
 export const TripStaySection = ({ tripId }: { tripId: string }) => {
@@ -31,6 +33,13 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
 
   const handleSeeDetails = () => {
     Modal.open(() => <TripStayDetailsModal stayData={data!.details} name={data!.name} />, {
+      closable: true,
+      size: "md",
+    });
+  };
+
+  const handleEditStay = () => {
+    Modal.open(() => <TripHotelList />, {
       closable: true,
       size: "md",
     });
@@ -105,14 +114,19 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
             <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
               Hospedagem
             </Text>
-            <Box className="trip-stay-section__header__edit">
-              <Picture src="/assets/trip/pencil.svg" />
+            <Button
+              iconName="edit-2"
+              variant="naked"
+              size="sm"
+              style={{ color: "var(--color-gray-1)" }}
+              onClick={() => handleEditStay()}
+            >
               Editar
-            </Box>
+            </Button>
           </Box>
           <Box className="trip-stay-section__content">
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture src={mockObject.coverImageUrl!} />
+              <Picture src={mockObject.coverImageUrl!} style={{ height: 75, width: 75 }} />
               <Box className="trip-stay-section__content__stay-desc__box">
                 <Text size="lg">{mockObject.name}</Text>
                 <Box className="trip-stay-section__content__stay-desc__box__stars">
