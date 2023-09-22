@@ -87,4 +87,5 @@ export interface TripPrice {
 export interface TripTravelers {
   tripId: string;
   travelers: Traveler[];
+  travelerCount: number;
 }

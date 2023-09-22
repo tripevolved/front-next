@@ -1,11 +1,13 @@
-import { Text } from "@/ui";
+import { Picture, Text } from "@/ui";
 import type { TripHotelListProps } from "./trip-hotel-list.types";
 
-import { Card, Accordion as MarsAccordion } from "mars-ds";
+import { Card, Accordion as MarsAccordion, Button, RatingStar, Modal } from "mars-ds";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { TripHotelList, TripStay } from "@/core/types";
 import { useState } from "react";
+import { formatByDataType } from "@/utils/helpers/number.helpers";
+import { TripStayServiceItem } from "../TripStayDetailsModal";
 
 const mockObject: TripHotelList = {
   curated: [
@@ -223,23 +225,40 @@ export function TripHotelList({ className, children, sx, ...props }: TripHotelLi
       <Text heading style={{ color: "var(--color-brand-1)" }} size="sm">
         Lista de Hoteis
       </Text>
-      <MarsAccordion title="Com selo Trip Evolved">
-        Esse é o conteúdo mais legal já visto no mudno todo
+      <MarsAccordion title="Com selo Trip Evolved" defaultOpen>
+        <div className="trip-hotel-list__list gap-md">
+          {mockObject.curated.map((hotel, i) => (
+            <TripHotelCard {...hotel} isCurated key={i} />
+          ))}
+        </div>
       </MarsAccordion>
-      <MarsAccordion title="Outros">
-        Esse é o conteúdo mais legal já visto no mudno todo
-      </MarsAccordion>
+      {mockObject.others ? (
+        <div className="trip-hotel-list__list gap-md">
+          <MarsAccordion title="Outros">
+            {mockObject.others.map((hotel, i) => (
+              <TripHotelCard {...hotel} key={i} />
+            ))}
+          </MarsAccordion>
+        </div>
+      ) : null}
     </div>
   );
 }
 
 export const TripHotelCard = ({
-  coverImageUrl,
+  coverImageUrl = "",
   name,
-  isCurated,
-}: TripStay & { isCurated: boolean }) => {
+  isCurated = false,
+  message,
+  tags,
+  details,
+}: TripStay & { isCurated?: boolean }) => {
   const [selected, setSelected] = useState(false);
   const selectedColor = isCurated ? "var(--color-brand-4)" : "var(--color-brand-1)";
+
+  const handleSeeMore = () => {
+    Modal;
+  };
 
   return (
     <Card
@@ -247,7 +266,54 @@ export const TripHotelCard = ({
       style={{ border: `2px solid ${selected ? selectedColor : "var(--color-gray-3)"}` }}
     >
       <div className="trip-hotel-card__content">
-        <div className="trip-hotel-card__content__info"></div>
+        <div className="trip-hotel-card__content__info gap-md">
+          <Picture className="trip-hotel-card__content__info__image" src={`${coverImageUrl}`} />
+          <div className="trip-hotel-card__content__info__data gap-md">
+            <div className="trip-hotel-card__content__info__data__header">
+              <Text size="lg">{name}</Text>
+              <RatingStar total={5} value={3} />
+            </div>
+
+            <div className="trip-hotel-card__content__info__data__footer">
+              <Text size="lg">{formatByDataType(details.price, "CURRENCY")}</Text>
+              <Text style={{ color: "var(--color-gray-1)", marginTop: 0 }}>
+                {details.information}
+              </Text>
+            </div>
+          </div>
+        </div>
+        <div className="trip-hotel-card__content__info__services gap-lg">
+          {details.services.map((item, i) => (
+            <TripStayServiceItem
+              type={item.type}
+              title={item.title}
+              color={isCurated ? selectedColor : "var(--color-brand-1)"}
+              key={i}
+            />
+          ))}
+        </div>
+        <div
+          className="trip-hotel-card__content__divider"
+          style={{
+            width: "100%",
+            border: `.5px solid ${selected ? selectedColor : "var(--color-gray-3)"}`,
+          }}
+        ></div>
+        <div className="trip-hotel-card__content__button-area">
+          <Button
+            iconName={selected ? "check-circle" : "circle"}
+            size="sm"
+            variant="naked"
+            style={{
+              color: selected ? selectedColor : "var(--color-gray-2)",
+            }}
+            onClick={() => setSelected(!selected)}
+          >
+            {selected ? "Selecionado" : "Selecionar este"}
+          </Button>
+
+          <Text className="trip-hotel-card__content__button-area__see-more">ver mais</Text>
+        </div>
       </div>
     </Card>
   );
