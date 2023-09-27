@@ -89,7 +89,7 @@ export function TripAccommodation() {
 
   return (
     <div className="trip-accommodation">
-      <TripStayDetails stayData={mockData.details} name={mockData.name} />
+      <TripStayDetails stayData={mockData.details} name={mockData.name} tripId={idParam} />
     </div>
   );
 }
