@@ -3,11 +3,8 @@ import useSwr from "swr";
 import { Loader, Button } from "mars-ds";
 import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 import { TripStayHighlightSection } from "./trip-stay-highlight.section";
-import { Modal } from "mars-ds";
 
 import { StaysApiService } from "@/services/api";
-import { TripStayDetailsModal } from "../TripStayDetailsModal";
-import { TripHotelList } from "../TripHotelList";
 import { TripStay } from "@/core/types";
 
 const swrOptions = { revalidateOnFocus: false };
@@ -30,20 +27,6 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
   };
 
   const { data, error, isLoading } = useSwr("stay", getStay, swrOptions);
-
-  const handleSeeDetails = () => {
-    Modal.open(() => <TripStayDetailsModal stayData={data!.details} name={data!.name} />, {
-      closable: true,
-      size: "md",
-    });
-  };
-
-  const handleEditStay = () => {
-    Modal.open(() => <TripHotelList />, {
-      closable: true,
-      size: "md",
-    });
-  };
 
   if (isLoading) {
     return (
@@ -119,7 +102,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
               variant="naked"
               size="sm"
               style={{ color: "var(--color-gray-1)" }}
-              onClick={() => handleEditStay()}
+              href={`/app/viagens/criar/${tripId}/hospedagem`}
             >
               Editar
             </Button>
@@ -137,7 +120,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
             <Button
               variant="naked"
               className="trip-stay-section__content__details-text"
-              onClick={() => handleSeeDetails()}
+              href={`/app/viagens/criar/${tripId}/hospedagem`}
             >
               Ver detalhes
             </Button>

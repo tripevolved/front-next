@@ -7,7 +7,7 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { TripHotelList, TripStay } from "@/core/types";
 import { useState } from "react";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
-import { TripStayServiceItem } from "../TripStayDetailsModal";
+import { TripStayDetailsModal, TripStayServiceItem } from "../TripStayDetails";
 
 const mockObject: TripHotelList = {
   curated: [
@@ -245,19 +245,15 @@ export function TripHotelList({ className, children, sx, ...props }: TripHotelLi
   );
 }
 
-export const TripHotelCard = ({
-  coverImageUrl = "",
-  name,
-  isCurated = false,
-  message,
-  tags,
-  details,
-}: TripStay & { isCurated?: boolean }) => {
+export const TripHotelCard = (tripStayData: TripStay & { isCurated?: boolean }) => {
   const [selected, setSelected] = useState(false);
-  const selectedColor = isCurated ? "var(--color-brand-4)" : "var(--color-brand-1)";
+  const selectedColor = tripStayData.isCurated ? "var(--color-brand-4)" : "var(--color-brand-1)";
 
-  const handleSeeMore = () => {
-    Modal;
+  const handleSeeMore = (tripStay: TripStay) => {
+    Modal.open(() => <TripStayDetailsModal stayData={tripStay.details} name={tripStay.name} />, {
+      closable: true,
+      size: "sm",
+    });
   };
 
   return (
@@ -267,27 +263,30 @@ export const TripHotelCard = ({
     >
       <div className="trip-hotel-card__content">
         <div className="trip-hotel-card__content__info gap-md">
-          <Picture className="trip-hotel-card__content__info__image" src={`${coverImageUrl}`} />
+          <Picture
+            className="trip-hotel-card__content__info__image"
+            src={`${tripStayData.coverImageUrl}`}
+          />
           <div className="trip-hotel-card__content__info__data gap-md">
             <div className="trip-hotel-card__content__info__data__header">
-              <Text size="lg">{name}</Text>
+              <Text size="lg">{tripStayData.name}</Text>
               <RatingStar total={5} value={3} />
             </div>
 
             <div className="trip-hotel-card__content__info__data__footer">
-              <Text size="lg">{formatByDataType(details.price, "CURRENCY")}</Text>
+              <Text size="lg">{formatByDataType(tripStayData.details.price, "CURRENCY")}</Text>
               <Text style={{ color: "var(--color-gray-1)", marginTop: 0 }}>
-                {details.information}
+                {tripStayData.details.information}
               </Text>
             </div>
           </div>
         </div>
         <div className="trip-hotel-card__content__info__services gap-lg">
-          {details.services.map((item, i) => (
+          {tripStayData.details.services.map((item, i) => (
             <TripStayServiceItem
               type={item.type}
               title={item.title}
-              color={isCurated ? selectedColor : "var(--color-brand-1)"}
+              color={tripStayData.isCurated ? selectedColor : "var(--color-brand-1)"}
               key={i}
             />
           ))}
@@ -312,7 +311,12 @@ export const TripHotelCard = ({
             {selected ? "Selecionado" : "Selecionar este"}
           </Button>
 
-          <Text className="trip-hotel-card__content__button-area__see-more">ver mais</Text>
+          <Text
+            onClick={() => handleSeeMore(tripStayData)}
+            className="trip-hotel-card__content__button-area__see-more"
+          >
+            ver mais
+          </Text>
         </div>
       </div>
     </Card>

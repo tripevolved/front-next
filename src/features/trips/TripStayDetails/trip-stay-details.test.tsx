@@ -1,9 +1,9 @@
 import "@/utils/mocks/Carousel.component.mock";
 
-import type { TripStayDetailsModalProps } from "./trip-stay-details-modal.types";
+import type { TripStayDetailsModalProps } from "./trip-stay-details.types";
 
 import { render } from "@testing-library/react";
-import { TripStayDetailsModal } from "./trip-stay-details-modal.component";
+import { TripStayDetailsModal } from "./trip-stay-details.component";
 
 const STAY_DATA_MOCK: TripStayDetailsModalProps["stayData"] = {
   address: "Quadra QS 112",
