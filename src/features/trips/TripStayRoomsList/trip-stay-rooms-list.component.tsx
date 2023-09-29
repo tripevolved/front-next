@@ -45,9 +45,9 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
 
   const handleConfirm = () => {
     setLoad(true);
-    // const { data, error } = useSwr(`accomodation-list-${tripId}`, getTransactionData);
+    const { data, error } = useSwr(`accomodation-list-${tripId}`, getTransactionData);
 
-    // if (error) return Notification.error("Erro ao enviar seus dados!");
+    if (error) return Notification.error("Erro ao enviar seus dados!");
   };
 
   const handleSelect = (value: TripStayRoom) => {

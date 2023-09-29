@@ -1,13 +1,25 @@
 import { TripStay, TripStayReservation, TripHotelList } from "@/core/types";
 import { ApiRequest } from "@/services/api/request";
 
-export interface TripHotelDTO {
-  id: string;
-  roomId: string;
-  roomSignature: string;
+interface RoomAccomodation extends Omit<Accomodation, 'system' | 'rooms'>{
   unitPrice: number;
   totalPrice: number;
   currency: string;
+  boardChoice: string;
+}
+
+interface Accomodation {
+  id?: string;
+  code?: string;
+  signature?: string;
+  provider?: string;
+  system: string;
+  rooms: RoomAccomodation[]
+}
+
+export interface TripHotelDTO {
+  uniqueTransactionId: string;
+  accommodations: Accomodation[];
 }
 
 export const getStayByTripId = async (tripId: string) => {
