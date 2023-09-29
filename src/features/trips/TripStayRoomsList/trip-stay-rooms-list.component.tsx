@@ -6,6 +6,8 @@ import { EmptyState, Text } from "@/ui";
 import { Button, Loader, Notification } from "mars-ds";
 import useSwr from "swr";
 import { useState } from "react";
+import { TripHotelDTO } from "@/services/api/stays/by-trip";
+import { useRouter } from "next/router";
 
 const roomsMock: TripStayRoom[] = [
   {
@@ -33,21 +35,60 @@ const roomsMock: TripStayRoom[] = [
     title: "Suíte deluxe",
   },
 ];
+const ERROR_MESSAGE = "Erro ao enviar seus dados!";
 
 export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
   const [roomList, setRoomList] = useState<TripStayRoom[]>([]);
   const [load, setLoad] = useState(false);
+  const router = useRouter();
 
   const fetcher = async () => StaysApiService.getByTripId(tripId);
-  const { data, isLoading, error } = useSwr(`current-accomodation-${tripId}`, fetcher);
+  const { data: hotelData, isLoading, error } = useSwr(`current-accomodation-${tripId}`, fetcher);
 
   const getTransactionData = async () => StaysApiService.getHotels(tripId);
 
   const handleConfirm = () => {
     setLoad(true);
-    const { data, error } = useSwr(`accomodation-list-${tripId}`, getTransactionData);
+    const { data: transactionData, error: errorGetTransactionData } = useSwr(
+      `accommodation-get-${tripId}`,
+      getTransactionData
+    );
 
-    if (error) return Notification.error("Erro ao enviar seus dados!");
+    if (errorGetTransactionData) return Notification.error(ERROR_MESSAGE);
+
+    const objDTO: TripHotelDTO = {
+      uniqueTransactionId: transactionData?.uniqueTransactionId!,
+      accommodations: [
+        {
+          id: hotelData?.id,
+          code: hotelData?.code,
+          signature: hotelData?.signature,
+          provider: hotelData?.provider,
+          system: hotelData!.system,
+          rooms: [
+            ...roomList.map((room) => ({
+              id: room.id || "",
+              code: room.code || "",
+              signature: room.signature || "",
+              provider: room.provider || "",
+              unitPrice: room.price || 0,
+              totalPrice: room.price || 0,
+              currency: hotelData?.details.currency || "",
+              boardChoice: "",
+            })),
+          ],
+        },
+      ],
+    };
+
+    const sendData = async () => StaysApiService.setStay(tripId, objDTO);
+    const { error: errorSentData } = useSwr(`accomodation-set-${tripId}`, sendData);
+
+    if (errorSentData) return Notification.error(ERROR_MESSAGE);
+
+    Notification.success("Quartos selecionados com Sucesso!");
+
+    router.push(`/app/viagens/criar/${tripId}`);
   };
 
   const handleSelect = (value: TripStayRoom) => {
@@ -68,7 +109,7 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
       </div>
     );
   if (error) return <EmptyState />;
-  if (!data) return <EmptyState />;
+  if (!hotelData) return <EmptyState />;
 
   return (
     <div className="trip-stay-rooms-list gap-lg">
