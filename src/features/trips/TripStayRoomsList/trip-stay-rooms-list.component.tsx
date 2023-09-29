@@ -3,8 +3,9 @@ import type { TripStayRoomsListProps } from "./trip-stay-rooms-list.types";
 import { TripStayRoomCard } from "@/features";
 import { StaysApiService } from "@/services/api";
 import { EmptyState, Text } from "@/ui";
-import { Button, Loader } from "mars-ds";
+import { Button, Loader, Notification } from "mars-ds";
 import useSwr from "swr";
+import { useState } from "react";
 
 const roomsMock: TripStayRoom[] = [
   {
@@ -25,7 +26,7 @@ const roomsMock: TripStayRoom[] = [
     coverImageUrl: "https://picsum.photos/300/200",
     details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
     features: [{ title: "Ar Condicionado", type: "ac" }],
-    id: "i2u3g429",
+    id: "ukajsytdi873",
     isSelected: true,
     price: 20.0,
     subtitle: "acomoda 4 pessoas",
@@ -34,8 +35,31 @@ const roomsMock: TripStayRoom[] = [
 ];
 
 export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
+  const [roomList, setRoomList] = useState<TripStayRoom[]>([]);
+  const [load, setLoad] = useState(false);
+
   const fetcher = async () => StaysApiService.getByTripId(tripId);
   const { data, isLoading, error } = useSwr(`current-accomodation-${tripId}`, fetcher);
+
+  const getTransactionData = async () => StaysApiService.getHotels(tripId);
+
+  const handleConfirm = () => {
+    setLoad(true);
+    // const { data, error } = useSwr(`accomodation-list-${tripId}`, getTransactionData);
+
+    // if (error) return Notification.error("Erro ao enviar seus dados!");
+  };
+
+  const handleSelect = (value: TripStayRoom) => {
+    const existsInRoomList = roomList.some((room) => room.id === value.id);
+
+    if (existsInRoomList) {
+      const updatedRoomList = roomList.filter((room) => room.id !== value.id);
+      setRoomList(updatedRoomList);
+    } else {
+      setRoomList([...roomList, value]);
+    }
+  };
 
   if (isLoading)
     return (
@@ -56,9 +80,16 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
         Lista de quartos
       </Text>
       {roomsMock.map((room, index) => (
-        <TripStayRoomCard {...room} key={index} />
+        <TripStayRoomCard onClick={() => handleSelect(room)} {...room} key={index} />
       ))}
-      <Button className="trip-stay-rooms-list__confirm m-lg">Confirmar</Button>
+      <Button
+        className="trip-stay-rooms-list__confirm m-lg"
+        disabled={roomList.length <= 0 || load}
+        onClick={() => handleConfirm()}
+      >
+        Confirmar
+      </Button>
+      {load ? <Loader size="md" /> : null}
     </div>
   );
 }

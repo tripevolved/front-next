@@ -1,5 +1,9 @@
 export interface TripStay {
-  id: string; // AccommodationId
+  id?: string; // AccommodationId
+  code?: string;
+  signature?: string;
+  provider?: string;
+  system: string;
   coverImageUrl: string | null;
   cancellationInfo: string;
   name: string;
@@ -43,6 +47,9 @@ export interface TripStayFeature {
 
 export interface TripStayRoom {
   id: string; // AccommodationRoomId
+  code?: string;
+  signature?: string;
+  provider?: string;
   coverImageUrl: string;
   title: string;
   subtitle: string | null;
@@ -71,6 +78,7 @@ export interface TripStayReservation {
 }
 
 export interface TripHotelList {
-  curated: TripStay[];
-  others?: TripStay[];
+  uniqueTransactionId: string;
+  curated: Omit<TripStay, "highlight">[];
+  others?: Omit<TripStay, "highlight">[];
 }

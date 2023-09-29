@@ -6,6 +6,10 @@ import { Modal, Card, Button } from "mars-ds";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 import { useState } from "react";
 
+export interface TripStayRoomCardProps extends TripStayRoom {
+  onClick: () => void;
+}
+
 export const TripStayRoomCard = ({
   coverImageUrl,
   details,
@@ -15,11 +19,17 @@ export const TripStayRoomCard = ({
   price,
   subtitle,
   title,
-}: TripStayRoom) => {
+  onClick,
+}: TripStayRoomCardProps) => {
   const [selected, setSelected] = useState(false);
 
   const handleSeeMore = (room: TripStayRoom) => {
     Modal.open(() => <TripStayRoomDetailsModal room={room} />, { size: "md", closable: true });
+  };
+
+  const handleSelect = () => {
+    setSelected(!selected);
+    onClick();
   };
 
   return (
@@ -80,7 +90,7 @@ export const TripStayRoomCard = ({
               width: "100%",
               color: selected ? "var(--color-brand-1)" : "var(--color-gray-2)",
             }}
-            onClick={() => setSelected(!selected)}
+            onClick={() => handleSelect()}
           >
             {selected ? "Selecionado" : "Selecionar este"}
           </Button>
