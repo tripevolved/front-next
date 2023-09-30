@@ -42,19 +42,24 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
   const [load, setLoad] = useState(false);
   const router = useRouter();
 
+  // Current hotel data
   const fetcher = async () => StaysApiService.getByTripId(tripId);
   const { data: hotelData, isLoading, error } = useSwr(`current-accomodation-${tripId}`, fetcher);
 
+  // Transaction data to set the hotel rooms
   const getTransactionData = async () => StaysApiService.getHotels(tripId);
 
   const handleConfirm = () => {
     setLoad(true);
+
     const { data: transactionData, error: errorGetTransactionData } = useSwr(
       `accommodation-get-${tripId}`,
       getTransactionData
     );
 
     if (errorGetTransactionData) return Notification.error(ERROR_MESSAGE);
+
+    const totalPrice = roomList.reduce((acc, room) => acc + room.price, 0);
 
     const objDTO: TripHotelDTO = {
       uniqueTransactionId: transactionData?.uniqueTransactionId!,
@@ -72,7 +77,7 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
               signature: room.signature || "",
               provider: room.provider || "",
               unitPrice: room.price || 0,
-              totalPrice: room.price || 0,
+              totalPrice: totalPrice || 0,
               currency: hotelData?.details.currency || "",
               boardChoice: "",
             })),
@@ -87,6 +92,7 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
     if (errorSentData) return Notification.error(ERROR_MESSAGE);
 
     Notification.success("Quartos selecionados com Sucesso!");
+    setLoad(false);
 
     router.push(`/app/viagens/criar/${tripId}`);
   };
