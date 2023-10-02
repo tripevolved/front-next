@@ -8,6 +8,7 @@ import useSwr from "swr";
 import { useState } from "react";
 import { TripHotelDTO } from "@/services/api/stays/by-trip";
 import { useRouter } from "next/router";
+import useTripStayRoomEdit from "./trip-stay-room-list.hook";
 
 const roomsMock: TripStayRoom[] = [
   {
@@ -39,30 +40,30 @@ const ERROR_MESSAGE = "Erro ao enviar seus dados!";
 
 export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
   const [roomList, setRoomList] = useState<TripStayRoom[]>([]);
-  const [load, setLoad] = useState(false);
   const router = useRouter();
+
+  const {
+    transactionData,
+    isLoading: isLoadingHook,
+    error: errorHook,
+    getTransactionData,
+  } = useTripStayRoomEdit();
 
   // Current hotel data
   const fetcher = async () => StaysApiService.getByTripId(tripId);
   const { data: hotelData, isLoading, error } = useSwr(`current-accomodation-${tripId}`, fetcher);
 
   // Transaction data to set the hotel rooms
-  const getTransactionData = async () => StaysApiService.getHotels(tripId);
 
   const handleConfirm = () => {
-    setLoad(true);
+    getTransactionData(tripId);
 
-    const { data: transactionData, error: errorGetTransactionData } = useSwr(
-      `accommodation-get-${tripId}`,
-      getTransactionData
-    );
-
-    if (errorGetTransactionData) return Notification.error(ERROR_MESSAGE);
+    if (!transactionData && error) return Notification.error(ERROR_MESSAGE);
 
     const totalPrice = roomList.reduce((acc, room) => acc + room.price, 0);
 
     const objDTO: TripHotelDTO = {
-      uniqueTransactionId: transactionData?.uniqueTransactionId!,
+      uniqueTransactionId: transactionData.uniqueTransactionId,
       accommodations: [
         {
           id: hotelData?.id,
@@ -86,7 +87,7 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
       ],
     };
 
-    const sendData = async () => StaysApiService.setStay(tripId, objDTO);
+    /* const sendData = async () => StaysApiService.setStay(tripId, objDTO);
     const { error: errorSentData } = useSwr(`accomodation-set-${tripId}`, sendData);
 
     if (errorSentData) return Notification.error(ERROR_MESSAGE);
@@ -94,7 +95,7 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
     Notification.success("Quartos selecionados com Sucesso!");
     setLoad(false);
 
-    router.push(`/app/viagens/criar/${tripId}`);
+    router.push(`/app/viagens/criar/${tripId}`); */
   };
 
   const handleSelect = (value: TripStayRoom) => {
@@ -131,12 +132,12 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
       ))}
       <Button
         className="trip-stay-rooms-list__confirm m-lg"
-        disabled={roomList.length <= 0 || load}
+        disabled={roomList.length <= 0 || isLoadingHook}
         onClick={() => handleConfirm()}
       >
         Confirmar
       </Button>
-      {load ? <Loader size="md" /> : null}
+      {isLoadingHook ? <Loader size="md" /> : null}
     </div>
   );
 }
