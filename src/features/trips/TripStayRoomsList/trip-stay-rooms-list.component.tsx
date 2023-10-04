@@ -47,21 +47,32 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
     isLoading: isLoadingHook,
     error: errorHook,
     getTransactionData,
+    sendData,
+    errorSentData,
   } = useTripStayRoomEdit();
 
   // Current hotel data
   const fetcher = async () => StaysApiService.getByTripId(tripId);
   const { data: hotelData, isLoading, error } = useSwr(`current-accomodation-${tripId}`, fetcher);
 
-  // Transaction data to set the hotel rooms
+  const handleSelect = (value: TripStayRoom) => {
+    const existsInRoomList = roomList.some((room) => room.id === value.id);
+
+    if (existsInRoomList) {
+      const updatedRoomList = roomList.filter((room) => room.id !== value.id);
+      setRoomList(updatedRoomList);
+    } else {
+      setRoomList([...roomList, value]);
+    }
+  };
 
   const handleConfirm = () => {
+    // Transaction data to set the hotel rooms (uniqueTransactionId)
     getTransactionData(tripId);
 
-    if (!transactionData && error) return Notification.error(ERROR_MESSAGE);
+    if (!transactionData && errorHook) return Notification.error(ERROR_MESSAGE);
 
     const totalPrice = roomList.reduce((acc, room) => acc + room.price, 0);
-
     const objDTO: TripHotelDTO = {
       uniqueTransactionId: transactionData.uniqueTransactionId,
       accommodations: [
@@ -87,26 +98,12 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
       ],
     };
 
-    /* const sendData = async () => StaysApiService.setStay(tripId, objDTO);
-    const { error: errorSentData } = useSwr(`accomodation-set-${tripId}`, sendData);
+    sendData(tripId, objDTO);
 
     if (errorSentData) return Notification.error(ERROR_MESSAGE);
 
     Notification.success("Quartos selecionados com Sucesso!");
-    setLoad(false);
-
-    router.push(`/app/viagens/criar/${tripId}`); */
-  };
-
-  const handleSelect = (value: TripStayRoom) => {
-    const existsInRoomList = roomList.some((room) => room.id === value.id);
-
-    if (existsInRoomList) {
-      const updatedRoomList = roomList.filter((room) => room.id !== value.id);
-      setRoomList(updatedRoomList);
-    } else {
-      setRoomList([...roomList, value]);
-    }
+    router.push(`/app/viagens/criar/${tripId}`);
   };
 
   if (isLoading)

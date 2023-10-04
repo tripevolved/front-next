@@ -8,7 +8,7 @@ export interface TripStay {
   cancellationInfo: string;
   name: string;
   tags: string;
-  highlight: TripStayHighlight;
+  highlight?: TripStayHighlight;
   details: TripStayDetails;
   isSelected: boolean;
   isBuilding: boolean;

@@ -1,13 +1,11 @@
-import { Picture, Text } from "@/ui";
+import { Text } from "@/ui";
 import type { TripHotelListProps } from "./trip-hotel-list.types";
 
-import { Card, Accordion as MarsAccordion, Button, RatingStar, Modal } from "mars-ds";
+import { Accordion as MarsAccordion, Button } from "mars-ds";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { TripHotelList, TripStay } from "@/core/types";
-import { useState } from "react";
-import { formatByDataType } from "@/utils/helpers/number.helpers";
-import { TripStayDetailsModal, TripStayServiceItem } from "../TripStayDetails";
+import type { TripHotelList } from "@/core/types";
+import { TripHotelCard } from "@/features";
 
 const mockObject: TripHotelList = {
   curated: [
@@ -18,6 +16,10 @@ const mockObject: TripHotelList = {
       isReserved: false,
       message: "Mensagem legal de Teste",
       reservationMessage: "Mensagem de reservação",
+      system: "390hjf4",
+      code: "09893sgsds",
+      provider: "providenciado",
+      signature: "w9eur03nka0-",
       details: {
         address: "Quadra QS 112",
         checkInHour: "8h às 20h",
@@ -67,11 +69,6 @@ const mockObject: TripHotelList = {
             title: "Suíte deluxe",
           },
         ],
-      },
-      highlight: {
-        description: "Um ótimo lugar para quem gosta montanhas e grandes altitudes",
-        title: "Nas Alturas",
-        type: "comfort",
       },
       id: "12kuj3h6244er",
       isSelected: true,
@@ -85,6 +82,10 @@ const mockObject: TripHotelList = {
       isReserved: false,
       message: "Mensagem legal de Teste",
       reservationMessage: "Mensagem de reservação",
+      system: "jn6390348hg",
+      code: "nmf984hw45",
+      provider: "providenciado2",
+      signature: "f98nj4w98-=",
       details: {
         address: "Quadra QS 112",
         checkInHour: "8h às 20h",
@@ -134,11 +135,6 @@ const mockObject: TripHotelList = {
             title: "Suíte deluxe",
           },
         ],
-      },
-      highlight: {
-        description: "Um ótimo lugar para quem gosta montanhas e grandes altitudes",
-        title: "Nas Alturas",
-        type: "comfort",
       },
       id: "12kuj3h6244er",
       isSelected: true,
@@ -154,6 +150,10 @@ const mockObject: TripHotelList = {
       isReserved: false,
       message: "Mensagem legal de Teste",
       reservationMessage: "Mensagem de reservação",
+      system: "83o947h20",
+      code: "2oh3i952",
+      provider: "providenciado3",
+      signature: "9o8h3t356",
       details: {
         address: "Quadra QS 112",
         checkInHour: "8h às 20h",
@@ -203,11 +203,6 @@ const mockObject: TripHotelList = {
             title: "Suíte deluxe",
           },
         ],
-      },
-      highlight: {
-        description: "Um ótimo lugar para quem gosta montanhas e grandes altitudes",
-        title: "Nas Alturas",
-        type: "comfort",
       },
       id: "12kuj3h6244er",
       isSelected: true,
@@ -228,7 +223,7 @@ export function TripHotelList({ className, children, sx, ...props }: TripHotelLi
       <MarsAccordion title="Com selo Trip Evolved" defaultOpen>
         <div className="trip-hotel-list__list gap-md">
           {mockObject.curated.map((hotel, i) => (
-            <TripHotelCard {...hotel} isCurated key={i} />
+            <TripHotelCard onSelect={() => null} tripStayData={hotel} isCurated key={i} />
           ))}
         </div>
       </MarsAccordion>
@@ -236,7 +231,7 @@ export function TripHotelList({ className, children, sx, ...props }: TripHotelLi
         <div className="trip-hotel-list__list gap-md">
           <MarsAccordion title="Outros">
             {mockObject.others.map((hotel, i) => (
-              <TripHotelCard {...hotel} key={i} />
+              <TripHotelCard onSelect={() => null} tripStayData={hotel} key={i} />
             ))}
           </MarsAccordion>
         </div>
@@ -244,81 +239,3 @@ export function TripHotelList({ className, children, sx, ...props }: TripHotelLi
     </div>
   );
 }
-
-export const TripHotelCard = (tripStayData: TripStay & { isCurated?: boolean }) => {
-  const [selected, setSelected] = useState(false);
-  const selectedColor = tripStayData.isCurated ? "var(--color-brand-4)" : "var(--color-brand-1)";
-
-  const handleSeeMore = (tripStay: TripStay) => {
-    Modal.open(() => <TripStayDetailsModal stayData={tripStay.details} name={tripStay.name} />, {
-      closable: true,
-      size: "sm",
-    });
-  };
-
-  return (
-    <Card
-      className="trip-hotel-card"
-      style={{ border: `2px solid ${selected ? selectedColor : "var(--color-gray-3)"}` }}
-    >
-      <div className="trip-hotel-card__content">
-        <div className="trip-hotel-card__content__info gap-md">
-          <Picture
-            className="trip-hotel-card__content__info__image"
-            src={`${tripStayData.coverImageUrl}`}
-          />
-          <div className="trip-hotel-card__content__info__data gap-md">
-            <div className="trip-hotel-card__content__info__data__header">
-              <Text size="lg">{tripStayData.name}</Text>
-              <RatingStar total={5} value={3} />
-            </div>
-
-            <div className="trip-hotel-card__content__info__data__footer">
-              <Text size="lg">{formatByDataType(tripStayData.details.price, "CURRENCY")}</Text>
-              <Text style={{ color: "var(--color-gray-1)", marginTop: 0 }}>
-                {tripStayData.details.information}
-              </Text>
-            </div>
-          </div>
-        </div>
-        <div className="trip-hotel-card__content__info__services gap-lg">
-          {tripStayData.details.services.map((item, i) => (
-            <TripStayServiceItem
-              type={item.type}
-              title={item.title}
-              color={tripStayData.isCurated ? selectedColor : "var(--color-brand-1)"}
-              key={i}
-            />
-          ))}
-        </div>
-        <div
-          className="trip-hotel-card__content__divider"
-          style={{
-            width: "100%",
-            border: `.5px solid ${selected ? selectedColor : "var(--color-gray-3)"}`,
-          }}
-        ></div>
-        <div className="trip-hotel-card__content__button-area">
-          <Button
-            iconName={selected ? "check-circle" : "circle"}
-            size="sm"
-            variant="naked"
-            style={{
-              color: selected ? selectedColor : "var(--color-gray-2)",
-            }}
-            onClick={() => setSelected(!selected)}
-          >
-            {selected ? "Selecionado" : "Selecionar este"}
-          </Button>
-
-          <Text
-            onClick={() => handleSeeMore(tripStayData)}
-            className="trip-hotel-card__content__button-area__see-more"
-          >
-            ver mais
-          </Text>
-        </div>
-      </div>
-    </Card>
-  );
-};

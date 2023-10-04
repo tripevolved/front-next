@@ -10,17 +10,6 @@ import { TripStay } from "@/core/types";
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
 
-const mockObject: TripStay = {
-  id: "65sd4a651aset8hne3",
-  cancellationInfo: "Informação de cancelamento",
-  coverImageUrl: "https://picsum.photos/200",
-  isBuilding: false,
-  message: "Mensagem de Teste somente para MOck",
-  reservationMessage: "Mensagem para reservas",
-  name: "Lugar de Paz",
-  isSelected: true,
-};
-
 export const TripStaySection = ({ tripId }: { tripId: string }) => {
   const getStay = (key: string) => {
     return getByTripId(tripId);
@@ -59,7 +48,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
     );
   }
 
-  if (!mockObject || !mockObject.isSelected) {
+  if (!data || !data.isSelected) {
     return (
       <>
         <div className="trip-content-item trip-stay-section">
@@ -78,6 +67,14 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
                   Ainda não escolhemos a acomodação para sua viagem.
                 </Text>
                 <Text>Fale conosco e vamos deixar tudo como você deseja!</Text>
+                <Button
+                  iconName="home"
+                  className="mt-md"
+                  style={{ color: "var(--color-gray-4)", width: "100%" }}
+                  href={`/app/viagens/criar/${tripId}/hospedagem/editar-hotel`}
+                >
+                  Escolher um Hotel
+                </Button>
               </div>
             </CardHighlight>
           </Box>
@@ -109,12 +106,10 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
           </Box>
           <Box className="trip-stay-section__content">
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture src={mockObject.coverImageUrl!} style={{ height: 75, width: 75 }} />
+              <Picture src={data.coverImageUrl!} style={{ height: 75, width: 75 }} />
               <Box className="trip-stay-section__content__stay-desc__box">
-                <Text size="lg">{mockObject.name}</Text>
-                <Box className="trip-stay-section__content__stay-desc__box__stars">
-                  {mockObject.tags}
-                </Box>
+                <Text size="lg">{data.name}</Text>
+                <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>
               </Box>
             </Box>
             <Button
@@ -125,9 +120,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
               Ver detalhes
             </Button>
           </Box>
-          {mockObject.highlight ? (
-            <TripStayHighlightSection highlight={mockObject.highlight} />
-          ) : null}
+          {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
         </Box>
       </div>
     </>
