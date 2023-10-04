@@ -99,7 +99,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
               variant="naked"
               size="sm"
               style={{ color: "var(--color-gray-1)" }}
-              href={`/app/viagens/criar/${tripId}/hospedagem`}
+              href={`/app/viagens/criar/${tripId}/hospedagem/editar-hotel`}
             >
               Editar
             </Button>
