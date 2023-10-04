@@ -1,14 +1,10 @@
 import { TripStayRoom } from "@/core/types";
-import { TripStayRoomDetailsModal, TripStayServiceItem } from "@/features";
+import { TripStayRoomCardProps, TripStayRoomDetailsModal, TripStayServiceItem } from "@/features";
 
 import { Picture, Text } from "@/ui";
 import { Modal, Card, Button } from "mars-ds";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 import { useState } from "react";
-
-export interface TripStayRoomCardProps extends TripStayRoom {
-  onClick: () => void;
-}
 
 export const TripStayRoomCard = ({
   coverImageUrl,
