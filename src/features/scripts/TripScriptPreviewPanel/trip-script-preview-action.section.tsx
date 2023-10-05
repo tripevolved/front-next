@@ -7,6 +7,7 @@ interface TripScriptPreviewActionSectionProps {
 }
 
 export const TripScriptPreviewActionSection = ({ action }: TripScriptPreviewActionSectionProps) => {
+  console.log(action.iconSlug);
   return (
     <Card className="trip-script-preview-action" elevation="xl">
       <Picture
