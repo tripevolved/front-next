@@ -1,13 +1,16 @@
-import { Text } from "@/ui";
+import { EmptyState, Text } from "@/ui";
 import type { TripHotelListProps } from "./trip-hotel-list.types";
 
-import { Accordion as MarsAccordion, Button } from "mars-ds";
+import { Accordion as MarsAccordion, Button, Loader } from "mars-ds";
 
-import { makeCn } from "@/utils/helpers/css.helpers";
-import type { TripHotelList } from "@/core/types";
+import type { TripHotelList, TripStay } from "@/core/types";
 import { TripHotelCard } from "@/features";
+import { useState } from "react";
+import { StaysApiService } from "@/services/api";
+import useSwr from "swr";
 
 const mockObject: TripHotelList = {
+  uniqueTransactionId: "898ef0w8ej-90uwe087rw",
   curated: [
     {
       coverImageUrl: "https://picsum.photos/50/",
@@ -212,26 +215,47 @@ const mockObject: TripHotelList = {
   ],
 };
 
-export function TripHotelList({ className, children, sx, ...props }: TripHotelListProps) {
-  const cn = makeCn("trip-hotel-list", className)(sx);
+export function TripHotelList({ tripId }: TripHotelListProps) {
+  const [selectedHotel, setSelectedHotel] = useState<Omit<TripStay, "hightlight">>({} as TripStay);
+
+  const fetcher = async () => StaysApiService.getHotels(tripId);
+  const { data, isLoading, error } = useSwr(`accomodation-edit-${tripId}`, fetcher);
+
+  if (error) return <EmptyState />;
+  if (isLoading)
+    return (
+      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <Loader size="xs" />
+      </div>
+    );
+  if (!data) return <EmptyState />;
 
   return (
-    <div className={`${cn} p-lg`} {...props}>
+    <div className="trip-hotel-list p-lg">
       <Text heading style={{ color: "var(--color-brand-1)" }} size="sm">
         Lista de Hoteis
       </Text>
       <MarsAccordion title="Com selo Trip Evolved" defaultOpen>
         <div className="trip-hotel-list__list gap-md">
-          {mockObject.curated.map((hotel, i) => (
-            <TripHotelCard onSelect={() => null} tripStayData={hotel} isCurated key={i} />
+          {data.curated.map((hotel, i) => (
+            <TripHotelCard
+              onSelect={() => setSelectedHotel(hotel)}
+              tripStayData={hotel}
+              isCurated
+              key={i}
+            />
           ))}
         </div>
       </MarsAccordion>
-      {mockObject.others ? (
+      {data.others ? (
         <div className="trip-hotel-list__list gap-md">
           <MarsAccordion title="Outros">
-            {mockObject.others.map((hotel, i) => (
-              <TripHotelCard onSelect={() => null} tripStayData={hotel} key={i} />
+            {data.others.map((hotel, i) => (
+              <TripHotelCard
+                onSelect={() => setSelectedHotel(hotel)}
+                tripStayData={hotel}
+                key={i}
+              />
             ))}
           </MarsAccordion>
         </div>
