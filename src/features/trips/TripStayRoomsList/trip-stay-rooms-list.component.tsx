@@ -2,7 +2,7 @@ import { TripStayRoom } from "@/core/types";
 import type { TripStayRoomsListProps } from "./trip-stay-rooms-list.types";
 import { TripStayRoomCard } from "@/features";
 import { StaysApiService } from "@/services/api";
-import { EmptyState, Text } from "@/ui";
+import { EmptyState, GlobalLoader, Text } from "@/ui";
 import { Button, Loader, Notification } from "mars-ds";
 import useSwr from "swr";
 import { useState } from "react";
@@ -43,13 +43,17 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
   const router = useRouter();
 
   const {
+    setCanGetTD,
+    isLoadingTD,
     transactionData,
-    isLoading: isLoadingHook,
-    error: errorHook,
-    getTransactionData,
-    sendData,
+    errorTD,
+
+    setObjDTO,
+    setCanSendTD,
+
+    isLoadingSentData,
     errorSentData,
-  } = useTripStayRoomEdit();
+  } = useTripStayRoomEdit(tripId);
 
   // Current hotel data
   const fetcher = async () => StaysApiService.getByTripId(tripId);
@@ -67,12 +71,17 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
   };
 
   const handleConfirm = () => {
+    let totalPrice = 0;
     // Transaction data to set the hotel rooms (uniqueTransactionId)
-    getTransactionData(tripId);
+    setCanGetTD(true);
 
-    if (!transactionData && errorHook) return Notification.error(ERROR_MESSAGE);
+    if (!transactionData || errorTD) return Notification.error(ERROR_MESSAGE);
 
-    const totalPrice = roomList.reduce((acc, room) => acc + room.price, 0);
+    const roomsSumPrice = roomList.reduce((acc, room) => acc + room.price, 0);
+
+    if (hotelData?.details.price) totalPrice = roomsSumPrice + hotelData.details.price;
+    else totalPrice = roomsSumPrice;
+
     const objDTO: TripHotelDTO = {
       uniqueTransactionId: transactionData.uniqueTransactionId,
       accommodations: [
@@ -82,23 +91,22 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
           signature: hotelData?.signature,
           provider: hotelData?.provider,
           system: hotelData!.system,
-          rooms: [
-            ...roomList.map((room) => ({
-              id: room.id || "",
-              code: room.code || "",
-              signature: room.signature || "",
-              provider: room.provider || "",
-              unitPrice: room.price || 0,
-              totalPrice: totalPrice || 0,
-              currency: hotelData?.details.currency || "",
-              boardChoice: "",
-            })),
-          ],
+          rooms: roomList.map((room) => ({
+            id: room.id || "",
+            code: room.code || "",
+            signature: room.signature || "",
+            provider: room.provider || "",
+            unitPrice: room.price || 0,
+            totalPrice: totalPrice,
+            currency: hotelData?.details.currency || "",
+            boardChoice: "",
+          })),
         },
       ],
     };
 
-    sendData(tripId, objDTO);
+    setObjDTO(objDTO);
+    setCanSendTD(true);
 
     if (errorSentData) return Notification.error(ERROR_MESSAGE);
 
@@ -106,22 +114,13 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
     router.push(`/app/viagens/criar/${tripId}`);
   };
 
-  if (isLoading)
-    return (
-      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <Loader size="xs" />
-      </div>
-    );
+  if (isLoading) return <GlobalLoader />;
   if (error) return <EmptyState />;
   if (!hotelData) return <EmptyState />;
 
   return (
     <div className="trip-stay-rooms-list gap-lg">
-      <Text
-        heading
-        className="trip-stay-rooms-list__title"
-        style={{ textAlign: "left", color: "var(--color-brand-1)", width: "100%" }}
-      >
+      <Text heading className="trip-stay-rooms-list__title text-left w-100 color-text-secondary">
         Lista de quartos
       </Text>
       {roomsMock.map((room, index) => (
@@ -129,12 +128,12 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
       ))}
       <Button
         className="trip-stay-rooms-list__confirm m-lg"
-        disabled={roomList.length <= 0 || isLoadingHook}
+        disabled={roomList.length <= 0 || isLoadingTD || isLoadingSentData}
         onClick={() => handleConfirm()}
       >
         Confirmar
       </Button>
-      {isLoadingHook ? <Loader size="md" /> : null}
+      {isLoadingTD || isLoadingSentData ? <Loader size="md" /> : null}
     </div>
   );
 }
