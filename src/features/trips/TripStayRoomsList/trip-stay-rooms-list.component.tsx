@@ -2,8 +2,8 @@ import { TripStayRoom } from "@/core/types";
 import type { TripStayRoomsListProps } from "./trip-stay-rooms-list.types";
 import { TripStayRoomCard } from "@/features";
 import { StaysApiService } from "@/services/api";
-import { EmptyState, GlobalLoader, Text } from "@/ui";
-import { Button, Loader, Notification } from "mars-ds";
+import { EmptyState, ErrorState, GlobalLoader, Text } from "@/ui";
+import { Button, SubmitButton, Loader, Notification } from "mars-ds";
 import useSwr from "swr";
 import { useState } from "react";
 import { TripHotelDTO } from "@/services/api/stays/by-trip";
@@ -115,7 +115,7 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
   };
 
   if (isLoading) return <GlobalLoader />;
-  if (error) return <EmptyState />;
+  if (error) return <ErrorState />;
   if (!hotelData) return <EmptyState />;
 
   return (
@@ -126,14 +126,14 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
       {roomsMock.map((room, index) => (
         <TripStayRoomCard onClick={() => handleSelect(room)} {...room} key={index} />
       ))}
-      <Button
+      <SubmitButton
         className="trip-stay-rooms-list__confirm m-lg"
-        disabled={roomList.length <= 0 || isLoadingTD || isLoadingSentData}
+        disabled={roomList.length <= 0}
+        submitting={isLoadingTD || isLoadingSentData}
         onClick={() => handleConfirm()}
       >
         Confirmar
-      </Button>
-      {isLoadingTD || isLoadingSentData ? <Loader size="md" /> : null}
+      </SubmitButton>
     </div>
   );
 }
