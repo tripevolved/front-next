@@ -1,225 +1,59 @@
-import { EmptyState, ErrorState, GlobalLoader, Text } from "@/ui";
+import { Box, EmptyState, ErrorState, GlobalLoader, Text } from "@/ui";
 import type { TripHotelListProps } from "./trip-hotel-list.types";
 
-import { Accordion as MarsAccordion, Button, Loader } from "mars-ds";
+import type { TripHotelList, TripStay, TripStayRoom } from "@/core/types";
 
-import type { TripHotelList, TripStay } from "@/core/types";
-import { TripHotelCard } from "@/features";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { StaysApiService } from "@/services/api";
 import useSwr from "swr";
+import { useAnimation } from "@/utils/hooks/animation.hook";
+import { TripHotelChoose } from "./trip-hotel-choose-step.component";
+import { TripHotelDTO } from "@/services/api/stays/by-trip";
+import { TripHotelRoomsChoose } from "./trip-hotel-rooms-choose-step.component";
 
-const mockObject: TripHotelList = {
-  uniqueTransactionId: "898ef0w8ej-90uwe087rw",
-  curated: [
-    {
-      coverImageUrl: "https://picsum.photos/50/",
-      cancellationInfo: "Informação de cancelamento",
-      isBuilding: false,
-      isReserved: false,
-      message: "Mensagem legal de Teste",
-      reservationMessage: "Mensagem de reservação",
-      system: "390hjf4",
-      code: "09893sgsds",
-      provider: "providenciado",
-      signature: "w9eur03nka0-",
-      details: {
-        address: "Quadra QS 112",
-        checkInHour: "8h às 20h",
-        services: [
-          { title: "Ar condicionado", type: "ac" },
-          { title: "Boa cama", type: "bed" },
-          { title: "Café da Manhã", type: "breakfast" },
-          { title: "Wi-Fi", type: "wifi" },
-        ],
-        images: [
-          { url: "https://picsum.photos/300/200", altText: "Primeira imagem" },
-          { url: "https://picsum.photos/400/300", altText: "Segunda imagem" },
-          { url: "https://picsum.photos/500/400", altText: "Terceira imagem" },
-        ],
-        information: "Informação legal da acomodação",
-        price: 67.09,
-        currency: "R$",
-        rooms: [
-          {
-            coverImageUrl: "https://picsum.photos/300/200",
-            details: {
-              amenities: ["coisa", "nova", "teste"],
-              information: "informação sensacional",
-            },
-            features: [
-              { title: "Wifi", type: "wifi" },
-              { title: "Ar Condicionado", type: "ac" },
-              { title: "Boa cama", type: "bed" },
-            ],
-            id: "i2u3g429",
-            isSelected: true,
-            price: 20.0,
-            subtitle: "Acomoda 2 pessoas",
-            title: "Suíte simples",
-          },
-          {
-            coverImageUrl: "https://picsum.photos/300/200",
-            details: {
-              amenities: ["coisa", "nova", "teste"],
-              information: "informação sensacional",
-            },
-            features: [{ title: "Ar Condicionado", type: "ac" }],
-            id: "i2u3g429",
-            isSelected: true,
-            price: 20.0,
-            subtitle: "acomoda 4 pessoas",
-            title: "Suíte deluxe",
-          },
-        ],
-      },
-      id: "12kuj3h6244er",
-      isSelected: true,
-      name: "Alto mais Alto",
-      tags: "3 estrelas",
-    },
-    {
-      coverImageUrl: "https://picsum.photos/50/",
-      cancellationInfo: "Informação de cancelamento",
-      isBuilding: false,
-      isReserved: false,
-      message: "Mensagem legal de Teste",
-      reservationMessage: "Mensagem de reservação",
-      system: "jn6390348hg",
-      code: "nmf984hw45",
-      provider: "providenciado2",
-      signature: "f98nj4w98-=",
-      details: {
-        address: "Quadra QS 112",
-        checkInHour: "8h às 20h",
-        services: [
-          { title: "Ar condicionado", type: "ac" },
-          { title: "Boa cama", type: "bed" },
-          { title: "Café da Manhã", type: "breakfast" },
-          { title: "Wi-Fi", type: "wifi" },
-        ],
-        images: [
-          { url: "https://picsum.photos/300/200", altText: "Primeira imagem" },
-          { url: "https://picsum.photos/400/300", altText: "Segunda imagem" },
-          { url: "https://picsum.photos/500/400", altText: "Terceira imagem" },
-        ],
-        information: "Informação legal da acomodação",
-        price: 67.09,
-        currency: "R$",
-        rooms: [
-          {
-            coverImageUrl: "https://picsum.photos/300/200",
-            details: {
-              amenities: ["coisa", "nova", "teste"],
-              information: "informação sensacional",
-            },
-            features: [
-              { title: "Wifi", type: "wifi" },
-              { title: "Ar Condicionado", type: "ac" },
-              { title: "Boa cama", type: "bed" },
-            ],
-            id: "i2u3g429",
-            isSelected: true,
-            price: 20.0,
-            subtitle: "Acomoda 2 pessoas",
-            title: "Suíte simples",
-          },
-          {
-            coverImageUrl: "https://picsum.photos/300/200",
-            details: {
-              amenities: ["coisa", "nova", "teste"],
-              information: "informação sensacional",
-            },
-            features: [{ title: "Ar Condicionado", type: "ac" }],
-            id: "i2u3g429",
-            isSelected: true,
-            price: 20.0,
-            subtitle: "acomoda 4 pessoas",
-            title: "Suíte deluxe",
-          },
-        ],
-      },
-      id: "12kuj3h6244er",
-      isSelected: true,
-      name: "Alto mais Alto",
-      tags: "3 estrelas",
-    },
-  ],
-  others: [
-    {
-      coverImageUrl: "https://picsum.photos/50/",
-      cancellationInfo: "Informação de cancelamento",
-      isBuilding: false,
-      isReserved: false,
-      message: "Mensagem legal de Teste",
-      reservationMessage: "Mensagem de reservação",
-      system: "83o947h20",
-      code: "2oh3i952",
-      provider: "providenciado3",
-      signature: "9o8h3t356",
-      details: {
-        address: "Quadra QS 112",
-        checkInHour: "8h às 20h",
-        services: [
-          { title: "Ar condicionado", type: "ac" },
-          { title: "Boa cama", type: "bed" },
-          { title: "Café da Manhã", type: "breakfast" },
-          { title: "Wi-Fi", type: "wifi" },
-        ],
-        images: [
-          { url: "https://picsum.photos/300/200", altText: "Primeira imagem" },
-          { url: "https://picsum.photos/400/300", altText: "Segunda imagem" },
-          { url: "https://picsum.photos/500/400", altText: "Terceira imagem" },
-        ],
-        information: "Informação legal da acomodação",
-        price: 67.09,
-        currency: "R$",
-        rooms: [
-          {
-            coverImageUrl: "https://picsum.photos/300/200",
-            details: {
-              amenities: ["coisa", "nova", "teste"],
-              information: "informação sensacional",
-            },
-            features: [
-              { title: "Wifi", type: "wifi" },
-              { title: "Ar Condicionado", type: "ac" },
-              { title: "Boa cama", type: "bed" },
-            ],
-            id: "i2u3g429",
-            isSelected: true,
-            price: 20.0,
-            subtitle: "Acomoda 2 pessoas",
-            title: "Suíte simples",
-          },
-          {
-            coverImageUrl: "https://picsum.photos/300/200",
-            details: {
-              amenities: ["coisa", "nova", "teste"],
-              information: "informação sensacional",
-            },
-            features: [{ title: "Ar Condicionado", type: "ac" }],
-            id: "i2u3g429",
-            isSelected: true,
-            price: 20.0,
-            subtitle: "acomoda 4 pessoas",
-            title: "Suíte deluxe",
-          },
-        ],
-      },
-      id: "12kuj3h6244er",
-      isSelected: true,
-      name: "Alto mais Alto",
-      tags: "3 estrelas",
-    },
-  ],
-};
+const EDIT_STEPS = [
+  {
+    title: "Lista de Hoteis",
+    name: "hotelSelection",
+    component: TripHotelChoose,
+  },
+  {
+    title: "Escolha os quartos",
+    name: "roomsSelection",
+    component: TripHotelRoomsChoose,
+  },
+];
+
+const DEFAULT_INITIAL_INDEX = 0;
 
 export function TripHotelList({ tripId }: TripHotelListProps) {
-  const [selectedHotel, setSelectedHotel] = useState<Omit<TripStay, "hightlight">>({} as TripStay);
+  const [tripHotel, setTripHotel] = useState<TripStay>();
+  const [tripHotelRooms, setTripHotelRooms] = useState<TripStayRoom[]>();
+
+  const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
+
+  const animation = useAnimation();
 
   const fetcher = async () => StaysApiService.getHotels(tripId);
   const { data, isLoading, error } = useSwr(`accomodation-edit-${tripId}`, fetcher);
+
+  const handleSubmit = () => {};
+
+  const handleNext = ({ value, isAccommodation }: { value: any; isAccommodation: boolean }) => {
+    if (isAccommodation) {
+      setTripHotel(value as TripStay);
+    } else {
+      setTripHotelRooms(value as TripStayRoom[]);
+    }
+
+    const nextIndex = currentIndex + 1;
+    if (nextIndex < EDIT_STEPS.length) {
+      setCurrentIndex(nextIndex);
+      animation.trigger(true);
+    } else {
+      handleSubmit();
+    }
+  };
 
   if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
@@ -228,33 +62,15 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
   return (
     <div className="trip-hotel-list">
       <Text heading style={{ color: "var(--color-brand-1)" }} size="sm">
-        Lista de Hoteis
+        {EDIT_STEPS[currentIndex].title}
       </Text>
-      <MarsAccordion title="Com selo Trip Evolved" defaultOpen>
-        <div className="trip-hotel-list__list gap-md">
-          {mockObject.curated.map((hotel, i) => (
-            <TripHotelCard
-              onSelect={() => setSelectedHotel(hotel)}
-              tripStayData={hotel}
-              isCurated
-              key={i}
-            />
-          ))}
-        </div>
-      </MarsAccordion>
-      {mockObject.others ? (
-        <div className="trip-hotel-list__list gap-md">
-          <MarsAccordion title="Outros">
-            {mockObject.others.map((hotel, i) => (
-              <TripHotelCard
-                onSelect={() => setSelectedHotel(hotel)}
-                tripStayData={hotel}
-                key={i}
-              />
-            ))}
-          </MarsAccordion>
-        </div>
-      ) : null}
+      <Box style={animation.style}>
+        {currentIndex == 0 ? (
+          <TripHotelChoose hotelLists={data} onNext={handleNext} />
+        ) : tripHotel ? (
+          <TripHotelRoomsChoose roomsList={tripHotel?.details.rooms} onNext={handleNext} />
+        ) : null}
+      </Box>
     </div>
   );
 }

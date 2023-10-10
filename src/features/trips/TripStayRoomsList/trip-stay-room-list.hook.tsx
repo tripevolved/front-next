@@ -2,36 +2,36 @@ import { TripHotelList } from "@/core/types";
 import { StaysApiService } from "@/services/api";
 import { TripHotelDTO } from "@/services/api/stays/by-trip";
 import { useState } from "react";
+import useSwr from "swr";
 
-const useTripStayRoomEdit = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [transactionData, setTransactionData] = useState<TripHotelList>({} as TripHotelList);
-  const [error, setError] = useState(false);
-  const [errorSentData, setErrorSentData] = useState(false);
-  const [successSendData, setSuccessSendData] = useState(false);
+const useTripStayRoomEdit = (tripId: string) => {
+  const [canGetTD, setCanGetTD] = useState(false);
+  const [canSendTD, setCanSendTD] = useState(false);
+  const [objDTO, setObjDTO] = useState<TripHotelDTO>({} as TripHotelDTO);
 
-  const getTransactionData = async (tripId: string) => {
-    setIsLoading(true);
-    return await StaysApiService.getHotels(tripId)
-      .then(setTransactionData)
-      .catch(() => setError(true))
-      .finally(() => setIsLoading(false));
-  };
+  const getTransactionData = async () => await StaysApiService.getHotels(tripId);
+  const {
+    data: transactionData,
+    isLoading: isLoadingTD,
+    error: errorTD,
+  } = useSwr(canGetTD ? `accommodation-get-${tripId}` : null, getTransactionData);
 
-  const sendData = async (tripId: string, data: TripHotelDTO) => {
-    setIsLoading(true);
-    return await StaysApiService.setStay(tripId, data)
-      .then(() => setSuccessSendData(true))
-      .catch(() => setErrorSentData(true));
-  };
+  const sendTransactionData = async () => StaysApiService.setStay(tripId, objDTO);
+  const { error: errorSentData, isLoading: isLoadingSentData } = useSwr(
+    canSendTD ? `accommodation-set-${tripId}` : null,
+    sendTransactionData
+  );
 
   return {
-    isLoading,
+    setCanGetTD,
+    isLoadingTD,
     transactionData,
-    error,
-    getTransactionData,
-    sendData,
-    successSendData,
+    errorTD,
+
+    setObjDTO,
+    setCanSendTD,
+
+    isLoadingSentData,
     errorSentData,
   };
 };

@@ -5,7 +5,6 @@ import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 import { TripStayHighlightSection } from "./trip-stay-highlight.section";
 
 import { StaysApiService } from "@/services/api";
-import { TripStay } from "@/core/types";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
@@ -106,7 +105,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
           </Box>
           <Box className="trip-stay-section__content">
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture src={data.coverImageUrl!} style={{ height: 75, width: 75 }} />
+              <Picture src={data.coverImageUrl!} height="75px" width="75px" />
               <Box className="trip-stay-section__content__stay-desc__box">
                 <Text size="lg">{data.name}</Text>
                 <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>

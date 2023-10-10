@@ -3,10 +3,9 @@ import type { TripAccommodationProps } from "./trip-accommodation.types";
 
 import { StaysApiService } from "@/services/api";
 import useSwr from "swr";
-import { EmptyState } from "@/ui";
-import { Loader } from "mars-ds";
+import { EmptyState, GlobalLoader, CardHighlight, Text } from "@/ui";
 import { TripStayDetails } from "../TripStayDetails";
-import { TripStay } from "@/core/types";
+import type { TripStay } from "@/core/types";
 
 const mockData: TripStay = {
   coverImageUrl: "https://picsum.photos/50/",
@@ -15,6 +14,7 @@ const mockData: TripStay = {
   isReserved: false,
   message: "Mensagem legal de Teste",
   reservationMessage: "Mensagem de reservação",
+  system: "okihb23onii",
   details: {
     address: "Quadra QS 112",
     checkInHour: "8h às 20h",
@@ -79,13 +79,18 @@ export function TripAccommodation() {
   const { data, isLoading, error } = useSwr(`current-accomodation-${idParam}`, fetcher);
 
   if (error) return <EmptyState />;
-  if (isLoading)
+  if (isLoading) return <GlobalLoader />;
+  if (!data)
     return (
-      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <Loader size="xs" />
-      </div>
+      <CardHighlight className="trip-stay-section__content">
+        <div>
+          <Text as="h2" size="lg">
+            Ainda não escolhemos a acomodação para sua viagem.
+          </Text>
+          <Text>Fale conosco e vamos deixar tudo como você deseja!</Text>
+        </div>
+      </CardHighlight>
     );
-  if (!data) return <EmptyState />;
 
   return (
     <div className="trip-accommodation">
