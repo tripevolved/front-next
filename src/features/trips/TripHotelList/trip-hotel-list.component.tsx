@@ -1,4 +1,4 @@
-import { EmptyState, Text } from "@/ui";
+import { EmptyState, ErrorState, GlobalLoader, Text } from "@/ui";
 import type { TripHotelListProps } from "./trip-hotel-list.types";
 
 import { Accordion as MarsAccordion, Button, Loader } from "mars-ds";
@@ -221,23 +221,18 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
   const fetcher = async () => StaysApiService.getHotels(tripId);
   const { data, isLoading, error } = useSwr(`accomodation-edit-${tripId}`, fetcher);
 
-  if (error) return <EmptyState />;
-  if (isLoading)
-    return (
-      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <Loader size="xs" />
-      </div>
-    );
+  if (error) return <ErrorState />;
+  if (isLoading) return <GlobalLoader />;
   if (!data) return <EmptyState />;
 
   return (
-    <div className="trip-hotel-list p-lg">
+    <div className="trip-hotel-list">
       <Text heading style={{ color: "var(--color-brand-1)" }} size="sm">
         Lista de Hoteis
       </Text>
       <MarsAccordion title="Com selo Trip Evolved" defaultOpen>
         <div className="trip-hotel-list__list gap-md">
-          {data.curated.map((hotel, i) => (
+          {mockObject.curated.map((hotel, i) => (
             <TripHotelCard
               onSelect={() => setSelectedHotel(hotel)}
               tripStayData={hotel}
@@ -247,10 +242,10 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
           ))}
         </div>
       </MarsAccordion>
-      {data.others ? (
+      {mockObject.others ? (
         <div className="trip-hotel-list__list gap-md">
           <MarsAccordion title="Outros">
-            {data.others.map((hotel, i) => (
+            {mockObject.others.map((hotel, i) => (
               <TripHotelCard
                 onSelect={() => setSelectedHotel(hotel)}
                 tripStayData={hotel}

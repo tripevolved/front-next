@@ -14,6 +14,10 @@ export const TripHotelCard = ({
   const [selected, setSelected] = useState(false);
   const selectedColor = isCurated ? "var(--color-brand-4)" : "var(--color-brand-1)";
 
+  const parseHotelsStars = (tag: string) => {
+    return Number(tag[0]);
+  };
+
   const handleSelect = () => {
     setSelected(!selected);
     onSelect();
@@ -26,11 +30,12 @@ export const TripHotelCard = ({
           stayData={tripStay.details}
           tripId={tripStayData.id!}
           name={tripStay.name}
+          isModalView
         />
       ),
       {
         closable: true,
-        size: "sm",
+        size: "md",
       }
     );
   };
@@ -49,7 +54,7 @@ export const TripHotelCard = ({
           <div className="trip-hotel-card__content__info__data gap-md">
             <div className="trip-hotel-card__content__info__data__header">
               <Text size="lg">{tripStayData.name}</Text>
-              <RatingStar total={5} value={3} />
+              <RatingStar total={5} value={parseHotelsStars(tripStayData.tags)} />
             </div>
 
             <div className="trip-hotel-card__content__info__data__footer">

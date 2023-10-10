@@ -4,10 +4,29 @@ import type { TripStayDetailsProps } from "./trip-stay-details.types";
 import { Button, Divider } from "mars-ds";
 import { Carousel } from "@/ui";
 import { TripStayServiceItem } from "@/features";
+import { parseNumericValue } from "@/utils/helpers/css.helpers";
 
-export function TripStayDetails({ stayData, name, tripId }: TripStayDetailsProps) {
+export function TripStayDetails({
+  stayData,
+  name,
+  tripId,
+  isModalView = false,
+  style,
+}: TripStayDetailsProps) {
+  let computedStyle;
+
+  computedStyle = style;
+
+  if (isModalView) {
+    computedStyle = {
+      maxHeight: parseNumericValue(600),
+      overflowY: "scroll",
+      ...style,
+    };
+  }
+
   return (
-    <div className="trip-stay-details">
+    <div className="trip-stay-details" style={computedStyle}>
       <Box className="trip-stay-details__initial-info">
         <div className="trip-stay-details__initial-info__header">
           <Text size="sm" heading className="trip-stay-details__initial-info__header__title">
@@ -52,18 +71,20 @@ export function TripStayDetails({ stayData, name, tripId }: TripStayDetailsProps
           </div>
         </Box>
       </Box>
-      <Box className="trip-stay-details__footer-buttons gap-lg">
-        <Button className="trip-stay-details__footer-buttons__buttons" variant="naked">
-          Editar
-        </Button>
-        <Button
-          className="trip-stay-details__footer-buttons__buttons"
-          style={{ color: "var(--color-gray-4)" }}
-          href={`/app/viagens/criar/${tripId}/hospedagem/quartos`}
-        >
-          Quartos
-        </Button>
-      </Box>
+      {!isModalView ? (
+        <Box className="trip-stay-details__footer-buttons gap-lg">
+          <Button className="trip-stay-details__footer-buttons__buttons" variant="naked">
+            Editar
+          </Button>
+          <Button
+            className="trip-stay-details__footer-buttons__buttons"
+            style={{ color: "var(--color-gray-4)" }}
+            href={`/app/viagens/criar/${tripId}/hospedagem/quartos`}
+          >
+            Quartos
+          </Button>
+        </Box>
+      ) : null}
     </div>
   );
 }
