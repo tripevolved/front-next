@@ -8,6 +8,7 @@ import type { TripHotelList } from "@/core/types";
 import { TripHotelCard } from "@/features";
 
 const mockObject: TripHotelList = {
+  uniqueTransactionId: "oaiuygsdoiuay",
   curated: [
     {
       coverImageUrl: "https://picsum.photos/50/",

@@ -14,6 +14,7 @@ const mockData: TripStay = {
   isReserved: false,
   message: "Mensagem legal de Teste",
   reservationMessage: "Mensagem de reservação",
+  system: "okihb23onii",
   details: {
     address: "Quadra QS 112",
     checkInHour: "8h às 20h",
