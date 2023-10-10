@@ -1,11 +1,11 @@
 import "@/utils/mocks/Carousel.component.mock";
 
-import type { TripStayDetailsModalProps } from "./trip-stay-details-modal.types";
+import type { TripStayDetailsProps } from "./trip-stay-details.types";
 
 import { render } from "@testing-library/react";
-import { TripStayDetailsModal } from "./trip-stay-details-modal.component";
+import { TripStayDetails } from "./trip-stay-details.component";
 
-const STAY_DATA_MOCK: TripStayDetailsModalProps["stayData"] = {
+const STAY_DATA_MOCK: TripStayDetailsProps["stayData"] = {
   address: "Quadra QS 112",
   checkInHour: "8h às 20h",
   services: [
@@ -50,7 +50,7 @@ const STAY_DATA_MOCK: TripStayDetailsModalProps["stayData"] = {
   ],
 };
 
-const makeSut = () => render(<TripStayDetailsModal stayData={STAY_DATA_MOCK} name="Teste" />);
+const makeSut = () => render(<TripStayDetails stayData={STAY_DATA_MOCK} name="Teste" />);
 
 describe("<TripStayDetailsModal>", () => {
   it("should render component", () => {

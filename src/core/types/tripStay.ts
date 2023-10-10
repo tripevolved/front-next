@@ -1,10 +1,14 @@
 export interface TripStay {
-  id: string; // AccommodationId
+  id?: string; // AccommodationId
+  code?: string;
+  signature?: string;
+  provider?: string;
+  system: string;
   coverImageUrl: string | null;
   cancellationInfo: string;
   name: string;
   tags: string;
-  highlight: TripStayHighlight;
+  highlight?: TripStayHighlight;
   details: TripStayDetails;
   isSelected: boolean;
   isBuilding: boolean;
@@ -43,6 +47,9 @@ export interface TripStayFeature {
 
 export interface TripStayRoom {
   id: string; // AccommodationRoomId
+  code?: string;
+  signature?: string;
+  provider?: string;
   coverImageUrl: string;
   title: string;
   subtitle: string | null;
@@ -68,4 +75,10 @@ export interface TripStayReservation {
   checkOut: Date;
   roomDetail: string;
   fullAddress: string;
+}
+
+export interface TripHotelList {
+  uniqueTransactionId: string;
+  curated: Omit<TripStay, "highlight">[];
+  others?: Omit<TripStay, "highlight">[];
 }

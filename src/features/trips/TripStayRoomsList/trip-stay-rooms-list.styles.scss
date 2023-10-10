@@ -1,0 +1,12 @@
+.trip-stay-rooms-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+
+  &__confirm {
+    width: 100%;
+    max-width: 500px;
+    color: $color-gray-4;
+  }
+}
