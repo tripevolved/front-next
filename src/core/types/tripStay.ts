@@ -50,7 +50,7 @@ export interface TripStayRoom {
   code?: string;
   signature?: string;
   provider?: string;
-  coverImageUrl: string;
+  coverImageUrl?: string;
   title: string;
   subtitle: string | null;
   isSelected: boolean;

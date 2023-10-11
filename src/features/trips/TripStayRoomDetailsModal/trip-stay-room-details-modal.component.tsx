@@ -24,7 +24,10 @@ export function TripStayRoomDetailsModal({
         {room.title}
       </Text>
 
-      <Picture className="trip-stay-room-details-modal__cover-image" src={room.coverImageUrl} />
+      <Picture
+        className="trip-stay-room-details-modal__cover-image"
+        src={room.coverImageUrl ? room.coverImageUrl : "/assets/blank-image.png"}
+      />
 
       <Box className="trip-stay-room-details-modal__details px-xl">
         <Text heading size="xs">
@@ -34,7 +37,7 @@ export function TripStayRoomDetailsModal({
         <Text style={{ color: "var(--color-gray-1)" }}>{room.details.information}</Text>
 
         <div className="trip-stay-room-details-modal__details__features mt-sm">
-          {room.features.map((feat, i) => (
+          {room.features?.map((feat, i) => (
             <TripStayServiceItem type={feat.type} title={feat.title} key={i} />
           ))}
         </div>

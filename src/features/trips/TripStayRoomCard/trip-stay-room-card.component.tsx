@@ -37,7 +37,7 @@ export const TripStayRoomCard = ({
         <div className="trip-stay-room-card__content__info">
           <Picture
             className="trip-stay-room-card__content__info__image"
-            src={coverImageUrl.length ? coverImageUrl : "/assets/blank-image.png"}
+            src={coverImageUrl?.length ? coverImageUrl : "/assets/blank-image.png"}
           />
           <div className="trip-stay-room-card__content__info__data">
             <div className="trip-stay-room-card__content__info__data__header">
@@ -45,7 +45,9 @@ export const TripStayRoomCard = ({
               <Text style={{ color: "var(--color-gray-1)", marginTop: 0 }}>{subtitle}</Text>
             </div>
 
-            <TripStayServiceItem type={features[0].type} title={features[0].title} />
+            {features ? (
+              <TripStayServiceItem type={features[0].type} title={features[0].title} />
+            ) : null}
           </div>
           <div className="trip-stay-room-card__content__info__price">
             <Text size="lg">{formatByDataType(price, "CURRENCY")}</Text>
@@ -81,24 +83,21 @@ export const TripStayRoomCard = ({
           }}
         ></div>
         <div className="trip-stay-room-card__content__button-area">
-          {isSelected ? (
-            <Button
-              iconName={selected ? "check-circle" : "circle"}
-              size="sm"
-              variant="naked"
-              style={{
-                width: "100%",
-                color: selected ? "var(--color-brand-1)" : "var(--color-gray-2)",
-              }}
-              onClick={() => handleSelect()}
-            >
-              {selected ? "Selecionado" : "Selecionar este"}
-            </Button>
-          ) : (
-            <Text size="xl" className="trip-hotel-card__content__button-area__unavailable">
+          <Button
+            iconName={selected ? "check-circle" : "circle"}
+            size="sm"
+            variant="naked"
+            style={{
+              width: "100%",
+              color: selected ? "var(--color-brand-1)" : "var(--color-gray-2)",
+            }}
+            onClick={() => handleSelect()}
+          >
+            {selected ? "Selecionado" : "Selecionar este"}
+          </Button>
+          {/* <Text size="xl" className="trip-hotel-card__content__button-area__unavailable">
               Indisponível
-            </Text>
-          )}
+            </Text> */}
         </div>
       </div>
     </Card>

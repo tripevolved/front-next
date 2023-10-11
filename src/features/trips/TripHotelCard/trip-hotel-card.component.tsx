@@ -14,10 +14,6 @@ export const TripHotelCard = ({
   const [selected, setSelected] = useState(false);
   const selectedColor = isCurated ? "var(--color-brand-4)" : "var(--color-brand-1)";
 
-  const parseHotelsStars = (tag: string) => {
-    return Number(tag[0]);
-  };
-
   const handleSelect = () => {
     setSelected(!selected);
     onSelect();
@@ -87,7 +83,7 @@ export const TripHotelCard = ({
           }}
         ></div>
         <div className="trip-hotel-card__content__button-area">
-          {tripStayData.isSelected ? (
+          {tripStayData.details.rooms.length ? (
             <Button
               iconName={selected ? "check-circle" : "circle"}
               size="sm"
