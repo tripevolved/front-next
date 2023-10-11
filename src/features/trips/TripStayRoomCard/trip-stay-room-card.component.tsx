@@ -35,7 +35,10 @@ export const TripStayRoomCard = ({
     >
       <div className="trip-stay-room-card__content">
         <div className="trip-stay-room-card__content__info">
-          <Picture className="trip-stay-room-card__content__info__image" src={coverImageUrl} />
+          <Picture
+            className="trip-stay-room-card__content__info__image"
+            src={coverImageUrl.length ? coverImageUrl : "/assets/blank-image.png"}
+          />
           <div className="trip-stay-room-card__content__info__data">
             <div className="trip-stay-room-card__content__info__data__header">
               <Text size="lg">{title}</Text>
