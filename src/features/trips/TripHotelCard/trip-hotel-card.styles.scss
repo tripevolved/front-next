@@ -44,6 +44,7 @@
       display: flex;
       justify-content: space-between;
       width: 100%;
+      align-content: center;
 
       &__see-more {
         color: $color-gray-1;
@@ -51,6 +52,10 @@
         cursor: pointer;
         display: flex;
         align-items: center;
+      }
+
+      &__unavailable{
+        color: #D35050;
       }
     }
   }

@@ -50,7 +50,7 @@ const mockObject: TripHotelList = {
               { title: "Boa cama", type: "bed" },
             ],
             id: "i2u3g429",
-            isSelected: true,
+            isSelected: false,
             price: 20.0,
             subtitle: "Acomoda 2 pessoas",
             title: "Suíte simples",
@@ -213,7 +213,7 @@ const mockObject: TripHotelList = {
 };
 
 export const TripHotelChoose = ({ onNext, hotelLists }: HotelStepProps) => {
-  const [selectedHotel, setSelectedHotel] = useState<Omit<TripStay, "hightlight">>({} as TripStay);
+  const [selectedHotel, setSelectedHotel] = useState<Omit<TripStay, "hightlight">>();
 
   return (
     <>
@@ -229,7 +229,7 @@ export const TripHotelChoose = ({ onNext, hotelLists }: HotelStepProps) => {
           ))}
         </div>
       </MarsAccordion>
-      {mockObject.others ? (
+      {mockObject.others?.length ? (
         <div className="trip-hotel-list__list gap-md">
           <MarsAccordion title="Outros">
             {mockObject.others.map((hotel, i) => (
@@ -242,9 +242,16 @@ export const TripHotelChoose = ({ onNext, hotelLists }: HotelStepProps) => {
           </MarsAccordion>
         </div>
       ) : null}
-      <Button onClick={() => onNext({ value: selectedHotel, isAccommodation: true })}>
-        Continuar
-      </Button>
+      <div className="trip-hotel-list__button-area mt-lg">
+        <Button
+          style={{ color: "var(--color-gray-4)", maxWidth: 500 }}
+          className="w-100"
+          disabled={!mockObject.uniqueTransactionId || selectedHotel == undefined}
+          onClick={() => onNext({ value: selectedHotel, isAccommodation: true })}
+        >
+          Continuar
+        </Button>
+      </div>
     </>
   );
 };

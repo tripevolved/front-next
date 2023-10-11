@@ -5,7 +5,7 @@ import { Text } from "@/ui";
 import { SubmitButton } from "mars-ds";
 import { useState } from "react";
 
-export const TripHotelRoomsChoose = ({ roomsList, onNext }: RoomsStep) => {
+export const TripHotelRoomsChoose = ({ roomsList, onNext, isSubmitting }: RoomsStep) => {
   const [roomList, setRoomList] = useState<TripStayRoom[]>([]);
 
   const handleSelect = (value: TripStayRoom) => {
@@ -29,6 +29,7 @@ export const TripHotelRoomsChoose = ({ roomsList, onNext }: RoomsStep) => {
       ))}
       <SubmitButton
         className="trip-stay-rooms-list__confirm m-lg"
+        submitting={isSubmitting}
         disabled={roomList.length <= 0}
         onClick={() => onNext({ value: roomList, isAccommodation: false })}
       >

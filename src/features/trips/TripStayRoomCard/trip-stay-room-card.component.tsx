@@ -78,18 +78,24 @@ export const TripStayRoomCard = ({
           }}
         ></div>
         <div className="trip-stay-room-card__content__button-area">
-          <Button
-            iconName={selected ? "check-circle" : "circle"}
-            size="sm"
-            variant="naked"
-            style={{
-              width: "100%",
-              color: selected ? "var(--color-brand-1)" : "var(--color-gray-2)",
-            }}
-            onClick={() => handleSelect()}
-          >
-            {selected ? "Selecionado" : "Selecionar este"}
-          </Button>
+          {isSelected ? (
+            <Button
+              iconName={selected ? "check-circle" : "circle"}
+              size="sm"
+              variant="naked"
+              style={{
+                width: "100%",
+                color: selected ? "var(--color-brand-1)" : "var(--color-gray-2)",
+              }}
+              onClick={() => handleSelect()}
+            >
+              {selected ? "Selecionado" : "Selecionar este"}
+            </Button>
+          ) : (
+            <Text size="xl" className="trip-hotel-card__content__button-area__unavailable">
+              Indisponível
+            </Text>
+          )}
         </div>
       </div>
     </Card>

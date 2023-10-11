@@ -3,13 +3,16 @@ import type { TripHotelListProps } from "./trip-hotel-list.types";
 
 import type { TripHotelList, TripStay, TripStayRoom } from "@/core/types";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { StaysApiService } from "@/services/api";
 import useSwr from "swr";
 import { useAnimation } from "@/utils/hooks/animation.hook";
 import { TripHotelChoose } from "./trip-hotel-choose-step.component";
 import { TripHotelDTO } from "@/services/api/stays/by-trip";
 import { TripHotelRoomsChoose } from "./trip-hotel-rooms-choose-step.component";
+import { useTripHotelEdit } from "./trip-hotel-list.hook";
+import { Notification } from "mars-ds";
+import { useRouter } from "next/router";
 
 const EDIT_STEPS = [
   {
@@ -28,16 +31,56 @@ const DEFAULT_INITIAL_INDEX = 0;
 
 export function TripHotelList({ tripId }: TripHotelListProps) {
   const [tripHotel, setTripHotel] = useState<TripStay>();
-  const [tripHotelRooms, setTripHotelRooms] = useState<TripStayRoom[]>();
+  const [tripHotelRooms, setTripHotelRooms] = useState<TripStayRoom[]>([]);
 
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
 
+  const router = useRouter();
   const animation = useAnimation();
+  const { isLoadingSentData, errorSentData, setCanSendTD, setObjDTO } = useTripHotelEdit(tripId);
 
   const fetcher = async () => StaysApiService.getHotels(tripId);
-  const { data, isLoading, error } = useSwr(`accomodation-edit-${tripId}`, fetcher);
+  const { data, isLoading, error } = useSwr(`accomodation-get-${tripId}`, fetcher);
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    let totalPrice = 0;
+
+    const roomsSumPrice = tripHotelRooms.reduce((acc, room) => acc + room.price, 0);
+
+    if (tripHotel?.details.price) totalPrice = roomsSumPrice + tripHotel.details.price;
+    else totalPrice = roomsSumPrice;
+
+    const objDTO: TripHotelDTO = {
+      uniqueTransactionId: data!.uniqueTransactionId,
+      accommodations: [
+        {
+          id: tripHotel?.id,
+          code: tripHotel?.code,
+          signature: tripHotel?.signature,
+          provider: tripHotel?.provider,
+          system: tripHotel!.system,
+          rooms: tripHotelRooms.map((room) => ({
+            id: room.id || "",
+            code: room.code || "",
+            signature: room.signature || "",
+            provider: room.provider || "",
+            unitPrice: room.price || 0,
+            totalPrice: totalPrice,
+            currency: tripHotel?.details.currency || "",
+            boardChoice: "",
+          })),
+        },
+      ],
+    };
+
+    setObjDTO(objDTO);
+    setCanSendTD(true);
+
+    if (errorSentData) return Notification.error("Tivemos um problema ao enviar suas informações!");
+
+    Notification.success("Quartos selecionados com Sucesso!");
+    router.push(`/app/viagens/criar/${tripId}`);
+  };
 
   const handleNext = ({ value, isAccommodation }: { value: any; isAccommodation: boolean }) => {
     if (isAccommodation) {
@@ -68,7 +111,11 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
         {currentIndex == 0 ? (
           <TripHotelChoose hotelLists={data} onNext={handleNext} />
         ) : tripHotel ? (
-          <TripHotelRoomsChoose roomsList={tripHotel?.details.rooms} onNext={handleNext} />
+          <TripHotelRoomsChoose
+            roomsList={tripHotel?.details.rooms}
+            onNext={handleNext}
+            isSubmitting={isLoadingSentData}
+          />
         ) : null}
       </Box>
     </div>

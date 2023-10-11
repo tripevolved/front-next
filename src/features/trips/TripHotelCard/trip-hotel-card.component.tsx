@@ -53,8 +53,10 @@ export const TripHotelCard = ({
           />
           <div className="trip-hotel-card__content__info__data gap-md">
             <div className="trip-hotel-card__content__info__data__header">
-              <Text size="lg">{tripStayData.name}</Text>
-              <RatingStar total={5} value={parseHotelsStars(tripStayData.tags)} />
+              <Text size="xl">{tripStayData.name}</Text>
+              <Text heading size="xs" style={{ color: "var(--color-brand-4)" }}>
+                {tripStayData.tags}
+              </Text>
             </div>
 
             <div className="trip-hotel-card__content__info__data__footer">
@@ -83,17 +85,23 @@ export const TripHotelCard = ({
           }}
         ></div>
         <div className="trip-hotel-card__content__button-area">
-          <Button
-            iconName={selected ? "check-circle" : "circle"}
-            size="sm"
-            variant="naked"
-            style={{
-              color: selected ? selectedColor : "var(--color-gray-2)",
-            }}
-            onClick={() => handleSelect()}
-          >
-            {selected ? "Selecionado" : "Selecionar este"}
-          </Button>
+          {tripStayData.isSelected ? (
+            <Button
+              iconName={selected ? "check-circle" : "circle"}
+              size="sm"
+              variant="naked"
+              style={{
+                color: selected ? selectedColor : "var(--color-gray-2)",
+              }}
+              onClick={() => handleSelect()}
+            >
+              {selected ? "Selecionado" : "Selecionar este"}
+            </Button>
+          ) : (
+            <Text size="xl" className="trip-hotel-card__content__button-area__unavailable">
+              Indisponível
+            </Text>
+          )}
 
           <Text
             onClick={() => handleSeeMore(tripStayData)}

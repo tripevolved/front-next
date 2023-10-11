@@ -1,10 +1,15 @@
 .trip-hotel-list {
-  border-radius: 17px 17px 0 0;
   display: flex;
   flex-direction: column;
   gap: 24px;
   &__list {
     display: flex;
     flex-direction: column;
+  }
+
+  &__button-area {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 }

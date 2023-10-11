@@ -14,4 +14,5 @@ export interface HotelStepProps extends EditHotelSteps {
 
 export interface RoomsStep extends EditHotelSteps {
   roomsList: TripStayRoom[];
+  isSubmitting: boolean;
 }
