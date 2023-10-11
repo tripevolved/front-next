@@ -24,6 +24,7 @@ export function LeadListForm({
         <Text as="h3" className="lead-list-form__heading pb-xl" variant="heading">
           {heading}
         </Text>
+        {children}
       </div>
       <FormLogic cta={cta} />
     </Card>
