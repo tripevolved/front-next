@@ -13,6 +13,8 @@
 
       &__image {
         min-width: 80px;
+        background-color: $color-brand-1;
+        border-radius: $border-radius-md;
         img {
           width: 90px;
           height: 90px;

@@ -1,8 +1,8 @@
 import type { TripStayRoom } from "@/core/types";
 import { TripStayRoomCard } from "@/features";
 import type { RoomsStep } from "./trip-hotel-list.types";
-import { Text } from "@/ui";
-import { SubmitButton } from "mars-ds";
+import { Text, Box } from "@/ui";
+import { SubmitButton, Button as BackButton } from "mars-ds";
 import { useState } from "react";
 
 export const TripHotelRoomsChoose = ({ roomsList, onNext, isSubmitting }: RoomsStep) => {
@@ -27,14 +27,17 @@ export const TripHotelRoomsChoose = ({ roomsList, onNext, isSubmitting }: RoomsS
       {roomsList.map((room, index) => (
         <TripStayRoomCard onClick={() => handleSelect(room)} {...room} key={index} />
       ))}
-      <SubmitButton
-        className="trip-stay-rooms-list__confirm m-lg"
-        submitting={isSubmitting}
-        disabled={roomList.length <= 0}
-        onClick={() => onNext({ value: roomList, isAccommodation: false })}
-      >
-        Confirmar
-      </SubmitButton>
+      <Box>
+        <BackButton iconName="arrow-left" />
+        <SubmitButton
+          className="trip-stay-rooms-list__confirm m-lg"
+          submitting={isSubmitting}
+          disabled={roomList.length <= 0}
+          onClick={() => onNext({ value: roomList, isAccommodation: false })}
+        >
+          Confirmar
+        </SubmitButton>
+      </Box>
     </div>
   );
 };

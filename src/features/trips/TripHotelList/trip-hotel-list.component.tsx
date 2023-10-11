@@ -42,13 +42,13 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
   const fetcher = async () => StaysApiService.getHotels(tripId);
   const { data, isLoading, error } = useSwr(`accomodation-get-${tripId}`, fetcher);
 
+  const handleBack = () => {
+    setCurrentIndex(currentIndex - 1);
+    animation.trigger(true);
+  };
+
   const handleSubmit = () => {
-    let totalPrice = 0;
-
     const roomsSumPrice = tripHotelRooms.reduce((acc, room) => acc + room.price, 0);
-
-    if (tripHotel?.details.price) totalPrice = roomsSumPrice + tripHotel.details.price;
-    else totalPrice = roomsSumPrice;
 
     const objDTO: TripHotelDTO = {
       uniqueTransactionId: data!.uniqueTransactionId,
@@ -65,7 +65,7 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
             signature: room.signature || "",
             provider: room.provider || "",
             unitPrice: room.price || 0,
-            totalPrice: totalPrice,
+            totalPrice: roomsSumPrice,
             currency: tripHotel?.details.currency || "",
             boardChoice: "",
           })),
@@ -78,7 +78,7 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
 
     if (errorSentData) return Notification.error("Tivemos um problema ao enviar suas informações!");
 
-    Notification.success("Quartos selecionados com Sucesso!");
+    Notification.success("Hotel e Quartos selectionados com Sucesso!");
     router.push(`/app/viagens/criar/${tripId}`);
   };
 
@@ -115,6 +115,7 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
             roomsList={tripHotel?.details.rooms}
             onNext={handleNext}
             isSubmitting={isLoadingSentData}
+            onPrevious={handleBack}
           />
         ) : null}
       </Box>

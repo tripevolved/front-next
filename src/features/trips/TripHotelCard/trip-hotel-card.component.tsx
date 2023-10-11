@@ -49,12 +49,14 @@ export const TripHotelCard = ({
         <div className="trip-hotel-card__content__info gap-md">
           <Picture
             className="trip-hotel-card__content__info__image"
-            src={`${tripStayData.coverImageUrl}`}
+            src={
+              tripStayData.coverImageUrl ? tripStayData.coverImageUrl : "/assets/blank-image.png"
+            }
           />
           <div className="trip-hotel-card__content__info__data gap-md">
             <div className="trip-hotel-card__content__info__data__header">
               <Text size="xl">{tripStayData.name}</Text>
-              <Text heading size="xs" style={{ color: "var(--color-brand-4)" }}>
+              <Text size="lg" style={{ color: "var(--color-brand-4)", marginTop: 0 }}>
                 {tripStayData.tags}
               </Text>
             </div>

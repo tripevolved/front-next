@@ -6,6 +6,7 @@ export interface TripHotelListProps {
 
 interface EditHotelSteps {
   onNext: (content: { value: any, isAccommodation: boolean}) => void;
+  onPrevious?: () => void;
 }
 
 export interface HotelStepProps extends EditHotelSteps {
