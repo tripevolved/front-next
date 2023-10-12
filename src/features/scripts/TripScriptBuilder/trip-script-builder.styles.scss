@@ -9,6 +9,12 @@
   &__item {
     padding: 12px 0;
   }
+
+  &__link {
+    padding: 6px 0;
+    margin: auto;
+    color: $color-brand-2;
+  }
 }
 
 .trip-script-builder-slider {

@@ -5,7 +5,7 @@ import { TripScriptsApiService } from "@/services/api";
 import { EmptyState, Text } from "@/ui";
 import { Button, Grid, Image, Loader } from "mars-ds";
 
-import { useState } from "react";
+import { useRef } from "react";
 import { useRouter } from "next/router";
 import useSwr from "swr";
 const swrOptions = { revalidateOnFocus: false };
@@ -16,14 +16,11 @@ export function TripCharacteristicsStep({ onNext }: StepComponentProps) {
 
   const fetcher = async () => TripScriptsApiService.getTripCharacteristics(idParam);
   const { data, error, isLoading } = useSwr("trip-characteristics", fetcher, swrOptions);
-  const [importantCharacteristics, setImportantCharacteristics] = useState<string[]>([]);
+
+  const importantCharacteristics = useRef<string | string[]>([]);
 
   const handleCheck = () => (value: string | string[]) => {
-    setImportantCharacteristics((state: any) => {
-      const isEmptyArray = Array.isArray(value) && value.length === 0;
-      const newState = { ...state, ["characteristics"]: isEmptyArray ? null : value };
-      return newState;
-    });
+    importantCharacteristics.current = value;
   };
 
   if (isLoading) {
@@ -41,8 +38,6 @@ export function TripCharacteristicsStep({ onNext }: StepComponentProps) {
       </Grid>
     );
   }
-
-  console.log(importantCharacteristics);
 
   return (
     <Grid className="trip-script-builder-step">
@@ -63,7 +58,7 @@ export function TripCharacteristicsStep({ onNext }: StepComponentProps) {
       {data?.subtitle && (<Text className="trip-script-builder-step__item">{data.subtitle}</Text>)}
       <Button
         className="trip-script-builder-step__item"
-        onClick={() => onNext({ importantCharacteristics })}
+        onClick={() => onNext({ importantCharacteristics: importantCharacteristics.current })}
       >
         Avançar
       </Button>

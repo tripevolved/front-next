@@ -67,3 +67,10 @@ interface TripScriptCharacteristic {
   id: string;
   name: string;
 }
+
+export interface TripScriptParameters {
+  tripId: string;
+  relaxPartyLevel: number;
+  importantCharacteristics: string[];
+  tripTravelerProfile: string;
+}

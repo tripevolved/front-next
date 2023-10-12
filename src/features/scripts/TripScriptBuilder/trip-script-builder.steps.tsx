@@ -1,7 +1,6 @@
 import type { TemplateStepsBuilderProps } from "@/features";
 import { InitialStep } from "./trip-script-builder-initial.component";
-import { TripTypeStep } from "./trip-type-step.component";
-import { TripCharacteristicsStep } from "./trip-characteristics-step.component";
+import { TripScriptParametersStep } from "./trip-script-parameters-step.component";
 
 export const SCRIPT_BUILDER_STEPS: TemplateStepsBuilderProps["steps"] = [
   {
@@ -10,13 +9,8 @@ export const SCRIPT_BUILDER_STEPS: TemplateStepsBuilderProps["steps"] = [
     component: InitialStep,
   },
   {
-    title: "Que tipo de viagem você quer?",
-    name: "trip-type",
-    component: TripTypeStep,
-  },
-  {
-    title: "O que não pode faltar no seu roteiro?",
-    name: "trip-characteristics",
-    component: TripCharacteristicsStep,
+    title: "Salva parâmetros do roteiro",
+    name: "parameters",
+    component: TripScriptParametersStep,
   }
 ];
