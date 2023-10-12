@@ -10,32 +10,6 @@ import { TripHotelDTO } from "@/services/api/stays/by-trip";
 import { useRouter } from "next/router";
 import useTripStayRoomEdit from "./trip-stay-room-list.hook";
 
-const roomsMock: TripStayRoom[] = [
-  {
-    coverImageUrl: "https://picsum.photos/300/200",
-    details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
-    features: [
-      { title: "Wifi", type: "wifi" },
-      { title: "Ar Condicionado", type: "ac" },
-      { title: "Boa cama", type: "bed" },
-    ],
-    id: "i2u3g429",
-    isSelected: true,
-    price: 20.0,
-    subtitle: "Acomoda 2 pessoas",
-    title: "Suíte simples",
-  },
-  {
-    coverImageUrl: "https://picsum.photos/300/200",
-    details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
-    features: [{ title: "Ar Condicionado", type: "ac" }],
-    id: "ukajsytdi873",
-    isSelected: true,
-    price: 20.0,
-    subtitle: "acomoda 4 pessoas",
-    title: "Suíte deluxe",
-  },
-];
 const ERROR_MESSAGE = "Erro ao enviar seus dados!";
 
 export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
@@ -123,7 +97,7 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
       <Text heading className="trip-stay-rooms-list__title text-left w-100 color-text-secondary">
         Lista de quartos
       </Text>
-      {roomsMock.map((room, index) => (
+      {hotelData.details.rooms.map((room, index) => (
         <TripStayRoomCard onClick={() => handleSelect(room)} {...room} key={index} />
       ))}
       <SubmitButton
