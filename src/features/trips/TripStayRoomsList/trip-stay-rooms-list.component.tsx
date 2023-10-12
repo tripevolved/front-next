@@ -45,16 +45,12 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
   };
 
   const handleConfirm = () => {
-    let totalPrice = 0;
     // Transaction data to set the hotel rooms (uniqueTransactionId)
     setCanGetTD(true);
 
     if (!transactionData || errorTD) return Notification.error(ERROR_MESSAGE);
 
     const roomsSumPrice = roomList.reduce((acc, room) => acc + room.price, 0);
-
-    if (hotelData?.details.price) totalPrice = roomsSumPrice + hotelData.details.price;
-    else totalPrice = roomsSumPrice;
 
     const objDTO: TripHotelDTO = {
       uniqueTransactionId: transactionData.uniqueTransactionId,
@@ -71,9 +67,9 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
             signature: room.signature || "",
             provider: room.provider || "",
             unitPrice: room.price || 0,
-            totalPrice: totalPrice,
+            totalPrice: roomsSumPrice,
             currency: hotelData?.details.currency || "",
-            boardChoice: "",
+            boardChoice: room.boardChoice || "RO",
           })),
         },
       ],

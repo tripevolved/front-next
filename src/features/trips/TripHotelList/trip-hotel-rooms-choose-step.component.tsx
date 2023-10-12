@@ -14,10 +14,10 @@ export const TripHotelRoomsChoose = ({
   const [roomList, setRoomList] = useState<TripStayRoom[]>([]);
 
   const handleSelect = (value: TripStayRoom) => {
-    const existsInRoomList = roomList.some((room) => room.id === value.id);
+    const existsInRoomList = roomList.some((room) => room.code === value.code);
 
     if (existsInRoomList) {
-      const updatedRoomList = roomList.filter((room) => room.id !== value.id);
+      const updatedRoomList = roomList.filter((room) => room.code !== value.code);
       setRoomList(updatedRoomList);
     } else {
       setRoomList([...roomList, value]);

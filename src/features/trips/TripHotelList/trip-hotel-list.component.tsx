@@ -1,4 +1,4 @@
-import { Box, EmptyState, ErrorState, GlobalLoader, Text } from "@/ui";
+import { Box, EmptyState, ErrorState, GlobalLoader, StepsLoader, Text } from "@/ui";
 import type { TripHotelListProps } from "./trip-hotel-list.types";
 
 import type { TripHotelList, TripStay, TripStayRoom } from "@/core/types";
@@ -27,6 +27,23 @@ const EDIT_STEPS = [
   },
 ];
 
+const LOADING_STEPS = [
+  {
+    text: "Reconstruindo sua viagem...",
+    iconName: "settings",
+  },
+  {
+    text: "Procurando atrações para seu roteiro...",
+    iconName: "map",
+  },
+  {
+    text: "Estamos selecionando as melhores opções",
+    iconName: "search",
+  },
+];
+const NINE_SECONDS_IN_MS = 9 * 1000;
+const MILLISECONDS = NINE_SECONDS_IN_MS;
+
 const DEFAULT_INITIAL_INDEX = 0;
 
 export function TripHotelList({ tripId }: TripHotelListProps) {
@@ -37,7 +54,8 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
 
   const router = useRouter();
   const animation = useAnimation();
-  const { isLoadingSentData, errorSentData, setCanSendTD, setObjDTO } = useTripHotelEdit(tripId);
+  const { isLoadingSentData, errorSentData, canSendTD, setCanSendTD, setObjDTO } =
+    useTripHotelEdit(tripId);
 
   const fetcher = async () => StaysApiService.getHotels(tripId);
   const { data, isLoading, error } = useSwr(`accomodation-get-${tripId}`, fetcher);
@@ -67,7 +85,7 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
             unitPrice: room.price || 0,
             totalPrice: roomsSumPrice,
             currency: tripHotel?.details.currency || "",
-            boardChoice: "",
+            boardChoice: room.boardChoice || "RO",
           })),
         },
       ],
@@ -75,18 +93,13 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
 
     setObjDTO(objDTO);
     setCanSendTD(true);
-
-    if (errorSentData) return Notification.error("Tivemos um problema ao enviar suas informações!");
-
-    Notification.success("Hotel e Quartos selectionados com Sucesso!");
-    router.push(`/app/viagens/criar/${tripId}`);
   };
 
   const handleNext = ({ value, isAccommodation }: { value: any; isAccommodation: boolean }) => {
     if (isAccommodation) {
       setTripHotel(value as TripStay);
     } else {
-      setTripHotelRooms(value as TripStayRoom[]);
+      setTripHotelRooms([...tripHotelRooms, ...value] as TripStayRoom[]);
     }
 
     const nextIndex = currentIndex + 1;
@@ -98,9 +111,23 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
     }
   };
 
+  const handleFinish = () => {
+    Notification.success("Hotel e Quartos selectionados com Sucesso!");
+    router.push(`/app/viagens/criar/${tripId}`);
+  };
+
   if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
   if (!data) return <EmptyState />;
+
+  if (errorSentData) return Notification.error("Tivemos um problema ao enviar suas informações!");
+  if (isLoadingSentData || canSendTD) {
+    return (
+      <div style={{ width: "100%", height: 500, display: "flex", alignItems: "center" }}>
+        <StepsLoader steps={LOADING_STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
+      </div>
+    );
+  }
 
   return (
     <div className="trip-hotel-list">

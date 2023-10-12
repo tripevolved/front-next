@@ -14,6 +14,7 @@ export const useTripHotelEdit = (tripId: string) => {
   );
 
   return {
+    canSendTD,
     setCanSendTD,
     setObjDTO,
 
