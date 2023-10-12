@@ -3,7 +3,7 @@ import { InitialStep } from "./trip-script-builder-initial.component";
 
 export const SCRIPT_BUILDER_STEPS: TemplateStepsBuilderProps["steps"] = [
   {
-    title: "Descobrir a minha viagem",
+    title: "Contruir meu roteiro",
     name: "initial",
     component: InitialStep,
   }
