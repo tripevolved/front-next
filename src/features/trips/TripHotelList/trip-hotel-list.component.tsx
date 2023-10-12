@@ -99,6 +99,7 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
     if (isAccommodation) {
       setTripHotel(value as TripStay);
     } else {
+      console.log("DADOS", value);
       setTripHotelRooms([...tripHotelRooms, ...value] as TripStayRoom[]);
     }
 
