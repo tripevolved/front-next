@@ -55,3 +55,15 @@ export interface UpdateTripScriptPayload {
   id: string;
   actions: UpdateScriptAction[];
 }
+
+export interface TripScriptCharacteristics {
+  skip: Boolean;
+  title: string;
+  subtitle: string | null;
+  characteristics: TripScriptCharacteristic[];
+}
+
+interface TripScriptCharacteristic {
+  id: string;
+  name: string;
+}
