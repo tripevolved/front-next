@@ -1,6 +1,9 @@
 import type { TripHotelListProps } from "./trip-hotel-list.types";
 import { render } from "@testing-library/react";
 import { TripHotelList } from "./trip-hotel-list.component";
+import { mockUseRouter } from "@/utils/mocks/next-router.mock";
+
+mockUseRouter();
 
 const makeSut = (props?: TripHotelListProps) => render(<TripHotelList {...props} />);
 
