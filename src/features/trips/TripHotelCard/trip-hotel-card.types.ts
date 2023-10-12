@@ -4,4 +4,5 @@ export interface TripHotelCardProps {
   tripStayData: Omit<TripStay, 'highlight'>;
   isCurated?: boolean;
   onSelect: () => void;
+  isSelected?: boolean;
 };

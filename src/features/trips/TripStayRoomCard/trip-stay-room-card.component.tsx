@@ -5,6 +5,7 @@ import { Picture, Text } from "@/ui";
 import { Modal, Card, Button } from "mars-ds";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 import { useState } from "react";
+import { trimSurplus } from "@/utils/helpers/strings.helper";
 
 export const TripStayRoomCard = ({
   coverImageUrl,
@@ -16,16 +17,31 @@ export const TripStayRoomCard = ({
   subtitle,
   title,
   onClick,
+  boardChoice,
+  currency,
 }: TripStayRoomCardProps) => {
   const [selected, setSelected] = useState(false);
 
   const handleSeeMore = (room: TripStayRoom) => {
-    Modal.open(() => <TripStayRoomDetailsModal room={room} />, { size: "md", closable: true });
+    Modal.open(() => <TripStayRoomDetailsModal room={room} />, {
+      size: "md",
+      closable: true,
+    });
   };
 
   const handleSelect = () => {
     setSelected(!selected);
     onClick();
+  };
+
+  const getBoardChoice = (str: TripStayRoom["boardChoice"] | string) => {
+    const options = {
+      RO: "Somente quarto",
+      BB: "Cama e café da  manhhã",
+      AI: "Tudo incluso",
+    };
+    // @ts-ignore
+    return options[str];
   };
 
   return (
@@ -41,8 +57,11 @@ export const TripStayRoomCard = ({
           />
           <div className="trip-stay-room-card__content__info__data">
             <div className="trip-stay-room-card__content__info__data__header">
-              <Text size="lg">{title}</Text>
+              <Text size="lg">{trimSurplus(title)}</Text>
               <Text style={{ color: "var(--color-gray-1)", marginTop: 0 }}>{subtitle}</Text>
+              {boardChoice ? (
+                <Text style={{ color: "var(--color-brand-4)" }}>{getBoardChoice(boardChoice)}</Text>
+              ) : null}
             </div>
 
             {features ? (
@@ -50,7 +69,9 @@ export const TripStayRoomCard = ({
             ) : null}
           </div>
           <div className="trip-stay-room-card__content__info__price">
-            <Text size="lg">{formatByDataType(price, "CURRENCY")}</Text>
+            <Text size="lg">
+              {currency == "BRL" ? formatByDataType(price, "CURRENCY") : `$ ${price}`}
+            </Text>
 
             <Text
               style={{
@@ -68,6 +89,8 @@ export const TripStayRoomCard = ({
                   title,
                   price,
                   coverImageUrl,
+                  boardChoice,
+                  currency,
                 })
               }
             >

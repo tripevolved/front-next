@@ -1,9 +1,12 @@
-import { Box, Picture, Text } from "@/ui";
+import { Box, Picture, Tag, Text } from "@/ui";
 import type { TripStayRoomDetailsModalProps } from "./trip-stay-room-details-modal.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { TripStayServiceItem } from "@/features";
 import { Icon } from "mars-ds";
+import { trimSurplus } from "@/utils/helpers/strings.helper";
+import { TripStayRoom } from "@/core/types";
+import { formatByDataType } from "@/utils/helpers/number.helpers";
 
 export function TripStayRoomDetailsModal({
   className,
@@ -14,6 +17,16 @@ export function TripStayRoomDetailsModal({
 }: TripStayRoomDetailsModalProps) {
   const cn = makeCn("trip-stay-room-details-modal", className)(sx);
 
+  const getBoardChoice = (str: TripStayRoom["boardChoice"] | string) => {
+    const options = {
+      RO: "Somente quarto",
+      BB: "Cama e café da  manhhã",
+      AI: "Tudo incluso",
+    };
+    // @ts-ignore
+    return options[str];
+  };
+
   return (
     <div className={cn} {...props}>
       <Text
@@ -21,7 +34,7 @@ export function TripStayRoomDetailsModal({
         heading
         style={{ color: "var(--color-brand-1)" }}
       >
-        {room.title}
+        {trimSurplus(room.title)}
       </Text>
 
       <Picture
@@ -34,13 +47,25 @@ export function TripStayRoomDetailsModal({
           Detalhes
         </Text>
 
-        <Text style={{ color: "var(--color-gray-1)" }}>{room.details.information}</Text>
+        {room.details.information ? (
+          <Text style={{ color: "var(--color-gray-1)" }}>{room.details.information}</Text>
+        ) : (
+          <Text style={{ color: "var(--color-gray-1)" }}>
+            Ainda não possuímos informações sobre este quarto...
+          </Text>
+        )}
 
-        <div className="trip-stay-room-details-modal__details__features mt-sm">
-          {room.features?.map((feat, i) => (
-            <TripStayServiceItem type={feat.type} title={feat.title} key={i} />
-          ))}
-        </div>
+        {room.features?.length ? (
+          <div className="trip-stay-room-details-modal__details__features mt-sm">
+            {room.features?.map((feat, i) => (
+              <TripStayServiceItem type={feat.type} title={feat.title} key={i} />
+            ))}
+          </div>
+        ) : null}
+        <Text size="xxl" className="color-primary">
+          {room.currency == "BRL" ? formatByDataType(room.price, "CURRENCY") : `$ ${room.price}`}
+        </Text>
+        {room.boardChoice ? <Tag>{getBoardChoice(room.boardChoice)}</Tag> : null}
       </Box>
 
       {room.details.amenities && (

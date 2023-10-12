@@ -57,6 +57,8 @@ export interface TripStayRoom {
   price: number;
   details: TripStayRoomDetails;
   features: TripStayRoomFeature[];
+  boardChoice?: 'RO' | 'BB' | 'AI';
+  currency: string;
 }
 
 interface TripStayRoomDetails {

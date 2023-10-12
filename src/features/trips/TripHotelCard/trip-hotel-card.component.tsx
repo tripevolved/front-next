@@ -10,12 +10,11 @@ export const TripHotelCard = ({
   tripStayData,
   isCurated = false,
   onSelect,
+  isSelected,
 }: TripHotelCardProps) => {
-  const [selected, setSelected] = useState(false);
   const selectedColor = isCurated ? "var(--color-brand-4)" : "var(--color-brand-1)";
 
   const handleSelect = () => {
-    setSelected(!selected);
     onSelect();
   };
 
@@ -39,7 +38,7 @@ export const TripHotelCard = ({
   return (
     <Card
       className="trip-hotel-card"
-      style={{ border: `2px solid ${selected ? selectedColor : "var(--color-gray-3)"}` }}
+      style={{ border: `2px solid ${isSelected ? selectedColor : "var(--color-gray-3)"}` }}
     >
       <div className="trip-hotel-card__content">
         <div className="trip-hotel-card__content__info gap-md">
@@ -79,21 +78,21 @@ export const TripHotelCard = ({
           className="trip-hotel-card__content__divider"
           style={{
             width: "100%",
-            border: `.5px solid ${selected ? selectedColor : "var(--color-gray-3)"}`,
+            border: `.5px solid ${isSelected ? selectedColor : "var(--color-gray-3)"}`,
           }}
         ></div>
         <div className="trip-hotel-card__content__button-area">
           {tripStayData.details.rooms.length ? (
             <Button
-              iconName={selected ? "check-circle" : "circle"}
+              iconName={isSelected ? "check-circle" : "circle"}
               size="sm"
               variant="naked"
               style={{
-                color: selected ? selectedColor : "var(--color-gray-2)",
+                color: isSelected ? selectedColor : "var(--color-gray-2)",
               }}
               onClick={() => handleSelect()}
             >
-              {selected ? "Selecionado" : "Selecionar este"}
+              {isSelected ? "Selecionado" : "Selecionar este"}
             </Button>
           ) : (
             <Text size="xl" className="trip-hotel-card__content__button-area__unavailable">
