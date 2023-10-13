@@ -1,4 +1,3 @@
-import { TripHotelList } from "@/core/types";
 import { StaysApiService } from "@/services/api";
 import { TripHotelDTO } from "@/services/api/stays/by-trip";
 import { useState } from "react";

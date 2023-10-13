@@ -106,7 +106,10 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
   };
 
   const handleFinish = () => {
-    if (errorSentData) return;
+    if (errorSentData)
+      return Notification.error(
+        "Tivemos um problema ao enviar suas informações! Aguarde e Tente novamente"
+      );
     Notification.success("Hotel e Quartos selectionados com Sucesso!");
     router.push(`/app/viagens/criar/${tripId}`);
   };
@@ -115,10 +118,6 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
   if (isLoading) return <GlobalLoader />;
   if (!data) return <EmptyState />;
 
-  if (errorSentData)
-    return Notification.error(
-      "Tivemos um problema ao enviar suas informações! Aguarde e Tente novamente"
-    );
   if (isLoadingSentData || canSendTD) {
     return (
       <div style={{ width: "100%", height: 500, display: "flex", alignItems: "center" }}>
