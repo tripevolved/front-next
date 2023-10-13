@@ -10,17 +10,17 @@ export const TripHotelRoomsChoose = ({
   onNext,
   isSubmitting,
   onPrevious,
+  chosenRooms,
+  setFunction,
 }: RoomsStep) => {
-  const [roomList, setRoomList] = useState<TripStayRoom[]>([]);
-
-  const handleSelect = (value: TripStayRoom) => {
-    const existsInRoomList = roomList.some((room) => room.code === value.code);
+  const handleSelect = (newRooms: TripStayRoom) => {
+    const existsInRoomList = chosenRooms.some((room) => room.code === newRooms.code);
 
     if (existsInRoomList) {
-      const updatedRoomList = roomList.filter((room) => room.code !== value.code);
-      setRoomList(updatedRoomList);
+      const updatedRoomList = chosenRooms.filter((room) => room.code !== newRooms.code);
+      setFunction(updatedRoomList);
     } else {
-      setRoomList([...roomList, value]);
+      setFunction([...chosenRooms, newRooms]);
     }
   };
 
@@ -44,8 +44,8 @@ export const TripHotelRoomsChoose = ({
         <SubmitButton
           className="trip-stay-rooms-list__confirm m-lg"
           submitting={isSubmitting}
-          disabled={roomList.length <= 0}
-          onClick={() => onNext({ value: roomList, isAccommodation: false })}
+          disabled={chosenRooms.length <= 0}
+          onClick={() => onNext()}
         >
           Confirmar
         </SubmitButton>

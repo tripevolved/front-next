@@ -41,8 +41,8 @@ const LOADING_STEPS = [
     iconName: "search",
   },
 ];
-const NINE_SECONDS_IN_MS = 9 * 1000;
-const MILLISECONDS = NINE_SECONDS_IN_MS;
+const FIFTEEN_SECONDS_IN_MS = 15 * 1000;
+const MILLISECONDS = FIFTEEN_SECONDS_IN_MS;
 
 const DEFAULT_INITIAL_INDEX = 0;
 
@@ -83,8 +83,8 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
             signature: room.signature || "",
             provider: room.provider || "",
             unitPrice: room.price || 0,
-            totalPrice: roomsSumPrice,
-            currency: tripHotel?.details.currency || "",
+            totalPrice: Number(roomsSumPrice.toFixed(2)),
+            currency: room.currency || "",
             boardChoice: room.boardChoice || "RO",
           })),
         },
@@ -95,14 +95,7 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
     setCanSendTD(true);
   };
 
-  const handleNext = ({ value, isAccommodation }: { value: any; isAccommodation: boolean }) => {
-    if (isAccommodation) {
-      setTripHotel(value as TripStay);
-    } else {
-      console.log("DADOS", value);
-      setTripHotelRooms([...tripHotelRooms, ...value] as TripStayRoom[]);
-    }
-
+  const handleNext = () => {
     const nextIndex = currentIndex + 1;
     if (nextIndex < EDIT_STEPS.length) {
       setCurrentIndex(nextIndex);
@@ -113,6 +106,7 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
   };
 
   const handleFinish = () => {
+    if (errorSentData) return;
     Notification.success("Hotel e Quartos selectionados com Sucesso!");
     router.push(`/app/viagens/criar/${tripId}`);
   };
@@ -121,7 +115,10 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
   if (isLoading) return <GlobalLoader />;
   if (!data) return <EmptyState />;
 
-  if (errorSentData) return Notification.error("Tivemos um problema ao enviar suas informações!");
+  if (errorSentData)
+    return Notification.error(
+      "Tivemos um problema ao enviar suas informações! Aguarde e Tente novamente"
+    );
   if (isLoadingSentData || canSendTD) {
     return (
       <div style={{ width: "100%", height: 500, display: "flex", alignItems: "center" }}>
@@ -137,13 +134,15 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
       </Text>
       <Box style={animation.style}>
         {currentIndex == 0 ? (
-          <TripHotelChoose hotelLists={data} onNext={handleNext} />
+          <TripHotelChoose hotelLists={data} onNext={handleNext} setFunction={setTripHotel} />
         ) : tripHotel ? (
           <TripHotelRoomsChoose
             roomsList={tripHotel?.details.rooms}
             onNext={handleNext}
             isSubmitting={isLoadingSentData}
             onPrevious={handleBack}
+            setFunction={setTripHotelRooms}
+            chosenRooms={tripHotelRooms}
           />
         ) : null}
       </Box>

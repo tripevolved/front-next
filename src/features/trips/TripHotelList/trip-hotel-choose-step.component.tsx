@@ -5,8 +5,15 @@ import { Accordion as MarsAccordion, Button } from "mars-ds";
 import { TripHotelCard } from "@/features";
 import { useState } from "react";
 
-export const TripHotelChoose = ({ onNext, hotelLists }: HotelStepProps) => {
-  const [selectedHotel, setSelectedHotel] = useState<Omit<TripStay, "hightlight">>();
+export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepProps) => {
+  const [selectedHotel, setSelectedHotel] = useState<Omit<TripStay, "highlight">>(
+    {} as Omit<TripStay, "highlight">
+  );
+
+  const handleButton = () => {
+    setFunction(selectedHotel);
+    onNext();
+  };
 
   return (
     <>
@@ -42,7 +49,7 @@ export const TripHotelChoose = ({ onNext, hotelLists }: HotelStepProps) => {
           style={{ color: "var(--color-gray-4)", maxWidth: 500 }}
           className="w-100"
           disabled={!hotelLists.uniqueTransactionId || selectedHotel == undefined}
-          onClick={() => onNext({ value: selectedHotel, isAccommodation: true })}
+          onClick={() => handleButton()}
         >
           Continuar
         </Button>
