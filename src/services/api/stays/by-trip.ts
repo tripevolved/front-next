@@ -1,4 +1,4 @@
-import { TripStay, TripStayReservation, TripHotelList } from "@/core/types";
+import { TripStay, TripStayReservation, TripHotelListTransaction } from "@/core/types";
 import { ApiRequest } from "@/services/api/request";
 
 interface RoomAccomodation extends Omit<Accomodation, 'system' | 'rooms'>{
@@ -36,7 +36,7 @@ export const getAllReservedStaysByTripId = async (tripId: string) => {
 
 export const getTripHotelsToEditByTripId = async (tripId: string) => {
   const route = `stays/${tripId}/edit`;
-  const tripHotels = await ApiRequest.get<TripHotelList>(route);
+  const tripHotels = await ApiRequest.get<TripHotelListTransaction>(route);
   return tripHotels;
 }
 

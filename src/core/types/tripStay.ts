@@ -79,7 +79,7 @@ export interface TripStayReservation {
   fullAddress: string;
 }
 
-export interface TripHotelList {
+export interface TripHotelListTransaction {
   uniqueTransactionId: string;
   curated: Omit<TripStay, "highlight">[];
   others?: Omit<TripStay, "highlight">[];

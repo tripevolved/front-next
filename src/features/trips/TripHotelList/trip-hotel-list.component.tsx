@@ -1,7 +1,7 @@
 import { Box, EmptyState, ErrorState, GlobalLoader, StepsLoader, Text } from "@/ui";
 import type { TripHotelListProps } from "./trip-hotel-list.types";
 
-import type { TripHotelList, TripStay, TripStayRoom } from "@/core/types";
+import type { TripStay, TripStayRoom } from "@/core/types";
 
 import { useState } from "react";
 import { StaysApiService } from "@/services/api";
