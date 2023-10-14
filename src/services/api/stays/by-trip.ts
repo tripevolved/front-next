@@ -35,8 +35,8 @@ export const getAllReservedStaysByTripId = async (tripId: string) => {
 };
 
 export const getTripHotelsToEditByTripId = async (tripId: string) => {
-  const route = `stays/${tripId}/edit`;
-  const tripHotels = await ApiRequest.get<TripHotelListTransaction>(route);
+  const route = `stays/${tripId}/options`;
+  const tripHotels = await ApiRequest.post<TripHotelListTransaction>(route, {});
   return tripHotels;
 }
 

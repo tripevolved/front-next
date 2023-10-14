@@ -5,16 +5,26 @@ import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 import { TripStayHighlightSection } from "./trip-stay-highlight.section";
 
 import { StaysApiService } from "@/services/api";
+import { useAppStore } from "@/core/store";
+import { useRouter } from "next/router";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
 
 export const TripStaySection = ({ tripId }: { tripId: string }) => {
+  const router = useRouter();
+  const setAccommdationState = useAppStore((state) => state.setAccommodation);
+
   const getStay = (key: string) => {
     return getByTripId(tripId);
   };
 
   const { data, error, isLoading } = useSwr("stay", getStay, swrOptions);
+
+  const handleSeeDetails = () => {
+    setAccommdationState({ ...data });
+    router.push(`/app/viagens/criar/${tripId}/hospedagem`);
+  };
 
   if (isLoading) {
     return (
@@ -105,7 +115,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
           </Box>
           <Box className="trip-stay-section__content">
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture src={data.coverImageUrl!} height="75px" width="75px" />
+              <Picture src={data.coverImageUrl ? data.coverImageUrl : "/assets/blank-image.png"} />
               <Box className="trip-stay-section__content__stay-desc__box">
                 <Text size="lg">{data.name}</Text>
                 <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>
@@ -114,7 +124,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
             <Button
               variant="naked"
               className="trip-stay-section__content__details-text"
-              href={`/app/viagens/criar/${tripId}/hospedagem`}
+              onClick={() => handleSeeDetails()}
             >
               Ver detalhes
             </Button>

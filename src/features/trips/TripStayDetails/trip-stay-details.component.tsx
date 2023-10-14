@@ -5,17 +5,30 @@ import { Button, Divider } from "mars-ds";
 import { Carousel } from "@/ui";
 import { TripStayServiceItem } from "@/features";
 import { parseNumericValue } from "@/utils/helpers/css.helpers";
+import { useAppStore } from "@/core/store";
+import { useRouter } from "next/router";
 
 export function TripStayDetails({
   stayData,
-  name,
   tripId,
   isModalView = false,
   style,
+  uniqueTransactionId,
 }: TripStayDetailsProps) {
   let computedStyle;
 
   computedStyle = style;
+
+  const { accommodation, updateAccommodation } = useAppStore((state) => ({
+    updateAccommodation: state.updateAccommodationState,
+    accommodation: state.accommodation,
+  }));
+  const route = useRouter();
+
+  const handleRoomsButton = () => {
+    updateAccommodation({ ...accommodation, ...stayData, uniqueTransactionId });
+    route.push(`/app/viagens/criar/${tripId}/hospedagem/quartos`);
+  };
 
   if (isModalView) {
     computedStyle = {
@@ -32,13 +45,13 @@ export function TripStayDetails({
         <Box className="trip-stay-details__initial-info">
           <div className="trip-stay-details__initial-info__header">
             <Text size="sm" heading className="trip-stay-details__initial-info__header__title">
-              {name}
+              {stayData.name}
             </Text>
-            <Text>Hotel em {stayData.address}</Text>
+            <Text>Hotel em {stayData.details.address}</Text>
           </div>
-          {stayData.images ? (
+          {stayData.details.images?.length ? (
             <Carousel height={300}>
-              {stayData.images.map((image, key) => (
+              {stayData.details.images.map((image, key) => (
                 <Picture
                   className="trip-stay-details__initial-info__image"
                   src={image.url}
@@ -63,44 +76,50 @@ export function TripStayDetails({
           <Text heading size="xs" className="trip-stay-details__content__title">
             Informações
           </Text>
-          {stayData.information ? (
-            <Text className="trip-stay-details__content__description">{stayData.information}</Text>
+          {stayData.details.information ? (
+            <Text className="trip-stay-details__content__description">
+              {stayData.details.information}
+            </Text>
           ) : (
             <Text className="trip-stay-details__content__description">
               As informações ainda não foram definidas.
             </Text>
           )}
 
-          {stayData.services && (
+          {stayData.details.services && (
             <div className="trip-stay-details__content__service-list">
-              {stayData.services.map((service, i) => (
+              {stayData.details.services.map((service, i) => (
                 <TripStayServiceItem {...service} key={i} />
               ))}
             </div>
           )}
           <Box className="trip-stay-details__content__check-in-address">
             <Divider />
-            {stayData.checkInHour ? (
+            {stayData.details.checkInHour ? (
               <div className="trip-stay-details__content__check-in-address__item">
                 <Picture src="/assets/stays/time.png" />
-                <Text>{stayData.checkInHour}</Text>
+                <Text>{stayData.details.checkInHour}</Text>
               </div>
             ) : null}
             <div className="trip-stay-details__content__check-in-address__item">
               <Picture src="/assets/stays/pin.png" />
-              <Text>{stayData.address}</Text>
+              <Text>{stayData.details.address}</Text>
             </div>
           </Box>
         </Box>
         {!isModalView ? (
           <Box className="trip-stay-details__footer-buttons gap-lg">
-            <Button className="trip-stay-details__footer-buttons__buttons" variant="naked">
+            <Button
+              className="trip-stay-details__footer-buttons__buttons"
+              variant="naked"
+              href={`/app/viagens/criar/${tripId}/hospedagem/editar-hotel/`}
+            >
               Editar
             </Button>
             <Button
               className="trip-stay-details__footer-buttons__buttons"
               style={{ color: "var(--color-gray-4)" }}
-              href={`/app/viagens/criar/${tripId}/hospedagem/quartos`}
+              onClick={() => handleRoomsButton()}
             >
               Quartos
             </Button>

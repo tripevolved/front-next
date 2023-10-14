@@ -4,53 +4,68 @@ import type { TripStayDetailsProps } from "./trip-stay-details.types";
 
 import { render } from "@testing-library/react";
 import { TripStayDetails } from "./trip-stay-details.component";
+import { mockUseRouter } from "@/utils/mocks/next-router.mock";
 
 const STAY_DATA_MOCK: TripStayDetailsProps["stayData"] = {
-  address: "Quadra QS 112",
-  checkInHour: "8h às 20h",
-  services: [
-    { title: "Ar condicionado", type: "ac" },
-    { title: "Boa cama", type: "bed" },
-    { title: "Café da Manhã", type: "breakfast" },
-    { title: "Wi-Fi", type: "wifi" },
-  ],
-  images: [
-    { url: "https://picsum.photos/300/200", altText: "Primeira imagem" },
-    { url: "https://picsum.photos/400/300", altText: "Segunda imagem" },
-    { url: "https://picsum.photos/500/400", altText: "Terceira imagem" },
-  ],
-  information: "Informação legal da acomodação",
-  price: 67.09,
-  currency: "R$",
-  rooms: [
-    {
-      coverImageUrl: "https://picsum.photos/300/200",
-      details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
-      features: [
-        { title: "Wifi", type: "wifi" },
-        { title: "Ar Condicionado", type: "ac" },
-        { title: "Boa cama", type: "bed" },
-      ],
-      id: "i2u3g429",
-      isSelected: true,
-      price: 20.0,
-      subtitle: "Acomoda 2 pessoas",
-      title: "Suíte simples",
-    },
-    {
-      coverImageUrl: "https://picsum.photos/300/200",
-      details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
-      features: [{ title: "Ar Condicionado", type: "ac" }],
-      id: "i2u3g429",
-      isSelected: true,
-      price: 20.0,
-      subtitle: "acomoda 4 pessoas",
-      title: "Suíte deluxe",
-    },
-  ],
+  name: "Exemplo de Hotel",
+  cancellationInfo: "Informação de Cancelamento",
+  coverImageUrl: "https://picsum.photos/300/200",
+  isBuilding: false,
+  isReserved: false,
+  isSelected: true,
+  message: "Mensagem de exemplo",
+  reservationMessage: "Mensagem de Reserva",
+  system: "UJGVB9",
+  tags: "3 ESTRELAS",
+  details: {
+    address: "Quadra QS 112",
+    checkInHour: "8h às 20h",
+    services: [
+      { title: "Ar condicionado", type: "ac" },
+      { title: "Boa cama", type: "bed" },
+      { title: "Café da Manhã", type: "breakfast" },
+      { title: "Wi-Fi", type: "wifi" },
+    ],
+    images: [
+      { url: "https://picsum.photos/300/200", altText: "Primeira imagem" },
+      { url: "https://picsum.photos/400/300", altText: "Segunda imagem" },
+      { url: "https://picsum.photos/500/400", altText: "Terceira imagem" },
+    ],
+    information: "Informação legal da acomodação",
+    price: 67.09,
+    currency: "R$",
+    rooms: [
+      {
+        currency: "",
+        coverImageUrl: "https://picsum.photos/300/200",
+        details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
+        features: [
+          { title: "Wifi", type: "wifi" },
+          { title: "Ar Condicionado", type: "ac" },
+          { title: "Boa cama", type: "bed" },
+        ],
+        id: "i2u3g429",
+        isSelected: true,
+        price: 20.0,
+        subtitle: "Acomoda 2 pessoas",
+        title: "Suíte simples",
+      },
+      {
+        coverImageUrl: "https://picsum.photos/300/200",
+        details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
+        features: [{ title: "Ar Condicionado", type: "ac" }],
+        id: "i2u3g429",
+        isSelected: true,
+        price: 20.0,
+        subtitle: "acomoda 4 pessoas",
+        title: "Suíte deluxe",
+        currency: "",
+      },
+    ],
+  },
 };
-
-const makeSut = () => render(<TripStayDetails stayData={STAY_DATA_MOCK} name="Teste" />);
+mockUseRouter();
+const makeSut = () => render(<TripStayDetails tripId="asiugh" stayData={STAY_DATA_MOCK} />);
 
 describe("<TripStayDetailsModal>", () => {
   it("should render component", () => {

@@ -4,13 +4,16 @@ import { StaysApiService } from "@/services/api";
 import useSwr from "swr";
 import { EmptyState, GlobalLoader, CardHighlight, Text } from "@/ui";
 import { TripStayDetails } from "../TripStayDetails";
+import { useAppStore } from "@/core/store";
 
 export function TripAccommodation() {
   const router = useRouter();
   const idParam = String(router.query.id);
 
-  const fetcher = async () => StaysApiService.getByTripId(idParam);
-  const { data, isLoading, error } = useSwr(`current-accomodation-${idParam}`, fetcher);
+  const accommodationState = useAppStore((state) => state.accommodation);
+
+  const fetcher = async () => StaysApiService.getHotels(idParam);
+  const { data, isLoading, error } = useSwr(`accomodation-get-${idParam}`, fetcher);
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
@@ -26,9 +29,22 @@ export function TripAccommodation() {
       </CardHighlight>
     );
 
+  let accommodationData = data.curated.find((hotel) => hotel.name === accommodationState.name);
+  if (!accommodationData && data.others) {
+    accommodationData = data.others?.find((hotel) => hotel.name === accommodationState.name);
+  }
+
   return (
     <div className="trip-accommodation">
-      <TripStayDetails stayData={data.details} name={data.name} tripId={idParam} />
+      {accommodationData ? (
+        <TripStayDetails
+          uniqueTransactionId={data.uniqueTransactionId}
+          stayData={accommodationData}
+          tripId={idParam}
+        />
+      ) : (
+        <EmptyState />
+      )}
     </div>
   );
 }
