@@ -5,12 +5,12 @@ const TITLE = "Editar Hotel";
 
 export default function TripPendingRoute() {
   const router = useRouter();
-  const idParam = router.query.id;
+  const idParam = String(router.query.id);
   return (
     <PageApp seo={{ title: TITLE }}>
       <PageAppHeader title={TITLE} backButton href={`/app/viagens/${idParam}`} />
       <PageAppBody>
-        <TripHotelList />
+        <TripHotelList tripId={idParam} />
       </PageAppBody>
     </PageApp>
   );

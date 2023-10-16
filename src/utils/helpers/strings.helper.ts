@@ -7,3 +7,5 @@ const toLowerCaseWithReg = (str: string) => {
 };
 
 export const capitalize = (str: string) => `${str[0].toUpperCase()}${str.slice(1)}`;
+
+export const trimAfterParentheses = (str?: string) => str ? str.replace(/\(.*/, '') : str;
