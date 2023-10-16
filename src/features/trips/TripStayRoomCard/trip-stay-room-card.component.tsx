@@ -3,9 +3,9 @@ import { TripStayRoomCardProps, TripStayRoomDetailsModal, TripStayServiceItem } 
 
 import { Picture, Text } from "@/ui";
 import { Modal, Card, Button } from "mars-ds";
-import { formatByDataType, setBRLCurrencyValue } from "@/utils/helpers/number.helpers";
+import { setBRLCurrencyValue } from "@/utils/helpers/number.helpers";
 import { useState } from "react";
-import { trimSurplus } from "@/utils/helpers/strings.helper";
+import { trimAfterParentheses } from "@/utils/helpers/strings.helper";
 
 export const TripStayRoomCard = ({
   coverImageUrl,
@@ -57,7 +57,7 @@ export const TripStayRoomCard = ({
           />
           <div className="trip-stay-room-card__content__info__data">
             <div className="trip-stay-room-card__content__info__data__header">
-              <Text size="lg">{trimSurplus(title)}</Text>
+              <Text size="lg">{trimAfterParentheses(title)}</Text>
               <Text style={{ color: "var(--color-gray-1)", marginTop: 0 }}>{subtitle}</Text>
               {boardChoice ? (
                 <Text style={{ color: "var(--color-brand-4)" }}>{getBoardChoice(boardChoice)}</Text>

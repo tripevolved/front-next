@@ -44,6 +44,7 @@ export * from "./scripts/CardsSuggestion";
 export * from "./scripts/SeeAttractionDetailsModal";
 export * from "./scripts/TripDayAttractions";
 export * from "./scripts/TripScriptPanel";
+export * from "./scripts/TripScriptBuilder";
 export * from "./scripts/TripScriptPreviewPanel";
 export * from "./scripts/UpdateAttractions";
 export * from "./templates/ChatFloatingButton";

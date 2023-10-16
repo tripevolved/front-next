@@ -4,7 +4,7 @@ import type { TripStayRoomDetailsModalProps } from "./trip-stay-room-details-mod
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { TripStayServiceItem } from "@/features";
 import { Icon } from "mars-ds";
-import { trimSurplus } from "@/utils/helpers/strings.helper";
+import { trimAfterParentheses } from "@/utils/helpers/strings.helper";
 import { TripStayRoom } from "@/core/types";
 import { formatByDataType, setBRLCurrencyValue } from "@/utils/helpers/number.helpers";
 
@@ -36,7 +36,7 @@ export function TripStayRoomDetailsModal({
         heading
         style={{ color: "var(--color-brand-1)" }}
       >
-        {trimSurplus(room.title)}
+        {trimAfterParentheses(room.title)}
       </Text>
 
       <Picture

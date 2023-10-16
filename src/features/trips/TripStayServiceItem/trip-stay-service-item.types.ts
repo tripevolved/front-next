@@ -1,3 +1,3 @@
 import type { ComponentHTMLProps } from "@/core/types";
 
-export interface TripStayServiceItemProps extends ComponentHTMLProps {};
+export interface TripStayServiceItemProps extends ComponentHTMLProps {}
