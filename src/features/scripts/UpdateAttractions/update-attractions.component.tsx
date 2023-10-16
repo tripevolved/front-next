@@ -5,8 +5,8 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { useRouter } from "next/router";
 import { useUpdateAttractions } from "./update-attractions.hook";
 import { TripScriptDay, UpdateScriptAction } from "@/core/types";
-import { TripScriptActionSection } from "../TripScriptPanel/trip-script-action.section";
-import { Button, Grid, Modal } from "mars-ds";
+import { TripScriptActionSection } from "../TripScriptAction/trip-script-action.component";
+import { Button, Grid, Icon, Modal } from "mars-ds";
 import { AddAttractionsModal, PageAppHeader } from "@/features";
 import { useState } from "react";
 import { TripScriptDaySection } from "../BuildTripScriptStep/trip-script-day.section";
@@ -76,9 +76,10 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
                 <TripScriptActionSection
                   action={action}
                   key={i}
-                  isEditPage
                   onClick={() => deleteTripAction(i)}
-                />
+                >
+                  
+                </TripScriptActionSection>
               )
           )}
           <Button

@@ -1,22 +1,19 @@
 import { Box, Text, Picture, TooltipCard } from "@/ui";
-import { TripScriptAction } from "@/core/types";
-import { Card, Grid, Icon } from "mars-ds";
+import { ComponentHTMLProps, TripScriptAction } from "@/core/types";
+import { Grid } from "mars-ds";
 
-interface TripScriptActionSectionProps {
+interface TripScriptActionSectionProps extends ComponentHTMLProps {
   action: TripScriptAction;
-  isEditPage?: boolean;
   onClick?: () => void;
 }
 
 export const TripScriptActionSection = ({
   action,
-  isEditPage = false,
+  children,
   onClick,
 }: TripScriptActionSectionProps) => {
-  const shouldShowTrash = isEditPage && onClick;
-
   return (
-    <Grid className="trip-script-action" gap={6} columns={shouldShowTrash ? [2,11,1] : [2,12]}>
+    <Grid className="trip-script-action" gap={6} columns={children ? [2,11,1] : [2,12]} onClick={onClick}>
       <Picture className="trip-script-action__icon" src={action.image ? action.image : `/assets/script/${action.iconSlug}.svg`} />
       <Box className="trip-script-action__box">
         <Text size="md" className="trip-script-action__title">
@@ -27,14 +24,7 @@ export const TripScriptActionSection = ({
           {action.subtitle}
         </Text>
       </Box>
-      {shouldShowTrash && (
-        <Icon
-          name="trash-2"
-          color="#D35050"
-          onClick={() => onClick()}
-          style={{ justifySelf: "flex-end", alignSelf: "center", marginLeft: "auto" }}
-        />
-      )}
+      {children}
     </Grid>
   );
 };

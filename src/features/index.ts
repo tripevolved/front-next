@@ -48,6 +48,7 @@ export * from "./scripts/TripScriptPanel";
 export * from "./scripts/TripScriptBuilder";
 export * from "./scripts/TripScriptPreviewPanel";
 export * from "./scripts/UpdateAttractions";
+export * from "./scripts/TripScriptAction";
 export * from "./templates/ChatFloatingButton";
 export * from "./templates/Footer";
 export * from "./templates/Navbar";
