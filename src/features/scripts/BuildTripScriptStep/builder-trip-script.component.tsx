@@ -11,43 +11,22 @@ import { ComponentHTMLProps, TripScript, TripScriptBuilderParams, TripScriptDay 
 import { TripScriptDaySection } from "./trip-script-day.section";
 import { TripScriptDayTipSection } from "./trip-script-day-tip.section";
 
-const TRIP_STEPS = [
-  {
-    title: "Descobrir minha trip",
-    name: "destinations",
-    // component: StepDestinations,
-  },
-  {
-    title: "",
-    name: "configuration",
-    // component: StepConfiguration,
-  },
-  {
-    title: "",
-    name: "trip-goal",
-    // component: StepTripGoal,
-  },
-  {
-    title: "Finalização",
-    name: "finish",
-    // component: StepFinish,
-  },
-];
-
 const DEFAULT_INITIAL_INDEX = 1;
 
 export const BuildTripScriptStep = ({ onNext }: StepComponentProps) => {
   const router = useRouter();
   const tripId = String(router.query.id);
+  const day = router.query.day ? +router.query.day : undefined;
 
   const uniqueKeyName = `${tripId}-script`;
   const fetcher = async () => TripScriptsApiService.getBuilderParams(tripId);
   const { isLoading, data, error } = useSwr<TripScriptBuilderParams>(uniqueKeyName, fetcher);
 
-  const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
+  const [submitting, setSubmitting] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(day ?? DEFAULT_INITIAL_INDEX);
   const animation = useAnimation();
 
-  const handleSubmit = async () => {
+  const handleFinish = async () => {
     try {
       onNext();
     } catch (error) {
@@ -72,12 +51,14 @@ export const BuildTripScriptStep = ({ onNext }: StepComponentProps) => {
   }
 
   const handleNext = () => {
+    // TODO: send post to edit day
+
     const nextIndex = currentIndex + 1;
     if (nextIndex <= data.numDays) {
       setCurrentIndex(nextIndex);
       animation.trigger(true);
     } else {
-      handleSubmit();
+      handleFinish();
     }
   };
 

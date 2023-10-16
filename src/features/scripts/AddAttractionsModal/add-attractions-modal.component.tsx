@@ -1,4 +1,4 @@
-import { AddAttractionCard, Box, EmptyState, GlobalLoader, Text } from "@/ui";
+import { AddAttractionCard, Box, EmptyState, GlobalLoader, StateTemplate, Text } from "@/ui";
 import type { AddAttractionsModalProps } from "./add-attractions-modal.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -72,9 +72,7 @@ export function AddAttractionsModal({
             />
           ))
         ) : (
-          <Text style={{ color: "#D35050" }}>
-            Puxa... Não conseguimos encontrar novas atrações para você
-          </Text>
+          <StateTemplate text={"Infelizmente não conseguimos encontrar novas atrações para você"} />
         )}
       </Box>
       <Button className="add-attractions-modal__save-button" onClick={() => onSaveClick()}>

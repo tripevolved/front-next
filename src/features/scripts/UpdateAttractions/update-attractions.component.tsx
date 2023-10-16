@@ -6,18 +6,20 @@ import { useRouter } from "next/router";
 import { useUpdateAttractions } from "./update-attractions.hook";
 import { TripScriptDay, UpdateScriptAction } from "@/core/types";
 import { TripScriptActionSection } from "../TripScriptPanel/trip-script-action.section";
-import { Button, Modal } from "mars-ds";
+import { Button, Grid, Modal } from "mars-ds";
 import { AddAttractionsModal, PageAppHeader } from "@/features";
 import { useState } from "react";
+import { TripScriptDaySection } from "../BuildTripScriptStep/trip-script-day.section";
 
 export function UpdateAttractions({ className, children, sx, ...props }: UpdateAttractionsProps) {
   const cn = makeCn("update-attractions", className)(sx);
   const router = useRouter();
   const [attractionList, setAttractionsList] = useState<UpdateScriptAction[]>(
     [] as UpdateScriptAction[]
-  );
-
+    );
+    
   const tripIdParam = typeof router.query.id === "string" ? router.query.id : null;
+  const redirectTo = String(router.query.redirectTo ?? `/app/viagens/roteiro/${tripIdParam}`);
 
   const { data, setData, error, isLoading, updateTripScript } = useUpdateAttractions();
 
@@ -55,10 +57,18 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
     <>
       <PageAppHeader
         backButton
-        href={`/app/viagens/roteiro/${tripIdParam}`}
+        href={redirectTo}
         title={`Editar ${data.date}`}
       />
       <SectionBase className={cn} {...props}>
+        <Grid columns={{md: 2, sm: 1}}>
+          <AddAttractionsModal
+            tripId={tripIdParam!}
+            onClickAttraction={handleAttractionClick}
+            onSaveClick={() => updateTripScript(attractionList)}
+          />
+          <TripScriptDaySection tripId={tripIdParam!} day={1} />
+        </Grid>
         <div className="update-attractions__list-area">
           {data.actions.map(
             (action, i) =>

@@ -1,8 +1,12 @@
 import { TripScriptActionOrSuggestion } from "@/features";
-import { Card, Grid, Icon, Loader } from "mars-ds";
+import { Button, Divider, Grid, Loader } from "mars-ds";
 import { Box, EmptyState, Text } from "@/ui";
+
 import { TripScriptsApiService } from "@/services/api";
 import useSwr from "swr";
+import { useAppStore } from "@/core/store";
+import { useRouter } from "next/router";
+
 import { TripScriptDay } from "@/core/types";
 import { TripScriptDaySectionProps } from "@/features";
 import { TripScriptFreeDay } from "../TripScriptPanel/trip-script-free-day.component";
@@ -11,6 +15,9 @@ export const TripScriptDaySection = ({ tripId, day }: TripScriptDaySectionProps)
   const uniqueKeyName = `${tripId}-script-day-${day}`;
   const fetcher = async () => TripScriptsApiService.getDaySuggestion(tripId, day);
   const { isLoading, data, error } = useSwr<TripScriptDay>(uniqueKeyName, fetcher);
+
+  const { setTripScriptDay } = useAppStore();
+  const router = useRouter();
 
   if (isLoading) {
     return (
@@ -27,6 +34,12 @@ export const TripScriptDaySection = ({ tripId, day }: TripScriptDaySectionProps)
       </Grid>
     );
   }
+
+  const handleAddAttractions = () => {
+    setTripScriptDay(data);
+
+    router.push(`/app/viagens/roteiro/atracoes/${tripId}?redirectTo=/app/viagens/roteiro/construcao/${tripId}/?stepName=build&day=${day}`);
+  };
 
   return (
     <Grid className="trip-script-day-section" key={day}>
@@ -49,6 +62,8 @@ export const TripScriptDaySection = ({ tripId, day }: TripScriptDaySectionProps)
           <TripScriptFreeDay />
         )}
       </div>
+      <Divider/>
+      <Button onClick={() => handleAddAttractions()} variant="naked" size="sm">+ Adicionar mais atrações neste dia</Button>
     </Grid>
   );
 }
