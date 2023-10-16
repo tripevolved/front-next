@@ -50,13 +50,15 @@ export interface TripStayRoom {
   code?: string;
   signature?: string;
   provider?: string;
-  coverImageUrl: string;
+  coverImageUrl?: string;
   title: string;
   subtitle: string | null;
   isSelected: boolean;
   price: number;
   details: TripStayRoomDetails;
   features: TripStayRoomFeature[];
+  boardChoice?: 'RO' | 'BB' | 'AI';
+  currency: string;
 }
 
 interface TripStayRoomDetails {
@@ -77,7 +79,7 @@ export interface TripStayReservation {
   fullAddress: string;
 }
 
-export interface TripHotelList {
+export interface TripHotelListTransaction {
   uniqueTransactionId: string;
   curated: Omit<TripStay, "highlight">[];
   others?: Omit<TripStay, "highlight">[];

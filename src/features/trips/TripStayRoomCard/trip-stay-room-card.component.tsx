@@ -3,8 +3,9 @@ import { TripStayRoomCardProps, TripStayRoomDetailsModal, TripStayServiceItem } 
 
 import { Picture, Text } from "@/ui";
 import { Modal, Card, Button } from "mars-ds";
-import { formatByDataType } from "@/utils/helpers/number.helpers";
+import { setBRLCurrencyValue } from "@/utils/helpers/number.helpers";
 import { useState } from "react";
+import { trimAfterParentheses } from "@/utils/helpers/strings.helper";
 
 export const TripStayRoomCard = ({
   coverImageUrl,
@@ -16,16 +17,31 @@ export const TripStayRoomCard = ({
   subtitle,
   title,
   onClick,
+  boardChoice,
+  currency,
 }: TripStayRoomCardProps) => {
   const [selected, setSelected] = useState(false);
 
   const handleSeeMore = (room: TripStayRoom) => {
-    Modal.open(() => <TripStayRoomDetailsModal room={room} />, { size: "md", closable: true });
+    Modal.open(() => <TripStayRoomDetailsModal room={room} />, {
+      size: "md",
+      closable: true,
+    });
   };
 
   const handleSelect = () => {
     setSelected(!selected);
     onClick();
+  };
+
+  const getBoardChoice = (str: TripStayRoom["boardChoice"] | string) => {
+    const options = {
+      RO: "Somente quarto",
+      BB: "Cama e café da  manhhã",
+      AI: "Tudo incluso",
+    };
+    // @ts-ignore
+    return options[str];
   };
 
   return (
@@ -35,17 +51,25 @@ export const TripStayRoomCard = ({
     >
       <div className="trip-stay-room-card__content">
         <div className="trip-stay-room-card__content__info">
-          <Picture className="trip-stay-room-card__content__info__image" src={coverImageUrl} />
+          <Picture
+            className="trip-stay-room-card__content__info__image"
+            src={coverImageUrl?.length ? coverImageUrl : "/assets/blank-image.png"}
+          />
           <div className="trip-stay-room-card__content__info__data">
             <div className="trip-stay-room-card__content__info__data__header">
-              <Text size="lg">{title}</Text>
+              <Text size="lg">{trimAfterParentheses(title)}</Text>
               <Text style={{ color: "var(--color-gray-1)", marginTop: 0 }}>{subtitle}</Text>
+              {boardChoice ? (
+                <Text style={{ color: "var(--color-brand-4)" }}>{getBoardChoice(boardChoice)}</Text>
+              ) : null}
             </div>
 
-            <TripStayServiceItem type={features[0].type} title={features[0].title} />
+            {features ? (
+              <TripStayServiceItem type={features[0].type} title={features[0].title} />
+            ) : null}
           </div>
           <div className="trip-stay-room-card__content__info__price">
-            <Text size="lg">{formatByDataType(price, "CURRENCY")}</Text>
+            <Text size="lg">{setBRLCurrencyValue(price, currency)}</Text>
 
             <Text
               style={{
@@ -63,6 +87,8 @@ export const TripStayRoomCard = ({
                   title,
                   price,
                   coverImageUrl,
+                  boardChoice,
+                  currency,
                 })
               }
             >

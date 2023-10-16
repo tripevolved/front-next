@@ -3,24 +3,22 @@ import { TripHotelDTO } from "@/services/api/stays/by-trip";
 import { useState } from "react";
 import useSwr from "swr";
 
-const useTripStayRoomEdit = (tripId: string) => {
-  const [canSendPayload, setCanSendPayload] = useState(false);
+export const useTripHotelEdit = (tripId: string) => {
+  const [canSendTD, setCanSendTD] = useState(false);
   const [objDTO, setObjDTO] = useState<TripHotelDTO>({} as TripHotelDTO);
 
   const sendTransactionData = async () => StaysApiService.setStay(tripId, objDTO);
   const { error: errorSentData, isLoading: isLoadingSentData } = useSwr(
-    canSendPayload ? `accommodation-set-${tripId}` : null,
+    canSendTD ? `accommodation-set-${tripId}` : null,
     sendTransactionData
   );
 
   return {
+    canSendTD,
+    setCanSendTD,
     setObjDTO,
-    setCanSendPayload,
-    canSendPayload,
 
     isLoadingSentData,
     errorSentData,
   };
 };
-
-export default useTripStayRoomEdit;

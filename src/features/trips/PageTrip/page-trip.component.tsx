@@ -1,14 +1,9 @@
-import type { PageAppProps } from "@/features";
 import { LogoMainInverse, Picture, Text } from "@/ui";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { Card, ToggleButton } from "mars-ds";
 import { NextSeo } from "next-seo";
-
-export interface PageTripProps extends PageAppProps {
-  backToText?: string;
-  backToUrl?: string;
-}
+import type { PageTripProps } from "./page-trip.types";
 
 export function PageTrip({ className, children, seo, backToText, backToUrl }: PageTripProps) {
   const cn = makeCn("page-trip container container--lg", className)();
