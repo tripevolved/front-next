@@ -28,7 +28,7 @@ export function TemplateStepsBuilder({
     slider.trigger(index > currentIndex);
     setCurrentIndex(index);
     const stepName = steps[index].name;
-    router.push({ ...router, query: { stepName } }, undefined, { shallow: true });
+    router.push({ ...router, query: { ...router.query, stepName } }, undefined, { shallow: true });
   };
 
   const goToStepName = (stepName: string) => {

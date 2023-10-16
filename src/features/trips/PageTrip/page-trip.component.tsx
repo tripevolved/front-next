@@ -1,18 +1,18 @@
-import type { PageAppProps } from "@/features";
 import { LogoMainInverse, Picture, Text } from "@/ui";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { Card, ToggleButton } from "mars-ds";
 import { NextSeo } from "next-seo";
+import type { PageTripProps } from "./page-trip.types";
 
-export function PageTrip({ className, children, seo }: PageAppProps) {
+export function PageTrip({ className, children, seo, backToText, backToUrl }: PageTripProps) {
   const cn = makeCn("page-trip container container--lg", className)();
 
   return (
     <>
       {seo ? <NextSeo {...seo} /> : null}
       <main className={cn}>
-        <PageTripAside title={seo?.title} />
+        <PageTripAside title={seo?.title} backToText={backToText} backToUrl={backToUrl} />
         <Card as="section" className="page-trip__content">
           <div>
             {children}
@@ -23,11 +23,11 @@ export function PageTrip({ className, children, seo }: PageAppProps) {
   );
 }
 
-const PageTripAside = ({ title = "" }) => {
+const PageTripAside = ({ title = "", backToText = "Voltar para o painel", backToUrl = "/app/painel" }) => {
   return (
     <Card as="aside" className="page-trip__aside theme-dark">
       <div className="page-trip__menu">
-        <ToggleButton title="Voltar para o painel" iconName="x" href="/app/painel" />
+        <ToggleButton title={backToText} iconName="x" href={backToUrl} />
         <LogoMainInverse />
       </div>
       <Picture src="/assets/trip/trip-cover.png" md={{ src: "/assets/trip/trip-cover-2x.png" }} />
