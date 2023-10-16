@@ -74,3 +74,7 @@ export interface TripScriptParameters {
   importantCharacteristics: string[];
   tripTravelerProfile: string;
 }
+
+export interface TripScriptBuilderParams {
+  numDays: number;
+}

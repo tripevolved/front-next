@@ -7,8 +7,7 @@ import { useAppStore } from "@/core/store";
 import { useAnimation } from "@/utils/hooks/animation.hook";
 import { useRouter } from "next/router";
 import useSwr from "swr";
-import { ComponentHTMLProps, TripScript, TripScriptDay } from "@/core/types";
-import { HtmlProps } from "next/dist/shared/lib/html-context";
+import { ComponentHTMLProps, TripScript, TripScriptBuilderParams, TripScriptDay } from "@/core/types";
 
 const TRIP_STEPS = [
   {
@@ -56,8 +55,8 @@ export const BuildTripScriptStep = ({}: StepComponentProps) => {
   const tripId = String(router.query.id);
 
   const uniqueKeyName = `${tripId}-script`;
-  const fetcher = async () => TripScriptsApiService.getPreview(tripId);
-  const { isLoading, data, error } = useSwr<TripScript>(uniqueKeyName, fetcher);
+  const fetcher = async () => TripScriptsApiService.getBuilderParams(tripId);
+  const { isLoading, data, error } = useSwr<TripScriptBuilderParams>(uniqueKeyName, fetcher);
 
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
   const animation = useAnimation();
@@ -92,7 +91,7 @@ export const BuildTripScriptStep = ({}: StepComponentProps) => {
       data.current = { ...data.current, ...newData };
     }
     const nextIndex = currentIndex + 1;
-    if (nextIndex < data.days.length) {
+    if (nextIndex < data.numDays) {
       setCurrentIndex(nextIndex);
       animation.trigger(true);
     } else {
@@ -102,14 +101,12 @@ export const BuildTripScriptStep = ({}: StepComponentProps) => {
 
   return (
     <Grid gap={48}>
-      <StepsProgressBar position={currentIndex} total={data.days.length} />
+      <StepsProgressBar position={currentIndex} total={data.numDays} />
       <Caption as="p" className="color-text-secondary">
         Roteiro - Dia 
       </Caption>
       <div style={animation.style}>
-        {
-          data.days.map((value, index) => (<ScriptDay key={index} dayIndex={index} scriptDay={value} />))
-        }
+        <ScriptDay tripId={tripId} day={1}/>
         {/* <Component
           onNext={handleNext}
           onPrevious={() => setCurrentIndex((state) => state - 1)}
@@ -121,27 +118,44 @@ export const BuildTripScriptStep = ({}: StepComponentProps) => {
 };
 
 interface ScriptDayProps extends ComponentHTMLProps {
-  scriptDay: TripScriptDay;
-  dayIndex: number;
+  tripId: string;
+  day: number;
 }
-const ScriptDay = ({ scriptDay, dayIndex }: ScriptDayProps) => {
+const ScriptDay = ({ tripId, day }: ScriptDayProps) => {
+  const uniqueKeyName = `${tripId}-script-day-${day}`;
+  const fetcher = async () => TripScriptsApiService.getDaySuggestion(tripId, day);
+  const { isLoading, data, error } = useSwr<TripScriptDay>(uniqueKeyName, fetcher);
+
+  if (isLoading) {
+    return (
+      <Grid className="trip-script-builder-step">
+        <Loader color="var(--color-brand-1)" size="md" />
+      </Grid>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <Grid className="trip-script-builder-step">
+        <EmptyState />
+      </Grid>
+    );
+  }
+
   return (
-    <div className="trip-script-day-section__border" key={dayIndex}>
+    <div className="trip-script-day-section__border" key={day}>
       <Box className="trip-script-day-section__header">
         <Text size="lg" className="trip-script-day-section__title">
-          <span style={{ fontSize: 22, color: "var(--color-brand-1)" }}>
-            &#x2022;
-          </span>{" "}
-          {"Dia " + (dayIndex + 1)}
+          {"Dia " + day}
         </Text>
         <Text size="md" className="trip-script-day-section__subtitle">
-          {scriptDay.date}
+          {data.date}
         </Text>
       </Box>
       <div className="trip-script-day-section__content">
-        {scriptDay.actions.length ? (
+        {data.actions.length ? (
           <>
-            {scriptDay.actions.map((tripScriptAction, j) => {
+            {data.actions.map((tripScriptAction, j) => {
               return TripScriptActionOrSuggestion(tripScriptAction);
             })}
           </>
