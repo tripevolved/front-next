@@ -1,5 +1,5 @@
 import { TripScriptActionOrSuggestion, type StepComponentProps } from "@/features";
-import { Caption, Card, Grid, Icon, Loader, Notification } from "mars-ds";
+import { Button, Caption, Card, Grid, Icon, Loader, Notification } from "mars-ds";
 import { useRef, useState } from "react";
 import { Box, EmptyState, StepsLoader, StepsProgressBar, Text } from "@/ui";
 import { TripScriptsApiService } from "@/services/api";
@@ -32,25 +32,9 @@ const TRIP_STEPS = [
   },
 ];
 
-const EIGHT_SECONDS_IN_MS = 8 * 1000;
-const MILLISECONDS = EIGHT_SECONDS_IN_MS;
-const LOADING_STEPS = [
-  {
-    text: "Construindo sua viagem...",
-    iconName: "settings",
-  },
-  {
-    text: "Procurando atrações para seu roteiro...",
-    iconName: "map",
-  },
-  {
-    text: "Estamos selecionando as melhores opções",
-    iconName: "search",
-  },
-];
 const DEFAULT_INITIAL_INDEX = 1;
 
-export const BuildTripScriptStep = ({}: StepComponentProps) => {
+export const BuildTripScriptStep = ({ onNext }: StepComponentProps) => {
   const router = useRouter();
   const tripId = String(router.query.id);
 
@@ -63,8 +47,7 @@ export const BuildTripScriptStep = ({}: StepComponentProps) => {
 
   const handleSubmit = async () => {
     try {
-      // @ts-ignore
-      
+      onNext();      
     } catch (error) {
       Notification.error("Devido à um erro não foi possível criar a sua trip.");
     }
@@ -86,12 +69,9 @@ export const BuildTripScriptStep = ({}: StepComponentProps) => {
     );
   }
 
-  const handleNext = (newData?: Record<string, any>) => {
-    if (newData) {
-      data.current = { ...data.current, ...newData };
-    }
+  const handleNext = () => {
     const nextIndex = currentIndex + 1;
-    if (nextIndex < data.numDays) {
+    if (nextIndex <= data.numDays) {
       setCurrentIndex(nextIndex);
       animation.trigger(true);
     } else {
@@ -106,22 +86,22 @@ export const BuildTripScriptStep = ({}: StepComponentProps) => {
         Roteiro - Dia 
       </Caption>
       <div style={animation.style}>
-        <ScriptDay tripId={tripId} day={1}/>
-        {/* <Component
+        <ScriptDay
+          tripId={tripId}
+          day={currentIndex}
           onNext={handleNext}
           onPrevious={() => setCurrentIndex((state) => state - 1)}
-          goToStepName={() => undefined}
-        /> */}
+          goToStepName={() => undefined} />
       </div>
     </Grid>
   );
 };
 
-interface ScriptDayProps extends ComponentHTMLProps {
+interface ScriptDayProps extends StepComponentProps {
   tripId: string;
   day: number;
 }
-const ScriptDay = ({ tripId, day }: ScriptDayProps) => {
+const ScriptDay = ({ tripId, day, onNext, onPrevious }: ScriptDayProps) => {
   const uniqueKeyName = `${tripId}-script-day-${day}`;
   const fetcher = async () => TripScriptsApiService.getDaySuggestion(tripId, day);
   const { isLoading, data, error } = useSwr<TripScriptDay>(uniqueKeyName, fetcher);
@@ -143,35 +123,41 @@ const ScriptDay = ({ tripId, day }: ScriptDayProps) => {
   }
 
   return (
-    <div className="trip-script-day-section__border" key={day}>
-      <Box className="trip-script-day-section__header">
-        <Text size="lg" className="trip-script-day-section__title">
-          {"Dia " + day}
-        </Text>
-        <Text size="md" className="trip-script-day-section__subtitle">
-          {data.date}
-        </Text>
-      </Box>
-      <div className="trip-script-day-section__content">
-        {data.actions.length ? (
-          <>
-            {data.actions.map((tripScriptAction, j) => {
-              return TripScriptActionOrSuggestion(tripScriptAction);
-            })}
-          </>
-        ) : (
-          <Card className="trip-script-action" elevation="xl">
-            <div className="trip-script-action__icon-box">
-              <Icon name="home" size="sm" />
-            </div>
-            <Box className="trip-script-action__box">
-              <Text size="lg" className="trip-script-action__title">
-                Dia livre
-              </Text>
-            </Box>
-          </Card>
-        )}
+    <>
+      <div className="trip-script-day-section__border" key={day}>
+        <Box className="trip-script-day-section__header">
+          <Text size="lg" className="trip-script-day-section__title">
+            {"Dia " + day}
+          </Text>
+          <Text size="md" className="trip-script-day-section__subtitle">
+            {data.date}
+          </Text>
+        </Box>
+        <div className="trip-script-day-section__content">
+          {data.actions.length ? (
+            <>
+              {data.actions.map((tripScriptAction, j) => {
+                return TripScriptActionOrSuggestion(tripScriptAction);
+              })}
+            </>
+          ) : (
+            <Card className="trip-script-action" elevation="xl">
+              <div className="trip-script-action__icon-box">
+                <Icon name="home" size="sm" />
+              </div>
+              <Box className="trip-script-action__box">
+                <Text size="lg" className="trip-script-action__title">
+                  Dia livre
+                </Text>
+              </Box>
+            </Card>
+          )}
+        </div>
       </div>
-    </div>
+      <div className="">
+        {day > 1 ? (<Button onClick={onPrevious}>{"<-"}</Button>) : (<></>)}
+        <Button onClick={onNext}>Ver roteiro do dia {day + 1}</Button>
+      </div>
+    </>
   );
 }
