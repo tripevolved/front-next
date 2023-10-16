@@ -28,7 +28,7 @@ export const TripScriptDaySection = ({ tripId, day }: TripScriptDaySectionProps)
   }
 
   return (
-    <div className="trip-script-day-section__border" key={day}>
+    <Grid className="trip-script-day-section" key={day}>
       <Box className="trip-script-day-section__header">
         <Text size="lg" className="trip-script-day-section__title">
           {"Dia " + day}
@@ -41,7 +41,7 @@ export const TripScriptDaySection = ({ tripId, day }: TripScriptDaySectionProps)
         {data.actions.length ? (
           <>
             {data.actions.map((tripScriptAction, j) => {
-              return TripScriptActionOrSuggestion(tripScriptAction);
+              return TripScriptActionOrSuggestion(tripScriptAction, true);
             })}
           </>
         ) : (
@@ -57,6 +57,6 @@ export const TripScriptDaySection = ({ tripId, day }: TripScriptDaySectionProps)
           </Card>
         )}
       </div>
-    </div>
+    </Grid>
   );
 }

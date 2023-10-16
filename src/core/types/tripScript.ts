@@ -24,6 +24,7 @@ export interface TripScriptAction {
   isSelected: boolean;
   isEditable: boolean;
   type?: TripScriptActionType;
+  image?: string | null;
 }
 
 export interface TripScriptDayDetail {

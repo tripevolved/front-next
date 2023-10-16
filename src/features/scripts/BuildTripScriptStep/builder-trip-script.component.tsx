@@ -49,7 +49,7 @@ export const BuildTripScriptStep = ({ onNext }: StepComponentProps) => {
 
   const handleSubmit = async () => {
     try {
-      onNext();      
+      onNext();
     } catch (error) {
       Notification.error("Devido à um erro não foi possível criar a sua trip.");
     }
@@ -89,6 +89,7 @@ export const BuildTripScriptStep = ({ onNext }: StepComponentProps) => {
         <ScriptDay
           tripId={tripId}
           day={currentIndex}
+          numDays={data.numDays}
           onNext={handleNext}
           onPrevious={() => setCurrentIndex((state) => state - 1)}
           goToStepName={() => undefined} />
@@ -100,15 +101,16 @@ export const BuildTripScriptStep = ({ onNext }: StepComponentProps) => {
 interface ScriptDayProps extends StepComponentProps {
   tripId: string;
   day: number;
+  numDays: number;
 }
-const ScriptDay = ({ tripId, day, onNext, onPrevious }: ScriptDayProps) => {
+const ScriptDay = ({ tripId, day, numDays, onNext, onPrevious }: ScriptDayProps) => {
   return (
     <>
       <TripScriptDayTipSection tripId={tripId} day={day} />
       <TripScriptDaySection tripId={tripId} day={day} />
       <Grid className="builder-trip-script-navigator" columns={day > 1 ? [1, 5] : [6]}>
         {day > 1 ? (<Button onClick={onPrevious} className="builder-trip-script-navigator__secondary-action" variant="secondary">{"<"}</Button>) : (<></>)}
-        <Button onClick={onNext} className="builder-trip-script-navigator__main-action">Ver roteiro do dia {day + 1}</Button>
+        <Button onClick={onNext} className="builder-trip-script-navigator__main-action">{day == numDays ? "Concluir atrações" : `Ver roteiro do dia ${day + 1}`}</Button>
       </Grid>
     </>
   );

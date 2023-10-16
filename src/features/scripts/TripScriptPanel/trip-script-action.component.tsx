@@ -2,9 +2,9 @@ import { GastronomySuggestion, BarSuggestion, PartySuggestion, AttractionsSugges
 import type { TripScriptAction } from "@/core/types";
 import { TripScriptActionSection } from "./trip-script-action.section";
 
-export const TripScriptActionOrSuggestion = (action: TripScriptAction) => {
+export const TripScriptActionOrSuggestion = (action: TripScriptAction, ignoreNotSelected: Boolean = false) => {
   if (!action.isSelected) {
-    return (
+    return (ignoreNotSelected === true ? <></> :
       <>
         {action.type === "RESTAURANT" && <GastronomySuggestion />}
         {action.type === "BAR" && <BarSuggestion />}
