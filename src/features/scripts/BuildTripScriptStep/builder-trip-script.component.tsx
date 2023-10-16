@@ -8,6 +8,8 @@ import { useAnimation } from "@/utils/hooks/animation.hook";
 import { useRouter } from "next/router";
 import useSwr from "swr";
 import { ComponentHTMLProps, TripScript, TripScriptBuilderParams, TripScriptDay } from "@/core/types";
+import { TripScriptDaySection } from "./trip-script-day.section";
+import { TripScriptDayTipSection } from "./trip-script-day-tip.section";
 
 const TRIP_STEPS = [
   {
@@ -80,11 +82,9 @@ export const BuildTripScriptStep = ({ onNext }: StepComponentProps) => {
   };
 
   return (
-    <Grid gap={48}>
+    <Grid gap={16}>
       <StepsProgressBar position={currentIndex} total={data.numDays} />
-      <Caption as="p" className="color-text-secondary">
-        Roteiro - Dia 
-      </Caption>
+      <Text size="sm" heading as="p" className="color-text-primary">Roteiro - Dia {currentIndex}</Text>
       <div style={animation.style}>
         <ScriptDay
           tripId={tripId}
@@ -102,58 +102,10 @@ interface ScriptDayProps extends StepComponentProps {
   day: number;
 }
 const ScriptDay = ({ tripId, day, onNext, onPrevious }: ScriptDayProps) => {
-  const uniqueKeyName = `${tripId}-script-day-${day}`;
-  const fetcher = async () => TripScriptsApiService.getDaySuggestion(tripId, day);
-  const { isLoading, data, error } = useSwr<TripScriptDay>(uniqueKeyName, fetcher);
-
-  if (isLoading) {
-    return (
-      <Grid className="trip-script-builder-step">
-        <Loader color="var(--color-brand-1)" size="md" />
-      </Grid>
-    );
-  }
-
-  if (error || !data) {
-    return (
-      <Grid className="trip-script-builder-step">
-        <EmptyState />
-      </Grid>
-    );
-  }
-
   return (
     <>
-      <div className="trip-script-day-section__border" key={day}>
-        <Box className="trip-script-day-section__header">
-          <Text size="lg" className="trip-script-day-section__title">
-            {"Dia " + day}
-          </Text>
-          <Text size="md" className="trip-script-day-section__subtitle">
-            {data.date}
-          </Text>
-        </Box>
-        <div className="trip-script-day-section__content">
-          {data.actions.length ? (
-            <>
-              {data.actions.map((tripScriptAction, j) => {
-                return TripScriptActionOrSuggestion(tripScriptAction);
-              })}
-            </>
-          ) : (
-            <Card className="trip-script-action" elevation="xl">
-              <div className="trip-script-action__icon-box">
-                <Icon name="home" size="sm" />
-              </div>
-              <Box className="trip-script-action__box">
-                <Text size="lg" className="trip-script-action__title">
-                  Dia livre
-                </Text>
-              </Box>
-            </Card>
-          )}
-        </div>
-      </div>
+      <TripScriptDayTipSection tripId={tripId} day={day} />
+      <TripScriptDaySection tripId={tripId} day={day} />
       <div className="">
         {day > 1 ? (<Button onClick={onPrevious}>{"<-"}</Button>) : (<></>)}
         <Button onClick={onNext}>Ver roteiro do dia {day + 1}</Button>

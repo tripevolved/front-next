@@ -78,3 +78,14 @@ export interface TripScriptParameters {
 export interface TripScriptBuilderParams {
   numDays: number;
 }
+
+export interface TripScriptDayTip {
+  type: TripScriptDayTipType;
+  message: string;
+  attractionId: string | null;
+  restaurantId: string | null;
+  eventId: string | null;
+  barId: string | null;
+}
+
+type TripScriptDayTipType = "MESSAGE" | "ATTRACTION" | "RESTAURANT" | "EVENT" | "BAR";
