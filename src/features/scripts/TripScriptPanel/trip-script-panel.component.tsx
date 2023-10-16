@@ -16,6 +16,7 @@ import {
 import { useAppStore } from "@/core/store";
 import { TripScriptsApiService } from "@/services/api";
 import { TripScriptActionOrSuggestion } from "./trip-script-action.component";
+import { TripScriptFreeDay } from "./trip-script-free-day.component";
 
 export function TripScriptPanel() {
   const router = useRouter();
@@ -88,16 +89,7 @@ export function TripScriptPanel() {
                           })}
                         </>
                       ) : (
-                        <Card className="trip-script-action" elevation="xl">
-                          <div className="trip-script-action__icon-box">
-                            <Icon name="home" size="sm" />
-                          </div>
-                          <Box className="trip-script-action__box">
-                            <Text size="lg" className="trip-script-action__title">
-                              Dia livre
-                            </Text>
-                          </Box>
-                        </Card>
+                        <TripScriptFreeDay />
                       )}
                     </div>
                   </div>

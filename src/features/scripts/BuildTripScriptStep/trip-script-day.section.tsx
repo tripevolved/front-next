@@ -5,6 +5,7 @@ import { TripScriptsApiService } from "@/services/api";
 import useSwr from "swr";
 import { TripScriptDay } from "@/core/types";
 import { TripScriptDaySectionProps } from "@/features";
+import { TripScriptFreeDay } from "../TripScriptPanel/trip-script-free-day.component";
 
 export const TripScriptDaySection = ({ tripId, day }: TripScriptDaySectionProps) => {
   const uniqueKeyName = `${tripId}-script-day-${day}`;
@@ -45,16 +46,7 @@ export const TripScriptDaySection = ({ tripId, day }: TripScriptDaySectionProps)
             })}
           </>
         ) : (
-          <Card className="trip-script-action" elevation="xl">
-            <div className="trip-script-action__icon-box">
-              <Icon name="home" size="sm" />
-            </div>
-            <Box className="trip-script-action__box">
-              <Text size="lg" className="trip-script-action__title">
-                Dia livre
-              </Text>
-            </Box>
-          </Card>
+          <TripScriptFreeDay />
         )}
       </div>
     </Grid>
