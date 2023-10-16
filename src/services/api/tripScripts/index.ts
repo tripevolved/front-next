@@ -11,5 +11,5 @@ export const TripScriptsApiService = {
   getAttractions,
   updateScript,
   getTripCharacteristics,
-  postParameters: setTripScriptParameters
+  postParameters: setTripScriptParameters,
 };
