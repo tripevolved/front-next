@@ -8,14 +8,4 @@ const toLowerCaseWithReg = (str: string) => {
 
 export const capitalize = (str: string) => `${str[0].toUpperCase()}${str.slice(1)}`;
 
-export const trimSurplus = (str?: string) => {
-  if (str) {
-    const regex = /\(.*/;
-  
-  // Substitua o trecho correspondente pela string vazia.
-  const textoSemParenteses = str.replace(regex, '');
-  
-  return textoSemParenteses;
-  }
-  return str;
-}
+export const trimAfterParentheses = (str?: string) => str ? str.replace(/\(.*/) : str;
