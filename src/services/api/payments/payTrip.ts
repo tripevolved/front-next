@@ -1,11 +1,23 @@
-import { TripPayment } from "@/core/types";
+import { TripPayment, TripPaymentMethod, TrippaymentProvider } from "@/core/types";
 import { ApiRequest } from "@/services/api/request";
 import { AxiosError } from "axios";
+
+interface PixPaymentInfo {
+  qrCode: string;
+  amount: number;
+  netAmount: number;
+  expirationDate: Date;
+}
 
 export interface TripPaymentResult {
   tripId: string;
   isSuccess: boolean;
   message: string | null;
+  transactionId: string;
+  provider: TrippaymentProvider;
+  paymentMethod: TripPaymentMethod;
+  pixInfo: PixPaymentInfo;
+  paymentLinkUrl: string;
 }
 
 export const putTripPayment = async (tripPayment: TripPayment) => {

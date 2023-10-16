@@ -1,5 +1,7 @@
 export type TripPaymentMethod = "PIX" | "CREDIT_CARD";
 
+export type TrippaymentProvider = 'STRIPE' | 'VALEPAY';
+
 export interface TripPayment {
   tripId: string;
   ipAddress: string;

@@ -38,21 +38,28 @@ import { TripPurchaseResponseSection } from "./trip-purchase-response.section";
 import { IsPaidSection } from "./is-paid.section";
 import { useAppStore } from "@/core/store";
 import { ViaCepService } from "@/services/viacep";
+import useSwr from "swr";
 
 const MIN_PAYMENT = 100;
 const MAX_INSTALLMENTS = 6;
 
 export function TripPurchasePage() {
-  const { isLoading, tripPayer, error } = useTripPayer();
-  const { priceData } = useTripPrice();
   const { travelerState } = useAppStore();
+  const fetcher = async () => PaymentsApiService.getPayerById(travelerState.id);
+  const {
+    isLoading,
+    data: tripPayer,
+    error,
+  } = useSwr(`get-trippayer-${travelerState.id}`, fetcher);
+
+  const { priceData } = useTripPrice();
   const [paymentMethod, setPaymentMethod] = useState<TripPaymentMethod>();
   const [writeGender, setWriteGender] = useState(false);
   const [address, setAddress] = useState<Partial<TripPayerAddress>>({
-    address: tripPayer?.address.address || '',
-    neighborhood: tripPayer?.address.neighborhood || '',
-    city: tripPayer?.address.city || '',
-    stateProvince: tripPayer?.address.stateProvince || ''
+    address: tripPayer?.address.address || "",
+    neighborhood: tripPayer?.address.neighborhood || "",
+    city: tripPayer?.address.city || "",
+    stateProvince: tripPayer?.address.stateProvince || "",
   });
 
   const router = useRouter();
@@ -93,9 +100,11 @@ export function TripPurchasePage() {
     let gender = event.target.gender.value;
     const tripPayer = {
       fullName: event.target.fullName.value,
+      motherName: event.target.motherName.value,
       email: event.target.email.value,
       phone: event.target.phone.value,
       cpf: event.target.cpf.value,
+      document: event.target.document.value,
       gender: gender === "write" ? event.target.genderText.value : gender,
       address: {
         postalCode: event.target.postalCode.value,
@@ -118,31 +127,19 @@ export function TripPurchasePage() {
       amount: event.target.amount.value,
       installments: event.target.installments.value,
       method: paymentMethod,
-      creditCard: isCreditCard
-        ? ({
-            number: event.target.creditCardNumber.value,
-            expirationMonth: event.target.creditCardExpirationMonth.value,
-            expirationYear: event.target.creditCardExpirationYear.value,
-            cvc: event.target.creditCardCvc.value,
-          } as TripPaymentCreditCardInfo)
-        : null,
     } as TripPayment;
 
     openLoadingModal();
     const result = await PaymentsApiService.putTripPayment(tripPayment);
     if (!result) {
-      openFinishModal({
-        isSuccess: false,
-        message: "Houve um erro no pagamento!",
-        tripId: tripId!,
-      });
+      // Do something
     } else {
-      openFinishModal(result);
+      // Do something here too
     }
   };
 
   const openFinishModal = (result: TripPaymentResult) => {
-    Modal.open(
+    const modal = Modal.open(
       () => (
         <>
           <TripPurchaseResponseSection
@@ -194,7 +191,7 @@ export function TripPurchasePage() {
     // @ts-ignore
     if (zipCode?.length < 9) return;
     const cleanPostalCode = zipCode!.replace(/-/g, "");
-    
+
     const addressData = await ViaCepService.getAddress(cleanPostalCode);
     if (!addressData) return;
 
@@ -263,6 +260,22 @@ export function TripPurchasePage() {
                 label="Opção que melhor descreve você"
               />
             )}
+            <TextField
+              id="motherName"
+              name="motherName"
+              required={true}
+              className="trip-purchase__section__input"
+              label="Nome da mãe"
+              value={tripPayer?.motherName!}
+            />
+            <TextField
+              id="document"
+              name="document"
+              required={true}
+              className="trip-purchase__section__input"
+              label="Documento"
+              value={tripPayer?.document!}
+            />
           </Box>
           <DashedDivider className="trip-purchase__divider" />
           <Box className="trip-purchase__section">
