@@ -106,10 +106,10 @@ const ScriptDay = ({ tripId, day, onNext, onPrevious }: ScriptDayProps) => {
     <>
       <TripScriptDayTipSection tripId={tripId} day={day} />
       <TripScriptDaySection tripId={tripId} day={day} />
-      <div className="">
-        {day > 1 ? (<Button onClick={onPrevious}>{"<-"}</Button>) : (<></>)}
-        <Button onClick={onNext}>Ver roteiro do dia {day + 1}</Button>
-      </div>
+      <Grid className="builder-trip-script-navigator" columns={day > 1 ? [1, 5] : [6]}>
+        {day > 1 ? (<Button onClick={onPrevious} className="builder-trip-script-navigator__secondary-action" variant="secondary">{"<"}</Button>) : (<></>)}
+        <Button onClick={onNext} className="builder-trip-script-navigator__main-action">Ver roteiro do dia {day + 1}</Button>
+      </Grid>
     </>
   );
 }

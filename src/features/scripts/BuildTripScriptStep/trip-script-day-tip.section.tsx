@@ -26,6 +26,8 @@ export const TripScriptDayTipSection = ({ tripId, day }: TripScriptDaySectionPro
     );
   }
 
+  // TODO: insert different actions for types
+
   return (!data ? (<></>) :
     (<Grid className="trip-script-day-tip" key={day} gap={18}>
       <Image src={"/assets/script/tip.svg"} alt="target" width={48} height={48} className="trip-script-day-tip__header-image"/>
