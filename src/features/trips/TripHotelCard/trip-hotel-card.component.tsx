@@ -20,7 +20,14 @@ export const TripHotelCard = ({
 
   const handleSeeMore = (tripStay: TripStay) => {
     Modal.open(
-      () => <TripStayDetails stayData={tripStay} tripId={tripStayData.id!} isModalView />,
+      () => (
+        <TripStayDetails
+          uniqueTransactionId=""
+          stayData={tripStay}
+          tripId={tripStayData.id!}
+          isModalView
+        />
+      ),
       {
         closable: true,
         size: "md",

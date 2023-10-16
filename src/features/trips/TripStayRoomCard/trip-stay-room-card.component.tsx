@@ -3,7 +3,7 @@ import { TripStayRoomCardProps, TripStayRoomDetailsModal, TripStayServiceItem } 
 
 import { Picture, Text } from "@/ui";
 import { Modal, Card, Button } from "mars-ds";
-import { formatByDataType } from "@/utils/helpers/number.helpers";
+import { formatByDataType, setBRLCurrencyValue } from "@/utils/helpers/number.helpers";
 import { useState } from "react";
 import { trimSurplus } from "@/utils/helpers/strings.helper";
 
@@ -69,9 +69,7 @@ export const TripStayRoomCard = ({
             ) : null}
           </div>
           <div className="trip-stay-room-card__content__info__price">
-            <Text size="lg">
-              {currency == "BRL" ? formatByDataType(price, "CURRENCY") : `$ ${price}`}
-            </Text>
+            <Text size="lg">{setBRLCurrencyValue(price, currency)}</Text>
 
             <Text
               style={{
@@ -118,9 +116,6 @@ export const TripStayRoomCard = ({
           >
             {selected ? "Selecionado" : "Selecionar este"}
           </Button>
-          {/* <Text size="xl" className="trip-hotel-card__content__button-area__unavailable">
-              Indisponível
-            </Text> */}
         </div>
       </div>
     </Card>

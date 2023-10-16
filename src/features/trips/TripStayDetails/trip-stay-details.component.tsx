@@ -8,6 +8,8 @@ import { parseNumericValue } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
 import { useRouter } from "next/router";
 
+const EMPTY_INFO_DETAILS = "As informações ainda não foram definidas.";
+
 export function TripStayDetails({
   stayData,
   tripId,
@@ -76,15 +78,9 @@ export function TripStayDetails({
           <Text heading size="xs" className="trip-stay-details__content__title">
             Informações
           </Text>
-          {stayData.details.information ? (
-            <Text className="trip-stay-details__content__description">
-              {stayData.details.information}
-            </Text>
-          ) : (
-            <Text className="trip-stay-details__content__description">
-              As informações ainda não foram definidas.
-            </Text>
-          )}
+          <Text className="trip-stay-details__content__description">
+            {stayData.details.information || EMPTY_INFO_DETAILS}
+          </Text>
 
           {stayData.details.services && (
             <div className="trip-stay-details__content__service-list">
@@ -95,12 +91,10 @@ export function TripStayDetails({
           )}
           <Box className="trip-stay-details__content__check-in-address">
             <Divider />
-            {stayData.details.checkInHour ? (
-              <div className="trip-stay-details__content__check-in-address__item">
-                <Picture src="/assets/stays/time.png" />
-                <Text>{stayData.details.checkInHour}</Text>
-              </div>
-            ) : null}
+            <div className="trip-stay-details__content__check-in-address__item">
+              <Picture src="/assets/stays/time.png" />
+              <Text>{stayData.details.checkInHour || EMPTY_INFO_DETAILS}</Text>
+            </div>
             <div className="trip-stay-details__content__check-in-address__item">
               <Picture src="/assets/stays/pin.png" />
               <Text>{stayData.details.address}</Text>

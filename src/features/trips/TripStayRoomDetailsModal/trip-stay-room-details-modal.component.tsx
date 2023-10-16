@@ -6,7 +6,9 @@ import { TripStayServiceItem } from "@/features";
 import { Icon } from "mars-ds";
 import { trimSurplus } from "@/utils/helpers/strings.helper";
 import { TripStayRoom } from "@/core/types";
-import { formatByDataType } from "@/utils/helpers/number.helpers";
+import { formatByDataType, setBRLCurrencyValue } from "@/utils/helpers/number.helpers";
+
+const EMPTY_INFO_DETAILS = "As informações ainda não foram definidas";
 
 export function TripStayRoomDetailsModal({
   className,
@@ -47,13 +49,9 @@ export function TripStayRoomDetailsModal({
           Detalhes
         </Text>
 
-        {room.details.information ? (
-          <Text style={{ color: "var(--color-gray-1)" }}>{room.details.information}</Text>
-        ) : (
-          <Text style={{ color: "var(--color-gray-1)" }}>
-            Ainda não possuímos informações sobre este quarto...
-          </Text>
-        )}
+        <Text style={{ color: "var(--color-gray-1)" }}>
+          {room.details.information || EMPTY_INFO_DETAILS}
+        </Text>
 
         {room.features?.length ? (
           <div className="trip-stay-room-details-modal__details__features mt-sm">
@@ -63,7 +61,7 @@ export function TripStayRoomDetailsModal({
           </div>
         ) : null}
         <Text size="xxl" className="color-primary">
-          {room.currency == "BRL" ? formatByDataType(room.price, "CURRENCY") : `$ ${room.price}`}
+          {setBRLCurrencyValue(room.price, room.currency)}
         </Text>
         {room.boardChoice ? <Tag>{getBoardChoice(room.boardChoice)}</Tag> : null}
       </Box>

@@ -41,8 +41,6 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
   } = useTripStayRoomEdit(tripId);
 
   // Current hotel data
-  // const fetcher = async () => StaysApiService.getByTripId(tripId);
-  // const { data: hotelData, isLoading, error } = useSwr(`current-accomodation-${tripId}`, fetcher);
   const hotelData = useAppStore((state) => state.accommodation);
 
   const doesObjHaveRooms = (object: AccommodationState): boolean => {

@@ -13,3 +13,7 @@ export const formatToCurrencyBR = (num: number) =>
 
 export const formatToPercentage = (num: number) =>
   num.toLocaleString("pt-BR", { style: "percent", minimumFractionDigits: 2 });
+
+export const setBRLCurrencyValue = (value: number, currency = "BRL") => {
+  return currency == "BRL" ? formatByDataType(value, "CURRENCY") : `$ ${value}`
+}
