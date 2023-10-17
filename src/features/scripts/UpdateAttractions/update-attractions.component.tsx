@@ -10,6 +10,7 @@ import { Button, Grid, Icon, Modal } from "mars-ds";
 import { AddAttractionsModal, PageAppHeader } from "@/features";
 import { useState } from "react";
 import { TripScriptDaySection } from "../BuildTripScriptStep/trip-script-day.section";
+import { TripScriptDayComponent } from "../TripScriptDay";
 
 export function UpdateAttractions({ className, children, sx, ...props }: UpdateAttractionsProps) {
   const cn = makeCn("update-attractions", className)(sx);
@@ -67,7 +68,12 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
             onClickAttraction={handleAttractionClick}
             onSaveClick={() => updateTripScript(attractionList)}
           />
-          <TripScriptDaySection tripId={tripIdParam!} day={1} />
+          <TripScriptDayComponent
+            tripId={tripIdParam!}
+            day={data.day}
+            dayDetail={data}
+            addMoreAttractions={false}
+          />
         </Grid>
         <div className="update-attractions__list-area">
           {data.actions.map(

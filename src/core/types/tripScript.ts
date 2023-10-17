@@ -7,6 +7,7 @@ export interface TripScript {
 export interface TripScriptDay {
   id: string;
   date: string;
+  day: number;
   actions: TripScriptAction[];
   details: TripScriptDayDetail;
 }

@@ -1,23 +1,17 @@
-import { TripScriptActionOrSuggestion } from "@/features";
-import { Button, Divider, Grid, Loader } from "mars-ds";
-import { Box, EmptyState, Text } from "@/ui";
+import { Grid, Loader } from "mars-ds";
+import { EmptyState } from "@/ui";
 
 import { TripScriptsApiService } from "@/services/api";
 import useSwr from "swr";
-import { useAppStore } from "@/core/store";
-import { useRouter } from "next/router";
 
 import { TripScriptDay } from "@/core/types";
 import { TripScriptDaySectionProps } from "@/features";
-import { TripScriptFreeDay } from "../TripScriptPanel/trip-script-free-day.component";
+import { TripScriptDayComponent } from "../TripScriptDay";
 
 export const TripScriptDaySection = ({ tripId, day }: TripScriptDaySectionProps) => {
   const uniqueKeyName = `${tripId}-script-day-${day}`;
   const fetcher = async () => TripScriptsApiService.getDaySuggestion(tripId, day);
   const { isLoading, data, error } = useSwr<TripScriptDay>(uniqueKeyName, fetcher);
-
-  const { setTripScriptDay } = useAppStore();
-  const router = useRouter();
 
   if (isLoading) {
     return (
@@ -35,35 +29,13 @@ export const TripScriptDaySection = ({ tripId, day }: TripScriptDaySectionProps)
     );
   }
 
-  const handleAddAttractions = () => {
-    setTripScriptDay(data);
-
-    router.push(`/app/viagens/roteiro/atracoes/${tripId}?redirectTo=/app/viagens/roteiro/construcao/${tripId}/?stepName=build&day=${day}`);
-  };
+  data.day = day;
 
   return (
-    <Grid className="trip-script-day-section" key={day}>
-      <Box className="trip-script-day-section__header">
-        <Text size="lg" className="trip-script-day-section__title">
-          {"Dia " + day}
-        </Text>
-        <Text size="md" className="trip-script-day-section__subtitle">
-          {data.date}
-        </Text>
-      </Box>
-      <div className="trip-script-day-section__content">
-        {data.actions.length ? (
-          <>
-            {data.actions.map((tripScriptAction, j) => {
-              return TripScriptActionOrSuggestion(tripScriptAction, true);
-            })}
-          </>
-        ) : (
-          <TripScriptFreeDay />
-        )}
-      </div>
-      <Divider/>
-      <Button onClick={() => handleAddAttractions()} variant="naked" size="sm">+ Adicionar mais atrações neste dia</Button>
-    </Grid>
+    <TripScriptDayComponent 
+      tripId={tripId}
+      day={day}
+      dayDetail={data}
+    />
   );
 }
