@@ -2,7 +2,7 @@ import type { StepComponentProps } from "@/features";
 import { QuestionOptions } from "@/features";
 import { TripScriptsApiService } from "@/services/api";
 
-import { EmptyState, Text } from "@/ui";
+import { ErrorState, Text } from "@/ui";
 import { Button, Grid, Image, Loader } from "mars-ds";
 
 import { useRef } from "react";
@@ -34,7 +34,7 @@ export function TripCharacteristicsStep({ onNext }: StepComponentProps) {
   if (error || !data) {
     return (
       <Grid className="trip-script-builder-step">
-        <EmptyState />
+        <ErrorState />
       </Grid>
     );
   }

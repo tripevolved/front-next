@@ -1,7 +1,7 @@
 import { type StepComponentProps } from "@/features";
 import { Button, Grid, Loader, Notification } from "mars-ds";
 import { useState } from "react";
-import { EmptyState, StepsProgressBar, Text } from "@/ui";
+import { ErrorState, StepsProgressBar, Text } from "@/ui";
 import { TripScriptsApiService } from "@/services/api";
 import { useAnimation } from "@/utils/hooks/animation.hook";
 import { useRouter } from "next/router";
@@ -43,7 +43,7 @@ export const BuildTripScriptStep = ({ onNext }: StepComponentProps) => {
   if (error || !data) {
     return (
       <Grid className="trip-script-builder-step">
-        <EmptyState />
+        <ErrorState />
       </Grid>
     );
   }

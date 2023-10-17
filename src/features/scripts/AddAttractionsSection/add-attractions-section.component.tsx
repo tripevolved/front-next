@@ -1,4 +1,4 @@
-import { Box, EmptyState, GlobalLoader, StateTemplate, Text } from "@/ui";
+import { Box, ErrorState, GlobalLoader, StateTemplate, Text } from "@/ui";
 import type { AddAttractionsSectionProps } from "./add-attractions-section.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -35,9 +35,9 @@ export function AddAttractionsSection({
 
   const { data, isLoading, error } = useSwr(tripId, fetcher);
 
-  if (error) return <EmptyState />;
+  if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
-  if (data === undefined || data === ([] as TripScriptAttraction[])) return <EmptyState />;
+  if (data === undefined || data === ([] as TripScriptAttraction[])) return <ErrorState />;
 
   const handleSeeDetails = (tripScriptAttraction: TripScriptAttraction) => {
     Modal.open(
