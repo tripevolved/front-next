@@ -4,5 +4,7 @@ export interface TripScriptDayComponentProps {
   tripId: string;
   day: number;
   dayDetail: TripScriptDay;
-  addMoreAttractions?: boolean;
+  allowMoreAttractions?: boolean;
+  allowDelete?: boolean;
+  onDelete: (index: number) => void;
 }

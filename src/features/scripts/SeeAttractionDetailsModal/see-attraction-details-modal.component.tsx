@@ -53,7 +53,7 @@ export function SeeAttractionDetailsModal({
       <Button
         iconName="thumbs-up"
         className="see-attraction-details-modal__add-button"
-        onClick={() => addAttractionClick()}
+        onClick={addAttractionClick}
       >
         Incluir no roteiro
       </Button>

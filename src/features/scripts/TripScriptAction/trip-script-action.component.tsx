@@ -13,7 +13,7 @@ export const TripScriptActionSection = ({
   onClick,
 }: TripScriptActionSectionProps) => {
   return (
-    <Grid className="trip-script-action" gap={6} columns={children ? [2,11,1] : [2,12]} onClick={onClick}>
+    <Grid className="trip-script-action" gap={6} columns={children ? [2,11,1] : [2,12]} onClick={onClick} style={onClick && {cursor: "pointer"}}>
       <Picture className="trip-script-action__icon" src={action.image ? action.image : `/assets/script/${action.iconSlug}.svg`} />
       <Box className="trip-script-action__box">
         <Text size="md" className="trip-script-action__title">

@@ -3,7 +3,14 @@ import type { TripScriptAction } from "@/core/types";
 import { TripScriptActionSection } from "../TripScriptAction/trip-script-action.component";
 import { ReactNode } from "react";
 
-export const TripScriptActionOrSuggestion = (action: TripScriptAction, ignoreNotSelected: Boolean = false, children?: ReactNode, onClick?: () => void) => {
+export interface TripScriptActionOrSuggestionProps {
+  action: TripScriptAction; 
+  ignoreNotSelected?: Boolean;
+  children?: ReactNode;
+  onClick?: () => void;
+};
+
+export const TripScriptActionOrSuggestion = ({ action, ignoreNotSelected = false, children, onClick }: TripScriptActionOrSuggestionProps) => {
   if (!action.isSelected) {
     return (ignoreNotSelected === true ? <></> :
       <>

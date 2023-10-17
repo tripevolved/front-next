@@ -1,5 +1,5 @@
 import { Box, Text } from "@/ui";
-import { Button, Divider, Grid } from "mars-ds";
+import { Button, Divider, Grid, Icon, Link } from "mars-ds";
 import { TripScriptDayComponentProps } from "./trip-script-day.types";
 import { TripScriptActionOrSuggestion } from "../TripScriptPanel";
 import { TripScriptFreeDay } from "../TripScriptPanel/trip-script-free-day.component";
@@ -10,7 +10,9 @@ export const TripScriptDayComponent = ({
   tripId,
   day,
   dayDetail,
-  addMoreAttractions = true
+  allowMoreAttractions = true,
+  allowDelete = false,
+  onDelete
 }: TripScriptDayComponentProps) => {
   const { setTripScriptDay } = useAppStore();
   const router = useRouter();
@@ -36,7 +38,22 @@ export const TripScriptDayComponent = ({
         {dayDetail.actions.length ? (
           <>
             {dayDetail.actions.map((tripScriptAction, j) => {
-              return TripScriptActionOrSuggestion(tripScriptAction, true);
+              return (
+                <TripScriptActionOrSuggestion 
+                  action={tripScriptAction}
+                  ignoreNotSelected={true}
+                  key={j}
+                >
+                  {allowDelete && tripScriptAction.isEditable && (
+                    <Icon
+                      name="trash-2"
+                      color="#D35050"
+                      style={{ justifySelf: "flex-end", alignSelf: "center", marginLeft: "auto", cursor: "pointer" }}
+                      onClick={() => onDelete(j)}
+                    />
+                  )}
+                </TripScriptActionOrSuggestion>
+              );
             })}
           </>
         ) : (
@@ -44,7 +61,7 @@ export const TripScriptDayComponent = ({
         )}
       </div>
       {
-        addMoreAttractions ? (
+        allowMoreAttractions ? (
           <>
             <Divider/>
             <Button onClick={() => handleAddAttractions()} variant="naked" size="sm">+ Adicionar mais atrações neste dia</Button>

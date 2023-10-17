@@ -1,7 +1,6 @@
-import type { ComponentHTMLProps, UpdateScriptAction } from "@/core/types";
+import type { ComponentHTMLProps, TripScriptAction } from "@/core/types";
 
 export interface AddAttractionsModalProps extends ComponentHTMLProps {
   tripId: string;
-  onClickAttraction: (atraction: UpdateScriptAction) => void;
-  onSaveClick: () => void;
+  onClickAttraction: (atraction: TripScriptAction) => void;
 }
