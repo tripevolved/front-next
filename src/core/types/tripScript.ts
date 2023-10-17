@@ -24,6 +24,7 @@ export interface TripScriptAction {
   isSelected: boolean;
   isEditable: boolean;
   type?: TripScriptActionType;
+  image?: string | null;
 }
 
 export interface TripScriptDayDetail {
@@ -74,3 +75,18 @@ export interface TripScriptParameters {
   importantCharacteristics: string[];
   tripTravelerProfile: string;
 }
+
+export interface TripScriptBuilderParams {
+  numDays: number;
+}
+
+export interface TripScriptDayTip {
+  type: TripScriptDayTipType;
+  message: string;
+  attractionId: string | null;
+  restaurantId: string | null;
+  eventId: string | null;
+  barId: string | null;
+}
+
+type TripScriptDayTipType = "MESSAGE" | "ATTRACTION" | "RESTAURANT" | "EVENT" | "BAR";

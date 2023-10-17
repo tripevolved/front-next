@@ -40,6 +40,7 @@ export * from "./questions/QuestionOptions";
 export * from "./questions/QuestionSlider";
 export * from "./questions/QuestionsBuilder";
 export * from "./scripts/AddAttractionsModal";
+export * from "./scripts/BuildTripScriptStep";
 export * from "./scripts/CardsSuggestion";
 export * from "./scripts/SeeAttractionDetailsModal";
 export * from "./scripts/TripDayAttractions";

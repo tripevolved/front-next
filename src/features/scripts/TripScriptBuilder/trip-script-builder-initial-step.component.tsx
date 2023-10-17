@@ -19,7 +19,7 @@ export function TripScriptInitialBuildStep({ onNext }: StepComponentProps) {
         {title}
       </Text>
       <Text className="trip-script-builder-step__item">{subtitle}</Text>
-      <Button className="trip-script-builder-step__item" onClick={() => onNext()} disabled>Começar a definir as atrações</Button>
+      <Button className="trip-script-builder-step__item" onClick={() => onNext()}>Começar a definir as atrações</Button>
     </Grid>
   );
 }
