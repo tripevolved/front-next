@@ -1,13 +1,12 @@
-import { TripScriptActionOrSuggestion, type StepComponentProps } from "@/features";
-import { Button, Caption, Card, Grid, Icon, Loader, Notification } from "mars-ds";
-import { useRef, useState } from "react";
-import { Box, EmptyState, StepsLoader, StepsProgressBar, Text } from "@/ui";
+import { type StepComponentProps } from "@/features";
+import { Button, Grid, Loader, Notification } from "mars-ds";
+import { useState } from "react";
+import { EmptyState, StepsProgressBar, Text } from "@/ui";
 import { TripScriptsApiService } from "@/services/api";
-import { useAppStore } from "@/core/store";
 import { useAnimation } from "@/utils/hooks/animation.hook";
 import { useRouter } from "next/router";
 import useSwr from "swr";
-import { ComponentHTMLProps, TripScript, TripScriptBuilderParams, TripScriptDay } from "@/core/types";
+import { TripScriptBuilderParams } from "@/core/types";
 import { TripScriptDaySection } from "./trip-script-day.section";
 import { TripScriptDayTipSection } from "./trip-script-day-tip.section";
 
@@ -22,7 +21,6 @@ export const BuildTripScriptStep = ({ onNext }: StepComponentProps) => {
   const fetcher = async () => TripScriptsApiService.getBuilderParams(tripId);
   const { isLoading, data, error } = useSwr<TripScriptBuilderParams>(uniqueKeyName, fetcher);
 
-  const [submitting, setSubmitting] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(day ?? DEFAULT_INITIAL_INDEX);
   const animation = useAnimation();
 
