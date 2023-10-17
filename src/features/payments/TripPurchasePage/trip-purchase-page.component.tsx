@@ -8,7 +8,7 @@ import {
   AutoCompleteTextField,
 } from "@/ui";
 import { PageAppBody, PageAppHeader } from "@/features";
-import { useTripPayer } from "./trip-payer.hook";
+import { useTripPurchase } from "./trip-purchase.hook";
 import { useTripPrice } from "@/features/trips/TripDetailsPage/trip-price.hook";
 import { useRouter } from "next/router";
 import {
@@ -50,7 +50,7 @@ export function TripPurchasePage() {
     isLoading,
     data: tripPayer,
     error,
-  } = useSwr(`get-trippayer-${travelerState.id}`, fetcher);
+  } = useSwr(`get-trip-payer-${travelerState.id}`, fetcher);
 
   const { priceData } = useTripPrice();
   const [paymentMethod, setPaymentMethod] = useState<TripPaymentMethod>();
@@ -63,7 +63,9 @@ export function TripPurchasePage() {
   });
 
   const router = useRouter();
-  const tripId = typeof router.query.id === "string" ? router.query.id : null;
+  const tripId = String(router.query.id);
+
+  const { loadingRequest, data: response, errorRequest } = useTripPurchase();
 
   const priceTotal = priceData?.price! + priceData?.serviceFee!;
 
@@ -105,6 +107,7 @@ export function TripPurchasePage() {
       phone: event.target.phone.value,
       cpf: event.target.cpf.value,
       document: event.target.document.value,
+      birthDate: event.target.birthDate.value,
       gender: gender === "write" ? event.target.genderText.value : gender,
       address: {
         postalCode: event.target.postalCode.value,
@@ -130,12 +133,13 @@ export function TripPurchasePage() {
     } as TripPayment;
 
     openLoadingModal();
-    const result = await PaymentsApiService.putTripPayment(tripPayment);
-    if (!result) {
+    console.log("OBJECT DTO", tripPayment);
+    //const result = await PaymentsApiService.putTripPayment(tripPayment);
+    /* if (!result) {
       // Do something
     } else {
       // Do something here too
-    }
+    } */
   };
 
   const openFinishModal = (result: TripPaymentResult) => {
@@ -266,7 +270,7 @@ export function TripPurchasePage() {
               required={true}
               className="trip-purchase__section__input"
               label="Nome da mãe"
-              value={tripPayer?.motherName!}
+              value={tripPayer?.motherName || ""}
             />
             <TextField
               id="document"
@@ -274,7 +278,18 @@ export function TripPurchasePage() {
               required={true}
               className="trip-purchase__section__input"
               label="Documento"
-              value={tripPayer?.document!}
+              value={tripPayer?.document || ""}
+              mask={"99.999.999-9"}
+            />
+            <TextField
+              id="birthDate"
+              name="birthDate"
+              required={true}
+              className="trip-purchase__section__input"
+              label="Data de Nascimento"
+              type="date"
+              // @ts-ignore
+              value={tripPayer?.birthDate || ""}
             />
           </Box>
           <DashedDivider className="trip-purchase__divider" />
