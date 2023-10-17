@@ -50,13 +50,24 @@ export function SeeAttractionDetailsModal({
           </div>
         )}
       </Box>
-      <Button
-        iconName="thumbs-up"
-        className="see-attraction-details-modal__add-button"
-        onClick={addAttractionClick}
-      >
-        Incluir no roteiro
-      </Button>
+      {
+        addAttractionClick !== undefined ?
+          <Button
+            iconName="thumbs-up"
+            className="see-attraction-details-modal__add-button"
+            onClick={addAttractionClick}
+          >
+            Incluir no roteiro
+          </Button>
+        : 
+        <Button
+          iconName="thumbs-up"
+          className="see-attraction-details-modal__add-button"
+          disabled
+        >
+          Já incluso no roteiro
+        </Button>
+      }
     </div>
   );
 }

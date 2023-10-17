@@ -1,12 +1,12 @@
-import { EmptyState, GlobalLoader, SectionBase, Text } from "@/ui";
+import { EmptyState, GlobalLoader, SectionBase } from "@/ui";
 import type { UpdateAttractionsProps } from "./update-attractions.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useRouter } from "next/router";
 import { useUpdateAttractions } from "./update-attractions.hook";
-import { TripScriptAction, TripScriptDay, UpdateScriptAction } from "@/core/types";
-import { Button, Grid, Modal } from "mars-ds";
-import { AddAttractionsModal, PageAppHeader } from "@/features";
+import { TripScriptAction, TripScriptDay } from "@/core/types";
+import { Button, Grid } from "mars-ds";
+import { AddAttractionsSection, PageAppHeader } from "@/features";
 import { TripScriptDayComponent } from "../TripScriptDay";
 
 export function UpdateAttractions({ className, children, sx, ...props }: UpdateAttractionsProps) {
@@ -45,7 +45,7 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
       />
       <SectionBase className={cn} {...props}>
         <Grid columns={{md: 2, sm: 1}}>
-          <AddAttractionsModal
+          <AddAttractionsSection
             tripId={tripIdParam!}
             onClickAttraction={addTripAction}
           />
@@ -58,7 +58,7 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
             onDelete={deleteTripAction}
           />
         </Grid>
-        <Button className="update-attractions__save-button" onClick={() => { updateTripScript(); /*router.push(redirectTo);*/ }}>
+        <Button className="update-attractions__save-button" onClick={() => { updateTripScript(); router.push(redirectTo); }}>
           Salvar
         </Button>
       </SectionBase>

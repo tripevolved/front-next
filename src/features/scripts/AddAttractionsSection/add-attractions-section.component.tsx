@@ -1,5 +1,5 @@
 import { Box, EmptyState, GlobalLoader, StateTemplate, Text } from "@/ui";
-import type { AddAttractionsModalProps } from "./add-attractions-modal.types";
+import type { AddAttractionsSectionProps } from "./add-attractions-section.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { TripScriptAction, TripScriptAttraction } from "@/core/types";
@@ -22,15 +22,15 @@ const toTripScriptAction = (tripScriptAttraction: TripScriptAttraction) => {
   } as TripScriptAction;
 }
 
-export function AddAttractionsModal({
+export function AddAttractionsSection({
   className,
   children,
   sx,
   tripId,
   onClickAttraction,
   ...props
-}: AddAttractionsModalProps) {
-  const cn = makeCn("add-attractions-modal", className)(sx);
+}: AddAttractionsSectionProps) {
+  const cn = makeCn("add-attractions-section", className)(sx);
   const fetcher = async () => TripScriptsApiService.getAttractions(tripId);
 
   const { data, isLoading, error } = useSwr(tripId, fetcher);
@@ -44,8 +44,9 @@ export function AddAttractionsModal({
       () => (
         <SeeAttractionDetailsModal
           attraction={tripScriptAttraction}
-          addAttractionClick={() => {
+          addAttractionClick={tripScriptAttraction.isAlreadySelected ? undefined : () => {
             onClickAttraction(toTripScriptAction(tripScriptAttraction));
+            tripScriptAttraction.isAlreadySelected = true;
           }}
         />
       ),
@@ -58,21 +59,22 @@ export function AddAttractionsModal({
 
   return (
     <div className={cn} {...props}>
-      <Box className="add-attractions-modal__header">
-        <Text size="xs" heading className="add-attractions-modal__header__title">
+      <Box className="add-attractions-section__header">
+        <Text size="xs" heading className="add-attractions-section__header__title">
           Adicionar atrações
         </Text>
-        <Text className="add-attractions-modal__header__subtitle" size="md">
+        <Text className="add-attractions-section__header__subtitle" size="md">
           Selecione as atrações de seu interesse
         </Text>
       </Box>
-      <Box className="add-attractions-modal__list">
+      <Box className="add-attractions-section__list">
         {data.length ? (
           data.map((tripScriptAttraction, i) => (
             <TripScriptActionSection
               key={i}
               action={toTripScriptAction(tripScriptAttraction)}
               onClick={() => handleSeeDetails(tripScriptAttraction)}
+              alreadySelected={tripScriptAttraction.isAlreadySelected}
             >
               <Icon
                 name="plus-circle"
