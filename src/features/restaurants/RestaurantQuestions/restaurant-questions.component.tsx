@@ -25,7 +25,8 @@ export function RestaurantQuestions({ onNext }: StepComponentProps) {
       onSubmit={handleSubmit}
       disableLocalSave
       hideStepper={false}
-      title="Descobrir restaurantes"
+      title="Dicas de restaurantes"
+      finishButtonLabel="Encontrar restaurantes"
     />
   );
 }

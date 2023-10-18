@@ -1,0 +1,59 @@
+.card-restaurant {
+  width: 100%;
+  padding: 8px;
+  border-radius: $border-radius-md;
+  box-shadow: 0px 2px 6px 3px rgba(0,0,0,0.07);
+  -webkit-box-shadow: 0px 2px 6px 3px rgba(0,0,0,0.07);
+  -moz-box-shadow: 0px 2px 6px 3px rgba(0,0,0,0.07);
+
+  &__title {
+    color: $color-brand-2;
+    font-weight: 400;
+    display: flex;
+
+    &__tooltip {
+      float: right; 
+      z-index: 20;
+    }
+  }
+  
+  &__tooltip {
+    padding: 0 16px;
+    align-self: flex-end;
+  }
+  
+  &__subtitle {
+    margin-top: 0 !important;
+    opacity: 0.75;
+    color: $color-gray-1;
+    font-weight: 500;
+  }
+
+  &__icon img {
+    height: 100%;
+    width: 100%;
+    max-height: 48px;
+    max-width: 48px;
+    margin: auto;
+  }
+
+  &__icon-box {
+    border-radius: 100%;
+    background-color: $color-brand-1;
+    color: $color-gray-4;
+    padding: 3px;
+    text-align: center;
+    margin: auto;
+    width: 48px;
+    height: 48px;
+
+    span.icon {
+      font-size: 15px;
+      height: 100%;
+    }
+  }
+
+  &__icon > img {
+    min-width: 23px;
+  }
+}

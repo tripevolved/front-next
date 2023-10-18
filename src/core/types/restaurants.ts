@@ -5,6 +5,7 @@ export interface Restaurant {
   address?: string | null;
   priceRange?: string | null;
   tags: string;
+  isSelected?: boolean;
 }
 
 export interface RestaurantDetail {

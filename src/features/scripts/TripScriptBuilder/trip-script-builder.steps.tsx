@@ -4,6 +4,7 @@ import { TripScriptParametersStep } from "./trip-script-parameters-step.componen
 import { TripScriptInitialBuildStep } from "./trip-script-builder-initial-step.component";
 import { BuildTripScriptStep, RestaurantQuestions } from "@/features";
 import { FinishStep } from "./trip-script-builder-finish.component";
+import { RestaurantList } from "@/features/restaurants/RestaurantList";
 
 export const SCRIPT_BUILDER_STEPS: TemplateStepsBuilderProps["steps"] = [
   {
@@ -35,5 +36,10 @@ export const SCRIPT_BUILDER_STEPS: TemplateStepsBuilderProps["steps"] = [
     title: "Seleciona parâmetros para restaurantes",
     name: "restaurant-parameters",
     component: RestaurantQuestions,
+  },
+  {
+    title: "Seleciona restaurantes",
+    name: "restaurants",
+    component: RestaurantList,
   }
 ];
