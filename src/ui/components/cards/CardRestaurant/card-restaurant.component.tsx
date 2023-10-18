@@ -5,23 +5,30 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { Grid, Label, ToggleButton } from "mars-ds";
 import { Box, Picture, Text } from "@/ui";
 import { useState } from "react";
+import { RestaurantChoiceType } from "@/core/types";
 
-export function CardRestaurant({ restaurant, onClick, onChoose, onUnchoose, className, title, subtitle, header, href, image, sx, ...props }: CardRestaurantProps) {
+export function CardRestaurant({ restaurant, onClick, onChoice, className, title, subtitle, header, href, image, sx, ...props }: CardRestaurantProps) {
   const cn = makeCn("card-restaurant", className)(sx);
   const [toggle, setToggle] = useState<boolean | null>(restaurant.isSelected ?? null);
 
   const handleToggle = (isThumbsUp: boolean) => {
+    let choiceType = "ignored" as RestaurantChoiceType;
+    
     if (toggle === null && isThumbsUp || toggle === false && isThumbsUp) {
       setToggle(true);
-      if (onChoose) { onChoose(restaurant.id) }
+      choiceType = "liked";
     } else if (toggle === true && isThumbsUp || toggle === false && !isThumbsUp) {
       setToggle(null);
-      if (onUnchoose) { onUnchoose(restaurant.id) }
+      choiceType = "ignored";
     } else if (toggle === null && !isThumbsUp || toggle === true && !isThumbsUp) {
       setToggle(false);
-      if (onUnchoose) { onUnchoose(restaurant.id) }
+      choiceType = "disliked";
     } else {
       setToggle(!toggle);
+    }
+
+    if (onChoice) {
+      onChoice(restaurant.id, choiceType);
     }
   };
 

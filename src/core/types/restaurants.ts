@@ -31,3 +31,10 @@ export interface RestaurantParameter {
   questionId: string;
   possibleAnswerId: string;
 }
+
+export interface RestaurantChoice {
+  restaurantId: string;
+  type: RestaurantChoiceType;
+}
+
+export type RestaurantChoiceType = "liked" | "disliked" | "ignored";

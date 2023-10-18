@@ -4,7 +4,8 @@ import { Box, CardRestaurant, ErrorState, Text } from "@/ui";
 import { RestaurantsApiService } from "@/services/api";
 import { useRouter } from "next/router";
 import useSwr from "swr";
-import { Restaurant } from "@/core/types";
+import { Restaurant, RestaurantChoice, RestaurantChoiceType } from "@/core/types";
+import { useRef } from "react";
 
 export const RestaurantList = ({ onNext }: StepComponentProps) => {
   const router = useRouter();
@@ -14,6 +15,8 @@ export const RestaurantList = ({ onNext }: StepComponentProps) => {
   const fetcher = async () => RestaurantsApiService.getRestaurants(tripId);
   const { isLoading, data, error } = useSwr<Restaurant[]>(uniqueKeyName, fetcher);
 
+  const choice = useRef<RestaurantChoice[]>([]);
+
   const handleFinish = async () => {
     try {
       // TODO: save restaurants into script
@@ -21,6 +24,20 @@ export const RestaurantList = ({ onNext }: StepComponentProps) => {
       onNext();
     } catch (error) {
       Notification.error("Devido à um erro não foi possível salvar os restaurantes selecionados.");
+    }
+  };
+
+  const handleChoice = (restaurantId: string, choiceType: RestaurantChoiceType) => {
+    if (choice.current.length > 0) {
+      const foundRestaurant = choice.current.find((x) => x.restaurantId === restaurantId);
+      if (!foundRestaurant) {
+        choice.current = [ ...choice.current, { restaurantId, type: choiceType } ];
+      } else {
+        const index = choice.current.indexOf(foundRestaurant);
+        choice.current[index] = {restaurantId, type: choiceType};
+      }
+    } else {
+      choice.current = [ ...choice.current, { restaurantId, type: choiceType } ];
     }
   };
 
@@ -45,7 +62,7 @@ export const RestaurantList = ({ onNext }: StepComponentProps) => {
       <Text size="sm" heading as="p" className="restaurant-list__title">Dicas de restaurantes</Text>
       <Text size="md" as="p" className="color-text-primary">Confira nossas indicações e curta as opções que quiser incluir no roteiro</Text>
       <Box className="restaurant-list__info">
-        {data.map((restaurant, index) => <CardRestaurant restaurant={restaurant} key={index} />)}
+        {data.map((restaurant, index) => <CardRestaurant restaurant={restaurant} key={index} onChoice={handleChoice} />)}
       </Box>
       <Button onClick={handleFinish}>Salvar</Button>
     </Grid>
