@@ -4,6 +4,9 @@ import { getAttractions } from "./attractions";
 import { updateScript } from "./update-script";
 import { getTripCharacteristics } from "./characteristics";
 import { setTripScriptParameters } from "./parameters";
+import { getTripScriptBuilderParams } from "./builder-params";
+import { getTripScriptDaySuggestion } from "./day-suggestion";
+import { getTripScriptDayTip } from "./day-tip";
 
 export const TripScriptsApiService = {
   getPreview: getTripScriptPreview,
@@ -12,4 +15,7 @@ export const TripScriptsApiService = {
   updateScript,
   getTripCharacteristics,
   postParameters: setTripScriptParameters,
+  getBuilderParams: getTripScriptBuilderParams,
+  getDaySuggestion: getTripScriptDaySuggestion,
+  getDayTip: getTripScriptDayTip
 };
