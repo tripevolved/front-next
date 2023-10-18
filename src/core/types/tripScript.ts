@@ -7,6 +7,7 @@ export interface TripScript {
 export interface TripScriptDay {
   id: string;
   date: string;
+  day: number;
   actions: TripScriptAction[];
   details: TripScriptDayDetail;
 }
@@ -14,13 +15,13 @@ export interface TripScriptDay {
 export type TripScriptActionType = "RESTAURANT" | "BAR" | "EVENT" | "PARTY";
 
 export interface TripScriptAction {
-  id: string;
-  iconSlug: string;
-  title: string;
-  subtitle: string;
-  tooltip: string | null;
+  id: string | null;
+  iconSlug?: string;
+  title?: string;
+  subtitle?: string;
+  tooltip?: string | null;
   attractionId: string | null;
-  attractionPartnerSlug: string | null;
+  attractionPartnerSlug?: string | null;
   isSelected: boolean;
   isEditable: boolean;
   type?: TripScriptActionType;
@@ -44,12 +45,12 @@ export interface TripScriptAttraction {
   address: string;
   availabilityInfo: string;
   purchasePrice: number;
-  attractionId?: string;
+  attractionId: string | null;
 }
 
 export interface UpdateScriptAction {
   id: string;
-  attractionId?: string;
+  attractionId: string | null;
 }
 
 export interface UpdateTripScriptPayload {

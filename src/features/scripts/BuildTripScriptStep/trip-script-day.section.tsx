@@ -1,11 +1,12 @@
-import { TripScriptActionOrSuggestion } from "@/features";
-import { Card, Grid, Icon, Loader } from "mars-ds";
-import { Box, EmptyState, Text } from "@/ui";
+import { Grid, Loader } from "mars-ds";
+import { EmptyState } from "@/ui";
+
 import { TripScriptsApiService } from "@/services/api";
 import useSwr from "swr";
+
 import { TripScriptDay } from "@/core/types";
 import { TripScriptDaySectionProps } from "@/features";
-import { TripScriptFreeDay } from "../TripScriptPanel/trip-script-free-day.component";
+import { TripScriptDayComponent } from "../TripScriptDay";
 
 export const TripScriptDaySection = ({ tripId, day }: TripScriptDaySectionProps) => {
   const uniqueKeyName = `${tripId}-script-day-${day}`;
@@ -28,27 +29,13 @@ export const TripScriptDaySection = ({ tripId, day }: TripScriptDaySectionProps)
     );
   }
 
+  data.day = day;
+
   return (
-    <Grid className="trip-script-day-section" key={day}>
-      <Box className="trip-script-day-section__header">
-        <Text size="lg" className="trip-script-day-section__title">
-          {"Dia " + day}
-        </Text>
-        <Text size="md" className="trip-script-day-section__subtitle">
-          {data.date}
-        </Text>
-      </Box>
-      <div className="trip-script-day-section__content">
-        {data.actions.length ? (
-          <>
-            {data.actions.map((tripScriptAction, j) => {
-              return TripScriptActionOrSuggestion(tripScriptAction, true);
-            })}
-          </>
-        ) : (
-          <TripScriptFreeDay />
-        )}
-      </div>
-    </Grid>
+    <TripScriptDayComponent 
+      tripId={tripId}
+      day={day}
+      dayDetail={data}
+    />
   );
 }

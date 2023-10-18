@@ -1,15 +1,10 @@
 import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
 import useSwr from "swr";
-import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
 import { useRouter } from "next/router";
-import { Card, Icon, Button } from "mars-ds";
-import { TripScriptAction, TripScriptDay } from "@/core/types";
+import { Button } from "mars-ds";
+import { TripScriptDay } from "@/core/types";
 import {
-  AttractionsSuggestion,
-  GastronomySuggestion,
-  BarSuggestion,
-  PartySuggestion,
   PageAppHeader,
   PageAppBody,
 } from "@/features";

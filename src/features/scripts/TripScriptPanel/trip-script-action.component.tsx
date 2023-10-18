@@ -1,8 +1,16 @@
 import { GastronomySuggestion, BarSuggestion, PartySuggestion, AttractionsSuggestion } from "../CardsSuggestion";
 import type { TripScriptAction } from "@/core/types";
-import { TripScriptActionSection } from "./trip-script-action.section";
+import { TripScriptActionSection } from "../TripScriptAction/trip-script-action.component";
+import { ReactNode } from "react";
 
-export const TripScriptActionOrSuggestion = (action: TripScriptAction, ignoreNotSelected: Boolean = false) => {
+export interface TripScriptActionOrSuggestionProps {
+  action: TripScriptAction; 
+  ignoreNotSelected?: Boolean;
+  children?: ReactNode;
+  onClick?: () => void;
+};
+
+export const TripScriptActionOrSuggestion = ({ action, ignoreNotSelected = false, children, onClick }: TripScriptActionOrSuggestionProps) => {
   if (!action.isSelected) {
     return (ignoreNotSelected === true ? <></> :
       <>
@@ -13,5 +21,5 @@ export const TripScriptActionOrSuggestion = (action: TripScriptAction, ignoreNot
       </>
     );
   }
-  return <TripScriptActionSection action={action} />;
+  return <TripScriptActionSection action={action} onClick={onClick}>{children}</TripScriptActionSection>;
 };
