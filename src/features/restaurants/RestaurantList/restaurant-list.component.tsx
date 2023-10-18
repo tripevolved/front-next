@@ -41,10 +41,10 @@ export const RestaurantList = ({ onNext }: StepComponentProps) => {
   }
 
   return (
-    <Grid gap={16}>
-      <Text size="sm" heading as="p" className="color-text-secondary">Dicas de restaurantes</Text>
+    <Grid gap={16} className="restaurant-list">
+      <Text size="sm" heading as="p" className="restaurant-list__title">Dicas de restaurantes</Text>
       <Text size="md" as="p" className="color-text-primary">Confira nossas indicações e curta as opções que quiser incluir no roteiro</Text>
-      <Box>
+      <Box className="restaurant-list__info">
         {data.map((restaurant, index) => <CardRestaurant restaurant={restaurant} key={index} />)}
       </Box>
       <Button onClick={handleFinish}>Salvar</Button>

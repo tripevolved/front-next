@@ -10,16 +10,6 @@
     color: $color-brand-2;
     font-weight: 400;
     display: flex;
-
-    &__tooltip {
-      float: right; 
-      z-index: 20;
-    }
-  }
-  
-  &__tooltip {
-    padding: 0 16px;
-    align-self: flex-end;
   }
   
   &__subtitle {

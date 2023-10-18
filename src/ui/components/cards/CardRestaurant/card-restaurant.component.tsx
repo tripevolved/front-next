@@ -4,9 +4,26 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 
 import { Grid, Label, ToggleButton } from "mars-ds";
 import { Box, Picture, Text } from "@/ui";
+import { useState } from "react";
 
 export function CardRestaurant({ restaurant, onClick, onChoose, onUnchoose, className, title, subtitle, header, href, image, sx, ...props }: CardRestaurantProps) {
   const cn = makeCn("card-restaurant", className)(sx);
+  const [toggle, setToggle] = useState<boolean | null>(restaurant.isSelected ?? null);
+
+  const handleToggle = (isThumbsUp: boolean) => {
+    if (toggle === null && isThumbsUp || toggle === false && isThumbsUp) {
+      setToggle(true);
+      if (onChoose) { onChoose(restaurant.id) }
+    } else if (toggle === true && isThumbsUp || toggle === false && !isThumbsUp) {
+      setToggle(null);
+      if (onUnchoose) { onUnchoose(restaurant.id) }
+    } else if (toggle === null && !isThumbsUp || toggle === true && !isThumbsUp) {
+      setToggle(false);
+      if (onUnchoose) { onUnchoose(restaurant.id) }
+    } else {
+      setToggle(!toggle);
+    }
+  };
 
   return (
     <Grid className={cn} gap={6} columns={restaurant.imageUrl ? [2,8,1,1] : [10,1,1]} onClick={onClick} style={{cursor: "pointer"}} {...props}>
@@ -20,8 +37,8 @@ export function CardRestaurant({ restaurant, onClick, onChoose, onUnchoose, clas
           {`${restaurant.tags}${restaurant.priceRange && ` - ${restaurant.priceRange}`}`}
         </Text>
       </Box>
-      <ToggleButton iconName="thumbs-up" variant="text" size="sm" onClick={() => onChoose(restaurant.id)} />
-      <ToggleButton iconName="thumbs-down" variant="text" size="sm" onClick={() => onUnchoose(restaurant.id)} />
+      <ToggleButton iconName="thumbs-up" variant={toggle === true ? "neutral" : "text"} size="sm" onClick={() => handleToggle(true)} />
+      <ToggleButton iconName="thumbs-down" variant={toggle === false ? "neutral" : "text"} size="sm" onClick={() => handleToggle(false)} />
     </Grid>
   );
 }
