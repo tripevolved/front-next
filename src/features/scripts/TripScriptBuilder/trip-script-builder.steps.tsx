@@ -2,7 +2,7 @@ import type { TemplateStepsBuilderProps } from "@/features";
 import { InitialStep } from "./trip-script-builder-initial.component";
 import { TripScriptParametersStep } from "./trip-script-parameters-step.component";
 import { TripScriptInitialBuildStep } from "./trip-script-builder-initial-step.component";
-import { BuildTripScriptStep } from "@/features";
+import { BuildTripScriptStep, RestaurantQuestions } from "@/features";
 import { FinishStep } from "./trip-script-builder-finish.component";
 
 export const SCRIPT_BUILDER_STEPS: TemplateStepsBuilderProps["steps"] = [
@@ -30,5 +30,10 @@ export const SCRIPT_BUILDER_STEPS: TemplateStepsBuilderProps["steps"] = [
     title: "Finaliza a construção do roteiro",
     name: "finish-build",
     component: FinishStep,
+  },
+  {
+    title: "Seleciona parâmetros para restaurantes",
+    name: "restaurant-parameters",
+    component: RestaurantQuestions,
   }
 ];

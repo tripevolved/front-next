@@ -28,5 +28,5 @@ interface RestaurantDetailImage {
 export interface RestaurantParameter {
   answerDate: Date;
   questionId: string;
-  possibleAnwswerId: string;
+  possibleAnswerId: string;
 }

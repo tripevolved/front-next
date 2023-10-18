@@ -39,6 +39,7 @@ export * from "./questions/QuestionNavigationController";
 export * from "./questions/QuestionOptions";
 export * from "./questions/QuestionSlider";
 export * from "./questions/QuestionsBuilder";
+export * from "./restaurants/RestaurantQuestions";
 export * from "./scripts/AddAttractionsSection";
 export * from "./scripts/BuildTripScriptStep";
 export * from "./scripts/CardsSuggestion";

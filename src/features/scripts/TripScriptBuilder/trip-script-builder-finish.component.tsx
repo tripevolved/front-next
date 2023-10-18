@@ -23,7 +23,7 @@ export function FinishStep({ onNext }: StepComponentProps) {
         {title}
       </Text>
       <Text className="trip-script-builder-step__item">{subtitle}</Text>
-      <Button className="trip-script-builder-step__item" onClick={() => onNext()} disabled>Começar a definir restaurantes e bares</Button>
+      <Button className="trip-script-builder-step__item" onClick={() => onNext()}>Começar a definir restaurantes e bares</Button>
       <Button className="trip-script-builder-step__item" href={`/app/viagens/${tripId}`} variant="naked" size="sm">Deixar para mais tarde</Button>
     </Grid>
   );
