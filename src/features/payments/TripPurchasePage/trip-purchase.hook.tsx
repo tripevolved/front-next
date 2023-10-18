@@ -16,6 +16,7 @@ export const useTripPurchase = () => {
   return {
     setObjectPayload,
     setCanSendPayload,
+    canSendPayload,
 
     loadingRequest: isLoading,
     data,

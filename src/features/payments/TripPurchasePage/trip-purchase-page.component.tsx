@@ -21,6 +21,7 @@ import {
   Loader,
   TextFieldLabel,
 } from "mars-ds";
+
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 import {
   TripPayer,
@@ -30,7 +31,7 @@ import {
   TripPaymentMethod,
 } from "@/core/types";
 import { PaymentsApiService } from "@/services/api";
-import { useState } from "react";
+import { ReactPortal, useRef, useState } from "react";
 import { CreditCardInformationSection } from "./credit-card-information.section";
 import { PixInformationSection } from "./pix-information.section";
 import { TripPaymentResult } from "@/services/api/payments/payTrip";
@@ -61,11 +62,20 @@ export function TripPurchasePage() {
     city: tripPayer?.address.city || "",
     stateProvince: tripPayer?.address.stateProvince || "",
   });
+  let modalControlRef = useRef<any>();
 
   const router = useRouter();
   const tripId = String(router.query.id);
 
-  const { loadingRequest, data: response, errorRequest } = useTripPurchase();
+  const {
+    setCanSendPayload,
+    setObjectPayload,
+    canSendPayload,
+
+    loadingRequest,
+    data: response,
+    errorRequest,
+  } = useTripPurchase();
 
   const priceTotal = priceData?.price! + priceData?.serviceFee!;
 
@@ -122,7 +132,6 @@ export function TripPurchasePage() {
     } as TripPayer;
 
     const paymentMethod = event.target.method.value;
-    let isCreditCard = paymentMethod === "CREDIT_CARD";
 
     const tripPayment = {
       tripId: event.target.tripId.value,
@@ -132,17 +141,16 @@ export function TripPurchasePage() {
       method: paymentMethod,
     } as TripPayment;
 
-    openLoadingModal();
-    console.log("OBJECT DTO", tripPayment);
-    //const result = await PaymentsApiService.putTripPayment(tripPayment);
-    /* if (!result) {
-      // Do something
-    } else {
-      // Do something here too
-    } */
+    setObjectPayload(tripPayment);
+    setCanSendPayload(true);
   };
 
-  const openFinishModal = (result: TripPaymentResult) => {
+  const openFinishModal = (result: {
+    isSuccess: boolean;
+    message: string;
+    paymentMethod: TripPaymentMethod;
+    qrCode?: string;
+  }) => {
     const modal = Modal.open(
       () => (
         <>
@@ -150,6 +158,8 @@ export function TripPurchasePage() {
             tripId={tripId!}
             isSuccess={result.isSuccess}
             message={result.message!}
+            onClose={() => modal.close()}
+            method={result.paymentMethod}
           />
         </>
       ),
@@ -161,7 +171,7 @@ export function TripPurchasePage() {
   };
 
   const openLoadingModal = () => {
-    Modal.open(
+    modalControlRef.current = Modal.open(
       () => (
         <Box className="trip-purchase__response">
           <Loader />
@@ -172,21 +182,6 @@ export function TripPurchasePage() {
       ),
       {
         size: "lg",
-        closable: true,
-      }
-    );
-  };
-
-  const openIsPaidModal = () => {
-    Modal.open(
-      () => (
-        <>
-          <IsPaidSection tripId={tripId!} />
-        </>
-      ),
-      {
-        size: "lg",
-        closable: false,
       }
     );
   };
@@ -212,7 +207,22 @@ export function TripPurchasePage() {
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
 
-  if (priceData?.isPaid) openIsPaidModal();
+  if (loadingRequest) openLoadingModal();
+
+  if (errorRequest) {
+    modalControlRef.current.close();
+    openFinishModal({
+      isSuccess: false,
+      message: "Infelizmente houve um erro na execução do seu pagamento...",
+      paymentMethod: paymentMethod!,
+    });
+  }
+
+  if (canSendPayload && response?.isSuccess) {
+    if (paymentMethod === "PIX") return router.push("/app/painel");
+
+    window.open(response.paymentLinkUrl, "_blank");
+  }
 
   return (
     <>
