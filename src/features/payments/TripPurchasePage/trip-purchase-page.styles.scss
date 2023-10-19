@@ -28,11 +28,15 @@
   }
 
   &__response {
-    padding: 20% 10%;
     text-align: center;
 
     &-item {
       padding: 0 4px 18px 4px;
+    }
+
+    input {
+      border: none;
+      background-color: $color-brand-4;
     }
 
     &-button {

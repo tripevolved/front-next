@@ -35,7 +35,10 @@ import { ReactPortal, useRef, useState } from "react";
 import { CreditCardInformationSection } from "./credit-card-information.section";
 import { PixInformationSection } from "./pix-information.section";
 import { TripPaymentResult } from "@/services/api/payments/payTrip";
-import { TripPurchaseResponseSection } from "./trip-purchase-response.section";
+import {
+  TripPurchaseErrorResponse,
+  TripPurchaseSuccessResponse,
+} from "./trip-purchase-response.section";
 import { IsPaidSection } from "./is-paid.section";
 import { useAppStore } from "@/core/store";
 import { ViaCepService } from "@/services/viacep";
@@ -62,7 +65,7 @@ export function TripPurchasePage() {
     city: tripPayer?.address.city || "",
     stateProvince: tripPayer?.address.stateProvince || "",
   });
-  let modalControlRef = useRef<any>();
+  const modalControlRef = useRef<any>();
 
   const router = useRouter();
   const tripId = String(router.query.id);
@@ -145,27 +148,20 @@ export function TripPurchasePage() {
     setCanSendPayload(true);
   };
 
-  const openFinishModal = (result: {
-    isSuccess: boolean;
-    message: string;
-    paymentMethod: TripPaymentMethod;
-    qrCode?: string;
-  }) => {
+  const openFinishModal = (isSuccess: boolean, result: any) => {
     const modal = Modal.open(
       () => (
         <>
-          <TripPurchaseResponseSection
-            tripId={tripId!}
-            isSuccess={result.isSuccess}
-            message={result.message!}
-            onClose={() => modal.close()}
-            method={result.paymentMethod}
-          />
+          {isSuccess ? (
+            <TripPurchaseSuccessResponse {...result} onClose={() => modal.close()} />
+          ) : (
+            <TripPurchaseErrorResponse {...result} onClose={() => modal.close()} />
+          )}
         </>
       ),
       {
         size: "lg",
-        closable: !result.isSuccess,
+        closable: true,
       }
     );
   };
@@ -182,6 +178,7 @@ export function TripPurchasePage() {
       ),
       {
         size: "lg",
+        closable: false,
       }
     );
   };
@@ -211,17 +208,12 @@ export function TripPurchasePage() {
 
   if (errorRequest) {
     modalControlRef.current.close();
-    openFinishModal({
-      isSuccess: false,
-      message: "Infelizmente houve um erro na execução do seu pagamento...",
-      paymentMethod: paymentMethod!,
-    });
+    openFinishModal(false, response);
   }
 
   if (canSendPayload && response?.isSuccess) {
-    if (paymentMethod === "PIX") return router.push("/app/painel");
-
-    window.open(response.paymentLinkUrl, "_blank");
+    modalControlRef.current.close();
+    openFinishModal(true, response);
   }
 
   return (
@@ -406,12 +398,6 @@ export function TripPurchasePage() {
               className="trip-purchase__section__input"
             />
           </Box>
-          {paymentMethod &&
-            (paymentMethod === "CREDIT_CARD" ? (
-              <CreditCardInformationSection />
-            ) : (
-              <PixInformationSection />
-            ))}
           <Box className="trip-purchase__footer">
             <Button
               className="trip-purchase__footer__button"

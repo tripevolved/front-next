@@ -1,59 +1,111 @@
-import { TripPaymentMethod } from "@/core/types";
-import { PendingDocumentsModal } from "@/features/dashboard/PendingDocumentsModal";
-import { Box, Text, Picture } from "@/ui";
-import { Button, Modal } from "mars-ds";
+import { QRCodeSVG } from "qrcode.react";
+import { TripPaymentResult } from "@/services/api/payments/payTrip";
+import { Box, Text, Picture, Tag } from "@/ui";
+import { Button, Modal, Notification } from "mars-ds";
 
-export interface TripPurchaseResponseSectionProps {
-  tripId: string;
-  isSuccess: boolean;
-  message?: string;
-  method: TripPaymentMethod;
+const CREDIT_CARD_MESSAGE =
+  "Você será redirecionado para a página onde realizará o pagamento com seu Cartão de Crédito";
+const PIX_MESSAGE = "Realize o pagamento via PIX através do QRCode";
+
+const READING_TIME_MILLISECONDS = 8 * 1000;
+
+export interface TripPurchaseSuccessResponseSectionProps extends TripPaymentResult {
   onClose: () => void;
 }
 
-export function TripPurchaseResponseSection({
+export interface TripPurchaseErrorResponseProps {
+  message: string;
+  messageCode?: string;
+  statusCode?: number;
+  onClose: () => void;
+}
+
+export function TripPurchaseSuccessResponse({
   tripId,
   isSuccess,
   message,
-  method,
+  paymentMethod,
+  paymentLinkUrl,
+  pixInfo,
   onClose,
-}: TripPurchaseResponseSectionProps) {
+}: TripPurchaseSuccessResponseSectionProps) {
+  const copyFunction = () => {
+    const inputElement = document.getElementById("pixQrCode");
+    // @ts-ignore
+    inputElement.select();
+    // @ts-ignore
+    inputElement.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    Notification.success("Código copiado!");
+  };
+
+  if (paymentMethod == "CREDIT_CARD") {
+    setTimeout(() => {
+      window.open(paymentLinkUrl, "_blank");
+    }, READING_TIME_MILLISECONDS);
+  }
   return (
-    <Box className="trip-purchase__response">
-      {!isSuccess ? (
+    <Box className="trip-purchase__response flex-column align-items-center gap-lg p-lg">
+      <Picture className="trip-purchase__response-item" src="/assets/payments/success.png" />
+      <Text className="trip-purchase__response-item" heading size="xl">
+        Tudo certo!
+      </Text>
+      <Text className="trip-purchase__response-item" size="lg">
+        Viagem comprada com sucesso! Enviaremos todos os detalhes para o seu e-mail.
+      </Text>
+      <Text className="trip-purchase__response-item" size="lg">
+        {paymentMethod == "CREDIT_CARD" ? CREDIT_CARD_MESSAGE : PIX_MESSAGE}
+      </Text>
+      {paymentMethod == "PIX" ? (
         <>
-          <Picture className="trip-purchase__response-item" src="/assets/payments/error.png" />
-          <Text className="trip-purchase__response-item" heading={true} size="xl">
-            Erro de pagamento
-          </Text>
-          <Text className="trip-purchase__response-item" size="lg">
-            Parece que há um problema com seu pagamento.
-          </Text>
-          <Text className="trip-purchase__response-item" size="sm">
-            Mais informações: {message}
-          </Text>
-          <Button
-            className="trip-purchase__response-button"
-            variant="custom"
-            backgroundColor="var(--color-brand-2)"
-            hoverBackgroundColor="var(--color-secondary-900)"
-            color="white"
-            onClick={() => onClose()}
-          >
-            Tentar novamente
+          <QRCodeSVG
+            value={pixInfo.qrCode}
+            includeMargin
+            size={250}
+            imageSettings={{
+              src: "/brand/logo-symbol.svg",
+              x: undefined,
+              y: undefined,
+              height: 20,
+              width: 20,
+              excavate: true,
+            }}
+          />
+          <Button iconName="copy" onClick={() => copyFunction()}>
+            Copiar Código
           </Button>
+          <Tag className="w-100">
+            <input id="pixQrCode" type="text" value={pixInfo.qrCode} readOnly className="w-100" />
+          </Tag>
         </>
-      ) : (
-        <>
-          <Picture className="trip-purchase__response-item" src="/assets/payments/success.png" />
-          <Text className="trip-purchase__response-item" heading={true} size="xl">
-            Tudo certo!
-          </Text>
-          <Text className="trip-purchase__response-item" size="lg">
-            Viagem comprada com sucesso. Enviaremos todos os detalhes para o seu e-mail.
-          </Text>
-        </>
-      )}
+      ) : null}
+    </Box>
+  );
+}
+
+export function TripPurchaseErrorResponse(result: TripPurchaseErrorResponseProps) {
+  return (
+    <Box className="trip-purchase__response flex-column gap-lg p-lg">
+      <Picture className="trip-purchase__response-item" src="/assets/payments/error.png" />
+      <Text className="trip-purchase__response-item" heading size="xl">
+        Erro na Criação do Pagamento
+      </Text>
+      <Text className="trip-purchase__response-item" size="lg">
+        Parece que há um problema com seu pagamento.
+      </Text>
+      <Text className="trip-purchase__response-item" size="sm">
+        Mais informações: {result.message}
+      </Text>
+      <Button
+        className="trip-purchase__response-button"
+        variant="custom"
+        backgroundColor="var(--color-brand-2)"
+        hoverBackgroundColor="var(--color-secondary-900)"
+        color="white"
+        onClick={() => result.onClose()}
+      >
+        Tentar novamente
+      </Button>
     </Box>
   );
 }
