@@ -5,6 +5,7 @@ import { TripScriptInitialBuildStep } from "./trip-script-builder-initial-step.c
 import { BuildTripScriptStep, RestaurantQuestions } from "@/features";
 import { FinishStep } from "./trip-script-builder-finish.component";
 import { RestaurantList } from "@/features/restaurants/RestaurantList";
+import { FinishRestaurantsStep } from "./trip-script-builder-finish-restaurants.component";
 
 export const SCRIPT_BUILDER_STEPS: TemplateStepsBuilderProps["steps"] = [
   {
@@ -41,5 +42,10 @@ export const SCRIPT_BUILDER_STEPS: TemplateStepsBuilderProps["steps"] = [
     title: "Seleciona restaurantes",
     name: "restaurants",
     component: RestaurantList,
+  },
+  {
+    title: "Finaliza a seleção dos restaurantes",
+    name: "finish-restaurants",
+    component: FinishRestaurantsStep,
   }
 ];
