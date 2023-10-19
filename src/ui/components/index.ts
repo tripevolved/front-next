@@ -29,7 +29,6 @@ export * from "./cards/CardBlog";
 export * from "./cards/CardDestination";
 export * from "./cards/CardHighlight";
 export * from "./cards/CardTrip";
-export * from "./cards/CardRestaurant";
 export * from "./cards/CardYoutube";
 export * from "./cards/TooltipCard";
 export * from "./forms/AutoCompleteTextField";

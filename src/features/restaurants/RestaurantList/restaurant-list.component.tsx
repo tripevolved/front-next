@@ -1,6 +1,6 @@
-import { type StepComponentProps } from "@/features";
+import { CardRestaurant, type StepComponentProps } from "@/features";
 import { Button, Grid, Loader, Modal, Notification } from "mars-ds";
-import { Box, CardRestaurant, ErrorState, NotificationResult, Text } from "@/ui";
+import { Box, ErrorState, NotificationResult, Text } from "@/ui";
 import { RestaurantsApiService } from "@/services/api";
 import { useRouter } from "next/router";
 import useSwr from "swr";

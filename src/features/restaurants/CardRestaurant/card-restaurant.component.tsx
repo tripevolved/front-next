@@ -2,14 +2,33 @@ import type { CardRestaurantProps } from "./card-restaurant.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 
-import { Grid, Label, ToggleButton } from "mars-ds";
+import { Grid, Label, Modal, ToggleButton } from "mars-ds";
 import { Box, Picture, Text } from "@/ui";
 import { useState } from "react";
 import { RestaurantChoiceType } from "@/core/types";
+import { RestaurantDetailComponent } from "@/features";
 
-export function CardRestaurant({ restaurant, onClick, onChoice, className, title, subtitle, header, href, image, sx, ...props }: CardRestaurantProps) {
+export function CardRestaurant({ restaurant, onChoice, className, title, subtitle, header, href, image, sx, ...props }: CardRestaurantProps) {
   const cn = makeCn("card-restaurant", className)(sx);
   const [toggle, setToggle] = useState<boolean | null>(restaurant.isSelected ?? null);
+
+  const openDetailsModal = () => {
+    Modal.open(
+      () => (
+        <>
+          <RestaurantDetailComponent
+            restaurantId={restaurant.id}
+            onInclude={() => handleToggle(true)}
+            onDiscard={() => handleToggle(false)}
+          />
+        </>
+      ),
+      {
+        size: "md",
+        closable: true,
+      }
+    );
+  };
 
   const handleToggle = (isThumbsUp: boolean) => {
     let choiceType = "ignored" as RestaurantChoiceType;
@@ -33,7 +52,7 @@ export function CardRestaurant({ restaurant, onClick, onChoice, className, title
   };
 
   return (
-    <Grid className={cn} gap={6} columns={restaurant.imageUrl ? [2,8,1,1] : [10,1,1]} onClick={onClick} style={{cursor: "pointer"}} {...props}>
+    <Grid className={cn} gap={6} columns={restaurant.imageUrl ? [2,8,1,1] : [10,1,1]} onClick={openDetailsModal} style={{cursor: "pointer"}} {...props}>
       {restaurant.imageUrl && (<Picture className="card-restaurant__icon" src={restaurant.imageUrl} />)}
       <Box className="card-restaurant__box">
         <Text size="md" className="card-restaurant__title">
