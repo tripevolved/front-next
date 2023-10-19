@@ -1,6 +1,6 @@
 import { type StepComponentProps } from "@/features";
-import { Button, Grid, Loader, Notification } from "mars-ds";
-import { Box, CardRestaurant, ErrorState, Text } from "@/ui";
+import { Button, Grid, Loader, Modal, Notification } from "mars-ds";
+import { Box, CardRestaurant, ErrorState, NotificationResult, Text } from "@/ui";
 import { RestaurantsApiService } from "@/services/api";
 import { useRouter } from "next/router";
 import useSwr from "swr";
@@ -17,11 +17,35 @@ export const RestaurantList = ({ onNext }: StepComponentProps) => {
 
   const choice = useRef<RestaurantChoice[]>([]);
 
+  const openErrorModal = (message: string) => {
+    Modal.open(
+      () => (
+        <>
+          <NotificationResult
+            isSuccess={false}
+            nonSuccessTitle="Não foi possível salvar suas escolhas de restaurantes"
+            nonSuccessSubtitle={message}
+            nonSuccessAllowSkip={true}
+            nonSuccessSkipOnClick={onNext}
+          />
+        </>
+      ),
+      {
+        size: "lg",
+        closable: true,
+      }
+    );
+  };
+
   const handleFinish = async () => {
     try {
-      // TODO: save restaurants into script
+      const result = await RestaurantsApiService.setRestaurantChoices(tripId, choice.current);
 
-      onNext();
+      if (result.isSuccess){
+        onNext();
+      } else {
+        openErrorModal(result.message ?? "Devido à um erro não foi possível salvar os restaurantes selecionados.");
+      }
     } catch (error) {
       Notification.error("Devido à um erro não foi possível salvar os restaurantes selecionados.");
     }

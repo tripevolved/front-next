@@ -4,7 +4,7 @@ import { CardRestaurant } from "./card-restaurant.component";
 
 const makeSut = (props?: CardRestaurantProps) => render(<CardRestaurant restaurant={{id: "restaurantId", name: "Xis do guerreiro", tags: "Lanches, Culinária local"}} {...props} />);
 
-describe("<CardTrip>", () => {
+describe("<CardRestaurant>", () => {
   it("should render component", () => {
     const wrapper = makeSut();
     expect(wrapper).toBeTruthy();

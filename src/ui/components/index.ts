@@ -42,6 +42,7 @@ export * from "./forms/OptionsSlider";
 export * from "./loaders/GlobalLoader";
 export * from "./loaders/ProgressIndicator";
 export * from "./loaders/StepsLoader";
+export * from "./notifications/NotificationResult";
 export * from "./sections/SectionBase";
 export * from "./sections/SectionFaq";
 export * from "./states/EmptyState";
