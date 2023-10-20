@@ -70,16 +70,6 @@ export function TripPurchasePage() {
   const router = useRouter();
   const tripId = String(router.query.id);
 
-  const {
-    setCanSendPayload,
-    setObjectPayload,
-    canSendPayload,
-
-    loadingRequest,
-    data: response,
-    errorRequest,
-  } = useTripPurchase();
-
   const priceTotal = priceData?.price! + priceData?.serviceFee!;
 
   const getOptions = () => {
@@ -144,11 +134,17 @@ export function TripPurchasePage() {
       method: paymentMethod,
     } as TripPayment;
 
-    setObjectPayload(tripPayment);
-    setCanSendPayload(true);
+    openLoadingModal();
+
+    PaymentsApiService.postTripPaymentIntent(tripPayment)
+      .then((resp) => openFinishModal(resp.isSuccess, { ...resp }))
+      .catch(() =>
+        openFinishModal(false, { message: "Houve um erro ao gerar o seu pagamento..." })
+      );
   };
 
   const openFinishModal = (isSuccess: boolean, result: any) => {
+    modalControlRef.current.close();
     const modal = Modal.open(
       () => (
         <>
@@ -178,7 +174,7 @@ export function TripPurchasePage() {
       ),
       {
         size: "lg",
-        closable: false,
+        closable: true,
       }
     );
   };
@@ -203,18 +199,6 @@ export function TripPurchasePage() {
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
-
-  if (loadingRequest) openLoadingModal();
-
-  if (errorRequest) {
-    modalControlRef.current.close();
-    openFinishModal(false, response);
-  }
-
-  if (canSendPayload && response?.isSuccess) {
-    modalControlRef.current.close();
-    openFinishModal(true, response);
-  }
 
   return (
     <>

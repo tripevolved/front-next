@@ -66,8 +66,8 @@ export function TripPurchaseSuccessResponse({
               src: "/brand/logo-symbol.svg",
               x: undefined,
               y: undefined,
-              height: 20,
-              width: 20,
+              height: 25,
+              width: 25,
               excavate: true,
             }}
           />
@@ -77,6 +77,9 @@ export function TripPurchaseSuccessResponse({
           <Tag className="w-100">
             <input id="pixQrCode" type="text" value={pixInfo.qrCode} readOnly className="w-100" />
           </Tag>
+          <Button iconName="copy" onClick={() => copyFunction()}>
+            Copiar Código
+          </Button>
         </>
       ) : null}
     </Box>
