@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { useMatchedDestinations } from "./matched-destinations.hook";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 
@@ -42,7 +41,7 @@ export const MatchedDestinationsPage = ({
   const uniqueKeyName = `${tripId}-script`;
   const fetcher = async () => TripsApiService.getMatchedDestinations({ tripId });
   const { isLoading, data, error } = useSWR<MatchedDestinationReturn>(uniqueKeyName, fetcher);
-  
+
   const cn = makeCn("has-trip", className)(sx);
   const { name = "viajante" } = useAppStore((state) => state.travelerState);
   const firstName = name.replace(/\s.*/, "");
