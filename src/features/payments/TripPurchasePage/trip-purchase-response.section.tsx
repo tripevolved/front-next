@@ -45,7 +45,7 @@ export function TripPurchaseSuccessResponse({
     }, READING_TIME_MILLISECONDS);
   }
   return (
-    <Box className="trip-purchase__response flex-column align-items-center gap-lg p-lg">
+    <Box className="trip-purchase__response flex-column align-items-center gap-md p-md">
       <Picture className="trip-purchase__response-item" src="/assets/payments/success.png" />
       <Text className="trip-purchase__response-item" heading size="xl">
         Tudo certo!
@@ -71,13 +71,14 @@ export function TripPurchaseSuccessResponse({
               excavate: true,
             }}
           />
-          <Button iconName="copy" onClick={() => copyFunction()}>
-            Copiar Código
-          </Button>
           <Tag className="w-100">
             <input id="pixQrCode" type="text" value={pixInfo.qrCode} readOnly className="w-100" />
           </Tag>
-          <Button iconName="copy" onClick={() => copyFunction()}>
+          <Button
+            style={{ color: "var(--color-gray-4)" }}
+            iconName="copy"
+            onClick={() => copyFunction()}
+          >
             Copiar Código
           </Button>
         </>
@@ -88,7 +89,7 @@ export function TripPurchaseSuccessResponse({
 
 export function TripPurchaseErrorResponse(result: TripPurchaseErrorResponseProps) {
   return (
-    <Box className="trip-purchase__response flex-column gap-lg p-lg">
+    <Box className="trip-purchase__response flex-column gap-md p-md">
       <Picture className="trip-purchase__response-item" src="/assets/payments/error.png" />
       <Text className="trip-purchase__response-item" heading size="xl">
         Erro na Criação do Pagamento
@@ -96,7 +97,7 @@ export function TripPurchaseErrorResponse(result: TripPurchaseErrorResponseProps
       <Text className="trip-purchase__response-item" size="lg">
         Parece que há um problema com seu pagamento.
       </Text>
-      <Text className="trip-purchase__response-item" size="sm">
+      <Text className="trip-purchase__response-item" size="md">
         Mais informações: {result.message}
       </Text>
       <Button

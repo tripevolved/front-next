@@ -165,7 +165,7 @@ export function TripPurchasePage() {
   const openLoadingModal = () => {
     modalControlRef.current = Modal.open(
       () => (
-        <Box className="trip-purchase__response">
+        <Box className="trip-purchase__response py-xl">
           <Loader />
           <Text className="trip-purchase__response-item" size="lg">
             Estamos processando sua compra.
