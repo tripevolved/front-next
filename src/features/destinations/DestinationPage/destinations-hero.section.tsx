@@ -9,7 +9,7 @@ interface DestinationHeroSectionProps extends Pick<DestinationProps, "title" | "
 
 export const DestinationHeroSection = ({ title, photos = [] }: DestinationHeroSectionProps) => {
   const cn = makeCn("destination-hero-section", {
-    "destination-hero-section--no-photo": Boolean(photos.length == 0),
+    "destination-hero-section--no-photo": !photos.length,
   })();
 
   return (
