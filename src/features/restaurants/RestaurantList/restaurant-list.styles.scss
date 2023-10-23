@@ -1,0 +1,10 @@
+.restaurant-list {
+  &__title {
+    color: $color-brand-1;
+  }
+
+  &__info {
+    padding: 18px 4px;
+    overflow-y: auto;
+  }
+}

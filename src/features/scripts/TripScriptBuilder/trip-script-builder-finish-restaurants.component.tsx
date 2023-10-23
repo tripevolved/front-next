@@ -4,17 +4,17 @@ import { Text } from "@/ui";
 import { Button, Grid, Image } from "mars-ds";
 import { useRouter } from "next/router";
 
-const SCRIPT_BUILDER_FINISH = {
-  title: "Agora, temos algumas sugestões de restaurantes e bares para enriquecer sua viagem",
+const RESTAURANTS_FINISH = {
+  title: "Vamos para as opções de bares e festas?",
   subtitle:
-    "Dê like nas opções que mais gostar. Você poderá editar mais tarde.",
+    "Como antes, dê like nas opções que mais gostar. Você poderá editar mais tarde.",
 };
 
-export function FinishStep({ onNext }: StepComponentProps) {
+export function FinishRestaurantsStep({ onNext }: StepComponentProps) {
   const router = useRouter();
   const tripId = String(router.query.id);
 
-  const { title, subtitle } = SCRIPT_BUILDER_FINISH;
+  const { title, subtitle } = RESTAURANTS_FINISH;
 
   return (
     <Grid className="trip-script-builder-step">
@@ -23,7 +23,7 @@ export function FinishStep({ onNext }: StepComponentProps) {
         {title}
       </Text>
       <Text className="trip-script-builder-step__item">{subtitle}</Text>
-      <Button className="trip-script-builder-step__item" onClick={() => onNext()}>Começar a definir restaurantes e bares</Button>
+      <Button className="trip-script-builder-step__item" onClick={() => onNext()} disabled>Começar a definir bares e festas</Button>
       <Button className="trip-script-builder-step__item" href={`/app/viagens/${tripId}`} variant="naked" size="sm">Deixar para mais tarde</Button>
     </Grid>
   );

@@ -1,0 +1,36 @@
+.restaurant-detail {
+  padding: 18px 0;
+  max-height: 95%;
+
+  &__title {
+    margin: 0 18px;
+    color: $color-brand-2;
+    font-weight: bold;
+  }
+
+  &__subtitle {
+    margin: 0 18px;
+    margin-top: 0 !important;
+    color: $color-gray-1
+  }
+
+  &__info {
+    padding: 12px 18px;
+
+    &__title {
+      color: $color-brand-2;
+    }
+
+    &__subinfo {
+      padding: 6px 0;
+    }
+  }
+
+  &__button {
+    margin: 0 18px;
+  }
+
+  &__image {
+    max-height: 250px;
+  }
+}
