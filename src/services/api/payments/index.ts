@@ -1,4 +1,4 @@
 import { getPayerById } from "./payer";
-import { putTripPayment, postTripPaymentIntent } from "./payTrip";
+import { putTripPayment, postTripPaymentIntent, getTripPaymentStatus } from "./payTrip";
 
-export const PaymentsApiService = { getPayerById, putTripPayment, postTripPaymentIntent };
+export const PaymentsApiService = { getPayerById, putTripPayment, postTripPaymentIntent, getTripPaymentStatus };

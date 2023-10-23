@@ -113,3 +113,28 @@ export function TripPurchaseErrorResponse(result: TripPurchaseErrorResponseProps
     </Box>
   );
 }
+
+export function TripPurchseEmalMessage() {
+  return (
+    <Box className="trip-purchase__response flex-column gap-md p-md">
+      <Picture className="trip-purchase__response-item" src="/assets/payments/payment-email.png" />
+      <Text className="trip-purchase__response-item" heading size="xl">
+        Verifique seu E-mail
+      </Text>
+      <Text className="trip-purchase__response-item" size="lg">
+        Enviamos os dados para realização do pagamento para o seu e-mail. Verifique sua caixa de
+        entrada.
+      </Text>
+      <Button
+        className="trip-purchase__response-button"
+        variant="custom"
+        backgroundColor="var(--color-brand-2)"
+        hoverBackgroundColor="var(--color-secondary-900)"
+        color="white"
+        href={"/app/painel"}
+      >
+        Voltar para o painel
+      </Button>
+    </Box>
+  );
+}

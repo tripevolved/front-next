@@ -38,6 +38,7 @@ import { TripPaymentResult } from "@/services/api/payments/payTrip";
 import {
   TripPurchaseErrorResponse,
   TripPurchaseSuccessResponse,
+  TripPurchseEmalMessage,
 } from "./trip-purchase-response.section";
 import { IsPaidSection } from "./is-paid.section";
 import { useAppStore } from "@/core/store";
@@ -71,6 +72,18 @@ export function TripPurchasePage() {
   const tripId = String(router.query.id);
 
   const priceTotal = priceData?.price! + priceData?.serviceFee!;
+
+  const pooling = async (cb: () => Promise<boolean>, timeout = 3000, maxTries = 20) => {
+    if (maxTries <= 0) {
+      modalControlRef.current.close();
+      Modal.open(() => <TripPurchseEmalMessage />, { closable: true });
+      return;
+    }
+    const result = await cb().catch(() => false);
+    if (result) return;
+    await new Promise((resolve) => setTimeout(resolve, timeout));
+    pooling(cb, timeout, maxTries - 1);
+  };
 
   const getOptions = () => {
     let maxInstallments = Math.min(Math.floor(priceTotal / MIN_PAYMENT), MAX_INSTALLMENTS);
@@ -145,13 +158,19 @@ export function TripPurchasePage() {
 
   const openFinishModal = (isSuccess: boolean, result: any) => {
     modalControlRef.current.close();
-    const modal = Modal.open(
+    modalControlRef.current = Modal.open(
       () => (
         <>
           {isSuccess ? (
-            <TripPurchaseSuccessResponse {...result} onClose={() => modal.close()} />
+            <TripPurchaseSuccessResponse
+              {...result}
+              onClose={() => modalControlRef.current.close()}
+            />
           ) : (
-            <TripPurchaseErrorResponse {...result} onClose={() => modal.close()} />
+            <TripPurchaseErrorResponse
+              {...result}
+              onClose={() => modalControlRef.current.close()}
+            />
           )}
         </>
       ),
@@ -159,6 +178,33 @@ export function TripPurchasePage() {
         size: "lg",
         closable: true,
       }
+    );
+
+    pooling(
+      () =>
+        PaymentsApiService.getTripPaymentStatus(tripId).then((resp) => {
+          if (resp.status == "NOT_STARTED") {
+            Notification.warning("Realizando verificação de pagamento...");
+            return false;
+          }
+          if (resp.status == "STARTED") {
+            Notification.warning("Realizando verificação de pagamento...");
+            return false;
+          }
+          if (resp.status == "CANCELED") {
+            Notification.error("Pagamento Cancelado!");
+            return false;
+          }
+          if (resp.status == "REFUSED") {
+            Notification.error("Seu pagamento foi recusado!");
+            return false;
+          }
+          Notification.success("Pagamento Aprovado com Sucesso!");
+          router.push("/app/painel");
+          return true;
+        }),
+      3000,
+      60 // 60 tries = 3 minutes
     );
   };
 
