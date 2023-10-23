@@ -2,7 +2,7 @@ import { TripHotelListTransaction, TripStay, TripStayRoom } from "@/core/types";
 
 export interface TripHotelListProps {
   tripId: string;
-};
+}
 
 interface EditHotelSteps {
   onNext: () => void;
@@ -10,8 +10,8 @@ interface EditHotelSteps {
 }
 
 export interface HotelStepProps extends EditHotelSteps {
-  hotelLists:TripHotelListTransaction;
-  setFunction: (value: Omit<TripStay, 'highlight'>) => void;
+  hotelLists: TripHotelListTransaction;
+  setFunction: (value: Omit<TripStay, "highlight">) => void;
 }
 
 export interface RoomsStep extends EditHotelSteps {

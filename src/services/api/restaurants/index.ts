@@ -9,5 +9,5 @@ export const RestaurantsApiService = {
   getRestaurants: getRestaurantsByTripId,
   getRestaurantDetail: getRestaurantDetailsById,
   setParameters: setRestaurantParametersToTrip,
-  setRestaurantChoices
+  setRestaurantChoices,
 };

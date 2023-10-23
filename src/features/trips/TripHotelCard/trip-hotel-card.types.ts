@@ -5,4 +5,4 @@ export interface TripHotelCardProps {
   isCurated?: boolean;
   onSelect: () => void;
   isSelected?: boolean;
-};
+}
