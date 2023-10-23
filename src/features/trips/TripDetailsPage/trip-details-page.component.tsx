@@ -6,18 +6,20 @@ import { TripScriptSection } from "./trip-script.section";
 import { TripFoodTipsSection } from "./trip-food-tips.section";
 import { TripSupportSection } from "./trip-support.section";
 import { TripConfigurationSection } from "./trip-configuration.section";
-import { EmptyState, GlobalLoader, Text } from "@/ui";
+import { EmptyState, ErrorState, GlobalLoader, Text, WhatsappButton } from "@/ui";
 import { PageAppBody } from "@/features/templates/PageAppBody";
 import { PageAppHeader } from "@/features/templates/PageAppHeader";
 
 import { useTripDetails } from "./trip-details.hook";
 import { DestinationInfos, DestinationRecommendedBy, TripPricingBox } from "@/features";
-import { Card, Container, Grid } from "mars-ds";
+import { Card, Container, Divider, Grid } from "mars-ds";
+
+const MAX_REFRESH_COUNT = 5;
 
 export function TripDetailsPage() {
-  const { data, isEmpty, isLoading } = useTripDetails();
+  const { data, isEmpty, isLoading, refreshCount } = useTripDetails();
 
-  if (!data) {
+  if (!data || data.isBuilding) {
     return (
       <>
         <PageAppHeader backButton href="/app/painel" title="Viagem" />
@@ -25,14 +27,23 @@ export function TripDetailsPage() {
           <div className="flex flex-column h-100 justify-content-center">
             {isEmpty ? (
               <EmptyState />
+            ) : (refreshCount >= MAX_REFRESH_COUNT ?  (
+              <>
+                <ErrorState text="Infelizmente, houve um problema com a construção da sua viagem." />
+                <Text className="text-center color-text-secondary" heading size="sm">
+                  Mas pode falar conosco e vamos construir a viagem ideal para você!
+                </Text>
+                <Divider />
+                <WhatsappButton message={`Houve um problema com minha viagem para ${data?.destination?.title}. Pode me ajudar a montar essa viagem?`}>Fale conosco</WhatsappButton>
+              </>
             ) : (
               <>
                 <GlobalLoader inline />
                 <Text className="text-center color-text-secondary">
-                  {isLoading ? "Carregando..." : "Aguarde enquanto a sua viagem está sendo criada"}
+                  {isLoading ? "Carregando..." : "Estamos construindo sua viagem..."}
                 </Text>
               </>
-            )}
+            ))}
           </div>
         </PageAppBody>
       </>
