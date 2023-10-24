@@ -38,7 +38,7 @@ import { TripPaymentResult } from "@/services/api/payments/payTrip";
 import {
   TripPurchaseErrorResponse,
   TripPurchaseSuccessResponse,
-  TripPurchseEmalMessage,
+  TripPurchaseEmailMessage,
 } from "./trip-purchase-response.section";
 import { IsPaidSection } from "./is-paid.section";
 import { useAppStore } from "@/core/store";
