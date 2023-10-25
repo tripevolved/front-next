@@ -44,7 +44,7 @@ export const TripScriptDayComponent = ({
                   ignoreNotSelected={true}
                   key={j}
                 >
-                  {allowDelete && tripScriptAction.isEditable && (
+                  {allowDelete && onDelete && tripScriptAction.isEditable && (
                     <Icon
                       name="trash-2"
                       color="#D35050"

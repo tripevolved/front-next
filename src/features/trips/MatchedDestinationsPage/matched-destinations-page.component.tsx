@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { useMatchedDestinations } from "./matched-destinations.hook";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 
@@ -12,6 +11,8 @@ import { PageAppBody } from "@/features/templates/PageAppBody";
 import { PageAppHeader } from "@/features";
 import { useAppStore } from "@/core/store";
 import { MatchedDestinationsProposal } from "./matched-destinations-proposal.component";
+import useSWR from "swr";
+import { MatchedDestinationReturn } from "@/services/api/trip/matches";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -34,14 +35,19 @@ export const MatchedDestinationsPage = ({
   className,
   sx
 }: MatchedDestinationsPageProps) => {
-  const { isLoading, data, error } = useMatchedDestinations();
+  const router = useRouter();
+  const tripId = String(router.query.id);
+
+  const uniqueKeyName = `${tripId}-script`;
+  const fetcher = async () => TripsApiService.getMatchedDestinations({ tripId });
+  const { isLoading, data, error } = useSWR<MatchedDestinationReturn>(uniqueKeyName, fetcher);
+
   const cn = makeCn("has-trip", className)(sx);
   const { name = "viajante" } = useAppStore((state) => state.travelerState);
   const firstName = name.replace(/\s.*/, "");
 
   const [submitting, setSubmitting] = useState(false);
 
-  const router = useRouter();
   const chosenDestination = useRef<string>();
 
   const handleCreateTrip = (destinationId: string) => {

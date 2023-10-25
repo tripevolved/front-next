@@ -80,7 +80,7 @@ export function TripScriptPanel() {
                       {tripScriptDay.actions.length ? (
                         <>
                           {tripScriptDay.actions.map((tripScriptAction, j) => {
-                            return TripScriptActionOrSuggestion(tripScriptAction);
+                            return (<TripScriptActionOrSuggestion action={tripScriptAction} key={j} />);
                           })}
                         </>
                       ) : (

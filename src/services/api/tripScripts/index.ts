@@ -17,5 +17,5 @@ export const TripScriptsApiService = {
   postParameters: setTripScriptParameters,
   getBuilderParams: getTripScriptBuilderParams,
   getDaySuggestion: getTripScriptDaySuggestion,
-  getDayTip: getTripScriptDayTip
+  getDayTip: getTripScriptDayTip,
 };

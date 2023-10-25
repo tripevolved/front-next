@@ -10,7 +10,8 @@ export const createAccommodationSlice: StateCreator<AccommodationSlice> = (set) 
   return {
     accommodation: initialAccommodationState,
     updateAccommodationState: update,
-    setAccommodation: (accommodation: AccommodationValue) => set({ accommodation: { ...accommodation, ...FETCH_STATE.FETCHED } }),
+    setAccommodation: (accommodation: AccommodationValue) =>
+      set({ accommodation: { ...accommodation, ...FETCH_STATE.FETCHED } }),
     clearAccommodation: () => set({ accommodation: initialAccommodationState }),
-  }
-}
+  };
+};

@@ -26,7 +26,6 @@ export function MatchedDestinationCard({
 
   const [photo] = images && images.length ? images : [];
   const cover = photo ? parsePhoto(photo) : undefined;
-  console.log(matchScore);
 
   const getHeader = () => (matchScore ? (
       <div className="matched-destination-card__header">

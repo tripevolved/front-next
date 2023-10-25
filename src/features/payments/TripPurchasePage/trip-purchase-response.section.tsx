@@ -2,6 +2,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { TripPaymentResult } from "@/services/api/payments/payTrip";
 import { Box, Text, Picture, Tag } from "@/ui";
 import { Button, Notification } from "mars-ds";
+import { NotificationResult } from "@/ui";
 
 const CREDIT_CARD_MESSAGE =
   "Você irá para um ambiente seguro do nosso parceiro para a realização do pagamento. Também enviamos os dados para realização do pagamento para o seu e-mail.";
@@ -46,7 +47,7 @@ export function TripPurchaseSuccessResponse({
   }
   return (
     <Box className="trip-purchase__response flex-column align-items-center gap-md p-md">
-      <Picture className="trip-purchase__response-item" src="/assets/payments/success.png" />
+      <Picture className="trip-purchase__response-item" src="/assets/notifications/success.png" />
       <Text className="trip-purchase__response-item" heading size="xl">
         Tudo certo!
       </Text>
@@ -94,7 +95,15 @@ export function TripPurchaseSuccessResponse({
 export function TripPurchaseErrorResponse(result: TripPurchaseErrorResponseProps) {
   return (
     <Box className="trip-purchase__response flex-column gap-md p-md">
-      <Picture className="trip-purchase__response-item" src="/assets/payments/error.png" />
+      <NotificationResult
+        isSuccess={false}
+        message={result.message}
+        nonSuccessTitle="Erro de pagamento"
+        nonSuccessSubtitle="Parece que há um problema com seu pagamento"
+        nonSuccessAllowRetry={true}
+        redirectToTitle="Ver minha viagem"
+      />
+      {/* <Picture className="trip-purchase__response-item" src="/assets/notifications/error.png" />
       <Text className="trip-purchase__response-item" heading size="xl">
         Erro na Criação do Pagamento
       </Text>
@@ -113,7 +122,7 @@ export function TripPurchaseErrorResponse(result: TripPurchaseErrorResponseProps
         onClick={() => result.onClose()}
       >
         Tentar novamente
-      </Button>
+      </Button> */}
     </Box>
   );
 }
@@ -121,7 +130,10 @@ export function TripPurchaseErrorResponse(result: TripPurchaseErrorResponseProps
 export function TripPurchseEmalMessage() {
   return (
     <Box className="trip-purchase__response flex-column gap-md p-md">
-      <Picture className="trip-purchase__response-item" src="/assets/payments/payment-email.png" />
+      <Picture
+        className="trip-purchase__response-item"
+        src="/assets/notifications/payment-email.png"
+      />
       <Text className="trip-purchase__response-item" heading size="xl">
         Verifique seu E-mail
       </Text>
