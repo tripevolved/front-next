@@ -4,7 +4,7 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { HasTrip } from "../HasTrip";
 import { useAppStore } from "@/core/store";
 import { EmptyState, GlobalLoader, Text } from "@/ui";
-import { PageAppHeader, TripDashboard } from "@/features";
+import { PageAppBody, PageAppHeader, TripDashboard } from "@/features";
 import { useRouter } from "next/router";
 import { TripsApiService } from "@/services/api";
 import useSwr from "swr";
@@ -19,13 +19,9 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
   const { isLoading, error, data } = useSwr(idParam, fetcher);
 
   const {
-    name = "viajante",
-    hasCurrentTrip,
-    travelerProfile,
+    name = "viajante"
   } = useAppStore((state) => state.travelerState);
   const firstName = name.replace(/\s.*/, "");
-
-  const { travelerState } = useAppStore();
 
   const getView = () => {
     if (error) return <EmptyState />;
@@ -53,7 +49,9 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
           </div>
         </div>
       </PageAppHeader>
-      {getView()}
+      <PageAppBody>
+        {getView()}
+      </PageAppBody>
     </div>
   );
 }
