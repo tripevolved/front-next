@@ -55,16 +55,17 @@ export function TripPurchasePage() {
     isLoading,
     data: tripPayer,
     error,
+    mutate,
   } = useSwr(`get-trip-payer-${travelerState.id}`, fetcher);
 
   const { priceData } = useTripPrice();
   const [paymentMethod, setPaymentMethod] = useState<TripPaymentMethod>();
   const [writeGender, setWriteGender] = useState(false);
   const [address, setAddress] = useState<Partial<TripPayerAddress>>({
-    address: tripPayer?.address.address || "",
-    neighborhood: tripPayer?.address.neighborhood || "",
-    city: tripPayer?.address.city || "",
-    stateProvince: tripPayer?.address.stateProvince || "",
+    address: "",
+    neighborhood: "",
+    city: "",
+    stateProvince: "",
   });
   const modalControlRef = useRef<any>();
 
@@ -76,7 +77,7 @@ export function TripPurchasePage() {
   const pooling = async (cb: () => Promise<boolean>, timeout = 3000, maxTries = 20) => {
     if (maxTries <= 0) {
       modalControlRef.current.close();
-      Modal.open(() => <TripPurchseEmalMessage />, { closable: true });
+      Modal.open(() => <TripPurchaseEmailMessage />, { closable: true });
       return;
     }
     const result = await cb().catch(() => false);
@@ -233,14 +234,18 @@ export function TripPurchasePage() {
     const addressData = await ViaCepService.getAddress(cleanPostalCode);
     if (!addressData) return;
 
-    const newAddress: Partial<TripPayerAddress> = {
-      address: addressData?.logradouro,
-      neighborhood: addressData?.bairro,
-      city: addressData?.localidade,
-      stateProvince: addressData?.uf,
-    };
+    const newAddress = {
+      ...tripPayer!,
+      address: {
+        ...tripPayer!.address,
+        address: addressData.logradouro,
+        neighborhood: addressData.bairro,
+        city: addressData.localidade,
+        stateProvince: addressData.uf,
+      },
+    } satisfies TripPayer;
 
-    setAddress(newAddress);
+    mutate(newAddress);
   };
 
   if (error) return <EmptyState />;
@@ -356,7 +361,7 @@ export function TripPurchasePage() {
                 className="trip-purchase__section__input"
                 required={true}
                 label="Cidade"
-                value={address.city}
+                value={tripPayer?.address.city}
               />
               <TextField
                 id="stateProvince"
@@ -364,7 +369,7 @@ export function TripPurchasePage() {
                 required={true}
                 className="trip-purchase__section__input"
                 label="UF"
-                value={address.stateProvince}
+                value={tripPayer?.address.stateProvince}
               />
             </Grid>
             <TextField
@@ -372,7 +377,7 @@ export function TripPurchasePage() {
               name="address"
               className="trip-purchase__section__input"
               label="Endereço"
-              value={address.address}
+              value={tripPayer?.address.address}
             />
             <Grid columns={[1, 1, 3]}>
               <TextField
@@ -396,7 +401,7 @@ export function TripPurchasePage() {
                 required={true}
                 className="trip-purchase__section__input"
                 label="Bairro"
-                value={address.neighborhood}
+                value={tripPayer?.address.neighborhood}
               />
             </Grid>
           </Box>

@@ -5,10 +5,10 @@ import { Button, Notification } from "mars-ds";
 import { NotificationResult } from "@/ui";
 
 const CREDIT_CARD_MESSAGE =
-  "Você irá para um ambiente seguro do nosso parceiro para a realização do pagamento. Também enviamos os dados para realização do pagamento para o seu e-mail.";
+  "Em instantes você será redirecionado para um ambiente seguro do nosso parceiro para a realização do pagamento. Também enviamos os dados para realização do pagamento para o seu e-mail.";
 const PIX_MESSAGE = "Realize o pagamento via PIX através do QRCode";
 
-const READING_TIME_MILLISECONDS = 8 * 1000;
+const READING_TIME_MILLISECONDS = 10 * 1000;
 
 export interface TripPurchaseSuccessResponseSectionProps extends TripPaymentResult {
   onClose: () => void;
@@ -85,7 +85,7 @@ export function TripPurchaseSuccessResponse({
         </>
       ) : (
         <Button style={{ color: "var(--color-gray-4)" }} onClick={() => onClose()}>
-          Deixar para mais tarde
+          OK, Obrigado!
         </Button>
       )}
     </Box>
@@ -127,7 +127,7 @@ export function TripPurchaseErrorResponse(result: TripPurchaseErrorResponseProps
   );
 }
 
-export function TripPurchseEmalMessage() {
+export function TripPurchaseEmailMessage() {
   return (
     <Box className="trip-purchase__response flex-column gap-md p-md">
       <Picture
