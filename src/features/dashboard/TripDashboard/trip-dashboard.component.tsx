@@ -1,8 +1,9 @@
-import { Box, Text, Picture } from "@/ui";
+import { Box, Text, Picture, CardHighlight } from "@/ui";
 import type { TripDashboardProps, TripDashboardItemProps } from "./trip-dashboard.types";
 import NextLink from "next/link";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
+import { Grid } from "mars-ds";
 
 export function TripDashboard({
   className,
@@ -13,11 +14,20 @@ export function TripDashboard({
   ...props
 }: TripDashboardProps) {
   const cn = makeCn("trip-dashboard", className)(sx);
-  const { pendingActions, attractionsNumber, documents, flightAndTickets, tips } = tripDashboard;
+  const { pendingActions, attractionsNumber, status } = tripDashboard;
 
   return (
     <Box className={cn} {...props}>
       <Text heading>{tripDashboard.name}</Text>
+      {status === "AWAITING_ACTION" && 
+        <CardHighlight className="trip-dashboard__alert">
+          <Grid columns={[2,23]}>
+          <Picture src={`/assets/trip-dashboard/pending-alert.svg`} className="trip-dashboard__alert__icon" />
+          <Text size="lg" className="trip-dashboard__alert__text">
+            Sua viagem possui pendências que precisam ser resolvidas para que possamos realizar suas reservas.
+          </Text>
+          </Grid>
+        </CardHighlight>}
       <Box className="trip-dashboard__box">
         <Box className="trip-dashboard__box__row">
           <TripDashboardItem
@@ -30,7 +40,7 @@ export function TripDashboard({
           <TripDashboardItem
             icon="documents"
             description="Documentos"
-            qtd={documents}
+            qtd={0}
             href={`/app/viagens/documentos/${tripId}`}
           />
         </Box>
@@ -38,13 +48,13 @@ export function TripDashboard({
           <TripDashboardItem
             icon="flight-and-tickets"
             description="Voos e Reservas"
-            qtd={flightAndTickets}
+            qtd={0}
             href={`/app/viagens/reservas/${tripId}`}
           />
           <TripDashboardItem
             icon="tips"
             description="Dicas"
-            qtd={tips}
+            qtd={0}
             href={`/app/viagens/dicas/${tripId}`}
           />
         </Box>

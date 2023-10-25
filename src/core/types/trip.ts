@@ -34,10 +34,8 @@ export interface TripConfiguration {
 // Traveler Dashboard
 export interface TripDashboard {
   name: string;
+  status: "AWAITING_ACTION" | "TO_HAPPEN" | "TAKEN" | "NONE";
   pendingActions: number;
-  documents: number;
-  flightAndTickets: number;
-  tips: number;
   attractionsNumber: number;
 }
 
