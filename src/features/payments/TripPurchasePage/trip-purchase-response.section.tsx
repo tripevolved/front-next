@@ -103,26 +103,6 @@ export function TripPurchaseErrorResponse(result: TripPurchaseErrorResponseProps
         nonSuccessAllowRetry={true}
         redirectToTitle="Ver minha viagem"
       />
-      {/* <Picture className="trip-purchase__response-item" src="/assets/notifications/error.png" />
-      <Text className="trip-purchase__response-item" heading size="xl">
-        Erro na Criação do Pagamento
-      </Text>
-      <Text className="trip-purchase__response-item" size="lg">
-        Parece que há um problema com seu pagamento.
-      </Text>
-      <Text className="trip-purchase__response-item" size="md">
-        Mais informações: {result.message}
-      </Text>
-      <Button
-        className="trip-purchase__response-button"
-        variant="custom"
-        backgroundColor="var(--color-brand-2)"
-        hoverBackgroundColor="var(--color-secondary-900)"
-        color="white"
-        onClick={() => result.onClose()}
-      >
-        Tentar novamente
-      </Button> */}
     </Box>
   );
 }
