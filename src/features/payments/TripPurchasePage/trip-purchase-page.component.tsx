@@ -34,7 +34,7 @@ import { PaymentsApiService } from "@/services/api";
 import { ReactPortal, useRef, useState } from "react";
 import { CreditCardInformationSection } from "./credit-card-information.section";
 import { PixInformationSection } from "./pix-information.section";
-import { TripPaymentResult } from "@/services/api/payments/payTrip";
+import type { TripPaymentResult } from "@/services/api/payments/payTrip";
 import {
   TripPurchaseErrorResponse,
   TripPurchaseSuccessResponse,
@@ -200,10 +200,10 @@ export function TripPurchasePage() {
             return false;
           }
           Notification.success("Pagamento Aprovado com Sucesso!");
-          router.push("/app/painel");
+          router.push(`/app/viagens/${tripId}`);
           return true;
         }),
-      3000,
+      10000,
       60 // 60 tries = 3 minutes
     );
   };
@@ -299,10 +299,9 @@ export function TripPurchasePage() {
             <TextField
               id="motherName"
               name="motherName"
-              required={true}
               className="trip-purchase__section__input"
               label="Nome da mãe"
-              value={tripPayer?.motherName || ""}
+              value={tripPayer?.motherName ?? ""}
             />
             <TextField
               id="document"
@@ -310,7 +309,7 @@ export function TripPurchasePage() {
               required={true}
               className="trip-purchase__section__input"
               label="Documento"
-              value={tripPayer?.document || ""}
+              value={tripPayer?.document ?? ""}
               mask={"99.999.999-9"}
             />
             <TextField
@@ -321,7 +320,7 @@ export function TripPurchasePage() {
               label="Data de Nascimento"
               type="date"
               // @ts-ignore
-              value={tripPayer?.birthDate || ""}
+              value={tripPayer?.birthDate ?? ""}
             />
           </Box>
           <DashedDivider className="trip-purchase__divider" />

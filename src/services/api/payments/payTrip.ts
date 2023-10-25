@@ -1,4 +1,4 @@
-import { TripPayment, TripPaymentMethod, TripPaymentStatus, TrippaymentProvider } from "@/core/types";
+import { TripPayment, TripPaymentMethod, TripPaymentStatus, TripPaymentProvider } from "@/core/types";
 import { ApiRequest } from "@/services/api/request";
 import { AxiosError } from "axios";
 
@@ -14,7 +14,7 @@ export interface TripPaymentResult {
   isSuccess: boolean;
   message: string | null;
   transactionId: string;
-  provider: TrippaymentProvider;
+  provider: TripPaymentProvider;
   paymentMethod: TripPaymentMethod;
   pixInfo: PixPaymentInfo;
   paymentLinkUrl: string;

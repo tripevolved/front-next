@@ -1,10 +1,10 @@
 import { QRCodeSVG } from "qrcode.react";
 import { TripPaymentResult } from "@/services/api/payments/payTrip";
 import { Box, Text, Picture, Tag } from "@/ui";
-import { Button, Modal, Notification } from "mars-ds";
+import { Button, Notification } from "mars-ds";
 
 const CREDIT_CARD_MESSAGE =
-  "Você será redirecionado para a página onde realizará o pagamento com seu Cartão de Crédito";
+  "Você irá para um ambiente seguro do nosso parceiro para a realização do pagamento. Também enviamos os dados para realização do pagamento para o seu e-mail.";
 const PIX_MESSAGE = "Realize o pagamento via PIX através do QRCode";
 
 const READING_TIME_MILLISECONDS = 8 * 1000;
@@ -82,7 +82,11 @@ export function TripPurchaseSuccessResponse({
             Copiar Código
           </Button>
         </>
-      ) : null}
+      ) : (
+        <Button style={{ color: "var(--color-gray-4)" }} onClick={() => onClose()}>
+          Deixar para mais tarde
+        </Button>
+      )}
     </Box>
   );
 }
