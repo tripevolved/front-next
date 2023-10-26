@@ -24,7 +24,6 @@ export function PendingDocumentsModal({ tripId }: PendingDocumentsModalProps) {
   };
 
   const handleSubmit = async () => {
-    console.log(travelers);
     const payload = { ...(data as TripTravelers), travelers: Object.values(travelers) };
     await pendingDocuments.onSubmit(payload);
   };
