@@ -16,6 +16,8 @@ export function TripStayDetails({
   isModalView = false,
   style,
   uniqueTransactionId,
+  router,
+  className,
 }: TripStayDetailsProps) {
   let computedStyle;
 
@@ -25,11 +27,10 @@ export function TripStayDetails({
     updateAccommodation: state.updateAccommodationState,
     accommodation: state.accommodation,
   }));
-  const route = useRouter();
 
   const handleRoomsButton = () => {
     updateAccommodation({ ...accommodation, ...stayData, uniqueTransactionId });
-    route.push(`/app/viagens/criar/${tripId}/hospedagem/quartos`);
+    router.push(`/app/viagens/criar/${tripId}/hospedagem/quartos`);
   };
 
   if (isModalView) {
@@ -100,9 +101,19 @@ export function TripStayDetails({
               <Text>{stayData.details.address}</Text>
             </div>
           </Box>
+          {stayData.cancellationInfo ? (
+            <>
+              <Text heading size="xs" className="trip-stay-details__content__title">
+                Informações de cancelamento
+              </Text>
+              <Text className="trip-stay-details__content__description">
+                {stayData.cancellationInfo}
+              </Text>
+            </>
+          ) : null}
         </Box>
         {!isModalView ? (
-          <Box className="trip-stay-details__footer-buttons gap-lg">
+          <Box className="trip-stay-details__footer-buttons gap-lg px-md">
             <Button
               className="trip-stay-details__footer-buttons__buttons"
               variant="naked"

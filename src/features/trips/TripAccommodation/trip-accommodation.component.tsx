@@ -41,6 +41,7 @@ export function TripAccommodation() {
           uniqueTransactionId={data.uniqueTransactionId}
           stayData={accommodationData}
           tripId={idParam}
+          router={router}
         />
       ) : (
         <EmptyState />

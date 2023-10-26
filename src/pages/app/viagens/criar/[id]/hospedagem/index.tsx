@@ -8,7 +8,7 @@ export default function TripPendingRoute() {
   const idParam = router.query.id;
   return (
     <PageApp seo={{ title: TITLE }}>
-      <PageAppHeader title={TITLE} backButton href={`/app/viagens/${idParam}`} />
+      <PageAppHeader title={TITLE} backButton href={`/app/viagens/criar/${idParam}`} />
       <PageAppBody>
         <TripAccommodation />
       </PageAppBody>

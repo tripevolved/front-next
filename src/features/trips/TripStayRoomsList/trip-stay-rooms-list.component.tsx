@@ -1,7 +1,7 @@
 import { TripStayRoom } from "@/core/types";
 import type { TripStayRoomsListProps } from "./trip-stay-rooms-list.types";
 import { TripStayRoomCard } from "@/features";
-import { EmptyState, StepsLoader, Text } from "@/ui";
+import { EmptyState, ErrorState, GlobalLoader, StepsLoader, Text } from "@/ui";
 import { SubmitButton, Notification } from "mars-ds";
 import { useState } from "react";
 import { TripHotelDTO } from "@/services/api/stays/by-trip";
@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import useTripStayRoomEdit from "./trip-stay-room-list.hook";
 import { useAppStore } from "@/core/store";
 import { AccommodationState } from "@/core/store/accomodation";
+import { StaysApiService } from "@/services/api";
+import useSWR from "swr";
 
 const LOADING_STEPS = [
   {
@@ -27,9 +29,18 @@ const LOADING_STEPS = [
 const FIFTEEN_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = FIFTEEN_SECONDS_IN_MS;
 
+const swrOptions = { revalidateOnFocus: false };
+
 export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
   const [roomList, setRoomList] = useState<TripStayRoom[]>([]);
   const router = useRouter();
+
+  const fetcher = async () => StaysApiService.getHotels(tripId);
+  const {
+    data: hotelList,
+    isLoading,
+    error,
+  } = useSWR(`accomodation-get-${tripId}`, fetcher, swrOptions);
 
   const {
     setObjDTO,
@@ -96,8 +107,6 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
     setCanSendPayload(true);
   };
 
-  if (!doesObjHaveRooms(hotelData)) return <EmptyState />;
-
   const handleFinish = () => {
     if (errorSentData)
       return Notification.error(
@@ -114,6 +123,11 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
       </div>
     );
   }
+
+  if (isLoading) return <GlobalLoader />;
+  if (error) return <ErrorState />;
+  if (!hotelList?.uniqueTransactionId) return <EmptyState />;
+  if (!doesObjHaveRooms(hotelData)) return <EmptyState />;
 
   return (
     <div className="trip-stay-rooms-list gap-lg">
