@@ -4,7 +4,7 @@ import type { Traveler, TripTravelers } from "@/core/types";
 import { Text, EmptyState, GlobalLoader } from "@/ui";
 import { TextField, FormWithSubmitButton, makeArray } from "mars-ds";
 import { usePostTripPendingDocuments } from "./pending-documents-modal.hook";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TravelerApiService } from "@/services/api/traveler";
 import useSwr from "swr";
 
@@ -15,19 +15,24 @@ export function PendingDocumentsModal({ tripId }: PendingDocumentsModalProps) {
 
   const pendingDocuments = usePostTripPendingDocuments();
 
-  const [travelers, setTravelers] = useState<Record<string, Traveler>>({});
+  const [travelers, setTravelers] = useState<Traveler[]>([]);
 
-  const handleChange = (name: string, value: string, id: string) => {
-    setTravelers((state) => ({
-      ...state,
-      [id]: { ...state[id], [name]: value, id },
-    }));
+  const handleChange = (index: number, traveler: Traveler) => {
+    const updatedTravelers = travelers;
+    updatedTravelers[index] = traveler;
+    setTravelers(updatedTravelers);
   };
 
   const handleSubmit = async () => {
+    console.log(travelers);
     const payload = { ...(data as TripTravelers), travelers: Object.values(travelers) };
     await pendingDocuments.onSubmit(payload);
   };
+
+  useEffect(() => {
+    setTravelers(data?.travelers ?? makeArray(data?.travelerCount!));
+  }, []);
+
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
@@ -58,21 +63,20 @@ export function PendingDocumentsModal({ tripId }: PendingDocumentsModalProps) {
 
 interface TravelerPendingFormProps {
   title: string;
-  onChangeValue: (name: string, value: string, id: string) => void;
+  onChangeValue: (index: number, value: Traveler) => void;
   index: number;
-  values?: Partial<Traveler>;
+  values?: Traveler;
 }
 
 const TravelerPendingForm = ({ title, index, onChangeValue, values }: TravelerPendingFormProps) => {
-  const id = values?.id || String(index);
-
+  const [traveler, setTraveler] = useState<Traveler>(values ?? {});
 
   const handleValue = (name: string) => (event: React.MouseEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
     const value = target.value;
-    onChangeValue(name, value, id);
+    setTraveler({ ...traveler, [name]: value });
+    onChangeValue(index, { ...traveler, [name]: value });
   };
-
 
   const fullTitle = values?.fullName ? `${title}: ${values.fullName}` : title;
 
@@ -81,36 +85,37 @@ const TravelerPendingForm = ({ title, index, onChangeValue, values }: TravelerPe
       <Text size="lg" className="mt-lg">
         {fullTitle}
       </Text>
+      <input type="hidden" value={traveler.id ?? undefined} id={`${index}.id`}/>
       <TextField
         required
         label="Digite o nome completo do viajante"
-        id={`${id}.fullName`}
-        value={values?.fullName}
+        id={`${index}.fullName`}
+        value={traveler.fullName}
         onChange={handleValue("fullName")}
       />
       <TextField
         required
         label="Digite o número de RG do viajante"
-        id={`${id}.rg`}
+        id={`${index}.rg`}
         onChange={handleValue("rg")}
-        mask={"99.999.999-9"}
-        value={values?.rg}
+        maxLength={10}
+        value={traveler.rg}
       />
       <TextField
         required
         label="Digite o número de CPF do viajante"
-        id={`${id}.cpf`}
+        id={`${index}.cpf`}
         onChange={handleValue("cpf")}
         mask={"999.999.999-99"}
-        value={values?.cpf}
+        value={traveler.cpf}
       />
       <TextField
         required
         label="Digite o e-mail do viajante"
-        id={`${id}.email`}
+        id={`${index}.email`}
         type="email"
         onChange={handleValue("email")}
-        value={values?.email}
+        value={traveler.email}
       />
     </>
   );
