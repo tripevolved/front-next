@@ -7,4 +7,5 @@ export interface TripStayDetailsProps extends ComponentHTMLProps {
   isModalView?: boolean;
   uniqueTransactionId?: string;
   router: NextRouter;
+  onCloseModal?: () => void;
 }

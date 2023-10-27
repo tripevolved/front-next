@@ -21,10 +21,20 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
   const { data, error, isLoading } = useSwr("stay", getStay, swrOptions);
 
   const handleSeeDetails = () => {
-    Modal.open(() => <TripStayDetails stayData={data!} tripId={tripId} router={router} />, {
-      closable: true,
-      size: "lg",
-    });
+    const modal = Modal.open(
+      () => (
+        <TripStayDetails
+          stayData={data!}
+          tripId={tripId}
+          router={router}
+          onCloseModal={() => modal.close()}
+        />
+      ),
+      {
+        closable: true,
+        size: "lg",
+      }
+    );
   };
 
   if (isLoading) {

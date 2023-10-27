@@ -6,7 +6,6 @@ import { Carousel } from "@/ui";
 import { TripStayServiceItem } from "@/features";
 import { parseNumericValue } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
-import { useRouter } from "next/router";
 
 const EMPTY_INFO_DETAILS = "As informações ainda não foram definidas.";
 
@@ -17,7 +16,7 @@ export function TripStayDetails({
   style,
   uniqueTransactionId,
   router,
-  className,
+  onCloseModal,
 }: TripStayDetailsProps) {
   let computedStyle;
 
@@ -30,6 +29,7 @@ export function TripStayDetails({
 
   const handleRoomsButton = () => {
     updateAccommodation({ ...accommodation, ...stayData, uniqueTransactionId });
+    if (onCloseModal) onCloseModal();
     router.push(`/app/viagens/criar/${tripId}/hospedagem/quartos`);
   };
 
