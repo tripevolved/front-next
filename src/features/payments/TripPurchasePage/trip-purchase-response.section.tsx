@@ -84,9 +84,19 @@ export function TripPurchaseSuccessResponse({
           </Button>
         </>
       ) : (
-        <Button style={{ color: "var(--color-gray-4)" }} onClick={() => onClose()}>
-          OK, Obrigado!
-        </Button>
+        <>
+          <Button style={{ color: "var(--color-gray-4)" }} onClick={() => onClose()}>
+            OK, Obrigado!
+          </Button>
+          <Button
+            iconName="external-link"
+            variant="naked"
+            isRtl
+            onClick={() => window.open(paymentLinkUrl, "_blank")}
+          >
+            Não foi redirecionado? Clique aqui
+          </Button>
+        </>
       )}
     </Box>
   );

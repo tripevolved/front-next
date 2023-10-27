@@ -61,12 +61,6 @@ export function TripPurchasePage() {
   const { priceData } = useTripPrice();
   const [paymentMethod, setPaymentMethod] = useState<TripPaymentMethod>();
   const [writeGender, setWriteGender] = useState(false);
-  const [address, setAddress] = useState<Partial<TripPayerAddress>>({
-    address: "",
-    neighborhood: "",
-    city: "",
-    stateProvince: "",
-  });
   const modalControlRef = useRef<any>();
 
   const router = useRouter();
@@ -106,11 +100,11 @@ export function TripPurchasePage() {
   const genderOptions = [
     { label: "Feminino", value: "female" },
     { label: "Masculino", value: "male" },
-    { label: "Não-binário", value: "non_binary" },
-    { label: "Transgênero", value: "transgender" },
-    { label: "Intersexo", value: "intersex" },
-    { label: "Prefiro não dizer", value: "" },
-    { label: "Quero escrever", value: "write" },
+    //{ label: "Não-binário", value: "non_binary" },
+    //{ label: "Transgênero", value: "transgender" },
+    //{ label: "Intersexo", value: "intersex" },
+    //{ label: "Prefiro não dizer", value: "" },
+    //{ label: "Quero escrever", value: "write" },
   ];
 
   const handleSubmit = async (event: any) => {
@@ -123,7 +117,7 @@ export function TripPurchasePage() {
       email: event.target.email.value,
       phone: event.target.phone.value,
       cpf: event.target.cpf.value,
-      document: event.target.document.value,
+      document: event.target.document.value.toUpperCase(),
       birthDate: event.target.birthDate.value,
       gender: gender === "write" ? event.target.genderText.value : gender,
       address: {
@@ -148,13 +142,15 @@ export function TripPurchasePage() {
       method: paymentMethod,
     } as TripPayment;
 
-    openLoadingModal();
+    console.log("PAGADEIRO", tripPayer);
+
+    /* openLoadingModal();
 
     PaymentsApiService.postTripPaymentIntent(tripPayment)
       .then((resp) => openFinishModal(resp.isSuccess, { ...resp }))
       .catch(() =>
         openFinishModal(false, { message: "Houve um erro ao gerar o seu pagamento..." })
-      );
+      ); */
   };
 
   const openFinishModal = (isSuccess: boolean, result: any) => {
@@ -285,22 +281,11 @@ export function TripPurchasePage() {
               id="gender"
               name="gender"
               required={true}
-              label="Qual opção melhor descreve você?"
+              label="Sexo"
               options={genderOptions}
-              onSelect={(option) => {
-                if (option.value == "write") setWriteGender(true);
-                else setWriteGender(false);
-              }}
               className="trip-purchase__section__input"
+              value={tripPayer?.gender}
             />
-            {writeGender && (
-              <TextField
-                id="genderText"
-                name="genderText"
-                className="trip-purchase__section__input"
-                label="Opção que melhor descreve você"
-              />
-            )}
             <TextField
               id="motherName"
               name="motherName"
@@ -315,7 +300,7 @@ export function TripPurchasePage() {
               className="trip-purchase__section__input"
               label="Documento"
               value={tripPayer?.document ?? ""}
-              mask={"99.999.999-9"}
+              maxLength={9}
             />
             <TextField
               id="birthDate"
