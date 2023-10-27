@@ -1,3 +1,6 @@
-import type { ComponentHTMLProps } from "@/core/types";
+import type { PageAppProps } from "@/features";
 
-export interface PageTripProps extends ComponentHTMLProps {}
+export interface PageTripProps extends PageAppProps {
+  backToText?: string;
+  backToUrl?: string;
+}

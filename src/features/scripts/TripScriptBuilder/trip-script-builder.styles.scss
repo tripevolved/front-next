@@ -1,0 +1,30 @@
+.trip-script-builder-step {
+  padding: 12px 0;
+  text-align: center;
+
+  &__image {
+    margin: auto;
+  }
+
+  &__item {
+    padding: 12px 0;
+  }
+
+  &__link {
+    padding: 6px 0;
+    margin: auto;
+    color: $color-brand-2;
+  }
+}
+
+.trip-script-builder-slider {
+  &__text {
+    &__right {
+      float: right;
+    }
+
+    &__left {
+      float: left
+    }
+  }
+}

@@ -56,10 +56,10 @@ export function TripScriptPreviewPanel() {
               );
             })
           ) : (
-            <Text> Ainda não difinimos seu roteiro de viagem...</Text>
+            <Text> Ainda não definimos seu roteiro de viagem...</Text>
           )}
+          <TripScriptPreviewBlockedSection />
         </div>
-        <TripScriptPreviewBlockedSection />
       </SectionBase>
     </>
   );

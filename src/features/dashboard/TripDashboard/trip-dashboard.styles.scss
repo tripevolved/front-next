@@ -7,6 +7,16 @@
   width: 100%;
   gap: 25px;
 
+  &__alert {
+    &__icon {
+      height: 100%;
+    }
+
+    &__text {
+      margin: auto 0;
+    }
+  }
+
   &__box {
     display: flex;
     flex-direction: column;
@@ -20,8 +30,8 @@
       gap: 16px;
 
       &__item {
-        border: 1px solid $color-gray-3;
-        border-radius: 20px;
+        box-shadow: $shadow-elevation-600;
+        border-radius: $border-radius-lg;
         background-color: $color-gray-4;
         width: 100%;
         min-width: 160px;
@@ -37,21 +47,20 @@
           align-items: flex-start;
           gap: 18px;
           height: 100%;
+          min-height: 132px;
 
           &__desc {
             font-size: 400;
           }
 
-          &__script-container {
+          &__script {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
             width: 100%;
             height: 100%;
 
-            div:first-child {
-              display: flex;
-              flex-direction: column;
+            .content {
+              align-self: flex-end;
               justify-content: space-between;
               height: 100%;
             }

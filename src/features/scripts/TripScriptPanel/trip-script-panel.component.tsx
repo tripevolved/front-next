@@ -1,20 +1,17 @@
 import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
 import useSwr from "swr";
-import { TripScriptActionSection } from "./trip-script-action.section";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
 import { useRouter } from "next/router";
-import { Card, Icon, Button } from "mars-ds";
-import { TripScriptAction, TripScriptDay } from "@/core/types";
+import { Button } from "mars-ds";
+import { TripScriptDay } from "@/core/types";
 import {
-  AttractionsSuggestion,
-  GastronomySuggestion,
-  BarSuggestion,
-  PartySuggestion,
   PageAppHeader,
   PageAppBody,
 } from "@/features";
 import { useAppStore } from "@/core/store";
 import { TripScriptsApiService } from "@/services/api";
+import { TripScriptActionOrSuggestion } from "./trip-script-action.component";
+import { TripScriptFreeDay } from "./trip-script-free-day.component";
 
 export function TripScriptPanel() {
   const router = useRouter();
@@ -29,20 +26,6 @@ export function TripScriptPanel() {
   if (data === undefined) return <EmptyState />;
 
   const { days, isPreview } = data;
-
-  const suggestRestaurantsAndAttractions = (action: TripScriptAction) => {
-    if (!action.isSelected) {
-      return (
-        <>
-          {action.type === "RESTAURANT" && <GastronomySuggestion />}
-          {action.type === "BAR" && <BarSuggestion />}
-          {action.type === "PARTY" && <PartySuggestion />}
-          {action.type === "EVENT" && <AttractionsSuggestion />}
-        </>
-      );
-    }
-    return <TripScriptActionSection action={action} />;
-  };
 
   const handleEditButton = (tripDay: TripScriptDay) => {
     setTripScriptDay(tripDay);
@@ -97,20 +80,11 @@ export function TripScriptPanel() {
                       {tripScriptDay.actions.length ? (
                         <>
                           {tripScriptDay.actions.map((tripScriptAction, j) => {
-                            return suggestRestaurantsAndAttractions(tripScriptAction);
+                            return (<TripScriptActionOrSuggestion action={tripScriptAction} key={j} />);
                           })}
                         </>
                       ) : (
-                        <Card className="trip-script-action" elevation="xl">
-                          <div className="trip-script-action__icon-box">
-                            <Icon name="home" size="sm" />
-                          </div>
-                          <Box className="trip-script-action__box">
-                            <Text size="lg" className="trip-script-action__title">
-                              Dia livre
-                            </Text>
-                          </Box>
-                        </Card>
+                        <TripScriptFreeDay />
                       )}
                     </div>
                   </div>

@@ -20,7 +20,9 @@ export const useUpdateAttractions = () => {
   const router = useRouter();
   const idParam = typeof router.query.id === "string" ? router.query.id : null;
 
-  const updateTripScript = (actions: UpdateScriptAction[]) => {
+  const updateTripScript = () => {
+    const actions = data.actions.map((action) => { return { id: action.id, attractionId: action.attractionId } as UpdateScriptAction; });
+
     const updatedList: UpdateTripScriptPayload = {
       id: data.id,
       actions,

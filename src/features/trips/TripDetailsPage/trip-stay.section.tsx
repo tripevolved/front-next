@@ -3,15 +3,18 @@ import useSwr from "swr";
 import { Loader, Button } from "mars-ds";
 import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 import { TripStayHighlightSection } from "./trip-stay-highlight.section";
-import { Modal } from "mars-ds";
 
 import { StaysApiService } from "@/services/api";
-import { TripStayDetailsModal } from "../TripStayDetailsModal";
+import { useAppStore } from "@/core/store";
+import { useRouter } from "next/router";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
 
 export const TripStaySection = ({ tripId }: { tripId: string }) => {
+  const router = useRouter();
+  const setAccommdationState = useAppStore((state) => state.setAccommodation);
+
   const getStay = (key: string) => {
     return getByTripId(tripId);
   };
@@ -19,10 +22,8 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
   const { data, error, isLoading } = useSwr("stay", getStay, swrOptions);
 
   const handleSeeDetails = () => {
-    Modal.open(() => <TripStayDetailsModal stayData={data!.details} name={data!.name} />, {
-      closable: true,
-      size: "md",
-    });
+    setAccommdationState({ ...data });
+    router.push(`/app/viagens/criar/${tripId}/hospedagem`);
   };
 
   if (isLoading) {
@@ -75,6 +76,14 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
                   Ainda não escolhemos a acomodação para sua viagem.
                 </Text>
                 <Text>Fale conosco e vamos deixar tudo como você deseja!</Text>
+                <Button
+                  iconName="home"
+                  className="mt-md"
+                  style={{ color: "var(--color-gray-4)", width: "100%" }}
+                  href={`/app/viagens/criar/${tripId}/hospedagem/editar-hotel`}
+                >
+                  Escolher um Hotel
+                </Button>
               </div>
             </CardHighlight>
           </Box>
@@ -94,14 +103,19 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
             <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
               Hospedagem
             </Text>
-            <Box className="trip-stay-section__header__edit">
-              <Picture src="/assets/trip/pencil.svg" />
+            <Button
+              iconName="edit-2"
+              variant="naked"
+              size="sm"
+              style={{ color: "var(--color-gray-1)" }}
+              href={`/app/viagens/criar/${tripId}/hospedagem/editar-hotel`}
+            >
               Editar
-            </Box>
+            </Button>
           </Box>
           <Box className="trip-stay-section__content">
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture src={data.coverImageUrl!} />
+              <Picture src={data.coverImageUrl ? data.coverImageUrl : "/assets/blank-image.png"} />
               <Box className="trip-stay-section__content__stay-desc__box">
                 <Text size="lg">{data.name}</Text>
                 <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>

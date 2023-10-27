@@ -8,7 +8,7 @@ import { Notification } from "mars-ds";
 import { TripsApiService } from "@/services/api";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { MatchedDestinationsProposal, PageAppBody } from "@/features";
+import { MatchedDestinationsProposal } from "@/features";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -73,33 +73,28 @@ export function HasTrip({ trip, tripId, className, children, sx, ...props }: Has
 
   return (
     <>
-      <PageAppBody>
-        {submitting ? (
-          <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
-        ) : (
-          <MatchedDestinationsProposal
-            title="Conclua o pagamento e garanta sua viagem"
-            className={cn}
-            tripId={tripId}
-            mainChoice={matchedDestinationMainChoice}
-            otherChoices={trip.otherChoices && trip.otherChoices.map((choice, i) => {
-              return {
-                destinationId: choice.destinationId,
-                matchScore: choice.matchScore,
-                name: choice.name,
-                uniqueName: choice.uniqueName,
-                images: choice.images,
-                travelers: null, // TODO: receive this in route
-                details: null
-              };
-            })}
-            handleCreateTrip={handleCreateTrip}
-          />
-        )}
-      </PageAppBody>
-      {/* <Box className="has-trip__footer">
-        <BlogCardCarousel title="As últimas do blog" />
-      </Box> */}
+      {submitting ? (
+        <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
+      ) : (
+        <MatchedDestinationsProposal
+          title="Conclua o pagamento e garanta sua viagem"
+          className={cn}
+          tripId={tripId}
+          mainChoice={matchedDestinationMainChoice}
+          otherChoices={trip.otherChoices && trip.otherChoices.map((choice, i) => {
+            return {
+              destinationId: choice.destinationId,
+              matchScore: choice.matchScore,
+              name: choice.name,
+              uniqueName: choice.uniqueName,
+              images: choice.images,
+              travelers: null, // TODO: receive this in route
+              details: null
+            };
+          })}
+          handleCreateTrip={handleCreateTrip}
+        />
+      )}
     </>
   );
 }

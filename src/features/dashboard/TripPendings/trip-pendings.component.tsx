@@ -1,8 +1,8 @@
-import { Box, Text, SectionBase, Picture, EmptyState, GlobalLoader } from "@/ui";
+import { Box, Text, SectionBase, EmptyState, GlobalLoader, ErrorState } from "@/ui";
 import type { TripPendingItemProps } from "./trip-pendings.types";
 
 import { useRouter } from "next/router";
-import { Button, ItemButton, ItemButtonProps, LabelThemes, LabelVariants } from "mars-ds";
+import { ItemButton, ItemButtonProps, LabelThemes, LabelVariants } from "mars-ds";
 
 import useSwr from "swr";
 import { TripsApiService } from "@/services/api";
@@ -18,24 +18,26 @@ export function TripPending() {
   const text =
     "Verifique suas pendências. É importante cumprir a lista para que tudo saia como o planejado.";
 
-  if (error) return <EmptyState />;
+  if (error) return <ErrorState />
   if (isLoading) return <GlobalLoader />;
   if (!data) return <EmptyState />;
 
   return (
     <SectionBase className="trip-pendings__section py-md">
       <Box className="trip-pendings__section__body">
-        <Text size="lg" className="trip-pendings__section__body__sub-title">
-          {text}
-        </Text>
+        {data.length ? (
+          <>
+            <Text size="lg" className="trip-pendings__section__body__sub-title">
+              {text}
+            </Text>
+            <Box className="trip-pendings__section__body__pending-list">
+              {data.map((pending, i) => <TripPendingItem {...pending} tripid={idParam} key={i} />)}
+            </Box>
+          </>
+        ) : (
+          <Text heading size="sm">Sua viagem não possui qualquer pendência!</Text>
+        )}
 
-        <Box className="trip-pendings__section__body__pending-list">
-          {data.length ? (
-            data.map((pending, i) => <TripPendingItem {...pending} tripid={idParam} key={i} />)
-          ) : (
-            <Text style={{ color: "#D84848" }}>Erro ao verificar as pendências da Trip...</Text>
-          )}
-        </Box>
       </Box>
     </SectionBase>
   );
