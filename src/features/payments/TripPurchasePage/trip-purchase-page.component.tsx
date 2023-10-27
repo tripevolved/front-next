@@ -60,7 +60,6 @@ export function TripPurchasePage() {
 
   const { priceData } = useTripPrice();
   const [paymentMethod, setPaymentMethod] = useState<TripPaymentMethod>();
-  const [writeGender, setWriteGender] = useState(false);
   const modalControlRef = useRef<any>();
 
   const router = useRouter();
