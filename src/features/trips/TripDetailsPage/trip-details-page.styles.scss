@@ -40,20 +40,12 @@
   }
 
   &__content {
-    display: flex;
-    flex-direction: column;
-    gap: 60px;
     width: 100%;
-
-    @media (min-width: $breakpoint-md) {
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 30px;
-    }
 
     .trip-content-item {
       display: flex;
       gap: 22px;
+      padding: 12px 0;
 
       &__desc {
         flex: 1;
@@ -65,10 +57,6 @@
           color: $color-brand-1;
           font-weight: 700;
         }
-      }
-
-      @media (min-width: $breakpoint-lg) {
-        width: 375px;
       }
     }
   }
@@ -86,8 +74,6 @@
       gap: 10px;
 
       &__item {
-        max-width: 280px;
-
         &__address {
           color: $color-gray-1;
         }
@@ -304,5 +290,27 @@
 
   @media (min-width: 1500px) {
     right: 200px;
+  }
+}
+
+.trip-details-page {
+  background-color: white;
+
+  @media (max-width: $breakpoint-lg) {
+    padding-bottom: 120px;
+  }
+
+  .destination-tips-section {
+    background-color: inherit;
+    padding-bottom: 12px;
+    padding-top: 12px;
+  }
+}
+
+.trip-details-container {
+  padding: 0 36% 2% 8%;
+
+  @media (max-width: $breakpoint-lg) {
+    padding: 0;
   }
 }
