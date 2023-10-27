@@ -1,7 +1,7 @@
 import type { PendingDocumentsModalProps } from "./pending-documents-modal.types";
 import type { Traveler, TripTravelers } from "@/core/types";
 
-import { Text, EmptyState, GlobalLoader } from "@/ui";
+import { Text, EmptyState, GlobalLoader, ErrorState } from "@/ui";
 import { TextField, FormWithSubmitButton, makeArray } from "mars-ds";
 import { usePostTripPendingDocuments } from "./pending-documents-modal.hook";
 import { useEffect, useState } from "react";
@@ -33,7 +33,7 @@ export function PendingDocumentsModal({ tripId }: PendingDocumentsModalProps) {
   }, []);
 
 
-  if (error) return <EmptyState />;
+  if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
   if (!data) return <EmptyState />;
 

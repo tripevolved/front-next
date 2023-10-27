@@ -95,9 +95,6 @@ export function HasTrip({ trip, tripId, className, children, sx, ...props }: Has
           handleCreateTrip={handleCreateTrip}
         />
       )}
-      {/* <Box className="has-trip__footer">
-        <BlogCardCarousel title="As últimas do blog" />
-      </Box> */}
     </>
   );
 }

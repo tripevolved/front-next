@@ -1,4 +1,4 @@
-import { Box, Text, SectionBase, EmptyState, GlobalLoader } from "@/ui";
+import { Box, Text, SectionBase, EmptyState, GlobalLoader, ErrorState } from "@/ui";
 import type { TripPendingItemProps } from "./trip-pendings.types";
 
 import { useRouter } from "next/router";
@@ -18,8 +18,9 @@ export function TripPending() {
   const text =
     "Verifique suas pendências. É importante cumprir a lista para que tudo saia como o planejado.";
 
+  if (error) return <ErrorState />
   if (isLoading) return <GlobalLoader />;
-  if (error || !data) return <EmptyState />;
+  if (!data) return <EmptyState />;
 
   return (
     <SectionBase className="trip-pendings__section py-md">

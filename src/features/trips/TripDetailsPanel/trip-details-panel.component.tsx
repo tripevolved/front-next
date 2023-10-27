@@ -3,7 +3,7 @@ import type { TripDetailsPanelProps } from "./trip-details-panel.types";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { HasTrip } from "../HasTrip";
 import { useAppStore } from "@/core/store";
-import { EmptyState, GlobalLoader, Text } from "@/ui";
+import { EmptyState, ErrorState, GlobalLoader, Text } from "@/ui";
 import { PageAppBody, PageAppHeader, TripDashboard } from "@/features";
 import { useRouter } from "next/router";
 import { TripsApiService } from "@/services/api";
@@ -24,7 +24,7 @@ export function TripDetailsPanel({ className, sx, ...props }: TripDetailsPanelPr
   const firstName = name.replace(/\s.*/, "");
 
   const getView = () => {
-    if (error) return <EmptyState />;
+    if (error) return <ErrorState />;
     if (isLoading) return <GlobalLoader />;
     if (data === undefined) return <EmptyState />;
 
