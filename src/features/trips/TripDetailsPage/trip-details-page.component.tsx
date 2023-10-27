@@ -55,8 +55,8 @@ export function TripDetailsPage() {
 
   return (
     <>
-      <DestinationHeroSection title={title} photos={photos} />
-      <PageAppHeader backButton href="/app/painel" title="Voltar" />
+      <DestinationHeroSection title={title} photos={photos} backButton href={`/app/painel`} />
+      <TripPricingBox destinationName={destination.title} />
       <Container container="md">
         <Grid columns={{ md: "1fr 320px" }}>
           <Card className="page-app-body__card">
@@ -69,7 +69,6 @@ export function TripDetailsPage() {
             </Grid>
           </Card>
           <Card className="page-app-body__card">
-            <TripPricingBox destinationName={destination.title} />
           </Card>
         </Grid>
       </Container>
