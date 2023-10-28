@@ -8,9 +8,11 @@ import { useState } from "react";
 
 interface TripPricingBoxProps {
   destinationName: string;
+  numAdults: number;
+  numChildren?: number;
 }
 
-export const TripPricingBox = ({ destinationName }: TripPricingBoxProps) => {
+export const TripPricingBox = ({ destinationName, numAdults = 2, numChildren }: TripPricingBoxProps) => {
   const router = useRouter();
   const tripId = typeof router.query.id === "string" ? router.query.id : "";
 
@@ -20,9 +22,9 @@ export const TripPricingBox = ({ destinationName }: TripPricingBoxProps) => {
     TripsApiService.getPriceById(tripId)
   );
 
-  if (isLoading || !data || error) {
+  if (error || isLoading || !data) {
     return (
-      <Grid>
+      <Grid className="trip-pricing-box">
         <Text heading size="xs" as="h2">
           {destinationName}
         </Text>
@@ -47,7 +49,7 @@ export const TripPricingBox = ({ destinationName }: TripPricingBoxProps) => {
           <Text heading size="xs" as="h2">{destinationName}</Text>
           <div className="trip-pricing-box__header__line flex gap-sm align-items-center color-text-secondary">
             <Icon name="users" size="sm" />
-            <Text size="sm">Para 2 pessoas</Text>
+            <Text size="sm">Para {numAdults} adultos{numChildren && ` e ${numChildren} crianças`}</Text>
           </div>
         </div>
         <Icon name="chevron-up" style={{float: "right", paddingLeft: "8px"}} className={`trip-pricing-box__chevron-${accordion ? "active" : "inactive"}`}/>

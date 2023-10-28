@@ -56,7 +56,7 @@ export function TripDetailsPage() {
   return (
     <>
       <DestinationHeroSection title={title} photos={photos} backButton href={`/app/painel`} />
-      <TripPricingBox destinationName={destination.title} />
+      <TripPricingBox destinationName={destination.title} numAdults={configuration.numAdults} numChildren={configuration.numChildren} />
       <Container container="none" className="trip-details-container">
         <Container container="lg">
           <Card>

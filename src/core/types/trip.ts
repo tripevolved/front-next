@@ -29,6 +29,8 @@ export interface TripConfiguration {
   dates: string;
   period: string;
   budget: number;
+  numAdults: number;
+  numChildren: number;
 }
 
 // Traveler Dashboard
