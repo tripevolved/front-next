@@ -6,6 +6,7 @@ import useSwr from "swr";
 import { TripScriptsApiService } from "@/services/api";
 import { PageAppBody } from "@/features/templates/PageAppBody";
 import { TripScriptActionOrSuggestion } from "../TripScriptPanel";
+import { TripScriptFreeDay } from "../TripScriptPanel/trip-script-free-day.component";
 
 export function TripScriptPreviewPanel() {
   const router = useRouter();
@@ -41,15 +42,13 @@ export function TripScriptPreviewPanel() {
                     {isPreview && <TripScriptPreviewDetailedDay details={tripScriptDay.details} />}
                   </Box>
                   <div className="trip-script-preview-day-section__content">
-                    <>
-                      {tripScriptDay.actions.map((tripScriptAction, j) => {
-                        return (
-                          tripScriptAction.isSelected && (
-                            <TripScriptActionOrSuggestion ignoreNotSelected={true} action={tripScriptAction} key={j} />
-                          )
-                          );
-                        })}
-                    </>
+                    {tripScriptDay.actions.some((action) => action.isSelected) ? tripScriptDay.actions.map((tripScriptAction, j) => {
+                      return (
+                        tripScriptAction.isSelected && (
+                          <TripScriptActionOrSuggestion ignoreNotSelected={true} action={tripScriptAction} key={j} />
+                        )
+                        );
+                      }) : (<TripScriptFreeDay />)}
                   </div>
                 </div>
               );
