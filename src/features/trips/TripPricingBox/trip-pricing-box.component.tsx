@@ -98,9 +98,13 @@ export const TripPricingBox = ({ destinationName, numAdults = 2, numChildren }: 
         ) : (
           <>
             {/* @ts-ignore */}
-            <Button variant="tertiary" href={`/app/viagens/comprar/${tripId}`}>
+            <Button variant="tertiary" href={`/app/viagens/roteiro/construcao/${tripId}`}>
+              Construir meu roteiro
+            </Button>
+            <Button variant="secondary" href={`/app/viagens/comprar/${tripId}`} size="sm">
               Comprar por {formatToCurrencyBR(data.total)}
             </Button>
+            <Text size="sm"><span style={{fontWeight: "bold"}}>Não se preocupe:</span> você poderá construir o roteiro em um momento posterior</Text>
           </>
         )}
       </Grid>
