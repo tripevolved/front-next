@@ -3,18 +3,18 @@ import { TripStayHighlight } from "@/core/types";
 
 export const TripStayHighlightSection = ({ highlight }: { highlight: TripStayHighlight }) => {
   return (
-    <CardHighlight className="trip-stay-highlight-box">
-      <Text heading size="xs" className="trip-stay-highlight-box__title">
+    <CardHighlight className="trip-highlight-box">
+      <Text heading size="xs" className="trip-highlight-box__title">
         Destaques da hospedagem
       </Text>
-      <Box className="trip-stay-highlight-box__content">
+      <Box className="trip-highlight-box__content">
         {highlight.type ? (
           <Picture
-            className="trip-stay-highlight-box__content__icon"
+            className="trip-highlight-box__content__icon"
             src={"/assets/stays/" + highlight.type + ".png"}
           />
         ) : null}
-        <Box className="trip-stay-highlight-box__content__desc">
+        <Box className="trip-highlight-box__content__desc">
           <Text as="h3" heading size="xs">
             {highlight.title}
           </Text>

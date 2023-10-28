@@ -75,7 +75,7 @@ export function TripDetailsPage() {
             <div className="what-includes-section__content">
               <TripTransportationSection tripId={data.id} />
               <TripStaySection tripId={data.id} />
-              <TripScriptSection text={destination.description} />
+              <TripScriptSection isBuilt={data.hasScript} />
               <TripFoodTipsSection text={destination.gastronomicInformation} />
               <TripSupportSection />
             </div>
