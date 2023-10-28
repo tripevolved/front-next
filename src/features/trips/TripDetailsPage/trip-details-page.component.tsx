@@ -50,13 +50,13 @@ export function TripDetailsPage() {
     );
   }
 
-  const { destination, configuration } = data;
+  const { destination, configuration, hasScript } = data;
   const { features = [], photos = [], recommendedBy, tips = [], title } = destination;
 
   return (
     <>
       <DestinationHeroSection title={title} photos={photos} backButton href={`/app/painel`} />
-      <TripPricingBox destinationName={destination.title} />
+      <TripPricingBox destinationName={destination.title} numAdults={configuration.numAdults} numChildren={configuration.numChildren} isScriptBuilt={hasScript} />
       <Container container="none" className="trip-details-container">
         <Container container="lg">
           <Card>
@@ -75,7 +75,7 @@ export function TripDetailsPage() {
             <div className="what-includes-section__content">
               <TripTransportationSection tripId={data.id} />
               <TripStaySection tripId={data.id} />
-              <TripScriptSection text={destination.description} />
+              <TripScriptSection isBuilt={hasScript} />
               <TripFoodTipsSection text={destination.gastronomicInformation} />
               <TripSupportSection />
             </div>
