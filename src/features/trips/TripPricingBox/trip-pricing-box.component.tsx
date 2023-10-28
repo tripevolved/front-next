@@ -10,9 +10,10 @@ interface TripPricingBoxProps {
   destinationName: string;
   numAdults: number;
   numChildren?: number;
+  isScriptBuilt?: boolean;
 }
 
-export const TripPricingBox = ({ destinationName, numAdults = 2, numChildren }: TripPricingBoxProps) => {
+export const TripPricingBox = ({ destinationName, numAdults = 2, numChildren, isScriptBuilt }: TripPricingBoxProps) => {
   const router = useRouter();
   const tripId = typeof router.query.id === "string" ? router.query.id : "";
 
@@ -95,18 +96,26 @@ export const TripPricingBox = ({ destinationName, numAdults = 2, numChildren }: 
         {data?.description && <Text className="color-text-secondary">*{data?.description}</Text>}
         {data.isPaid ? (
           <Tag>A viagem já está paga.</Tag>
-        ) : (
-          <>
-            {/* @ts-ignore */}
-            <Button variant="tertiary" href={`/app/viagens/roteiro/construcao/${tripId}`}>
-              Construir meu roteiro
-            </Button>
-            <Button variant="secondary" href={`/app/viagens/comprar/${tripId}`} size="sm">
-              Comprar por {formatToCurrencyBR(data.total)}
-            </Button>
-            <Text size="sm"><span style={{fontWeight: "bold"}}>Não se preocupe:</span> você poderá construir o roteiro em um momento posterior</Text>
-          </>
-        )}
+        ) : (isScriptBuilt ? (
+            <>
+              {/* @ts-ignore */}
+              <Button variant="tertiary" href={`/app/viagens/comprar/${tripId}`} size="sm">
+                Comprar por {formatToCurrencyBR(data.total)}
+              </Button>
+            </>
+          ) 
+          : (
+            <>
+              {/* @ts-ignore */}
+              <Button variant="tertiary" href={`/app/viagens/roteiro/construcao/${tripId}`}>
+                Construir meu roteiro
+              </Button>
+              <Button variant="secondary" href={`/app/viagens/comprar/${tripId}`} size="sm">
+                Comprar por {formatToCurrencyBR(data.total)}
+              </Button>
+              <Text size="sm"><span style={{fontWeight: "bold"}}>Não se preocupe:</span> você poderá construir o roteiro em um momento posterior</Text>
+            </>
+        ))}
       </Grid>
       <div className={`trip-pricing-box__accordion trip-pricing-box__accordion-${accordion ? "inactive" : "active"}`} onClick={() => setAccordion(!accordion)}>
         <Text style={{color: "var(--color-brand-1)"}} size="lg">Ver o que inclui</Text>
