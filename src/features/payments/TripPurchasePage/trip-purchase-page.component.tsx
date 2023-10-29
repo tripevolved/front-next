@@ -8,7 +8,6 @@ import {
   AutoCompleteTextField,
 } from "@/ui";
 import { PageAppBody, PageAppHeader } from "@/features";
-import { useTripPurchase } from "./trip-purchase.hook";
 import { useTripPrice } from "@/features/trips/TripDetailsPage/trip-price.hook";
 import { useRouter } from "next/router";
 import {
@@ -99,11 +98,6 @@ export function TripPurchasePage() {
   const genderOptions = [
     { label: "Feminino", value: "female" },
     { label: "Masculino", value: "male" },
-    //{ label: "Não-binário", value: "non_binary" },
-    //{ label: "Transgênero", value: "transgender" },
-    //{ label: "Intersexo", value: "intersex" },
-    //{ label: "Prefiro não dizer", value: "" },
-    //{ label: "Quero escrever", value: "write" },
   ];
 
   const handleSubmit = async (event: any) => {
@@ -141,15 +135,13 @@ export function TripPurchasePage() {
       method: paymentMethod,
     } as TripPayment;
 
-    console.log("PAGADEIRO", tripPayer);
-
-    /* openLoadingModal();
+    openLoadingModal();
 
     PaymentsApiService.postTripPaymentIntent(tripPayment)
       .then((resp) => openFinishModal(resp.isSuccess, { ...resp }))
       .catch(() =>
         openFinishModal(false, { message: "Houve um erro ao gerar o seu pagamento..." })
-      ); */
+      );
   };
 
   const openFinishModal = (isSuccess: boolean, result: any) => {
@@ -179,14 +171,7 @@ export function TripPurchasePage() {
     pooling(
       () =>
         PaymentsApiService.getTripPaymentStatus(tripId).then((resp) => {
-          if (resp.status == "NOT_STARTED") {
-            Notification.warning("Realizando verificação de pagamento...");
-            return false;
-          }
-          if (resp.status == "STARTED") {
-            Notification.warning("Realizando verificação de pagamento...");
-            return false;
-          }
+          if (resp.status == "NOT_STARTED" || resp.status == "STARTED") return false;
           if (resp.status == "CANCELED") {
             Notification.error("Pagamento Cancelado!");
             return false;
@@ -219,6 +204,14 @@ export function TripPurchasePage() {
         closable: true,
       }
     );
+  };
+
+  const parseDate = (newDate: Date): string => {
+    const month =
+      String(newDate.getMonth()).length == 1 ? `0${newDate.getMonth()}` : newDate.getMonth();
+    const day = String(newDate.getDate()).length == 1 ? `0${newDate.getDate()}` : newDate.getDate();
+
+    return `${newDate.getFullYear()}-${month}-${day}`;
   };
 
   const handleAddressSearch = async (zipCode?: string) => {
@@ -281,9 +274,13 @@ export function TripPurchasePage() {
               name="gender"
               required={true}
               label="Sexo"
+              defaultOption={
+                tripPayer?.gender
+                  ? genderOptions.find((gender) => gender.value == tripPayer?.gender)
+                  : { label: "", value: "" }
+              }
               options={genderOptions}
               className="trip-purchase__section__input"
-              value={tripPayer?.gender}
             />
             <TextField
               id="motherName"
@@ -309,7 +306,7 @@ export function TripPurchasePage() {
               label="Data de Nascimento"
               type="date"
               // @ts-ignore
-              value={tripPayer?.birthDate ?? ""}
+              value={tripPayer?.birthDate ? parseDate(new Date(tripPayer.birthDate)) : ""}
             />
           </Box>
           <DashedDivider className="trip-purchase__divider" />
@@ -407,6 +404,7 @@ export function TripPurchasePage() {
               }}
             />
             <OptionsSelectField
+              disabled={paymentMethod == "PIX"}
               id="installments"
               name="installments"
               required={true}

@@ -3,6 +3,7 @@ import { TripPaymentResult } from "@/services/api/payments/payTrip";
 import { Box, Text, Picture, Tag } from "@/ui";
 import { Button, Notification } from "mars-ds";
 import { NotificationResult } from "@/ui";
+import { copyToClipboard } from "@/utils/helpers/strings.helper";
 
 const CREDIT_CARD_MESSAGE =
   "Em instantes você será redirecionado para um ambiente seguro do nosso parceiro para a realização do pagamento. Também enviamos os dados para realização do pagamento para o seu e-mail.";
@@ -30,16 +31,6 @@ export function TripPurchaseSuccessResponse({
   pixInfo,
   onClose,
 }: TripPurchaseSuccessResponseSectionProps) {
-  const copyFunction = () => {
-    const inputElement = document.getElementById("pixQrCode");
-    // @ts-ignore
-    inputElement.select();
-    // @ts-ignore
-    inputElement.setSelectionRange(0, 99999);
-    document.execCommand("copy");
-    Notification.success("Código copiado!");
-  };
-
   if (paymentMethod == "CREDIT_CARD") {
     setTimeout(() => {
       window.open(paymentLinkUrl, "_blank");
@@ -59,26 +50,14 @@ export function TripPurchaseSuccessResponse({
       </Text>
       {paymentMethod == "PIX" ? (
         <>
-          <QRCodeSVG
-            value={pixInfo.qrCode}
-            includeMargin
-            size={250}
-            imageSettings={{
-              src: "/brand/logo-symbol.svg",
-              x: undefined,
-              y: undefined,
-              height: 25,
-              width: 25,
-              excavate: true,
-            }}
-          />
+          <QRCodeSVG value={pixInfo.qrCode} includeMargin size={250} />
           <Tag className="w-100">
             <input id="pixQrCode" type="text" value={pixInfo.qrCode} readOnly className="w-100" />
           </Tag>
           <Button
             style={{ color: "var(--color-gray-4)" }}
             iconName="copy"
-            onClick={() => copyFunction()}
+            onClick={() => copyToClipboard(pixInfo.qrCode, "Código copiado com sucesso!")}
           >
             Copiar Código
           </Button>
