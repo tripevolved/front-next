@@ -26,4 +26,17 @@
   &__divider {
     padding: 24px 0;
   }
+
+  &__response {
+    text-align: center;
+
+    input {
+      border: none;
+      background-color: $color-brand-4;
+    }
+
+    &-button {
+      width: 100%;
+    }
+  }
 }

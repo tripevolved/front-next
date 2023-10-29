@@ -20,10 +20,16 @@ export const DestinationHeroSection = ({ title, photos = [], backButton, href }:
       {photos.length && photos.length > 1 ? (
         <Carousel className="destination-hero-section__carousel">
           {photos.map((photo, i) => (
-            <Picture className="destination-hero-section__carousel__photos" key={i}>{parsePhoto(photo) ?? undefined}</Picture>
+            <Picture className="destination-hero-section__carousel__photos" key={i}>
+              {parsePhoto(photo) ?? undefined}
+            </Picture>
           ))}
         </Carousel>
-      ) : <Picture className="destination-hero-section__photos">{parsePhoto(photos[0]) ?? undefined}</Picture>}
+      ) : (
+        <Picture className="destination-hero-section__photos">
+          {photos[0] ? parsePhoto(photos[0]) : undefined}
+        </Picture>
+      )}
       <Container className="destination-hero-section__content">
         {backButton && (
           <ToggleButton
