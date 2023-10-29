@@ -1,5 +1,5 @@
 export interface Traveler {
-  id?: string;
+  id?: string | null;
   travelerId?: string;
   fullName?: string;
   rg?: string;
