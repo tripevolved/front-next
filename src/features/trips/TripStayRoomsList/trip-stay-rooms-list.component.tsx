@@ -95,8 +95,8 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
     );
   }
 
-  if (isLoading) return <GlobalLoader />;
   if (error) return <ErrorState />;
+  if (isLoading) return <GlobalLoader />;
   if (!hotelList?.uniqueTransactionId) return <EmptyState />;
 
   let accommodationData = hotelList.curated.find((hotel) => hotel.name === currentHotelData.name);
