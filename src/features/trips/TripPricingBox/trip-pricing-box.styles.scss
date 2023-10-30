@@ -1,0 +1,175 @@
+.trip-pricing-box {
+  border: 1px solid $color-divider;
+  width: 20%;
+  min-width: 300px;
+  max-width: 420px;
+  padding: 18px;
+  border-radius: $border-radius-lg;
+  background-color: $color-brand-7;
+  box-shadow: $shadow-elevation-600;
+  position: fixed;
+  right: 15%;
+  bottom: 5%;
+
+  &__header-container {
+    display: inline;
+    cursor: default;
+  }
+
+  &__header-price {
+    display: none;
+  }
+
+  &__accordion {
+    display: none;
+  }
+
+  &__chevron-active {
+    display: none;
+  }
+
+  &__chevron-inactive {
+    display: none;
+  }
+
+  &__content-active {
+    display: grid;
+  }
+
+  &__content-inactive {
+    display: grid;
+  }
+
+  &__includes {
+    padding: 8px;
+
+    &-active {
+      display: block;
+    }
+
+    &-inactive {
+      display: block;
+    }
+
+    &__title {
+      padding-bottom: 8px;
+    }
+
+    &__line {
+      padding: 4px 0;
+
+      &-item {
+        display: inline;
+        padding: 0 4px;
+        margin: auto 0;
+      }
+
+      p {
+        color: $color-brand-1;
+      }
+
+      img {
+        max-height: 24px;
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-lg) {
+    border: 1px solid $color-divider;
+    width: 100%;
+    max-width: none;
+    padding: 18px;
+    border-radius: $border-radius-lg $border-radius-lg 0 0;
+    background-color: $color-brand-7;
+    box-shadow: $shadow-elevation-600;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+
+    &__header-container {
+      cursor: pointer;
+    }
+
+    &__header {
+      display: flex;
+      float: left;
+      flex-direction: column;
+      align-self: flex-start;
+      justify-self: flex-start;
+
+      &__line {
+        flex-direction: row;
+      }
+    }
+
+    &__header-price {
+      display: block;
+      float: right;
+    }
+
+    &__chevron-inactive {
+      display: none;
+    }
+
+    &__chevron-active {
+      display: block;
+    }
+
+    &__accordion {
+      gap: 16px;
+      margin: 0 auto;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    &__accordion-active {
+      display: flex;
+    }
+
+    &__accordion-inactive {
+      display: none;
+    }
+
+    &__content-active {
+      display: grid;
+    }
+
+    &__content-inactive {
+      display: none;
+    }
+    
+    &__includes {
+      padding: 8px;
+
+      &-active {
+        display: block;
+      }
+  
+      &-inactive {
+        display: none;
+      }
+
+      &__title {
+        padding-bottom: 8px;
+      }
+
+      &__line {
+        padding: 4px 0;
+
+        &-item {
+          display: inline;
+          padding: 0 4px;
+          margin: auto 0;
+        }
+
+        p {
+          color: $color-brand-1;
+        }
+
+        img {
+          max-height: 24px;
+        }
+      }
+    }
+  }
+}

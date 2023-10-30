@@ -7,6 +7,7 @@ export interface TripDetails {
   destination: TripDestination;
   configuration: TripConfiguration;
   isBuilding: boolean;
+  hasScript: boolean;
 }
 
 export interface TripTransportation {
@@ -29,15 +30,15 @@ export interface TripConfiguration {
   dates: string;
   period: string;
   budget: number;
+  numAdults: number;
+  numChildren: number;
 }
 
 // Traveler Dashboard
 export interface TripDashboard {
   name: string;
+  status: "AWAITING_ACTION" | "TO_HAPPEN" | "TAKEN" | "NONE";
   pendingActions: number;
-  documents: number;
-  flightAndTickets: number;
-  tips: number;
   attractionsNumber: number;
 }
 

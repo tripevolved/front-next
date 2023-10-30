@@ -1,11 +1,12 @@
 import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
-import { TripScriptPreviewActionSection } from "./trip-script-preview-action.section";
 import { TripScriptPreviewDetailedDay } from "./trip-script-preview-detailed-day.section";
-import { TripScriptPreviewBlockedSection } from "./trip-script-preview-blocked.section";
 import { useRouter } from "next/router";
 import { PageAppHeader } from "@/features/templates/PageAppHeader";
 import useSwr from "swr";
 import { TripScriptsApiService } from "@/services/api";
+import { PageAppBody } from "@/features/templates/PageAppBody";
+import { TripScriptActionOrSuggestion } from "../TripScriptPanel";
+import { TripScriptFreeDay } from "../TripScriptPanel/trip-script-free-day.component";
 
 export function TripScriptPreviewPanel() {
   const router = useRouter();
@@ -20,12 +21,11 @@ export function TripScriptPreviewPanel() {
   if (data === undefined) return <EmptyState />;
 
   const { days, isPreview } = data;
-  // TODO: refact the data view, screen is too small
 
   return (
     <>
       <PageAppHeader backButton title="Prévia do Roteiro" href={`/app/viagens/criar/${idParam}`} />
-      <SectionBase className="trip-script-preview">
+      <PageAppBody className="trip-script-preview">
         <div className="trip-script-preview-day-section">
           {days ? (
             days.map((tripScriptDay, i) => {
@@ -42,25 +42,22 @@ export function TripScriptPreviewPanel() {
                     {isPreview && <TripScriptPreviewDetailedDay details={tripScriptDay.details} />}
                   </Box>
                   <div className="trip-script-preview-day-section__content">
-                    <>
-                      {tripScriptDay.actions.map((tripScriptAction, j) => {
-                        return (
-                          tripScriptAction.isSelected && (
-                            <TripScriptPreviewActionSection action={tripScriptAction} key={j} />
-                          )
+                    {tripScriptDay.actions.some((action) => action.isSelected) ? tripScriptDay.actions.map((tripScriptAction, j) => {
+                      return (
+                        tripScriptAction.isSelected && (
+                          <TripScriptActionOrSuggestion ignoreNotSelected={true} action={tripScriptAction} key={j} />
+                        )
                         );
-                      })}
-                    </>
+                      }) : (<TripScriptFreeDay />)}
                   </div>
                 </div>
               );
             })
-          ) : (
-            <Text> Ainda não definimos seu roteiro de viagem...</Text>
-          )}
-          <TripScriptPreviewBlockedSection />
+            ) : (
+              <Text> Ainda não definimos seu roteiro de viagem...</Text>
+              )}
         </div>
-      </SectionBase>
+      </PageAppBody>
     </>
   );
 }

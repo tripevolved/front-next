@@ -46,6 +46,7 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    padding-bottom: 12px;
   }
 
   &__content {
@@ -53,53 +54,6 @@
     flex-direction: column;
     gap: 15px;
     width: 100%;
-
-    @media (min-width: $breakpoint-md) {
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 30px;
-    }
-  }
-}
-/* ------------------ */
-.trip-script-preview-action {
-  display: flex;
-  gap: 10px;
-  display: flex;
-  padding: 10px;
-  width: 100%;
-  z-index: 0;
-
-  &__title {
-    color: $color-brand-2;
-    font-weight: 400;
-    display: flex;
-  }
-
-  &__subtitle {
-    color: $color-gray-1;
-    font-weight: 500;
-  }
-
-  &__icon-box {
-    border-radius: 100%;
-    background-color: $color-brand-1;
-    color: $color-gray-4;
-    padding: 3px;
-    display: flex;
-    align-content: center;
-
-    span {
-      font-size: 15px;
-    }
-  }
-
-  &__icon > img {
-    min-width: 23px;
-  }
-
-  @media (min-width: $breakpoint-lg) {
-    width: 375px;
   }
 }
 

@@ -6,7 +6,7 @@ import { TripScriptSection } from "./trip-script.section";
 import { TripFoodTipsSection } from "./trip-food-tips.section";
 import { TripSupportSection } from "./trip-support.section";
 import { TripConfigurationSection } from "./trip-configuration.section";
-import { EmptyState, ErrorState, GlobalLoader, Text, WhatsappButton } from "@/ui";
+import { Box, EmptyState, ErrorState, GlobalLoader, Text, WhatsappButton } from "@/ui";
 import { PageAppBody } from "@/features/templates/PageAppBody";
 import { PageAppHeader } from "@/features/templates/PageAppHeader";
 
@@ -50,16 +50,16 @@ export function TripDetailsPage() {
     );
   }
 
-  const { destination, configuration } = data;
+  const { destination, configuration, hasScript } = data;
   const { features = [], photos = [], recommendedBy, tips = [], title } = destination;
 
   return (
     <>
-      <DestinationHeroSection title={title} photos={photos} />
-      <PageAppHeader backButton href="/app/painel" title="Voltar" />
-      <Container container="md">
-        <Grid columns={{ md: "1fr 320px" }}>
-          <Card className="page-app-body__card">
+      <DestinationHeroSection title={title} photos={photos} backButton href={`/app/painel`} />
+      <TripPricingBox destinationName={destination.title} numAdults={configuration.numAdults} numChildren={configuration.numChildren} isScriptBuilt={hasScript} />
+      <Container container="none" className="trip-details-container">
+        <Container container="lg">
+          <Card>
             <Grid growing={false}>
               {configuration ? (
                 <TripConfigurationSection {...configuration} tripId={data.id} />
@@ -68,25 +68,21 @@ export function TripDetailsPage() {
               {recommendedBy ? <DestinationRecommendedBy {...recommendedBy} /> : null}
             </Grid>
           </Card>
-          <Card className="page-app-body__card">
-            <TripPricingBox destinationName={destination.title} />
-          </Card>
-        </Grid>
+          <Box className="what-includes-section">
+            <Text as="h2" heading size="sm" className="mb-2x">
+              O que sua viagem inclui
+            </Text>
+            <div className="what-includes-section__content">
+              <TripTransportationSection tripId={data.id} />
+              <TripStaySection tripId={data.id} />
+              <TripScriptSection isBuilt={hasScript} />
+              <TripFoodTipsSection text={destination.gastronomicInformation} />
+              <TripSupportSection />
+            </div>
+          </Box>
+          {tips.length ? <DestinationTipsSection tips={tips} /> : null}
+        </Container>
       </Container>
-      {tips.length ? <DestinationTipsSection tips={tips} /> : null}
-      <br />
-      <PageAppBody className="what-includes-section">
-        <Text as="h2" heading size="sm" className="mb-2x">
-          O que inclui
-        </Text>
-        <div className="what-includes-section__content">
-          <TripTransportationSection tripId={data.id} />
-          <TripStaySection tripId={data.id} />
-          <TripScriptSection text={destination.description} />
-          <TripFoodTipsSection text={destination.gastronomicInformation} />
-          <TripSupportSection />
-        </div>
-      </PageAppBody>
     </>
   );
 }
