@@ -1,7 +1,7 @@
 import { TripStayRoom } from "@/core/types";
 import type { TripStayRoomsListProps } from "./trip-stay-rooms-list.types";
 import { TripStayRoomCard } from "@/features";
-import { EmptyState, StepsLoader, Text } from "@/ui";
+import { EmptyState, ErrorState, GlobalLoader, StepsLoader, Text } from "@/ui";
 import { SubmitButton, Notification } from "mars-ds";
 import { useState } from "react";
 import { TripHotelDTO } from "@/services/api/stays/by-trip";
@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import useTripStayRoomEdit from "./trip-stay-room-list.hook";
 import { useAppStore } from "@/core/store";
 import { AccommodationState } from "@/core/store/accomodation";
+import { StaysApiService } from "@/services/api";
+import useSWR from "swr";
 
 const LOADING_STEPS = [
   {
@@ -27,10 +29,23 @@ const LOADING_STEPS = [
 const FIFTEEN_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = FIFTEEN_SECONDS_IN_MS;
 
+const swrOptions = { revalidateOnFocus: false };
+
 export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
   const [roomList, setRoomList] = useState<TripStayRoom[]>([]);
   const router = useRouter();
 
+  // Getting Hotel List to find the current hotel data with the full room list
+  const fetcher = async () => StaysApiService.getHotels(tripId);
+  const {
+    data: hotelList,
+    isLoading,
+    error,
+  } = useSWR(`accomodation-get-${tripId}`, fetcher, swrOptions);
+
+  // Hook to send the payload with the current hotel data
+  // and all selected rooms, which will be called at end
+  // of the editing process
   const {
     setObjDTO,
     setCanSendPayload,
@@ -40,8 +55,7 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
     errorSentData,
   } = useTripStayRoomEdit(tripId);
 
-  // Current hotel data
-  const hotelData = useAppStore((state) => state.accommodation);
+  const currentHotelData = useAppStore((state) => state.accommodation);
 
   const doesObjHaveRooms = (object: AccommodationState): boolean => {
     if (!object.details?.rooms.length) return false;
@@ -51,52 +65,18 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
 
   const handleSelect = (value: TripStayRoom) => {
     const existsInRoomList = roomList.some(
-      (room) =>
-        room.id === value.id || room.code === value.code || room.signature === value.signature
+      (room) => room.code === value.code || room.signature === value.signature
     );
 
     if (existsInRoomList) {
       const updatedRoomList = roomList.filter(
-        (room) =>
-          room.id !== value.id || room.code !== value.code || room.signature !== value.signature
+        (room) => room.code !== value.code || room.signature !== value.signature
       );
       setRoomList(updatedRoomList);
     } else {
       setRoomList([...roomList, value]);
     }
   };
-
-  const handleConfirm = () => {
-    const roomsSumPrice = roomList.reduce((acc, room) => acc + room.price, 0);
-
-    const objDTO: TripHotelDTO = {
-      uniqueTransactionId: hotelData.uniqueTransactionId!,
-      accommodations: [
-        {
-          id: hotelData?.id,
-          code: hotelData?.code,
-          signature: hotelData?.signature,
-          provider: hotelData?.provider,
-          system: hotelData!.system!,
-          rooms: roomList.map((room) => ({
-            id: room.id || "",
-            code: room.code || "",
-            signature: room.signature || "",
-            provider: room.provider || "",
-            unitPrice: room.price || 0,
-            totalPrice: roomsSumPrice,
-            currency: hotelData?.details?.currency || "",
-            boardChoice: room.boardChoice || "RO",
-          })),
-        },
-      ],
-    };
-
-    setObjDTO(objDTO);
-    setCanSendPayload(true);
-  };
-
-  if (!doesObjHaveRooms(hotelData)) return <EmptyState />;
 
   const handleFinish = () => {
     if (errorSentData)
@@ -115,12 +95,53 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
     );
   }
 
+  if (error) return <ErrorState />;
+  if (isLoading) return <GlobalLoader />;
+  if (!hotelList?.uniqueTransactionId) return <EmptyState />;
+
+  let accommodationData = hotelList.curated.find((hotel) => hotel.name === currentHotelData.name);
+  if (!accommodationData && hotelList.others) {
+    accommodationData = hotelList.others?.find((hotel) => hotel.name === currentHotelData.name);
+  }
+
+  if (!doesObjHaveRooms(accommodationData as AccommodationState)) return <EmptyState />;
+
+  const handleConfirm = () => {
+    const roomsSumPrice = roomList.reduce((acc, room) => acc + room.price, 0);
+
+    const objDTO: TripHotelDTO = {
+      uniqueTransactionId: hotelList.uniqueTransactionId,
+      accommodations: [
+        {
+          id: accommodationData?.id,
+          code: accommodationData?.code,
+          signature: accommodationData?.signature,
+          provider: accommodationData?.provider,
+          system: accommodationData!.system!,
+          rooms: roomList.map((room) => ({
+            id: room.id || "",
+            code: room.code || "",
+            signature: room.signature || "",
+            provider: room.provider || "",
+            unitPrice: room.price || 0,
+            totalPrice: roomsSumPrice,
+            currency: accommodationData?.details?.currency || "",
+            boardChoice: room.boardChoice || "RO",
+          })),
+        },
+      ],
+    };
+
+    setObjDTO(objDTO);
+    setCanSendPayload(true);
+  };
+
   return (
     <div className="trip-stay-rooms-list gap-lg">
       <Text heading className="trip-stay-rooms-list__title text-left w-100 color-text-secondary">
         Lista de quartos
       </Text>
-      {hotelData?.details?.rooms.map((room, index) => (
+      {accommodationData?.details?.rooms.map((room, index) => (
         <TripStayRoomCard onClick={() => handleSelect(room)} {...room} key={index} />
       ))}
       <SubmitButton

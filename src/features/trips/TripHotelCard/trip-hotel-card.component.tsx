@@ -1,7 +1,6 @@
 import type { TripStay } from "@/core/types";
 import type { TripHotelCardProps } from "./trip-hotel-card.types";
-import { Button, Card, Modal, RatingStar } from "mars-ds";
-import { useState } from "react";
+import { Button, Card, Modal } from "mars-ds";
 import { TripStayDetails, TripStayServiceItem } from "@/features";
 import { Picture, Text } from "@/ui";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
@@ -11,6 +10,7 @@ export const TripHotelCard = ({
   isCurated = false,
   onSelect,
   isSelected,
+  router,
 }: TripHotelCardProps) => {
   const selectedColor = isCurated ? "var(--color-brand-4)" : "var(--color-brand-1)";
 
@@ -25,6 +25,7 @@ export const TripHotelCard = ({
           uniqueTransactionId=""
           stayData={tripStay}
           tripId={tripStayData.id!}
+          router={router}
           isModalView
         />
       ),

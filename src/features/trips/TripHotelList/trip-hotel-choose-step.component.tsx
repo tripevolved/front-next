@@ -4,11 +4,13 @@ import type { HotelStepProps } from "@/features/";
 import { Accordion as MarsAccordion, Button } from "mars-ds";
 import { TripHotelCard } from "@/features";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepProps) => {
   const [selectedHotel, setSelectedHotel] = useState<Omit<TripStay, "highlight">>(
     {} as Omit<TripStay, "highlight">
   );
+  const router = useRouter();
 
   const handleButton = () => {
     setFunction(selectedHotel);
@@ -24,6 +26,7 @@ export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepPr
               onSelect={() => setSelectedHotel(hotel)}
               tripStayData={hotel}
               isSelected={selectedHotel?.name === hotel.name}
+              router={router}
               isCurated
               key={i}
             />
@@ -38,6 +41,7 @@ export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepPr
                 onSelect={() => setSelectedHotel(hotel)}
                 tripStayData={hotel}
                 isSelected={selectedHotel?.name === hotel.name}
+                router={router}
                 key={i}
               />
             ))}
@@ -48,7 +52,7 @@ export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepPr
         <Button
           style={{ color: "var(--color-gray-4)", maxWidth: 500 }}
           className="w-100"
-          disabled={!hotelLists.uniqueTransactionId || selectedHotel == undefined}
+          disabled={!hotelLists.uniqueTransactionId || !selectedHotel.name}
           onClick={() => handleButton()}
         >
           Continuar
