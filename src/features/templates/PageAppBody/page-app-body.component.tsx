@@ -8,7 +8,7 @@ export function PageAppBody({ className, children, sx, ...props }: PageAppBodyPr
 
   return (
     <section className={cn} {...props}>
-      <Container container="md" className="page-app-body__container">
+      <Container container="lg" className="page-app-body__container">
         {children}
       </Container>
     </section>

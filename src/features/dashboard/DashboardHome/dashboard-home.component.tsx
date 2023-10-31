@@ -6,10 +6,8 @@ import {
   NoProfile,
   PageApp,
   PageAppBody,
-  PageAppHeader,
 } from "@/features";
-import { DashedDivider, Text } from "@/ui";
-import { Avatar } from "mars-ds";
+import { DashedDivider } from "@/ui";
 import { useMemo } from "react";
 
 export function DashboardHome() {
@@ -28,17 +26,15 @@ export function DashboardHome() {
   }, []);
 
   return (
-    <PageApp seo={{ title: "Painel" }} className="dashboard-home">
-      <PageAppHeader>
-        <div className="dashboard-home__header">
-          <div>
-            <Text heading as="div" size="sm" className="mb-xs">
-              Olá, <strong>{firstName}</strong> 👋
-            </Text>
-            <Text size="lg">{statusMessage}</Text>
-          </div>
-        </div>
-      </PageAppHeader>
+    <PageApp
+      headerOptions={{
+        title: `Olá, ${firstName} 👋`,
+        subtitle: statusMessage,
+        image: "/brand/logo-symbol-circle.svg",
+      }}
+      seo={{ title: "Painel" }}
+      className="dashboard-home"
+    >
       <PageAppBody>
         {travelerProfile ? <HasProfile travelerProfile={travelerProfile} /> : <NoProfile />}
         <DashedDivider style={{ padding: "32px 0" }} />

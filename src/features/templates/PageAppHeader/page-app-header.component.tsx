@@ -17,7 +17,7 @@ export function PageAppHeader({
   const cn = makeCn("page-app-header", className)(sx);
 
   return (
-    <SectionBase className={cn} container="md" {...props}>
+    <SectionBase className={cn} container="lg" {...props}>
       <Box className="page-app-header__box">
         {backButton ? (
           <ToggleButton

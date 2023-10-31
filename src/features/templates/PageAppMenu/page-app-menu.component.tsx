@@ -1,16 +1,40 @@
 import { useAppStore } from "@/core/store";
-import { LogoMainInverse, ModalContent, Text, UserAvatar } from "@/ui";
-import { Button, Container, Divider, Link, Modal, ToggleButton } from "mars-ds";
+import { ModalContent, Text, UserAvatar } from "@/ui";
+import { Avatar, Button, Container, Divider, Grid, Modal, ToggleButton } from "mars-ds";
+import type { PageAppMenuValue } from "./page-app-menu.context";
+import { useAppMenu } from "./page-app-menu.hook";
 
-export function PageAppMenu() {
+interface PageAppMenuProps extends PageAppMenuValue {
+  children?: React.ReactNode;
+}
+
+export function PageAppMenu({ children }: PageAppMenuProps) {
+  const { image, title, subtitle, backUrl } = useAppMenu();
   return (
     <nav className="page-app-menu">
-      <Container container="md">
-        <Link href="/app/painel" title="Ir para o painel">
-          <LogoMainInverse />
-        </Link>
+      <Container container="lg">
+        <div>
+          <Grid columns={["auto", "1fr"]} className="align-items-center">
+            {backUrl ? (
+              <ToggleButton variant="text" iconName="arrow-left" href={backUrl} />
+            ) : image ? (
+              <Avatar thumbnail={image} />
+            ) : null}
+            <div className="page-app-menu__info">
+              {title ? (
+                // @ts-ignore
+                <Text size="xxs" variant="heading">
+                  {title}
+                </Text>
+              ) : null}
+              {subtitle ? <Text>{subtitle}</Text> : null}
+            </div>
+          </Grid>
+          {children}
+        </div>
         <ToggleButton
           className="page-app-menu__toggle"
+          variant="text"
           iconName="menu"
           title="Abrir o menu"
           onClick={() => Modal.open(MenuModal, { closable: true, size: "lg" })}
