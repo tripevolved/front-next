@@ -68,6 +68,19 @@
     gap: 14px;
     align-items: flex-start;
 
+    &__partner-logo {
+      width: 80px;
+      height: 80px;
+      background-color: $color-brand-1;
+      border-radius: $border-radius-md;
+
+      img {
+        object-fit: cover;
+        object-position: center;
+        height: 100%;
+      }
+    }
+
     &__departure-and-arrival {
       display: flex;
       flex-direction: column;

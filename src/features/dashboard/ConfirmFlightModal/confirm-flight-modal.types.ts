@@ -1,8 +1,8 @@
-import type { ComponentHTMLProps } from "@/core/types";
+import type { ComponentHTMLProps, FlightDetails } from "@/core/types";
 
 export interface ConfirmFlightModalProps extends ComponentHTMLProps {}
 
-export interface FlightBoxProps {
+export interface FlightBoxProps extends FlightDetails {
   typeFlight: "outbound" | "return";
   departureDate: string;
   departureCityInitials: string;

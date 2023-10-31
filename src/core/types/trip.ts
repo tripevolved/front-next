@@ -10,6 +10,32 @@ export interface TripDetails {
   hasScript: boolean;
 }
 
+export interface FlightDetails {
+  airlineCompanyLogoUrl: string;
+  flightTime: string;
+  departure: string;
+  arrival: string;
+  fromAirportCode: string;
+  fromAirportName: string;
+  toAirportAddress: string;
+  toAirportCode: string;
+  toAirportName: string;
+  toAirtportAddress: string;
+}
+
+export interface FlightView {
+  airlineCompanyLogoUrl: string;
+  flightTime: string;
+  departure: string;
+  arrival: string;
+  fromAirportCode: string;
+  fromAirportName: string;
+  toAirportCode: string;
+  toAirportName: string;
+  connections: number;
+  flightDetails: FlightDetails[]
+}
+
 export interface TripTransportation {
   partnerLogoUrl?: string;
   iconSlug: "car" | "flight" | "bus" | "train" | "rentalcar";
@@ -21,9 +47,11 @@ export interface TripTransportation {
   fromName?: string;
   isBuilding: boolean;
   isRouteFinished: boolean;
+  isOffBudget: boolean;
   message: string;
   toAddress?: string;
   toName?: string;
+  flightView: FlightView;
 }
 
 export interface TripConfiguration {
