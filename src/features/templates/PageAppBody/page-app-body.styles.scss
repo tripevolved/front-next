@@ -2,9 +2,8 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  &__card {
+  &__container {
     flex-grow: 1;
-    background-color: $color-brand-7;
     border-radius: 32px 32px 0 0;
     padding: 32px 24px;
   }
