@@ -3,13 +3,11 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 
-import { EmptyState, GlobalLoader, Text, StepsLoader } from "@/ui";
+import { EmptyState, GlobalLoader, StepsLoader } from "@/ui";
 import { Notification } from "mars-ds";
 import { MatchedDestinationsPageProps } from "./matched-destinations-page.types";
 import { TripsApiService } from "@/services/api";
 import { PageAppBody } from "@/features/templates/PageAppBody";
-import { PageAppHeader } from "@/features";
-import { useAppStore } from "@/core/store";
 import { MatchedDestinationsProposal } from "./matched-destinations-proposal.component";
 import useSWR from "swr";
 import { MatchedDestinationReturn } from "@/services/api/trip/matches";
@@ -31,10 +29,7 @@ const STEPS = [
   },
 ];
 
-export const MatchedDestinationsPage = ({
-  className,
-  sx
-}: MatchedDestinationsPageProps) => {
+export const MatchedDestinationsPage = ({ className, sx }: MatchedDestinationsPageProps) => {
   const router = useRouter();
   const tripId = String(router.query.id);
 
@@ -43,8 +38,6 @@ export const MatchedDestinationsPage = ({
   const { isLoading, data, error } = useSWR<MatchedDestinationReturn>(uniqueKeyName, fetcher);
 
   const cn = makeCn("has-trip", className)(sx);
-  const { name = "viajante" } = useAppStore((state) => state.travelerState);
-  const firstName = name.replace(/\s.*/, "");
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -58,7 +51,7 @@ export const MatchedDestinationsPage = ({
   const sendSetDestinationIdForTrip = async () => {
     try {
       setSubmitting(true);
-      const result = await TripsApiService.setDestinationId({
+      await TripsApiService.setDestinationId({
         tripId: data?.tripId!,
         tripDestination: { destinationId: chosenDestination.current! },
       });
@@ -82,32 +75,20 @@ export const MatchedDestinationsPage = ({
   if (isLoading) return <GlobalLoader />;
 
   return (
-    <>
-      <PageAppHeader backButton href={`/app/painel`}>
-        <div className="trip-details-panel__header">
-          <div>
-            <Text heading as="div" size="sm" className="mb-xs">
-              Olá, <strong>{firstName}</strong> 👋
-            </Text>
-            <Text size="lg">Verifique os destinos que recomendamos para sua viagem</Text>
-          </div>
-        </div>
-      </PageAppHeader>
-      <PageAppBody>
-        {submitting ? (
-          <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
-        ) : (
-          <MatchedDestinationsProposal
-            title="Sua viagem ideal é para..."
-            otherChoicesTitle="Outras opções"
-            className={cn}
-            tripId={data?.tripId!}
-            mainChoice={data?.mainChoice}
-            otherChoices={data?.otherChoices}
-            handleCreateTrip={handleCreateTrip}
-          />
-        )}
-      </PageAppBody>
-    </>
+    <PageAppBody>
+      {submitting ? (
+        <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
+      ) : (
+        <MatchedDestinationsProposal
+          title="Sua viagem ideal é para..."
+          otherChoicesTitle="Outras opções"
+          className={cn}
+          tripId={data?.tripId!}
+          mainChoice={data?.mainChoice}
+          otherChoices={data?.otherChoices}
+          handleCreateTrip={handleCreateTrip}
+        />
+      )}
+    </PageAppBody>
   );
 };

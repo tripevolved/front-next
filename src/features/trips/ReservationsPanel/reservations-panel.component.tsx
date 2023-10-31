@@ -1,6 +1,5 @@
 import type { ReservationsPanelProps } from "./reservations-panel.types";
 
-import { PageAppHeader, PageAppBody } from "@/features";
 import { EmptyState } from "@/ui";
 import { Tabs } from "mars-ds";
 import { useRouter } from "next/router";
@@ -14,15 +13,11 @@ export function ReservationsPanel({ className, sx, ...props }: ReservationsPanel
   const tabs = [
     { label: "Voos", children: <FlightsReservationsSection /> },
     { label: "Hospedagens", children: <StaysReservationsSection tripId={idParam!} /> },
-    { label: "Atrações e restaurantes", children: <EmptyState text="Não há atrações e restaurantes reservados para esta viagem" /> }
+    {
+      label: "Atrações e restaurantes",
+      children: <EmptyState text="Não há atrações e restaurantes reservados para esta viagem" />,
+    },
   ];
 
-  return (
-    <>
-      <PageAppHeader title="Voos e Reservas" backButton href={`/app/viagens/${idParam}`} />
-      <PageAppBody>
-        <Tabs tabs={tabs} />
-      </PageAppBody>
-    </>
-  );
+  return <Tabs tabs={tabs} />;
 }

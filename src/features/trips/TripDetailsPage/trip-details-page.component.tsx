@@ -8,7 +8,6 @@ import { TripSupportSection } from "./trip-support.section";
 import { TripConfigurationSection } from "./trip-configuration.section";
 import { Box, EmptyState, ErrorState, GlobalLoader, Text, WhatsappButton } from "@/ui";
 import { PageAppBody } from "@/features/templates/PageAppBody";
-import { PageAppHeader } from "@/features/templates/PageAppHeader";
 
 import { useTripDetails } from "./trip-details.hook";
 import { DestinationInfos, DestinationRecommendedBy, TripPricingBox } from "@/features";
@@ -21,32 +20,33 @@ export function TripDetailsPage() {
 
   if (!data || data.isBuilding) {
     return (
-      <>
-        <PageAppHeader backButton href="/app/painel" title="Viagem" />
-        <PageAppBody>
-          <div className="flex flex-column h-100 justify-content-center">
-            {isEmpty ? (
-              <EmptyState />
-            ) : (refreshCount >= MAX_REFRESH_COUNT ?  (
-              <>
-                <ErrorState text="Infelizmente, houve um problema com a construção da sua viagem." />
-                <Text className="text-center color-text-secondary" heading size="sm">
-                  Mas pode falar conosco e vamos construir a viagem ideal para você!
-                </Text>
-                <Divider />
-                <WhatsappButton message={`Houve um problema com minha viagem para ${data?.destination?.title}. Pode me ajudar a montar essa viagem?`}>Fale conosco</WhatsappButton>
-              </>
-            ) : (
-              <>
-                <GlobalLoader inline />
-                <Text className="text-center color-text-secondary">
-                  {isLoading ? "Carregando..." : "Estamos construindo sua viagem..."}
-                </Text>
-              </>
-            ))}
-          </div>
-        </PageAppBody>
-      </>
+      <PageAppBody>
+        <div className="flex flex-column h-100 justify-content-center">
+          {isEmpty ? (
+            <EmptyState />
+          ) : refreshCount >= MAX_REFRESH_COUNT ? (
+            <>
+              <ErrorState text="Infelizmente, houve um problema com a construção da sua viagem." />
+              <Text className="text-center color-text-secondary" heading size="sm">
+                Mas pode falar conosco e vamos construir a viagem ideal para você!
+              </Text>
+              <Divider />
+              <WhatsappButton
+                message={`Houve um problema com minha viagem para ${data?.destination?.title}. Pode me ajudar a montar essa viagem?`}
+              >
+                Fale conosco
+              </WhatsappButton>
+            </>
+          ) : (
+            <>
+              <GlobalLoader inline />
+              <Text className="text-center color-text-secondary">
+                {isLoading ? "Carregando..." : "Estamos construindo sua viagem..."}
+              </Text>
+            </>
+          )}
+        </div>
+      </PageAppBody>
     );
   }
 
@@ -56,7 +56,12 @@ export function TripDetailsPage() {
   return (
     <>
       <DestinationHeroSection title={title} photos={photos} backButton href={`/app/painel`} />
-      <TripPricingBox destinationName={destination.title} numAdults={configuration.numAdults} numChildren={configuration.numChildren} isScriptBuilt={hasScript} />
+      <TripPricingBox
+        destinationName={destination.title}
+        numAdults={configuration.numAdults}
+        numChildren={configuration.numChildren}
+        isScriptBuilt={hasScript}
+      />
       <Container container="none" className="trip-details-container">
         <Container container="lg">
           <Card>
