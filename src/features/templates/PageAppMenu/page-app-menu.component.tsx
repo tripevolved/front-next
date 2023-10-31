@@ -16,7 +16,13 @@ export function PageAppMenu({ children }: PageAppMenuProps) {
         <div>
           <Grid columns={["auto", "1fr"]} className="align-items-center">
             {backUrl ? (
-              <ToggleButton variant="text" iconName="arrow-left" href={backUrl} />
+              <ToggleButton
+                className="page-app-menu__backButton"
+                variant="neutral"
+                iconName="arrow-left"
+                title="Voltar"
+                href={backUrl}
+              />
             ) : image ? (
               <Avatar thumbnail={image} />
             ) : null}

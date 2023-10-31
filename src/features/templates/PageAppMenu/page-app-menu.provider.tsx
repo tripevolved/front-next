@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PageAppMenuContext, type PageAppMenuValue } from "./page-app-menu.context";
 
 interface ProviderProps extends PageAppMenuValue {
@@ -6,8 +6,13 @@ interface ProviderProps extends PageAppMenuValue {
   headerOptions?: PageAppMenuValue
 }
 
-export const PageAppMenuProvider = ({ children, headerOptions = {} }: ProviderProps) => {
-  const [value, setValue] = useState<PageAppMenuValue>(headerOptions);
+export const PageAppMenuProvider = ({ children, headerOptions }: ProviderProps) => {
+  const [value, setValue] = useState<PageAppMenuValue>(headerOptions || {});
+
+  useEffect(() => {
+    if (!headerOptions) return;
+    setValue(headerOptions);
+  }, [headerOptions])
 
   return (
     <PageAppMenuContext.Provider value={{ ...value, setValue }}>

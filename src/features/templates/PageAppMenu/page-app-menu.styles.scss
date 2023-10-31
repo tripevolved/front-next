@@ -1,20 +1,18 @@
 .page-app-menu {
   background-color: $color-brand-1;
   padding: 0 $spacing-lg;
-  // border-bottom: 1px solid #2222;
   display: flex;
+
   > * {
     height: 78px;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
-
-  &__toggle {
-    color: white;
-  }
-
+  &__backButton,
+  &__toggle,
   &__info {
+    --color-text-primary: white;
     color: white;
   }
 }
