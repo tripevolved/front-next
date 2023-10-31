@@ -1,4 +1,4 @@
-import { PageApp, PageAppBody, TripScriptPreviewPanel } from "@/features";
+import { PageApp, TripScriptPreviewPanel } from "@/features";
 import { useRouter } from "next/router";
 
 const title = "Prévia do Roteiro";
@@ -8,9 +8,7 @@ export default function TripScriptPanelRoute() {
   const idParam = router.query.id;
   return (
     <PageApp headerOptions={{ title, backUrl: `/app/viagens/criar/${idParam}` }} seo={{ title }}>
-      <PageAppBody>
-        <TripScriptPreviewPanel />
-      </PageAppBody>
+      <TripScriptPreviewPanel />
     </PageApp>
   );
 }

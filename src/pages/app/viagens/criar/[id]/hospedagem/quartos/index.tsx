@@ -1,4 +1,4 @@
-import { PageApp, PageAppBody, TripStayRoomsList } from "@/features";
+import { PageApp, TripStayRoomsList } from "@/features";
 import { useRouter } from "next/router";
 
 const title = "Quartos da Hospedagem";
@@ -12,9 +12,7 @@ export default function TripPendingRoute() {
       headerOptions={{ title, backUrl: `/app/viagens/criar/${idParam}` }}
       seo={{ title: title }}
     >
-      <PageAppBody>
-        <TripStayRoomsList tripId={idParam} />
-      </PageAppBody>
+      <TripStayRoomsList tripId={idParam} />
     </PageApp>
   );
 }

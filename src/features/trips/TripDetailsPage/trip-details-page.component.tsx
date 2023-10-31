@@ -7,7 +7,6 @@ import { TripFoodTipsSection } from "./trip-food-tips.section";
 import { TripSupportSection } from "./trip-support.section";
 import { TripConfigurationSection } from "./trip-configuration.section";
 import { Box, EmptyState, ErrorState, GlobalLoader, Text, WhatsappButton } from "@/ui";
-import { PageAppBody } from "@/features/templates/PageAppBody";
 
 import { useTripDetails } from "./trip-details.hook";
 import { DestinationInfos, DestinationRecommendedBy, TripPricingBox } from "@/features";
@@ -20,33 +19,31 @@ export function TripDetailsPage() {
 
   if (!data || data.isBuilding) {
     return (
-      <PageAppBody>
-        <div className="flex flex-column h-100 justify-content-center">
-          {isEmpty ? (
-            <EmptyState />
-          ) : refreshCount >= MAX_REFRESH_COUNT ? (
-            <>
-              <ErrorState text="Infelizmente, houve um problema com a construção da sua viagem." />
-              <Text className="text-center color-text-secondary" heading size="sm">
-                Mas pode falar conosco e vamos construir a viagem ideal para você!
-              </Text>
-              <Divider />
-              <WhatsappButton
-                message={`Houve um problema com minha viagem para ${data?.destination?.title}. Pode me ajudar a montar essa viagem?`}
-              >
-                Fale conosco
-              </WhatsappButton>
-            </>
-          ) : (
-            <>
-              <GlobalLoader inline />
-              <Text className="text-center color-text-secondary">
-                {isLoading ? "Carregando..." : "Estamos construindo sua viagem..."}
-              </Text>
-            </>
-          )}
-        </div>
-      </PageAppBody>
+      <div className="flex flex-column h-100 justify-content-center">
+        {isEmpty ? (
+          <EmptyState />
+        ) : refreshCount >= MAX_REFRESH_COUNT ? (
+          <>
+            <ErrorState text="Infelizmente, houve um problema com a construção da sua viagem." />
+            <Text className="text-center color-text-secondary" heading size="sm">
+              Mas pode falar conosco e vamos construir a viagem ideal para você!
+            </Text>
+            <Divider />
+            <WhatsappButton
+              message={`Houve um problema com minha viagem para ${data?.destination?.title}. Pode me ajudar a montar essa viagem?`}
+            >
+              Fale conosco
+            </WhatsappButton>
+          </>
+        ) : (
+          <>
+            <GlobalLoader inline />
+            <Text className="text-center color-text-secondary">
+              {isLoading ? "Carregando..." : "Estamos construindo sua viagem..."}
+            </Text>
+          </>
+        )}
+      </div>
     );
   }
 

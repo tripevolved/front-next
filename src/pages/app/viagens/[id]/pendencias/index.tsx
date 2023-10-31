@@ -1,4 +1,4 @@
-import { PageApp, PageAppBody, TripPending } from "@/features";
+import { PageApp, TripPending } from "@/features";
 import { useRouter } from "next/router";
 
 const title = "Pendências da viagem";
@@ -8,9 +8,7 @@ export default function TripPendingRoute() {
   const idParam = router.query.id;
   return (
     <PageApp headerOptions={{ title, backUrl: `/app/viagens/${idParam}` }} seo={{ title }}>
-      <PageAppBody>
-        <TripPending />
-      </PageAppBody>
+      <TripPending />
     </PageApp>
   );
 }

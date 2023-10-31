@@ -1,4 +1,4 @@
-import { PageApp, PageAppBody, TripScriptPanel } from "@/features";
+import { PageApp, TripScriptPanel } from "@/features";
 import { useRouter } from "next/router";
 
 const title = "Roteiro da viagem - Prévia";
@@ -15,9 +15,7 @@ export default function TripScriptPanelRoute() {
       }}
       seo={{ title }}
     >
-      <PageAppBody>
-        <TripScriptPanel />
-      </PageAppBody>
+      <TripScriptPanel />
     </PageApp>
   );
 }

@@ -1,9 +1,9 @@
 import type { ComponentHTMLProps, SeoProps } from "@/core/types";
-import type { PageAppMenuValue } from "../PageAppMenu/page-app-menu.context";
+import type { PageAppHeaderProps } from "@/features";
 
 export interface PageAppProps {
   seo?: SeoProps;
   children: ComponentHTMLProps["children"];
   className?: string;
-  headerOptions?: PageAppMenuValue;
+  headerOptions?: PageAppHeaderProps;
 }

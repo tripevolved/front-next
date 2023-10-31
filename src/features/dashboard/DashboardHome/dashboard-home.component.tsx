@@ -1,12 +1,5 @@
 import { useAppStore } from "@/core/store";
-import {
-  HasCurrentTrip,
-  HasProfile,
-  NoCurrentTrip,
-  NoProfile,
-  PageApp,
-  PageAppBody,
-} from "@/features";
+import { HasCurrentTrip, HasProfile, NoCurrentTrip, NoProfile, PageApp } from "@/features";
 import { DashedDivider } from "@/ui";
 import { useMemo } from "react";
 
@@ -35,11 +28,9 @@ export function DashboardHome() {
       seo={{ title: "Painel" }}
       className="dashboard-home"
     >
-      <PageAppBody>
-        {travelerProfile ? <HasProfile travelerProfile={travelerProfile} /> : <NoProfile />}
-        <DashedDivider style={{ padding: "32px 0" }} />
-        {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
-      </PageAppBody>
+      {travelerProfile ? <HasProfile travelerProfile={travelerProfile} /> : <NoProfile />}
+      <DashedDivider style={{ padding: "32px 0" }} />
+      {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
     </PageApp>
   );
 }

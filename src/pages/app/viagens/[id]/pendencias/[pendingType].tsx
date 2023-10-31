@@ -1,4 +1,4 @@
-import { PageApp, PageAppBody, PendingSwitcher } from "@/features";
+import { PageApp, PendingSwitcher } from "@/features";
 import { useRouter } from "next/router";
 
 const title = "Pendências da Viagem";
@@ -15,9 +15,7 @@ export default function TripPendingSwitcherRoute() {
       headerOptions={{ title, subtitle, backUrl: `/app/viagens/${idParam}/pendencias` }}
       seo={{ title }}
     >
-      <PageAppBody>
-        <PendingSwitcher />
-      </PageAppBody>
+      <PendingSwitcher />
     </PageApp>
   );
 }

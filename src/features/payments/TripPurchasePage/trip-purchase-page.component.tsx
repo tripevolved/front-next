@@ -1,5 +1,4 @@
 import { EmptyState, GlobalLoader, Box, Text, DashedDivider, OptionsSelectField } from "@/ui";
-import { PageAppBody } from "@/features";
 import { useTripPrice } from "@/features/trips/TripDetailsPage/trip-price.hook";
 import { useRouter } from "next/router";
 import { Button, Grid, RadioFields, TextField, Notification, Modal, Loader } from "mars-ds";
@@ -213,187 +212,185 @@ export function TripPurchasePage() {
   if (isLoading) return <GlobalLoader />;
 
   return (
-    <PageAppBody>
-      <form onSubmit={handleSubmit}>
-        <Box className="trip-purchase__section">
-          <Text heading={true} size="xs">
-            Dados do viajante comprador
-          </Text>
+    <form onSubmit={handleSubmit}>
+      <Box className="trip-purchase__section">
+        <Text heading={true} size="xs">
+          Dados do viajante comprador
+        </Text>
+        <TextField
+          id="fullName"
+          name="fullName"
+          required={true}
+          className="trip-purchase__section__input"
+          label="Nome do viajante comprador"
+          value={tripPayer?.fullName}
+        />
+        <TextField
+          id="cpf"
+          name="cpf"
+          required={true}
+          className="trip-purchase__section__input"
+          label="CPF do viajante comprador"
+          value={tripPayer?.cpf}
+          mask={"999.999.999-99"}
+        />
+        <OptionsSelectField
+          id="gender"
+          name="gender"
+          required={true}
+          label="Sexo"
+          defaultOption={
+            tripPayer?.gender
+              ? genderOptions.find((gender) => gender.value == tripPayer?.gender)
+              : { label: "", value: "" }
+          }
+          options={genderOptions}
+          className="trip-purchase__section__input"
+        />
+        <TextField
+          id="motherName"
+          name="motherName"
+          className="trip-purchase__section__input"
+          label="Nome da mãe"
+          value={tripPayer?.motherName ?? ""}
+        />
+        <TextField
+          id="document"
+          name="document"
+          required={true}
+          className="trip-purchase__section__input"
+          label="Documento"
+          value={tripPayer?.document ?? ""}
+          maxLength={9}
+        />
+        <TextField
+          id="birthDate"
+          name="birthDate"
+          required={true}
+          className="trip-purchase__section__input"
+          label="Data de Nascimento"
+          type="date"
+          // @ts-ignore
+          value={tripPayer?.birthDate ? parseDate(new Date(tripPayer.birthDate)) : ""}
+        />
+      </Box>
+      <DashedDivider className="trip-purchase__divider" />
+      <Box className="trip-purchase__section">
+        <Text heading={true} size="xs">
+          Contato
+        </Text>
+        <Text className="trip-purchase__section__content" heading={false} size="md">
+          {tripPayer?.email ?? travelerState.email}
+        </Text>
+        <input type="hidden" name="email" id="email" value={tripPayer?.email} />
+        <input type="hidden" name="phone" id="phone" value={tripPayer?.phone} />
+      </Box>
+      <DashedDivider className="trip-purchase__divider" />
+      <Box className="trip-purchase__section">
+        <Text heading={true} size="xs">
+          Endereço de cobrança
+        </Text>
+        <TextField
+          id="postalCode"
+          name="postalCode"
+          className="trip-purchase__section__input"
+          required={true}
+          label="CEP"
+          value={tripPayer?.address?.postalCode}
+          onBlur={(e) => handleAddressSearch(e.target.value)}
+          mask={"99999-999"}
+        />
+        <Grid columns={[2, 1]}>
           <TextField
-            id="fullName"
-            name="fullName"
-            required={true}
+            id="city"
+            name="city"
             className="trip-purchase__section__input"
-            label="Nome do viajante comprador"
-            value={tripPayer?.fullName}
+            required={true}
+            label="Cidade"
+            value={tripPayer?.address.city}
           />
           <TextField
-            id="cpf"
-            name="cpf"
+            id="stateProvince"
+            name="stateProvince"
             required={true}
             className="trip-purchase__section__input"
-            label="CPF do viajante comprador"
-            value={tripPayer?.cpf}
-            mask={"999.999.999-99"}
+            label="UF"
+            value={tripPayer?.address.stateProvince}
           />
-          <OptionsSelectField
-            id="gender"
-            name="gender"
+        </Grid>
+        <TextField
+          id="address"
+          name="address"
+          className="trip-purchase__section__input"
+          label="Endereço"
+          value={tripPayer?.address.address}
+        />
+        <Grid columns={[1, 1, 3]}>
+          <TextField
+            id="number"
+            name="number"
             required={true}
-            label="Sexo"
-            defaultOption={
-              tripPayer?.gender
-                ? genderOptions.find((gender) => gender.value == tripPayer?.gender)
-                : { label: "", value: "" }
-            }
-            options={genderOptions}
             className="trip-purchase__section__input"
+            label="Número"
+            value={tripPayer?.address?.number}
           />
           <TextField
-            id="motherName"
-            name="motherName"
+            id="complement"
+            name="complement"
             className="trip-purchase__section__input"
-            label="Nome da mãe"
-            value={tripPayer?.motherName ?? ""}
+            label="Complemento"
+            value={tripPayer?.address?.complement ?? ""}
           />
           <TextField
-            id="document"
-            name="document"
+            id="neighborhood"
+            name="neighborhood"
             required={true}
             className="trip-purchase__section__input"
-            label="Documento"
-            value={tripPayer?.document ?? ""}
-            maxLength={9}
+            label="Bairro"
+            value={tripPayer?.address.neighborhood}
           />
-          <TextField
-            id="birthDate"
-            name="birthDate"
-            required={true}
-            className="trip-purchase__section__input"
-            label="Data de Nascimento"
-            type="date"
-            // @ts-ignore
-            value={tripPayer?.birthDate ? parseDate(new Date(tripPayer.birthDate)) : ""}
-          />
-        </Box>
-        <DashedDivider className="trip-purchase__divider" />
-        <Box className="trip-purchase__section">
-          <Text heading={true} size="xs">
-            Contato
-          </Text>
-          <Text className="trip-purchase__section__content" heading={false} size="md">
-            {tripPayer?.email ?? travelerState.email}
-          </Text>
-          <input type="hidden" name="email" id="email" value={tripPayer?.email} />
-          <input type="hidden" name="phone" id="phone" value={tripPayer?.phone} />
-        </Box>
-        <DashedDivider className="trip-purchase__divider" />
-        <Box className="trip-purchase__section">
-          <Text heading={true} size="xs">
-            Endereço de cobrança
-          </Text>
-          <TextField
-            id="postalCode"
-            name="postalCode"
-            className="trip-purchase__section__input"
-            required={true}
-            label="CEP"
-            value={tripPayer?.address?.postalCode}
-            onBlur={(e) => handleAddressSearch(e.target.value)}
-            mask={"99999-999"}
-          />
-          <Grid columns={[2, 1]}>
-            <TextField
-              id="city"
-              name="city"
-              className="trip-purchase__section__input"
-              required={true}
-              label="Cidade"
-              value={tripPayer?.address.city}
-            />
-            <TextField
-              id="stateProvince"
-              name="stateProvince"
-              required={true}
-              className="trip-purchase__section__input"
-              label="UF"
-              value={tripPayer?.address.stateProvince}
-            />
-          </Grid>
-          <TextField
-            id="address"
-            name="address"
-            className="trip-purchase__section__input"
-            label="Endereço"
-            value={tripPayer?.address.address}
-          />
-          <Grid columns={[1, 1, 3]}>
-            <TextField
-              id="number"
-              name="number"
-              required={true}
-              className="trip-purchase__section__input"
-              label="Número"
-              value={tripPayer?.address?.number}
-            />
-            <TextField
-              id="complement"
-              name="complement"
-              className="trip-purchase__section__input"
-              label="Complemento"
-              value={tripPayer?.address?.complement ?? ""}
-            />
-            <TextField
-              id="neighborhood"
-              name="neighborhood"
-              required={true}
-              className="trip-purchase__section__input"
-              label="Bairro"
-              value={tripPayer?.address.neighborhood}
-            />
-          </Grid>
-        </Box>
-        <DashedDivider className="trip-purchase__divider" />
-        <Box className="trip-purchase__section">
-          <Text heading={true} size="xs">
-            Forma de pagamento
-          </Text>
-          <input type="hidden" name="tripId" id="tripId" value={tripId!} />
-          <input type="hidden" name="amount" id="amount" value={priceTotal} />
-          <RadioFields
-            id="method"
-            name="method"
-            required={true}
-            className="trip-purchase__section__radio"
-            options={paymentOptions}
-            onChange={(event: any) => {
-              setPaymentMethod(event.target.value);
-            }}
-          />
-          <OptionsSelectField
-            disabled={paymentMethod == "PIX"}
-            id="installments"
-            name="installments"
-            required={true}
-            label="Parcelamento"
-            options={getOptions()}
-            defaultOption={getOptions()[0]}
-            className="trip-purchase__section__input"
-          />
-        </Box>
-        <Box className="trip-purchase__footer">
-          <Button
-            className="trip-purchase__footer__button"
-            variant="custom"
-            backgroundColor="var(--color-brand-2)"
-            hoverBackgroundColor="var(--color-secondary-900)"
-            color="white"
-            type="submit"
-          >
-            Comprar viagem por {formatByDataType(priceTotal, "CURRENCY")}
-          </Button>
-        </Box>
-      </form>
-    </PageAppBody>
+        </Grid>
+      </Box>
+      <DashedDivider className="trip-purchase__divider" />
+      <Box className="trip-purchase__section">
+        <Text heading={true} size="xs">
+          Forma de pagamento
+        </Text>
+        <input type="hidden" name="tripId" id="tripId" value={tripId!} />
+        <input type="hidden" name="amount" id="amount" value={priceTotal} />
+        <RadioFields
+          id="method"
+          name="method"
+          required={true}
+          className="trip-purchase__section__radio"
+          options={paymentOptions}
+          onChange={(event: any) => {
+            setPaymentMethod(event.target.value);
+          }}
+        />
+        <OptionsSelectField
+          disabled={paymentMethod == "PIX"}
+          id="installments"
+          name="installments"
+          required={true}
+          label="Parcelamento"
+          options={getOptions()}
+          defaultOption={getOptions()[0]}
+          className="trip-purchase__section__input"
+        />
+      </Box>
+      <Box className="trip-purchase__footer">
+        <Button
+          className="trip-purchase__footer__button"
+          variant="custom"
+          backgroundColor="var(--color-brand-2)"
+          hoverBackgroundColor="var(--color-secondary-900)"
+          color="white"
+          type="submit"
+        >
+          Comprar viagem por {formatByDataType(priceTotal, "CURRENCY")}
+        </Button>
+      </Box>
+    </form>
   );
 }

@@ -7,7 +7,6 @@ import { EmptyState, GlobalLoader, StepsLoader } from "@/ui";
 import { Notification } from "mars-ds";
 import { MatchedDestinationsPageProps } from "./matched-destinations-page.types";
 import { TripsApiService } from "@/services/api";
-import { PageAppBody } from "@/features/templates/PageAppBody";
 import { MatchedDestinationsProposal } from "./matched-destinations-proposal.component";
 import useSWR from "swr";
 import { MatchedDestinationReturn } from "@/services/api/trip/matches";
@@ -73,22 +72,19 @@ export const MatchedDestinationsPage = ({ className, sx }: MatchedDestinationsPa
 
   if (error) return <EmptyState />;
   if (isLoading) return <GlobalLoader />;
+  if (submitting) {
+    return <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />;
+  }
 
   return (
-    <PageAppBody>
-      {submitting ? (
-        <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
-      ) : (
-        <MatchedDestinationsProposal
-          title="Sua viagem ideal é para..."
-          otherChoicesTitle="Outras opções"
-          className={cn}
-          tripId={data?.tripId!}
-          mainChoice={data?.mainChoice}
-          otherChoices={data?.otherChoices}
-          handleCreateTrip={handleCreateTrip}
-        />
-      )}
-    </PageAppBody>
+    <MatchedDestinationsProposal
+      title="Sua viagem ideal é para..."
+      otherChoicesTitle="Outras opções"
+      className={cn}
+      tripId={data?.tripId!}
+      mainChoice={data?.mainChoice}
+      otherChoices={data?.otherChoices}
+      handleCreateTrip={handleCreateTrip}
+    />
   );
 };

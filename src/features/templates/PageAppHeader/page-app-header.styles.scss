@@ -1,20 +1,72 @@
 .page-app-header {
   background-color: $color-brand-1;
-  color: $color-white;
-  padding: 32px 16px;
+  padding: 0 $spacing-lg;
+  display: flex;
 
-  &__box {
-    width: 100%;
+  > * {
+    height: 78px;
     display: flex;
     align-items: center;
-
-    &__avatar {
-      margin-left: 0;
-      margin-right: 20px;
+    justify-content: space-between;
+    @media (max-width: $breakpoint-sm) {
+      height: 102px;
     }
+  }
+  &__backButton,
+  &__toggle,
+  &__info {
+    --color-text-primary: white;
+    color: white;
+  }
+}
 
-    .btn--primary:hover {
-      background-color: $color-brand-1;
+.page-app-header-extension {
+  @media (max-width: $breakpoint-sm) {
+    background-color: $color-brand-1;
+    $radius-size: 24px;
+    &::after {
+      display: block;
+      content: "";
+      height: $radius-size;
+      background-color: $color-brand-7;
+      display: block;
+      border-radius: $radius-size $radius-size 0 0;
+    }
+  }
+}
+
+.menu-modal {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: $spacing-xl;
+  }
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    .divider:last-child {
+      display: none;
+    }
+  }
+  &__title {
+    text-transform: uppercase;
+    color: $color-gray-1;
+    padding: $spacing-md 0;
+  }
+  &__action {
+    width: 100%;
+    justify-content: space-between !important;
+    border: none;
+    &:disabled {
+      justify-content: flex-end !important;
+      .icon {
+        display: none;
+      }
     }
   }
 }

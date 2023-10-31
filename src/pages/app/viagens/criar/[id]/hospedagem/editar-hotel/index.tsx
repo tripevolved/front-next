@@ -1,4 +1,4 @@
-import { PageApp, PageAppBody, TripHotelList } from "@/features";
+import { PageApp, TripHotelList } from "@/features";
 import { useRouter } from "next/router";
 
 const title = "Editar Hotel";
@@ -8,9 +8,7 @@ export default function TripPendingRoute() {
   const idParam = String(router.query.id);
   return (
     <PageApp headerOptions={{ title, backUrl: `/app/viagens/criar/${idParam}` }} seo={{ title }}>
-      <PageAppBody>
-        <TripHotelList tripId={idParam} />
-      </PageAppBody>
+      <TripHotelList tripId={idParam} />
     </PageApp>
   );
 }
