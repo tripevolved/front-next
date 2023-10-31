@@ -1,4 +1,9 @@
-import { TripPayment, TripPaymentMethod, TripPaymentStatus, TripPaymentProvider } from "@/core/types";
+import {
+  TripPayment,
+  TripPaymentMethod,
+  TripPaymentStatus,
+  TripPaymentProvider,
+} from "@/core/types";
 import { ApiRequest } from "@/services/api/request";
 import { AxiosError } from "axios";
 
@@ -40,13 +45,13 @@ export const putTripPayment = async (tripPayment: TripPayment) => {
 };
 
 export const postTripPaymentIntent = async (tripPayment: TripPayment) => {
-  const route = 'payments/intent/trip';
+  const route = "payments/intent/trip";
   const paymentResult = await ApiRequest.post<TripPaymentResult>(route, tripPayment);
   return paymentResult;
-}
+};
 
 export const getTripPaymentStatus = async (tripId: string) => {
   const route = `/payments/${tripId}/status`;
   const result = await ApiRequest.get<TripPaymentStatusResult>(route);
   return result;
-}
+};

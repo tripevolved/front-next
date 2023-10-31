@@ -1,8 +1,14 @@
 export type TripPaymentMethod = "PIX" | "CREDIT_CARD";
 
-export type TripPaymentProvider = 'STRIPE' | 'VALEPAY';
+export type TripPaymentProvider = "STRIPE" | "VALEPAY";
 
-export type TripPaymentStatus = 'NOT_STARTED' | 'STARTED' | 'SUCCESSFUL' | 'CANCELED' | 'REFUSED' | undefined;
+export type TripPaymentStatus =
+  | "NOT_STARTED"
+  | "STARTED"
+  | "SUCCESSFUL"
+  | "CANCELED"
+  | "REFUSED"
+  | undefined;
 
 export interface TripPayment {
   tripId: string;
