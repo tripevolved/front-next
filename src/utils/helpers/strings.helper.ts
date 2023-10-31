@@ -1,5 +1,5 @@
-import copy from 'copy-to-clipboard'
-import { Notification } from 'mars-ds';
+import copy from "copy-to-clipboard";
+import { Notification } from "mars-ds";
 
 export const toCamelCase = (str: string) => {
   return str.replace(/[-_](\w)/g, (m, c) => c.toUpperCase());
@@ -17,4 +17,4 @@ export const copyToClipboard = (str: string, message: string) => {
   copy(str);
 
   Notification.success(message);
-}
+};
