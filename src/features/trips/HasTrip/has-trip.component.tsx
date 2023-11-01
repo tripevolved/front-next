@@ -51,7 +51,7 @@ export function HasTrip({ trip, tripId, className, children, sx, ...props }: Has
   const sendSetDestinationIdForTrip = async () => {
     try {
       setSubmitting(true);
-      const result = await TripsApiService.setDestinationId({
+      await TripsApiService.setDestinationId({
         tripId: tripId,
         tripDestination: { destinationId: chosenDestination.current! },
       });
@@ -67,7 +67,7 @@ export function HasTrip({ trip, tripId, className, children, sx, ...props }: Has
       await delay(1000);
       handleFinish(attempts - 1);
     } else {
-      await router.replace("/app/viagens/criar/" + tripId);
+      await router.push(`/app/viagens/criar/${tripId}`);
     }
   };
 

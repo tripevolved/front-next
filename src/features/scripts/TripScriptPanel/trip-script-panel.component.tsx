@@ -1,33 +1,26 @@
-import { EmptyState, GlobalLoader, Box, Text, SectionBase } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, SectionBase, ErrorState } from "@/ui";
 import useSwr from "swr";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
-import { useRouter } from "next/router";
 import { Button } from "mars-ds";
-import { TripScriptDay } from "@/core/types";
 import { useAppStore } from "@/core/store";
 import { TripScriptsApiService } from "@/services/api";
 import { TripScriptActionOrSuggestion } from "./trip-script-action.component";
 import { TripScriptFreeDay } from "./trip-script-free-day.component";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 export function TripScriptPanel() {
-  const router = useRouter();
-  const idParam = typeof router.query.id === "string" ? router.query.id : null;
-  const fetcher = async () => TripScriptsApiService.getFull(idParam!);
+  const idParam = useIdParam();
 
-  const { isLoading, data, error } = useSwr(idParam, fetcher);
+  const fetcher = async () => TripScriptsApiService.getFull(idParam!);
+  const fetcherKey = `trip-script-panel-${idParam}`;
+  const { isLoading, data, error } = useSwr(fetcherKey, fetcher);
   const { setTripScriptDay } = useAppStore();
 
-  if (error) return <EmptyState />;
+  if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
   if (data === undefined) return <EmptyState />;
 
   const { days, isPreview } = data;
-
-  const handleEditButton = (tripDay: TripScriptDay) => {
-    setTripScriptDay(tripDay);
-
-    router.push(`/app/viagens/roteiro/atracoes/${idParam}`);
-  };
 
   return (
     <SectionBase className="trip-script">
@@ -52,7 +45,8 @@ export function TripScriptPanel() {
                       variant="naked"
                       className="trip-script-day-section__edit-button"
                       iconName="edit-2"
-                      onClick={() => handleEditButton(tripScriptDay)}
+                      href={`/app/viagens/${idParam}/roteiro/atracoes/`}
+                      onClick={() => setTripScriptDay(tripScriptDay)}
                     >
                       Editar
                     </Button>

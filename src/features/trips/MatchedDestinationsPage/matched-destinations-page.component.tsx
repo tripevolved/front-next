@@ -3,13 +3,14 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 
-import { EmptyState, GlobalLoader, StepsLoader } from "@/ui";
+import { ErrorState, GlobalLoader, StepsLoader } from "@/ui";
 import { Notification } from "mars-ds";
 import { MatchedDestinationsPageProps } from "./matched-destinations-page.types";
 import { TripsApiService } from "@/services/api";
 import { MatchedDestinationsProposal } from "./matched-destinations-proposal.component";
 import useSWR from "swr";
 import { MatchedDestinationReturn } from "@/services/api/trip/matches";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -30,11 +31,12 @@ const STEPS = [
 
 export const MatchedDestinationsPage = ({ className, sx }: MatchedDestinationsPageProps) => {
   const router = useRouter();
-  const tripId = String(router.query.id);
+  const idParam = useIdParam();
+  const tripId = String(idParam);
 
-  const uniqueKeyName = `${tripId}-script`;
+  const fetcherKey = `matched-destination-${tripId}`;
   const fetcher = async () => TripsApiService.getMatchedDestinations({ tripId });
-  const { isLoading, data, error } = useSWR<MatchedDestinationReturn>(uniqueKeyName, fetcher);
+  const { isLoading, data, error } = useSWR<MatchedDestinationReturn>(fetcherKey, fetcher);
 
   const cn = makeCn("has-trip", className)(sx);
 
@@ -66,11 +68,11 @@ export const MatchedDestinationsPage = ({ className, sx }: MatchedDestinationsPa
       await delay(1000);
       handleFinish(attempts - 1);
     } else {
-      await router.replace("/app/viagens/criar/" + data?.tripId!);
+      router.push(`/app/viagens/criar/${data?.tripId}`);
     }
   };
 
-  if (error) return <EmptyState />;
+  if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
   if (submitting) {
     return <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />;

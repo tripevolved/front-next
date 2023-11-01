@@ -1,14 +1,13 @@
 import { TripPurchasePage } from "@/features";
 import { PageApp } from "@/features";
-import { useRouter } from "next/router";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 const title = "Comprar viagem";
 
 export default function TripPurchasePageRoute() {
-  const router = useRouter();
-  const tripId = String(router.query.id);
+  const idParam = useIdParam();
   return (
-    <PageApp headerOptions={{ title, backUrl: `/app/viagens/criar/${tripId}` }} seo={{ title }}>
+    <PageApp headerOptions={{ title, backUrl: `/app/viagens/criar/${idParam}` }} seo={{ title }}>
       <TripPurchasePage />
     </PageApp>
   );

@@ -1,12 +1,12 @@
 import { QuestionsBuilder, type StepComponentProps } from "@/features";
 import { RestaurantsApiService } from "@/services/api";
 import { AnswersDto } from "@/services/api/profile/answers";
+import { useIdParam } from "@/utils/hooks/param.hook";
 import { Notification } from "mars-ds";
-import { useRouter } from "next/router";
 
 export function RestaurantQuestions({ onNext }: StepComponentProps) {
-  const router = useRouter();
-  const tripId = String(router.query.id);
+  const idParam = useIdParam();
+  const tripId = String(idParam);
 
   const handleSubmit = async (restaurantParameters: AnswersDto) => {
     try {

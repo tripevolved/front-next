@@ -1,12 +1,12 @@
 import type { StepComponentProps } from "@/features";
 import { Grid, Notification } from "mars-ds";
 import { useRef, useState } from "react";
-import { useRouter } from "next/router";
 import { TripTypeStep } from "./trip-type-step.component";
 import { TripCharacteristicsStep } from "./trip-characteristics-step.component";
 import { TripTravelerProfileStep } from "./trip-traveler-profile-step.component";
 import { TripScriptsApiService } from "@/services/api";
 import { useAnimation } from "@/utils/hooks/animation.hook";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 const TRIP_STEPS = [
   {
@@ -23,7 +23,7 @@ const TRIP_STEPS = [
     title: "Temos uma ideia do que você quer",
     name: "trip-traveler-profile",
     component: TripTravelerProfileStep,
-  }  
+  }
 ];
 
 const DEFAULT_INITIAL_INDEX = 0;
@@ -31,8 +31,8 @@ const DEFAULT_INITIAL_INDEX = 0;
 export const TripScriptParametersStep = ({ onNext }: StepComponentProps) => {
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
 
-  const router = useRouter();
-  const idParam = String(router.query.id);
+  const idParam = useIdParam();
+  const tripId = String(idParam);
 
   const animation = useAnimation();
 
@@ -41,7 +41,7 @@ export const TripScriptParametersStep = ({ onNext }: StepComponentProps) => {
   const handleSubmit = async () => {
     try {
       // @ts-ignore
-      const result = await TripScriptsApiService.postParameters({ tripId: idParam, ...data.current });
+      const result = await TripScriptsApiService.postParameters({ tripId, ...data.current });
 
       onNext();
     } catch (error) {

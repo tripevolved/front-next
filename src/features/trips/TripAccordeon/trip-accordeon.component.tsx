@@ -5,17 +5,12 @@ import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { Link } from "mars-ds";
-import { useEffect } from "react";
 
 export function TripAccordeon({ className, trip, sx, ...props }: TripAccordeonProps) {
   const cn = makeCn("trip-accordeon", className)(sx);
-  const hrefLink = "/app/viagens/" + trip.id;
-  let cover: any = { xxl: { src: "" } };
-
-  useEffect(() => {
-    const [photo] = trip.images.length ? trip.images : [];
-    cover = photo ? parsePhoto(photo) : undefined;
-  }, [trip.images]);
+  const hrefLink = `/app/viagens/${trip.id}`;
+  const [photo] = trip.images.length ? trip.images : [];
+  const cover = parsePhoto(photo);
 
   return (
     <Box

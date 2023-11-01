@@ -1,11 +1,10 @@
 import { PageApp, TripScriptPanel } from "@/features";
-import { useRouter } from "next/router";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 const title = "Roteiro da viagem - Prévia";
 
 export default function TripScriptPanelRoute() {
-  const router = useRouter();
-  const idParam = router.query.id;
+  const idParam = useIdParam();
   return (
     <PageApp
       headerOptions={{
