@@ -52,9 +52,7 @@ export const TripPricingBox = ({
           </Text>
           <div className="trip-pricing-box__header__line flex gap-sm align-items-center color-text-secondary">
             <Icon name="users" size="sm" />
-            <Text size="sm">
-              Para {numAdults} adultos{numChildren && ` e ${numChildren} crianças`}
-            </Text>
+            <Text size="sm">Para {numAdults} adultos{numChildren && numChildren > 0 ? ` e ${numChildren} crianças` : ""}</Text>
           </div>
         </div>
         <Icon
