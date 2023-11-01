@@ -2,6 +2,7 @@ import type { StepComponentProps } from "@/features";
 
 import { Text } from "@/ui";
 import { Button, Grid, Image } from "mars-ds";
+import { useRouter } from "next/router";
 
 const SCRIPT_BUILDER_INIT = {
   title: "A seguir, vamos definir as atrações do seu roteiro.",
@@ -12,6 +13,10 @@ const SCRIPT_BUILDER_INIT = {
 export function TripScriptInitialBuildStep({ onNext }: StepComponentProps) {
   const { title, subtitle } = SCRIPT_BUILDER_INIT;
 
+  const router = useRouter();
+  const tripId = String(router.query.id);
+  const backToUrl = typeof router.query.voltarPara === "string" ? router.query.voltarPara : undefined;
+
   return (
     <Grid className="trip-script-builder-step">
       <Image src={"/assets/script/day-mock.svg"} alt="target" width={346} height={166} className="trip-script-builder-step__image"/>
@@ -20,6 +25,7 @@ export function TripScriptInitialBuildStep({ onNext }: StepComponentProps) {
       </Text>
       <Text className="trip-script-builder-step__item">{subtitle}</Text>
       <Button className="trip-script-builder-step__item" onClick={() => onNext()}>Começar a definir as atrações</Button>
+      <Button className="trip-script-builder-step__item" href={backToUrl ? backToUrl : `/app/viagens/${tripId}`} variant="naked" size="sm">Deixar para mais tarde</Button>
     </Grid>
   );
 }

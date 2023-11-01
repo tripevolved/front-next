@@ -139,28 +139,26 @@ export const TripPricingBox = ({
         {data?.description && <Text className="color-text-secondary">*{data?.description}</Text>}
         {data.isPaid ? (
           <Tag>A viagem já está paga.</Tag>
-        ) : isScriptBuilt ? (
-          <>
-            {/* @ts-ignore */}
-            <Button variant="tertiary" href={`/app/viagens/comprar/${idParam}`} size="sm">
-              Comprar por {formatToCurrencyBR(data.total)}
-            </Button>
-          </>
-        ) : (
-          <>
-            {/* @ts-ignore */}
-            <Button variant="tertiary" href={`/app/viagens/${idParam}/roteiro/construcao`}>
-              Construir meu roteiro
-            </Button>
-            <Button variant="secondary" href={`/app/viagens/comprar/${idParam}`} size="sm">
-              Comprar por {formatToCurrencyBR(data.total)}
-            </Button>
-            <Text size="sm">
-              <span style={{ fontWeight: "bold" }}>Não se preocupe:</span> você poderá construir o
-              roteiro em um momento posterior
-            </Text>
-          </>
-        )}
+        ) : (isScriptBuilt ? (
+            <>
+              {/* @ts-ignore */}
+              <Button variant="tertiary" href={`/app/viagens/comprar/${tripId}`} size="sm">
+                Comprar por {formatToCurrencyBR(data.total)}
+              </Button>
+            </>
+          )
+          : (
+            <>
+              {/* @ts-ignore */}
+              <Button variant="tertiary" href={`/app/viagens/${idParam}/roteiro/construcao/?voltarPara=${encodeURI(`/app/viagens/criar/${idParam}`)}`}>
+                Construir meu roteiro
+              </Button>
+              <Button variant="secondary" href={`/app/viagens/comprar/${idParam}`} size="sm">
+                Comprar por {formatToCurrencyBR(data.total)}
+              </Button>
+              <Text size="sm"><span style={{fontWeight: "bold"}}>Não se preocupe:</span> você poderá construir o roteiro em um momento posterior</Text>
+            </>
+        ))}
       </Grid>
       <div
         className={`trip-pricing-box__accordion trip-pricing-box__accordion-${

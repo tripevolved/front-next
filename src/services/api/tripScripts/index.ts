@@ -7,6 +7,7 @@ import { setTripScriptParameters } from "./parameters";
 import { getTripScriptBuilderParams } from "./builder-params";
 import { getTripScriptDaySuggestion } from "./day-suggestion";
 import { getTripScriptDayTip } from "./day-tip";
+import { getTripScriptCurrentStep } from "./current-step";
 
 export const TripScriptsApiService = {
   getPreview: getTripScriptPreview,
@@ -18,4 +19,5 @@ export const TripScriptsApiService = {
   getBuilderParams: getTripScriptBuilderParams,
   getDaySuggestion: getTripScriptDaySuggestion,
   getDayTip: getTripScriptDayTip,
+  getCurrentStep: getTripScriptCurrentStep,
 };

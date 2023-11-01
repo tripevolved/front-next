@@ -91,3 +91,13 @@ export interface TripScriptDayTip {
 }
 
 type TripScriptDayTipType = "MESSAGE" | "ATTRACTION" | "RESTAURANT" | "EVENT" | "BAR";
+
+
+export interface TripScriptStepInfo {
+  tripId: string;
+  step: TripScriptStep;
+  isSuccess: boolean;
+  message: string | null;
+}
+
+export type TripScriptStep = "START" | "SETTING_PREFERENCES" | "SETTING_ATTRACTIONS" | "SETTING_RESTAURANTS" | "SETTING_BAR_PARTIES";
