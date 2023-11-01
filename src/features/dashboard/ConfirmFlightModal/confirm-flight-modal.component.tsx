@@ -6,7 +6,6 @@ import { Button } from "mars-ds";
 
 const mockFlightList: FlightBoxProps[] = [
   {
-    typeFlight: "outbound",
     departureDate: "20/11/22 - 13:30",
     departureCityInitials: "CGH",
     departureAirport: "CONGONHAS",
@@ -15,7 +14,6 @@ const mockFlightList: FlightBoxProps[] = [
     arrivalAirport: "CONFINS",
   },
   {
-    typeFlight: "return",
     departureDate: "20/11/22 - 13:30",
     departureCityInitials: "CNF",
     departureAirport: "CONFINS",
@@ -49,45 +47,36 @@ export function ConfirmFlightModal({ className, children, sx, ...props }: Confir
   );
 }
 
-export const FlightBox = ({
-  typeFlight,
-  departureDate,
-  departureCityInitials,
-  departureAirport,
-  arrivalAirport,
-  arrivalCityInitials,
-  arrivalDate,
-}: FlightBoxProps) => {
+export const FlightBox = ({ isOutbound = false, ...props }: FlightBoxProps) => {
   return (
     <Box className="flight-box">
       <Text size="lg" className="flight-box__label">
         Voo de
-        {typeFlight == "outbound" && " ida"}
-        {typeFlight == "return" && " volta"}
+        {isOutbound ? "ida" : "volta"}
       </Text>
 
       <Box className="flight-box__card">
         <div className="flight-box__card__column">
           <Text size="xs" className="flight-box__card__column__label">
-            {departureDate}
+            {props.departure}
           </Text>
           <Text heading className="flight-box__card__column__initials">
-            {departureCityInitials}
+            {props.fromAirportCode}
           </Text>
           <Text size="xs" className="flight-box__card__column__label">
-            {departureAirport}
+            {props.fromAirportName}
           </Text>
         </div>
         <Picture src="/assets/trip-dashboard/confirm-flight/flight.svg" />
         <div className="flight-box__card__column">
           <Text size="xs" className="flight-box__card__column__label">
-            {arrivalDate}
+            {props.arrival}
           </Text>
           <Text heading className="flight-box__card__column__initials">
-            {arrivalCityInitials}
+            {props.toAirportCode}
           </Text>
           <Text size="xs" className="flight-box__card__column__label">
-            {arrivalAirport}
+            {props.toAirportName}
           </Text>
         </div>
       </Box>

@@ -17,6 +17,7 @@ export interface FlightDetails {
   arrival: string;
   fromAirportCode: string;
   fromAirportName: string;
+  fromAirportAddress: string;
   toAirportAddress: string;
   toAirportCode: string;
   toAirportName: string;
@@ -33,7 +34,8 @@ export interface FlightView {
   toAirportCode: string;
   toAirportName: string;
   connections: number;
-  flightDetails: FlightDetails[]
+  outboundFlightDetails: FlightDetails[]
+  returnFlightDetails: FlightDetails[]
 }
 
 export interface TripTransportation {
