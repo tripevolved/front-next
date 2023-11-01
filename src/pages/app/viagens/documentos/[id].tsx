@@ -1,9 +1,14 @@
 import { PageApp } from "@/features";
 import { EmptyState } from "@/ui";
+import { useRouter } from "next/router";
 
-export default function ReservationsRoute() {
+const title = "Documentos";
+
+export default function DocumentsTravelRoute() {
+  const router = useRouter();
+  const idParam = router.query.id;
   return (
-    <PageApp seo={{ title: "Documentos" }}>
+    <PageApp headerOptions={{ title, backUrl: `/app/viagens/${idParam}` }} seo={{ title }}>
       <EmptyState />
     </PageApp>
   );

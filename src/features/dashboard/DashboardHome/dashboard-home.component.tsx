@@ -1,16 +1,8 @@
 import { useAppStore } from "@/core/store";
-import {
-  HasCurrentTrip,
-  HasProfile,
-  NoCurrentTrip,
-  NoProfile,
-  PageApp,
-  PageAppBody,
-  PageAppHeader,
-} from "@/features";
-import { DashedDivider, Text } from "@/ui";
-import { Avatar } from "mars-ds";
+import { HasCurrentTrip, NoCurrentTrip, NoProfile, PageApp } from "@/features";
 import { useMemo } from "react";
+
+const LOGO_IMAGE = "/brand/logo-symbol-circle.svg";
 
 export function DashboardHome() {
   const {
@@ -19,8 +11,8 @@ export function DashboardHome() {
     travelerProfile,
   } = useAppStore((state) => state.travelerState);
   const firstName = name.replace(/\s.*/, "");
-
-  const statusMessage = useMemo(() => {
+  const title = `Olá, ${firstName} 👋`;
+  const subtitle = useMemo(() => {
     if (!travelerProfile) return "Queremos saber qual é o seu perfil de viagem!";
     if (hasCurrentTrip) return "Você tem uma viagem em aberto.";
     return "Te esperamos na sua próxima viagem.";
@@ -28,22 +20,13 @@ export function DashboardHome() {
   }, []);
 
   return (
-    <PageApp seo={{ title: "Painel" }} className="dashboard-home">
-      <PageAppHeader>
-        <div className="dashboard-home__header">
-          <div>
-            <Text heading as="div" size="sm" className="mb-xs">
-              Olá, <strong>{firstName}</strong> 👋
-            </Text>
-            <Text size="lg">{statusMessage}</Text>
-          </div>
-        </div>
-      </PageAppHeader>
-      <PageAppBody>
-        {travelerProfile ? <HasProfile travelerProfile={travelerProfile} /> : <NoProfile />}
-        <DashedDivider style={{ padding: "32px 0" }} />
-        {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
-      </PageAppBody>
+    <PageApp
+      headerOptions={{ title, subtitle, image: LOGO_IMAGE }}
+      seo={{ title: "Painel" }}
+      className="dashboard-home"
+    >
+      {travelerProfile ? null : <NoProfile />}
+      {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
     </PageApp>
   );
 }

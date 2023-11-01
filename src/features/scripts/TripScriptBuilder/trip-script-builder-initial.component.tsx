@@ -9,7 +9,7 @@ const SCRIPT_BUILDER_INIT = {
     "As configurações a seguir nos ajudarão a montar a melhor experiência para sua viagem - mas não se preocupe, você poderá alterar o roteiro quando quiser.",
 };
 
-export function InitialStep({ onNext }: StepComponentProps) {
+export function TripBuilderInitialStep({ onNext }: StepComponentProps) {
   const { title, subtitle } = SCRIPT_BUILDER_INIT;
 
   return (

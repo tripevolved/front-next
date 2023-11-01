@@ -5,7 +5,7 @@ export interface TripDashboardProps extends ComponentHTMLProps {
   tripId: string;
 }
 
-export interface TripDashboardItemProps extends ComponentHTMLProps {
+export interface TripDashboardCardProps extends ComponentHTMLProps {
   icon: string;
   color?: string;
   qtd: number;
