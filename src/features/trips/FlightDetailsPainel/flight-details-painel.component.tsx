@@ -18,15 +18,24 @@ export function FlightDetailsPainel({
   const { outboundFlightDetails, returnFlightDetails } = transportationData.flightView;
 
   return (
-    <div className={`${cn} flex-column py-lg px-md gap-md`} {...props}>
-      <Text heading color="var(--color-brand-1)">
-        Detalhes do voo
-      </Text>
-      <Box className="flight-details-painel__flight">
-        {/* <Text>Voo de ida</Text> */}
-        <FlightCard flight={outboundFlightDetails[0]} />
-      </Box>
-      {children}
+    <div className={`${cn} w-100 p-xl`} {...props}>
+      <div className="w-100 flight-details-painel__container flex-column  gap-xl">
+        <Text heading style={{ color: "var(--color-brand-1)" }}>
+          Detalhes do voo
+        </Text>
+        <Box className="flight-details-painel__container__flight w-100 flex-column gap-md">
+          <Text size="xl">Voo de ida</Text>
+          {outboundFlightDetails.map((flight, i) => (
+            <FlightCard flight={flight} key={i} />
+          ))}
+        </Box>
+        <Box className="flight-details-painel__container__flight flex-column gap-md">
+          <Text size="xl">Voo de volta</Text>
+          {returnFlightDetails.map((flight, i) => (
+            <FlightCard flight={flight} key={i} />
+          ))}
+        </Box>
+      </div>
     </div>
   );
 }
