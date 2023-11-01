@@ -11,12 +11,11 @@ import { useMemo } from "react";
 export function TripAccommodation() {
   const router = useRouter();
   const idParam = useIdParam();
-  const tripId = String(idParam);
 
   const accommodation = useAppStore((state) => state.accommodation);
 
-  const fetcher = async () => StaysApiService.getHotels(tripId);
-  const fetcherKey = `trip-accommodation-${tripId}`;
+  const fetcher = async () => StaysApiService.getHotels(idParam);
+  const fetcherKey = `trip-accommodation-${idParam}`;
   const { data, isLoading, error } = useSwr(fetcherKey, fetcher);
 
   const accommodationData = useMemo(() => {
@@ -50,7 +49,7 @@ export function TripAccommodation() {
       <TripStayDetails
         uniqueTransactionId={data.uniqueTransactionId}
         stayData={accommodationData}
-        tripId={tripId}
+        tripId={idParam}
         router={router}
       />
     </div>

@@ -6,12 +6,10 @@ import { Notification } from "mars-ds";
 
 export function RestaurantQuestions({ onNext }: StepComponentProps) {
   const idParam = useIdParam();
-  const tripId = String(idParam);
 
   const handleSubmit = async (restaurantParameters: AnswersDto) => {
     try {
-      await RestaurantsApiService.setParameters(tripId, restaurantParameters);
-
+      await RestaurantsApiService.setParameters(idParam, restaurantParameters);
       onNext();
     } catch (error) {
       Notification.error("Devido à um erro não foi possível continuar");
@@ -20,8 +18,8 @@ export function RestaurantQuestions({ onNext }: StepComponentProps) {
 
   return (
     <QuestionsBuilder
-      controller={() => RestaurantsApiService.getQuestions(tripId)}
-      controllerKey={`restaurant-questions-${tripId}`}
+      controller={() => RestaurantsApiService.getQuestions(idParam)}
+      controllerKey={`restaurant-questions-${idParam}`}
       onSubmit={handleSubmit}
       disableLocalSave
       hideStepper={false}

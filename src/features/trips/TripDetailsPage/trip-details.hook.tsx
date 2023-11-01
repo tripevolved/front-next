@@ -12,14 +12,12 @@ export const useTripDetails = () => {
   const [refreshCount, setRefreshCount] = useState(0);
 
   const idParam = useIdParam();
-  const tripId = String(idParam);
 
+  const fetcherKey = `trip-details-hook-${idParam}`;
   const fetcher = async () => {
     setRefreshCount((state) => state + 1);
-    return TripsApiService.getById(tripId);
+    return TripsApiService.getById(idParam);
   };
-  const fetcherKey = idParam ? `trip-details-hook-${idParam}` : null;
-
   const { isLoading, data, error } = useSWR(fetcherKey, fetcher, {
     refreshInterval:
       isBuilding && refreshCount <= MAX_REFRESH_COUNT ? REFRESH_INTERVAL : NOT_REFRESH,

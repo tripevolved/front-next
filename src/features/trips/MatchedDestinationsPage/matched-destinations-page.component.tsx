@@ -32,10 +32,9 @@ const STEPS = [
 export const MatchedDestinationsPage = ({ className, sx }: MatchedDestinationsPageProps) => {
   const router = useRouter();
   const idParam = useIdParam();
-  const tripId = String(idParam);
 
-  const fetcherKey = `matched-destination-${tripId}`;
-  const fetcher = async () => TripsApiService.getMatchedDestinations({ tripId });
+  const fetcherKey = `matched-destination-${idParam}`;
+  const fetcher = async () => TripsApiService.getMatchedDestinations({ tripId: idParam });
   const { isLoading, data, error } = useSWR<MatchedDestinationReturn>(fetcherKey, fetcher);
 
   const cn = makeCn("has-trip", className)(sx);

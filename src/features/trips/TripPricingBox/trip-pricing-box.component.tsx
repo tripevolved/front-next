@@ -20,12 +20,11 @@ export const TripPricingBox = ({
   isScriptBuilt,
 }: TripPricingBoxProps) => {
   const idParam = useIdParam();
-  const tripId = String(idParam);
 
   const [accordion, setAccordion] = useState<boolean>(false);
 
-  const fetcher = async () => TripsApiService.getPriceById(tripId);
-  const fetcherKey = `trip-pricing-${tripId}`;
+  const fetcherKey = `trip-pricing-${idParam}`;
+  const fetcher = async () => TripsApiService.getPriceById(idParam);
   const { isLoading, data, error } = useSWR(fetcherKey, fetcher);
 
   if (isLoading) return <GlobalLoader />;
@@ -145,17 +144,17 @@ export const TripPricingBox = ({
         ) : isScriptBuilt ? (
           <>
             {/* @ts-ignore */}
-            <Button variant="tertiary" href={`/app/viagens/comprar/${tripId}`} size="sm">
+            <Button variant="tertiary" href={`/app/viagens/comprar/${idParam}`} size="sm">
               Comprar por {formatToCurrencyBR(data.total)}
             </Button>
           </>
         ) : (
           <>
             {/* @ts-ignore */}
-            <Button variant="tertiary" href={`/app/viagens/${tripId}/roteiro/construcao`}>
+            <Button variant="tertiary" href={`/app/viagens/${idParam}/roteiro/construcao`}>
               Construir meu roteiro
             </Button>
-            <Button variant="secondary" href={`/app/viagens/comprar/${tripId}`} size="sm">
+            <Button variant="secondary" href={`/app/viagens/comprar/${idParam}`} size="sm">
               Comprar por {formatToCurrencyBR(data.total)}
             </Button>
             <Text size="sm">

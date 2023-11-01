@@ -11,8 +11,8 @@ import { useIdParam } from "@/utils/hooks/param.hook";
 export function TripScriptPanel() {
   const idParam = useIdParam();
 
-  const fetcher = async () => TripScriptsApiService.getFull(idParam!);
   const fetcherKey = `trip-script-panel-${idParam}`;
+  const fetcher = async () => TripScriptsApiService.getFull(idParam!);
   const { isLoading, data, error } = useSwr(fetcherKey, fetcher);
   const { setTripScriptDay } = useAppStore();
 

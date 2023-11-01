@@ -10,8 +10,8 @@ import { useIdParam } from "@/utils/hooks/param.hook";
 export function TripScriptPreviewPanel() {
   const idParam = useIdParam();
 
-  const fetcher = () => TripScriptsApiService.getPreview(idParam!);
   const fetcherKey = `trip-script-preview-${idParam}`;
+  const fetcher = () => TripScriptsApiService.getPreview(idParam!);
   const { isLoading, data, error } = useSwr(fetcherKey, fetcher);
 
   if (error) return <ErrorState />;

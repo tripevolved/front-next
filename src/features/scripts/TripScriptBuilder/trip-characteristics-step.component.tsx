@@ -13,8 +13,8 @@ const swrOptions = { revalidateOnFocus: false };
 export function TripCharacteristicsStep({ onNext }: StepComponentProps) {
   const idParam = useIdParam();
 
-  const fetcher = async () => TripScriptsApiService.getTripCharacteristics(idParam as string);
   const fetcherKey = `trip-characteristics-${idParam}`;
+  const fetcher = async () => TripScriptsApiService.getTripCharacteristics(idParam as string);
   const { data, error, isLoading } = useSwr(fetcherKey, fetcher, swrOptions);
 
   const importantCharacteristics = useRef<string | string[]>([]);

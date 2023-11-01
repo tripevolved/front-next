@@ -8,8 +8,8 @@ import { HasTrip } from "../HasTrip";
 export function TripDetailsPanel() {
   const idParam = useIdParam();
 
-  const fetcher = async () => TripsApiService.getByIdForDashboard(idParam!);
   const fetcherKey = idParam ? `trip-details-panel-${idParam}` : null;
+  const fetcher = async () => TripsApiService.getByIdForDashboard(idParam!);
   const { isLoading, error, data } = useSwr(fetcherKey, fetcher);
 
   if (error) return <ErrorState />;

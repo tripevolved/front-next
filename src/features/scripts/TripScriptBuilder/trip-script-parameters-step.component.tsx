@@ -32,7 +32,6 @@ export const TripScriptParametersStep = ({ onNext }: StepComponentProps) => {
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
 
   const idParam = useIdParam();
-  const tripId = String(idParam);
 
   const animation = useAnimation();
 
@@ -41,8 +40,7 @@ export const TripScriptParametersStep = ({ onNext }: StepComponentProps) => {
   const handleSubmit = async () => {
     try {
       // @ts-ignore
-      const result = await TripScriptsApiService.postParameters({ tripId, ...data.current });
-
+      await TripScriptsApiService.postParameters({ tripId: idParam, ...data.current });
       onNext();
     } catch (error) {
       Notification.error("Devido à um erro não foi possível criar a sua trip.");

@@ -9,10 +9,9 @@ import { useIdParam } from "@/utils/hooks/param.hook";
 
 export const RestaurantList = ({ onNext }: StepComponentProps) => {
   const idParam = useIdParam();
-  const tripId = String(idParam);
 
-  const fetcher = async () => RestaurantsApiService.getRestaurants(tripId);
-  const fetcherKey = idParam ? `restaurant-list-${idParam}` : null;
+  const fetcherKey = `restaurant-list-${idParam}`;
+  const fetcher = async () => RestaurantsApiService.getRestaurants(idParam);
   const { isLoading, data, error } = useSwr<Restaurant[]>(fetcherKey, fetcher);
 
   const choice = useRef<RestaurantChoice[]>([]);
@@ -39,7 +38,7 @@ export const RestaurantList = ({ onNext }: StepComponentProps) => {
 
   const handleFinish = async () => {
     try {
-      const result = await RestaurantsApiService.setRestaurantChoices(tripId, choice.current);
+      const result = await RestaurantsApiService.setRestaurantChoices(idParam, choice.current);
 
       if (result.isSuccess) {
         onNext();
