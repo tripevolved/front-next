@@ -8,8 +8,8 @@ export const TripScriptFreeDay = () => {
         <Icon name="home" size="sm" />
       </div>
       <Box className="trip-script-action__box">
-        <Text size="lg" className="trip-script-action__title">
-          Você tem o dia livre para aproveitar como quiser!
+        <Text size="lg" style={{textAlign: "center"}}>
+          Dia livre: você pode aproveitar para descansar um pouco e curtir o hotel!
         </Text>
       </Box>
     </Grid>

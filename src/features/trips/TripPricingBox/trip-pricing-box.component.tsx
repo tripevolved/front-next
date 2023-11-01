@@ -8,9 +8,12 @@ import { useState } from "react";
 
 interface TripPricingBoxProps {
   destinationName: string;
+  numAdults: number;
+  numChildren?: number;
+  isScriptBuilt?: boolean;
 }
 
-export const TripPricingBox = ({ destinationName }: TripPricingBoxProps) => {
+export const TripPricingBox = ({ destinationName, numAdults = 2, numChildren, isScriptBuilt }: TripPricingBoxProps) => {
   const router = useRouter();
   const tripId = typeof router.query.id === "string" ? router.query.id : "";
 
@@ -20,9 +23,9 @@ export const TripPricingBox = ({ destinationName }: TripPricingBoxProps) => {
     TripsApiService.getPriceById(tripId)
   );
 
-  if (isLoading || !data || error) {
+  if (error || isLoading || !data) {
     return (
-      <Grid>
+      <Grid className="trip-pricing-box">
         <Text heading size="xs" as="h2">
           {destinationName}
         </Text>
@@ -47,7 +50,7 @@ export const TripPricingBox = ({ destinationName }: TripPricingBoxProps) => {
           <Text heading size="xs" as="h2">{destinationName}</Text>
           <div className="trip-pricing-box__header__line flex gap-sm align-items-center color-text-secondary">
             <Icon name="users" size="sm" />
-            <Text size="sm">Para 2 pessoas</Text>
+            <Text size="sm">Para {numAdults} adultos{numChildren && ` e ${numChildren} crianças`}</Text>
           </div>
         </div>
         <Icon name="chevron-up" style={{float: "right", paddingLeft: "8px"}} className={`trip-pricing-box__chevron-${accordion ? "active" : "inactive"}`}/>
@@ -93,14 +96,26 @@ export const TripPricingBox = ({ destinationName }: TripPricingBoxProps) => {
         {data?.description && <Text className="color-text-secondary">*{data?.description}</Text>}
         {data.isPaid ? (
           <Tag>A viagem já está paga.</Tag>
-        ) : (
-          <>
-            {/* @ts-ignore */}
-            <Button variant="tertiary" href={`/app/viagens/comprar/${tripId}`}>
-              Comprar por {formatToCurrencyBR(data.total)}
-            </Button>
-          </>
-        )}
+        ) : (isScriptBuilt ? (
+            <>
+              {/* @ts-ignore */}
+              <Button variant="tertiary" href={`/app/viagens/comprar/${tripId}`} size="sm">
+                Comprar por {formatToCurrencyBR(data.total)}
+              </Button>
+            </>
+          ) 
+          : (
+            <>
+              {/* @ts-ignore */}
+              <Button variant="tertiary" href={`/app/viagens/roteiro/construcao/${tripId}`}>
+                Construir meu roteiro
+              </Button>
+              <Button variant="secondary" href={`/app/viagens/comprar/${tripId}`} size="sm">
+                Comprar por {formatToCurrencyBR(data.total)}
+              </Button>
+              <Text size="sm"><span style={{fontWeight: "bold"}}>Não se preocupe:</span> você poderá construir o roteiro em um momento posterior</Text>
+            </>
+        ))}
       </Grid>
       <div className={`trip-pricing-box__accordion trip-pricing-box__accordion-${accordion ? "inactive" : "active"}`} onClick={() => setAccordion(!accordion)}>
         <Text style={{color: "var(--color-brand-1)"}} size="lg">Ver o que inclui</Text>

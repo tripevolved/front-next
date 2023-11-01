@@ -1,8 +1,6 @@
-import { Box, CardHighlight, Picture, SectionBase, Text, FeatureIcon } from "@/ui";
+import { Box, Picture, Text } from "@/ui";
 import { TripScriptDayDetail } from "@/core/types";
-import { useState } from "react";
 import { Link, Modal } from "mars-ds";
-import { TripScriptPreviewBlockedSection } from "./trip-script-preview-blocked.section";
 
 interface TripScriptPreviewDetailedDayProps {
   details: TripScriptDayDetail;
@@ -65,7 +63,6 @@ export const TripScriptPreviewDetailedDay = ({ details }: TripScriptPreviewDetai
               );
             })}
           </div>
-          <TripScriptPreviewBlockedSection />
         </Box>
       ),
       {

@@ -3,7 +3,10 @@ import { PageApp } from "@/features";
 
 export default function TripDetailsPageRoute() {
   return (
-    <PageApp seo={{ title: "Detalhes de compra da viagem" }}>
+    <PageApp
+      headerOptions={{ title: "Viagem", backUrl: "/app/painel" }}
+      seo={{ title: "Detalhes de compra da viagem" }}
+    >
       <TripDetailsPage />
     </PageApp>
   );

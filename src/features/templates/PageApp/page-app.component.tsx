@@ -2,16 +2,21 @@ import { NextSeo } from "next-seo";
 import type { PageAppProps } from "./page-app.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { PageAppMenu } from "@/features";
+import { PageAppHeader } from "@/features";
+import { Container } from "mars-ds";
 
-export function PageApp({ children, seo, className }: PageAppProps) {
-  const cn = makeCn("page-app__main", className)();
+export function PageApp({ children, seo, className, headerOptions }: PageAppProps) {
+  const cn = makeCn("page-app__container", className)();
 
   return (
-    <div className="page-app">
+    <>
+      <PageAppHeader {...headerOptions} />
       {seo ? <NextSeo {...seo} /> : null}
-      <PageAppMenu />
-      <main className={cn}>{children}</main>
-    </div>
+      <main className="page-app">
+        <Container container="lg" className={cn}>
+          {children}
+        </Container>
+      </main>
+    </>
   );
 }

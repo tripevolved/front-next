@@ -7,6 +7,7 @@ export interface TripDetails {
   destination: TripDestination;
   configuration: TripConfiguration;
   isBuilding: boolean;
+  hasScript: boolean;
 }
 
 export interface TripTransportation {
@@ -29,6 +30,8 @@ export interface TripConfiguration {
   dates: string;
   period: string;
   budget: number;
+  numAdults: number;
+  numChildren: number;
 }
 
 // Traveler Dashboard

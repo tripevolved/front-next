@@ -1,19 +1,18 @@
 import useSwr from "swr";
 
-import { Loader, Button } from "mars-ds";
+import { Loader, Button, Modal } from "mars-ds";
 import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
 import { TripStayHighlightSection } from "./trip-stay-highlight.section";
 
 import { StaysApiService } from "@/services/api";
-import { useAppStore } from "@/core/store";
 import { useRouter } from "next/router";
+import { TripStayDetails } from "@/features";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
 
 export const TripStaySection = ({ tripId }: { tripId: string }) => {
   const router = useRouter();
-  const setAccommdationState = useAppStore((state) => state.setAccommodation);
 
   const getStay = (key: string) => {
     return getByTripId(tripId);
@@ -22,8 +21,20 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
   const { data, error, isLoading } = useSwr("stay", getStay, swrOptions);
 
   const handleSeeDetails = () => {
-    setAccommdationState({ ...data });
-    router.push(`/app/viagens/criar/${tripId}/hospedagem`);
+    const modal = Modal.open(
+      () => (
+        <TripStayDetails
+          stayData={data!}
+          tripId={tripId}
+          router={router}
+          onCloseModal={() => modal.close()}
+        />
+      ),
+      {
+        closable: true,
+        size: "lg",
+      }
+    );
   };
 
   if (isLoading) {
