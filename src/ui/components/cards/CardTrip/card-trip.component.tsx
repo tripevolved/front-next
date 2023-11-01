@@ -31,7 +31,7 @@ export function CardTrip({
             <Text as="h3" heading size="xs">
               <strong>{title}</strong>
             </Text>
-            {subtitle ? <Text size="xs">{subtitle}</Text> : null}
+            {subtitle ? <Text size="sm">{subtitle}</Text> : null}
           </div>
         ) : null}
         {children}

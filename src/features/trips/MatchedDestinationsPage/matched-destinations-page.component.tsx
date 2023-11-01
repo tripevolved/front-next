@@ -1,11 +1,9 @@
 import { useState, useRef } from "react";
-import { makeCn } from "@/utils/helpers/css.helpers";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 
 import { ErrorState, GlobalLoader, StepsLoader } from "@/ui";
 import { Notification } from "mars-ds";
-import { MatchedDestinationsPageProps } from "./matched-destinations-page.types";
 import { TripsApiService } from "@/services/api";
 import { MatchedDestinationsProposal } from "./matched-destinations-proposal.component";
 import useSWR from "swr";
@@ -29,15 +27,13 @@ const STEPS = [
   },
 ];
 
-export const MatchedDestinationsPage = ({ className, sx }: MatchedDestinationsPageProps) => {
+export const MatchedDestinationsPage = () => {
   const router = useRouter();
   const idParam = useIdParam();
 
   const fetcherKey = `matched-destination-${idParam}`;
   const fetcher = async () => TripsApiService.getMatchedDestinations({ tripId: idParam });
   const { isLoading, data, error } = useSWR<MatchedDestinationReturn>(fetcherKey, fetcher);
-
-  const cn = makeCn("has-trip", className)(sx);
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -81,7 +77,6 @@ export const MatchedDestinationsPage = ({ className, sx }: MatchedDestinationsPa
     <MatchedDestinationsProposal
       title="Sua viagem ideal é para..."
       otherChoicesTitle="Outras opções"
-      className={cn}
       tripId={data?.tripId!}
       mainChoice={data?.mainChoice}
       otherChoices={data?.otherChoices}
