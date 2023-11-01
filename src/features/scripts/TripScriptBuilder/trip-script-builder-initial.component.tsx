@@ -17,7 +17,7 @@ const ACTION_AND_STEPS: { [id: string]: { step: string, cta?: string }; } = {
   "START": { step: "parameters" },
   "SETTING_PREFERENCES": { step: "parameters" },
   "SETTING_ATTRACTIONS": { step: "init-build", cta: "Definir as atrações" },
-  "SETTING_RESTAURANTS": { step: "restaurant-questions", cta: "Escolher os restaurantes" },
+  "SETTING_RESTAURANTS": { step: "finish-build", cta: "Escolher os restaurantes" },
   "SETTING_BAR_PARTIES": { step: "finish-restaurants", cta: "Escolher os bares e festas" },
 }
 
