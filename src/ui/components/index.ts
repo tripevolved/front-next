@@ -3,6 +3,8 @@
  * run "yarn component:index" to update
  */
 export * from "./assets/Emoji";
+export * from "./assets/IconCustom";
+export * from "./assets/IconCustom/icons";
 export * from "./assets/Logo";
 export * from "./assets/LogoMainInverse";
 export * from "./basic/Accordion";
@@ -29,6 +31,7 @@ export * from "./cards/CardBlog";
 export * from "./cards/CardDestination";
 export * from "./cards/CardHighlight";
 export * from "./cards/CardTrip";
+export * from "./cards/CardTripNew";
 export * from "./cards/CardYoutube";
 export * from "./cards/TooltipCard";
 export * from "./forms/AutoCompleteTextField";

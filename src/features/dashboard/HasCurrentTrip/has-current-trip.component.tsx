@@ -7,15 +7,15 @@ import { TripsApiService } from "@/services/api";
 
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
-import { Button, Grid, Icon, Loader, Tabs } from "mars-ds";
-import { Tag, CardTrip, EmptyState, ErrorState, Text } from "@/ui";
+import { Grid, Icon, Label, LabelVariants, Loader, Tabs } from "mars-ds";
+import { CardTrip, EmptyState, ErrorState, Text, CardTripNew } from "@/ui";
 
 export function HasCurrentTrip() {
   return (
     <section className="has-current-trip">
       <Tabs
         tabs={[
-          { label: "Suas viagens", children: <CurrentTrips /> },
+          { label: "Próximas viagens", children: <CurrentTrips /> },
           {
             label: "Viagens passadas",
             children: <EmptyState text="Você ainda não possui viagens realizadas" />,
@@ -51,16 +51,16 @@ function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
           <TripItem {...currentTrip} />
         </div>
       ) : null}
-      <Grid columns={{ md: 3 }} className="all-trips__others">
+      <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
+        <CardTripNew
+          title="+ Descobrir mais uma viagem"
+          iconName="Plane"
+          href="/app/viagens/descobrir"
+        />
         {otherTrips.map((trip) => (
           <TripItem key={trip.id} {...trip} />
         ))}
       </Grid>
-      <div className="text-center py-xl">
-        <Button href="/app/viagens/descobrir" variant="secondary" iconName="plus">
-          Descobrir mais uma viagem
-        </Button>
-      </div>
     </Grid>
   );
 }
@@ -69,16 +69,14 @@ function TripItem({ id, title = "Sem nome", status, images, period }: TripListVi
   const [photo] = images;
   const image = photo ? parsePhoto(photo) : undefined;
 
-  const getHeader = () => (
-    <div className="card-trip__header">
-      <Tag className="card-trip__header__tag">
-        <Text size="xs"><strong>{status}</strong></Text>
-      </Tag>
-    </div>
-  );
-
   return (
-    <CardTrip image={image} title={title} header={getHeader()} href={`/app/viagens/${id}`} className="trip-item">
+    <CardTrip
+      image={image}
+      title={title}
+      header={<Label variant={LabelVariants.Warning}>{status}</Label>}
+      href={`/app/viagens/${id}`}
+      className="trip-item"
+    >
       {typeof period === "string" ? (
         <div className="trip-item__period">
           <Icon name="calendar" size="sm" />
