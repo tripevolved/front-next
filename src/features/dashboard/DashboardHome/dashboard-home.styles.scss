@@ -1,7 +1,4 @@
 .dashboard-home {
-  &__header {
-    display: flex;
-    align-items: center;
-    gap: $spacing-xl;
-  }
+  display: grid;
+  gap: 40px;
 }
