@@ -10,14 +10,14 @@ export function TripAccordeon({ className, trip, sx, ...props }: TripAccordeonPr
   const cn = makeCn("trip-accordeon", className)(sx);
   const hrefLink = `/app/viagens/${trip.id}`;
   const [photo] = trip.images.length ? trip.images : [];
-  const cover = parsePhoto(photo);
+  const cover = photo ? parsePhoto(photo) : undefined;
 
   return (
     <Box
       className={cn}
       {...props}
       style={{
-        backgroundImage: `radial-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.8)), url('${cover.xxl.src}')`,
+        backgroundImage: `radial-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.8)), url('${cover?.xxl?.src}')`,
         backgroundColor: "var(--color-brand-1)",
       }}
     >
