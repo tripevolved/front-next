@@ -4,7 +4,6 @@
  */
 export * from "./assets/Emoji";
 export * from "./assets/IconCustom";
-export * from "./assets/IconCustom/icons";
 export * from "./assets/Logo";
 export * from "./assets/LogoMainInverse";
 export * from "./basic/Accordion";

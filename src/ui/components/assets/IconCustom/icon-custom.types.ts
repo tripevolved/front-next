@@ -1,4 +1,4 @@
-import type { IconCustomName } from "./icons/all";
+import type { IconCustomName } from "@/ui/icons";
 
 export type IconCustomSize = "sm" | "md" | "lg";
 

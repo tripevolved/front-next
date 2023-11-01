@@ -1,5 +1,5 @@
 import type { IconCustomProps, IconCustomSize } from "./icon-custom.types";
-import { icons } from "./icons/all";
+import { icons } from "@/ui/icons";
 
 const sizes: Record<IconCustomSize, number> = {
   sm: 16,
