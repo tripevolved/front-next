@@ -80,7 +80,7 @@ export function TripDetailsPage() {
   const { features = [], photos = DEFAULT_PHOTOS, recommendedBy, tips = [], title } = destination;
   return (
     <Template title={title} photos={photos}>
-      <Grid columns={{ lg: ["1fr", "320px"] }} growing={false}>
+      <Grid columns={{ md: ["1fr", "320px"] }} growing={false}>
         <Grid>
           {configuration ? <TripConfigurationSection {...configuration} tripId={data.id} /> : null}
 
