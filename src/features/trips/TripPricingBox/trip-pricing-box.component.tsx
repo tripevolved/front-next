@@ -1,10 +1,21 @@
 import useSWR from "swr";
-import { Box, GlobalLoader, Picture, Tag, Text } from "@/ui";
-import { Button, Divider, Grid, Icon } from "mars-ds";
+import { Box, Picture, Tag, Text } from "@/ui";
+import {
+  Button,
+  Caption,
+  Card,
+  CardElevations,
+  Divider,
+  Grid,
+  Icon,
+  Skeleton,
+  SkeletonVariants,
+} from "mars-ds";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { TripsApiService } from "@/services/api";
 import { useState } from "react";
 import { useIdParam } from "@/utils/hooks/param.hook";
+import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 
 interface TripPricingBoxProps {
   destinationName: string;
@@ -16,161 +27,220 @@ interface TripPricingBoxProps {
 export const TripPricingBox = ({
   destinationName,
   numAdults = 2,
-  numChildren,
+  numChildren = 0,
   isScriptBuilt,
 }: TripPricingBoxProps) => {
   const idParam = useIdParam();
 
-  const [accordion, setAccordion] = useState<boolean>(false);
+  const [isOpened, setIOpened] = useState(false);
 
   const fetcherKey = `trip-pricing-${idParam}`;
   const fetcher = async () => TripsApiService.getPriceById(idParam);
   const { isLoading, data, error } = useSWR(fetcherKey, fetcher);
 
-  if (isLoading) return <GlobalLoader />;
+  if (error) return <TripPricingBoxErrorState title={destinationName} />;
+  if (isLoading) return <TripPricingBoxLoadingState />;
+  if (!data) return <TripPricingBoxErrorState title={destinationName} />;
 
-  if (error || !data) {
-    return (
-      <Grid className="trip-pricing-box">
-        <Text heading size="xs" as="h2">
-          {destinationName}
-        </Text>
-        <Text>Devido à um erro não foi possível mostrar os preços</Text>
-        <Button iconName="refresh-ccw" variant="neutral" onClick={() => location.reload()}>
-          Tentar novamente
-        </Button>
+  const people = numChildren
+    ? `Para ${numAdults} adultos e ${numChildren} crianças`
+    : `Para ${numAdults} adultos`;
+
+  return (
+    <>
+      <TripPricingBoxToggle title={destinationName} people={people} total={data.total} />
+      <Card className="trip-pricing-box" elevation={CardElevations.Low}>
+        <TripPricingBoxContent
+          tripId={idParam}
+          title={destinationName}
+          description={data.description || undefined}
+          people={people}
+          price={data.price}
+          serviceFee={data.serviceFee}
+          total={data.total}
+          isPaid={data.isPaid}
+          isBuilt={!!isScriptBuilt}
+        />
+      </Card>
+    </>
+  );
+};
+
+const TripPricingBoxToggle = ({
+  title,
+  people,
+  total,
+}: Pick<TripPricingBoxContentProps, "title" | "people" | "total">) => (
+  <Card
+    as="button"
+    elevation={CardElevations.Medium}
+    className="trip-pricing-box-toggle"
+    onClick={() => {
+      document.body.dataset.pricingBox = "opened";
+    }}
+  >
+    <TripPricingBoxContentHeader title={title} people={people} />
+    <Text as="strong" heading size="xs">
+      {formatToCurrencyBR(total)}
+    </Text>
+    <Icon className="trip-pricing-box-toggle__icon" name="chevron-up" />
+  </Card>
+);
+
+interface TripPricingBoxContentProps {
+  title: string;
+  description?: string;
+  people: string;
+  price: number;
+  serviceFee: number;
+  total: number;
+  isPaid: boolean;
+  isBuilt: boolean;
+  tripId: string;
+}
+
+const TRIP_INCLUDES = [
+  { text: "Transporte", image: "/assets/destino/passagem-aerea.svg" },
+  { text: "Hospedagem", image: "/assets/destino/hospedagem.svg" },
+  { text: "Roteiro", image: "/assets/destino/roteiro.svg" },
+  { text: "Dicas gastronômicas", image: "/assets/destino/dicas-gastronomicas.svg" },
+  { text: "Suporte 360°", image: "/assets/destino/suporte.svg" },
+];
+
+const TripPricingBoxContent = ({
+  tripId,
+  title,
+  description,
+  people,
+  price,
+  serviceFee,
+  total,
+  isPaid,
+  isBuilt,
+}: TripPricingBoxContentProps) => (
+  <div className="trip-pricing-box-content">
+    <ToggleButton
+      className="trip-pricing-box-content__close_button"
+      iconName="x"
+      onClick={() => {
+        document.body.dataset.pricingBox = undefined;
+      }}
+    />
+    <TripPricingBoxContentHeader title={title} people={people} />
+    <Grid>
+      <Text heading as="h3" size="xs">
+        <strong>
+          <small>O que inclui</small>
+        </strong>
+      </Text>
+      <Grid gap={12} className="px-md">
+        {TRIP_INCLUDES.map((item, key) => (
+          <TripPricingBoxContentItem key={key} {...item} />
+        ))}
       </Grid>
+      <Divider />
+      <Grid className="px-md">
+        <TripPricingBoxContentPrice label="Total" value={price} />
+        <TripPricingBoxContentPrice label="Taxa" value={serviceFee} />
+      </Grid>
+      {description ? <Text className="color-text-secondary">*{description}</Text> : null}
+      <TripPricingBoxContentCta isBuilt={isBuilt} isPaid={isPaid} total={total} tripId={tripId} />
+    </Grid>
+  </div>
+);
+
+const TripPricingBoxContentHeader = ({
+  title,
+  people,
+}: Pick<TripPricingBoxContentProps, "title" | "people">) => (
+  <div className="flex-grow">
+    <Text heading as="h2" className="mb-sm">
+      {title}
+    </Text>
+    <Grid columns={["auto", "1fr"]} className="color-text-secondary mb-xl">
+      <Icon name="users" size="sm" />
+      <Text size="sm">{people}</Text>
+    </Grid>
+  </div>
+);
+
+const TripPricingBoxContentCta = ({
+  isPaid,
+  isBuilt,
+  tripId,
+  total,
+}: Pick<TripPricingBoxContentProps, "tripId" | "total" | "isPaid" | "isBuilt">) => {
+  if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
+
+  const buyHref = `/app/viagens/comprar/${tripId}`;
+
+  if (isBuilt) {
+    return (
+      <Button variant={"tertiary" as any} href={buyHref}>
+        Comprar por {formatToCurrencyBR(total)}
+      </Button>
     );
   }
 
   return (
-    <Grid className="trip-pricing-box">
-      <div className="trip-pricing-box__header-container" onClick={() => setAccordion(!accordion)}>
-        <div className="trip-pricing-box__header">
-          <Text heading size="xs" as="h2">
-            {destinationName}
-          </Text>
-          <div className="trip-pricing-box__header__line flex gap-sm align-items-center color-text-secondary">
-            <Icon name="users" size="sm" />
-            <Text size="sm">Para {numAdults} adultos{numChildren && numChildren > 0 ? ` e ${numChildren} crianças` : ""}</Text>
-          </div>
-        </div>
-        <Icon
-          name="chevron-up"
-          style={{ float: "right", paddingLeft: "8px" }}
-          className={`trip-pricing-box__chevron-${accordion ? "active" : "inactive"}`}
-        />
-        <div className="trip-pricing-box__header-price">
-          <Text size="sm" heading>
-            {formatToCurrencyBR(data.total)}
-          </Text>
-        </div>
-      </div>
-      <Grid
-        className={
-          accordion ? "trip-pricing-box__content-active" : "trip-pricing-box__content-inactive"
-        }
+    <Grid>
+      <Button
+        variant={"tertiary" as any}
+        href={`/app/viagens/${tripId}/roteiro/construcao/?voltarPara=${encodeURI(
+          `/app/viagens/comprar/checkout/${tripId}`
+        )}`}
       >
-        <Box
-          className={`trip-pricing-box__includes ${
-            accordion ? "trip-pricing-box__includes-active" : "trip-pricing-box__includes-inactive"
-          }`}
-        >
-          <Text size="lg" className="trip-pricing-box__includes__title">
-            Sua viagem inclui
-          </Text>
-          <div className="trip-pricing-box__includes__line">
-            <Picture
-              src={"/assets/destino/passagem-aerea.svg"}
-              className="trip-pricing-box__includes__line-item"
-            />
-            <Text as="p" size="xl" className="trip-pricing-box__includes__line-item">
-              Transporte
-            </Text>
-          </div>
-          <div className="trip-pricing-box__includes__line">
-            <Picture
-              src={"/assets/destino/hospedagem.svg"}
-              className="trip-pricing-box__includes__line-item"
-            />
-            <Text as="p" size="xl" className="trip-pricing-box__includes__line-item">
-              Hospedagem
-            </Text>
-          </div>
-          <div className="trip-pricing-box__includes__line">
-            <Picture
-              src={"/assets/destino/roteiro.svg"}
-              className="trip-pricing-box__includes__line-item"
-            />
-            <Text as="p" size="xl" className="trip-pricing-box__includes__line-item">
-              Roteiro
-            </Text>
-          </div>
-          <div className="trip-pricing-box__includes__line">
-            <Picture
-              src={"/assets/destino/dicas-gastronomicas.svg"}
-              className="trip-pricing-box__includes__line-item"
-            />
-            <Text as="p" size="xl" className="trip-pricing-box__includes__line-item">
-              Dicas gastronômicas
-            </Text>
-          </div>
-          <div className="trip-pricing-box__includes__line">
-            <Picture
-              src={"/assets/destino/suporte.svg"}
-              className="trip-pricing-box__includes__line-item"
-            />
-            <Text as="p" size="xl" className="trip-pricing-box__includes__line-item">
-              Suporte 360°
-            </Text>
-          </div>
-        </Box>
-        <Divider />
-        <div className="mb-lg px-md grid text">
-          <div className="flex justify-content-between">
-            <span>Preço</span>
-            <span>{formatToCurrencyBR(data.price)}</span>
-          </div>
-          <div className="flex justify-content-between">
-            <span>Taxa de serviço</span>
-            <span>{formatToCurrencyBR(data.serviceFee)}</span>
-          </div>
-        </div>
-        {data?.description && <Text className="color-text-secondary">*{data?.description}</Text>}
-        {data.isPaid ? (
-          <Tag>A viagem já está paga.</Tag>
-        ) : (isScriptBuilt ? (
-            <>
-              {/* @ts-ignore */}
-              <Button variant="tertiary" href={`/app/viagens/comprar/${idParam}`} size="sm">
-                Comprar por {formatToCurrencyBR(data.total)}
-              </Button>
-            </>
-          )
-          : (
-            <>
-              {/* @ts-ignore */}
-              <Button variant="tertiary" href={`/app/viagens/${idParam}/roteiro/construcao/?voltarPara=${encodeURI(`/app/viagens/comprar/checkout/${idParam}`)}`}>
-                Construir meu roteiro
-              </Button>
-              <Button variant="secondary" href={`/app/viagens/comprar/checkout/${idParam}`} size="sm">
-                Comprar por {formatToCurrencyBR(data.total)}
-              </Button>
-              <Text size="sm"><span style={{fontWeight: "bold"}}>Não se preocupe:</span> você poderá construir o roteiro em um momento posterior</Text>
-            </>
-        ))}
-      </Grid>
-      <div
-        className={`trip-pricing-box__accordion trip-pricing-box__accordion-${
-          accordion ? "inactive" : "active"
-        }`}
-        onClick={() => setAccordion(!accordion)}
-      >
-        <Text style={{ color: "var(--color-brand-1)" }} size="lg">
-          Ver o que inclui
-        </Text>
-        <Icon name="chevron-down" />
-      </div>
+        Construir meu roteiro
+      </Button>
+      <Button variant="neutral" href={buyHref}>
+        Comprar por {formatToCurrencyBR(total)}
+      </Button>
+      <Text size="sm">
+        <strong>Não se preocupe:</strong> você poderá construir o roteiro em um momento posterior
+      </Text>
     </Grid>
   );
 };
+
+const TripPricingBoxContentPrice = ({ label, value }: { label: string; value: number }) => (
+  <div className="flex align-items-center justify-content-between">
+    <Text as="span" className="color-text-secondary">
+      {label}
+    </Text>
+    <Text as="strong" style={{ marginTop: 0 }}>
+      {formatToCurrencyBR(value)}
+    </Text>
+  </div>
+);
+
+const TripPricingBoxContentItem = ({ text, image }: { text: string; image: string }) => (
+  <Grid columns={["auto", "1fr"]} className="color-primary align-items-center">
+    <Picture src={image} height={32} width={32} />
+    <Text size="lg">{text}</Text>
+  </Grid>
+);
+
+const TripPricingBoxLoadingState = () => (
+  <Card elevation={CardElevations.Medium}>
+    <Grid>
+      <Skeleton active height={24} />
+      <Skeleton active height={12} width={128} />
+      <Skeleton active variant={SkeletonVariants.Paragraph} />
+      <Skeleton active height={48} />
+    </Grid>
+  </Card>
+);
+
+const TripPricingBoxErrorState = ({ title }: Pick<TripPricingBoxContentProps, "title">) => (
+  <Card elevation={CardElevations.Medium}>
+    <Grid>
+      <Text heading as="h2">
+        {title}
+      </Text>
+      <Text>Devido à um erro não foi possível mostrar os preços</Text>
+      <Button iconName="refresh-ccw" variant="neutral" onClick={location.reload}>
+        Tentar novamente
+      </Button>
+    </Grid>
+  </Card>
+);

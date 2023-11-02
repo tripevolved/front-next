@@ -1,4 +1,3 @@
-import { DestinationHeroSection } from "@/features/destinations/DestinationPage/destinations-hero.section";
 import { DestinationTipsSection } from "@/features/destinations/DestinationPage//destination-tips.section";
 import { TripTransportationSection } from "./trip-transportation.section";
 import { TripStaySection } from "./trip-stay.section";
@@ -6,86 +5,124 @@ import { TripScriptSection } from "./trip-script.section";
 import { TripFoodTipsSection } from "./trip-food-tips.section";
 import { TripSupportSection } from "./trip-support.section";
 import { TripConfigurationSection } from "./trip-configuration.section";
-import { Box, EmptyState, ErrorState, GlobalLoader, Text, WhatsappButton } from "@/ui";
+import { EmptyState, ErrorState, LoaderState, Text, WhatsappButton } from "@/ui";
 
 import { useTripDetails } from "./trip-details.hook";
-import { DestinationInfos, DestinationRecommendedBy, PageApp, TripPricingBox } from "@/features";
-import { Card, Container, Divider, Grid } from "mars-ds";
+import {
+  DestinationInfos,
+  DestinationRecommendedBy,
+  DestinationTipItem,
+  PageApp,
+  TripPricingBox,
+} from "@/features";
+import { Card, CardElevations, Divider, Grid } from "mars-ds";
+import type { Photo } from "@/core/types";
+import { DEFAULT_CARD_IMAGE_URL } from "@/core/constants";
+
+interface TemplateProps {
+  children: React.ReactNode;
+  title?: string;
+  photos?: Photo[];
+}
 
 const MAX_REFRESH_COUNT = 5;
+const DEFAULT_PHOTOS: Photo[] = [
+  {
+    title: "Imagem",
+    sources: [{ url: DEFAULT_CARD_IMAGE_URL, height: 50, width: 1000, type: "md" }],
+  },
+];
 
 export function TripDetailsPage() {
   const { data, isEmpty, isLoading, refreshCount } = useTripDetails();
 
+  const Template = ({ children, title = "Sua viagem", photos }: TemplateProps) => {
+    return (
+      <PageApp headerOptions={{ title, backUrl: "/app/painel", photos }} seo={{ title }}>
+        {children}
+      </PageApp>
+    );
+  };
+
+  const isBuilding = data?.isBuilding && refreshCount < MAX_REFRESH_COUNT;
+  if (isLoading || isBuilding) {
+    return (
+      <Template>
+        <LoaderState text={isBuilding ? "Estamos construindo sua viagem..." : undefined} />
+      </Template>
+    );
+  }
+  if (isEmpty)
+    return (
+      <Template>
+        <EmptyState text="Sua viagem não foi encontrada :(" />
+      </Template>
+    );
+
   if (!data || data.isBuilding) {
     return (
-      // TODO: no container here
-      <div className="flex flex-column h-100 justify-content-center">
-        {isEmpty ? (
-          <EmptyState />
-        ) : refreshCount >= MAX_REFRESH_COUNT ? (
-          <>
-            <ErrorState text="Infelizmente, houve um problema com a construção da sua viagem." />
-            <Text className="text-center color-text-secondary" heading size="sm">
-              Mas pode falar conosco e vamos construir a viagem ideal para você!
-            </Text>
-            <Divider />
-            <WhatsappButton
-              message={`Houve um problema com minha viagem para ${data?.destination?.title}. Pode me ajudar a montar essa viagem?`}
-            >
-              Fale conosco
-            </WhatsappButton>
-          </>
-        ) : (
-          <>
-            <GlobalLoader inline />
-            <Text className="text-center color-text-secondary">
-              {isLoading ? "Carregando..." : "Estamos construindo sua viagem..."}
-            </Text>
-          </>
-        )}
-      </div>
+      <Template>
+        <ErrorState
+          heading="Ops, algo não saiu como esperado"
+          text="Infelizmente, não foi possível construir essa viagem. Mas pode falar conosco e vamos construir a viagem ideal para você!"
+        >
+          <WhatsappButton
+            message={`Houve um problema com minha viagem para ${data?.destination?.title}. Pode me ajudar a montar essa viagem?`}
+          >
+            Fale conosco
+          </WhatsappButton>
+        </ErrorState>
+      </Template>
     );
   }
 
   const { destination, configuration, hasScript } = data;
-  const { features = [], photos = [], recommendedBy, tips = [], title } = destination;
-
+  const { features = [], photos = DEFAULT_PHOTOS, recommendedBy, tips = [], title } = destination;
   return (
-    <>
-      <DestinationHeroSection title={title} photos={photos} backButton href={`/app/painel`} />
-      <TripPricingBox
-        destinationName={destination.title}
-        numAdults={configuration.numAdults}
-        numChildren={configuration.numChildren}
-        isScriptBuilt={hasScript}
-      />
-      <Container container="none" className="trip-details-container">
-        <Container container="lg">
-          <Card>
-            <Grid growing={false}>
-              {configuration ? (
-                <TripConfigurationSection {...configuration} tripId={data.id} />
-              ) : null}
-              {features.length ? <DestinationInfos features={features} /> : null}
-              {recommendedBy ? <DestinationRecommendedBy {...recommendedBy} /> : null}
+    <Template title={title} photos={photos}>
+      <Grid columns={{ lg: ["1fr", "320px"] }} growing={false}>
+        <Grid>
+          {configuration ? <TripConfigurationSection {...configuration} tripId={data.id} /> : null}
+
+          <Card elevation={CardElevations.Low}>
+            <Grid>
+              <Text as="h2" heading size="xs" className="mb-lg">
+                <strong>O que sua viagem inclui</strong>
+              </Text>
+              <TripTransportationSection tripId={data.id} />
+              <Divider />
+              <TripStaySection tripId={data.id} />
+              <Divider />
+              <TripScriptSection isBuilt={hasScript} />
+              <Divider />
+              <TripFoodTipsSection text={destination.gastronomicInformation} />
+              <Divider />
+              <TripSupportSection />
             </Grid>
           </Card>
-          <Box className="what-includes-section">
-            <Text as="h2" heading size="sm" className="mb-2x">
-              O que sua viagem inclui
-            </Text>
-            <div className="what-includes-section__content">
-              <TripTransportationSection tripId={data.id} />
-              <TripStaySection tripId={data.id} />
-              <TripScriptSection isBuilt={hasScript} />
-              <TripFoodTipsSection text={destination.gastronomicInformation} />
-              <TripSupportSection />
-            </div>
-          </Box>
-          {tips.length ? <DestinationTipsSection tips={tips} /> : null}
-        </Container>
-      </Container>
-    </>
+          {tips.length ? (
+            <Card elevation={CardElevations.Low}>
+              <Text as="h2" heading size="xs" className="mb-xl">
+                <strong>Dicas do destino</strong>
+              </Text>
+              <Grid>
+                {tips.map((props, key) => (
+                  <DestinationTipItem key={key} {...props} />
+                ))}
+              </Grid>
+            </Card>
+          ) : null}
+
+          {features.length ? <DestinationInfos features={features} /> : null}
+          {recommendedBy ? <DestinationRecommendedBy {...recommendedBy} /> : null}
+        </Grid>
+        <TripPricingBox
+          destinationName={destination.title}
+          numAdults={configuration.numAdults}
+          numChildren={configuration.numChildren}
+          isScriptBuilt={hasScript}
+        />
+      </Grid>
+    </Template>
   );
 }

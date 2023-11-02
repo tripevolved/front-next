@@ -48,6 +48,7 @@ export * from "./sections/SectionBase";
 export * from "./sections/SectionFaq";
 export * from "./states/EmptyState";
 export * from "./states/ErrorState";
+export * from "./states/LoaderState";
 export * from "./states/StateTemplate";
 export * from "./states/SuccessState";
 export * from "./user/UserAvatar";

@@ -1,7 +1,1 @@
-import { TripDetailsPage } from "@/features";
-
-export default function TripDetailsPageRoute() {
-  return (
-    <TripDetailsPage />
-  );
-}
+export { TripDetailsPage as default } from "@/features";
