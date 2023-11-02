@@ -5,6 +5,7 @@ export * from "./lead";
 export * from "./page";
 export * from "./photo";
 export * from "./restaurants";
+export * from "./terms";
 export * from "./traveler";
 export * from "./travelerState";
 export * from "./trip";
