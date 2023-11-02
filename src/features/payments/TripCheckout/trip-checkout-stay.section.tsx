@@ -2,7 +2,6 @@ import useSwr from "swr";
 
 import { Loader, Button, Modal } from "mars-ds";
 import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
-import { TripStayHighlightSection } from "./trip-stay-highlight.section";
 
 import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
@@ -11,7 +10,7 @@ import { TripStayDetails } from "@/features";
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
 
-export const TripStaySection = ({ tripId }: { tripId: string }) => {
+export const TripCheckoutStaySection = ({ tripId }: { tripId: string }) => {
   const router = useRouter();
 
   const getStay = (key: string) => {
@@ -28,6 +27,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
           tripId={tripId}
           router={router}
           onCloseModal={() => modal.close()}
+          isModalView
         />
       ),
       {
@@ -85,17 +85,8 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
             <CardHighlight className="trip-stay-section__content">
               <div>
                 <Text as="h2" size="lg">
-                  Ainda não escolhemos a acomodação para sua viagem.
+                  Sua viagem não tem acomodação escolhida.
                 </Text>
-                <Text>Fale conosco e vamos deixar tudo como você deseja!</Text>
-                <Button
-                  iconName="home"
-                  className="mt-md"
-                  style={{ color: "var(--color-gray-4)", width: "100%" }}
-                  href={`/app/viagens/criar/${tripId}/hospedagem/editar-hotel`}
-                >
-                  Escolher um Hotel
-                </Button>
               </div>
             </CardHighlight>
           </Box>
@@ -115,17 +106,9 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
             <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
               Hospedagem
             </Text>
-            <Button
-              iconName="edit-2"
-              variant="naked"
-              size="sm"
-              style={{ color: "var(--color-gray-1)" }}
-              href={`/app/viagens/criar/${tripId}/hospedagem/editar-hotel`}
-            >
-              Editar
-            </Button>
           </Box>
           <Box className="trip-stay-section__content">
+            <Text size="lg"></Text>
             <Box className="trip-stay-section__content__stay-desc">
               <Picture src={data.coverImageUrl ? data.coverImageUrl : "/assets/stays/empty.svg"} />
               <Box className="trip-stay-section__content__stay-desc__box">
@@ -141,7 +124,6 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
               Ver detalhes
             </Button>
           </Box>
-          {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
         </Box>
       </div>
     </>

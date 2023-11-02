@@ -1,4 +1,3 @@
-import { TripStaySection } from "@/features/trips/TripDetailsPage/trip-stay.section";
 import { TripScriptSection } from "@/features/trips/TripDetailsPage/trip-script.section";
 import { TripFoodTipsSection } from "@/features/trips/TripDetailsPage/trip-food-tips.section";
 import { TripSupportSection } from "@/features/trips/TripDetailsPage/trip-support.section";
@@ -9,6 +8,7 @@ import { DestinationInfos, DestinationRecommendedBy, TripPricingBox } from "@/fe
 import { Card, Container, Divider, Grid } from "mars-ds";
 import { TripDestinationCheckoutSection } from "./trip-checkout-destination.section";
 import { TripCheckoutTransportationSection } from "./trip-checkout-transportation.section";
+import { TripCheckoutStaySection } from "./trip-checkout-stay.section";
 
 const MAX_REFRESH_COUNT = 5;
 
@@ -65,7 +65,7 @@ export function TripCheckout() {
         <div className="what-includes-section__content">
           <TripDestinationCheckoutSection  configuration={configuration} destination={destination} peopleInfo={peopleInfo} />
           <TripCheckoutTransportationSection tripId={data.id} peopleInfo={peopleInfo} />
-          <TripStaySection tripId={data.id} />
+          <TripCheckoutStaySection tripId={data.id} />
           <TripScriptSection isBuilt={hasScript} />
           <TripFoodTipsSection text={destination.gastronomicInformation} />
           <TripSupportSection />

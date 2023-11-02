@@ -4,5 +4,13 @@
     border-color: $color-brand-1;
     border-style: solid;
     background-color: inherit;
+
+    display: flex;
+    gap: 16px;
+
+    &-logo {
+      max-height: 80px;
+      max-width: 120px;
+    }
   }
 }

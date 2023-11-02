@@ -4,7 +4,6 @@ import { Loader, Button, Icon } from "mars-ds";
 import { EmptyState, Box, Picture, Text, CardHighlight } from "@/ui";
 
 import { TransportationApiService } from "@/services/api";
-import { TripTransportation } from "@/core/types";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
@@ -90,8 +89,8 @@ export const TripCheckoutTransportationSection = ({ tripId, peopleInfo }: { trip
               <Text size="lg">{peopleInfo}</Text>
               <CardHighlight className="trip-checkout-transportation__card">
                 <Picture
-                  src={data.partnerLogoUrl}
-                  className="trip-transportation-section__transport__partner-logo"
+                  src={data.partnerLogoUrl ?? "/assets/transportation/empty.svg"}
+                  className="trip-checkout-transportation__card-logo"
                 />
                 <Box className="trip-transportation-section__transport__departure-and-arrival">
                   <div className="trip-transportation-section__transport__departure-and-arrival__item">

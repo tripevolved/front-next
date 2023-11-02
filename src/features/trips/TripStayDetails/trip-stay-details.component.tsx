@@ -7,7 +7,7 @@ import { TripStayServiceItem } from "@/features";
 import { parseNumericValue } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
 
-const EMPTY_INFO_DETAILS = "As informações ainda não foram definidas.";
+const EMPTY_INFO_DETAILS = "-";
 
 export function TripStayDetails({
   stayData,
@@ -41,6 +41,8 @@ export function TripStayDetails({
     };
   }
 
+  console.log(stayData.details.images);
+
   return (
     <>
       {/** @ts-ignore */}
@@ -50,7 +52,7 @@ export function TripStayDetails({
             <Text size="sm" heading className="trip-stay-details__initial-info__header__title">
               {stayData.name}
             </Text>
-            <Text>Hotel em {stayData.details.address}</Text>
+            <Text>{stayData.details.address}</Text>
           </div>
           {stayData.details.images?.length ? (
             <Carousel height={300}>
@@ -71,7 +73,7 @@ export function TripStayDetails({
                 justifyContent: "center",
               }}
               className="w-100 h-300px"
-              src={"/assets/blank-image.png"}
+              src={"/assets/stays/empty.svg"}
             />
           )}
         </Box>
@@ -94,7 +96,7 @@ export function TripStayDetails({
             <Divider />
             <div className="trip-stay-details__content__check-in-address__item">
               <Picture src="/assets/stays/time.png" />
-              <Text>{stayData.details.checkInHour || EMPTY_INFO_DETAILS}</Text>
+              <Text>Check-in às {stayData.details.checkInHour || EMPTY_INFO_DETAILS}</Text>
             </div>
             <div className="trip-stay-details__content__check-in-address__item">
               <Picture src="/assets/stays/pin.png" />
