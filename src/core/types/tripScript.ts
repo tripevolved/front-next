@@ -92,7 +92,6 @@ export interface TripScriptDayTip {
 
 type TripScriptDayTipType = "MESSAGE" | "ATTRACTION" | "RESTAURANT" | "EVENT" | "BAR";
 
-
 export interface TripScriptStepInfo {
   tripId: string;
   step: TripScriptStep;
@@ -100,4 +99,9 @@ export interface TripScriptStepInfo {
   message: string | null;
 }
 
-export type TripScriptStep = "START" | "SETTING_PREFERENCES" | "SETTING_ATTRACTIONS" | "SETTING_RESTAURANTS" | "SETTING_BAR_PARTIES";
+export type TripScriptStep =
+  | "START"
+  | "SETTING_PREFERENCES"
+  | "SETTING_ATTRACTIONS"
+  | "SETTING_RESTAURANTS"
+  | "SETTING_BAR_PARTIES";
