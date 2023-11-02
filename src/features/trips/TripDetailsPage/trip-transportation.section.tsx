@@ -55,7 +55,7 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
     );
   }
 
-  if (!data.isRouteFinished) {
+  if (data.isRouteFinished) {
     return (
       <>
         <TripDetailInfo {...getDetailInfoProps(data.iconSlug)} />
