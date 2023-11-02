@@ -83,7 +83,7 @@ export interface TripMatchedDestination {
 
 export interface TripProposal {
   mainChoice: TripMatchedDestination;
-  otherChoices?: TripMatchedDestination[];
+  otherChoices?: TripMatchedDestination[] | null;
 }
 
 export interface TripAbstract {

@@ -1,14 +1,11 @@
-import type { ReservationsPanelProps } from "./reservations-panel.types";
-
 import { EmptyState } from "@/ui";
 import { Tabs } from "mars-ds";
-import { useRouter } from "next/router";
 import { FlightsReservationsSection } from "./flights-reservations.section";
 import { StaysReservationsSection } from "./stays-reservations.section";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
-export function ReservationsPanel({ className, sx, ...props }: ReservationsPanelProps) {
-  const router = useRouter();
-  const idParam = typeof router.query.id === "string" ? router.query.id : null;
+export function ReservationsPanel() {
+  const idParam = useIdParam();
 
   const tabs = [
     { label: "Voos", children: <FlightsReservationsSection /> },

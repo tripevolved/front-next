@@ -15,11 +15,11 @@ const DEFAULT_INITIAL_INDEX = 1;
 export const BuildTripScriptStep = ({ onNext }: StepComponentProps) => {
   const router = useRouter();
   const tripId = String(router.query.id);
-  const day = router.query.day ? +router.query.day : undefined;
+  const day = Number(router.query.day) || undefined;
 
-  const uniqueKeyName = `${tripId}-script`;
   const fetcher = async () => TripScriptsApiService.getBuilderParams(tripId);
-  const { isLoading, data, error } = useSwr<TripScriptBuilderParams>(uniqueKeyName, fetcher);
+  const fetcherKey = `build-trip-script-step-${tripId}`
+  const { isLoading, data, error } = useSwr<TripScriptBuilderParams>(fetcherKey, fetcher);
 
   const [currentIndex, setCurrentIndex] = useState(day ?? DEFAULT_INITIAL_INDEX);
   const animation = useAnimation();

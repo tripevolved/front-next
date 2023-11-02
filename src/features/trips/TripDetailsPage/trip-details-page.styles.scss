@@ -329,18 +329,18 @@
   @media (max-width: $breakpoint-lg) {
     padding-bottom: 120px;
   }
+}
+
+.trip-details-container {
+  padding: 0 36% 2% 8%;
+  
+  @media (max-width: $breakpoint-lg) {
+    padding: 0;
+  }
 
   .destination-tips-section {
     background-color: inherit;
     padding-bottom: 12px;
     padding-top: 12px;
-  }
-}
-
-.trip-details-container {
-  padding: 0 36% 2% 8%;
-
-  @media (max-width: $breakpoint-lg) {
-    padding: 0;
   }
 }

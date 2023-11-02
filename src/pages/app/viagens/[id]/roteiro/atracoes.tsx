@@ -1,13 +1,12 @@
 import { PageApp, UpdateAttractions } from "@/features";
-import { useRouter } from "next/router";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 const title = "Editar Atrações do Dia";
 
 export default function TripAttractionsRoute() {
-  const router = useRouter();
-  const idParam = router.query.id;
+  const idParam = useIdParam();
   return (
-    <PageApp headerOptions={{ title, backUrl: `/app/viagens/roteiro/${idParam}` }} seo={{ title }}>
+    <PageApp headerOptions={{ title, backUrl: `/app/viagens/${idParam}/roteiro/` }} seo={{ title }}>
       <UpdateAttractions />
     </PageApp>
   );

@@ -1,13 +1,14 @@
-import { PageApp, TripAccommodation } from "@/features";
+import { TripPurchasePage } from "@/features";
+import { PageApp } from "@/features";
 import { useIdParam } from "@/utils/hooks/param.hook";
 
-const title = "Hospedagem";
+const title = "Comprar viagem";
 
-export default function TripPendingRoute() {
+export default function TripPurchasePageRoute() {
   const idParam = useIdParam();
   return (
     <PageApp headerOptions={{ title, backUrl: `/app/viagens/criar/${idParam}` }} seo={{ title }}>
-      <TripAccommodation />
+      <TripPurchasePage />
     </PageApp>
   );
 }

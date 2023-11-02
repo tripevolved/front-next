@@ -1,4 +1,4 @@
-import { ItemButton, ItemButtonProps, LabelThemes, LabelVariants } from "mars-ds";
+import { ItemButton, LabelThemes, LabelVariants } from "mars-ds";
 import { TripPendingItemProps } from "./trip-pendings.types";
 
 export const TripPendingItem = ({
@@ -8,30 +8,25 @@ export const TripPendingItem = ({
   description,
   isMandatory,
 }: TripPendingItemProps) => {
-  const getIconAndName = (slug: TripPendingItemProps["slug"]): ItemButtonProps => {
-    const href = `/app/viagens/${tripId}/pendencias/${slug}`;
-
-    if (slug === "viajantes")
-      return {
-        iconName: "users",
-        title: title || "Viajantes",
-        subtitle: description || "Informe os dados dos viajantes",
-        href,
-        label: isMandatory ? "Importante" : undefined,
-        labelVariant: isMandatory ? LabelVariants.Warning : undefined,
-        labelTheme: LabelThemes.Ghost,
-      };
-
-    return {
-      iconName: "alert-circle",
-      title,
-      subtitle: description,
-      href,
-      label: isMandatory ? "Importante" : undefined,
-      labelVariant: isMandatory ? LabelVariants.Warning : undefined,
-      labelTheme: LabelThemes.Ghost,
-    };
+  const commonProps = {
+    href: `/app/viagens/${tripId}/pendencias/${slug}`,
+    label: isMandatory ? "Importante" : undefined,
+    labelVariant: isMandatory ? LabelVariants.Warning : undefined,
+    labelTheme: LabelThemes.Ghost,
   };
 
-  return <ItemButton {...getIconAndName(slug)} />;
+  if (slug === "viajantes") {
+    return (
+      <ItemButton
+        iconName="users"
+        title={title || "Viajantes"}
+        subtitle={description || "Informe os dados dos viajantes"}
+        {...commonProps}
+      />
+    );
+  }
+
+  return (
+    <ItemButton iconName="alert-circle" title={title} subtitle={description} {...commonProps} />
+  );
 };

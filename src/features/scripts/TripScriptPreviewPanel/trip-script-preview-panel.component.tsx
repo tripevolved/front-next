@@ -1,23 +1,22 @@
-import { EmptyState, GlobalLoader, Box, Text } from "@/ui";
+import { EmptyState, GlobalLoader, Box, Text, ErrorState } from "@/ui";
 import { TripScriptPreviewDetailedDay } from "./trip-script-preview-detailed-day.section";
-import { useRouter } from "next/router";
 
 import useSwr from "swr";
 import { TripScriptsApiService } from "@/services/api";
 import { TripScriptActionOrSuggestion } from "../TripScriptPanel";
 import { TripScriptFreeDay } from "../TripScriptPanel/trip-script-free-day.component";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 export function TripScriptPreviewPanel() {
-  const router = useRouter();
+  const idParam = useIdParam();
 
-  const idParam = typeof router.query.id === "string" ? router.query.id : null;
-
+  const fetcherKey = `trip-script-preview-${idParam}`;
   const fetcher = () => TripScriptsApiService.getPreview(idParam!);
-  const { isLoading, data, error } = useSwr(idParam, fetcher);
+  const { isLoading, data, error } = useSwr(fetcherKey, fetcher);
 
-  if (error) return <EmptyState />;
+  if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
-  if (data === undefined) return <EmptyState />;
+  if (!data) return <EmptyState />;
 
   const { days, isPreview } = data;
 
