@@ -1,14 +1,13 @@
 import { PageApp, TripHotelList } from "@/features";
-import { useRouter } from "next/router";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 const title = "Editar Hotel";
 
 export default function TripPendingRoute() {
-  const router = useRouter();
-  const idParam = String(router.query.id);
+  const idParam = useIdParam();
   return (
     <PageApp headerOptions={{ title, backUrl: `/app/viagens/criar/${idParam}` }} seo={{ title }}>
-      <TripHotelList tripId={idParam} />
+      <TripHotelList tripId={String(idParam)} />
     </PageApp>
   );
 }

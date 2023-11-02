@@ -1,11 +1,10 @@
 import { PageApp, ReservationsPanel } from "@/features";
-import { useRouter } from "next/router";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 const title = "Voos e Reservas";
 
 export default function ReservationsRoute() {
-  const router = useRouter();
-  const idParam = router.query.id;
+  const idParam = useIdParam();
   return (
     <PageApp headerOptions={{ title, backUrl: `/app/viagens/${idParam}` }} seo={{ title }}>
       <ReservationsPanel />

@@ -1,11 +1,10 @@
 import { PageApp, TripAccommodation } from "@/features";
-import { useRouter } from "next/router";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 const title = "Hospedagem";
 
 export default function TripPendingRoute() {
-  const router = useRouter();
-  const idParam = router.query.id;
+  const idParam = useIdParam();
   return (
     <PageApp headerOptions={{ title, backUrl: `/app/viagens/criar/${idParam}` }} seo={{ title }}>
       <TripAccommodation />

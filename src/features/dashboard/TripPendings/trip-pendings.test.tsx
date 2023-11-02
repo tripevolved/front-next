@@ -1,6 +1,6 @@
 import type { TripPendingsProps } from "./trip-pendings.types";
 import { render } from "@testing-library/react";
-import { TripPending } from "./trip-pendings.component";
+import { TripPending } from "./trip-pending.component";
 import { mockUseRouter } from "@/utils/mocks/next-router.mock";
 
 mockUseRouter();

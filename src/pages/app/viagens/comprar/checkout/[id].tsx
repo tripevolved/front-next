@@ -1,4 +1,4 @@
-import { TripPurchasePage } from "@/features";
+import { TripCheckout } from "@/features";
 import { PageApp } from "@/features";
 import { useRouter } from "next/router";
 
@@ -9,7 +9,7 @@ export default function TripPurchasePageRoute() {
   const tripId = String(router.query.id);
   return (
     <PageApp headerOptions={{ title, backUrl: `/app/viagens/criar/${tripId}` }} seo={{ title }}>
-      <TripPurchasePage />
+      <TripCheckout />
     </PageApp>
   );
 }

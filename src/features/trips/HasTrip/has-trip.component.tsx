@@ -27,7 +27,7 @@ const STEPS = [
   },
 ];
 
-export function HasTrip({ trip, tripId, className, children, sx, ...props }: HasTripProps) {
+export function HasTrip({ trip, tripId, className, sx }: HasTripProps) {
   const cn = makeCn("has-trip", className)(sx);
   const [submitting, setSubmitting] = useState(false);
   const chosenDestination = useRef<string>();
@@ -40,7 +40,7 @@ export function HasTrip({ trip, tripId, className, children, sx, ...props }: Has
     uniqueName: trip.mainChoice.uniqueName,
     images: trip.mainChoice.images,
     travelers: null, // TODO: receive this in route
-    details: null
+    details: null,
   };
 
   const handleCreateTrip = (destinationId: string) => {
@@ -51,7 +51,7 @@ export function HasTrip({ trip, tripId, className, children, sx, ...props }: Has
   const sendSetDestinationIdForTrip = async () => {
     try {
       setSubmitting(true);
-      const result = await TripsApiService.setDestinationId({
+      await TripsApiService.setDestinationId({
         tripId: tripId,
         tripDestination: { destinationId: chosenDestination.current! },
       });
@@ -67,34 +67,31 @@ export function HasTrip({ trip, tripId, className, children, sx, ...props }: Has
       await delay(1000);
       handleFinish(attempts - 1);
     } else {
-      await router.replace("/app/viagens/criar/" + tripId);
+      await router.push(`/app/viagens/criar/${tripId}`);
     }
   };
 
+  if (submitting) {
+    return <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />;
+  }
+
+  const otherChoices = trip?.otherChoices?.map((choice) => ({
+    destinationId: choice.destinationId,
+    matchScore: choice.matchScore,
+    name: choice.name,
+    travelers: null,
+    uniqueName: choice.uniqueName,
+    images: choice.images,
+    details: null,
+  }));
+
   return (
-    <>
-      {submitting ? (
-        <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
-      ) : (
-        <MatchedDestinationsProposal
-          title="Conclua o pagamento e garanta sua viagem"
-          className={cn}
-          tripId={tripId}
-          mainChoice={matchedDestinationMainChoice}
-          otherChoices={trip.otherChoices && trip.otherChoices.map((choice, i) => {
-            return {
-              destinationId: choice.destinationId,
-              matchScore: choice.matchScore,
-              name: choice.name,
-              uniqueName: choice.uniqueName,
-              images: choice.images,
-              travelers: null, // TODO: receive this in route
-              details: null
-            };
-          })}
-          handleCreateTrip={handleCreateTrip}
-        />
-      )}
-    </>
+    <MatchedDestinationsProposal
+      title="Concluir"
+      subtitle="Realize o pagamento e garanta sua viagem"
+      mainChoice={matchedDestinationMainChoice}
+      otherChoices={otherChoices}
+      handleCreateTrip={handleCreateTrip}
+    />
   );
 }

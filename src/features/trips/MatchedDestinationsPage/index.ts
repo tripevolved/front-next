@@ -6,4 +6,3 @@ export * from "./matched-destination-card.component";
 export * from "./matched-destinations-page.component";
 export * from "./matched-destinations-page.types";
 export * from "./matched-destinations-proposal.component";
-export * from "./other-choices-carousel.component";

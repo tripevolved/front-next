@@ -1,17 +1,15 @@
 import { QuestionsBuilder, type StepComponentProps } from "@/features";
 import { RestaurantsApiService } from "@/services/api";
 import { AnswersDto } from "@/services/api/profile/answers";
+import { useIdParam } from "@/utils/hooks/param.hook";
 import { Notification } from "mars-ds";
-import { useRouter } from "next/router";
 
 export function RestaurantQuestions({ onNext }: StepComponentProps) {
-  const router = useRouter();
-  const tripId = String(router.query.id);
+  const idParam = useIdParam();
 
   const handleSubmit = async (restaurantParameters: AnswersDto) => {
     try {
-      await RestaurantsApiService.setParameters(tripId, restaurantParameters);
-
+      await RestaurantsApiService.setParameters(idParam, restaurantParameters);
       onNext();
     } catch (error) {
       Notification.error("Devido à um erro não foi possível continuar");
@@ -20,8 +18,8 @@ export function RestaurantQuestions({ onNext }: StepComponentProps) {
 
   return (
     <QuestionsBuilder
-      controller={() => RestaurantsApiService.getQuestions(tripId)}
-      controllerKey={`restaurant-questions-${tripId}`}
+      controller={() => RestaurantsApiService.getQuestions(idParam)}
+      controllerKey={`restaurant-questions-${idParam}`}
       onSubmit={handleSubmit}
       disableLocalSave
       hideStepper={false}

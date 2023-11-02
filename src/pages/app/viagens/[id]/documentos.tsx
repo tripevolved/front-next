@@ -1,12 +1,11 @@
 import { PageApp } from "@/features";
 import { EmptyState } from "@/ui";
-import { useRouter } from "next/router";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
-const title = "Dicas";
+const title = "Documentos";
 
-export default function TipsTravelRoute() {
-  const router = useRouter();
-  const idParam = router.query.id;
+export default function DocumentsTravelRoute() {
+  const idParam = useIdParam();
   return (
     <PageApp headerOptions={{ title, backUrl: `/app/viagens/${idParam}` }} seo={{ title }}>
       <EmptyState />

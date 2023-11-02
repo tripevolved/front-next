@@ -1,87 +1,18 @@
 .trip-dashboard {
-  background-color: $color-brand-7;
-  min-height: 70vh;
-
-  display: flex;
-  flex-direction: column;
-  width: 100%;
   gap: 25px;
-
-  &__alert {
-    &__icon {
-      height: 100%;
-    }
-
-    &__text {
-      margin: auto 0;
-    }
-  }
-
-  &__box {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 18px;
-
-    &__row {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      gap: 16px;
-
-      &__item {
-        box-shadow: $shadow-elevation-600;
-        border-radius: $border-radius-lg;
-        background-color: $color-gray-4;
-        width: 100%;
-        min-width: 160px;
-        height: 160px;
-        padding: 14px;
-        display: flex;
-        justify-content: flex-start;
-
-        &__container {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 18px;
-          height: 100%;
-          min-height: 132px;
-
-          &__desc {
-            font-size: 400;
-          }
-
-          &__script {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            height: 100%;
-
-            .content {
-              align-self: flex-end;
-              justify-content: space-between;
-              height: 100%;
-            }
-          }
-        }
-
-        @media (min-width: $breakpoint-md) {
-          height: fit-content;
-        }
-      }
-    }
-  }
-
-  @media (min-width: $breakpoint-lg) {
-    gap: 30px;
-  }
 }
 
-.hover {
-  :hover {
-    transition: 0.2s ease;
-    background-color: $color-brand-6;
+.trip-dashboard-card {
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  border: 1px solid transparent;
+  transition: background-color ease 150ms, border-color ease 150ms;
+  &:hover {
+    background-color: $color-brand-7;
+    border-color: $color-brand-6;
   }
 }

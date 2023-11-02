@@ -8,6 +8,7 @@ const mockTest: TripListView = {
   images: [],
   period: "15 dias",
   title: "Ouro Preto",
+  status: ""
 };
 
 const makeSut = (props?: TripAccordeonProps) =>

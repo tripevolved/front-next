@@ -9,7 +9,7 @@ import { TripConfigurationSection } from "./trip-configuration.section";
 import { Box, EmptyState, ErrorState, GlobalLoader, Text, WhatsappButton } from "@/ui";
 
 import { useTripDetails } from "./trip-details.hook";
-import { DestinationInfos, DestinationRecommendedBy, TripPricingBox } from "@/features";
+import { DestinationInfos, DestinationRecommendedBy, PageApp, TripPricingBox } from "@/features";
 import { Card, Container, Divider, Grid } from "mars-ds";
 
 const MAX_REFRESH_COUNT = 5;
@@ -19,6 +19,7 @@ export function TripDetailsPage() {
 
   if (!data || data.isBuilding) {
     return (
+      // TODO: no container here
       <div className="flex flex-column h-100 justify-content-center">
         {isEmpty ? (
           <EmptyState />
