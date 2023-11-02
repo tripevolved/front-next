@@ -51,7 +51,11 @@ export function PageAppHeader({ image, title, subtitle, backUrl, photos }: PageA
           />
         </Container>
       </nav>
-      {hasPhotos ? <PageAppHero photos={photos} title={title} /> : <div className="page-app-header-extension" />}
+      {hasPhotos ? (
+        <PageAppHero photos={photos} title={title} />
+      ) : (
+        <div className="page-app-header-extension" />
+      )}
     </>
   );
 }

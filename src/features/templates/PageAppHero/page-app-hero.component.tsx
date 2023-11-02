@@ -15,7 +15,9 @@ export const PageAppHero = ({ photos, title }: PageAppHeroProps) => {
     if (!title) return null;
     return (
       <Container container="lg" className="page-app-hero__content">
-        <Text size="xl" heading>{title}</Text>
+        <Text size="xl" heading>
+          {title}
+        </Text>
       </Container>
     );
   };
@@ -24,14 +26,16 @@ export const PageAppHero = ({ photos, title }: PageAppHeroProps) => {
     const image = parsePhoto(photos[0]);
     return (
       <div className="page-app-hero">
-        <Picture className="page-app-hero__photo">{image}</Picture>
-        <Content />
+        <div className="page-app-hero__container">
+          <Picture className="page-app-hero__photo">{image}</Picture>
+          <Content />
+        </div>
       </div>
     );
   }
   return (
     <div className="page-app-hero">
-      <Carousel className="page-app-hero__carousel">
+      <Carousel className="page-app-hero__container">
         {photos.map((photo, i) => (
           <Picture className="page-app-hero__photo" key={i}>
             {parsePhoto(photo) ?? undefined}

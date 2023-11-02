@@ -23,6 +23,10 @@
   }
 }
 
+body[data-pricing-box="opened"] {
+  overflow-y: hidden;
+}
+
 @media (max-width: $breakpoint-md) {
   .trip-pricing-box-spacer {
     height: 96px;
