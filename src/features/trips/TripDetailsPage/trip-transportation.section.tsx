@@ -1,10 +1,10 @@
 import useSwr from "swr";
 
-import { Loader, Button, Icon } from "mars-ds";
+import { Loader, Button, Modal } from "mars-ds";
 import { EmptyState, Box, Picture, Text, CardHighlight } from "@/ui";
 
 import { TransportationApiService } from "@/services/api";
-import { TripTransportation } from "@/core/types";
+import { FlightDetailsPainel } from "../FlightDetailsPainel";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
@@ -15,6 +15,13 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
   };
 
   const { data, error, isLoading } = useSwr("transportation", getTransportation, swrOptions);
+
+  const handleDetailsButton = () => {
+    Modal.open(() => <FlightDetailsPainel transportationData={data!} isModalView />, {
+      closable: true,
+      size: "lg",
+    });
+  };
 
   if (error || isLoading) {
     return (
@@ -90,7 +97,7 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
           ) : (
             <>
               <Picture
-                src={data.partnerLogoUrl}
+                src={data.partnerLogoUrl ? data.partnerLogoUrl : "/assets/blank-image.png"}
                 className="trip-transportation-section__transport__partner-logo"
               />
               <Box className="trip-transportation-section__transport__departure-and-arrival">
@@ -127,6 +134,11 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
                     <Text style={{ color: "var(--color-gray-1)" }}>{data.description}</Text>
                   </div>
                 )}
+                {data.iconSlug == "flight" ? (
+                  <Button variant="naked" onClick={() => handleDetailsButton()}>
+                    Ver detalhes
+                  </Button>
+                ) : null}
               </Box>
             </>
           )}
