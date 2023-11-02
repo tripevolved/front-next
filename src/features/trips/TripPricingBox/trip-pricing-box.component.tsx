@@ -1,8 +1,7 @@
 import useSWR from "swr";
-import { Box, Picture, Tag, Text } from "@/ui";
+import { Picture, Text } from "@/ui";
 import {
   Button,
-  Caption,
   Card,
   CardElevations,
   Divider,
@@ -13,7 +12,6 @@ import {
 } from "mars-ds";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { TripsApiService } from "@/services/api";
-import { useState } from "react";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 
@@ -32,8 +30,6 @@ export const TripPricingBox = ({
 }: TripPricingBoxProps) => {
   const idParam = useIdParam();
 
-  const [isOpened, setIOpened] = useState(false);
-
   const fetcherKey = `trip-pricing-${idParam}`;
   const fetcher = async () => TripsApiService.getPriceById(idParam);
   const { isLoading, data, error } = useSWR(fetcherKey, fetcher);
@@ -47,7 +43,8 @@ export const TripPricingBox = ({
     : `Para ${numAdults} adultos`;
 
   return (
-    <>
+    <div>
+      <div className="trip-pricing-box-spacer"/>
       <TripPricingBoxToggle title={destinationName} people={people} total={data.total} />
       <Card className="trip-pricing-box" elevation={CardElevations.Low}>
         <TripPricingBoxContent
@@ -62,7 +59,7 @@ export const TripPricingBox = ({
           isBuilt={!!isScriptBuilt}
         />
       </Card>
-    </>
+    </div>
   );
 };
 

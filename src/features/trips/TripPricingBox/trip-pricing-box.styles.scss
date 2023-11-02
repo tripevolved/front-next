@@ -24,6 +24,9 @@
 }
 
 @media (max-width: $breakpoint-md) {
+  .trip-pricing-box-spacer {
+    height: 96px;
+  }
   body[data-pricing-box="opened"] {
     .trip-pricing-box {
       transform: translateY(0);
