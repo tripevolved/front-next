@@ -1,11 +1,13 @@
-import { Box, Text } from "@/ui";
-import { MatchedDestinationCard } from "./matched-destination-card.component";
-import { OtherChoicesCarousel } from "./other-choices-carousel.component";
-import { MatchedDestination } from "@/services/api/trip/matches";
-import { ComponentHTMLProps } from "@/core/types";
+import type { MatchedDestination } from "@/services/api/trip/matches";
 
-export interface MatchedDestinationsProposalProps extends ComponentHTMLProps {
+import { Text } from "@/ui";
+import { Grid } from "mars-ds";
+import { MatchedDestinationCard } from "./matched-destination-card.component";
+import { TripMatchedDestination } from "@/core/types";
+
+export interface MatchedDestinationsProposalProps {
   title: string;
+  subtitle?: string;
   otherChoicesTitle?: string;
   tripId?: string;
   mainChoice?: MatchedDestination | null;
@@ -15,42 +17,45 @@ export interface MatchedDestinationsProposalProps extends ComponentHTMLProps {
 
 export const MatchedDestinationsProposal = ({
   title,
-  otherChoicesTitle,
-  tripId,
+  subtitle,
   mainChoice,
-  otherChoices,
+  otherChoices = [],
   handleCreateTrip,
-  className,
-  ...props
 }: MatchedDestinationsProposalProps) => {
+  const hasChoices = Array.isArray(otherChoices) && otherChoices.length > 0;
   return (
-    <Box className={className} {...props}>
-      <Text variant="heading" className="has-trip__header-title" size="sm">
-        {title}
-      </Text>
-      <Box className="has-trip__trip-area">
+    <Grid>
+      <div>
+        <Text heading className="mb-sm">
+          {title}
+        </Text>
+        {subtitle ? <Text>{subtitle}</Text> : null}
+      </div>
+      {mainChoice ? (
         <MatchedDestinationCard
+          {...mainChoice}
           travelersNumber={mainChoice?.travelers ?? 2}
-          tripId={tripId!}
-          {...mainChoice!}
-          onChoice={handleCreateTrip}
+          onChoice={() => handleCreateTrip(mainChoice.destinationId)}
+          seeMore
         />
-      </Box>
-      {otherChoices && otherChoices.length > 0 ? (
-        <Box className="has-trip__recommendations-area" style={{ paddingLeft: 0 }}>
-          <OtherChoicesCarousel
-            title={otherChoicesTitle ?? "Outras opções"}
-            recommendedDestinations={otherChoices.map((matchedDestination, i) => {
-              return {
-                tripId: tripId!,
-                onChoice: handleCreateTrip,
-                travelersNumber: matchedDestination.travelers ?? 2,
-                ...matchedDestination,
-              };
-            })}
-          />
-        </Box>
       ) : null}
-    </Box>
+      {hasChoices ? (
+        <>
+          <Text className="mt-lg" as="h2" heading size="xs">
+            Outras opções
+          </Text>
+          <Grid columns={{ xs: 2, md: 3, lg: 4 }}>
+            {otherChoices.map((choice, key) => (
+              <MatchedDestinationCard
+                key={key}
+                {...choice}
+                travelersNumber={choice.travelers ?? 2}
+                onChoice={() => handleCreateTrip(choice.destinationId)}
+              />
+            ))}
+          </Grid>
+        </>
+      ) : null}
+    </Grid>
   );
 };

@@ -20,8 +20,8 @@ export const TripScriptDayComponent = ({
   const handleAddAttractions = () => {
     setTripScriptDay(dayDetail);
 
-    var encodedRedirect = encodeURIComponent(`/app/viagens/roteiro/construcao/${tripId}/?stepName=build&day=${day}`);
-    router.push(`/app/viagens/roteiro/atracoes/${tripId}?redirectTo=${encodedRedirect}`);
+    const encodedRedirect = encodeURIComponent(`/app/viagens/${tripId}/roteiro/construcao/?stepName=build&day=${day}`);
+    router.push(`/app/viagens/${tripId}/roteiro/atracoes?redirectTo=${encodedRedirect}`);
   };
 
   return (
@@ -37,19 +37,19 @@ export const TripScriptDayComponent = ({
       <div className="trip-script-day-section__content">
         {dayDetail.actions.length ? (
           <>
-            {dayDetail.actions.map((tripScriptAction, j) => {
+            {dayDetail.actions.map((tripScriptAction, key) => {
               return (
-                <TripScriptActionOrSuggestion 
+                <TripScriptActionOrSuggestion
                   action={tripScriptAction}
                   ignoreNotSelected={true}
-                  key={j}
+                  key={key}
                 >
                   {allowDelete && onDelete && tripScriptAction.isEditable && (
                     <Icon
                       name="trash-2"
                       color="#D35050"
                       style={{ justifySelf: "flex-end", alignSelf: "center", marginLeft: "auto", cursor: "pointer" }}
-                      onClick={() => onDelete(j)}
+                      onClick={() => onDelete(key)}
                     />
                   )}
                 </TripScriptActionOrSuggestion>

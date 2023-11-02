@@ -1,15 +1,14 @@
 import { useState, useRef } from "react";
-import { makeCn } from "@/utils/helpers/css.helpers";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/delay.helpers";
 
-import { EmptyState, GlobalLoader, StepsLoader } from "@/ui";
+import { ErrorState, GlobalLoader, StepsLoader } from "@/ui";
 import { Notification } from "mars-ds";
-import { MatchedDestinationsPageProps } from "./matched-destinations-page.types";
 import { TripsApiService } from "@/services/api";
 import { MatchedDestinationsProposal } from "./matched-destinations-proposal.component";
 import useSWR from "swr";
 import { MatchedDestinationReturn } from "@/services/api/trip/matches";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
 const MILLISECONDS = EIGHT_SECONDS_IN_MS;
@@ -28,15 +27,13 @@ const STEPS = [
   },
 ];
 
-export const MatchedDestinationsPage = ({ className, sx }: MatchedDestinationsPageProps) => {
+export const MatchedDestinationsPage = () => {
   const router = useRouter();
-  const tripId = String(router.query.id);
+  const idParam = useIdParam();
 
-  const uniqueKeyName = `${tripId}-script`;
-  const fetcher = async () => TripsApiService.getMatchedDestinations({ tripId });
-  const { isLoading, data, error } = useSWR<MatchedDestinationReturn>(uniqueKeyName, fetcher);
-
-  const cn = makeCn("has-trip", className)(sx);
+  const fetcherKey = `matched-destination-${idParam}`;
+  const fetcher = async () => TripsApiService.getMatchedDestinations({ tripId: idParam });
+  const { isLoading, data, error } = useSWR<MatchedDestinationReturn>(fetcherKey, fetcher);
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -66,11 +63,11 @@ export const MatchedDestinationsPage = ({ className, sx }: MatchedDestinationsPa
       await delay(1000);
       handleFinish(attempts - 1);
     } else {
-      await router.replace("/app/viagens/criar/" + data?.tripId!);
+      router.push(`/app/viagens/criar/${data?.tripId}`);
     }
   };
 
-  if (error) return <EmptyState />;
+  if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
   if (submitting) {
     return <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />;
@@ -80,7 +77,6 @@ export const MatchedDestinationsPage = ({ className, sx }: MatchedDestinationsPa
     <MatchedDestinationsProposal
       title="Sua viagem ideal é para..."
       otherChoicesTitle="Outras opções"
-      className={cn}
       tripId={data?.tripId!}
       mainChoice={data?.mainChoice}
       otherChoices={data?.otherChoices}

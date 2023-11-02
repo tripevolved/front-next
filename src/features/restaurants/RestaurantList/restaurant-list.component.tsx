@@ -2,18 +2,17 @@ import { CardRestaurant, type StepComponentProps } from "@/features";
 import { Button, Grid, Loader, Modal, Notification } from "mars-ds";
 import { Box, ErrorState, NotificationResult, Text } from "@/ui";
 import { RestaurantsApiService } from "@/services/api";
-import { useRouter } from "next/router";
 import useSwr from "swr";
 import { Restaurant, RestaurantChoice, RestaurantChoiceType } from "@/core/types";
 import { useRef } from "react";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 export const RestaurantList = ({ onNext }: StepComponentProps) => {
-  const router = useRouter();
-  const tripId = String(router.query.id);
+  const idParam = useIdParam();
 
-  const uniqueKeyName = `${tripId}-restaurants`;
-  const fetcher = async () => RestaurantsApiService.getRestaurants(tripId);
-  const { isLoading, data, error } = useSwr<Restaurant[]>(uniqueKeyName, fetcher);
+  const fetcherKey = `restaurant-list-${idParam}`;
+  const fetcher = async () => RestaurantsApiService.getRestaurants(idParam);
+  const { isLoading, data, error } = useSwr<Restaurant[]>(fetcherKey, fetcher);
 
   const choice = useRef<RestaurantChoice[]>([]);
 
@@ -39,12 +38,14 @@ export const RestaurantList = ({ onNext }: StepComponentProps) => {
 
   const handleFinish = async () => {
     try {
-      const result = await RestaurantsApiService.setRestaurantChoices(tripId, choice.current);
+      const result = await RestaurantsApiService.setRestaurantChoices(idParam, choice.current);
 
-      if (result.isSuccess){
+      if (result.isSuccess) {
         onNext();
       } else {
-        openErrorModal(result.message ?? "Devido à um erro não foi possível salvar os restaurantes selecionados.");
+        openErrorModal(
+          result.message ?? "Devido à um erro não foi possível salvar os restaurantes selecionados."
+        );
       }
     } catch (error) {
       Notification.error("Devido à um erro não foi possível salvar os restaurantes selecionados.");
@@ -55,13 +56,13 @@ export const RestaurantList = ({ onNext }: StepComponentProps) => {
     if (choice.current.length > 0) {
       const foundRestaurant = choice.current.find((x) => x.restaurantId === restaurantId);
       if (!foundRestaurant) {
-        choice.current = [ ...choice.current, { restaurantId, type: choiceType } ];
+        choice.current = [...choice.current, { restaurantId, type: choiceType }];
       } else {
         const index = choice.current.indexOf(foundRestaurant);
-        choice.current[index] = {restaurantId, type: choiceType};
+        choice.current[index] = { restaurantId, type: choiceType };
       }
     } else {
-      choice.current = [ ...choice.current, { restaurantId, type: choiceType } ];
+      choice.current = [...choice.current, { restaurantId, type: choiceType }];
     }
   };
 
@@ -83,10 +84,16 @@ export const RestaurantList = ({ onNext }: StepComponentProps) => {
 
   return (
     <Grid gap={16} className="restaurant-list">
-      <Text size="sm" heading as="p" className="restaurant-list__title">Dicas de restaurantes</Text>
-      <Text size="md" as="p" className="color-text-primary">Confira nossas indicações e curta as opções que quiser incluir no roteiro</Text>
+      <Text size="sm" heading as="p" className="restaurant-list__title">
+        Dicas de restaurantes
+      </Text>
+      <Text size="md" as="p" className="color-text-primary">
+        Confira nossas indicações e curta as opções que quiser incluir no roteiro
+      </Text>
       <Box className="restaurant-list__info">
-        {data.map((restaurant, index) => <CardRestaurant restaurant={restaurant} key={index} onChoice={handleChoice} />)}
+        {data.map((restaurant, index) => (
+          <CardRestaurant restaurant={restaurant} key={index} onChoice={handleChoice} />
+        ))}
       </Box>
       <Button onClick={handleFinish}>Salvar</Button>
     </Grid>

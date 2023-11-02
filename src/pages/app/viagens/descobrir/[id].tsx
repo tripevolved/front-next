@@ -1,11 +1,10 @@
 import { PageApp, MatchedDestinationsPage } from "@/features";
-import { useRouter } from "next/router";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 const title = "Descobrir viagem";
 
 export default function MatchedDestinationsPageRoute() {
-  const router = useRouter();
-  const idParam = router.query.id;
+  const idParam = useIdParam();
   return (
     <PageApp headerOptions={{ title, backUrl: `/app/viagens/${idParam}` }} seo={{ title }}>
       <MatchedDestinationsPage />

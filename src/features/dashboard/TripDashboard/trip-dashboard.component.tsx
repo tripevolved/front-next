@@ -33,26 +33,26 @@ export function TripDashboard({
             icon="documents"
             description="Documentos"
             qtd={0}
-            href={`/app/viagens/documentos/${tripId}`}
+            href={`/app/viagens/${tripId}/documentos/`}
           />
           <TripDashboardCard
             icon="flight-and-tickets"
             description="Voos e Reservas"
             qtd={0}
-            href={`/app/viagens/reservas/${tripId}`}
+            href={`/app/viagens/${tripId}/reservas/`}
           />
           <TripDashboardCard
             icon="tips"
             description="Dicas"
             qtd={0}
-            href={`/app/viagens/dicas/${tripId}`}
+            href={`/app/viagens/${tripId}/dicas/`}
           />
         </Grid>
         <TripDashboardCard
           icon="script"
           description="Roteiro"
           qtd={attractionsNumber}
-          href={`/app/viagens/roteiro/${tripId}`}
+          href={`/app/viagens/${tripId}/roteiro/`}
           type="script"
         />
       </Grid>
