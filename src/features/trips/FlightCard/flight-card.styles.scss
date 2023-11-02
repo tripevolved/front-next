@@ -1,0 +1,19 @@
+.flight-card {
+  background-color: $color-gray-4;
+
+  &__airline {
+    &__airline-logo-company > img {
+      height: 70px;
+      background-color: $color-brand-6;
+      border-radius: $border-radius-md;
+    }
+
+  }
+  @media (min-width: $breakpoint-md) {
+    flex-direction: row;
+
+    &__divider {
+      display: none;
+    }
+  }
+}

@@ -2,30 +2,16 @@ import { Text, Box, Picture } from "@/ui";
 import type { ConfirmFlightModalProps, FlightBoxProps } from "./confirm-flight-modal.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { Button } from "mars-ds";
+import { Button, Grid } from "mars-ds";
+import { toFullDate } from "@/utils/helpers/dates.helpers";
 
-const mockFlightList: FlightBoxProps[] = [
-  {
-    typeFlight: "outbound",
-    departureDate: "20/11/22 - 13:30",
-    departureCityInitials: "CGH",
-    departureAirport: "CONGONHAS",
-    arrivalDate: "20/11/23 - 01:23",
-    arrivalCityInitials: "CNF",
-    arrivalAirport: "CONFINS",
-  },
-  {
-    typeFlight: "return",
-    departureDate: "20/11/22 - 13:30",
-    departureCityInitials: "CNF",
-    departureAirport: "CONFINS",
-    arrivalDate: "20/11/23 - 01:23",
-    arrivalCityInitials: "CGH",
-    arrivalAirport: "CONGONHAS",
-  },
-];
-
-export function ConfirmFlightModal({ className, children, sx, ...props }: ConfirmFlightModalProps) {
+export function ConfirmFlightModal({
+  className,
+  children,
+  sx,
+  flightList,
+  ...props
+}: ConfirmFlightModalProps) {
   const cn = makeCn("confirm-flight-modal", className)(sx);
 
   return (
@@ -39,9 +25,9 @@ export function ConfirmFlightModal({ className, children, sx, ...props }: Confir
       </Text>
 
       <Box className="confirm-flight-modal__flight-box">
-        {mockFlightList.map((flight, i) => (
-          <FlightBox {...flight} key={i} />
-        ))}
+        {flightList?.length
+          ? flightList.map((flight, i) => <FlightBox {...flight} key={i} />)
+          : null}
       </Box>
 
       <Button className="confirm-flight-modal__button">Confirmar voos</Button>
@@ -49,48 +35,40 @@ export function ConfirmFlightModal({ className, children, sx, ...props }: Confir
   );
 }
 
-export const FlightBox = ({
-  typeFlight,
-  departureDate,
-  departureCityInitials,
-  departureAirport,
-  arrivalAirport,
-  arrivalCityInitials,
-  arrivalDate,
-}: FlightBoxProps) => {
+export const FlightBox = ({ isOutbound = false, ...props }: FlightBoxProps) => {
   return (
     <Box className="flight-box">
-      <Text size="lg" className="flight-box__label">
-        Voo de
-        {typeFlight == "outbound" && " ida"}
-        {typeFlight == "return" && " volta"}
-      </Text>
+      {!props.hideTitle ? (
+        <Text size="lg" className="flight-box__label">
+          Voo de {isOutbound ? "ida" : "volta"}
+        </Text>
+      ) : null}
 
-      <Box className="flight-box__card">
-        <div className="flight-box__card__column">
-          <Text size="xs" className="flight-box__card__column__label">
-            {departureDate}
+      <Grid className="flight-box__card" columns={[1, "30px", 1]}>
+        <div className="flight-box__card__column h-100 gap-sm">
+          <Text size="sm" className="flight-box__card__column__label text-center">
+            {toFullDate(new Date(props.departure))}
           </Text>
           <Text heading className="flight-box__card__column__initials">
-            {departureCityInitials}
+            {props.fromAirportCode}
           </Text>
-          <Text size="xs" className="flight-box__card__column__label">
-            {departureAirport}
+          <Text size="sm" className="flight-box__card__column__label text-center">
+            {props.fromAirportName}
           </Text>
         </div>
         <Picture src="/assets/trip-dashboard/confirm-flight/flight.svg" />
-        <div className="flight-box__card__column">
-          <Text size="xs" className="flight-box__card__column__label">
-            {arrivalDate}
+        <div className="flight-box__card__column h-100 gap-sm">
+          <Text size="sm" className="flight-box__card__column__label text-center">
+            {toFullDate(new Date(props.arrival))}
           </Text>
           <Text heading className="flight-box__card__column__initials">
-            {arrivalCityInitials}
+            {props.toAirportCode}
           </Text>
-          <Text size="xs" className="flight-box__card__column__label">
-            {arrivalAirport}
+          <Text size="sm" className="flight-box__card__column__label text-center">
+            {props.toAirportName}
           </Text>
         </div>
-      </Box>
+      </Grid>
     </Box>
   );
 };
