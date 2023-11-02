@@ -6,23 +6,22 @@
     flex-direction: column;
     $gap: 28px;
     gap: $gap;
-
-    .tip {
-      display: flex;
-      gap: 16px;
-      color: $color-brand-2;
-
-      &__content-box {
-        flex: 1;
-      }
-    }
     @media (min-width: $breakpoint-md) {
       flex-direction: row;
-
-      .tip {
+      .destination-tip-item {
         width: 315px;
       }
     }
+  }
+}
+
+.destination-tip-item {
+  display: flex;
+  gap: 16px;
+  color: $color-brand-2;
+
+  &__content-box {
+    flex: 1;
   }
 }
 

@@ -60,6 +60,7 @@ export * from "./templates/Footer";
 export * from "./templates/Navbar";
 export * from "./templates/PageApp";
 export * from "./templates/PageAppHeader";
+export * from "./templates/PageAppHero";
 export * from "./templates/PageBase";
 export * from "./templates/PrivacyBanner";
 export * from "./templates/TemplateStepsBuilder";
