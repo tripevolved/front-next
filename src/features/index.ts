@@ -64,6 +64,8 @@ export * from "./templates/PageAppHero";
 export * from "./templates/PageBase";
 export * from "./templates/PrivacyBanner";
 export * from "./templates/TemplateStepsBuilder";
+export * from "./trips/FlightCard";
+export * from "./trips/FlightDetailsPainel";
 export * from "./trips/HasTrip";
 export * from "./trips/MatchedDestinationsPage";
 export * from "./trips/PageTrip";
