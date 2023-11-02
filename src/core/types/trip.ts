@@ -21,7 +21,6 @@ export interface FlightDetails {
   toAirportAddress: string;
   toAirportCode: string;
   toAirportName: string;
-  toAirtportAddress: string;
 }
 
 export interface FlightView {
