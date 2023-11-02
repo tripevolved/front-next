@@ -1,9 +1,10 @@
 import useSWR from "swr";
 import { Box, Tag, Text } from "@/ui";
-import { Button, Grid, Loader } from "mars-ds";
+import { Button, Grid, Loader, Notification } from "mars-ds";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
-import { TripsApiService } from "@/services/api";
+import { TermsApiService, TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
+import { useAppStore } from "@/core/store";
 
 export const TripCheckoutPricingSection = ({ isEnabled }: { isEnabled: boolean }) => {
   const idParam = useIdParam();
@@ -12,9 +13,14 @@ export const TripCheckoutPricingSection = ({ isEnabled }: { isEnabled: boolean }
   const fetcher = async () => TripsApiService.getPriceById(idParam);
   const { isLoading, data, error } = useSWR(fetcherKey, fetcher);
 
+  const { travelerState } = useAppStore();
+
   const submitConditions = () => {
-    // TODO: implement this
-    console.log("SUBMITTING CONDITIONS!");
+    if (!isEnabled) {
+      Notification.error("Não foi possível prosseguir: você precisa aceitar as condições gerais do serviço.");
+    } else {
+      TermsApiService.acceptServiceConditions(travelerState.id, idParam);
+    }
   }
 
   if (isLoading){
@@ -52,7 +58,7 @@ export const TripCheckoutPricingSection = ({ isEnabled }: { isEnabled: boolean }
       ) : (
         <>
           {/* @ts-ignore */}
-          <Button variant="tertiary" href={`/app/viagens/comprar/${idParam}`} className="trip-checkout__cta-button" disabled={!isEnabled} onClick={submitConditions}>
+          <Button variant="tertiary" href={`/app/viagens/${idParam}/comprar/`} className="trip-checkout__cta-button" disabled={!isEnabled} onClick={submitConditions}>
             Prosseguir para pagamento por {formatToCurrencyBR(data.total)}
           </Button>
         </>
