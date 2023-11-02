@@ -50,7 +50,7 @@ export const TripScriptSection = ({ isBuilt = false }: TripScriptSectionProps) =
               Vamos construir seu roteiro junto com você, recomendando as melhores experiências para
               o seu perfil e objetivo de viagem!
             </Text>
-            <Button variant="secondary" size="sm">
+            <Button variant="secondary" size="sm" href={`/app/viagens/${idParam}/roteiro/construcao/?voltarPara=${encodeURI(`/app/viagens/comprar/checkout/${idParam}`)}`}>
               Construir meu roteiro
             </Button>
           </CardHighlight>
