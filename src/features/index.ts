@@ -33,6 +33,7 @@ export * from "./landing-pages/SectionBaseInvite";
 export * from "./lead/LeadList";
 export * from "./lead/LeadListForm";
 export * from "./lead/LeadProvider";
+export * from "./payments/TripCheckout";
 export * from "./payments/TripPurchasePage";
 export * from "./profile/ProfileQuestions";
 export * from "./questions/QuestionNavigationController";
