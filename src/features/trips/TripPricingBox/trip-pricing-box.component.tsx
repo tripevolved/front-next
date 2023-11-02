@@ -142,7 +142,7 @@ export const TripPricingBox = ({
         ) : (isScriptBuilt ? (
             <>
               {/* @ts-ignore */}
-              <Button variant="tertiary" href={`/app/viagens/comprar/${idParam}`} size="sm">
+              <Button variant="tertiary" href={`/app/viagens/${idParam}/comprar/checkout/`} size="sm">
                 Comprar por {formatToCurrencyBR(data.total)}
               </Button>
             </>
@@ -150,10 +150,10 @@ export const TripPricingBox = ({
           : (
             <>
               {/* @ts-ignore */}
-              <Button variant="tertiary" href={`/app/viagens/${idParam}/roteiro/construcao/?voltarPara=${encodeURI(`/app/viagens/comprar/checkout/${idParam}`)}`}>
+              <Button variant="tertiary" href={`/app/viagens/${idParam}/roteiro/construcao/?voltarPara=${encodeURI(`/app/viagens/${idParam}/comprar/checkout/`)}`}>
                 Construir meu roteiro
               </Button>
-              <Button variant="secondary" href={`/app/viagens/comprar/checkout/${idParam}`} size="sm">
+              <Button variant="secondary" href={`/app/viagens/${idParam}/comprar/checkout/`} size="sm">
                 Comprar por {formatToCurrencyBR(data.total)}
               </Button>
               <Text size="sm"><span style={{fontWeight: "bold"}}>Não se preocupe:</span> você poderá construir o roteiro em um momento posterior</Text>

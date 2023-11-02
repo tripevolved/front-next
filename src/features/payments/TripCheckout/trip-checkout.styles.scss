@@ -1,7 +1,6 @@
 .trip-checkout {
   &__includes {
     width: 100%;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -44,8 +43,6 @@
 
   &__cta {
     padding: 20px;
-    box-shadow: $shadow-elevation-300;
-    border-radius: $border-radius-lg;
 
     &-button {
       margin-top: 12px;
