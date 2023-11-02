@@ -37,15 +37,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
     );
   };
 
-  if (isLoading) {
-    return (
-      <div className="profile-questions-form">
-        <Loader color="var(--color-brand-1)" size="md" />
-      </div>
-    );
-  }
-
-  if (error) {
+  if (error || isLoading) {
     return (
       <div className="trip-content-item trip-stay-section">
         <Box>
@@ -58,10 +50,19 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
             </Text>
           </Box>
           <Box className="trip-stay-section__content">
-            <EmptyState />
-            <Button variant="neutral" onClick={() => location.reload()}>
-              Tentar novamente
-            </Button>
+            {error && (
+              <>
+                <EmptyState />
+                <Button variant="neutral" onClick={() => location.reload()}>
+                  Tentar novamente
+                </Button>
+              </>
+            )}
+            {isLoading && (
+              <div style={{textAlign: "center"}}>
+                <Loader color="var(--color-brand-1)" size="md" />
+              </div>
+            )}
           </Box>
         </Box>
       </div>

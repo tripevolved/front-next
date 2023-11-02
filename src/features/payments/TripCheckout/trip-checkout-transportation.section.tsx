@@ -9,7 +9,7 @@ import { TripTransportation } from "@/core/types";
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
 
-export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
+export const TripCheckoutTransportationSection = ({ tripId, peopleInfo }: { tripId: string, peopleInfo: string }) => {
   const getTransportation = (key: string) => {
     return getByTripId(tripId);
   };
@@ -26,22 +26,20 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
           <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
             Transporte
           </Text>
-          <Box className="trip-transportation-section__transport">
-            <Box className="trip-transportation-section__transport__departure-and-arrival">
-              {error && (
-                <>
-                  <EmptyState />
-                  <Button variant="neutral" onClick={() => location.reload()}>
-                    Tentar novamente
-                  </Button>
-                </>
-              )}
-              {isLoading && (
-                <div style={{textAlign: "center"}}>
-                  <Loader color="var(--color-brand-1)" size="md" />
-                </div>
-              )}
-            </Box>
+          <Box className="trip-transportation-section__transport__departure-and-arrival">
+            {error && (
+              <>
+                <EmptyState />
+                <Button variant="neutral" onClick={() => location.reload()}>
+                  Tentar novamente
+                </Button>
+              </>
+            )}
+            {isLoading && (
+              <div style={{textAlign: "center"}}>
+                <Loader color="var(--color-brand-1)" size="md" />
+              </div>
+            )}
           </Box>
         </Box>
       </div>
@@ -76,58 +74,32 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
   return (
     <div className="trip-content-item trip-transportation-section">
       <Box>
-        <Picture src={"/assets/transportation/" + data.iconSlug + ".svg"} />
+        <Picture src={`/assets/transportation/${data.iconSlug}.svg`} />
       </Box>
       <Box className="trip-content-item__desc">
         <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
           {getTitleFromType(data.iconSlug)}
         </Text>
-        <Box className="trip-transportation-section__transport">
+        <Box className="trip-checkout-transportation__container">
           {!data.isRouteFinished ? (
             <CardHighlight style={{ width: "100%", display: "flex", gap: 16 }}>
-              <Text>{data.message}</Text>
+              <Text>Sua viagem não inclui o transporte.</Text>
             </CardHighlight>
           ) : (
             <>
-              <Picture
-                src={data.partnerLogoUrl}
-                className="trip-transportation-section__transport__partner-logo"
-              />
-              <Box className="trip-transportation-section__transport__departure-and-arrival">
-                {data.departure && (
+              <Text size="lg">{peopleInfo}</Text>
+              <CardHighlight className="trip-checkout-transportation__card">
+                <Picture
+                  src={data.partnerLogoUrl}
+                  className="trip-transportation-section__transport__partner-logo"
+                />
+                <Box className="trip-transportation-section__transport__departure-and-arrival">
                   <div className="trip-transportation-section__transport__departure-and-arrival__item">
-                    <Text className="trip-transportation-section__transport__departure-and-arrival__item__date">
-                      Saída: {data.departure}
-                    </Text>
-                    <Text
-                      style={{ marginTop: 0 }}
-                      className="trip-transportation-section__transport__departure-and-arrival__item__address"
-                      size="sm"
-                    >
-                      {data.fromName} - {data.fromAddress}
-                    </Text>
+                    <Text size="xl">Saída: <span style={{fontWeight: "bold"}}>{data.fromName}</span></Text>
+                    <Text size="xl">Chegada: <span style={{fontWeight: "bold"}}>{data.toName}</span></Text>
                   </div>
-                )}
-                {data.estimatedArrival ? (
-                  <div className="trip-transportation-section__transport__departure-and-arrival__item">
-                    <Text className="trip-transportation-section__transport__departure-and-arrival__item__date">
-                      Chegada prevista: {data.estimatedArrival}
-                    </Text>
-                    <Text
-                      size="sm"
-                      style={{ marginTop: 0 }}
-                      className="trip-transportation-section__transport__departure-and-arrival__item__address"
-                    >
-                      {data.toName} - {data.toAddress}
-                    </Text>
-                  </div>
-                ) : null}
-                {data.description && (
-                  <div className="trip-transportation-section__transport__departure-and-arrival__item">
-                    <Text style={{ color: "var(--color-gray-1)" }}>{data.description}</Text>
-                  </div>
-                )}
-              </Box>
+                </Box>
+              </CardHighlight>
             </>
           )}
         </Box>

@@ -1,4 +1,3 @@
-import { TripTransportationSection } from "@/features/trips/TripDetailsPage/trip-transportation.section";
 import { TripStaySection } from "@/features/trips/TripDetailsPage/trip-stay.section";
 import { TripScriptSection } from "@/features/trips/TripDetailsPage/trip-script.section";
 import { TripFoodTipsSection } from "@/features/trips/TripDetailsPage/trip-food-tips.section";
@@ -9,6 +8,7 @@ import { useTripDetails } from "@/features/trips/TripDetailsPage/trip-details.ho
 import { DestinationInfos, DestinationRecommendedBy, TripPricingBox } from "@/features";
 import { Card, Container, Divider, Grid } from "mars-ds";
 import { TripDestinationCheckoutSection } from "./trip-checkout-destination.section";
+import { TripCheckoutTransportationSection } from "./trip-checkout-transportation.section";
 
 const MAX_REFRESH_COUNT = 5;
 
@@ -48,6 +48,7 @@ export function TripCheckout() {
 
   const { destination, configuration, hasScript } = data;
   const { features = [], photos = [], recommendedBy, tips = [], title } = destination;
+  const peopleInfo = `Para ${configuration.numAdults} adultos${configuration.numChildren && configuration.numChildren > 0 ? ` e ${configuration.numChildren} crianças` : ""}`;
 
   return (
     <>
@@ -62,8 +63,8 @@ export function TripCheckout() {
           Resumo da sua viagem
         </Text>
         <div className="what-includes-section__content">
-          <TripDestinationCheckoutSection  configuration={configuration} destination={destination} />
-          <TripTransportationSection tripId={data.id} />
+          <TripDestinationCheckoutSection  configuration={configuration} destination={destination} peopleInfo={peopleInfo} />
+          <TripCheckoutTransportationSection tripId={data.id} peopleInfo={peopleInfo} />
           <TripStaySection tripId={data.id} />
           <TripScriptSection isBuilt={hasScript} />
           <TripFoodTipsSection text={destination.gastronomicInformation} />
