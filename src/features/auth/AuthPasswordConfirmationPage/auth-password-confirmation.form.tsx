@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-import { PasswordField, PasswordStrongField, Card, Button } from "mars-ds";
+import { PasswordField, PasswordStrongField, Card, Button, ToggleSwitch, Link } from "mars-ds";
 import { AuthSection } from "../AuthSection";
 import { AuthFormSection } from "../AuthFormSection";
 import { SubmitHandler } from "@/utils/helpers/form.helpers";
@@ -15,11 +15,12 @@ export function  AuthPasswordConfirmationForm() {
   const { submitting, error, signUpResponse, confirmAccount } = useAccountConfirmation();
   const [data, setData] = useState<PasswordConfirmationData>({});
   const [passwordOK, setPasswordOK] = useState(false);
+  const [terms, setTerms] = useState(false);
 
   const router = useRouter();
 
   const passwordConfirmationOK = data["password"] === data["passwordConfirmation"];
-  const isValid = passwordOK && passwordConfirmationOK;
+  const isValid = passwordOK && passwordConfirmationOK && terms;
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
     const { value, name } = event.target as HTMLInputElement;
@@ -63,6 +64,9 @@ export function  AuthPasswordConfirmationForm() {
         required
         disabled={submitting}
       />
+      <ToggleSwitch label="Ao concluir seu cadastro, você concorda com nossos termos de uso e aviso de privacidade" defaultChecked={false} onChange={(checked) => setTerms(checked)}/>
+      <Link target="_blank" href={`https://www.tripevolved.com.br/termos-de-uso/`} iconName="external-link">Ver termos de uso</Link>
+      <Link target="_blank" href={`https://www.tripevolved.com.br/politica-de-privacidade/`} iconName="external-link">Ver aviso de privacidade</Link>
     </AuthFormSection>
   );
 }
