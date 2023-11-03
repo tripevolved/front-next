@@ -3,9 +3,8 @@ import { StepConfiguration } from "../TripSteps/step-configuration";
 import { StepFinish } from "../TripSteps/step-finish";
 import type { TripEditConfigurationProps } from "./trip-edit-configuration.types";
 
-import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAnimation } from "@/utils/hooks/animation.hook";
-import { Box, StepsLoader, Text } from "@/ui";
+import { ModalContent, StepsLoader, Text } from "@/ui";
 import { TripsApiService } from "@/services/api";
 import { Notification } from "mars-ds";
 
@@ -39,14 +38,7 @@ const LOADING_STEPS = [
 ];
 const DEFAULT_INITIAL_INDEX = 0;
 
-export function TripEditConfiguration({
-  className,
-  children,
-  sx,
-  tripId,
-  ...props
-}: TripEditConfigurationProps) {
-  const cn = makeCn("trip-edit-configuration", className)(sx);
+export function TripEditConfiguration({ tripId }: TripEditConfigurationProps) {
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
   const [submitting, setSubmitting] = useState(false);
 
@@ -58,7 +50,7 @@ export function TripEditConfiguration({
     data.current = { ...data.current, tripId };
     try {
       // @ts-ignore
-      const result = await TripsApiService.setTripConfiguration({ ...data.current });
+      await TripsApiService.setTripConfiguration({ ...data.current });
       setSubmitting(true);
     } catch (error) {
       setSubmitting(false);
@@ -79,33 +71,25 @@ export function TripEditConfiguration({
     }
   };
 
-  const handleFinish = () => {
-    location.reload();
-  };
-
   const { component: Component } = CONFIG_STEPS[currentIndex];
 
   if (submitting) {
     return (
-      <div style={{ width: "100%", height: 500, display: "flex", alignItems: "center" }}>
-        <StepsLoader steps={LOADING_STEPS} milliseconds={MILLISECONDS} onFinish={handleFinish} />
-      </div>
+      <ModalContent>
+        <StepsLoader steps={LOADING_STEPS} milliseconds={MILLISECONDS} onFinish={location.reload} />
+      </ModalContent>
     );
   }
 
   return (
-    <div className={`${cn} gap-lg p-lg`} {...props}>
-      <Text
-        heading
-        size="md"
-        style={{ color: "var(--color-brand-1)", textAlign: "left", width: "100%" }}
-      >
-        Configurações da Viagem
-      </Text>
-      <Box style={animation.style}>
-        {/** @ts-ignore */}
-        <Component onNext={handleNext} onPrevious={() => setCurrentIndex((state) => state - 1)} />
-      </Box>
-    </div>
+    <ModalContent heading="Configurações da Viagem">
+      <div className="mt-md" style={animation.style}>
+        <Component
+          onNext={handleNext}
+          goToStepName={() => {}}
+          onPrevious={() => setCurrentIndex((state) => state - 1)}
+        />
+      </div>
+    </ModalContent>
   );
 }

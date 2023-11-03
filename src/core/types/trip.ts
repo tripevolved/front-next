@@ -33,8 +33,8 @@ export interface FlightView {
   toAirportCode: string;
   toAirportName: string;
   connections: number;
-  outboundFlightDetails: FlightDetails[]
-  returnFlightDetails: FlightDetails[]
+  outboundFlightDetails: FlightDetails[];
+  returnFlightDetails: FlightDetails[];
 }
 
 export interface TripTransportation {

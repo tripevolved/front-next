@@ -1,9 +1,8 @@
 import type { MatchedDestination } from "@/services/api/trip/matches";
 
 import { Text } from "@/ui";
-import { Grid } from "mars-ds";
+import { AutoScroll, Grid } from "mars-ds";
 import { MatchedDestinationCard } from "./matched-destination-card.component";
-import { TripMatchedDestination } from "@/core/types";
 
 export interface MatchedDestinationsProposalProps {
   title: string;
@@ -44,16 +43,17 @@ export const MatchedDestinationsProposal = ({
           <Text className="mt-lg" as="h2" heading size="xs">
             Outras opções
           </Text>
-          <Grid columns={{ xs: 2, md: 3, lg: 4 }}>
+          <div className="matched-destinations-cards">
             {otherChoices.map((choice, key) => (
-              <MatchedDestinationCard
-                key={key}
-                {...choice}
-                travelersNumber={choice.travelers ?? 2}
-                onChoice={() => handleCreateTrip(choice.destinationId)}
-              />
+              <div key={key}>
+                <MatchedDestinationCard
+                  {...choice}
+                  travelersNumber={choice.travelers ?? 2}
+                  onChoice={() => handleCreateTrip(choice.destinationId)}
+                />
+              </div>
             ))}
-          </Grid>
+          </div>
         </>
       ) : null}
     </Grid>

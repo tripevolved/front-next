@@ -4,3 +4,4 @@
  */
 export * from "./destination-page.component";
 export * from "./destination-page.types";
+export * from "./destination-tip-item.component";

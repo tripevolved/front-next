@@ -1,17 +1,26 @@
 .page-app-header {
   background-color: $color-brand-1;
-  padding: 0 $spacing-lg;
   display: flex;
 
   > * {
+    padding: 0 $spacing-lg;
     height: 78px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @media (max-width: $breakpoint-sm) {
-      height: 102px;
+    @media (min-width: $breakpoint-lg) {
+      padding: 0 $spacing-xl;
     }
   }
+
+  &:not(.page-app-header--sm) {
+    > * {
+      @media (max-width: $breakpoint-sm) {
+        height: 102px;
+      }
+    }
+  }
+
   &__backButton,
   &__toggle,
   &__info {
@@ -24,6 +33,8 @@
   @media (max-width: $breakpoint-sm) {
     background-color: $color-brand-1;
     $radius-size: 24px;
+    margin-bottom: $radius-size * -1;
+    position: relative;
     &::after {
       display: block;
       content: "";

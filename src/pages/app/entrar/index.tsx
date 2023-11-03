@@ -13,5 +13,9 @@ export default function SignInRoute() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <PageApp seo={{ title: "Entrar" }}>{isAuth ? <GlobalLoader /> : <AuthSignIn />}</PageApp>;
+  return (
+    <PageApp hideHeader seo={{ title: "Entrar" }}>
+      {isAuth ? <GlobalLoader /> : <AuthSignIn />}
+    </PageApp>
+  );
 }

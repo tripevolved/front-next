@@ -1,61 +1,64 @@
-import { Box, Text, Picture, CardHighlight, Tag } from "@/ui";
+import { Text, CardHighlight } from "@/ui";
 import { useIdParam } from "@/utils/hooks/param.hook";
-import { Button, Grid, Link } from "mars-ds";
+import { Button, Grid, List } from "mars-ds";
+import { TripDetailInfo } from "./trip-detail-info.component";
 
-interface TripScriptSectionProps {
-  isBuilt?: boolean;
-}
+export const TripScriptSection = ({ isBuilt = false }) => (
+  <>
+    <Grid columns={["1fr", "auto"]}>
+      <TripDetailInfo image="/assets/destino/roteiro.svg" title="Roteiro" />
+      {isBuilt ? <SeeScriptButton /> : null}
+    </Grid>
+    {isBuilt ? <TripScriptFeatures /> : <TripScriptBuildCta />}
+  </>
+);
 
-export const TripScriptSection = ({ isBuilt = false }: TripScriptSectionProps) => {
+const SeeScriptButton = () => {
   const idParam = useIdParam();
-
   return (
-    <div className="trip-content-item trip-script-section">
-      <Box>
-        <Picture src={"/assets/destino/roteiro.svg"} />
-      </Box>
-      <Box className="trip-content-item__desc">
-        <Box className="trip-script-section__header">
-          <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
-            Roteiro
-          </Text>
-          <Link
-            className="trip-script-section__see-script"
-            variant="primary"
-            style={{ marginTop: 0 }}
-            href={`/app/viagens/${idParam}/roteiro/previa/`}
-          >
-            <Text size="lg">Ver prévia do roteiro</Text>
-          </Link>
-        </Box>
-        <Grid columns={3}>
-          <Box className="trip-script-section__highlight">
-            <Picture src="/assets/script/map.svg" />
-            <Text size="md">
-              Seu roteiro com cada experiência pensada para o seu perfil de viajante
-            </Text>
-          </Box>
-          <Box className="trip-script-section__highlight">
-            <Picture src="/assets/script/restaurant-highlight.svg" />
-            <Text size="md">O melhor da gastronomia com o que você prefere</Text>
-          </Box>
-          <Box className="trip-script-section__highlight">
-            <Picture src="/assets/script/drink.svg" />
-            <Text size="md">Quer curtir? Os melhores bares, festas e eventos à sua disposição</Text>
-          </Box>
-        </Grid>
-        {!isBuilt && (
-          <CardHighlight className="trip-highlight-box">
-            <Text size="lg">
-              Vamos construir seu roteiro junto com você, recomendando as melhores experiências para
-              o seu perfil e objetivo de viagem!
-            </Text>
-            <Button variant="secondary" size="sm" href={`/app/viagens/${idParam}/roteiro/construcao/?voltarPara=${encodeURI(`/app/viagens/${idParam}/comprar/checkout/`)}`}>
-              Construir meu roteiro
-            </Button>
-          </CardHighlight>
-        )}
-      </Box>
-    </div>
+    <Button
+      variant="naked"
+      size="sm"
+      iconName="arrow-right"
+      isRtl
+      href={`/app/viagens/${idParam}/roteiro/previa/`}
+    >
+      Ver prévia do roteiro
+    </Button>
+  );
+};
+
+const TripScriptFeatures = () => (
+  <List
+    style={{ paddingLeft: 24 }}
+    defaultBulletIconName="check"
+    list={[
+      {
+        text: "Seu roteiro com cada experiência pensada para o seu perfil de viajante",
+        bulletIconName: "user",
+      },
+      { text: "O melhor da gastronomia com o que você prefere", bulletIconName: "coffee" },
+      {
+        text: "Quer curtir? Os melhores bares, festas e eventos à sua disposição",
+        bulletIconName: "moon",
+      },
+    ]}
+  />
+);
+
+const TripScriptBuildCta = () => {
+  const idParam = useIdParam();
+  return (
+    <CardHighlight
+      variant="default"
+      heading="Vamos construir seu roteiro junto com você"
+      text="Recomendando as melhores experiências para o seu perfil e objetivo de viagem!"
+      cta={{
+        href: `/app/viagens/${idParam}/roteiro/`,
+        label: "Construir meu roteiro",
+        iconName: "arrow-right",
+        isRtl: true,
+      }}
+    />
   );
 };

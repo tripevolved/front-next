@@ -6,4 +6,5 @@ export interface PageAppProps {
   children: ComponentHTMLProps["children"];
   className?: string;
   headerOptions?: PageAppHeaderProps;
+  hideHeader?: boolean;
 }

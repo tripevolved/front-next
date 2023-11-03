@@ -4,9 +4,7 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 
 import { Link } from "mars-ds";
 import { Picture, Text } from "@/ui";
-
-const DEFAULT_IMAGE =
-  "https://images.unsplash.com/photo-1514454529242-9e4677563e7b?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+import { DEFAULT_CARD_IMAGE_URL } from "@/core/constants";
 
 export function CardTrip({
   className,
@@ -15,7 +13,7 @@ export function CardTrip({
   subtitle,
   header,
   href,
-  image = DEFAULT_IMAGE,
+  image = DEFAULT_CARD_IMAGE_URL,
   sx,
   ...props
 }: CardTripProps) {
