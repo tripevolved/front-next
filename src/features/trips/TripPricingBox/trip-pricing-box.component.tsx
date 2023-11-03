@@ -14,12 +14,14 @@ import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
+import { makeCn } from "@/utils/helpers/css.helpers";
 
 interface TripPricingBoxProps {
   destinationName: string;
   numAdults: number;
   numChildren?: number;
   isScriptBuilt?: boolean;
+  hasPhotos?: boolean;
 }
 
 export const TripPricingBox = ({
@@ -27,6 +29,7 @@ export const TripPricingBox = ({
   numAdults = 2,
   numChildren = 0,
   isScriptBuilt,
+  hasPhotos,
 }: TripPricingBoxProps) => {
   const idParam = useIdParam();
 
@@ -43,10 +46,10 @@ export const TripPricingBox = ({
     : `Para ${numAdults} adultos`;
 
   return (
-    <div>
-      <div className="trip-pricing-box-spacer"/>
+    <div className={makeCn("trip-pricing-box", { "trip-pricing-box--offset": hasPhotos })()}>
+      <div className="trip-pricing-box-spacer" />
       <TripPricingBoxToggle title={destinationName} people={people} total={data.total} />
-      <Card className="trip-pricing-box" elevation={CardElevations.Low}>
+      <Card className="trip-pricing-box__card" elevation={CardElevations.Low}>
         <TripPricingBoxContent
           tripId={idParam}
           title={destinationName}
@@ -120,7 +123,7 @@ const TripPricingBoxContent = ({
       className="trip-pricing-box-content__close_button"
       iconName="x"
       onClick={() => {
-        document.body.dataset.pricingBox = undefined;
+        document.body.dataset.pricingBox = "closed";
       }}
     />
     <TripPricingBoxContentHeader title={title} people={people} />

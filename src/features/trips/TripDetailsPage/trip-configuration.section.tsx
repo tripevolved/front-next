@@ -1,7 +1,7 @@
 import { CardHighlight, Text } from "@/ui";
 import { TripDetailsProps } from "./trip-details-page.types";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
-import { Icon, Button, Modal } from "mars-ds";
+import { Icon, Button, Modal, Grid } from "mars-ds";
 import { TripEditConfiguration } from "../TripEditConfiguration";
 
 export const TripConfigurationSection = ({
@@ -18,19 +18,19 @@ export const TripConfigurationSection = ({
   };
 
   return (
-    <CardHighlight className="trip-configuration">
-      <Feature iconName="calendar">{dates.replace(".", "")}</Feature>
-      <Feature iconName="clock">{period}</Feature>
-      <Feature iconName="dollar-sign">{formatToCurrencyBR(budget)}</Feature>
-      <Button
-        className="trip-configuration__button"
-        iconName="edit-2"
-        size="sm"
-        variant="naked"
-        onClick={() => handleButton()}
-      >
-        Editar
-      </Button>
+    <CardHighlight variant="default">
+      <Grid columns={{ xs: ["1fr", "auto"], sm: ["1fr", "200px"]}}>
+        <div className="flex gap-lg justify-content-between flex-wrap">
+          <Feature iconName="calendar">{dates.replace(".", "")}</Feature>
+          <Feature iconName="clock">{period}</Feature>
+          <Feature iconName="dollar-sign">{formatToCurrencyBR(budget)}</Feature>
+        </div>
+        <div className="text-right" style={{ minWidth: 150 }}>
+          <Button iconName="edit-2" size="sm" variant="neutral" onClick={handleButton}>
+            Editar
+          </Button>
+        </div>
+      </Grid>
     </CardHighlight>
   );
 };
@@ -42,11 +42,11 @@ interface IconFeatureProps {
 
 const Feature = ({ iconName, children }: IconFeatureProps) => {
   return (
-    <div className="trip-configuration__feature">
+    <Grid columns={["auto", "1fr"]} className="align-items-center">
       <Icon name={iconName} className="color-primary" />
-      <Text as="h3" size="md" className="">
+      <Text as="h3" size="md">
         {children}
       </Text>
-    </div>
+    </Grid>
   );
 };
