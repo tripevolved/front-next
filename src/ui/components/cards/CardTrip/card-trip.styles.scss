@@ -29,6 +29,7 @@
         rgba(0, 0, 0, 0.9) 85%
       );
     }
+
     img {
       object-fit: cover;
       height: 100%;
@@ -36,9 +37,11 @@
     }
   }
 
-  &:hover {
-    picture::after {
-      opacity: 1;
+  @media (min-width: $breakpoint-sm) {
+    &:hover {
+      picture::after {
+        opacity: 1;
+      }
     }
   }
 
@@ -62,5 +65,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
   }
 }

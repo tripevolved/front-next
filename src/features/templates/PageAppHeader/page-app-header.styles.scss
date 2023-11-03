@@ -1,13 +1,16 @@
 .page-app-header {
   background-color: $color-brand-1;
-  padding: 0 $spacing-lg;
   display: flex;
 
   > * {
+    padding: 0 $spacing-lg;
     height: 78px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media (min-width: $breakpoint-lg) {
+      padding: 0 $spacing-xl;
+    }
   }
 
   &:not(.page-app-header--sm) {
