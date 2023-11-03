@@ -5,6 +5,7 @@ import { Picture, Text, CardHighlight, GlobalLoader } from "@/ui";
 
 import { TransportationApiService } from "@/services/api";
 import { TripDetailInfo } from "./trip-detail-info.component";
+import { TripTransportation } from "@/core/types";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
@@ -58,25 +59,28 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
   return (
     <>
       <TripDetailInfo {...getDetailInfoProps(data.iconSlug)} />
-      <Grid columns={["56px", "1fr"]}>
-        <Picture src={data.partnerLogoUrl || "/assets/blank-image.png"} />
-        <Grid>
-          <TripTransportationItem
-            title="Saída"
-            date={data.departure}
-            name={data.fromName}
-            address={data.fromAddress}
-          />
-          <TripTransportationItem
-            title="Chegada prevista"
-            date={data.estimatedArrival}
-            name={data.toName}
-            address={data.toAddress}
-          />
-          <Text className="color-text-secondary">{data.description}</Text>
-          <Text className="color-text-secondary">{data.message}</Text>
-        </Grid>
-      </Grid>
+        {data.iconSlug === 'car' ? (
+          <CarDetailInfo data={data}/>
+        ) : (
+          <Grid columns={["56px", "1fr"]}>
+            <Picture src={data.partnerLogoUrl || "/assets/blank-image.png"} />
+            <Grid>
+              <TripTransportationItem
+                title="Saída"
+                date={data.departure}
+                name={data.fromName}
+                address={data.fromAddress}
+              />
+              <TripTransportationItem
+                title="Chegada prevista"
+                date={data.estimatedArrival}
+                name={data.toName}
+                address={data.toAddress}
+              />
+              {data.description && <Text className="color-text-secondary">{data.description}</Text>}
+            </Grid>
+          </Grid>
+        )}
     </>
   );
 };
@@ -110,4 +114,23 @@ const TripTransportationEmptyState = () => (
     heading="Ainda não escolhemos o transporte para sua viagem"
     text="Fale conosco e vamos deixar tudo como você deseja!"
   />
+);
+
+const CarDetailInfo = ({ data } : { data: TripTransportation }) => (
+  <Grid columns={["40px", "1fr"]}>
+    <div><Picture src={data.partnerLogoUrl} /></div>
+    <Grid>
+      <TripTransportationItem
+        title="Saída"
+        date={data.departure}
+        name={data.fromName}
+      />
+      <TripTransportationItem
+        title="Chegada prevista"
+        date={data.estimatedArrival}
+        name={data.toName}
+      />
+      {data.description && <Text className="color-text-secondary">{data.description}</Text>}
+    </Grid>
+  </Grid>
 );

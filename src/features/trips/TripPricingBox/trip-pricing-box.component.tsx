@@ -187,7 +187,7 @@ const TripPricingBoxContentCta = ({
       <Button
         variant={"tertiary" as any}
         href={`/app/viagens/${tripId}/roteiro/construcao/?voltarPara=${encodeURI(
-          `/app/viagens/comprar/checkout/${tripId}`
+          `/app/viagens/${tripId}/checkout`
         )}`}
       >
         Construir meu roteiro

@@ -1,7 +1,7 @@
 import { TripCheckoutDestinationProps } from "./trip-checkout.types";
 import { Box, Picture, Text } from "@/ui";
 
-export const TripDestinationCheckoutSection = ({ configuration, destination }: TripCheckoutDestinationProps) => {
+export const TripDestinationCheckoutSection = ({ configuration, destination, peopleInfo }: TripCheckoutDestinationProps) => {
   return (
     <div className="trip-content-item">
       <Box>
@@ -15,7 +15,7 @@ export const TripDestinationCheckoutSection = ({ configuration, destination }: T
           <Text size="xl">{destination.title}</Text>
         </div>
         <div><Text size="md">{configuration.dates}</Text></div>
-        <div><Text size="md">Para {configuration.numAdults} adultos{configuration.numChildren && configuration.numChildren > 0 ? ` e ${configuration.numChildren} crianças` : ""}</Text></div>
+        <div><Text size="md">{peopleInfo}</Text></div>
       </Box>
     </div>
   );
