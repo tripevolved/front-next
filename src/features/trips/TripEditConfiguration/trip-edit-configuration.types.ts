@@ -1,5 +1,3 @@
-import type { ComponentHTMLProps } from "@/core/types";
-
-export interface TripEditConfigurationProps extends ComponentHTMLProps {
+export interface TripEditConfigurationProps {
   tripId: string;
 }

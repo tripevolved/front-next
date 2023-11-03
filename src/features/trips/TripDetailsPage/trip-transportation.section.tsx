@@ -55,15 +55,6 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
     );
   }
 
-  if (data.isRouteFinished) {
-    return (
-      <>
-        <TripDetailInfo {...getDetailInfoProps(data.iconSlug)} />
-        <CardHighlight text={data.message} />
-      </>
-    );
-  }
-
   return (
     <>
       <TripDetailInfo {...getDetailInfoProps(data.iconSlug)} />
@@ -83,6 +74,7 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
             address={data.toAddress}
           />
           <Text className="color-text-secondary">{data.description}</Text>
+          <Text className="color-text-secondary">{data.message}</Text>
         </Grid>
       </Grid>
     </>
