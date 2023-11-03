@@ -5,12 +5,12 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { PageAppHeader } from "@/features";
 import { Container } from "mars-ds";
 
-export function PageApp({ children, seo, className, headerOptions }: PageAppProps) {
+export function PageApp({ children, seo, className, headerOptions, hideHeader }: PageAppProps) {
   const cn = makeCn("page-app__container", className)();
 
   return (
     <>
-      <PageAppHeader {...headerOptions} />
+      {hideHeader ? null : <PageAppHeader {...headerOptions} />}
       {seo ? <NextSeo {...seo} /> : null}
       <main className="page-app">
         <Container container="lg" className={cn}>

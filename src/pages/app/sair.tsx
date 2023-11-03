@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 export default function LogOutRoute() {
   return (
-    <PageApp seo={{ title: "Sair" }}>
+    <PageApp hideHeader seo={{ title: "Sair" }}>
       <SectionLogOut />
     </PageApp>
   );
