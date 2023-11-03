@@ -1,146 +1,113 @@
 import useSwr from "swr";
 
-import { Loader, Button, Icon } from "mars-ds";
-import { EmptyState, Box, Picture, Text, CardHighlight } from "@/ui";
+import { Grid } from "mars-ds";
+import { Picture, Text, CardHighlight, GlobalLoader } from "@/ui";
 
 import { TransportationApiService } from "@/services/api";
-import { TripTransportation } from "@/core/types";
+import { TripDetailInfo } from "./trip-detail-info.component";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
 
+const TRANSPORTATION = {
+  car: "Carro",
+  flight: "Passagem aérea",
+  bus: "Passagem de ônibus",
+  train: "Passagem de trem",
+  rentalcar: "Aluguel de carro",
+  default: "Transporte",
+};
+
+const getDetailInfoProps = (slug?: keyof typeof TRANSPORTATION) => ({
+  title: TRANSPORTATION[slug || "default"],
+  image: `/assets/transportation/${slug || "flight"}.svg`,
+});
+
 export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
-  const getTransportation = (key: string) => {
-    return getByTripId(tripId);
-  };
-
-  const { data, error, isLoading } = useSwr("transportation", getTransportation, swrOptions);
-
-  if (isLoading) {
-    return (
-      <div className="profile-questions-form">
-        <Loader color="var(--color-brand-1)" size="md" />
-      </div>
-    );
-  }
+  const fetcherKey = `transportation-${tripId}`;
+  const fetcher = async () => getByTripId(tripId);
+  const { data, error, isLoading } = useSwr(fetcherKey, fetcher, swrOptions);
 
   if (error) {
     return (
-      <div className="trip-content-item trip-transportation-section">
-        <Box>
-          <Picture src={"/assets/destino/passagem-aerea.svg"} />
-        </Box>
-        <Box className="trip-content-item__desc">
-          <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
-            Transporte
-          </Text>
-          <Box className="trip-transportation-section__transport">
-            <Box className="trip-transportation-section__transport__departure-and-arrival">
-              <EmptyState />
-              <Button variant="neutral" onClick={() => location.reload()}>
-                Tentar novamente
-              </Button>
-            </Box>
-          </Box>
-        </Box>
-      </div>
+      <>
+        <TripDetailInfo {...getDetailInfoProps()} />
+        <TripTransportationErrorState />
+      </>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <>
+        <TripDetailInfo {...getDetailInfoProps()} />
+        <GlobalLoader inline />
+      </>
     );
   }
 
   if (!data || !data.isSelected) {
     return (
       <>
-        <div className="trip-content-item trip-transportation-section">
-          <Box>
-            <Picture src={"/assets/destino/passagem-aerea.svg"} />
-          </Box>
-          <Box className="trip-content-item__desc">
-            <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
-              Transporte
-            </Text>
-            <CardHighlight className="trip-transportation-section__transport">
-              <div>
-                <Text as="h2" size="lg">
-                  Ainda não escolhemos o transporte para sua viagem.
-                </Text>
-                <Text>Fale conosco e vamos deixar tudo como você deseja!</Text>
-              </div>
-            </CardHighlight>
-          </Box>
-        </div>
+        <TripDetailInfo {...getDetailInfoProps()} />
+        <TripTransportationEmptyState />
       </>
     );
   }
 
   return (
-    <div className="trip-content-item trip-transportation-section">
-      <Box>
-        <Picture src={"/assets/transportation/" + data.iconSlug + ".svg"} />
-      </Box>
-      <Box className="trip-content-item__desc">
-        <Text as="h2" heading size="xs" className="trip-content-item__desc__title">
-          {getTitleFromType(data.iconSlug)}
-        </Text>
-        <Box className="trip-transportation-section__transport">
-          {!data.isRouteFinished ? (
-            <CardHighlight style={{ width: "100%", display: "flex", gap: 16 }}>
-              <Text>{data.message}</Text>
-            </CardHighlight>
-          ) : (
-            <>
-              <Picture
-                src={data.partnerLogoUrl}
-                className="trip-transportation-section__transport__partner-logo"
-              />
-              <Box className="trip-transportation-section__transport__departure-and-arrival">
-                {data.departure && (
-                  <div className="trip-transportation-section__transport__departure-and-arrival__item">
-                    <Text className="trip-transportation-section__transport__departure-and-arrival__item__date">
-                      Saída: {data.departure}
-                    </Text>
-                    <Text
-                      style={{ marginTop: 0 }}
-                      className="trip-transportation-section__transport__departure-and-arrival__item__address"
-                      size="sm"
-                    >
-                      {data.fromName} - {data.fromAddress}
-                    </Text>
-                  </div>
-                )}
-                {data.estimatedArrival ? (
-                  <div className="trip-transportation-section__transport__departure-and-arrival__item">
-                    <Text className="trip-transportation-section__transport__departure-and-arrival__item__date">
-                      Chegada prevista: {data.estimatedArrival}
-                    </Text>
-                    <Text
-                      size="sm"
-                      style={{ marginTop: 0 }}
-                      className="trip-transportation-section__transport__departure-and-arrival__item__address"
-                    >
-                      {data.toName} - {data.toAddress}
-                    </Text>
-                  </div>
-                ) : null}
-                {data.description && (
-                  <div className="trip-transportation-section__transport__departure-and-arrival__item">
-                    <Text style={{ color: "var(--color-gray-1)" }}>{data.description}</Text>
-                  </div>
-                )}
-              </Box>
-            </>
-          )}
-        </Box>
-      </Box>
+    <>
+      <TripDetailInfo {...getDetailInfoProps(data.iconSlug)} />
+      <Grid columns={["56px", "1fr"]} style={{ paddingLeft: 56 }}>
+        <Picture src={data.partnerLogoUrl || "/assets/blank-image.png"} />
+        <Grid>
+          <TripTransportationItem
+            title="Saída"
+            date={data.departure}
+            name={data.fromName}
+            address={data.fromAddress}
+          />
+          <TripTransportationItem
+            title="Chegada prevista"
+            date={data.estimatedArrival}
+            name={data.toName}
+            address={data.toAddress}
+          />
+          <Text className="color-text-secondary">{data.description}</Text>
+          <Text className="color-text-secondary">{data.message}</Text>
+        </Grid>
+      </Grid>
+    </>
+  );
+};
+
+const TripTransportationItem = ({ title = "", date = "", name = "", address = "" }) => {
+  if (!date) return null;
+  return (
+    <div className="color-text-secondary">
+      <Text>
+        <strong>{title}:</strong> {date.replace("./", "/")}
+      </Text>
+      <Text style={{ margin: 0 }}>
+        {address ? `${name},` : name} {address}
+      </Text>
     </div>
   );
 };
 
-const getTitleFromType = (type: "car" | "flight" | "bus" | "train" | "rentalcar") => {
-  if (type === "car") return "Carro";
-  if (type === "flight") return "Passagem aérea";
-  if (type === "bus") return "Passagem de ônibus";
-  if (type === "train") return "Passagem de trem";
-  if (type === "rentalcar") return "Aluguel de carro";
+const TripTransportationErrorState = () => (
+  <CardHighlight
+    variant="warning"
+    heading="Algo não saiu como o esperado :("
+    text="Não foi possível carregar os dados do seu transporte"
+    cta={{ onClick: location.reload, children: "Tentar novamente", iconName: "refresh-ccw" }}
+  />
+);
 
-  return "Transporte";
-};
+const TripTransportationEmptyState = () => (
+  <CardHighlight
+    variant="warning"
+    heading="Ainda não escolhemos o transporte para sua viagem"
+    text="Fale conosco e vamos deixar tudo como você deseja!"
+  />
+);

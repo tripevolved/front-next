@@ -3,7 +3,6 @@ import type { MatchedDestination } from "@/services/api/trip/matches";
 import { Text } from "@/ui";
 import { Grid } from "mars-ds";
 import { MatchedDestinationCard } from "./matched-destination-card.component";
-import { TripMatchedDestination } from "@/core/types";
 
 export interface MatchedDestinationsProposalProps {
   title: string;

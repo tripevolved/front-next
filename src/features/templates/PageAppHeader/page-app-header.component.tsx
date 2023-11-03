@@ -1,15 +1,19 @@
 import { useAppStore } from "@/core/store";
+import { Photo } from "@/core/types";
 import { ModalContent, Text, UserAvatar } from "@/ui";
 import { Avatar, Button, Container, Divider, Grid, Modal, ToggleButton } from "mars-ds";
+import { PageAppHero } from "../PageAppHero";
 
 export interface PageAppHeaderProps {
   image?: string;
   title?: string;
   subtitle?: string;
   backUrl?: string;
+  photos?: Photo[];
 }
 
-export function PageAppHeader({ image, title, subtitle, backUrl }: PageAppHeaderProps) {
+export function PageAppHeader({ image, title, subtitle, backUrl, photos }: PageAppHeaderProps) {
+  const hasPhotos = photos && photos.length > 0;
   return (
     <>
       <nav className="page-app-header">
@@ -47,7 +51,11 @@ export function PageAppHeader({ image, title, subtitle, backUrl }: PageAppHeader
           />
         </Container>
       </nav>
-      <div className="page-app-header-extension" />
+      {hasPhotos ? (
+        <PageAppHero photos={photos} title={title} />
+      ) : (
+        <div className="page-app-header-extension" />
+      )}
     </>
   );
 }

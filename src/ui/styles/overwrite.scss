@@ -1,3 +1,11 @@
 .link.item-button {
   text-decoration: none;
 }
+
+body[data-overlay=true] {
+  overflow-y: hidden;
+  @media (min-width: $breakpoint-sm) {
+    // INFO: prevent scrollbar spacing
+    padding-right: 16px;
+  }
+}

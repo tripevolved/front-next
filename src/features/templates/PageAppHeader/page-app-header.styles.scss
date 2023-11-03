@@ -24,6 +24,9 @@
   @media (max-width: $breakpoint-sm) {
     background-color: $color-brand-1;
     $radius-size: 24px;
+    margin-bottom: $radius-size * -1;
+    z-index: 1;
+    position: relative;
     &::after {
       display: block;
       content: "";

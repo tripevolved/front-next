@@ -45,8 +45,11 @@
 @import "./templates/Navbar/navbar.styles.scss";
 @import "./templates/PageApp/page-app.styles.scss";
 @import "./templates/PageAppHeader/page-app-header.styles.scss";
+@import "./templates/PageAppHero/page-app-hero.styles.scss";
 @import "./templates/PageBase/page-base.styles.scss";
 @import "./templates/PrivacyBanner/privacy-banner.styles.scss";
+@import "./trips/FlightCard/flight-card.styles.scss";
+@import "./trips/FlightDetailsPainel/flight-details-painel.styles.scss";
 @import "./trips/HasTrip/has-trip.styles.scss";
 @import "./trips/MatchedDestinationsPage/matched-destinations-page.styles.scss";
 @import "./trips/PageTrip/page-trip.styles.scss";
