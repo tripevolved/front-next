@@ -11,7 +11,7 @@ export const TripConfigurationSection = ({
   tripId,
 }: TripDetailsProps["configuration"] & { tripId: string }) => {
   const handleButton = () => {
-    Modal.open(() => <TripEditConfiguration tripId={tripId} className="px-md py-lg" />, {
+    Modal.open(() => <TripEditConfiguration tripId={tripId} />, {
       size: "md",
       closable: true,
     });
