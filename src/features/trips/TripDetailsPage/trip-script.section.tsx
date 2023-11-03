@@ -54,7 +54,9 @@ const TripScriptBuildCta = () => {
       heading="Vamos construir seu roteiro junto com você"
       text="Recomendando as melhores experiências para o seu perfil e objetivo de viagem!"
       cta={{
-        href: `/app/viagens/${idParam}/roteiro/`,
+        href: `/app/viagens/${idParam}/roteiro/construcao/?voltarPara=${encodeURI(
+          `/app/viagens/${idParam}/checkout`
+        )}`,
         label: "Construir meu roteiro",
         iconName: "arrow-right",
         isRtl: true,

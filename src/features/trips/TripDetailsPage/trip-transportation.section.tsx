@@ -73,8 +73,8 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
             name={data.toName}
             address={data.toAddress}
           />
-          <Text className="color-text-secondary">{data.description}</Text>
-          <Text className="color-text-secondary">{data.message}</Text>
+          {data.description && <Text className="color-text-secondary">{data.description}</Text>}
+          {data.message && <Text className="color-text-secondary">{data.message}</Text>}
         </Grid>
       </Grid>
     </>
