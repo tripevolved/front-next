@@ -1,22 +1,28 @@
 .trip-pricing-box {
-  @media (max-width: $breakpoint-md) {
-    position: fixed;
-    inset: 0 0 0 0;
-    border-radius: 0;
-    overflow-y: auto;
-    transform: translateY(100%);
-    opacity: 0;
-    transition: opacity ease 300ms, transform ease-in 400ms;
-    .trip-pricing-box-content__close_button {
-      position: absolute;
-      top: 16px;
-      right: 16px;
+  &__card {
+    @media (max-width: $breakpoint-md) {
+      position: fixed;
+      inset: 0 0 0 0;
+      border-radius: 0;
+      overflow-y: auto;
+      transform: translateY(100%);
+      opacity: 0;
+      transition: opacity ease 300ms, transform ease-in 400ms;
+      .trip-pricing-box-content__close_button {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+      }
     }
   }
 
   @media (min-width: $breakpoint-md) {
     position: sticky;
     top: 16px;
+    &--offset {
+      top: 256px;
+      transform: translateY(-240px);
+    }
     .trip-pricing-box-content__close_button {
       display: none;
     }
@@ -32,7 +38,7 @@ body[data-pricing-box="opened"] {
     height: 96px;
   }
   body[data-pricing-box="opened"] {
-    .trip-pricing-box {
+    .trip-pricing-box__card {
       transform: translateY(0);
       opacity: 1;
     }
@@ -55,12 +61,13 @@ body[data-pricing-box="opened"] {
   border: none;
   outline: none;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   padding-bottom: 0;
   margin: 0;
   text-align: left;
   gap: 24px;
+  color: $color-text-primary;
   > *:first-child {
     flex: 1;
   }

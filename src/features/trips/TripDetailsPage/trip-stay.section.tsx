@@ -71,7 +71,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
         <TripDetailInfo {...detailInfoProps} />
         <StayEditionButton tripId={tripId} />
       </Grid>
-      <Grid style={{ paddingLeft: 56 }}>
+      <Grid>
         <Grid columns={["56px", "auto"]}>
           <Picture src={data.coverImageUrl ? data.coverImageUrl : "/assets/blank-image.png"} />
           <div>

@@ -8,10 +8,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    @media (max-width: $breakpoint-sm) {
-      height: 102px;
+  }
+
+  &:not(.page-app-header--sm) {
+    > * {
+      @media (max-width: $breakpoint-sm) {
+        height: 102px;
+      }
     }
   }
+
   &__backButton,
   &__toggle,
   &__info {

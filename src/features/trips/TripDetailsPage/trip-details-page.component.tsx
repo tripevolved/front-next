@@ -117,6 +117,7 @@ export function TripDetailsPage() {
           {recommendedBy ? <DestinationRecommendedBy {...recommendedBy} /> : null}
         </Grid>
         <TripPricingBox
+          hasPhotos={photos.length > 0}
           destinationName={destination.title}
           numAdults={configuration.numAdults}
           numChildren={configuration.numChildren}

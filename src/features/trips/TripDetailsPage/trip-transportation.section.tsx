@@ -58,7 +58,7 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
   return (
     <>
       <TripDetailInfo {...getDetailInfoProps(data.iconSlug)} />
-      <Grid columns={["56px", "1fr"]} style={{ paddingLeft: 56 }}>
+      <Grid columns={["56px", "1fr"]}>
         <Picture src={data.partnerLogoUrl || "/assets/blank-image.png"} />
         <Grid>
           <TripTransportationItem

@@ -3,6 +3,7 @@ import { Photo } from "@/core/types";
 import { ModalContent, Text, UserAvatar } from "@/ui";
 import { Avatar, Button, Container, Divider, Grid, Modal, ToggleButton } from "mars-ds";
 import { PageAppHero } from "../PageAppHero";
+import { makeCn } from "@/utils/helpers/css.helpers";
 
 export interface PageAppHeaderProps {
   image?: string;
@@ -14,9 +15,10 @@ export interface PageAppHeaderProps {
 
 export function PageAppHeader({ image, title, subtitle, backUrl, photos }: PageAppHeaderProps) {
   const hasPhotos = photos && photos.length > 0;
+  const cn = makeCn("page-app-header", { "page-app-header--sm": hasPhotos })();
   return (
     <>
-      <nav className="page-app-header">
+      <nav className={cn}>
         <Container container="lg">
           <div>
             <Grid columns={["auto", "1fr"]} className="align-items-center">
