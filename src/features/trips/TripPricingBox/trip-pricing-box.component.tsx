@@ -48,7 +48,7 @@ export const TripPricingBox = ({
   return (
     <div className={makeCn("trip-pricing-box", { "trip-pricing-box--offset": hasPhotos })()}>
       <div className="trip-pricing-box-spacer" />
-      <TripPricingBoxToggle title={destinationName} people={people} total={data.total} />
+      <TripPricingBoxToggle title={destinationName} total={data.total} />
       <Card className="trip-pricing-box__card" elevation={CardElevations.Low}>
         <TripPricingBoxContent
           tripId={idParam}
@@ -68,18 +68,21 @@ export const TripPricingBox = ({
 
 const TripPricingBoxToggle = ({
   title,
-  people,
   total,
-}: Pick<TripPricingBoxContentProps, "title" | "people" | "total">) => (
+}: Pick<TripPricingBoxContentProps, "title" | "total">) => (
   <Card
     as="button"
     elevation={CardElevations.Medium}
-    className="trip-pricing-box-toggle"
+    className="trip-pricing-box-toggle theme-dark"
     onClick={() => {
       document.body.dataset.pricingBox = "opened";
     }}
   >
-    <TripPricingBoxContentHeader title={title} people={people} />
+    <div>
+      <Text heading as="h2" size="xs">
+        {title}
+      </Text>
+    </div>
     <Text as="strong" heading size="xs">
       {formatToCurrencyBR(total)}
     </Text>
@@ -143,8 +146,8 @@ const TripPricingBoxContent = ({
         <TripPricingBoxContentPrice label="Total" value={price} />
         <TripPricingBoxContentPrice label="Taxa" value={serviceFee} />
       </Grid>
-      {description ? <Text className="color-text-secondary">*{description}</Text> : null}
       <TripPricingBoxContentCta isBuilt={isBuilt} isPaid={isPaid} total={total} tripId={tripId} />
+      {description ? <Text size="sm" className="color-text-secondary px-md">*{description}</Text> : null}
     </Grid>
   </div>
 );
@@ -195,7 +198,7 @@ const TripPricingBoxContentCta = ({
       <Button variant="neutral" href={buyHref}>
         Comprar por {formatToCurrencyBR(total)}
       </Button>
-      <Text size="sm">
+      <Text size="sm" className="px-md">
         <strong>Não se preocupe:</strong> você poderá construir o roteiro em um momento posterior
       </Text>
     </Grid>

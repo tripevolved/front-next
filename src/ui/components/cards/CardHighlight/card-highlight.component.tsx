@@ -26,7 +26,7 @@ export function CardHighlight({
       {text ? <Text className="color-text-secondary mb-md">{text}</Text> : null}
       {cta ? (
         <div>
-          <Button variant="neutral" {...cta} />
+          <Button variant="neutral" size="sm" {...cta} />
         </div>
       ) : null}
       {children}

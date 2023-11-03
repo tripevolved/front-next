@@ -1,8 +1,6 @@
 import { useAppStore } from "@/core/store";
-import { Photo } from "@/core/types";
 import { ModalContent, Text, UserAvatar } from "@/ui";
 import { Avatar, Button, Container, Divider, Grid, Modal, ToggleButton } from "mars-ds";
-import { PageAppHero } from "../PageAppHero";
 import { makeCn } from "@/utils/helpers/css.helpers";
 
 export interface PageAppHeaderProps {
@@ -10,12 +8,17 @@ export interface PageAppHeaderProps {
   title?: string;
   subtitle?: string;
   backUrl?: string;
-  photos?: Photo[];
+  hideMobileMoldure?: boolean;
 }
 
-export function PageAppHeader({ image, title, subtitle, backUrl, photos }: PageAppHeaderProps) {
-  const hasPhotos = photos && photos.length > 0;
-  const cn = makeCn("page-app-header", { "page-app-header--sm": hasPhotos })();
+export function PageAppHeader({
+  image,
+  title,
+  subtitle,
+  backUrl,
+  hideMobileMoldure,
+}: PageAppHeaderProps) {
+  const cn = makeCn("page-app-header", { "page-app-header--sm": hideMobileMoldure })();
   return (
     <>
       <nav className={cn}>
@@ -53,11 +56,7 @@ export function PageAppHeader({ image, title, subtitle, backUrl, photos }: PageA
           />
         </Container>
       </nav>
-      {hasPhotos ? (
-        <PageAppHero photos={photos} title={title} />
-      ) : (
-        <div className="page-app-header-extension" />
-      )}
+      <div className="page-app-header-extension" />
     </>
   );
 }

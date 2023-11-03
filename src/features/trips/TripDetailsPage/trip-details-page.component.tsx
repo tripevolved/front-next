@@ -1,4 +1,3 @@
-import { DestinationTipsSection } from "@/features/destinations/DestinationPage//destination-tips.section";
 import { TripTransportationSection } from "./trip-transportation.section";
 import { TripStaySection } from "./trip-stay.section";
 import { TripScriptSection } from "./trip-script.section";
@@ -13,16 +12,17 @@ import {
   DestinationRecommendedBy,
   DestinationTipItem,
   PageApp,
+  PageAppHero,
   TripPricingBox,
 } from "@/features";
 import { Card, CardElevations, Divider, Grid } from "mars-ds";
-import type { Photo } from "@/core/types";
+import type { Photo, PublicDestinationTip } from "@/core/types";
 import { DEFAULT_CARD_IMAGE_URL } from "@/core/constants";
 
 interface TemplateProps {
   children: React.ReactNode;
   title?: string;
-  photos?: Photo[];
+  hideHeader?: boolean;
 }
 
 const MAX_REFRESH_COUNT = 5;
@@ -36,9 +36,13 @@ const DEFAULT_PHOTOS: Photo[] = [
 export function TripDetailsPage() {
   const { data, isEmpty, isLoading, refreshCount } = useTripDetails();
 
-  const Template = ({ children, title = "Sua viagem", photos }: TemplateProps) => {
+  const Template = ({ children, title = "Sua viagem", hideHeader }: TemplateProps) => {
     return (
-      <PageApp headerOptions={{ title, backUrl: "/app/painel", photos }} seo={{ title }}>
+      <PageApp
+        hideHeader={hideHeader}
+        headerOptions={{ title, backUrl: "/app/painel" }}
+        seo={{ title }}
+      >
         {children}
       </PageApp>
     );
@@ -79,51 +83,58 @@ export function TripDetailsPage() {
   const { destination, configuration, hasScript } = data;
   const { features = [], photos = DEFAULT_PHOTOS, recommendedBy, tips = [], title } = destination;
   return (
-    <Template title={title} photos={photos}>
-      <Grid columns={{ md: ["1fr", "320px"] }} growing={false}>
-        <Grid>
-          {configuration ? <TripConfigurationSection {...configuration} tripId={data.id} /> : null}
-
-          <Card elevation={CardElevations.Low}>
-            <Grid>
-              <Text as="h2" heading size="xs" className="mb-lg">
-                <strong>O que sua viagem inclui</strong>
-              </Text>
-              <TripTransportationSection tripId={data.id} />
-              <Divider />
-              <TripStaySection tripId={data.id} />
-              <Divider />
-              <TripScriptSection isBuilt={hasScript} />
-              <Divider />
-              <TripFoodTipsSection text={destination.gastronomicInformation} />
-              <Divider />
-              <TripSupportSection />
-            </Grid>
-          </Card>
-          {tips.length ? (
+    <>
+      <PageAppHero photos={photos} title={title} backUrl="/app/painel" />
+      <Template title={title} hideHeader>
+        <Grid columns={{ md: ["1fr", "320px"] }} growing={false}>
+          <Grid>
+            {configuration ? (
+              <TripConfigurationSection {...configuration} tripId={data.id} />
+            ) : null}
             <Card elevation={CardElevations.Low}>
-              <Text as="h2" heading size="xs" className="mb-xl">
-                <strong>Dicas do destino</strong>
-              </Text>
               <Grid>
-                {tips.map((props, key) => (
-                  <DestinationTipItem key={key} {...props} />
-                ))}
+                <Text as="h2" heading size="xs" className="mb-lg">
+                  <strong>O que sua viagem inclui</strong>
+                </Text>
+                <TripTransportationSection tripId={data.id} />
+                <Divider />
+                <TripStaySection tripId={data.id} />
+                <Divider />
+                <TripScriptSection isBuilt={hasScript} />
+                <Divider />
+                <TripFoodTipsSection text={destination.gastronomicInformation} />
+                <Divider />
+                <TripSupportSection />
               </Grid>
             </Card>
-          ) : null}
-
-          {features.length ? <DestinationInfos features={features} /> : null}
-          {recommendedBy ? <DestinationRecommendedBy {...recommendedBy} /> : null}
+            {tips.length ? <DestinationTips tips={tips} /> : null}
+            {features.length ? <DestinationInfos features={features} /> : null}
+            {recommendedBy ? <DestinationRecommendedBy {...recommendedBy} /> : null}
+          </Grid>
+          <TripPricingBox
+            hasPhotos={photos.length > 0}
+            destinationName={destination.title}
+            numAdults={configuration.numAdults}
+            numChildren={configuration.numChildren}
+            isScriptBuilt={hasScript}
+          />
         </Grid>
-        <TripPricingBox
-          hasPhotos={photos.length > 0}
-          destinationName={destination.title}
-          numAdults={configuration.numAdults}
-          numChildren={configuration.numChildren}
-          isScriptBuilt={hasScript}
-        />
-      </Grid>
-    </Template>
+      </Template>
+    </>
   );
 }
+
+const DestinationTips = ({ tips }: { tips: PublicDestinationTip[] }) => {
+  return (
+    <Card elevation={CardElevations.Low}>
+      <Text as="h2" heading size="xs" className="mb-xl">
+        <strong>Dicas do destino</strong>
+      </Text>
+      <Grid>
+        {tips.map((props, key) => (
+          <DestinationTipItem key={key} {...props} />
+        ))}
+      </Grid>
+    </Card>
+  );
+};

@@ -3,7 +3,6 @@
   min-height: 220px;
   max-height: 320px;
   position: relative;
-  background-color: $color-text-secondary;
 
   &__container {
     position: absolute;
@@ -20,21 +19,8 @@
   &__photo {
     height: 100%;
     width: 100%;
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0 0 0 0;
-      opacity: 0.5;
-      background-image: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.7) 0%,
-        rgba(0, 0, 0, 0.5) 30%,
-        rgba(0, 0, 0, 0.5) 40%,
-        rgba(0, 0, 0, 0.9) 85%
-      );
-    }
-
     img {
+
       object-fit: cover;
       height: 100%;
       width: 100%;
@@ -45,11 +31,19 @@
   }
 
   &__content {
-    color: white;
-    padding: $spacing-md $spacing-xl;
+    background-image: linear-gradient(to top, rgba(45, 55, 56, 0.25) $spacing-md, transparent);
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
+    &__container {
+      color: white;
+      padding: $spacing-md $spacing-xl;
+      padding-top: 64px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+    }
   }
 }

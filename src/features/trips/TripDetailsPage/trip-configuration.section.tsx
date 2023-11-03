@@ -19,7 +19,7 @@ export const TripConfigurationSection = ({
 
   return (
     <CardHighlight variant="default">
-      <Grid columns={{ xs: ["1fr", "auto"], sm: ["1fr", "200px"]}}>
+      <Grid columns={{ sm: ["1fr", "200px"]}}>
         <div className="flex gap-lg justify-content-between flex-wrap">
           <Feature iconName="calendar">{dates.replace(".", "")}</Feature>
           <Feature iconName="clock">{period}</Feature>

@@ -2,5 +2,5 @@ import { acceptUsageTermsByTravelerId, acceptServiceConditionsByTravelerId } fro
 
 export const TermsApiService = {
   acceptUsageTerms: acceptUsageTermsByTravelerId,
-  acceptServiceConditions: acceptServiceConditionsByTravelerId
+  acceptServiceConditions: acceptServiceConditionsByTravelerId,
 };

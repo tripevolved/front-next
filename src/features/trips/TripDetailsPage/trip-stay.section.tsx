@@ -117,7 +117,7 @@ const TripStayEmptyState = ({ tripId = "" }) => (
     text="Fale conosco e vamos deixar tudo como você deseja!"
     cta={{
       href: `/app/viagens/criar/${tripId}/hospedagem/editar-hotel`,
-      label: "Escolher uma hospedagem",
+      label: "Escolher hospedagem",
       iconName: "arrow-right",
       isRtl: true,
     }}
