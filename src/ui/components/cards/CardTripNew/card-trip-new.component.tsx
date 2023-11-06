@@ -1,4 +1,4 @@
-import { Link } from "mars-ds";
+import { Button, Link } from "mars-ds";
 import { IconCustom, Text } from "@/ui";
 import type { CardTripNewProps } from "./card-trip-new.types";
 
@@ -9,7 +9,9 @@ export const CardTripNew = ({ href, iconName, title }: CardTripNewProps) => {
         <div className="card-trip-new__image">
           <IconCustom name={iconName} />
         </div>
-        <Text size="lg">{title}</Text>
+        <Button href={href} variant="neutral" iconName="plus" size="sm">
+          {title}
+        </Button>
       </div>
     </Link>
   );

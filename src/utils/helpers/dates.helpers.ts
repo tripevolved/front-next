@@ -32,3 +32,13 @@ export const toTimeOnlyString = (date: Date) => {
 
   return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 };
+
+export const normalizeDateString = (date: string) =>
+  date.replace(/([a-z.]{2,})/g, (match: string) => {
+    let result = "";
+    for (const c of match) {
+      if (c === ".") continue;
+      result += result ? c : c.toUpperCase();
+    }
+    return result;
+  });

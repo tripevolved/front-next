@@ -11,7 +11,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: $spacing-lg ;
+    gap: $spacing-lg;
+  }
+  a.link.btn {
+    color: $color-brand-1;
+    border-color: $color-brand-1;
   }
   &__image {
     background-color: $color-brand-6;
@@ -24,6 +28,5 @@
   }
   &:hover {
     background-color: $color-brand-7;
-    filter: none;
   }
 }

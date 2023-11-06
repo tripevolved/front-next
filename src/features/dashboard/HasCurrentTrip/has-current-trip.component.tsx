@@ -9,6 +9,7 @@ import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 import { Grid, Icon, Label, LabelVariants, Loader, Tabs } from "mars-ds";
 import { CardTrip, EmptyState, ErrorState, Text, CardTripNew } from "@/ui";
+import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 
 export function HasCurrentTrip() {
   return (
@@ -53,7 +54,7 @@ function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
       ) : null}
       <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
         <CardTripNew
-          title="+ Descobrir mais uma viagem"
+          title="Descobrir mais uma viagem"
           iconName="Plane"
           href="/app/viagens/descobrir"
         />
@@ -80,7 +81,7 @@ function TripItem({ id, title = "Sem nome", status, images, period }: TripListVi
       {typeof period === "string" ? (
         <div className="trip-item__period">
           <Icon name="calendar" size="sm" />
-          <Text>{period.replace(".", "").toUpperCase()}</Text>
+          <Text>{normalizeDateString(period)}</Text>
         </div>
       ) : null}
     </CardTrip>
