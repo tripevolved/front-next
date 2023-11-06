@@ -3,6 +3,7 @@ import { TripDetailsProps } from "./trip-details-page.types";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { Icon, Button, Modal, Grid } from "mars-ds";
 import { TripEditConfiguration } from "../TripEditConfiguration";
+import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 
 export const TripConfigurationSection = ({
   dates,
@@ -19,9 +20,9 @@ export const TripConfigurationSection = ({
 
   return (
     <CardHighlight variant="default">
-      <Grid columns={{ sm: ["1fr", "200px"]}}>
+      <Grid columns={["1fr", "auto"]}>
         <div className="flex gap-lg justify-content-between flex-wrap">
-          <Feature iconName="calendar">{dates.replace(".", "")}</Feature>
+          <Feature iconName="calendar">{normalizeDateString(dates)}</Feature>
           <Feature iconName="clock">{period}</Feature>
           <Feature iconName="dollar-sign">{formatToCurrencyBR(budget)}</Feature>
         </div>
