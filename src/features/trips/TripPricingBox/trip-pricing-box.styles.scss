@@ -33,9 +33,11 @@ body[data-pricing-box="opened"] {
   overflow-y: hidden;
 }
 
+$pricing-header-height: 150px;
+
 @media (max-width: $breakpoint-md) {
   .trip-pricing-box-spacer {
-    height: 96px;
+    height: $pricing-header-height;
   }
   body[data-pricing-box="opened"] {
     .trip-pricing-box__card {
@@ -51,7 +53,7 @@ body[data-pricing-box="opened"] {
 
 .trip-pricing-box-toggle {
   cursor: pointer;
-  height: 96px;
+  height: $pricing-header-height;
   border-radius: 0;
   position: fixed;
   bottom: 0;
@@ -60,16 +62,10 @@ body[data-pricing-box="opened"] {
   background-color: $color-background-primary;
   border: none;
   outline: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   margin: 0;
   text-align: left;
   gap: 24px;
   color: $color-text-primary;
-  > *:first-child {
-    flex: 1;
-  }
   transition: opacity ease 300ms, transform ease-in 300ms;
 
   @media (min-width: $breakpoint-md) {

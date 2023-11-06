@@ -78,15 +78,18 @@ const TripPricingBoxToggle = ({
       document.body.dataset.pricingBox = "opened";
     }}
   >
-    <div>
-      <Text heading as="h2" size="xs">
-        {title}
-      </Text>
-    </div>
-    <Text as="strong" heading size="xs">
-      {formatToCurrencyBR(total)}
-    </Text>
-    <Icon className="trip-pricing-box-toggle__icon" name="chevron-up" />
+    <Grid>
+      <Grid columns={["1fr", "auto", "24px"]} className="align-items-start">
+        <Text heading as="h2" size="xs">
+          {title}
+        </Text>
+        <Text as="strong" heading size="xs">
+          {formatToCurrencyBR(total)}
+        </Text>
+        <Icon className="trip-pricing-box-toggle__icon" name="chevron-up" />
+      </Grid>
+      <Button>Comprar viagem</Button>
+    </Grid>
   </Card>
 );
 
@@ -147,7 +150,11 @@ const TripPricingBoxContent = ({
         <TripPricingBoxContentPrice label="Taxa" value={serviceFee} />
       </Grid>
       <TripPricingBoxContentCta isBuilt={isBuilt} isPaid={isPaid} total={total} tripId={tripId} />
-      {description ? <Text size="sm" className="color-text-secondary px-md">*{description}</Text> : null}
+      {description ? (
+        <Text size="sm" className="color-text-secondary px-md">
+          *{description}
+        </Text>
+      ) : null}
     </Grid>
   </div>
 );
