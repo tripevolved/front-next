@@ -2,7 +2,7 @@ import { Button, Skeleton } from "mars-ds";
 import type { DestinationsByProfileNameProps } from "./destinations-by-profile-name.types";
 
 import { ProfileApiService } from "@/services/api";
-import { EmptyState, CardTrip, Box } from "@/ui";
+import { EmptyState, CardTrip, Box, AutoScrollCards } from "@/ui";
 import { useCallback } from "react";
 import useSWR from "swr";
 
@@ -17,19 +17,17 @@ export function DestinationsByProfileName({ profileName }: DestinationsByProfile
 
   const ProfileDestinations = useCallback(
     () => (
-      <div className="matched-destinations-cards">
+      <AutoScrollCards>
         {destinations.map(({ id, name, coverImageUrl, href }) => (
-          <div key={id}>
-            <CardTrip title={name} image={coverImageUrl || undefined} href={href}>
-              <Box className="theme-dark" sx={{ minWidth: 200 }}>
-                <Button href={href} size="sm" variant="neutral" iconName="arrow-right" isRtl>
-                  Descobrir destino
-                </Button>
-              </Box>
-            </CardTrip>
-          </div>
+          <CardTrip key={id} title={name} image={coverImageUrl || undefined} href={href}>
+            <Box className="theme-dark" sx={{ minWidth: 200 }}>
+              <Button href={href} size="sm" variant="neutral" iconName="arrow-right" isRtl>
+                Descobrir destino
+              </Button>
+            </Box>
+          </CardTrip>
         ))}
-      </div>
+      </AutoScrollCards>
     ),
     [profileName, destinations]
   );
@@ -50,11 +48,11 @@ export function DestinationsByProfileName({ profileName }: DestinationsByProfile
 }
 
 const ProfileLoadingState = () => (
-  <div className="matched-destinations-cards">
+  <AutoScrollCards>
     {[1, 2, 3].map((key) => (
       <DestinationItemSkeleton key={key} />
     ))}
-  </div>
+  </AutoScrollCards>
 );
 
 const ProfileErrorState = () => (

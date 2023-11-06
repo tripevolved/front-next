@@ -1,5 +1,12 @@
-html, body, #__next {
+html, body {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+#__next {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+
 }
