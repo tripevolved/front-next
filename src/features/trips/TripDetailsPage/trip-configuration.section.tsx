@@ -12,10 +12,7 @@ export const TripConfigurationSection = ({
   tripId,
 }: TripDetailsProps["configuration"] & { tripId: string }) => {
   const handleButton = () => {
-    Modal.open(() => <TripEditConfiguration tripId={tripId} />, {
-      size: "md",
-      closable: true,
-    });
+    Modal.open(() => <TripEditConfiguration tripId={tripId} />, {});
   };
 
   return (

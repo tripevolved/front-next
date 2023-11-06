@@ -30,7 +30,7 @@ export function MediaObject({
           </div>
         ) : null}
         {heading ? (
-          <Text as="h2" variant="heading">
+          <Text className="media-object__heading" as="h2" variant="heading">
             {heading}
           </Text>
         ) : null}

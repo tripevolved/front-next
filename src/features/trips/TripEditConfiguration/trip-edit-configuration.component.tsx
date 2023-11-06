@@ -4,7 +4,7 @@ import { StepFinish } from "../TripSteps/step-finish";
 import type { TripEditConfigurationProps } from "./trip-edit-configuration.types";
 
 import { useAnimation } from "@/utils/hooks/animation.hook";
-import { ModalContent, StepsLoader, Text } from "@/ui";
+import { ModalContent, StepsLoader } from "@/ui";
 import { TripsApiService } from "@/services/api";
 import { Notification } from "mars-ds";
 
@@ -82,8 +82,8 @@ export function TripEditConfiguration({ tripId }: TripEditConfigurationProps) {
   }
 
   return (
-    <ModalContent heading="Configurações da Viagem">
-      <div className="mt-md" style={animation.style}>
+    <ModalContent heading="Configurações da Viagem" className="mt-lg">
+      <div className="mt-lg" style={animation.style}>
         <Component
           onNext={handleNext}
           goToStepName={() => {}}
