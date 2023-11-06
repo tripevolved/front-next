@@ -11,6 +11,9 @@
     &::before {
       content: "";
     }
+    &::after {
+      min-width: 16px;
+    }
   }
 
   @media (min-width: $breakpoint-md) {

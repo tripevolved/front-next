@@ -1,7 +1,7 @@
 import type { MatchedDestination } from "@/services/api/trip/matches";
 
 import { Text } from "@/ui";
-import { AutoScroll, Grid } from "mars-ds";
+import { Grid } from "mars-ds";
 import { MatchedDestinationCard } from "./matched-destination-card.component";
 
 export interface MatchedDestinationsProposalProps {
