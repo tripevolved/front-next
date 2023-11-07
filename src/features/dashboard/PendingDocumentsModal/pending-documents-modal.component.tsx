@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { TravelerApiService } from "@/services/api/traveler";
 import useSwr from "swr";
 
-export function PendingDocumentsModal({ tripId }: PendingDocumentsModalProps) {
+export function PendingDocumentsModal({ tripId, router, title }: PendingDocumentsModalProps) {
   const uniqueKeyName = `travel-pending-${tripId}-type-traveler`;
   const fetcher = async () => TravelerApiService.getTripTravelers(tripId);
   const { isLoading, data, error } = useSwr<TripTravelers>(uniqueKeyName, fetcher);
@@ -26,12 +26,17 @@ export function PendingDocumentsModal({ tripId }: PendingDocumentsModalProps) {
   const handleSubmit = async () => {
     const payload = { ...(data as TripTravelers), travelers: Object.values(travelers) };
     await pendingDocuments.onSubmit(payload);
+
+    if (router) {
+      const tripId = String(router.query.id);
+      const pathname = `/app/viagens/${tripId}/pendencias`;
+      router.replace(pathname);
+    }
   };
 
   useEffect(() => {
     setTravelers(data?.travelers ?? makeArray(data?.travelerCount!));
   }, []);
-
 
   if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
@@ -46,6 +51,7 @@ export function PendingDocumentsModal({ tripId }: PendingDocumentsModalProps) {
       onSubmit={handleSubmit}
       submitButtonLabel="Enviar"
       submitting={pendingDocuments.isSubmitting}
+      title={title}
     >
       {dataTravelers.map((values, index) => (
         <TravelerPendingForm
@@ -84,7 +90,7 @@ const TravelerPendingForm = ({ title, index, onChangeValue, values }: TravelerPe
       <Text size="lg" className="mt-lg">
         {fullTitle}
       </Text>
-      <input type="hidden" value={traveler.id ?? undefined} id={`${index}.id`}/>
+      <input type="hidden" value={traveler.id ?? undefined} id={`${index}.id`} />
       <TextField
         required
         label="Digite o nome completo do viajante"
@@ -97,7 +103,7 @@ const TravelerPendingForm = ({ title, index, onChangeValue, values }: TravelerPe
         label="Digite o número de RG do viajante"
         id={`${index}.rg`}
         onChange={handleValue("rg")}
-        maxLength={10}
+        maxLength={9}
         value={traveler.rg}
       />
       <TextField

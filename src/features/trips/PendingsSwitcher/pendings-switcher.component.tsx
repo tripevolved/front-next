@@ -8,6 +8,6 @@ export function PendingSwitcher() {
   const pendingType = String(router.query.pendingType);
 
   const isTravelType = pendingType === "viajantes";
-  if (!isTravelType) return <EmptyState text="Pendência não encontrada"/>
-  return <PendingDocumentsModal tripId={idParam} />;
+  if (!isTravelType) return <EmptyState text="Pendência não encontrada" />;
+  return <PendingDocumentsModal tripId={idParam} router={router} />;
 }
