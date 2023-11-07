@@ -7,6 +7,7 @@ export * from "./assets/IconCustom";
 export * from "./assets/Logo";
 export * from "./assets/LogoMainInverse";
 export * from "./basic/Accordion";
+export * from "./basic/AutoScrollCards";
 export * from "./basic/AutoScrollNav";
 export * from "./basic/Box";
 export * from "./basic/Carousel";

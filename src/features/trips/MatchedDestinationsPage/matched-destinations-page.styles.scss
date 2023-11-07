@@ -1,20 +1,2 @@
 .matched-destinations-cards {
-  gap: 16px;
-  @media (max-width: $breakpoint-md) {
-    display: flex;
-    overflow-x: auto;
-    margin: 0 -16px;
-    > * {
-      min-width: 272px;
-    }
-    &::after,
-    &::before {
-      content: "";
-    }
-  }
-
-  @media (min-width: $breakpoint-md) {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  }
 }

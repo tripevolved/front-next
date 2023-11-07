@@ -7,14 +7,14 @@ export function NoCurrentTrip() {
   const { travelerProfile } = useAppStore((state) => state.travelerState);
 
   return (
-    <section className="no-current-trip">
-      <Text heading size="xs" className="color-primary">
+    <section>
+      <Text className="mt-lg" as="h2" heading size="xs">
         Destinos que você pode gostar:
       </Text>
-      <div className="no-current-trip__destinations py-lg">
+      <div className="py-lg">
         <DestinationsByProfileName profileName={travelerProfile || "relax"} />
       </div>
-      <Button href="/app/viagens/criar">Quero uma viagem personalizada</Button>
+      <Button variant="tertiary" href="/app/viagens/criar">Quero uma viagem personalizada</Button>
     </section>
   );
 }

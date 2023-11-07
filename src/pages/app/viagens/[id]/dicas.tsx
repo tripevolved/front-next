@@ -1,7 +1,6 @@
 import { PageApp } from "@/features";
 import { EmptyState } from "@/ui";
 import { useIdParam } from "@/utils/hooks/param.hook";
-import { useRouter } from "next/router";
 
 const title = "Dicas";
 

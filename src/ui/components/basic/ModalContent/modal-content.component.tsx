@@ -15,10 +15,11 @@ export function ModalContent({
   ...props
 }: ModalContentProps) {
   const cn = cx("modal-content", className, css(sx));
+  const hasMediaObject = Boolean(image || heading || text);
   return (
     <div className={cn} {...props}>
       <Container className="modal-content__container" container={container}>
-        <MediaObject image={image} heading={heading} text={text} />
+        {hasMediaObject && <MediaObject image={image} heading={heading} text={text} />}
         {children}
       </Container>
     </div>

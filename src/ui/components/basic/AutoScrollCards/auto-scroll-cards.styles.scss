@@ -1,0 +1,31 @@
+.auto-scroll-cards {
+  max-width: 100vw;
+
+  &__content {
+    gap: 16px;
+  }
+
+  @media (max-width: $breakpoint-md) {
+    overflow: auto;
+    padding: 0 16px;
+    margin: 0 -16px;
+
+    &__content {
+      display: flex;
+      > * {
+        min-width: 272px;
+      }
+      &::after {
+        content: "";
+        min-width: 1px;
+      }
+    }
+  }
+
+  @media (min-width: calc($breakpoint-md + 1px)) {
+    &__content {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}

@@ -1,3 +1,9 @@
+.modal {
+  &__close-icon button {
+    position: relative;
+    z-index: 1;
+  }
+}
 .modal-content {
   flex-grow: 1;
   @media (max-width: $breakpoint-sm) {

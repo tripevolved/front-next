@@ -1,7 +1,10 @@
 import type { Photo } from "@/core/types";
-import { Carousel, Picture, Text } from "@/ui";
-import { parsePhoto } from "@/utils/helpers/photo.helpers";
+
 import { Container, ToggleButton } from "mars-ds";
+import { Carousel, Picture, Text } from "@/ui";
+
+import { DEFAULT_CARD_IMAGE_URL } from "@/core/constants";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 export interface PageAppHeroProps {
   photos?: Photo[];
@@ -9,11 +12,8 @@ export interface PageAppHeroProps {
   backUrl?: string;
 }
 
-export const PageAppHero = ({ photos, title, backUrl }: PageAppHeroProps) => {
-  if (!photos || photos.length === 0) return null;
-
+export const PageAppHero = ({ photos, title = "Voltar", backUrl }: PageAppHeroProps) => {
   const Content = () => {
-    if (!title) return null;
     return (
       <div className="page-app-hero__content">
         <Container container="lg" className="page-app-hero__content__container">
@@ -34,6 +34,17 @@ export const PageAppHero = ({ photos, title, backUrl }: PageAppHeroProps) => {
     );
   };
 
+  if (!Array.isArray(photos) || !photos.length) {
+    return (
+      <div className="page-app-hero">
+        <div className="page-app-hero__container">
+          <Picture className="page-app-hero__photo" src={DEFAULT_CARD_IMAGE_URL} />
+          <Content />
+        </div>
+      </div>
+    );
+  }
+
   if (photos.length === 1) {
     const image = parsePhoto(photos[0]);
     return (
@@ -50,7 +61,7 @@ export const PageAppHero = ({ photos, title, backUrl }: PageAppHeroProps) => {
       <Carousel className="page-app-hero__container">
         {photos.map((photo, i) => (
           <Picture className="page-app-hero__photo" key={i}>
-            {parsePhoto(photo) ?? undefined}
+            {parsePhoto(photo) || DEFAULT_CARD_IMAGE_URL}
           </Picture>
         ))}
       </Carousel>

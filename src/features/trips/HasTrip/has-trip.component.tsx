@@ -7,7 +7,6 @@ import { Notification } from "mars-ds";
 
 import { TripsApiService } from "@/services/api";
 
-import { makeCn } from "@/utils/helpers/css.helpers";
 import { MatchedDestinationsProposal } from "@/features";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
@@ -28,7 +27,6 @@ const STEPS = [
 ];
 
 export function HasTrip({ trip, tripId, className, sx }: HasTripProps) {
-  const cn = makeCn("has-trip", className)(sx);
   const [submitting, setSubmitting] = useState(false);
   const chosenDestination = useRef<string>();
   const router = useRouter();
