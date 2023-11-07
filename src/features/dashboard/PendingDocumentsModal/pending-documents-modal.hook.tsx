@@ -2,11 +2,8 @@ import { useState } from "react";
 import { TripTravelers } from "@/core/types";
 import { TravelerApiService } from "@/services/api/traveler";
 import { Notification } from "mars-ds";
-import { useRouter } from "next/router";
 
 export const usePostTripPendingDocuments = () => {
-  const router = useRouter();
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -19,9 +16,6 @@ export const usePostTripPendingDocuments = () => {
       .then(() => {
         setSuccess(true);
         Notification.success("Documentos enviados!");
-        const tripId = String(router.query.id);
-        const pathname = `/app/viagens/${tripId}/pendencias`;
-        router.replace(pathname);
       })
       .catch(() => {
         setError(true);
