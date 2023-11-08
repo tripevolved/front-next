@@ -8,7 +8,7 @@ export const TripScriptBuilder = () => {
     <PageTrip
       seo={{ title: "Construa seu roteiro" }}
       backToText="Voltar à sua viagem"
-      backToUrl={`/app/viagens/${idParam}/`}
+      backToUrl={`/app/viagens/${idParam}/detalhes/`}
     >
       <TemplateStepsBuilder steps={SCRIPT_BUILDER_STEPS} />
     </PageTrip>
