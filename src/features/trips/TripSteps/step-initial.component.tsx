@@ -43,7 +43,7 @@ export function InitialStep({ onNext, goToStepName }: StepComponentProps) {
           labelVariant={LabelVariants.Default}
           labelTheme={LabelThemes.Ghost}
           // TODO: use href
-          onClick={() => router.replace("/app/viagens/criar")}
+          onClick={() => router.replace("/app/viagens/nova")}
         />
       </Grid>
     </Grid>

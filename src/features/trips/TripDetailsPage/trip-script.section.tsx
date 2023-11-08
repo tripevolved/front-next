@@ -1,4 +1,4 @@
-import { Text, CardHighlight } from "@/ui";
+import { CardHighlight } from "@/ui";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { Button, Grid, List } from "mars-ds";
 import { TripDetailInfo } from "./trip-detail-info.component";
@@ -54,9 +54,7 @@ const TripScriptBuildCta = () => {
       heading="Vamos construir seu roteiro junto com você"
       text="Recomendando as melhores experiências para o seu perfil e objetivo de viagem!"
       cta={{
-        href: `/app/viagens/${idParam}/roteiro/construcao/?voltarPara=${encodeURI(
-          `/app/viagens/${idParam}/checkout`
-        )}`,
+        href: `/app/viagens/${idParam}/roteiro/configurar/`,
         label: "Construir meu roteiro",
         iconName: "arrow-right",
         isRtl: true,

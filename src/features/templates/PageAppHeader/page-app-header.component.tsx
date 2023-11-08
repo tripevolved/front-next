@@ -80,7 +80,7 @@ const MENU = [
       },
       {
         label: "Comprar viagem",
-        href: "/app/viagens/descobrir",
+        href: "/app/viagens/nova",
       },
       {
         label: "Contratar suporte",

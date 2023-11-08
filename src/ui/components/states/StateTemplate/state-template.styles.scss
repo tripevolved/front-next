@@ -1,8 +1,9 @@
 .state-template {
   text-align: center;
   width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
   > * {
     margin: 16px;
-    color: $color-text-disabled;
   }
 }

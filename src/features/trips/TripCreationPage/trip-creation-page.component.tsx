@@ -72,7 +72,7 @@ const StepBuilder = ({ steps }: TemplateStepsBuilderProps) => {
   };
 
   const handleFinish = () => {
-    router.replace(`/app/viagens/criar/${tripId.current}`);
+    router.replace(`/app/viagens/${tripId.current}/detalhes`);
   };
 
   const { component: Component } = steps[currentIndex];

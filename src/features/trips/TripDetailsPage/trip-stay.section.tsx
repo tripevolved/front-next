@@ -95,7 +95,7 @@ const StayEditionButton = ({ tripId }: { tripId: string }) => (
     variant="naked"
     size="sm"
     iconName="edit-2"
-    href={`/app/viagens/criar/${tripId}/hospedagem/editar-hotel`}
+    href={`/app/viagens/${tripId}/hospedagem/editar-hotel`}
   >
     Editar
   </Button>
@@ -116,7 +116,7 @@ const TripStayEmptyState = ({ tripId = "" }) => (
     heading="Ainda não escolhemos a acomodação para sua viagem"
     text="Fale conosco e vamos deixar tudo como você deseja!"
     cta={{
-      href: `/app/viagens/criar/${tripId}/hospedagem/editar-hotel`,
+      href: `/app/viagens/${tripId}/hospedagem/editar-hotel`,
       label: "Escolher hospedagem",
       iconName: "arrow-right",
       isRtl: true,

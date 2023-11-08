@@ -1,7 +1,7 @@
 import useSwr from "swr";
 
 import { Loader, Button, Modal } from "mars-ds";
-import { Box, CardHighlight, EmptyState, Picture, Text } from "@/ui";
+import { Box, CardHighlight, EmptyState, LoaderState, Picture, Text } from "@/ui";
 
 import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
@@ -50,19 +50,7 @@ export const TripCheckoutStaySection = ({ tripId }: { tripId: string }) => {
             </Text>
           </Box>
           <Box className="trip-stay-section__content">
-            {error && (
-              <>
-                <EmptyState />
-                <Button variant="neutral" onClick={() => location.reload()}>
-                  Tentar novamente
-                </Button>
-              </>
-            )}
-            {isLoading && (
-              <div style={{textAlign: "center"}}>
-                <Loader color="var(--color-brand-1)" size="md" />
-              </div>
-            )}
+            {error ? <EmptyState retry /> : isLoading ? <LoaderState /> : null}
           </Box>
         </Box>
       </div>

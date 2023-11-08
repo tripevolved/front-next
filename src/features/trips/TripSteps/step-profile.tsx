@@ -5,28 +5,19 @@ import { ErrorState, Text } from "@/ui";
 import { Button } from "mars-ds";
 import { useEffect } from "react";
 
-export function StepProfile({ onNext, onPrevious }: StepComponentProps) {
+export function StepProfile({ onNext }: StepComponentProps) {
   const travelerProfile = useAppStore((state) => state.travelerState.travelerProfile);
   const { syncTravelerState } = useSynchronizeTravelerState();
 
   useEffect(() => {
-    if (!travelerProfile) {
-      syncTravelerState();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!travelerProfile) syncTravelerState();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!travelerProfile) {
     return (
       <div className="text-center">
-        <ErrorState />
-        <Button
-          // @ts-ignore
-          variant="tertiary"
-          onClick={onPrevious}
-        >
-          Tentar novamente
-        </Button>
+        <ErrorState retry />
       </div>
     );
   }

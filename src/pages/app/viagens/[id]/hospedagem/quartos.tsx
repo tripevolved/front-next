@@ -8,7 +8,7 @@ export default function TripPendingRoute() {
 
   return (
     <PageApp
-      headerOptions={{ title, backUrl: `/app/viagens/criar/${idParam}` }}
+      headerOptions={{ title, backUrl: `/app/viagens/${idParam}/detalhes/` }}
       seo={{ title: title }}
     >
       <TripStayRoomsList tripId={String(idParam)} />

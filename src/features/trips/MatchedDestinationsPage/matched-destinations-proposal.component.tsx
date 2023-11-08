@@ -1,42 +1,36 @@
 import type { MatchedDestination } from "@/services/api/trip/matches";
 
+import { Grid, Skeleton } from "mars-ds";
 import { AutoScrollCards, Text } from "@/ui";
-import { Grid } from "mars-ds";
 import { MatchedDestinationCard } from "./matched-destination-card.component";
 
 export interface MatchedDestinationsProposalProps {
-  title: string;
-  subtitle?: string;
-  otherChoicesTitle?: string;
-  tripId?: string;
   mainChoice?: MatchedDestination | null;
   otherChoices?: MatchedDestination[] | null;
-  handleCreateTrip: (destinationId: string) => void;
+  setDestinationById: (destinationId: string) => void;
 }
 
 export const MatchedDestinationsProposal = ({
-  title,
-  subtitle,
   mainChoice,
   otherChoices = [],
-  handleCreateTrip,
+  setDestinationById,
 }: MatchedDestinationsProposalProps) => {
   const hasChoices = Array.isArray(otherChoices) && otherChoices.length > 0;
   return (
     <Grid>
-      <div>
-        <Text heading className="mb-sm">
-          {title}
-        </Text>
-        {subtitle ? <Text>{subtitle}</Text> : null}
-      </div>
+      <Text heading>Escolha o seu destino</Text>
       {mainChoice ? (
-        <MatchedDestinationCard
-          {...mainChoice}
-          travelersNumber={mainChoice?.travelers ?? 2}
-          onChoice={() => handleCreateTrip(mainChoice.destinationId)}
-          seeMore
-        />
+        <>
+          <Text as="h2" heading size="xs">
+            Viagem ideal
+          </Text>
+          <MatchedDestinationCard
+            {...mainChoice}
+            travelersNumber={mainChoice?.travelers ?? 2}
+            onClick={() => setDestinationById(mainChoice.destinationId)}
+            seeMore
+          />
+        </>
       ) : null}
       {hasChoices ? (
         <>
@@ -49,7 +43,7 @@ export const MatchedDestinationsProposal = ({
                 key={key}
                 {...choice}
                 travelersNumber={choice.travelers ?? 2}
-                onChoice={() => handleCreateTrip(choice.destinationId)}
+                onClick={() => setDestinationById(choice.destinationId)}
               />
             ))}
           </AutoScrollCards>
@@ -58,3 +52,21 @@ export const MatchedDestinationsProposal = ({
     </Grid>
   );
 };
+
+const MatchedDestinationSkeleton = () => {
+  return (
+    <Grid>
+      <Skeleton active height={32} width="80%" />
+      <Skeleton active height={16} width={280} />
+      <Skeleton active height={270} />
+      <Skeleton active height={16} width={280} />
+      <AutoScrollCards>
+        {[1, 2, 3].map((key) => (
+          <Skeleton key={key} active height={270} />
+        ))}
+      </AutoScrollCards>
+    </Grid>
+  );
+};
+
+MatchedDestinationsProposal.Skeleton = MatchedDestinationSkeleton;

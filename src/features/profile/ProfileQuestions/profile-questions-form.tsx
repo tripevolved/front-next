@@ -67,10 +67,7 @@ export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) =>
   if (error)
     return (
       <div className="profile-questions-form flex-column gap-lg">
-        <EmptyState />
-        <Button variant="neutral" onClick={() => location.reload()}>
-          Tentar novamente
-        </Button>
+        <EmptyState retry />
       </div>
     );
 

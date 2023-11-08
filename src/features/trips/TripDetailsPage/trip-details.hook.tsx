@@ -2,10 +2,7 @@ import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-
-const REFRESH_INTERVAL = 3000; // 3 seconds
-const NOT_REFRESH = 0;
-const MAX_REFRESH_COUNT = 5;
+import { MAX_REFRESH_COUNT, NOT_REFRESH, REFRESH_INTERVAL } from "./trip-details-page.constants";
 
 export const useTripDetails = () => {
   const [isBuilding, setIsBuilding] = useState(false);
@@ -29,6 +26,7 @@ export const useTripDetails = () => {
   }, [data, isLoading]);
 
   const isEmpty = !isLoading && !isBuilding && (!data || error);
+  const loading = isLoading || (isBuilding && refreshCount < MAX_REFRESH_COUNT);
 
-  return { isLoading, data, error, isBuilding, isEmpty, refreshCount };
+  return { isLoading: loading, data, error, isBuilding, isEmpty, refreshCount };
 };

@@ -1,9 +1,10 @@
 import useSwr from "swr";
 import { EmptyState, ErrorState, GlobalLoader } from "@/ui";
-import { TripDashboard } from "@/features";
+import { MatchedDestinationsPage, TripDashboard } from "@/features";
 import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
-import { HasTrip } from "../HasTrip";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export function TripDetailsPanel() {
   const idParam = useIdParam();
@@ -15,9 +16,24 @@ export function TripDetailsPanel() {
   if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
   if (!data) return <EmptyState />;
-  if (data.destinationProposal) return <HasTrip trip={data.destinationProposal} tripId={data.id} />;
   if (data.tripDashboard) {
     return <TripDashboard tripDashboard={data.tripDashboard!} tripId={data.id} />;
   }
+  if (data.destinationProposal) {
+    const hasOnlyOneChoice = data.destinationProposal.otherChoices?.length === 0;
+    if (hasOnlyOneChoice) return <TripRedirectToDetails tripId={data.id} />;
+    return <MatchedDestinationsPage />;
+  }
   return <EmptyState text="Não foi possível abrir essa viagem" />;
 }
+
+const TripRedirectToDetails = ({ tripId = "" }) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    router.replace(`/app/viagens/${tripId}/detalhes/`);
+  }, [router, tripId]);
+
+  return <GlobalLoader />;
+};

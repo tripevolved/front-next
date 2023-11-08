@@ -56,7 +56,7 @@ function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
         <CardTripNew
           title="Descobrir mais uma viagem"
           iconName="Plane"
-          href="/app/viagens/descobrir"
+          href="/app/viagens/nova"
         />
         {otherTrips.map((trip) => (
           <TripItem key={trip.id} {...trip} />
