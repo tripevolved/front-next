@@ -7,9 +7,9 @@ export function GlobalLoader({ inline = false }) {
 
   useEffect(() => {
     if (inline) return;
-    document.body.style.overflow = "hidden";
+    document.body.dataset.overlay = "true";
     return () => {
-      document.body.style.overflow = "";
+      document.body.dataset.overlay = "false";
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -20,7 +20,7 @@ export const TripScriptDayComponent = ({
   const handleAddAttractions = () => {
     setTripScriptDay(dayDetail);
 
-    const encodedRedirect = encodeURIComponent(`/app/viagens/${tripId}/roteiro/construcao/?stepName=build&day=${day}`);
+    const encodedRedirect = encodeURIComponent(`/app/viagens/${tripId}/roteiro/configurar/?stepName=build&day=${day}`);
     router.push(`/app/viagens/${tripId}/roteiro/atracoes?redirectTo=${encodedRedirect}`);
   };
 

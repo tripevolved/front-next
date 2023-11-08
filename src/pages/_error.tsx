@@ -1,7 +1,7 @@
+import type { GetStaticProps } from "next";
+import type { PageProps } from "@/core/types";
 import { NextSeo } from "next-seo";
 import { pageConfig } from "@/core/configs/page.config";
-import { PageProps } from "@/core/types";
-import type { GetStaticProps } from "next";
 import { AppRibo } from "@/core/app-ribo";
 import { CMSService } from "@/services/cms/cms-service";
 

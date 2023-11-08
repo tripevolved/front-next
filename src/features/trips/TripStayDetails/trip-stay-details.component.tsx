@@ -30,7 +30,7 @@ export function TripStayDetails({
   const handleRoomsButton = () => {
     updateAccommodation({ ...accommodation, ...stayData, uniqueTransactionId });
     if (onCloseModal) onCloseModal();
-    router.push(`/app/viagens/criar/${tripId}/hospedagem/quartos`);
+    router.push(`/app/viagens/${tripId}/hospedagem/quartos`);
   };
 
   if (isModalView) {
@@ -119,7 +119,7 @@ export function TripStayDetails({
             <Button
               className="trip-stay-details__footer-buttons__buttons"
               variant="naked"
-              href={`/app/viagens/criar/${tripId}/hospedagem/editar-hotel/`}
+              href={`/app/viagens/${tripId}/hospedagem/editar-hotel/`}
             >
               Editar
             </Button>

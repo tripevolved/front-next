@@ -34,6 +34,7 @@
 
   &__header {
     padding: $spacing-lg;
+    padding-top: $spacing-sm;
     color: white;
     position: absolute;
     top: 0;
@@ -50,6 +51,7 @@
   &__content {
     padding: $spacing-xl;
     padding-top: 64px;
+    padding-bottom: $spacing-lg;
     color: white;
     position: relative;
     width: 100%;

@@ -15,7 +15,6 @@ export function TripScriptInitialBuildStep({ onNext }: StepComponentProps) {
 
   const router = useRouter();
   const tripId = String(router.query.id);
-  const backToUrl = typeof router.query.voltarPara === "string" ? router.query.voltarPara : undefined;
 
   return (
     <Grid className="trip-script-builder-step">
@@ -25,7 +24,7 @@ export function TripScriptInitialBuildStep({ onNext }: StepComponentProps) {
       </Text>
       <Text className="trip-script-builder-step__item">{subtitle}</Text>
       <Button className="trip-script-builder-step__item" onClick={() => onNext()}>Começar a definir as atrações</Button>
-      <Button className="trip-script-builder-step__item" href={backToUrl ? backToUrl : `/app/viagens/${tripId}`} variant="naked" size="sm">Deixar para mais tarde</Button>
+      <Button className="trip-script-builder-step__item" href={`/app/viagens/${tripId}`} variant="naked" size="sm">Deixar para mais tarde</Button>
     </Grid>
   );
 }

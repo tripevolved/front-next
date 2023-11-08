@@ -1,7 +1,12 @@
-import type { MatchedDestination } from "@/services/api/trip/matches";
+import type { Photo } from "@/core/types";
 
-export interface MatchedDestinationCardProps extends MatchedDestination {
-  travelersNumber?: number;
-  onChoice: (destinationId: string) => void;
+export interface MatchedDestinationCardProps {
+  destinationId: string;
+  matchScore: number;
+  name: string;
+  images: Photo[];
+  href?: string;
+  onClick?: VoidFunction;
   seeMore?: boolean;
+  travelersNumber?: number;
 }

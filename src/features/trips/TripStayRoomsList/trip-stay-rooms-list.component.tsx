@@ -84,7 +84,7 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
         "Tivemos um problema ao enviar suas informações! Aguarde e Tente novamente"
       );
     Notification.success("Quartos reservados com Sucesso!");
-    router.push(`/app/viagens/criar/${tripId}`);
+    router.push(`/app/viagens/${tripId}/detalhes`);
   };
 
   if (isLoadingSentData || canSendPayload) {
