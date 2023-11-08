@@ -5,4 +5,5 @@ export interface Traveler {
   rg?: string;
   cpf?: string;
   email?: string;
+  gender?: string;
 }

@@ -189,10 +189,11 @@ const TripPricingBoxContentCta = ({
   const buyHref = `/app/viagens/${tripId}/comprar`;
 
   const handleModal = () => {
+    console.log("tá chamando aqui");
     Modal.open(() => <PendingDocumentsModal tripId={tripId} title="Dados dos Viajantes" />, {
       closable: true,
       size: "md",
-      onClose: () => router.push(buyHref),
+      //onClose: () => router.push(buyHref),
     });
   };
 
