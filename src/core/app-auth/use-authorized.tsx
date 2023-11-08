@@ -9,7 +9,7 @@ export const useAuthorized = () => {
   const redirectToSignIn = () => {
     const redirectTo = encodeURIComponent(asPath);
     const pathname = `/app/entrar/?redirectTo=${redirectTo}`;
-    redirect(pathname);
+    UserService.logout(() => redirect(pathname));
   };
 
   const isAuth = UserService.isAuth();

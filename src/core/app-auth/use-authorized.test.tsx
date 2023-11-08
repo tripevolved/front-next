@@ -50,9 +50,15 @@ describe("useAuthorized", () => {
 
   describe("redirectToSignIn", () => {
     it(`should redirect url with "redirectTo" query param`, () => {
+      const logout = jest.spyOn(UserService, "logout");
       const { redirectToSignIn } = makeSut({});
+
       expect(useRouterMock.replace).not.toBeCalled();
+
       redirectToSignIn();
+
+      expect(logout).toBeCalled();
+
       expect(useRouterMock.replace).toBeCalledTimes(1);
       const route = `/app/entrar/?redirectTo=${REDIRECT_TO_PATH}`;
       expect(useRouterMock.replace).toBeCalledWith(route);

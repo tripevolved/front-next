@@ -41,8 +41,6 @@ export function TripStayDetails({
     };
   }
 
-  console.log(stayData.details.images);
-
   return (
     <>
       {/** @ts-ignore */}
