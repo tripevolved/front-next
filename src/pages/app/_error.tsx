@@ -1,7 +1,7 @@
 import { PageApp } from "@/features";
 import { EmptyState } from "@/ui";
 
-export const AppErrorRoute = () => {
+export default function AppErrorRoute() {
   return (
     <PageApp
       headerOptions={{ backUrl: "/app/painel", title: "Voltar" }}
@@ -10,4 +10,4 @@ export const AppErrorRoute = () => {
       <EmptyState />
     </PageApp>
   );
-};
+}
