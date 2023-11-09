@@ -9,12 +9,15 @@ import {
   Icon,
   Skeleton,
   SkeletonVariants,
+  Modal,
 } from "mars-ds";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 import { makeCn } from "@/utils/helpers/css.helpers";
+import { useRouter } from "next/router";
+import { PendingDocumentsModal } from "@/features";
 
 interface TripPricingBoxProps {
   destinationName: string;
@@ -180,10 +183,32 @@ const TripPricingBoxContentCta = ({
   tripId,
   total,
 }: Pick<TripPricingBoxContentProps, "tripId" | "total" | "isPaid" | "isBuilt">) => {
+  const router = useRouter();
   if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
 
+  const handleModal = () => {
+    const buyHref = `/app/viagens/${tripId}/comprar`;
+
+    const modal = Modal.open(
+      () => (
+        <PendingDocumentsModal
+          tripId={tripId}
+          title="Dados dos Viajantes"
+          onFinish={() => {
+            modal.close();
+            router.push(buyHref);
+          }}
+        />
+      ),
+      {
+        closable: true,
+        size: "md",
+      }
+    );
+  };
+
   const BuyButton = ({ isPrimary = false }) => (
-    <Button variant={isPrimary ? "tertiary" : "neutral"} href={`/app/viagens/${tripId}/comprar`}>
+    <Button variant={isPrimary ? "tertiary" : "neutral"} onClick={() => handleModal()}>
       Comprar por {formatToCurrencyBR(total)}
     </Button>
   );
