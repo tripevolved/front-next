@@ -7,7 +7,10 @@ const title = "Comprar viagem";
 export default function TripPurchasePageRoute() {
   const idParam = useIdParam();
   return (
-    <PageApp headerOptions={{ title, backUrl: `/app/viagens/criar/${idParam}` }} seo={{ title }}>
+    <PageApp
+      headerOptions={{ title, backUrl: `/app/viagens/${idParam}/detalhes/` }}
+      seo={{ title }}
+    >
       <TripPurchasePage />
     </PageApp>
   );

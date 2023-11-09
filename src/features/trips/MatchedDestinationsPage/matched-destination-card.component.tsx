@@ -1,25 +1,23 @@
 import type { MatchedDestinationCardProps } from "./matched-destinations-page.types";
-import { Box, CardTrip, Text } from "@/ui";
 
 import { formatToPercentage } from "@/utils/helpers/number.helpers";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { Button, Grid } from "mars-ds";
+import { CardTrip, Text } from "@/ui";
 import Image from "next/image";
 
 export function MatchedDestinationCard({
-  destinationId,
   matchScore,
+  href,
   name,
   images,
   travelersNumber = 2,
-  onChoice,
+  onClick,
   seeMore = false,
 }: MatchedDestinationCardProps) {
   const [photo] = images && images.length ? images : [];
   const cover = photo ? parsePhoto(photo) : undefined;
   const subtitle = `Para ${travelersNumber} pessoas`;
-
-  const handleClick = () => onChoice(destinationId);
 
   const Header = () => {
     if (!matchScore) return null;
@@ -39,15 +37,16 @@ export function MatchedDestinationCard({
       title={name}
       subtitle={subtitle}
       header={<Header />}
-      onClick={handleClick}
+      href={href}
+      onClick={onClick}
       className="matched-destination-card"
     >
       {seeMore ? (
-        <Box className="theme-dark">
-          <Button variant="neutral" size="sm" isRtl iconName="arrow-right" onClick={handleClick}>
+        <div className="theme-dark">
+          <Button as="span" variant="neutral" size="sm" isRtl iconName="arrow-right">
             Ver detalhes
           </Button>
-        </Box>
+        </div>
       ) : null}
     </CardTrip>
   );

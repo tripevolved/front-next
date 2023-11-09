@@ -13,6 +13,7 @@ const makeSut = ({ isAuthorized = true }) => {
   jest.spyOn(AuthorizedHook, "useAuthorized").mockReturnValue({
     redirectToSignIn: redirectToSignInMock,
     isAuthorized,
+    isAuth: true,
   });
   render(<AppAuthProvider {...PROPS} />);
 
@@ -28,10 +29,10 @@ describe("<AppAuthProvider>", () => {
   it("should keep use in route", () => {
     const { redirectToSignInMock } = makeSut({});
     expect(redirectToSignInMock).not.toBeCalled();
-  })
+  });
 
   it("should redirect to sign-up route", () => {
     const { redirectToSignInMock } = makeSut({ isAuthorized: false });
     expect(redirectToSignInMock).toBeCalledTimes(1);
-  })
+  });
 });

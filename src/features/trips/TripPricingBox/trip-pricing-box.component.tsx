@@ -16,8 +16,8 @@ import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { PendingDocumentsModal } from "@/features/dashboard/PendingDocumentsModal";
 import { useRouter } from "next/router";
+import { PendingDocumentsModal } from "@/features";
 
 interface TripPricingBoxProps {
   destinationName: string;
@@ -183,12 +183,13 @@ const TripPricingBoxContentCta = ({
   tripId,
   total,
 }: Pick<TripPricingBoxContentProps, "tripId" | "total" | "isPaid" | "isBuilt">) => {
-  const router = useRouter();
   if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
 
-  const buyHref = `/app/viagens/${tripId}/comprar`;
+  const router = useRouter();
 
   const handleModal = () => {
+    const buyHref = `/app/viagens/${tripId}/comprar`;
+
     const modal = Modal.open(
       () => (
         <PendingDocumentsModal
@@ -207,27 +208,20 @@ const TripPricingBoxContentCta = ({
     );
   };
 
-  if (isBuilt) {
-    return (
-      <Button variant={"tertiary" as any} onClick={() => handleModal()}>
-        Comprar por {formatToCurrencyBR(total)}
-      </Button>
-    );
-  }
+  const BuyButton = ({ isPrimary = false }) => (
+    <Button variant={isPrimary ? "tertiary" : "neutral"} onClick={() => handleModal()}>
+      Comprar por {formatToCurrencyBR(total)}
+    </Button>
+  );
+
+  if (isBuilt) return <BuyButton isPrimary />;
 
   return (
     <Grid>
-      <Button
-        variant={"tertiary" as any}
-        href={`/app/viagens/${tripId}/roteiro/construcao/?voltarPara=${encodeURI(
-          `/app/viagens/${tripId}/checkout`
-        )}`}
-      >
+      <Button variant={"tertiary" as any} href={`/app/viagens/${tripId}/roteiro/configurar/`}>
         Construir meu roteiro
       </Button>
-      <Button variant="neutral" onClick={() => handleModal()}>
-        Comprar por {formatToCurrencyBR(total)}
-      </Button>
+      <BuyButton />
       <Text size="sm" className="px-md">
         <strong>Não se preocupe:</strong> você poderá construir o roteiro em um momento posterior
       </Text>

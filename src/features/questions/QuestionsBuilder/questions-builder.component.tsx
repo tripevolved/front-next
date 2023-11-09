@@ -7,8 +7,8 @@ import useSwr from "swr";
 import { jsonToString, toJson } from "@/utils/helpers/json.helpers";
 import { useLocalStorage } from "@/utils/hooks/local-storage.hooks";
 
-import { Button, Caption, Grid, Skeleton, SkeletonVariants } from "mars-ds";
-import { EmptyState, StepsProgressBar } from "@/ui";
+import { Caption, Grid, Skeleton, SkeletonVariants } from "mars-ds";
+import { ErrorState, StepsProgressBar } from "@/ui";
 
 import { QuestionNavigationController } from "../QuestionNavigationController";
 import { QuestionOptions } from "../QuestionOptions";
@@ -75,7 +75,7 @@ export function QuestionsBuilder({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (error) return <ErrorState />;
+  if (error) return <ErrorState retry />;
 
   if (isLoading) return <LoadingState />;
 
@@ -114,14 +114,6 @@ export function QuestionsBuilder({
     </Grid>
   );
 }
-
-const ErrorState = () => (
-  <EmptyState>
-    <Button variant="neutral" iconName="rotate-ccw" onClick={() => location.reload()}>
-      Tentar novamente
-    </Button>
-  </EmptyState>
-);
 
 const LoadingState = () => (
   <Grid gap={16}>

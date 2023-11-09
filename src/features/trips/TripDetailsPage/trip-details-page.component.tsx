@@ -4,7 +4,7 @@ import { TripScriptSection } from "./trip-script.section";
 import { TripFoodTipsSection } from "./trip-food-tips.section";
 import { TripSupportSection } from "./trip-support.section";
 import { TripConfigurationSection } from "./trip-configuration.section";
-import { EmptyState, ErrorState, LoaderState, Text, WhatsappButton } from "@/ui";
+import { ErrorState, Text, WhatsappButton } from "@/ui";
 
 import { useTripDetails } from "./trip-details.hook";
 import {
@@ -18,6 +18,7 @@ import {
 import { Card, CardElevations, Divider, Grid } from "mars-ds";
 import type { Photo, PublicDestinationTip } from "@/core/types";
 import { DEFAULT_CARD_IMAGE_URL } from "@/core/constants";
+import { TripDetailsPageLoading } from "./trip-details-page.loading";
 
 interface TemplateProps {
   children: React.ReactNode;
@@ -25,7 +26,6 @@ interface TemplateProps {
   hideHeader?: boolean;
 }
 
-const MAX_REFRESH_COUNT = 5;
 const DEFAULT_PHOTOS: Photo[] = [
   {
     title: "Imagem",
@@ -34,7 +34,7 @@ const DEFAULT_PHOTOS: Photo[] = [
 ];
 
 export function TripDetailsPage() {
-  const { data, isEmpty, isLoading, refreshCount } = useTripDetails();
+  const { data, isLoading, error } = useTripDetails();
 
   const Template = ({ children, title = "Sua viagem", hideHeader }: TemplateProps) => {
     return (
@@ -48,22 +48,15 @@ export function TripDetailsPage() {
     );
   };
 
-  const isBuilding = data?.isBuilding && refreshCount < MAX_REFRESH_COUNT;
-  if (isLoading || isBuilding) {
+  if (isLoading) {
     return (
       <Template>
-        <LoaderState text={isBuilding ? "Estamos construindo sua viagem..." : undefined} />
+        <TripDetailsPageLoading />
       </Template>
     );
   }
-  if (isEmpty)
-    return (
-      <Template>
-        <EmptyState text="Sua viagem não foi encontrada :(" />
-      </Template>
-    );
 
-  if (!data || data.isBuilding) {
+  if (error || !data) {
     return (
       <Template>
         <ErrorState

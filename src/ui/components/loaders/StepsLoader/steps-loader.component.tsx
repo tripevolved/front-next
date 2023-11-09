@@ -4,11 +4,8 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 
 import { Box, BoxProps, Text } from "@/ui";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import { delay } from "@/utils/helpers/delay.helpers";
 import { Icon } from "mars-ds";
 
-const PERCENT_INC = 10;
-const PERCENT_DISPATCH = 70;
 const EIGHT_SECONDS_IN_MS = 8000;
 
 export function StepsLoader({
@@ -22,48 +19,35 @@ export function StepsLoader({
   ...props
 }: StepsLoaderProps) {
   const cn = makeCn("steps-loader", className)(sx);
-  const [percentage, setPercentage] = useState(0);
-
-  const dispatchedFinish = useRef(false);
-
-  const currentIndex = useMemo(() => {
-    const maxIndex = steps.length - 1 || 1;
-    const result = (percentage / 100) * maxIndex;
-    return Math.round(result);
-  }, [percentage, steps.length]);
-
-  const iconName = useMemo(() => steps[currentIndex]?.iconName || "map", [currentIndex, steps]);
-  const text = useMemo(() => steps[currentIndex]?.text, [currentIndex, steps]);
-
-  const timeout = useMemo(
-    () => (milliseconds * PERCENT_INC * (100 / PERCENT_DISPATCH)) / 100,
-    [milliseconds]
-  );
-
-  const progress = async (newPercentage = 0) => {
-    if (newPercentage > 100) return;
-    if (newPercentage > PERCENT_DISPATCH && !dispatchedFinish.current) {
-      dispatchedFinish.current = true;
-      onFinish?.();
-    }
-    setPercentage(newPercentage);
-    await delay(timeout);
-    progress(newPercentage + PERCENT_INC);
-  };
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const timerId = useRef<NodeJS.Timer>();
 
   useEffect(() => {
-    if (!timeout) return;
-    setPercentage(0);
-    progress();
+    if (!milliseconds) return;
+    const interval = milliseconds / steps.length;
+
+    const incrementIndex = () =>
+      setCurrentIndex((index) => {
+        const newIndex = index + 1;
+        const maxIndex = steps.length - 1;
+        if (newIndex <= maxIndex) return newIndex;
+        onFinish?.();
+        clearInterval(timerId.current);
+        return maxIndex;
+      });
+
+    timerId.current = setInterval(incrementIndex, interval);
+
+    return () => clearInterval(timerId.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeout]);
+  }, [milliseconds]);
 
   return (
     <div className={cn} {...props}>
-      <CircleProgress percentage={percentage}>
-        <Icon color="white" name={iconName} />
+      <CircleProgress percentage={(currentIndex * 100) / steps.length}>
+        <Icon color="white" name={steps[currentIndex]?.iconName || "map"} />
       </CircleProgress>
-      <Text className="opacity-animation">{text}</Text>
+      <Text className="opacity-animation">{steps[currentIndex]?.text}</Text>
     </div>
   );
 }
@@ -79,10 +63,9 @@ const CircleProgress = ({
   className,
   ...props
 }: CircleProgressProps) => {
-  const offset = useMemo(() => percentage * -1 - 100, [percentage]);
-  const cn = makeCn("circle-progress", className)();
+  const offset = useMemo(() => clamp(percentage, 5, 100) * -1 - 100, [percentage]);
   return (
-    <Box className={cn} {...props}>
+    <Box className="circle-progress" {...props}>
       <svg className="circle-progress__svg" viewBox="0 0 100 100" width="100" height="100">
         <circle
           className="circle-progress__svg__path"
@@ -108,3 +91,5 @@ const CircleProgress = ({
     </Box>
   );
 };
+
+const clamp = (num: number, min = 0, max = 100) => Math.min(Math.max(num, min), max);

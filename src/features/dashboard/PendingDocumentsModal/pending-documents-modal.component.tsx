@@ -31,23 +31,28 @@ export function PendingDocumentsModal({
   const handleSubmit = async () => {
     setLoadingPayload(true);
 
-    const payload = { ...(data as TripTravelers), travelers: travelers };
+    if (travelers.length == data?.travelerCount) {
+      const payload = { ...(data as TripTravelers), travelers: travelers };
 
-    await TravelerApiService.setTripTravelers(payload)
-      .then(() => {
-        Notification.success("Documentos enviados!");
-        if (onFinish) onFinish();
+      await TravelerApiService.setTripTravelers(payload)
+        .then(() => {
+          Notification.success("Documentos enviados!");
+          if (onFinish) onFinish();
 
-        if (router) {
-          const tripId = String(router.query.id);
-          const pathname = `/app/viagens/${tripId}/pendencias`;
-          router.replace(pathname);
-        }
-      })
-      .catch(() => {
-        Notification.error("Um erro inesperado ocorreu. Tente novamente!");
-      })
-      .finally(() => setLoadingPayload(false));
+          if (router) {
+            const tripId = String(router.query.id);
+            const pathname = `/app/viagens/${tripId}/pendencias`;
+            router.replace(pathname);
+          }
+        })
+        .catch(() => {
+          Notification.error("Um erro inesperado ocorreu. Tente novamente!");
+        })
+        .finally(() => setLoadingPayload(false));
+    } else {
+      Notification.success("Documentos enviados!");
+      if (onFinish) onFinish();
+    }
   };
 
   useEffect(() => {

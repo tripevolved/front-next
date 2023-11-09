@@ -7,7 +7,7 @@ import { TripsApiService } from "@/services/api";
 
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
-import { Grid, Icon, Label, LabelVariants, Loader, Tabs } from "mars-ds";
+import { Grid, Icon, Label, LabelVariants, Skeleton, Tabs } from "mars-ds";
 import { CardTrip, EmptyState, ErrorState, Text, CardTripNew } from "@/ui";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 
@@ -36,8 +36,7 @@ function CurrentTrips() {
 
   if (error) return <ErrorState />;
 
-  // TODO: add skeleton loader
-  if (isLoading) return <Loader />;
+  if (isLoading) return <LoadingSkeleton />;
 
   if (!hasTrip) return <EmptyState />;
 
@@ -53,11 +52,7 @@ function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
         </div>
       ) : null}
       <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
-        <CardTripNew
-          title="Descobrir mais uma viagem"
-          iconName="Plane"
-          href="/app/viagens/descobrir"
-        />
+        <CardTripNew title="Descobrir mais uma viagem" iconName="Plane" href="/app/viagens/nova" />
         {otherTrips.map((trip) => (
           <TripItem key={trip.id} {...trip} />
         ))}
@@ -87,3 +82,11 @@ function TripItem({ id, title = "Sem nome", status, images, period }: TripListVi
     </CardTrip>
   );
 }
+
+const LoadingSkeleton = () => (
+  <Grid className="py-md" columns={{ sm: 2, md: 3 }}>
+    {[1, 2, 3].map((key) => (
+      <Skeleton key={key} active height={270} />
+    ))}
+  </Grid>
+);
