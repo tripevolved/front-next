@@ -5,16 +5,17 @@ import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { Grid, Skeleton } from "mars-ds";
 
 export function TripDetailsPanel() {
   const idParam = useIdParam();
 
   const fetcherKey = idParam ? `trip-details-panel-${idParam}` : null;
-  const fetcher = async () => TripsApiService.getByIdForDashboard(idParam!);
+  const fetcher = async () => getTripDetails(idParam);
   const { isLoading, error, data } = useSwr(fetcherKey, fetcher);
 
   if (error) return <ErrorState />;
-  if (isLoading) return <GlobalLoader />;
+  if (isLoading) return <TripDetailsPanelSkeleton />;
   if (!data) return <EmptyState />;
   if (data.tripDashboard) {
     return <TripDashboard tripDashboard={data.tripDashboard!} tripId={data.id} />;
@@ -36,4 +37,27 @@ const TripRedirectToDetails = ({ tripId = "" }) => {
   }, [router, tripId]);
 
   return <GlobalLoader />;
+};
+
+const getTripDetails = async (tripId: string) => {
+  const data = await TripsApiService.getByIdForDashboard(tripId);
+  if (data.tripDashboard || data.destinationProposal || data.viewType !== "PROPOSAL") {
+    return data;
+  }
+  const destinationProposal = await TripsApiService.getMatchedDestinations({ tripId });
+  return { ...data, destinationProposal };
+};
+
+const TripDetailsPanelSkeleton = () => {
+  return (
+    <Grid>
+      <Skeleton active height={32} width="60%" />
+      <Skeleton active height={270} />
+      <Grid columns={{ xs: 2, sm: 3 }}>
+        {[1, 2, 3].map((key) => (
+          <Skeleton key={key} active height={270} />
+        ))}
+      </Grid>
+    </Grid>
+  );
 };

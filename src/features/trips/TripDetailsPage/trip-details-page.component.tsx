@@ -4,7 +4,7 @@ import { TripScriptSection } from "./trip-script.section";
 import { TripFoodTipsSection } from "./trip-food-tips.section";
 import { TripSupportSection } from "./trip-support.section";
 import { TripConfigurationSection } from "./trip-configuration.section";
-import { EmptyState, ErrorState, LoaderState, Text, WhatsappButton } from "@/ui";
+import { ErrorState, Text, WhatsappButton } from "@/ui";
 
 import { useTripDetails } from "./trip-details.hook";
 import {
@@ -34,7 +34,7 @@ const DEFAULT_PHOTOS: Photo[] = [
 ];
 
 export function TripDetailsPage() {
-  const { data, isEmpty, isLoading } = useTripDetails();
+  const { data, isLoading, error } = useTripDetails();
 
   const Template = ({ children, title = "Sua viagem", hideHeader }: TemplateProps) => {
     return (
@@ -55,14 +55,8 @@ export function TripDetailsPage() {
       </Template>
     );
   }
-  if (isEmpty)
-    return (
-      <Template>
-        <EmptyState text="Sua viagem não foi encontrada :(" />
-      </Template>
-    );
 
-  if (!data || data.isBuilding) {
+  if (error || !data) {
     return (
       <Template>
         <ErrorState
