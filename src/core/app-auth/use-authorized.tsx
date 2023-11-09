@@ -7,8 +7,9 @@ export const useAuthorized = () => {
   const { asPath, replace: redirect } = useRouter();
 
   const redirectToSignIn = () => {
+    const avoidRedirectTo = /entrar|painel/.test(asPath);
     const redirectTo = encodeURIComponent(asPath);
-    const pathname = `/app/entrar/?redirectTo=${redirectTo}`;
+    const pathname = avoidRedirectTo ? "/app/entrar" : `/app/entrar/?redirectTo=${redirectTo}`;
     UserService.logout(() => redirect(pathname));
   };
 
