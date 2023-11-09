@@ -183,9 +183,8 @@ const TripPricingBoxContentCta = ({
   tripId,
   total,
 }: Pick<TripPricingBoxContentProps, "tripId" | "total" | "isPaid" | "isBuilt">) => {
-  if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
-
   const router = useRouter();
+  if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
 
   const handleModal = () => {
     const buyHref = `/app/viagens/${tripId}/comprar`;
