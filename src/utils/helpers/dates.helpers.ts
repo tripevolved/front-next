@@ -43,8 +43,8 @@ export const normalizeDateString = (date: string) =>
     return result;
   });
 
-  export const parseBRStringToDate = (value: string) => {
-    const [day, month, year] = value.split("/");
-    const iso = `${year}-${Number(month)}-${Number(day)}`;
-    return new Date(iso);
-  };
+export const parseBRStringToDate = (value: string) => {
+  const [day, month, year] = value.split("/");
+  const iso = `${year}-${Number(month)}-${Number(day)}`;
+  return new Date(iso);
+};

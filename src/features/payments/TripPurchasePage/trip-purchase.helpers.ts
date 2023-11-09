@@ -12,4 +12,4 @@ export const calcInstallmentsOptions = (total: number) => {
     });
   }
   return options;
-}
+};
