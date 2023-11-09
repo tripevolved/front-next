@@ -189,17 +189,27 @@ const TripPricingBoxContentCta = ({
   const buyHref = `/app/viagens/${tripId}/comprar`;
 
   const handleModal = () => {
-    console.log("tá chamando aqui");
-    Modal.open(() => <PendingDocumentsModal tripId={tripId} title="Dados dos Viajantes" />, {
-      closable: true,
-      size: "md",
-      //onClose: () => router.push(buyHref),
-    });
+    const modal = Modal.open(
+      () => (
+        <PendingDocumentsModal
+          tripId={tripId}
+          title="Dados dos Viajantes"
+          onFinish={() => {
+            modal.close();
+            router.push(buyHref);
+          }}
+        />
+      ),
+      {
+        closable: true,
+        size: "md",
+      }
+    );
   };
 
   if (isBuilt) {
     return (
-      <Button variant={"tertiary" as any} href={buyHref}>
+      <Button variant={"tertiary" as any} onClick={() => handleModal()}>
         Comprar por {formatToCurrencyBR(total)}
       </Button>
     );

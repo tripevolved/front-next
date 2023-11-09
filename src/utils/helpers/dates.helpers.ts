@@ -42,3 +42,12 @@ export const normalizeDateString = (date: string) =>
     }
     return result;
   });
+
+
+export const parseDateToInputFormat = (newDate: Date): string => {
+  const month =
+    String(newDate.getMonth()).length == 1 ? `0${newDate.getMonth()}` : newDate.getMonth();
+  const day = String(newDate.getDate()).length == 1 ? `0${newDate.getDate()}` : newDate.getDate();
+
+  return `${newDate.getFullYear()}-${month}-${day}`;
+};

@@ -5,4 +5,5 @@ export interface PendingDocumentsModalProps extends ComponentHTMLProps {
   tripId: string;
   router?: NextRouter;
   title?: string;
+  onFinish?: VoidFunction;
 }

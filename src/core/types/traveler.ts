@@ -6,4 +6,5 @@ export interface Traveler {
   cpf?: string;
   email?: string;
   gender?: string;
+  birthDate?: string;
 }

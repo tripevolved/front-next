@@ -1,13 +1,20 @@
 import type { PendingDocumentsModalProps } from "./pending-documents-modal.types";
 import type { Traveler, TripTravelers } from "@/core/types";
+import type { SelectFieldOption } from "@/ui";
 
 import { Text, EmptyState, GlobalLoader, ErrorState, OptionsSelectField } from "@/ui";
 import { TextField, FormWithSubmitButton, makeArray, Notification } from "mars-ds";
 import { useEffect, useState } from "react";
 import { TravelerApiService } from "@/services/api/traveler";
 import useSwr from "swr";
+import { parseDateToInputFormat } from "@/utils/helpers/dates.helpers";
 
-export function PendingDocumentsModal({ tripId, router, title }: PendingDocumentsModalProps) {
+export function PendingDocumentsModal({
+  tripId,
+  router,
+  title,
+  onFinish,
+}: PendingDocumentsModalProps) {
   const uniqueKeyName = `travel-pending-${tripId}-type-traveler`;
   const fetcher = async () => TravelerApiService.getTripTravelers(tripId);
   const { isLoading, data, error } = useSwr<TripTravelers>(uniqueKeyName, fetcher);
@@ -23,11 +30,14 @@ export function PendingDocumentsModal({ tripId, router, title }: PendingDocument
 
   const handleSubmit = async () => {
     setLoadingPayload(true);
-    const payload = { ...(data as TripTravelers), travelers: Object.values(travelers) };
-    console.log('viajantes', payload)
+
+    const payload = { ...(data as TripTravelers), travelers: travelers };
+
     await TravelerApiService.setTripTravelers(payload)
       .then(() => {
         Notification.success("Documentos enviados!");
+        if (onFinish) onFinish();
+
         if (router) {
           const tripId = String(router.query.id);
           const pathname = `/app/viagens/${tripId}/pendencias`;
@@ -35,7 +45,7 @@ export function PendingDocumentsModal({ tripId, router, title }: PendingDocument
         }
       })
       .catch(() => {
-        Notification.error("Um erro inesperado ocorreu.");
+        Notification.error("Um erro inesperado ocorreu. Tente novamente!");
       })
       .finally(() => setLoadingPayload(false));
   };
@@ -53,22 +63,29 @@ export function PendingDocumentsModal({ tripId, router, title }: PendingDocument
     : makeArray(data.travelerCount);
 
   return (
-    <FormWithSubmitButton
-      onSubmit={handleSubmit}
-      submitButtonLabel="Enviar"
-      submitting={loadingPayload}
-      title={title}
-    >
-      {dataTravelers.map((values, index) => (
-        <TravelerPendingForm
-          key={index}
-          index={index}
-          title={`Viajante ${index + 1}`}
-          values={values as any}
-          onChangeValue={handleChange}
-        />
-      ))}
-    </FormWithSubmitButton>
+    <>
+      {title ? (
+        <Text heading style={{ color: "var(--color-brand-1)" }}>
+          {title}
+        </Text>
+      ) : null}
+      <FormWithSubmitButton
+        onSubmit={handleSubmit}
+        submitButtonLabel="Enviar"
+        submitting={loadingPayload}
+        title={title}
+      >
+        {dataTravelers.map((values, index) => (
+          <TravelerPendingForm
+            key={index}
+            index={index}
+            title={`Viajante ${index + 1}`}
+            values={values as any}
+            onChangeValue={handleChange}
+          />
+        ))}
+      </FormWithSubmitButton>
+    </>
   );
 }
 
@@ -87,6 +104,11 @@ const TravelerPendingForm = ({ title, index, onChangeValue, values }: TravelerPe
     const value = target.value;
     setTraveler({ ...traveler, [name]: value });
     onChangeValue(index, { ...traveler, [name]: value });
+  };
+
+  const handleGenderSelect = (option: SelectFieldOption) => {
+    setTraveler({ ...traveler, gender: option.value });
+    onChangeValue(index, { ...traveler, gender: option.value });
   };
 
   const fullTitle = values?.fullName ? `${title}: ${values.fullName}` : title;
@@ -135,7 +157,16 @@ const TravelerPendingForm = ({ title, index, onChangeValue, values }: TravelerPe
             : { label: "", value: "" }
         }
         options={genderOptions}
-        className="trip-purchase__section__input"
+        onSelect={handleGenderSelect}
+      />
+      <TextField
+        id="birthDate"
+        name="birthDate"
+        required={true}
+        label="Data de Nascimento"
+        type="date"
+        onChange={handleValue("birthDate")}
+        value={traveler?.birthDate ? parseDateToInputFormat(new Date(traveler.birthDate)) : ""}
       />
       <TextField
         required

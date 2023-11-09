@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { Button, Grid, RadioFields, TextField, Notification, Modal, Loader } from "mars-ds";
 
 import { formatByDataType } from "@/utils/helpers/number.helpers";
+import { parseDateToInputFormat } from "@/utils/helpers/dates.helpers";
 import type { TripPayer, TripPayerAddress, TripPayment, TripPaymentMethod } from "@/core/types";
 import { PaymentsApiService } from "@/services/api";
 import { useRef, useState } from "react";
@@ -178,14 +179,6 @@ export function TripPurchasePage() {
     );
   };
 
-  const parseDate = (newDate: Date): string => {
-    const month =
-      String(newDate.getMonth()).length == 1 ? `0${newDate.getMonth()}` : newDate.getMonth();
-    const day = String(newDate.getDate()).length == 1 ? `0${newDate.getDate()}` : newDate.getDate();
-
-    return `${newDate.getFullYear()}-${month}-${day}`;
-  };
-
   const handleAddressSearch = async (zipCode?: string) => {
     // @ts-ignore
     if (zipCode?.length < 9) return;
@@ -271,7 +264,7 @@ export function TripPurchasePage() {
           label="Data de Nascimento"
           type="date"
           // @ts-ignore
-          value={tripPayer?.birthDate ? parseDate(new Date(tripPayer.birthDate)) : ""}
+          value={tripPayer?.birthDate ? parseDateToInputFormat(new Date(tripPayer.birthDate)) : ""}
         />
       </Box>
       <DashedDivider className="trip-purchase__divider" />
