@@ -52,6 +52,25 @@ export const postTripPaymentIntent = async (tripPayment: TripPayment) => {
 
 export const getTripPaymentStatus = async (tripId: string) => {
   const route = `/payments/${tripId}/status`;
-  const result = await ApiRequest.get<TripPaymentStatusResult>(route);
-  return result;
+  try {
+    const { status } = await ApiRequest.get<TripPaymentStatusResult>(route);
+
+    if (status == "NOT_STARTED" || status == "STARTED") {
+      return { error: false, success: false, finish: false, message: "Continue aguardando" };
+    }
+    if (status == "CANCELED") {
+      return { error: true, message: "Pagamento Cancelado!", success: false, finish: true };
+    }
+    if (status == "REFUSED") {
+      return { error: true, message: "Seu pagamento foi recusado!", success: false, finish: true };
+    }
+    return {
+      error: false,
+      message: "Pagamento aprovado com sucesso!",
+      success: true,
+      finish: true,
+    };
+  } catch (error) {
+    return { error: true, success: false, finish: false, message: "Erro ao processar o pagamento" };
+  }
 };

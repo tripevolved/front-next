@@ -1,4 +1,4 @@
-import { delay } from "@/utils/helpers/delay.helpers";
+import { delay } from "@/utils/helpers/async.helpers";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
