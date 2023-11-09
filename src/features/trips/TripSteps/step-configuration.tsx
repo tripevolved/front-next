@@ -4,16 +4,23 @@ import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { Grid, Slider, SubmitButton } from "mars-ds";
 import { useState } from "react";
 
-export function StepConfiguration({ onNext }: StepComponentProps) {
-  const [dates, setDates] = useState<(Date | undefined)[]>([]);
-  const [maxBudget, setMaxBudget] = useState(4000);
+interface StepConfigurationProps extends StepComponentProps {
+  budget?: number;
+  dates?: Date[];
+}
+
+export function StepConfiguration({
+  onNext,
+  budget = 4000,
+  dates: defaultDates = [],
+}: StepConfigurationProps) {
+  const [dates, setDates] = useState<(Date | undefined)[]>(defaultDates);
+  const [maxBudget, setMaxBudget] = useState(budget);
   const [days, setDays] = useState(1);
 
   const isDisabled = !dates[0] || !dates[1] || days < 2;
 
-  const handleSubmit = async () => {
-    onNext({ dates, days, maxBudget });
-  };
+  const handleSubmit = async () => onNext({ dates, days, maxBudget });
 
   return (
     <Grid gap={24}>

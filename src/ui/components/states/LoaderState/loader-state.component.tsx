@@ -10,11 +10,11 @@ export function LoaderState({
       <div>
         <GlobalLoader inline />
         {heading ? (
-          <Text heading as="h4" size="xs">
+          <Text heading as="h4" size="xs" className="mb-sm">
             {heading}
           </Text>
         ) : null}
-        <Text>{text}</Text>
+        <Text className="color-text-secondary">{text}</Text>
       </div>
     </section>
   );
