@@ -1,4 +1,4 @@
-import { delay } from "@/utils/helpers/delay.helpers";
+import { delay } from "@/utils/helpers/async.helpers";
 import { useMemo, useState } from "react";
 
 type AnimationProps = { timing?: number };

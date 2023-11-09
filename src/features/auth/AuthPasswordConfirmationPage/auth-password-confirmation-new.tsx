@@ -2,7 +2,7 @@ import { EmptyState, Text } from "@/ui";
 import { AuthSection } from "../AuthSection";
 import { SubmitButton } from "mars-ds";
 import { useState } from "react";
-import { delay } from "@/utils/helpers/delay.helpers";
+import { delay } from "@/utils/helpers/async.helpers";
 
 export const AuthPasswordConfirmationNew = () => {
   const [submitting, setSubmitting] = useState(false);

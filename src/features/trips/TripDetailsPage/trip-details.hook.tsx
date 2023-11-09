@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
-import { delay } from "@/utils/helpers/delay.helpers";
+import { delay } from "@/utils/helpers/async.helpers";
 import { MAX_REFRESH_COUNT, REFRESH_INTERVAL } from "./trip-details-page.constants";
 import type { TripDetails } from "@/core/types";
 
