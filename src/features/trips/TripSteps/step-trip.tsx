@@ -90,7 +90,7 @@ export const StepTrip = ({}: StepComponentProps) => {
   };
 
   const handleFinish = () => {
-    router.replace(`/app/viagens/nova/${tripId.current}`);
+    router.push(`/app/viagens/${tripId.current}`);
   };
 
   const { component: Component } = TRIP_STEPS[currentIndex];
