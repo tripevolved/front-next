@@ -1,32 +1,25 @@
+import useSWR from "swr";
 import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
-import { useEffect, useState } from "react";
-import useSWR from "swr";
-import { MAX_REFRESH_COUNT, NOT_REFRESH, REFRESH_INTERVAL } from "./trip-details-page.constants";
+import { delay } from "@/utils/helpers/delay.helpers";
+import { MAX_REFRESH_COUNT, REFRESH_INTERVAL } from "./trip-details-page.constants";
 
 export const useTripDetails = () => {
-  const [isBuilding, setIsBuilding] = useState(false);
-  const [refreshCount, setRefreshCount] = useState(0);
-
   const idParam = useIdParam();
 
-  const fetcherKey = `trip-details-hook-${idParam}`;
-  const fetcher = async () => {
-    setRefreshCount((state) => state + 1);
-    return TripsApiService.getById(idParam);
-  };
-  const { isLoading, data, error } = useSWR(fetcherKey, fetcher, {
-    refreshInterval:
-      isBuilding && refreshCount <= MAX_REFRESH_COUNT ? REFRESH_INTERVAL : NOT_REFRESH,
-  });
+  const fetcherKey = idParam ? `trip-details-hook-${idParam}` : null;
+  const fetcher = async () => fetchTripById(idParam);
+  const { isLoading, data, error } = useSWR(fetcherKey, fetcher);
 
-  useEffect(() => {
-    if (isLoading) return;
-    setIsBuilding(Boolean(data?.isBuilding));
-  }, [data, isLoading]);
-
-  const isEmpty = !isLoading && !isBuilding && (!data || error);
-  const loading = isLoading || (isBuilding && refreshCount < MAX_REFRESH_COUNT);
-
-  return { isLoading: loading, data, error, isBuilding, isEmpty, refreshCount };
+  return { isLoading, data, error };
 };
+
+async function fetchTripById(id: string, retry = MAX_REFRESH_COUNT) {
+  const data = await TripsApiService.getById(id);
+  if (!data.isBuilding) return data;
+  if (retry === 0) {
+    throw new Error("Timeout");
+  }
+  await delay(REFRESH_INTERVAL);
+  return fetchTripById(id, retry - 1);
+}

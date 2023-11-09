@@ -1,6 +1,5 @@
 import { StepsLoader } from "@/ui";
-import { REFRESH_INTERVAL } from "./trip-details-page.constants";
-import { useState } from "react";
+import { MAX_REFRESH_COUNT, REFRESH_INTERVAL } from "./trip-details-page.constants";
 
 const STEPS = [
   {
@@ -29,14 +28,6 @@ const STEPS = [
   },
 ];
 
-export const TripDetailsPageLoading = () => {
-  const [retry, setRetry] = useState(0);
-  return (
-    <StepsLoader
-      key={retry}
-      steps={STEPS}
-      milliseconds={REFRESH_INTERVAL * 2}
-      onFinish={() => setRetry((state) => state + 1)}
-    />
-  );
-};
+export const TripDetailsPageLoading = () => (
+  <StepsLoader steps={STEPS} milliseconds={REFRESH_INTERVAL * MAX_REFRESH_COUNT} />
+);
