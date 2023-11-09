@@ -3,6 +3,7 @@ import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { delay } from "@/utils/helpers/delay.helpers";
 import { MAX_REFRESH_COUNT, REFRESH_INTERVAL } from "./trip-details-page.constants";
+import type { TripDetails } from "@/core/types";
 
 export const useTripDetails = () => {
   const idParam = useIdParam();
@@ -14,7 +15,7 @@ export const useTripDetails = () => {
   return { isLoading, data, error };
 };
 
-async function fetchTripById(id: string, retry = MAX_REFRESH_COUNT) {
+const fetchTripById = async (id: string, retry = MAX_REFRESH_COUNT): Promise<TripDetails> => {
   const data = await TripsApiService.getById(id);
   if (!data.isBuilding) return data;
   if (retry === 0) {
@@ -22,4 +23,4 @@ async function fetchTripById(id: string, retry = MAX_REFRESH_COUNT) {
   }
   await delay(REFRESH_INTERVAL);
   return fetchTripById(id, retry - 1);
-}
+};
