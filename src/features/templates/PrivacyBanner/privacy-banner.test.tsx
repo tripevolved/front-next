@@ -1,8 +1,7 @@
-import type { PrivacyBannerProps } from "./privacy-banner.types";
 import { render } from "@testing-library/react";
 import { PrivacyBanner } from "./privacy-banner.component";
 
-const makeSut = (props?: PrivacyBannerProps) => render(<PrivacyBanner {...props} />);
+const makeSut = () => render(<PrivacyBanner />);
 
 describe("<PrivacyBanner>", () => {
   it("should render component", () => {

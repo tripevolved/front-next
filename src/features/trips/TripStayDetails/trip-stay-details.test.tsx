@@ -65,7 +65,8 @@ const STAY_DATA_MOCK: TripStayDetailsProps["stayData"] = {
   },
 };
 mockUseRouter();
-const makeSut = () => render(<TripStayDetails tripId="asiugh" stayData={STAY_DATA_MOCK} />);
+const makeSut = () =>
+  render(<TripStayDetails router={jest.fn() as any} tripId="asiugh" stayData={STAY_DATA_MOCK} />);
 
 describe("<TripStayDetailsModal>", () => {
   it("should render component", () => {

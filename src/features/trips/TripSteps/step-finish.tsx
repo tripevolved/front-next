@@ -42,7 +42,6 @@ export function StepFinish({ onNext, numAdults = DEFAULT_ADULTS }: StepComponent
       />
       <SubmitButton
         className="mt-md"
-        // @ts-ignore
         variant="tertiary"
         disabled={submitting}
         submitting={submitting}
@@ -53,4 +52,3 @@ export function StepFinish({ onNext, numAdults = DEFAULT_ADULTS }: StepComponent
     </Grid>
   );
 }
-

@@ -1,18 +1,14 @@
 import type { TripDashboardProps } from "./trip-dashboard.types";
 import { render } from "@testing-library/react";
 import { TripDashboard } from "./trip-dashboard.component";
-import { TripDashboard as iTripDashboard } from "@/core/types";
 
-const mockDashboard: iTripDashboard = {
-  pedingActions: 0,
-  attractionsNumber: 3,
-  documents: 2,
-  flightAndTickets: 4,
-  tips: 9,
+const FAKE_PROPS: TripDashboardProps = {
+  tripDashboard: { name: "", pendingActions: 1, status: "AWAITING_ACTION", attractionsNumber: 3 },
+  tripId: "FAKE_TRIP_ID",
 };
 
 const makeSut = (props?: TripDashboardProps) =>
-  render(<TripDashboard {...props} tripDashboard={mockDashboard} />);
+  render(<TripDashboard {...FAKE_PROPS} {...props} />);
 
 describe("<TripDashboard>", () => {
   it("should render component", () => {

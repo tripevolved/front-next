@@ -2,7 +2,8 @@ import type { OptionsSliderProps } from "./options-slider.types";
 import { render } from "@testing-library/react";
 import { OptionsSlider } from "./options-slider.component";
 
-const makeSut = (props?: OptionsSliderProps) => render(<OptionsSlider {...props} />);
+const makeSut = (props?: OptionsSliderProps) =>
+  render(<OptionsSlider defaultValue={1} {...props} />);
 
 describe("<OptionsSlider>", () => {
   it("should render component", () => {

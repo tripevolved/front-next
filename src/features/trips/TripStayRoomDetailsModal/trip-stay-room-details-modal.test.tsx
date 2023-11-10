@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import { TripStayRoomDetailsModal } from "./trip-stay-room-details-modal.component";
 import { TripStayRoom } from "@/core/types";
 
-const mockRoom: TripStayRoom = {
+const FAKE_ROOM: TripStayRoom = {
   coverImageUrl: "https://picsum.photos/300/200",
   details: { amenities: ["coisa", "nova", "teste"], information: "informação sensacional" },
   features: [
@@ -16,10 +16,15 @@ const mockRoom: TripStayRoom = {
   price: 20.0,
   subtitle: "Acomoda 2 pessoas",
   title: "Suíte simples",
+  currency: "BRL",
+};
+
+const FAKE_PROPS: TripStayRoomDetailsModalProps = {
+  room: FAKE_ROOM,
 };
 
 const makeSut = (props?: TripStayRoomDetailsModalProps) =>
-  render(<TripStayRoomDetailsModal {...props} room={mockRoom} />);
+  render(<TripStayRoomDetailsModal {...FAKE_PROPS} {...props} />);
 
 describe("<TripStayRoomDetailsModal>", () => {
   it("should render component", () => {

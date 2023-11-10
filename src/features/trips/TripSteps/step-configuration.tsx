@@ -3,20 +3,31 @@ import { DatePicker, Text } from "@/ui";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { Grid, Slider, SubmitButton } from "mars-ds";
 import { useState } from "react";
+import { differenceInDays } from "date-fns";
 
 interface StepConfigurationProps extends StepComponentProps {
   budget?: number;
-  dates?: Date[];
+  endDate?: string;
+  startDate?: string;
 }
 
 export function StepConfiguration({
   onNext,
   budget = 4000,
-  dates: defaultDates = [],
+  endDate,
+  startDate,
 }: StepConfigurationProps) {
+  const defaultDates = [
+    startDate ? new Date(startDate) : undefined,
+    endDate ? new Date(endDate) : undefined,
+  ];
+
+  const defaultDays =
+    startDate && endDate ? differenceInDays(new Date(endDate), new Date(startDate)) : 1;
+
   const [dates, setDates] = useState<(Date | undefined)[]>(defaultDates);
   const [maxBudget, setMaxBudget] = useState(budget);
-  const [days, setDays] = useState(1);
+  const [days, setDays] = useState(defaultDays);
 
   const isDisabled = !dates[0] || !dates[1] || days < 2;
 
@@ -33,6 +44,7 @@ export function StepConfiguration({
         </Text>
       </div>
       <DatePicker
+        defaultDates={defaultDates}
         onSelect={({ startDate, endDate, daysAmount }) => {
           setDates([startDate, endDate]);
           setDays(daysAmount);
@@ -45,14 +57,13 @@ export function StepConfiguration({
         name="maxBudget"
         formatter={formatToCurrencyBR}
         min={500}
-        max={10000}
+        max={50000}
         defaultValue={maxBudget}
         onSelect={setMaxBudget}
-        step={100}
+        step={500}
       />
       <SubmitButton
         className="mt-md"
-        // @ts-ignore
         variant="tertiary"
         disabled={isDisabled}
         onClick={handleSubmit}

@@ -2,7 +2,7 @@ import type { TripHotelCardProps } from "./trip-hotel-card.types";
 import { render } from "@testing-library/react";
 import { TripHotelCard } from "./trip-hotel-card.component";
 
-const mockData: TripStay = {
+const FAKE_TRIP_STAY_DATA: TripHotelCardProps["tripStayData"] = {
   coverImageUrl: "https://picsum.photos/50/",
   cancellationInfo: "Informação de cancelamento",
   isBuilding: false,
@@ -33,10 +33,17 @@ const mockData: TripStay = {
   isSelected: true,
   name: "Alto mais Alto",
   tags: "3 estrelas",
+  system: "FAKE_SYSTEM",
+};
+
+const FAKE_PROPS: TripHotelCardProps = {
+  onSelect: jest.fn(),
+  router: jest.fn() as any,
+  tripStayData: FAKE_TRIP_STAY_DATA,
 };
 
 const makeSut = (props?: TripHotelCardProps) =>
-  render(<TripHotelCard tripStayData={mockData} {...props} />);
+  render(<TripHotelCard {...FAKE_PROPS} {...props} />);
 
 describe("<TripHotelCard>", () => {
   it("should render component", () => {
