@@ -38,11 +38,7 @@
         "config": {
           "label": "Status",
           "placeholder": "",
-          "options": [
-            "Aguardando aprovação",
-            "Pagamento homologado",
-            "Emitindo vouchers"
-          ]
+          "options": ["Aguardando aprovação", "Pagamento homologado", "Emitindo vouchers"]
         }
       },
       "blocks": {
@@ -77,14 +73,7 @@
               "config": {
                 "label": "period",
                 "placeholder": "",
-                "options": [
-                  "manhã",
-                  "meio-dia",
-                  "tarde",
-                  "janta",
-                  "noite",
-                  "café da manhã"
-                ]
+                "options": ["manhã", "meio-dia", "tarde", "janta", "noite", "café da manhã"]
               }
             },
             "cover": {

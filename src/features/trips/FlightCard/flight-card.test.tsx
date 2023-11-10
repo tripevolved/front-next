@@ -1,9 +1,8 @@
 import type { FlightCardProps } from "./flight-card.types";
 import { render } from "@testing-library/react";
 import { FlightCard } from "./flight-card.component";
-import type { FlightDetails } from "@/core/types";
 
-const mock: { flight: FlightDetails } = {
+const FAKE_PROPS: FlightCardProps = {
   flight: {
     airlineCompanyLogoUrl: "",
     flightTime: "00:25:00",
@@ -18,7 +17,7 @@ const mock: { flight: FlightDetails } = {
   },
 };
 
-const makeSut = (props?: FlightCardProps = mock) => render(<FlightCard {...props} />);
+const makeSut = (props?: FlightCardProps) => render(<FlightCard {...FAKE_PROPS} {...props} />);
 
 describe("<FlightCard>", () => {
   it("should render component", () => {
