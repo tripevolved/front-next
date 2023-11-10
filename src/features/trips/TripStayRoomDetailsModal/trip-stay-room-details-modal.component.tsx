@@ -6,9 +6,9 @@ import { TripStayServiceItem } from "@/features";
 import { Icon } from "mars-ds";
 import { trimAfterParentheses } from "@/utils/helpers/strings.helper";
 import { TripStayRoom } from "@/core/types";
-import { formatByDataType, setBRLCurrencyValue } from "@/utils/helpers/number.helpers";
+import { setBRLCurrencyValue } from "@/utils/helpers/number.helpers";
 
-const EMPTY_INFO_DETAILS = "As informações ainda não foram definidas";
+const EMPTY_INFO_DETAILS = "-";
 
 export function TripStayRoomDetailsModal({
   className,
@@ -39,10 +39,20 @@ export function TripStayRoomDetailsModal({
         {trimAfterParentheses(room.title)}
       </Text>
 
-      <Picture
-        className="trip-stay-room-details-modal__cover-image"
-        src={room.coverImageUrl ? room.coverImageUrl : "/assets/stays/empty.svg"}
-      />
+      {room.coverImageUrl ? (
+        <Picture className="trip-stay-room-details-modal__cover-image" src={room.coverImageUrl} />
+      ) : (
+        <Picture
+          style={{
+            backgroundColor: "var(--color-brand-1)",
+            display: "flex",
+            justifyContent: "center",
+            maxHeight: "400px",
+          }}
+          className="w-100 h-100"
+          src={"/assets/stays/empty.svg"}
+        />
+      )}
 
       <Box className="trip-stay-room-details-modal__details px-xl">
         <Text heading size="xs">
