@@ -95,7 +95,7 @@ const StayEditionButton = ({ tripId }: { tripId: string }) => (
     variant="naked"
     size="sm"
     iconName="edit-2"
-    href={`/app/viagens/${tripId}/hospedagem/editar-hotel`}
+    href={`/app/viagens/${tripId}/hospedagem/editar`}
   >
     Editar
   </Button>
