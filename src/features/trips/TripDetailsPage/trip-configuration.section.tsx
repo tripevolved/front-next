@@ -18,7 +18,7 @@ export const TripConfigurationSection = (props: TripConfigurationSectionProps) =
     <CardHighlight variant="default" style={{ padding: 12, paddingLeft: 24 }}>
       <Grid columns={["1fr", "auto"]}>
         <div className="flex gap-lg justify-content-between flex-wrap">
-          <Feature iconName="calendar">{normalizeDateString(props.dates)}</Feature>
+          <Feature iconName="calendar">{normalizeDateString(props.formattedDates)}</Feature>
           <Feature iconName="clock">{props.period}</Feature>
           <Feature iconName="dollar-sign">{formatToCurrencyBR(props.budget)}</Feature>
         </div>

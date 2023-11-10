@@ -38,11 +38,17 @@ const LOADING_STEPS = [
 ];
 const DEFAULT_INITIAL_INDEX = 0;
 
-export function TripEditConfiguration({ tripId, budget, numAdults }: TripEditConfigurationProps) {
+export function TripEditConfiguration({
+  tripId,
+  budget,
+  numAdults,
+  endDate,
+  startDate,
+}: TripEditConfigurationProps) {
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
   const [submitting, setSubmitting] = useState(false);
 
-  const data = useRef<Record<string, any>>({ budget, numAdults });
+  const data = useRef<Record<string, any>>({ budget, numAdults, endDate, startDate });
 
   const animation = useAnimation();
 

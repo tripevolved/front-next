@@ -12,11 +12,13 @@ import "react-date-range/dist/styles.css"; // main css file
 const KEY = "selection";
 const MAX_DAYS = 365; // ONE YEAR
 
-export function DatePicker({ onSelect, maxDays = MAX_DAYS }: DatePickerProps) {
+export function DatePicker({ onSelect, maxDays = MAX_DAYS, defaultDates = [] }: DatePickerProps) {
+  const [startDateDefault, endDateDefault] = defaultDates;
+
   const [rangeValue, setRangeValue] = useState<any>([
     {
-      startDate: addDays(new Date(), 1),
-      endDate: addDays(new Date(), 1),
+      startDate: addDays(startDateDefault || new Date(), 1),
+      endDate: addDays(endDateDefault || new Date(), 1),
       key: KEY,
     },
   ]);
