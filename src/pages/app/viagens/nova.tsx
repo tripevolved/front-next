@@ -1,1 +1,1 @@
-export { TripDiscoverPage as default } from "@/features";
+export { TripCreationPage as default } from "@/features";

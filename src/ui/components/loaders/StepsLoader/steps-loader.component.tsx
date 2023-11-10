@@ -5,6 +5,7 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { Box, BoxProps, Text } from "@/ui";
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { Icon } from "mars-ds";
+import { clamp } from "@/utils/helpers/math.helpers";
 
 const EIGHT_SECONDS_IN_MS = 8000;
 
@@ -91,5 +92,3 @@ const CircleProgress = ({
     </Box>
   );
 };
-
-const clamp = (num: number, min = 0, max = 100) => Math.min(Math.max(num, min), max);

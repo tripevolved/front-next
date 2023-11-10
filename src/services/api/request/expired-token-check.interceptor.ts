@@ -1,6 +1,6 @@
 import type { AxiosError } from "axios";
 import { UserService } from "@/services/user";
-import { delay } from "@/utils/helpers/delay.helpers";
+import { delay } from "@/utils/helpers/async.helpers";
 
 const handleExpiredToken = async () => {
   UserService.logout();

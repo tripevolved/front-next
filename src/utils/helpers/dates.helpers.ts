@@ -42,3 +42,17 @@ export const normalizeDateString = (date: string) =>
     }
     return result;
   });
+
+export const parseDateToInputFormat = (newDate: Date): string => {
+  const month =
+    String(newDate.getMonth()).length == 1 ? `0${newDate.getMonth()}` : newDate.getMonth();
+  const day = String(newDate.getDate()).length == 1 ? `0${newDate.getDate()}` : newDate.getDate();
+
+  return `${newDate.getFullYear()}-${month}-${day}`;
+};
+
+export const parseBRStringToDate = (value: string) => {
+  const [day, month, year] = value.split("/");
+  const iso = `${year}-${Number(month)}-${Number(day)}`;
+  return new Date(iso);
+};

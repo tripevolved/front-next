@@ -1,5 +1,5 @@
 import { Box, EmptyState, ErrorState, Text } from "@/ui";
-import { delay } from "@/utils/helpers/delay.helpers";
+import { delay } from "@/utils/helpers/async.helpers";
 import {
   Grid,
   Notification,

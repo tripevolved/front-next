@@ -56,7 +56,9 @@ export interface TripTransportation {
 }
 
 export interface TripConfiguration {
-  dates: string;
+  formattedDates: string;
+  startDate: string;
+  endDate: string;
   period: string;
   budget: number;
   numAdults: number;

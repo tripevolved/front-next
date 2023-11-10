@@ -9,7 +9,7 @@ import { Card, Notification } from "mars-ds";
 import { Picture, SectionBase, StepsLoader } from "@/ui";
 import { ProfileQuestionsForm } from "./profile-questions-form";
 import { useRouter } from "next/router";
-import { delay } from "@/utils/helpers/delay.helpers";
+import { delay } from "@/utils/helpers/async.helpers";
 import { LeadForm } from "@/features";
 import { useAppStore } from "@/core/store";
 import { Text } from "@/ui";

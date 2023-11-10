@@ -35,7 +35,7 @@ export function InitialStep({ onNext, goToStepName }: StepComponentProps) {
           iconName="compass"
           labelTheme={LabelThemes.Ghost}
           title="Descobrir minha trip"
-          onClick={() => travelerProfile ? goToStepName("register-city") : onNext()}
+          onClick={() => (travelerProfile ? goToStepName("register-city") : onNext())}
         />
         <ItemButton
           iconName="navigation"
@@ -43,6 +43,7 @@ export function InitialStep({ onNext, goToStepName }: StepComponentProps) {
           labelVariant={LabelVariants.Default}
           labelTheme={LabelThemes.Ghost}
           // TODO: use href
+          // href="/app/viagens/nova"
           onClick={() => router.replace("/app/viagens/nova")}
         />
       </Grid>

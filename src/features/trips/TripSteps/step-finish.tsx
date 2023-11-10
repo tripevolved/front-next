@@ -9,9 +9,9 @@ import { formatToPlural } from "@/utils/helpers/number.helpers";
 
 const DEFAULT_ADULTS = 2;
 
-export function StepFinish({ onNext }: StepComponentProps) {
+export function StepFinish({ onNext, numAdults = DEFAULT_ADULTS }: StepComponentProps) {
   const [submitting, setSubmitting] = useState(false);
-  const [adults, setAdults] = useState(DEFAULT_ADULTS);
+  const [adults, setAdults] = useState(numAdults);
 
   const handleSubmit = () => {
     setSubmitting(true);
@@ -42,7 +42,6 @@ export function StepFinish({ onNext }: StepComponentProps) {
       />
       <SubmitButton
         className="mt-md"
-        // @ts-ignore
         variant="tertiary"
         disabled={submitting}
         submitting={submitting}
@@ -53,4 +52,3 @@ export function StepFinish({ onNext }: StepComponentProps) {
     </Grid>
   );
 }
-
