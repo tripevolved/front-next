@@ -41,7 +41,7 @@ export function TripStayRoomDetailsModal({
 
       <Picture
         className="trip-stay-room-details-modal__cover-image"
-        src={room.coverImageUrl ? room.coverImageUrl : "/assets/blank-image.png"}
+        src={room.coverImageUrl ? room.coverImageUrl : "/assets/stays/empty.svg"}
       />
 
       <Box className="trip-stay-room-details-modal__details px-xl">
