@@ -14,7 +14,7 @@ export const TripDestinationCheckoutSection = ({ configuration, destination, peo
         <div>
           <Text size="xl">{destination.title}</Text>
         </div>
-        <div><Text size="md">{configuration.dates}</Text></div>
+        <div><Text size="md">{configuration.formattedDates}</Text></div>
         <div><Text size="md">{peopleInfo}</Text></div>
       </Box>
     </div>
