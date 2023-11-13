@@ -1,4 +1,5 @@
 import { Photo } from "./photo";
+import { TripMatchedDestination } from "./trip";
 
 export interface PublicDestination {
   id: string;
@@ -81,4 +82,8 @@ export interface PublicDestinationFaq {
 
 interface Post {
   // TODO: implement rules
+}
+
+export interface PublicDestinationSuggestion extends Omit<TripMatchedDestination, 'images'> {
+  coverImage: Photo[];
 }

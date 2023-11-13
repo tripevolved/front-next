@@ -12,12 +12,24 @@ interface DestinationsResponse {
   destinations: DestinationItem[];
 }
 
-interface DestinationItem {
+export interface DestinationItem {
   coverImage: Photo;
   title: string;
   destinationId: string;
   name: string;
   uniqueName: string;
+}
+
+export interface PublicDestinationResponse extends DestinationsResponse {
+  page: number;
+  totalPages: number;
+  perPage: number;
+}
+
+export interface DestinationsRequestParams {
+  search: string;
+  uniqueName?: string;
+  page: number;
 }
 
 const serializer = ({ destinations }: DestinationsResponse): Destination[] =>
@@ -32,3 +44,8 @@ export const getDestinations = async (profileName: string) => {
   const route = `profiles/${profileName}`;
   return ApiRequest.get<DestinationsResponse>(route).then(serializer);
 };
+
+export const getPublicDestinations = async ({search = '', uniqueName = '', page = 1}: DestinationsRequestParams) => {
+  const route = `destinations/paginated?search=${search}&profile=${uniqueName}&page=${page}`;
+  return ApiRequest.get<PublicDestinationResponse>(route).then(serializer);
+}
