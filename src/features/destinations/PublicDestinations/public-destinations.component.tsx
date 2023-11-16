@@ -7,16 +7,25 @@ import {
 } from "@/services/api/profile/destinations";
 import { Box, CardTrip, ErrorState } from "@/ui";
 import { Button, Grid, Tabs, TabsProps, TextField } from "mars-ds";
-import { useState } from "react";
+import { useState, useRef, useEffect, cloneElement } from "react";
 import useSWR from "swr";
 
 interface DestinationTabProps {
-  destinations: Omit<DestinationItem, "title">[];
-  isLoading: boolean;
-  error: boolean;
+  uniqueName?: TravelerProfileType;
+  search: string;
 }
 
-export const DestinationTab = ({ isLoading, error, destinations }: DestinationTabProps) => {
+export const DestinationTab = ({ uniqueName, search }: DestinationTabProps) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const destinationsComponent = useRef<HTMLDivElement>(null);
+
+  const fetcher = () => ProfileApiService.getPublicDestinations({ uniqueName, search, page: 1 });
+
+  const { isLoading, data, error } = useSWR(
+    isVisible ? `get-public-destinations-${uniqueName}` : null,
+    fetcher
+  );
+
   const parseImage = (sources: PhotoSource[]) =>
     sources.find(({ type }) => type === "md")?.url || null;
 
@@ -24,12 +33,17 @@ export const DestinationTab = ({ isLoading, error, destinations }: DestinationTa
 
   if (isLoading) return <LoadingSkeletonDestinations />;
 
+  if (destinationsComponent.current) {
+    setIsVisible(true);
+  }
+
   return (
-    <Grid columns={{ sm: 1, md: 2, lg: 3 }}>
-      {destinations.map((destination, i) => (
+    <Grid columns={{ sm: 1, md: 2, lg: 3 }} ref={destinationsComponent}>
+      {data?.destinations.map((destination, i) => (
         <CardTrip
           key={`${i}-${destination.destinationId}`}
           title={destination.name}
+          // @ts-ignore
           image={parseImage(destination.coverImage.sources)}
         >
           <Box className="theme-dark" sx={{ minWidth: 200 }}>
@@ -44,122 +58,81 @@ export const DestinationTab = ({ isLoading, error, destinations }: DestinationTa
 };
 
 export function PublicDestinations() {
-  const [serachName, setSearchName] = useState("");
-  const [] = useState<DestinationItem>();
-
-  const fetcher = () =>
-    ProfileApiService.getPublicDestinations({ uniqueName: "", search: serachName, page: 1 });
-
-  const { isLoading, data, error } = useSWR(`get-public-destinations`, fetcher);
+  const [searchName, setSearchName] = useState("");
 
   const TABS = [
     {
       label: "Todos",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab search={searchName} />,
+      className: "all",
     },
     {
       label: "Relax",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="relax" search={searchName} />,
     },
     {
       label: "Aventureiro",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="aventureiro" search={searchName} />,
     },
     {
       label: "Agitador",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="agitador" search={searchName} />,
     },
     {
       label: "Automático",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="automatico" search={searchName} />,
     },
     {
       label: "Gastronômico",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="gastronomico" search={searchName} />,
     },
     {
       label: "Colecionador de Pulseirinha",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="colecionador-de-pulseirinha" search={searchName} />,
     },
     {
       label: "Alternativo",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="alternativo" search={searchName} />,
     },
     {
       label: "Intelectual",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="intelectual" search={searchName} />,
     },
     {
       label: "Só se vive uma vez",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="so-se-vive-uma-vez" search={searchName} />,
     },
     {
       label: "Negócios",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="negocios" search={searchName} />,
     },
     {
       label: "Espiritual",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="espiritual" search={searchName} />,
     },
     {
       label: "Dinâmico",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="dinamico" search={searchName} />,
     },
     {
       label: "Fã da rotina",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="fa-da-rotina" search={searchName} />,
     },
     {
       label: "Garantido",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="garantido" search={searchName} />,
     },
     {
       label: "Insaciável",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="insaciavel" search={searchName} />,
     },
     {
       label: "Automático",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="automatico" search={searchName} />,
     },
     {
       label: "Musicalidade",
-      children: (
-        <DestinationTab isLoading={isLoading} error={error} destinations={data?.destinations!} />
-      ),
+      children: <DestinationTab uniqueName="musicalidade" search={searchName} />,
     },
   ] satisfies TabsProps["tabs"];
 
@@ -170,12 +143,7 @@ export function PublicDestinations() {
         rightIconButton={{ name: "search" }}
         onChange={(e: any) => setSearchName(e.target.value)}
       />
-      <Tabs
-        align="left"
-        defaultTabIndex={0}
-        tabs={TABS}
-        onClick={(b) => console.log("isso aquio", b)}
-      />
+      <Tabs align="left" defaultTabIndex={0} tabs={TABS} />
     </div>
   );
 }
