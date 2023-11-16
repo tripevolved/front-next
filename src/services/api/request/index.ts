@@ -5,7 +5,7 @@ import { UserService } from "@/services/user";
 import { clientInfoInterceptor } from "./client-info.interceptor";
 import { expiredTokenInterceptor } from "./expired-token-check.interceptor";
 
-const API_URL = ensureNotSlashEnds(process.env.NEXT_PUBLIC_API_URL || "");
+export const API_URL = ensureNotSlashEnds(process.env.NEXT_PUBLIC_API_URL || "");
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 
 type ApiRequestMethod = "get" | "post" | "put" | "delete" | "patch";

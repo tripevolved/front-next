@@ -83,7 +83,3 @@ export interface PublicDestinationFaq {
 interface Post {
   // TODO: implement rules
 }
-
-export interface PublicDestinationSuggestion extends Omit<TripMatchedDestination, 'images'> {
-  coverImage: Photo[];
-}
