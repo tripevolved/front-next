@@ -55,7 +55,7 @@ export const getPublicDestinations = async ({
   console.log("tá batendo aqui");
   const params = new URLSearchParams({ search, profile: uniqueName, page: String(page) });
   const route = `${API_URL}/api/destinations/paginated?${params.toString()}`;
-  return ApiRequest.get<PublicDestinationResponse>(route);
+  // return ApiRequest.get<PublicDestinationResponse>(route);
 
   const mock: PublicDestinationResponse = {
     page: 1,
@@ -293,5 +293,5 @@ export const getPublicDestinations = async ({
     ],
   };
 
-  //return mock;
+  return mock;
 };

@@ -13,16 +13,16 @@ import useSWR from "swr";
 interface DestinationTabProps {
   uniqueName?: TravelerProfileType;
   search: string;
+  onShow: (value: string) => void;
 }
 
-export const DestinationTab = ({ uniqueName, search }: DestinationTabProps) => {
-  const [isVisible, setIsVisible] = useState(false);
+export const DestinationTab = ({ uniqueName, search, onShow }: DestinationTabProps) => {
   const destinationsComponent = useRef<HTMLDivElement>(null);
 
   const fetcher = () => ProfileApiService.getPublicDestinations({ uniqueName, search, page: 1 });
 
   const { isLoading, data, error } = useSWR(
-    isVisible ? `get-public-destinations-${uniqueName}` : null,
+    destinationsComponent.current ? `get-public-destinations-${uniqueName}` : null,
     fetcher
   );
 
@@ -34,7 +34,7 @@ export const DestinationTab = ({ uniqueName, search }: DestinationTabProps) => {
   if (isLoading) return <LoadingSkeletonDestinations />;
 
   if (destinationsComponent.current) {
-    setIsVisible(true);
+    onShow(uniqueName as string);
   }
 
   return (
@@ -59,80 +59,96 @@ export const DestinationTab = ({ uniqueName, search }: DestinationTabProps) => {
 
 export function PublicDestinations() {
   const [searchName, setSearchName] = useState("");
+  const [currentTab, setCurrentTab] = useState("");
+
+  const handleShow = (uniqueName: string) => {
+    console.log("chamou", uniqueName);
+    setCurrentTab(uniqueName);
+  };
 
   const TABS = [
     {
       label: "Todos",
-      children: <DestinationTab search={searchName} />,
+      children: <DestinationTab onShow={handleShow} search={searchName} />,
       className: "all",
     },
     {
       label: "Relax",
-      children: <DestinationTab uniqueName="relax" search={searchName} />,
+      children: <DestinationTab uniqueName="relax" onShow={handleShow} search={searchName} />,
     },
     {
       label: "Aventureiro",
-      children: <DestinationTab uniqueName="aventureiro" search={searchName} />,
+      children: <DestinationTab uniqueName="aventureiro" onShow={handleShow} search={searchName} />,
     },
     {
       label: "Agitador",
-      children: <DestinationTab uniqueName="agitador" search={searchName} />,
+      children: <DestinationTab uniqueName="agitador" onShow={handleShow} search={searchName} />,
     },
     {
       label: "Automático",
-      children: <DestinationTab uniqueName="automatico" search={searchName} />,
+      children: <DestinationTab uniqueName="automatico" onShow={handleShow} search={searchName} />,
     },
     {
       label: "Gastronômico",
-      children: <DestinationTab uniqueName="gastronomico" search={searchName} />,
+      children: (
+        <DestinationTab uniqueName="gastronomico" onShow={handleShow} search={searchName} />
+      ),
     },
     {
       label: "Colecionador de Pulseirinha",
-      children: <DestinationTab uniqueName="colecionador-de-pulseirinha" search={searchName} />,
+      children: (
+        <DestinationTab
+          uniqueName="colecionador-de-pulseirinha"
+          onShow={handleShow}
+          search={searchName}
+        />
+      ),
     },
     {
       label: "Alternativo",
-      children: <DestinationTab uniqueName="alternativo" search={searchName} />,
+      children: <DestinationTab uniqueName="alternativo" onShow={handleShow} search={searchName} />,
     },
     {
       label: "Intelectual",
-      children: <DestinationTab uniqueName="intelectual" search={searchName} />,
+      children: <DestinationTab uniqueName="intelectual" onShow={handleShow} search={searchName} />,
     },
     {
       label: "Só se vive uma vez",
-      children: <DestinationTab uniqueName="so-se-vive-uma-vez" search={searchName} />,
+      children: (
+        <DestinationTab uniqueName="so-se-vive-uma-vez" onShow={handleShow} search={searchName} />
+      ),
     },
     {
       label: "Negócios",
-      children: <DestinationTab uniqueName="negocios" search={searchName} />,
+      children: <DestinationTab uniqueName="negocios" onShow={handleShow} search={searchName} />,
     },
     {
       label: "Espiritual",
-      children: <DestinationTab uniqueName="espiritual" search={searchName} />,
+      children: <DestinationTab uniqueName="espiritual" onShow={handleShow} search={searchName} />,
     },
     {
       label: "Dinâmico",
-      children: <DestinationTab uniqueName="dinamico" search={searchName} />,
+      children: <DestinationTab uniqueName="dinamico" onShow={handleShow} search={searchName} />,
     },
     {
       label: "Fã da rotina",
-      children: <DestinationTab uniqueName="fa-da-rotina" search={searchName} />,
+      children: (
+        <DestinationTab uniqueName="fa-da-rotina" onShow={handleShow} search={searchName} />
+      ),
     },
     {
       label: "Garantido",
-      children: <DestinationTab uniqueName="garantido" search={searchName} />,
+      children: <DestinationTab uniqueName="garantido" onShow={handleShow} search={searchName} />,
     },
     {
       label: "Insaciável",
-      children: <DestinationTab uniqueName="insaciavel" search={searchName} />,
-    },
-    {
-      label: "Automático",
-      children: <DestinationTab uniqueName="automatico" search={searchName} />,
+      children: <DestinationTab uniqueName="insaciavel" onShow={handleShow} search={searchName} />,
     },
     {
       label: "Musicalidade",
-      children: <DestinationTab uniqueName="musicalidade" search={searchName} />,
+      children: (
+        <DestinationTab uniqueName="musicalidade" onShow={handleShow} search={searchName} />
+      ),
     },
   ] satisfies TabsProps["tabs"];
 
