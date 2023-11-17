@@ -30,7 +30,7 @@ export interface PublicDestinationResponse {
 
 export interface PublicDestinationsRequestParams {
   search?: string;
-  uniqueName?: string;
+  uniqueName: string;
   page?: number;
 }
 
@@ -49,11 +49,14 @@ export const getDestinations = async (profileName: string) => {
 
 export const getPublicDestinations = async ({
   search = "",
-  uniqueName = "",
+  uniqueName,
   page = 1,
 }: PublicDestinationsRequestParams) => {
-  console.log("tá batendo aqui");
-  const params = new URLSearchParams({ search, profile: uniqueName, page: String(page) });
+  const params = new URLSearchParams({
+    search,
+    profile: uniqueName == "all" ? "" : uniqueName,
+    page: String(page),
+  });
   const route = `${API_URL}/api/destinations/paginated?${params.toString()}`;
   // return ApiRequest.get<PublicDestinationResponse>(route);
 
