@@ -1,3 +1,14 @@
 .public-destinations {
-  
+  &__tab {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  &__tab-button {
+    border-radius: 8px 8px 0 0;
+    border-bottom: 2px solid transparent;
+    &[data-active=true] {
+      border-bottom: 2px solid $color-brand-1;
+    }
+  }
 }

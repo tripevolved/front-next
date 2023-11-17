@@ -5,40 +5,136 @@ import {
   DestinationItem,
   PublicDestinationsRequestParams,
 } from "@/services/api/profile/destinations";
-import { Box, CardTrip, ErrorState } from "@/ui";
-import { Button, Grid, Tabs, TabsProps, TextField } from "mars-ds";
-import { useState, useRef, useEffect, cloneElement } from "react";
+import { Box, CardTrip, EmptyState, ErrorState, SectionBase } from "@/ui";
+import { Button, Grid, TextField } from "mars-ds";
+import { useState, useRef } from "react";
 import useSWR from "swr";
 
 interface DestinationTabProps {
-  uniqueName: TravelerProfileType | "all";
-  search: string;
-  onShow: (value: string) => void;
-  currentTab: string;
+  uniqueName: string;
 }
 
-export const DestinationTab = ({ uniqueName, search, onShow, currentTab }: DestinationTabProps) => {
+const TABS = [
+  {
+    label: "Todos",
+    uniqueName: "all",
+  },
+  {
+    label: "Relax",
+    uniqueName: "relax",
+  },
+  {
+    label: "Aventureiro",
+    uniqueName: "aventureiro",
+  },
+  {
+    label: "Agitador",
+    uniqueName: "agitador",
+  },
+  {
+    label: "Automático",
+    uniqueName: "automatico",
+  },
+  {
+    label: "Gastronômico",
+    uniqueName: "gastronomico",
+  },
+  {
+    label: "Colecionador de Pulseirinha",
+    uniqueName: "colecionador-de-pulseirinha",
+  },
+  {
+    label: "Alternativo",
+    uniqueName: "alternativo",
+  },
+  {
+    label: "Intelectual",
+    uniqueName: "intelectual",
+  },
+  {
+    label: "Só se vive uma vez",
+    uniqueName: "so-se-vive-uma-vez",
+  },
+  {
+    label: "Negócios",
+    uniqueName: "negocios",
+  },
+  {
+    label: "Espiritual",
+    uniqueName: "espiritual",
+  },
+  {
+    label: "Dinâmico",
+    uniqueName: "dinamico",
+  },
+  {
+    label: "Fã da rotina",
+    uniqueName: "fa-da-rotina",
+  },
+  {
+    label: "Garantido",
+    uniqueName: "garantido",
+  },
+  {
+    label: "Insaciável",
+    uniqueName: "insaciavel",
+  },
+  {
+    label: "Musicalidade",
+    uniqueName: "musicalidade",
+  },
+];
+
+export function PublicDestinations() {
+  const [searchName, setSearchName] = useState("");
+  const [currentUniqueName, setCurrentUniqueName] = useState<string>(TABS[0].uniqueName);
+
+  return (
+    <SectionBase className="public-destinations" heading="Destinos">
+      <br />
+      <TextField
+        label="Nossos destinos"
+        rightIconButton={{ name: "search" }}
+        onChange={(e: any) => setSearchName(e.target.value)}
+      />
+      <br />
+      <div className="public-destinations__tab">
+        {TABS.map(({ label, uniqueName }) => (
+          <Button
+            className="public-destinations__tab-button"
+            data-active={uniqueName === currentUniqueName}
+            variant="text"
+            key={uniqueName}
+            size="sm"
+            onClick={() => setCurrentUniqueName(uniqueName)}
+          >
+            {label}
+          </Button>
+        ))}
+      </div>
+      <DestinationTab uniqueName={currentUniqueName} />
+    </SectionBase>
+  );
+}
+
+export const DestinationTab = ({ uniqueName }: DestinationTabProps) => {
   const destinationsComponent = useRef<HTMLDivElement>(null);
 
-  const fetcher = () => ProfileApiService.getPublicDestinations({ uniqueName, search, page: 1 });
+  const fetcher = () => ProfileApiService.getPublicDestinations({ uniqueName, page: 1 });
 
   const { isLoading, data, error } = useSWR(
-    currentTab == uniqueName ? `get-public-destinations-${uniqueName}` : null,
+    uniqueName ? `get-public-destinations-${uniqueName}` : null,
     fetcher
   );
-
-  const parseImage = (sources: PhotoSource[]) =>
-    sources.find(({ type }) => type === "md")?.url || null;
 
   if (error) return <ErrorState />;
 
   if (isLoading) return <LoadingSkeletonDestinations />;
 
-  if (
-    destinationsComponent.current?.parentElement?.classList.contains("tabs__content--is-active")
-  ) {
-    onShow(uniqueName as string);
-  }
+  if (!data) return <EmptyState />;
+
+  const parseImage = (sources: PhotoSource[]) =>
+    sources.find(({ type }) => type === "md")?.url || null;
 
   return (
     <Grid columns={{ sm: 1, md: 2, lg: 3 }} ref={destinationsComponent} className="p-md">
@@ -59,215 +155,3 @@ export const DestinationTab = ({ uniqueName, search, onShow, currentTab }: Desti
     </Grid>
   );
 };
-
-export function PublicDestinations() {
-  const [searchName, setSearchName] = useState("");
-  const [currentTab, setCurrentTab] = useState("all");
-
-  const handleShow = (uniqueName: string) => {
-    console.log("visivel", uniqueName);
-    setCurrentTab(uniqueName);
-  };
-
-  const TABS = [
-    {
-      label: "Todos",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="all"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-      className: "all",
-    },
-    {
-      label: "Relax",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="relax"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Aventureiro",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="aventureiro"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Agitador",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="agitador"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Automático",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="automatico"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Gastronômico",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="gastronomico"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Colecionador de Pulseirinha",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="colecionador-de-pulseirinha"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Alternativo",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="alternativo"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Intelectual",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="intelectual"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Só se vive uma vez",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="so-se-vive-uma-vez"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Negócios",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="negocios"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Espiritual",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="espiritual"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Dinâmico",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="dinamico"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Fã da rotina",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="fa-da-rotina"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Garantido",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="garantido"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Insaciável",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="insaciavel"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
-      label: "Musicalidade",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="musicalidade"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-  ] satisfies TabsProps["tabs"];
-
-  return (
-    <div className="public-destinations p-md">
-      <TextField
-        label="Nossos destinos"
-        rightIconButton={{ name: "search" }}
-        onChange={(e: any) => setSearchName(e.target.value)}
-      />
-      <Tabs align="left" defaultTabIndex={0} tabs={TABS} />
-    </div>
-  );
-}
