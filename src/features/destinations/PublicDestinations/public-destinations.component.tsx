@@ -3,7 +3,7 @@ import { LoadingSkeleton as LoadingSkeletonDestinations } from "@/features/dashb
 import { ProfileApiService } from "@/services/api";
 import { Box, CardTrip, EmptyState, ErrorState, SectionBase } from "@/ui";
 import { Button, Grid, Pagination, TextField } from "mars-ds";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import useSWR from "swr";
 
 interface DestinationTabProps {
@@ -125,14 +125,9 @@ export const DestinationTab = ({ uniqueName }: DestinationTabProps) => {
 
   if (!data) return <EmptyState />;
 
-  const handleSelectPage = (newPage: number) => {
-    setPage((prevPage) => {
-      if (prevPage !== newPage) {
-        mutate({ ...data, page: newPage });
-      }
-      return newPage;
-    });
-  };
+  useEffect(() => {
+    mutate();
+  }, [page]);
 
   const parseImage = (sources: PhotoSource[]) =>
     sources.find(({ type }) => type === "md")?.url || null;
@@ -166,7 +161,7 @@ export const DestinationTab = ({ uniqueName }: DestinationTabProps) => {
       </Grid>
       <Pagination
         current={page}
-        onSelectPage={(e) => handleSelectPage(e)}
+        onSelectPage={(e) => setPage(e)}
         total={data.totalPages}
         siblingCount={2}
       />
