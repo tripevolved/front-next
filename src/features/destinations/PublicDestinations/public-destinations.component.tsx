@@ -138,17 +138,6 @@ export function PublicDestinations() {
       ),
     },
     {
-      label: "Colecionador de Pulseirinha",
-      children: (
-        <DestinationTab
-          currentTab={currentTab}
-          uniqueName="colecionador-de-pulseirinha"
-          onShow={handleShow}
-          search={searchName}
-        />
-      ),
-    },
-    {
       label: "Alternativo",
       children: (
         <DestinationTab
