@@ -7,7 +7,11 @@ import { useState, useRef, useEffect } from "react";
 import useSWR from "swr";
 
 interface DestinationTabProps {
+  searchName: string;
   uniqueName: string;
+  currentPage: number;
+  setPage: (page: number) => void;
+  requestKey: string;
 }
 
 const TABS = [
@@ -23,14 +27,14 @@ const TABS = [
     label: "Aventureiro",
     uniqueName: "aventureiro",
   },
-  {
-    label: "Agitador",
-    uniqueName: "agitador",
-  },
-  {
-    label: "Automático",
-    uniqueName: "automatico",
-  },
+  // {
+  //   label: "Agitador",
+  //   uniqueName: "agitador",
+  // },
+  // {
+  //   label: "Automático",
+  //   uniqueName: "automatico",
+  // },
   {
     label: "Gastronômico",
     uniqueName: "gastronomico",
@@ -77,16 +81,29 @@ const TABS = [
   },
 ];
 
+const BASE_REQUESTKEY = "get-public-destinations";
+
 export function PublicDestinations() {
   const [searchName, setSearchName] = useState("");
   const [currentUniqueName, setCurrentUniqueName] = useState<string>(TABS[0].uniqueName);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handleTabSelection = (uniqueName: string) => {
+    setCurrentUniqueName(uniqueName);
+    setCurrentPage(1);
+  };
 
   return (
-    <SectionBase className="public-destinations" heading="Destinos">
+    <SectionBase
+      className="public-destinations"
+      heading="Destinos"
+      style={{ color: "var(--color-brand-1)" }}
+    >
       <br />
       <TextField
         label="Nossos destinos"
         rightIconButton={{ name: "search" }}
+        value={searchName}
         onChange={(e: any) => setSearchName(e.target.value)}
       />
       <br />
@@ -97,27 +114,36 @@ export function PublicDestinations() {
             data-active={uniqueName === currentUniqueName}
             variant="text"
             key={uniqueName}
+            style={{ minWidth: 115 }}
             size="sm"
-            onClick={() => setCurrentUniqueName(uniqueName)}
+            onClick={() => handleTabSelection(uniqueName)}
           >
             {label}
           </Button>
         ))}
       </div>
-      <DestinationTab uniqueName={currentUniqueName} />
+      <DestinationTab
+        requestKey={`${BASE_REQUESTKEY}-${currentUniqueName}-page=${currentPage}-search=${searchName}`}
+        uniqueName={currentUniqueName}
+        currentPage={currentPage}
+        setPage={setCurrentPage}
+        searchName={searchName}
+      />
     </SectionBase>
   );
 }
 
-export const DestinationTab = ({ uniqueName }: DestinationTabProps) => {
-  const [page, setPage] = useState(1);
+export const DestinationTab = ({
+  requestKey,
+  searchName,
+  uniqueName,
+  currentPage,
+  setPage,
+}: DestinationTabProps) => {
+  const fetcher = () =>
+    ProfileApiService.getPublicDestinations({ search: searchName, uniqueName, page: currentPage });
 
-  const fetcher = () => ProfileApiService.getPublicDestinations({ uniqueName, page });
-
-  const { isLoading, isValidating, data, error, mutate } = useSWR(
-    uniqueName ? `get-public-destinations-${uniqueName}` : null,
-    fetcher
-  );
+  const { isLoading, isValidating, data, error } = useSWR(uniqueName ? requestKey : null, fetcher);
 
   if (error) return <ErrorState />;
 
@@ -125,9 +151,7 @@ export const DestinationTab = ({ uniqueName }: DestinationTabProps) => {
 
   if (!data) return <EmptyState />;
 
-  useEffect(() => {
-    mutate();
-  }, [page]);
+  if (!data.destinations.length) return <EmptyState />;
 
   const parseImage = (sources: PhotoSource[]) =>
     sources.find(({ type }) => type === "md")?.url || null;
@@ -160,10 +184,10 @@ export const DestinationTab = ({ uniqueName }: DestinationTabProps) => {
         ))}
       </Grid>
       <Pagination
-        current={page}
+        current={currentPage}
         onSelectPage={(e) => setPage(e)}
         total={data.totalPages}
-        siblingCount={2}
+        siblingCount={1}
       />
     </>
   );

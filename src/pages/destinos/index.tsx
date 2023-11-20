@@ -15,6 +15,70 @@ const NAVBAR_CONFIG: NavbarProps = {
 
 const FOOTER_CONFIG: FooterProps = {
   // TODO: build footer configurations
+  slogan:
+    "Tecnologia e curadoria especializada para uma experiência de viagem única e exclusiva em um sistema por assinatura de recomendações de destinos e roteiros de viagens.",
+  menu: [
+    {
+      title: "Fale conosco",
+      list: [
+        {
+          isExternal: true,
+          href: "mailto:info@tripevolved.com.br",
+          label: "info@tripevolved.com.br",
+        },
+      ],
+    },
+    {
+      title: "Legal",
+      list: [
+        {
+          label: "Termos de Uso",
+          href: "/termos-de-uso",
+        },
+        {
+          label: "Políticas de Privacidade",
+          href: "/politica-de-privacidade",
+        },
+        {
+          label: "Políticas de Cookies",
+          href: "/politica-de-cookies",
+        },
+      ],
+    },
+    {
+      title: "Lançamento",
+      list: [
+        {
+          label: "Participe da lista de espera",
+          href: "/#lista-de-espera",
+        },
+        {
+          label: "Descubra o seu perfil de viajante",
+          href: "/perfil",
+        },
+        {
+          label: "Vale-Viagem",
+          href: "/vale-viagem",
+        },
+        {
+          label: "Parceiros",
+          href: "/parceiros",
+        },
+      ],
+    },
+  ],
+  social: [
+    {
+      icon: "instagram",
+      href: "https://www.instagram.com/tripevolved/",
+      alt: "Instagram",
+    },
+    {
+      icon: "linkedin",
+      href: "https://www.linkedin.com/company/tripevolved/",
+      alt: "Linkedin",
+    },
+  ],
 };
 
 export default function OurDestinationsRoute() {
