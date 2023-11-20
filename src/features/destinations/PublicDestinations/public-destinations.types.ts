@@ -1,3 +1,6 @@
-import type { ComponentHTMLProps } from "@/core/types";
-
-export interface PublicDestinationsProps extends ComponentHTMLProps {};
+export interface PublicDestinationsTabProps {
+  searchName: string;
+  uniqueName: string;
+  currentPage: number;
+  setPage: (page: number) => void;
+}
