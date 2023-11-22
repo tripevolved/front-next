@@ -34,6 +34,8 @@ export * from "./landing-pages/SectionBaseInvite";
 export * from "./lead/LeadList";
 export * from "./lead/LeadListForm";
 export * from "./lead/LeadProvider";
+export * from "./payments/PaymentPage";
+export * from "./payments/PaymentSteps";
 export * from "./payments/TripCheckout";
 export * from "./payments/TripPurchaseForm";
 export * from "./payments/TripPurchasePage";
