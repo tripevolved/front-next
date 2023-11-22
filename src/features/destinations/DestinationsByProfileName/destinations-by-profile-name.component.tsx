@@ -1,51 +1,56 @@
-import { Button, Skeleton } from "mars-ds";
 import type { DestinationsByProfileNameProps } from "./destinations-by-profile-name.types";
 
-import { ProfileApiService } from "@/services/api";
-import { EmptyState, CardTrip, Box, AutoScrollCards } from "@/ui";
-import { useCallback } from "react";
 import useSWR from "swr";
+import { Button, Skeleton } from "mars-ds";
+import { EmptyState, CardTrip, AutoScrollCards, CardTripNew } from "@/ui";
+import { ProfileApiService } from "@/services/api";
 
-export function DestinationsByProfileName({ profileName }: DestinationsByProfileNameProps) {
-  const {
-    data: destinations = [],
-    error,
-    isLoading,
-  } = useSWR(profileName, () => ProfileApiService.getDestinations(profileName), {
-    revalidateOnFocus: false,
-  });
+export function DestinationsByProfileName({
+  profileName,
+  enableNewTrip = false,
+}: DestinationsByProfileNameProps) {
+  const keyName = `destinations-by-${profileName}`;
+  const fetcher = async () => ProfileApiService.getDestinations(profileName);
+  const swrOptions = { revalidateOnFocus: false };
 
-  const ProfileDestinations = useCallback(
-    () => (
+  const { data: destinations = [], error, isLoading } = useSWR(keyName, fetcher, swrOptions);
+
+  if (error) {
+    return enableNewTrip ? (
       <AutoScrollCards>
-        {destinations.map(({ id, name, coverImageUrl, href }) => (
-          <CardTrip key={id} title={name} image={coverImageUrl || undefined} href={href}>
-            <Box className="theme-dark" sx={{ minWidth: 200 }}>
-              <Button href={href} size="sm" variant="neutral" iconName="arrow-right" isRtl>
-                Descobrir destino
-              </Button>
-            </Box>
-          </CardTrip>
-        ))}
+        <NewTrip />
       </AutoScrollCards>
-    ),
-    [profileName, destinations]
-  );
+    ) : (
+      <ProfileErrorState />
+    );
+  }
+
+  if (isLoading) return <ProfileLoadingState />;
 
   return (
-    <section className="destinations-by-profile-name">
-      {error ? (
-        <ProfileErrorState />
-      ) : isLoading ? (
-        <ProfileLoadingState />
-      ) : destinations.length == 0 ? (
-        <ProfileEmptyState />
-      ) : (
-        <ProfileDestinations />
-      )}
-    </section>
+    <AutoScrollCards>
+      {enableNewTrip && <NewTrip />}
+      {destinations.map(({ id, name, coverImageUrl, href }) => (
+        <CardTrip key={id} title={name} image={coverImageUrl || undefined} href={href}>
+          <Button
+            className="theme-dark"
+            href={href}
+            size="sm"
+            variant="neutral"
+            iconName="arrow-right"
+            isRtl
+          >
+            Ver mais
+          </Button>
+        </CardTrip>
+      ))}
+    </AutoScrollCards>
   );
 }
+
+const NewTrip = () => (
+  <CardTripNew title="Nova viagem" iconName="Plane" href="/app/viagens/descobrir" />
+);
 
 const ProfileLoadingState = () => (
   <AutoScrollCards>
@@ -65,6 +70,6 @@ const ProfileEmptyState = () => (
 
 const DestinationItemSkeleton = () => (
   <div className="destination-item">
-    <Skeleton className="destination-item__card--skeleton" active />
+    <Skeleton className="destination-item__card--skeleton" height={272} active />
   </div>
 );
