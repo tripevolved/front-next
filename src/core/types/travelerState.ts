@@ -10,7 +10,6 @@ export type TravelerProfileType =
   | "negocios"
   | "espiritual"
   | "dinamico"
-  | "espiritual"
   | "fa-da-rotina"
   | "garantido"
   | "insaciavel"

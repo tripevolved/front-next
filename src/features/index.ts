@@ -26,6 +26,7 @@ export * from "./destinations/DestinationInfos";
 export * from "./destinations/DestinationPage";
 export * from "./destinations/DestinationRecommendedBy";
 export * from "./destinations/DestinationsByProfileName";
+export * from "./destinations/PublicDestinations";
 export * from "./landing-pages/AwardCard";
 export * from "./landing-pages/HomeNumberedCard";
 export * from "./landing-pages/IntroductionCard";

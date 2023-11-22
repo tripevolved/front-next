@@ -1,0 +1,15 @@
+.public-destinations {
+  &__tab {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    overflow-x: scroll;
+  }
+  &__tab-button {
+    border-radius: 8px 8px 0 0;
+    border-bottom: 2px solid transparent;
+    &[data-active=true] {
+      border-bottom: 2px solid $color-brand-1;
+    }
+  }
+}

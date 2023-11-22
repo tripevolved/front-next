@@ -1,18 +1,10 @@
 import { useAppStore } from "@/core/store";
 import { HasProfile, type StepComponentProps } from "@/features";
-import { useSynchronizeTravelerState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
 import { ErrorState, Text } from "@/ui";
 import { Button } from "mars-ds";
-import { useEffect } from "react";
 
 export function StepProfile({ onNext }: StepComponentProps) {
   const travelerProfile = useAppStore((state) => state.travelerState.travelerProfile);
-  const { syncTravelerState } = useSynchronizeTravelerState();
-
-  useEffect(() => {
-    if (!travelerProfile) syncTravelerState();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   if (!travelerProfile) {
     return (
@@ -21,6 +13,7 @@ export function StepProfile({ onNext }: StepComponentProps) {
       </div>
     );
   }
+
   return (
     <div className="text-center">
       <HasProfile travelerProfile={travelerProfile} />

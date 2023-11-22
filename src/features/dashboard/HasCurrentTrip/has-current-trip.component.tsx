@@ -52,7 +52,7 @@ function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
         </div>
       ) : null}
       <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
-        <CardTripNew title="Descobrir mais uma viagem" iconName="Plane" href="/app/viagens/descobrir" />
+        <CardTripNew title="Nova viagem" iconName="Plane" href="/app/viagens/descobrir" />
         {otherTrips.map((trip) => (
           <TripItem key={trip.id} {...trip} />
         ))}
@@ -83,7 +83,7 @@ function TripItem({ id, title = "Sem nome", status, images, period }: TripListVi
   );
 }
 
-const LoadingSkeleton = () => (
+export const LoadingSkeleton = () => (
   <Grid className="py-md" columns={{ sm: 2, md: 3 }}>
     {[1, 2, 3].map((key) => (
       <Skeleton key={key} active height={270} />
