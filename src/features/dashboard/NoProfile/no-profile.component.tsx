@@ -10,8 +10,7 @@ export function NoProfile() {
       cta={{
         label: "Descobrir meu perfil de Viajante",
         href: "/perfil/perguntas",
-        backgroundColor: "var(--color-brand-2)",
-        color: "white",
+        variant: "tertiary",
       }}
     />
   );

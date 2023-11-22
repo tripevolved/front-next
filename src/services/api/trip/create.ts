@@ -1,7 +1,8 @@
 import { ApiRequest } from "@/services/api/request";
 import { AnswersDto } from "../profile/answers";
+import { UserService } from "@/services/user";
 
-interface CreateTripRequest {
+interface NewTripPayload {
   travelerId: string;
   destinationId: string;
   tripBehavior: TripBehaviorAnswer[];
@@ -75,7 +76,7 @@ export const createTrip = async ({
     startDate: dates[0],
     endDate: dates[1],
   } as TripDates;
-  const trip = {
+  const trip: NewTripPayload = {
     travelerId,
     destinationId,
     tripBehavior: tripBehaviorAnswers,
@@ -87,8 +88,8 @@ export const createTrip = async ({
       children: 0,
       type: 0,
     },
-  } satisfies CreateTripRequest;
+  };
   const { id } = await ApiRequest.post<CreatedTrip>(url, trip);
-
+  await UserService.updateTravelerState();
   return { id };
 };
