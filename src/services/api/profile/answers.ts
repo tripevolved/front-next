@@ -1,8 +1,9 @@
 import { ApiRequest } from "@/services/api/request";
 import { LeadApiService } from "@/services/api/lead";
 import { getResult } from "./result";
+import { UserService } from "@/services/user";
 
-interface AnswersRequest {
+interface AnswersPayload {
   travelerId: string;
   answers: Answer[];
 }
@@ -49,20 +50,24 @@ export const sendAnswers = async ({ answers, email }: AnswersBody) => {
   if (!lead) throw new Error("Lead is not found");
 
   const { id } = lead;
-  const data = {
+  const payload: AnswersPayload = {
     travelerId: id,
     answers: parseAnswers(answers),
-  } satisfies AnswersRequest;
+  };
 
-  return ApiRequest.post(url, data).then(() => getResult({ id }));
+  const response = await ApiRequest.post(url, payload).then(() => getResult({ id }));
+  await UserService.updateTravelerState();
+  return response;
 };
 
 export const sendAnswersByTravelerId = async ({ answers, travelerId }: AnswersBodyById) => {
   const url = "profiles/answers";
-  const data = {
+  const payload: AnswersPayload = {
     travelerId: travelerId,
     answers: parseAnswers(answers),
-  } satisfies AnswersRequest;
+  };
 
-  return ApiRequest.post(url, data);
+  const response = await ApiRequest.post(url, payload);
+  await UserService.updateTravelerState();
+  return response;
 };

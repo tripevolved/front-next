@@ -64,10 +64,6 @@ const ProfileErrorState = () => (
   <EmptyState text="Não foram encontrados destinos para esse perfil, devido à um erro :(" />
 );
 
-const ProfileEmptyState = () => (
-  <EmptyState text="Não foram encontrados destinos para esse perfil :(" />
-);
-
 const DestinationItemSkeleton = () => (
   <div className="destination-item">
     <Skeleton className="destination-item__card--skeleton" height={272} active />

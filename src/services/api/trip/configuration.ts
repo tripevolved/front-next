@@ -1,5 +1,6 @@
 import { ApiRequest } from "@/services/api/request";
 import { Travelers, TripDates, TripPeriod } from "./create";
+import { UserService } from "@/services/user";
 
 interface EditTripConfigurationRequest {
   period: TripPeriod;
@@ -44,6 +45,6 @@ export const editTrip = async ({
     },
   } satisfies EditTripConfigurationRequest;
   const { id } = await ApiRequest.put<EditTrip>(url, trip);
-
+  await UserService.updateTravelerState();
   return { id };
 };

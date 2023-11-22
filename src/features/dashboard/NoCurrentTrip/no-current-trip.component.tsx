@@ -1,7 +1,6 @@
 import { useAppStore } from "@/core/store";
 import { DestinationsByProfileName } from "@/features";
 import { Text } from "@/ui";
-import { Button } from "mars-ds";
 
 export function NoCurrentTrip() {
   const { travelerProfile } = useAppStore((state) => state.travelerState);
