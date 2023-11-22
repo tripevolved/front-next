@@ -1,8 +1,7 @@
 import type { PaymentStepProps } from "./payment-steps.types";
 
-import { CardTrip, Picture, Text } from "@/ui";
-import { Button, Checkbox, Grid } from "mars-ds";
-import { parsePhoto } from "@/utils/helpers/photo.helpers";
+import { Picture, Text } from "@/ui";
+import { Button, Checkbox, Divider, Grid, Icon } from "mars-ds";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { useState } from "react";
 
@@ -17,17 +16,30 @@ export const StepSummary = ({ trip, onNext }: PaymentStepProps) => {
 
   return (
     <Grid>
-      <Text heading size="xs">
-        <strong>Resumo da sua viagem:</strong>
+      <Text heading size="xs" className="mb-sm">
+        Resumo da viagem
       </Text>
-      <div className="py-md">
-        <CardTrip image={parsePhoto(trip.destination.photos[0])} />
-      </div>
       <StepSummaryConfiguration title={trip.destination.title} {...trip.configuration} />
+      <Text>O que inclui</Text>
       <StepSummaryTransportation />
       <StepSummaryAccommodation />
       <StepSummaryScript />
       <StepSummarySupport />
+      <Divider />
+      <div className="px-lg flex justify-content-between gap-sm">
+        <span>Total</span>
+        <strong>R$ 479,90</strong>
+      </div>
+      <div className="px-lg flex justify-content-between gap-sm">
+        <span>Taxa</span>
+        <strong>R$ 19,19</strong>
+      </div>
+      <Divider />
+      <div className="px-lg flex justify-content-between gap-sm">
+        <span>Total</span>
+        <strong>R$ 499,09</strong>
+      </div>
+      <br />
       <label className="py-md px-lg">
         <Checkbox
           onClick={() => setAcceptTerms((state) => !state)}
@@ -48,12 +60,14 @@ const StepSummaryConfiguration = ({
 }: PaymentStepProps["trip"]["configuration"] & { title: string }) => {
   return (
     <PaymentStepSection image="/assets/trip/destination.svg" title={title}>
-      <Text className="color-text-secondary" style={{ marginTop: 0 }}>
-        {normalizeDateString(formattedDates)}
-      </Text>
-      <Text className="color-text-secondary" style={{ marginTop: 0 }}>
-        {numAdults} pessoas
-      </Text>
+      <div className="color-text-secondary flex align-items-center gap-sm">
+        <Icon name="calendar" size="sm" />
+        <Text>{normalizeDateString(formattedDates)}</Text>
+      </div>
+      <div className="color-text-secondary flex align-items-center gap-sm">
+        <Icon name="users" size="sm" />
+        <Text>{numAdults} pessoas</Text>
+      </div>
     </PaymentStepSection>
   );
 };
