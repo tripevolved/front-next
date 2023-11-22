@@ -11,10 +11,9 @@ export function NoCurrentTrip() {
       <Text className="mt-lg" as="h2" heading size="xs">
         Destinos que você pode gostar:
       </Text>
-      <div className="py-lg">
-        <DestinationsByProfileName profileName={travelerProfile || "relax"} />
-      </div>
-      <Button variant="tertiary" href="/app/viagens/descobrir">Quero uma viagem personalizada</Button>
+      <section className="py-lg">
+        <DestinationsByProfileName profileName={travelerProfile || "relax"} enableNewTrip />
+      </section>
     </section>
   );
 }
