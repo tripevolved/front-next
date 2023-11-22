@@ -14,7 +14,7 @@ export function NoCurrentTrip() {
       <div className="py-lg">
         <DestinationsByProfileName profileName={travelerProfile || "relax"} />
       </div>
-      <Button variant="tertiary" href="/app/viagens/nova">Quero uma viagem personalizada</Button>
+      <Button variant="tertiary" href="/app/viagens/descobrir">Quero uma viagem personalizada</Button>
     </section>
   );
 }
