@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react";
-import { PrivacyBanner } from "./privacy-banner.component";
+import { PublicDestinations } from "./public-destinations.component";
 
-const makeSut = () => render(<PrivacyBanner />);
+const makeSut = () => render(<PublicDestinations />);
 
-describe("<PrivacyBanner>", () => {
+describe("<PublicDestinations>", () => {
   it("should render component", () => {
     const wrapper = makeSut();
     expect(wrapper).toBeTruthy();

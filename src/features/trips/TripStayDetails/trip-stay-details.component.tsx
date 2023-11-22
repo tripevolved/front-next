@@ -18,10 +18,6 @@ export function TripStayDetails({
   router,
   onCloseModal,
 }: TripStayDetailsProps) {
-  let computedStyle;
-
-  computedStyle = style;
-
   const { accommodation, updateAccommodation } = useAppStore((state) => ({
     updateAccommodation: state.updateAccommodationState,
     accommodation: state.accommodation,
@@ -33,18 +29,10 @@ export function TripStayDetails({
     router.push(`/app/viagens/${tripId}/hospedagem/quartos`);
   };
 
-  if (isModalView) {
-    computedStyle = {
-      maxHeight: parseNumericValue(600),
-      overflowY: "scroll",
-      ...style,
-    };
-  }
-
   return (
     <>
       {/** @ts-ignore */}
-      <div className="trip-stay-details" style={computedStyle}>
+      <div className="trip-stay-details" style={style}>
         <Box className="trip-stay-details__initial-info">
           <div className="trip-stay-details__initial-info__header">
             <Text size="sm" heading className="trip-stay-details__initial-info__header__title">
@@ -63,6 +51,12 @@ export function TripStayDetails({
                 />
               ))}
             </Carousel>
+          ) : stayData.coverImageUrl ? (
+            <Picture
+              className="trip-stay-details__initial-info__image"
+              src={stayData.coverImageUrl}
+              alt={stayData.name}
+            />
           ) : (
             <Picture
               style={{
@@ -117,7 +111,7 @@ export function TripStayDetails({
             <Button
               className="trip-stay-details__footer-buttons__buttons"
               variant="naked"
-              href={`/app/viagens/${tripId}/hospedagem/editar-hotel/`}
+              href={`/app/viagens/${tripId}/hospedagem/editar`}
             >
               Editar
             </Button>

@@ -1,4 +1,5 @@
 import { Photo } from "./photo";
+import { TripMatchedDestination } from "./trip";
 
 export interface PublicDestination {
   id: string;

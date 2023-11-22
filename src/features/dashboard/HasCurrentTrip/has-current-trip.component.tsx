@@ -83,7 +83,7 @@ function TripItem({ id, title = "Sem nome", status, images, period }: TripListVi
   );
 }
 
-const LoadingSkeleton = () => (
+export const LoadingSkeleton = () => (
   <Grid className="py-md" columns={{ sm: 2, md: 3 }}>
     {[1, 2, 3].map((key) => (
       <Skeleton key={key} active height={270} />

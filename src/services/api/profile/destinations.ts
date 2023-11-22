@@ -12,12 +12,25 @@ interface DestinationsResponse {
   destinations: DestinationItem[];
 }
 
-interface DestinationItem {
+export interface DestinationItem {
   coverImage: Photo;
   title: string;
   destinationId: string;
   name: string;
   uniqueName: string;
+}
+
+export interface PublicDestinationResponse {
+  page: number;
+  totalPages: number;
+  perPage: number;
+  destinations: Omit<DestinationItem, "title">[];
+}
+
+export interface PublicDestinationsRequestParams {
+  search?: string;
+  uniqueName: string;
+  page?: number;
 }
 
 const serializer = ({ destinations }: DestinationsResponse): Destination[] =>
@@ -31,4 +44,18 @@ const serializer = ({ destinations }: DestinationsResponse): Destination[] =>
 export const getDestinations = async (profileName: string) => {
   const route = `profiles/${profileName}`;
   return ApiRequest.get<DestinationsResponse>(route).then(serializer);
+};
+
+export const getPublicDestinations = async ({
+  search = "",
+  uniqueName,
+  page = 1,
+}: PublicDestinationsRequestParams) => {
+  const params = new URLSearchParams({
+    search,
+    profile: uniqueName == "all" ? "" : uniqueName,
+    page: String(page),
+  });
+  const route = `destinations/paginated?${params.toString()}`;
+  return ApiRequest.get<PublicDestinationResponse>(route);
 };

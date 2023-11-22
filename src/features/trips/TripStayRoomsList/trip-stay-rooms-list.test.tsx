@@ -6,7 +6,12 @@ import { mockUseRouter } from "@/utils/mocks/next-router.mock";
 
 mockUseRouter();
 
-const makeSut = (props?: TripStayRoomsListProps) => render(<TripStayRoomsList {...props} />);
+const FAKE_PROPS: TripStayRoomsListProps = {
+  tripId: "FAKE_TRIP_ID",
+};
+
+const makeSut = (props?: TripStayRoomsListProps) =>
+  render(<TripStayRoomsList {...FAKE_PROPS} {...props} />);
 
 describe("<TripStayRoomsList>", () => {
   it("should render component", () => {

@@ -4,163 +4,169 @@ import type * as prismicT from "@prismicio/types";
 import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = {
-    [KeyType in keyof T]: T[KeyType];
+  [KeyType in keyof T]: T[KeyType];
 };
 /** Content for Proposta comercial documents */
 interface BusinessProposalDocumentData {
-    /**
-     * Nome do cliente field in *Proposta comercial*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.name
-     * - **Tab**: Geral
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    name: prismicT.KeyTextField;
-    /**
-     * E-mail field in *Proposta comercial*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.email
-     * - **Tab**: Geral
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    email: prismicT.KeyTextField;
-    /**
-     * Telefone field in *Proposta comercial*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: 55999999999
-     * - **API ID Path**: businessProposal.phoneNumber
-     * - **Tab**: Geral
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    phoneNumber: prismicT.KeyTextField;
-    /**
-     * Status field in *Proposta comercial*
-     *
-     * - **Field Type**: Select
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.status
-     * - **Tab**: Geral
-     * - **Documentation**: https://prismic.io/docs/core-concepts/select
-     *
-     */
-    status: prismicT.SelectField<"Aguardando aprovação" | "Pagamento homologado" | "Emitindo vouchers">;
-    /**
-     * Bloco field in *Proposta comercial*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.blocks[]
-     * - **Tab**: Geral
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    blocks: prismicT.GroupField<Simplify<BusinessProposalDocumentDataBlocksItem>>;
-    /**
-     * Slice Zone field in *Proposta comercial*
-     *
-     * - **Field Type**: Slice Zone
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.sections[]
-     * - **Tab**: Geral
-     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
-     *
-     */
-    sections: prismicT.SliceZone<BusinessProposalDocumentDataSectionsSlice>;
-    /**
-     * Ordens field in *Proposta comercial*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.ordens[]
-     * - **Tab**: Pagamentos
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    ordens: prismicT.GroupField<Simplify<BusinessProposalDocumentDataOrdensItem>>;
+  /**
+   * Nome do cliente field in *Proposta comercial*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.name
+   * - **Tab**: Geral
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  name: prismicT.KeyTextField;
+  /**
+   * E-mail field in *Proposta comercial*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.email
+   * - **Tab**: Geral
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  email: prismicT.KeyTextField;
+  /**
+   * Telefone field in *Proposta comercial*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: 55999999999
+   * - **API ID Path**: businessProposal.phoneNumber
+   * - **Tab**: Geral
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  phoneNumber: prismicT.KeyTextField;
+  /**
+   * Status field in *Proposta comercial*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.status
+   * - **Tab**: Geral
+   * - **Documentation**: https://prismic.io/docs/core-concepts/select
+   *
+   */
+  status: prismicT.SelectField<
+    "Aguardando aprovação" | "Pagamento homologado" | "Emitindo vouchers"
+  >;
+  /**
+   * Bloco field in *Proposta comercial*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.blocks[]
+   * - **Tab**: Geral
+   * - **Documentation**: https://prismic.io/docs/core-concepts/group
+   *
+   */
+  blocks: prismicT.GroupField<Simplify<BusinessProposalDocumentDataBlocksItem>>;
+  /**
+   * Slice Zone field in *Proposta comercial*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.sections[]
+   * - **Tab**: Geral
+   * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+   *
+   */
+  sections: prismicT.SliceZone<BusinessProposalDocumentDataSectionsSlice>;
+  /**
+   * Ordens field in *Proposta comercial*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.ordens[]
+   * - **Tab**: Pagamentos
+   * - **Documentation**: https://prismic.io/docs/core-concepts/group
+   *
+   */
+  ordens: prismicT.GroupField<Simplify<BusinessProposalDocumentDataOrdensItem>>;
 }
 /**
  * Item in Proposta comercial → Bloco
  *
  */
 export interface BusinessProposalDocumentDataBlocksItem {
-    /**
-     * Tipo field in *Proposta comercial → Bloco*
-     *
-     * - **Field Type**: Select
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.blocks[].type
-     * - **Documentation**: https://prismic.io/docs/core-concepts/select
-     *
-     */
-    type: prismicT.SelectField<"Text" | "Location" | "Transfer" | "Accommodation" | "Restaurant" | "Attraction">;
-    /**
-     * day field in *Proposta comercial → Bloco*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.blocks[].day
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    day: prismicT.KeyTextField;
-    /**
-     * period field in *Proposta comercial → Bloco*
-     *
-     * - **Field Type**: Select
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.blocks[].period
-     * - **Documentation**: https://prismic.io/docs/core-concepts/select
-     *
-     */
-    period: prismicT.SelectField<"manhã" | "meio-dia" | "tarde" | "janta" | "noite" | "café da manhã">;
-    /**
-     * Imagem principal field in *Proposta comercial → Bloco*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.blocks[].cover
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    cover: prismicT.ImageField<never>;
-    /**
-     * Título field in *Proposta comercial → Bloco*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.blocks[].title
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    title: prismicT.KeyTextField;
-    /**
-     * Subtitle field in *Proposta comercial → Bloco*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.blocks[].subtitle
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    subtitle: prismicT.KeyTextField;
-    /**
-     * Text field in *Proposta comercial → Bloco*
-     *
-     * - **Field Type**: Rich Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.blocks[].text
-     * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
-     *
-     */
-    text: prismicT.RichTextField;
+  /**
+   * Tipo field in *Proposta comercial → Bloco*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.blocks[].type
+   * - **Documentation**: https://prismic.io/docs/core-concepts/select
+   *
+   */
+  type: prismicT.SelectField<
+    "Text" | "Location" | "Transfer" | "Accommodation" | "Restaurant" | "Attraction"
+  >;
+  /**
+   * day field in *Proposta comercial → Bloco*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.blocks[].day
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  day: prismicT.KeyTextField;
+  /**
+   * period field in *Proposta comercial → Bloco*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.blocks[].period
+   * - **Documentation**: https://prismic.io/docs/core-concepts/select
+   *
+   */
+  period: prismicT.SelectField<
+    "manhã" | "meio-dia" | "tarde" | "janta" | "noite" | "café da manhã"
+  >;
+  /**
+   * Imagem principal field in *Proposta comercial → Bloco*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.blocks[].cover
+   * - **Documentation**: https://prismic.io/docs/core-concepts/image
+   *
+   */
+  cover: prismicT.ImageField<never>;
+  /**
+   * Título field in *Proposta comercial → Bloco*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.blocks[].title
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  title: prismicT.KeyTextField;
+  /**
+   * Subtitle field in *Proposta comercial → Bloco*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.blocks[].subtitle
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  subtitle: prismicT.KeyTextField;
+  /**
+   * Text field in *Proposta comercial → Bloco*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.blocks[].text
+   * - **Documentation**: https://prismic.io/docs/core-concepts/rich-text-title
+   *
+   */
+  text: prismicT.RichTextField;
 }
 /**
  * Slice for *Proposta comercial → Slice Zone*
@@ -172,46 +178,46 @@ type BusinessProposalDocumentDataSectionsSlice = never;
  *
  */
 export interface BusinessProposalDocumentDataOrdensItem {
-    /**
-     * Título field in *Proposta comercial → Ordens*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.ordens[].title
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    title: prismicT.KeyTextField;
-    /**
-     * Desconto field in *Proposta comercial → Ordens*
-     *
-     * - **Field Type**: Number
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.ordens[].discount
-     * - **Documentation**: https://prismic.io/docs/core-concepts/number
-     *
-     */
-    discount: prismicT.NumberField;
-    /**
-     * Preço total field in *Proposta comercial → Ordens*
-     *
-     * - **Field Type**: Number
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.ordens[].price
-     * - **Documentation**: https://prismic.io/docs/core-concepts/number
-     *
-     */
-    price: prismicT.NumberField;
-    /**
-     * Link de pagamento field in *Proposta comercial → Ordens*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: businessProposal.ordens[].href
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    href: prismicT.KeyTextField;
+  /**
+   * Título field in *Proposta comercial → Ordens*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.ordens[].title
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  title: prismicT.KeyTextField;
+  /**
+   * Desconto field in *Proposta comercial → Ordens*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.ordens[].discount
+   * - **Documentation**: https://prismic.io/docs/core-concepts/number
+   *
+   */
+  discount: prismicT.NumberField;
+  /**
+   * Preço total field in *Proposta comercial → Ordens*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.ordens[].price
+   * - **Documentation**: https://prismic.io/docs/core-concepts/number
+   *
+   */
+  price: prismicT.NumberField;
+  /**
+   * Link de pagamento field in *Proposta comercial → Ordens*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: businessProposal.ordens[].href
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  href: prismicT.KeyTextField;
 }
 /**
  * Proposta comercial document from Prismic
@@ -222,132 +228,133 @@ export interface BusinessProposalDocumentDataOrdensItem {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type BusinessProposalDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<BusinessProposalDocumentData>, "businessProposal", Lang>;
+export type BusinessProposalDocument<Lang extends string = string> =
+  prismicT.PrismicDocumentWithUID<Simplify<BusinessProposalDocumentData>, "businessProposal", Lang>;
 /** Content for Pages documents */
 interface PagesDocumentData {
-    /**
-     * slug field in *Pages*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: pages.slug
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    slug: prismicT.KeyTextField;
-    /**
-     * title field in *Pages*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: pages.title
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    title: prismicT.KeyTextField;
-    /**
-     * Description field in *Pages*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: pages.description
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    description: prismicT.KeyTextField;
-    /**
-     * Thumbnail field in *Pages*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: pages.image
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    image: prismicT.ImageField<"square">;
-    /**
-     * canonical field in *Pages*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: pages.canonical
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    canonical: prismicT.KeyTextField;
-    /**
-     * nofollow field in *Pages*
-     *
-     * - **Field Type**: Boolean
-     * - **Placeholder**: *None*
-     * - **Default Value**: false
-     * - **API ID Path**: pages.nofollow
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
-     *
-     */
-    nofollow: prismicT.BooleanField;
-    /**
-     * noIndex field in *Pages*
-     *
-     * - **Field Type**: Boolean
-     * - **Placeholder**: *None*
-     * - **Default Value**: false
-     * - **API ID Path**: pages.noindex
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
-     *
-     */
-    noindex: prismicT.BooleanField;
-    /**
-     * Keywords field in *Pages*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: viagem, turismo
-     * - **API ID Path**: pages.keywords
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    keywords: prismicT.KeyTextField;
-    /**
-     * Slice Zone field in *Pages*
-     *
-     * - **Field Type**: Slice Zone
-     * - **Placeholder**: *None*
-     * - **API ID Path**: pages.slices[]
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/slices
-     *
-     */
-    slices: prismicT.SliceZone<PagesDocumentDataSlicesSlice>;
-    /**
-     * JSON field in *Pages*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: { "children": [] }
-     * - **API ID Path**: pages.data
-     * - **Tab**: JSON
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    data: prismicT.KeyTextField;
-    /**
-     * Photos field in *Pages*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: pages.photos[]
-     * - **Tab**: Photos
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    photos: prismicT.GroupField<Simplify<PagesDocumentDataPhotosItem>>;
+  /**
+   * slug field in *Pages*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.slug
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  slug: prismicT.KeyTextField;
+  /**
+   * title field in *Pages*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.title
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  title: prismicT.KeyTextField;
+  /**
+   * Description field in *Pages*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.description
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  description: prismicT.KeyTextField;
+  /**
+   * Thumbnail field in *Pages*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.image
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/image
+   *
+   */
+  image: prismicT.ImageField<"square">;
+  /**
+   * canonical field in *Pages*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.canonical
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  canonical: prismicT.KeyTextField;
+  /**
+   * nofollow field in *Pages*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: pages.nofollow
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
+   *
+   */
+  nofollow: prismicT.BooleanField;
+  /**
+   * noIndex field in *Pages*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: pages.noindex
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
+   *
+   */
+  noindex: prismicT.BooleanField;
+  /**
+   * Keywords field in *Pages*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: viagem, turismo
+   * - **API ID Path**: pages.keywords
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  keywords: prismicT.KeyTextField;
+  /**
+   * Slice Zone field in *Pages*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.slices[]
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/slices
+   *
+   */
+  slices: prismicT.SliceZone<PagesDocumentDataSlicesSlice>;
+  /**
+   * JSON field in *Pages*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: { "children": [] }
+   * - **API ID Path**: pages.data
+   * - **Tab**: JSON
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  data: prismicT.KeyTextField;
+  /**
+   * Photos field in *Pages*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.photos[]
+   * - **Tab**: Photos
+   * - **Documentation**: https://prismic.io/docs/core-concepts/group
+   *
+   */
+  photos: prismicT.GroupField<Simplify<PagesDocumentDataPhotosItem>>;
 }
 /**
  * Slice for *Pages → Slice Zone*
@@ -359,16 +366,16 @@ type PagesDocumentDataSlicesSlice = never;
  *
  */
 export interface PagesDocumentDataPhotosItem {
-    /**
-     * Image field in *Pages → Photos*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: pages.photos[].image
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    image: prismicT.ImageField<"md" | "lg" | "xl">;
+  /**
+   * Image field in *Pages → Photos*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: pages.photos[].image
+   * - **Documentation**: https://prismic.io/docs/core-concepts/image
+   *
+   */
+  image: prismicT.ImageField<"md" | "lg" | "xl">;
 }
 /**
  * Pages document from Prismic
@@ -379,31 +386,35 @@ export interface PagesDocumentDataPhotosItem {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type PagesDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<PagesDocumentData>, "pages", Lang>;
+export type PagesDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<
+  Simplify<PagesDocumentData>,
+  "pages",
+  Lang
+>;
 /** Content for JSON Part documents */
 interface PartDocumentData {
-    /**
-     * slug field in *JSON Part*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: part.slug
-     * - **Tab**: JSON
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    slug: prismicT.KeyTextField;
-    /**
-     * data field in *JSON Part*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: part.data
-     * - **Tab**: JSON
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    data: prismicT.KeyTextField;
+  /**
+   * slug field in *JSON Part*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: part.slug
+   * - **Tab**: JSON
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  slug: prismicT.KeyTextField;
+  /**
+   * data field in *JSON Part*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: part.data
+   * - **Tab**: JSON
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  data: prismicT.KeyTextField;
 }
 /**
  * JSON Part document from Prismic
@@ -414,217 +425,221 @@ interface PartDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type PartDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<PartDocumentData>, "part", Lang>;
+export type PartDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<
+  Simplify<PartDocumentData>,
+  "part",
+  Lang
+>;
 /** Content for Site Template documents */
 interface SiteTemplateDocumentData {
-    /**
-     * title field in *Site Template*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.title
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    title: prismicT.KeyTextField;
-    /**
-     * Description field in *Site Template*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.description
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    description: prismicT.KeyTextField;
-    /**
-     * Thumbnail field in *Site Template*
-     *
-     * - **Field Type**: Image
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.image
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/image
-     *
-     */
-    image: prismicT.ImageField<"square">;
-    /**
-     * Keywords field in *Site Template*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: viagem, turismo
-     * - **API ID Path**: siteTemplate.keywords
-     * - **Tab**: Seo
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    keywords: prismicT.KeyTextField;
-    /**
-     * Menu field in *Site Template*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.menu[]
-     * - **Tab**: Navbar
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    menu: prismicT.GroupField<Simplify<SiteTemplateDocumentDataMenuItem>>;
-    /**
-     * Slogan field in *Site Template*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.slogan
-     * - **Tab**: Footer
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    slogan: prismicT.KeyTextField;
-    /**
-     * Social field in *Site Template*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.social[]
-     * - **Tab**: Footer
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    social: prismicT.GroupField<Simplify<SiteTemplateDocumentDataSocialItem>>;
-    /**
-     * sitemap field in *Site Template*
-     *
-     * - **Field Type**: Group
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.sitemap[]
-     * - **Tab**: Footer
-     * - **Documentation**: https://prismic.io/docs/core-concepts/group
-     *
-     */
-    sitemap: prismicT.GroupField<Simplify<SiteTemplateDocumentDataSitemapItem>>;
+  /**
+   * title field in *Site Template*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.title
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  title: prismicT.KeyTextField;
+  /**
+   * Description field in *Site Template*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.description
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  description: prismicT.KeyTextField;
+  /**
+   * Thumbnail field in *Site Template*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.image
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/image
+   *
+   */
+  image: prismicT.ImageField<"square">;
+  /**
+   * Keywords field in *Site Template*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: viagem, turismo
+   * - **API ID Path**: siteTemplate.keywords
+   * - **Tab**: Seo
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  keywords: prismicT.KeyTextField;
+  /**
+   * Menu field in *Site Template*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.menu[]
+   * - **Tab**: Navbar
+   * - **Documentation**: https://prismic.io/docs/core-concepts/group
+   *
+   */
+  menu: prismicT.GroupField<Simplify<SiteTemplateDocumentDataMenuItem>>;
+  /**
+   * Slogan field in *Site Template*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.slogan
+   * - **Tab**: Footer
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  slogan: prismicT.KeyTextField;
+  /**
+   * Social field in *Site Template*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.social[]
+   * - **Tab**: Footer
+   * - **Documentation**: https://prismic.io/docs/core-concepts/group
+   *
+   */
+  social: prismicT.GroupField<Simplify<SiteTemplateDocumentDataSocialItem>>;
+  /**
+   * sitemap field in *Site Template*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.sitemap[]
+   * - **Tab**: Footer
+   * - **Documentation**: https://prismic.io/docs/core-concepts/group
+   *
+   */
+  sitemap: prismicT.GroupField<Simplify<SiteTemplateDocumentDataSitemapItem>>;
 }
 /**
  * Item in Site Template → Menu
  *
  */
 export interface SiteTemplateDocumentDataMenuItem {
-    /**
-     * Texto field in *Site Template → Menu*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.menu[].label
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    label: prismicT.KeyTextField;
-    /**
-     * Link field in *Site Template → Menu*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.menu[].href
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    href: prismicT.KeyTextField;
-    /**
-     * Destaque field in *Site Template → Menu*
-     *
-     * - **Field Type**: Boolean
-     * - **Placeholder**: *None*
-     * - **Default Value**: false
-     * - **API ID Path**: siteTemplate.menu[].highlight
-     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
-     *
-     */
-    highlight: prismicT.BooleanField;
+  /**
+   * Texto field in *Site Template → Menu*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.menu[].label
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  label: prismicT.KeyTextField;
+  /**
+   * Link field in *Site Template → Menu*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.menu[].href
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  href: prismicT.KeyTextField;
+  /**
+   * Destaque field in *Site Template → Menu*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: siteTemplate.menu[].highlight
+   * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
+   *
+   */
+  highlight: prismicT.BooleanField;
 }
 /**
  * Item in Site Template → Social
  *
  */
 export interface SiteTemplateDocumentDataSocialItem {
-    /**
-     * Nome do ícone field in *Site Template → Social*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.social[].icon
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    icon: prismicT.KeyTextField;
-    /**
-     * Link field in *Site Template → Social*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.social[].href
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    href: prismicT.KeyTextField;
-    /**
-     * Rede social field in *Site Template → Social*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: Facebook
-     * - **API ID Path**: siteTemplate.social[].alt
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    alt: prismicT.KeyTextField;
+  /**
+   * Nome do ícone field in *Site Template → Social*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.social[].icon
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  icon: prismicT.KeyTextField;
+  /**
+   * Link field in *Site Template → Social*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.social[].href
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  href: prismicT.KeyTextField;
+  /**
+   * Rede social field in *Site Template → Social*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Facebook
+   * - **API ID Path**: siteTemplate.social[].alt
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  alt: prismicT.KeyTextField;
 }
 /**
  * Item in Site Template → sitemap
  *
  */
 export interface SiteTemplateDocumentDataSitemapItem {
-    /**
-     * Agrupar pelo nome field in *Site Template → sitemap*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: Fale Conosco
-     * - **API ID Path**: siteTemplate.sitemap[].group
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    group: prismicT.KeyTextField;
-    /**
-     * Text field in *Site Template → sitemap*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.sitemap[].label
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    label: prismicT.KeyTextField;
-    /**
-     * Link field in *Site Template → sitemap*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: siteTemplate.sitemap[].href
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    href: prismicT.KeyTextField;
-    /**
-     * Abrir em nova aba? field in *Site Template → sitemap*
-     *
-     * - **Field Type**: Boolean
-     * - **Placeholder**: *None*
-     * - **Default Value**: false
-     * - **API ID Path**: siteTemplate.sitemap[].isExternal
-     * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
-     *
-     */
-    isExternal: prismicT.BooleanField;
+  /**
+   * Agrupar pelo nome field in *Site Template → sitemap*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Fale Conosco
+   * - **API ID Path**: siteTemplate.sitemap[].group
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  group: prismicT.KeyTextField;
+  /**
+   * Text field in *Site Template → sitemap*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.sitemap[].label
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  label: prismicT.KeyTextField;
+  /**
+   * Link field in *Site Template → sitemap*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: siteTemplate.sitemap[].href
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  href: prismicT.KeyTextField;
+  /**
+   * Abrir em nova aba? field in *Site Template → sitemap*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: siteTemplate.sitemap[].isExternal
+   * - **Documentation**: https://prismic.io/docs/core-concepts/boolean
+   *
+   */
+  isExternal: prismicT.BooleanField;
 }
 /**
  * Site Template document from Prismic
@@ -635,59 +650,67 @@ export interface SiteTemplateDocumentDataSitemapItem {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type SiteTemplateDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<SiteTemplateDocumentData>, "siteTemplate", Lang>;
-export type AllDocumentTypes = BusinessProposalDocument | PagesDocument | PartDocument | SiteTemplateDocument;
+export type SiteTemplateDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<
+  Simplify<SiteTemplateDocumentData>,
+  "siteTemplate",
+  Lang
+>;
+export type AllDocumentTypes =
+  | BusinessProposalDocument
+  | PagesDocument
+  | PartDocument
+  | SiteTemplateDocument;
 /**
  * Primary content in FreeJson → Primary
  *
  */
 interface FreeJsonSliceCustomComponentPrimary {
-    /**
-     * id field in *FreeJson → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: freeJson.primary.id
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    id: prismicT.KeyTextField;
-    /**
-     * component field in *FreeJson → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: freeJson.primary.component
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    component: prismicT.KeyTextField;
-    /**
-     * Customizações (JSON) field in *FreeJson → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: { "backgroundColor": "red" }
-     * - **API ID Path**: freeJson.primary.data
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    data: prismicT.KeyTextField;
+  /**
+   * id field in *FreeJson → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: freeJson.primary.id
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  id: prismicT.KeyTextField;
+  /**
+   * component field in *FreeJson → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: freeJson.primary.component
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  component: prismicT.KeyTextField;
+  /**
+   * Customizações (JSON) field in *FreeJson → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: { "backgroundColor": "red" }
+   * - **API ID Path**: freeJson.primary.data
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  data: prismicT.KeyTextField;
 }
 /**
  * Item in FreeJson → Items
  *
  */
 export interface FreeJsonSliceCustomComponentItem {
-    /**
-     * Conteúdo JSON (children) field in *FreeJson → Items*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: { "title": "Meu título" }
-     * - **API ID Path**: freeJson.items[].children
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    children: prismicT.KeyTextField;
+  /**
+   * Conteúdo JSON (children) field in *FreeJson → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: { "title": "Meu título" }
+   * - **API ID Path**: freeJson.items[].children
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  children: prismicT.KeyTextField;
 }
 /**
  * CustomComponent variation for FreeJson Slice
@@ -697,7 +720,11 @@ export interface FreeJsonSliceCustomComponentItem {
  * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
  *
  */
-export type FreeJsonSliceCustomComponent = prismicT.SharedSliceVariation<"customComponent", Simplify<FreeJsonSliceCustomComponentPrimary>, Simplify<FreeJsonSliceCustomComponentItem>>;
+export type FreeJsonSliceCustomComponent = prismicT.SharedSliceVariation<
+  "customComponent",
+  Simplify<FreeJsonSliceCustomComponentPrimary>,
+  Simplify<FreeJsonSliceCustomComponentItem>
+>;
 /**
  * Slice variation for *FreeJson*
  *
@@ -717,52 +744,52 @@ export type FreeJsonSlice = prismicT.SharedSlice<"freeJson", FreeJsonSliceVariat
  *
  */
 interface SectionBaseSliceDefaultPrimary {
-    /**
-     * id field in *SectionBase → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: *None*
-     * - **API ID Path**: sectionBase.primary.id
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    id: prismicT.KeyTextField;
-    /**
-     * container field in *SectionBase → Primary*
-     *
-     * - **Field Type**: Select
-     * - **Placeholder**: Tamanho do container da seção
-     * - **API ID Path**: sectionBase.primary.container
-     * - **Documentation**: https://prismic.io/docs/core-concepts/select
-     *
-     */
-    container: prismicT.SelectField<"lg" | "sm" | "md" | "none">;
-    /**
-     * Data (JSON) field in *SectionBase → Primary*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: { "backgroundColor": "red" }
-     * - **API ID Path**: sectionBase.primary.data
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    data: prismicT.KeyTextField;
+  /**
+   * id field in *SectionBase → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: sectionBase.primary.id
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  id: prismicT.KeyTextField;
+  /**
+   * container field in *SectionBase → Primary*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: Tamanho do container da seção
+   * - **API ID Path**: sectionBase.primary.container
+   * - **Documentation**: https://prismic.io/docs/core-concepts/select
+   *
+   */
+  container: prismicT.SelectField<"lg" | "sm" | "md" | "none">;
+  /**
+   * Data (JSON) field in *SectionBase → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: { "backgroundColor": "red" }
+   * - **API ID Path**: sectionBase.primary.data
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  data: prismicT.KeyTextField;
 }
 /**
  * Item in SectionBase → Items
  *
  */
 export interface SectionBaseSliceDefaultItem {
-    /**
-     * Conteúdo JSON (children) field in *SectionBase → Items*
-     *
-     * - **Field Type**: Text
-     * - **Placeholder**: { "title": "Meu título" }
-     * - **API ID Path**: sectionBase.items[].children
-     * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
-     *
-     */
-    children: prismicT.KeyTextField;
+  /**
+   * Conteúdo JSON (children) field in *SectionBase → Items*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: { "title": "Meu título" }
+   * - **API ID Path**: sectionBase.items[].children
+   * - **Documentation**: https://prismic.io/docs/core-concepts/key-text
+   *
+   */
+  children: prismicT.KeyTextField;
 }
 /**
  * Default variation for SectionBase Slice
@@ -772,7 +799,11 @@ export interface SectionBaseSliceDefaultItem {
  * - **Documentation**: https://prismic.io/docs/core-concepts/reusing-slices
  *
  */
-export type SectionBaseSliceDefault = prismicT.SharedSliceVariation<"default", Simplify<SectionBaseSliceDefaultPrimary>, Simplify<SectionBaseSliceDefaultItem>>;
+export type SectionBaseSliceDefault = prismicT.SharedSliceVariation<
+  "default",
+  Simplify<SectionBaseSliceDefaultPrimary>,
+  Simplify<SectionBaseSliceDefaultItem>
+>;
 /**
  * Slice variation for *SectionBase*
  *
@@ -788,10 +819,41 @@ type SectionBaseSliceVariation = SectionBaseSliceDefault;
  */
 export type SectionBaseSlice = prismicT.SharedSlice<"sectionBase", SectionBaseSliceVariation>;
 declare module "@prismicio/client" {
-    interface CreateClient {
-        (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
-    }
-    namespace Content {
-        export type { BusinessProposalDocumentData, BusinessProposalDocumentDataBlocksItem, BusinessProposalDocumentDataSectionsSlice, BusinessProposalDocumentDataOrdensItem, BusinessProposalDocument, PagesDocumentData, PagesDocumentDataSlicesSlice, PagesDocumentDataPhotosItem, PagesDocument, PartDocumentData, PartDocument, SiteTemplateDocumentData, SiteTemplateDocumentDataMenuItem, SiteTemplateDocumentDataSocialItem, SiteTemplateDocumentDataSitemapItem, SiteTemplateDocument, AllDocumentTypes, FreeJsonSliceCustomComponentPrimary, FreeJsonSliceCustomComponentItem, FreeJsonSliceCustomComponent, FreeJsonSliceVariation, FreeJsonSlice, SectionBaseSliceDefaultPrimary, SectionBaseSliceDefaultItem, SectionBaseSliceDefault, SectionBaseSliceVariation, SectionBaseSlice };
-    }
+  interface CreateClient {
+    (
+      repositoryNameOrEndpoint: string,
+      options?: prismic.ClientConfig
+    ): prismic.Client<AllDocumentTypes>;
+  }
+  namespace Content {
+    export type {
+      BusinessProposalDocumentData,
+      BusinessProposalDocumentDataBlocksItem,
+      BusinessProposalDocumentDataSectionsSlice,
+      BusinessProposalDocumentDataOrdensItem,
+      BusinessProposalDocument,
+      PagesDocumentData,
+      PagesDocumentDataSlicesSlice,
+      PagesDocumentDataPhotosItem,
+      PagesDocument,
+      PartDocumentData,
+      PartDocument,
+      SiteTemplateDocumentData,
+      SiteTemplateDocumentDataMenuItem,
+      SiteTemplateDocumentDataSocialItem,
+      SiteTemplateDocumentDataSitemapItem,
+      SiteTemplateDocument,
+      AllDocumentTypes,
+      FreeJsonSliceCustomComponentPrimary,
+      FreeJsonSliceCustomComponentItem,
+      FreeJsonSliceCustomComponent,
+      FreeJsonSliceVariation,
+      FreeJsonSlice,
+      SectionBaseSliceDefaultPrimary,
+      SectionBaseSliceDefaultItem,
+      SectionBaseSliceDefault,
+      SectionBaseSliceVariation,
+      SectionBaseSlice,
+    };
+  }
 }

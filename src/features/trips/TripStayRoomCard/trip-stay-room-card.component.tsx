@@ -24,7 +24,7 @@ export const TripStayRoomCard = ({
 
   const handleSeeMore = (room: TripStayRoom) => {
     Modal.open(() => <TripStayRoomDetailsModal room={room} />, {
-      size: "md",
+      size: "lg",
       closable: true,
     });
   };
