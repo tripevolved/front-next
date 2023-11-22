@@ -1,8 +1,7 @@
-import type { PublicDestinationsProps } from "./public-destinations.types";
 import { render } from "@testing-library/react";
 import { PublicDestinations } from "./public-destinations.component";
 
-const makeSut = (props?: PublicDestinationsProps) => render(<PublicDestinations {...props} />);
+const makeSut = () => render(<PublicDestinations />);
 
 describe("<PublicDestinations>", () => {
   it("should render component", () => {
