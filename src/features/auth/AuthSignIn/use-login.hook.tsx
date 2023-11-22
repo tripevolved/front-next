@@ -5,14 +5,12 @@ import { Notification } from "mars-ds";
 import { useState } from "react";
 import { ERRORS } from "./auth-sign-in.constants";
 import { useAfterLoginRedirect } from "./use-after-login-redirect.hook";
-import { useSynchronizeTravelerState } from "./use-after-login-state.hook";
 
 export const useLogin = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(false);
   const { setUser } = useAppStore();
   const { redirectAfterSignIn } = useAfterLoginRedirect();
-  const { syncTravelerState } = useSynchronizeTravelerState();
 
   const login: SubmitHandler<LoginArgs> = async (data) => {
     setSubmitting(true);
@@ -20,7 +18,6 @@ export const useLogin = () => {
     return UserService.login(data)
       .then((user) => {
         setUser(user);
-        syncTravelerState();
         redirectAfterSignIn();
       })
       .catch(() => {

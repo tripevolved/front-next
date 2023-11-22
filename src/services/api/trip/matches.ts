@@ -20,7 +20,6 @@ export type MatchedDestinationReturn = {
 export const putMatchedDestinations = async ({ tripId }: { tripId: string }): Promise<any> => {
   const url = "trips/matches/" + tripId;
   const ok = await ApiRequest.put(url, null);
-
   return ok;
 };
 

@@ -8,7 +8,6 @@ import { ProfileApiService } from "@/services/api/profile";
 import { Notification } from "mars-ds";
 import { QuestionsBuilder } from "@/features";
 import { StepsLoader } from "@/ui";
-import { useSynchronizeTravelerState } from "@/features/auth/AuthSignIn/use-after-login-state.hook";
 
 const CONTROLLER_KEY = "travel-profile-answers";
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
@@ -30,8 +29,6 @@ const STEPS = [
 
 export function StepBuildProfile({ onNext }: StepComponentProps) {
   const email = useAppStore((state) => state.user.email);
-  const leadUpdate = useAppStore((state) => state.leadUpdate);
-  const { syncTravelerState } = useSynchronizeTravelerState();
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -39,9 +36,7 @@ export function StepBuildProfile({ onNext }: StepComponentProps) {
     setSubmitting(true);
     try {
       const { profileSlug } = await ProfileApiService.sendAnswers({ answers, email });
-      leadUpdate({ profile: { slug: profileSlug } });
-      // Ensure update traveler state
-      await syncTravelerState();
+      useAppStore.getState().leadUpdate({ profile: { slug: profileSlug } });
     } catch (error) {
       Notification.error("Devido à um erro não foi possível salvar as suas respostas");
       console.error(error);
