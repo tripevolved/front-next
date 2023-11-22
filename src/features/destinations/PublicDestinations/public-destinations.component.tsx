@@ -9,10 +9,22 @@ export function PublicDestinations() {
   const [searchName, setSearchName] = useState("");
   const [currentUniqueName, setCurrentUniqueName] = useState<string>(TABS[0].uniqueName);
   const [currentPage, setCurrentPage] = useState(1);
+  const [infoMsg, setInfoMsg] = useState("O nome deve possuir no mínimo 3 letras");
 
   const handleTabSelection = (uniqueName: string) => {
     setCurrentUniqueName(uniqueName);
     setCurrentPage(1);
+  };
+
+  const handleChangeSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // @ts-ignore
+    if (e.target.value.length >= 3) {
+      setInfoMsg("Pressione 'Enter'");
+      if (e.key === "Enter") {
+        // @ts-ignore
+        setSearchName(e.target.value);
+      }
+    } else setInfoMsg("O nome deve possuir no mínimo 3 letras");
   };
 
   return (
@@ -23,10 +35,12 @@ export function PublicDestinations() {
     >
       <br />
       <TextField
+        info={infoMsg}
+        minLength={3}
         label="Nossos destinos"
         rightIconButton={{ name: "search" }}
         value={searchName}
-        onChange={(e: any) => setSearchName(e.target.value)}
+        onKeyUp={(e) => handleChangeSearch(e)}
       />
       <br />
       <div className="public-destinations__tab">
