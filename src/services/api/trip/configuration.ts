@@ -19,6 +19,8 @@ export type EditTripDto = {
 
 export type EditTrip = {
   id: string;
+  isSuccessfull: boolean;
+  message: string;
 };
 
 export const editTrip = async ({
@@ -44,7 +46,7 @@ export const editTrip = async ({
       type: 0,
     },
   } satisfies EditTripConfigurationRequest;
-  const { id } = await ApiRequest.put<EditTrip>(url, trip);
+  const { id, message, isSuccessfull } = await ApiRequest.put<EditTrip>(url, trip);
   await UserService.updateTravelerState();
-  return { id };
+  return { id, message, isSuccessfull };
 };
