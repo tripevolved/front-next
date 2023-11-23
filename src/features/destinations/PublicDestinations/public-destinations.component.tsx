@@ -5,6 +5,7 @@ import { SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
 
 import { TABS } from "./public-destinations.constants";
 import { PublicDestinationsTab } from "./public-destinations-tab";
+import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 
 export function PublicDestinations() {
   const [searchName, setSearchName] = useState("");
@@ -41,7 +42,7 @@ export function PublicDestinations() {
           label="Nossos destinos"
           value={searchName}
         />
-        <Button iconName="search" type="submit" style={{ color: "var(--color-gray-4)" }}></Button>
+        <ToggleButton iconName="search" type="submit" title="Encontrar destino" variant="neutral" />
       </form>
       <br />
       <div className="public-destinations__tab">
