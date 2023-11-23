@@ -1,6 +1,7 @@
 import { SectionBase } from "@/ui";
 import { Button, TextField } from "mars-ds";
 import { useState } from "react";
+import { SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
 
 import { TABS } from "./public-destinations.constants";
 import { PublicDestinationsTab } from "./public-destinations-tab";
@@ -9,22 +10,20 @@ export function PublicDestinations() {
   const [searchName, setSearchName] = useState("");
   const [currentUniqueName, setCurrentUniqueName] = useState<string>(TABS[0].uniqueName);
   const [currentPage, setCurrentPage] = useState(1);
-  const [infoMsg, setInfoMsg] = useState("O nome deve possuir no mínimo 3 letras");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleTabSelection = (uniqueName: string) => {
     setCurrentUniqueName(uniqueName);
     setCurrentPage(1);
   };
 
-  const handleChangeSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // @ts-ignore
-    if (e.target.value.length >= 3) {
-      setInfoMsg("Pressione 'Enter'");
-      if (e.key === "Enter") {
-        // @ts-ignore
-        setSearchName(e.target.value);
-      }
-    } else setInfoMsg("O nome deve possuir no mínimo 3 letras");
+  const handleSearch: SubmitHandler<{ search: string }> = (values) => {
+    if (values.search.length < 3) {
+      setErrorMsg("O nome deve possuir no mínimo 3 letras");
+      return;
+    }
+
+    setSearchName(values.search);
   };
 
   return (
@@ -34,14 +33,16 @@ export function PublicDestinations() {
       style={{ color: "var(--color-brand-1)" }}
     >
       <br />
-      <TextField
-        info={infoMsg}
-        minLength={3}
-        label="Nossos destinos"
-        rightIconButton={{ name: "search" }}
-        value={searchName}
-        onKeyUp={(e) => handleChangeSearch(e)}
-      />
+      <form onSubmit={handleFormSubmit(handleSearch)} className="flex gap-md">
+        <TextField
+          name="search"
+          error={errorMsg}
+          minLength={3}
+          label="Nossos destinos"
+          value={searchName}
+        />
+        <Button iconName="search" type="submit" style={{ color: "var(--color-gray-4)" }}></Button>
+      </form>
       <br />
       <div className="public-destinations__tab">
         {TABS.map(({ label, uniqueName }) => (
