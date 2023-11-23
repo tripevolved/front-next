@@ -56,11 +56,12 @@ export function TripEditConfiguration({
     data.current = { ...data.current, tripId };
     try {
       // @ts-ignore
-      await TripsApiService.setTripConfiguration({ ...data.current });
+      const response = await TripsApiService.setTripConfiguration({ ...data.current });
+      if (response.message) Notification.warning(response.message);
       setSubmitting(true);
     } catch (error) {
       setSubmitting(false);
-      Notification.error("Devido à um erro não foi possível criar a sua trip.");
+      Notification.error("Devido à um erro não foi possível editar a sua trip.");
     }
   };
 
@@ -82,7 +83,11 @@ export function TripEditConfiguration({
   if (submitting) {
     return (
       <ModalContent>
-        <StepsLoader steps={LOADING_STEPS} milliseconds={MILLISECONDS} onFinish={location.reload} />
+        <StepsLoader
+          steps={LOADING_STEPS}
+          milliseconds={MILLISECONDS}
+          onFinish={() => location.reload()}
+        />
       </ModalContent>
     );
   }
