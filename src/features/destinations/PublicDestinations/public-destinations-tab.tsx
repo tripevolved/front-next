@@ -8,6 +8,8 @@ import { LoadingSkeleton as LoadingSkeletonDestinations } from "@/features/dashb
 import { Box, CardTrip, EmptyState, ErrorState } from "@/ui";
 import { Button, Grid, Pagination } from "mars-ds";
 import { KEY_NAME } from "./public-destinations.constants";
+import { UserService } from "@/services/user";
+import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
 
 export const PublicDestinationsTab = ({
   searchName,
@@ -43,7 +45,11 @@ export const PublicDestinationsTab = ({
             image={
               destination.coverImage ? parseImage(destination?.coverImage?.sources) : undefined
             }
-            href={`/destinos/${destination.uniqueName}`}
+            href={
+              UserService.isAuth()
+                ? `/destinos/${destination.uniqueName}`
+                : getWhatsappLink(`Quero ir para ${destination.name}`)
+            }
           >
             <Box className="theme-dark" sx={{ minWidth: 200 }}>
               <Button
@@ -51,7 +57,11 @@ export const PublicDestinationsTab = ({
                 variant="neutral"
                 iconName="arrow-right"
                 isRtl
-                href={`/destinos/${destination.uniqueName}`}
+                href={
+                  UserService.isAuth()
+                    ? `/destinos/${destination.uniqueName}`
+                    : getWhatsappLink(`Quero ir para ${destination.name}`)
+                }
               >
                 Quero ir
               </Button>
