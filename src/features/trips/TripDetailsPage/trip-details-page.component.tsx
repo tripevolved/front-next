@@ -73,7 +73,7 @@ export function TripDetailsPage() {
     );
   }
 
-  const { destination, configuration, hasScript } = data;
+  const { destination, configuration, hasScript, isBuilding } = data;
   const { features = [], photos = DEFAULT_PHOTOS, recommendedBy, tips = [], title } = destination;
   return (
     <>
@@ -82,7 +82,11 @@ export function TripDetailsPage() {
         <Grid columns={{ md: ["1fr", "320px"] }} growing={false}>
           <Grid>
             {configuration ? (
-              <TripConfigurationSection {...configuration} tripId={data.id} />
+              <TripConfigurationSection
+                {...configuration}
+                tripId={data.id}
+                isBuilding={isBuilding}
+              />
             ) : null}
             <Card elevation={CardElevations.Low}>
               <Grid>
