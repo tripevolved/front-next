@@ -1,18 +1,30 @@
 import { SectionBase } from "@/ui";
 import { Button, TextField } from "mars-ds";
 import { useState } from "react";
+import { SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
 
 import { TABS } from "./public-destinations.constants";
 import { PublicDestinationsTab } from "./public-destinations-tab";
+import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 
 export function PublicDestinations() {
   const [searchName, setSearchName] = useState("");
   const [currentUniqueName, setCurrentUniqueName] = useState<string>(TABS[0].uniqueName);
   const [currentPage, setCurrentPage] = useState(1);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleTabSelection = (uniqueName: string) => {
     setCurrentUniqueName(uniqueName);
     setCurrentPage(1);
+  };
+
+  const handleSearch: SubmitHandler<{ search: string }> = (values) => {
+    if (values.search.length < 3) {
+      setErrorMsg("O nome deve possuir no mínimo 3 letras");
+      return;
+    }
+
+    setSearchName(values.search);
   };
 
   return (
@@ -22,12 +34,16 @@ export function PublicDestinations() {
       style={{ color: "var(--color-brand-1)" }}
     >
       <br />
-      <TextField
-        label="Nossos destinos"
-        rightIconButton={{ name: "search" }}
-        value={searchName}
-        onChange={(e: any) => setSearchName(e.target.value)}
-      />
+      <form onSubmit={handleFormSubmit(handleSearch)} className="flex gap-md">
+        <TextField
+          name="search"
+          error={errorMsg}
+          minLength={3}
+          label="Nossos destinos"
+          value={searchName}
+        />
+        <ToggleButton iconName="search" type="submit" title="Encontrar destino" variant="neutral" />
+      </form>
       <br />
       <div className="public-destinations__tab">
         {TABS.map(({ label, uniqueName }) => (
