@@ -1,7 +1,7 @@
 import type { PaymentStepProps } from "./payment-steps.types";
 
-import { Button, Grid, Label } from "mars-ds";
-import { SelectFieldSimple, Text } from "@/ui";
+import { Button, Grid, Label, Modal } from "mars-ds";
+import { ModalContent, SelectFieldSimple, Text } from "@/ui";
 
 import { formatByDataType } from "@/utils/helpers/number.helpers";
 
@@ -10,10 +10,12 @@ export const StepPaymentMethods = ({ price, payload, setPayload }: PaymentStepPr
 
   const payWithPix = () => {
     console.log({ ...payload, maxInstallments: "1" });
+    Modal.open(PixModal, {});
   };
 
   const payWithCreditCard = () => {
     console.log(payload);
+    Modal.open(CreditCardModal, {});
   };
 
   return (
@@ -48,5 +50,15 @@ export const StepPaymentMethods = ({ price, payload, setPayload }: PaymentStepPr
         Pagar no Cartão
       </Button>
     </Grid>
+  );
+};
+
+const PixModal = () => {
+  return <ModalContent heading="Realize o pagamento via PIX">PixModal</ModalContent>;
+};
+
+const CreditCardModal = () => {
+  return (
+    <ModalContent heading="Realize o pagamento via Cartão de crédito">CreditCard</ModalContent>
   );
 };
