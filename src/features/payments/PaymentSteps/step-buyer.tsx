@@ -1,90 +1,91 @@
-import { Button, Divider, Grid, SelectField, TextField } from "mars-ds";
-import { PaymentStepProps } from "./payment-steps.types";
-import { useIdParam } from "@/utils/hooks/param.hook";
-import { usePurchase } from "../TripPurchasePage/trip-purchase-page.hook";
-import { EmptyState, ErrorState, GlobalLoader, Text } from "@/ui";
-import { GENDER_OPTIONS } from "../TripPurchasePage/trip-purchase.constants";
+import type { PaymentPayloadData, PaymentStepProps } from "./payment-steps.types";
+import { Button, Divider, Grid, TextField } from "mars-ds";
+import { SelectFieldGender, Text } from "@/ui";
+import { type SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
 
-export const StepBuyer = ({ onNext }: PaymentStepProps) => {
-  const tripId = useIdParam();
-  const { isLoading, data, error } = usePurchase(tripId);
+export const StepBuyer = ({ onNext, payload, payer, setPayload }: PaymentStepProps) => {
+  const handleSubmit: SubmitHandler<PaymentPayloadData["payer"]> = (payer) => {
+    setPayload({ payer });
+    onNext();
+  };
 
-  if (error) return <ErrorState />;
-  if (isLoading) return <GlobalLoader inline />;
-  if (!data) return <EmptyState />;
-
-  const { payer } = data;
   return (
-    <Grid>
-      <Text>Dados do viajante comprador</Text>
-      <TextField
-        id="fullName"
-        name="fullName"
-        required
-        label="Nome do comprador"
-        defaultValue={payer.fullName}
-      />
-      <TextField
-        id="cpf"
-        name="cpf"
-        required
-        label="CPF do comprador"
-        defaultValue={payer.cpf}
-        mask={"999.999.999-99"}
-      />
-      <Grid columns={2}>
+    <form onSubmit={handleFormSubmit(handleSubmit)}>
+      <Grid>
+        <Text>Dados do viajante comprador</Text>
         <TextField
-          info="DD/MM/AAAA"
-          id="birthDate"
-          name="birthDate"
+          id="fullName"
+          name="fullName"
           required
-          label="Data de Nascimento"
-          type="text"
-          mask="99/99/9999"
-          defaultValue={payer.birthDate}
+          label="Nome do comprador"
+          value={payload.payer.fullName}
+          minLength={3}
         />
-        <SelectField
-          id="gender"
+        <TextField
+          id="cpf"
+          name="cpf"
           required
-          name="gender"
-          label="Sexo"
-          options={GENDER_OPTIONS}
-          defaultValue={payer.gender}
-          enableFilter={false}
+          label="CPF do comprador"
+          value={payload.payer.cpf}
+          mask={"999.999.999-99"}
+          minLength={14}
         />
+        <Grid columns={2}>
+          <TextField
+            info="DD/MM/AAAA"
+            id="birthDate"
+            name="birthDate"
+            required
+            label="Data de Nascimento"
+            type="text"
+            mask="99/99/9999"
+            value={payload.payer.birthDate}
+            minLength={10}
+          />
+          <SelectFieldGender name="gender" defaultValue={payload.payer.gender} required />
+        </Grid>
+        <TextField
+          id="motherName"
+          name="motherName"
+          label="Nome da mãe"
+          value={payload.payer.motherName}
+          minLength={3}
+          required
+        />
+        <TextField
+          id="document"
+          name="document"
+          required
+          label="Documento do comprador (RG)"
+          value={payload.payer.document}
+          mask="999999999"
+          maxLength={9}
+          minLength={3}
+        />
+        <Divider />
+        <Text>Contato</Text>
+        <TextField
+          label="E-mail"
+          id="email"
+          value={payload.payer.email}
+          disabled={Boolean(payer.email)}
+        />
+        <input type="hidden" value={payload.payer.email} name="email" />
+        <TextField
+          label="Telefone"
+          name="phone"
+          id="phone"
+          mask="(99) 99999-9999"
+          required
+          value={payload.payer.phone}
+          disabled={Boolean(payer.phone)}
+          minLength={14}
+        />
+        <br />
+        <Button variant="tertiary" type="submit">
+          Continuar
+        </Button>
       </Grid>
-      <TextField
-        id="motherName"
-        name="motherName"
-        label="Nome da mãe"
-        defaultValue={payer.motherName}
-      />
-      <TextField
-        id="document"
-        name="document"
-        required
-        label="Documento do comprador (RG)"
-        defaultValue={payer.document}
-        mask="999999999"
-        maxLength={9}
-      />
-      <Divider />
-      <Text>Contato</Text>
-      <TextField label="E-mail" id="email" value={payer.email} disabled={Boolean(payer.email)} />
-      <input type="hidden" value={payer.email} name="email" />
-      <TextField
-        label="Telefone"
-        name="phone"
-        id="phone"
-        mask="(99) 99999-9999"
-        required
-        defaultValue={payer.phone}
-        disabled={Boolean(payer.phone)}
-      />
-      <br />
-      <Button variant="tertiary" onClick={onNext}>
-        Continuar
-      </Button>
-    </Grid>
+    </form>
   );
 };

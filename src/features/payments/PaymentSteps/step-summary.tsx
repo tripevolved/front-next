@@ -1,13 +1,11 @@
-import type { PaymentStepProps } from "./payment-steps.types";
+import type { PaymentData, PaymentStepProps } from "./payment-steps.types";
 
 import { Picture, Text } from "@/ui";
 import { Button, Checkbox, Divider, Grid, Icon } from "mars-ds";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
-import { useState } from "react";
+import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 
-export const StepSummary = ({ trip, onNext }: PaymentStepProps) => {
-  const [acceptTerms, setAcceptTerms] = useState(false);
-
+export const StepSummary = ({ trip, price, onNext, payload, setPayload }: PaymentStepProps) => {
   const TermsLabel = () => (
     <Text size="lg">
       Li e aceito os <strong>Termos e Condições do Serviço</strong>
@@ -26,27 +24,16 @@ export const StepSummary = ({ trip, onNext }: PaymentStepProps) => {
       <StepSummaryScript />
       <StepSummarySupport />
       <Divider />
-      <div className="px-lg flex justify-content-between gap-sm">
-        <span>Total</span>
-        <strong>R$ 479,90</strong>
-      </div>
-      <div className="px-lg flex justify-content-between gap-sm">
-        <span>Taxa</span>
-        <strong>R$ 19,19</strong>
-      </div>
-      <Divider />
-      <div className="px-lg flex justify-content-between gap-sm">
-        <span>Total</span>
-        <strong>R$ 499,09</strong>
-      </div>
+      <StepSummaryPricing {...price} />
       <br />
       <label className="py-md px-lg">
         <Checkbox
-          onClick={() => setAcceptTerms((state) => !state)}
+          defaultChecked={payload.acceptTerms}
+          onClick={() => setPayload({ acceptTerms: !payload.acceptTerms })}
           label={(<TermsLabel />) as any}
         />
       </label>
-      <Button variant="tertiary" onClick={onNext} disabled={!acceptTerms}>
+      <Button variant="tertiary" onClick={onNext} disabled={!payload.acceptTerms}>
         Continuar
       </Button>
     </Grid>
@@ -113,6 +100,24 @@ const StepSummarySupport = () => {
     </PaymentStepSection>
   );
 };
+
+const StepSummaryPricing = ({ price, amount, serviceFee }: PaymentData["price"]) => {
+  return (
+    <>
+      <StepSummaryPricingRow label="Total" value={price} />
+      <StepSummaryPricingRow label="Taxa" value={serviceFee} />
+      <Divider />
+      <StepSummaryPricingRow label="Total Geral" value={amount} />
+    </>
+  );
+};
+
+const StepSummaryPricingRow = ({ label, value }: { label: string; value: number; }) => (
+  <div className="px-lg flex justify-content-between gap-sm">
+    <span>{label}</span>
+    <strong>{formatToCurrencyBR(value)}</strong>
+  </div>
+)
 
 interface PaymentStepSectionProps {
   image: string;

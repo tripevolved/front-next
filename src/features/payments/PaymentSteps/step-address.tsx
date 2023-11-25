@@ -1,26 +1,24 @@
 import { Button, Grid } from "mars-ds";
 import { PaymentStepProps } from "./payment-steps.types";
-import { useIdParam } from "@/utils/hooks/param.hook";
-import { usePurchase } from "../TripPurchasePage/trip-purchase-page.hook";
-import { EmptyState, ErrorState, GlobalLoader } from "@/ui";
 import { TripPurchaseAddressForm } from "../TripPurchaseForm/trip-purchase-address-form";
+import { handleFormSubmit, type SubmitHandler } from "@/utils/helpers/form.helpers";
+import { TripPayerAddress } from "@/core/types";
 
-export const StepAddress = ({ onNext }: PaymentStepProps) => {
-  const tripId = useIdParam();
-  const { isLoading, data, error } = usePurchase(tripId);
+export const StepAddress = ({ onNext, payload, setPayload }: PaymentStepProps) => {
+  const handleSubmit: SubmitHandler<TripPayerAddress> = (address) => {
+    setPayload({ address });
+    onNext();
+  };
 
-  if (error) return <ErrorState />;
-  if (isLoading) return <GlobalLoader inline />;
-  if (!data) return <EmptyState />;
-
-  const { payer } = data;
   return (
-    <Grid>
-      <TripPurchaseAddressForm {...payer.address} />
-      <br />
-      <Button variant="tertiary" onClick={onNext}>
-        Continuar
-      </Button>
-    </Grid>
+    <form onSubmit={handleFormSubmit(handleSubmit)}>
+      <Grid>
+        <TripPurchaseAddressForm {...payload.address} />
+        <br />
+        <Button type="submit" variant="tertiary">
+          Continuar
+        </Button>
+      </Grid>
+    </form>
   );
 };
