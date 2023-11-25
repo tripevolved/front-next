@@ -6,6 +6,7 @@ import { useTripDetails } from "@/features/trips/TripDetailsPage/trip-details.ho
 import { delay } from "@/utils/helpers/async.helpers";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { usePurchase } from "../TripPurchasePage/trip-purchase-page.hook";
+import { scrollToTop } from "@/utils/helpers/dom.helpers";
 
 export const usePaymentSteps = () => {
   const [payload, setPayload] = useState<PaymentPayloadData>(DEFAULT_PAYLOAD_VALUES);
@@ -22,10 +23,12 @@ export const usePaymentSteps = () => {
   const position = index + 1;
 
   const onNext = () => {
+    scrollToTop();
     setIndex((state) => state + 1);
   };
 
   const onPrevious = () => {
+    scrollToTop();
     setIndex((state) => state - 1);
   };
 
