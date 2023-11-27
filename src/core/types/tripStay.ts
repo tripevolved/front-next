@@ -17,10 +17,12 @@ export interface TripStay {
   reservationMessage: string;
 }
 
+export type TripStayHighlightFeature = "luxury" | "personnel" | "comfort" | "clean" | "rustic" | "location" | null;
+
 export interface TripStayHighlight {
   title: string;
   description: string | null;
-  type: "luxury" | "personnel" | "comfort" | "clean" | "rustic" | "location" | null;
+  type: TripStayHighlightFeature;
 }
 
 export interface TripStayDetails {
