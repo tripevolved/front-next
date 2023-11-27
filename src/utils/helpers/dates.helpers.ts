@@ -51,6 +51,8 @@ export const parseDateToInputFormat = (newDate: Date): string => {
   return `${newDate.getFullYear()}-${month}-${day}`;
 };
 
+export const parseIsoToBRString = (value = "") => value.replace(/(\d{4})-(\d{2})-(\d{2}).*/, "$3/$2/$1");
+
 export const parseBRStringToDate = (value: string) => {
   const [day, month, year] = value.split("/");
   const iso = `${year}-${Number(month)}-${Number(day)}`;

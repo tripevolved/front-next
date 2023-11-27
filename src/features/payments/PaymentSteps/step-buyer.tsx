@@ -58,8 +58,8 @@ export const StepBuyer = ({ onNext, payload, payer, setPayload }: PaymentStepPro
           required
           label="Documento do comprador (RG)"
           value={payload.payer.document}
-          mask="999999999"
-          maxLength={9}
+          mask="9999999999"
+          maxLength={10}
           minLength={3}
         />
         <Divider />
@@ -78,7 +78,6 @@ export const StepBuyer = ({ onNext, payload, payer, setPayload }: PaymentStepPro
           mask="(99) 99999-9999"
           required
           value={payload.payer.phone}
-          disabled={Boolean(payer.phone)}
           minLength={14}
         />
         <br />

@@ -4,6 +4,7 @@ import { SelectFieldGender, Text } from "@/ui";
 
 import { Button, Divider, Grid, TextField, makeArray } from "mars-ds";
 import { type SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
+import { parseIsoToBRString } from "@/utils/helpers/dates.helpers";
 
 export const StepTravelers = ({ trip, onNext, setPayload, payload }: PaymentStepProps) => {
   const array = makeArray(trip.configuration.numAdults);
@@ -35,7 +36,7 @@ export const StepTravelers = ({ trip, onNext, setPayload, payload }: PaymentStep
           Precisamos dessas informações para garantir sua reserva!
         </Text>
         {array.map((_, index) => (
-          <TravelerForm key={`form-${index}`} index={index} data={payload.travelers[index]} />
+          <TravelerForm key={`form-${index}`} index={index} data={payload.travelers?.[index]} />
         ))}
         <br />
         <Button variant="tertiary" type="submit">
@@ -85,7 +86,7 @@ const TravelerForm = ({ index = 0, data }: TravelerFormProps) => {
           label="Data de Nascimento"
           type="text"
           mask="99/99/9999"
-          value={data?.birthDate}
+          value={parseIsoToBRString(data?.birthDate)}
           minLength={10}
         />
         <SelectFieldGender name={`${index}.gender`} required defaultValue={data?.gender} />
