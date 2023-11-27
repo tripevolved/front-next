@@ -1,8 +1,13 @@
 import type { PendingDocumentsModalProps } from "./pending-documents-modal.types";
 import type { Traveler, TripTravelers } from "@/core/types";
-import type { SelectFieldOption } from "@/ui";
 
-import { Text, EmptyState, GlobalLoader, ErrorState, OptionsSelectField } from "@/ui";
+import {
+  Text,
+  EmptyState,
+  GlobalLoader,
+  ErrorState,
+  SelectFieldGender,
+} from "@/ui";
 import { TextField, FormWithSubmitButton, makeArray, Notification } from "mars-ds";
 import { useEffect, useState } from "react";
 import { TravelerApiService } from "@/services/api/traveler";
@@ -102,7 +107,7 @@ interface TravelerPendingFormProps {
 }
 
 const TravelerPendingForm = ({ title, index, onChangeValue, values }: TravelerPendingFormProps) => {
-  const [traveler, setTraveler] = useState<Traveler>(values ?? {});
+  const [traveler, setTraveler] = useState<Traveler>(values || {} as Traveler);
 
   const handleValue = (name: string) => (event: React.MouseEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement;
@@ -111,16 +116,12 @@ const TravelerPendingForm = ({ title, index, onChangeValue, values }: TravelerPe
     onChangeValue(index, { ...traveler, [name]: value });
   };
 
-  const handleGenderSelect = (option: SelectFieldOption) => {
-    setTraveler({ ...traveler, gender: option.value });
-    onChangeValue(index, { ...traveler, gender: option.value });
+  const handleGenderSelect = (gender: string) => {
+    setTraveler({ ...traveler, gender });
+    onChangeValue(index, { ...traveler, gender });
   };
 
   const fullTitle = values?.fullName ? `${title}: ${values.fullName}` : title;
-  const genderOptions = [
-    { label: "Feminino", value: "female" },
-    { label: "Masculino", value: "male" },
-  ];
 
   return (
     <>
@@ -151,18 +152,10 @@ const TravelerPendingForm = ({ title, index, onChangeValue, values }: TravelerPe
         mask={"999.999.999-99"}
         value={traveler.cpf}
       />
-      <OptionsSelectField
-        id="gender"
+      <SelectFieldGender
         name="gender"
-        required={true}
-        label="Sexo"
-        defaultOption={
-          traveler?.gender
-            ? genderOptions.find((gender) => gender.value == traveler?.gender)
-            : { label: "", value: "" }
-        }
-        options={genderOptions}
-        onSelect={handleGenderSelect}
+        defaultValue={traveler.gender}
+        onValueChange={handleGenderSelect}
       />
       <TextField
         id="birthDate"

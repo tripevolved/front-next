@@ -1,4 +1,5 @@
-import type { PaymentPayloadDataTraveler, PaymentStepProps } from "./payment-steps.types";
+import type { Traveler } from "@/core/types";
+import type { PaymentStepProps } from "./payment-steps.types";
 import { SelectFieldGender, Text } from "@/ui";
 
 import { Button, Divider, Grid, TextField, makeArray } from "mars-ds";
@@ -8,7 +9,7 @@ export const StepTravelers = ({ trip, onNext, setPayload, payload }: PaymentStep
   const array = makeArray(trip.configuration.numAdults);
 
   const handleSubmit: SubmitHandler = (data) => {
-    const travelers: PaymentPayloadDataTraveler[] = [];
+    const travelers: Traveler[] = [];
 
     for (const keyName in data) {
       const [index, key] = keyName.split(".");
@@ -47,7 +48,7 @@ export const StepTravelers = ({ trip, onNext, setPayload, payload }: PaymentStep
 
 interface TravelerFormProps {
   index: number;
-  data?: Partial<PaymentPayloadDataTraveler>;
+  data?: Partial<Traveler>;
 }
 
 const TravelerForm = ({ index = 0, data }: TravelerFormProps) => {
@@ -56,6 +57,10 @@ const TravelerForm = ({ index = 0, data }: TravelerFormProps) => {
     <Grid>
       <Divider key={`divider-${index}`} />
       <Text>Viajante {position}:</Text>
+      {data?.id ? <input type="hidden" name={`${index}.id`} value={data.id} /> : null}
+      {data?.travelerId ? (
+        <input type="hidden" name={`${index}.travelerId`} value={data.travelerId} />
+      ) : null}
       <TextField
         required
         label="Nome completo"
@@ -71,7 +76,7 @@ const TravelerForm = ({ index = 0, data }: TravelerFormProps) => {
         name={`${index}.cpf`}
         minLength={14}
       />
-      <Grid columns={2}>
+      <Grid columns={{ sm: 2 }}>
         <TextField
           info="DD/MM/AAAA"
           name={`${index}.birthDate`}
@@ -89,9 +94,9 @@ const TravelerForm = ({ index = 0, data }: TravelerFormProps) => {
         required
         label="Número de RG"
         name={`${index}.rg`}
-        mask="999999999"
+        mask="9999999999"
         value={data?.rg}
-        maxLength={9}
+        maxLength={10}
         minLength={3}
       />
     </Grid>

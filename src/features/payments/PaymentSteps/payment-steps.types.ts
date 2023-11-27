@@ -1,4 +1,4 @@
-import { TripDetails, TripPayerAddress } from "@/core/types";
+import { Traveler, TripDetails, TripPayerAddress } from "@/core/types";
 
 export interface PaymentData {
   tripId: string;
@@ -31,15 +31,6 @@ export interface PaymentData {
   trip: TripDetails;
 }
 
-export interface PaymentPayloadDataTraveler {
-  fullName: string;
-  rg: string;
-  cpf: string;
-  email: string;
-  gender: string;
-  birthDate: string;
-}
-
 export interface PaymentPayloadData {
   acceptTerms: boolean;
   payer: {
@@ -53,7 +44,7 @@ export interface PaymentPayloadData {
     gender: string;
   };
   address: TripPayerAddress;
-  travelers: PaymentPayloadDataTraveler[];
+  travelers: Traveler[];
   maxInstallments: string;
 }
 

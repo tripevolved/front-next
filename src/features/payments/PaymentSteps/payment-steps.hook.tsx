@@ -10,7 +10,7 @@ import { scrollToTop } from "@/utils/helpers/dom.helpers";
 
 export const usePaymentSteps = () => {
   const [payload, setPayload] = useState<PaymentPayloadData>(DEFAULT_PAYLOAD_VALUES);
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(4);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { error, isLoading, data } = useCheckoutData();
 
