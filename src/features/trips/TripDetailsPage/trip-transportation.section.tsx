@@ -77,6 +77,9 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
                 name={data.toName}
                 address={data.toAddress}
               />
+              {data.iconSlug === 'flight' && !data.flightView ? (
+                <Text size="sm">Seu voo ainda não foi escolhido, mas vamos cuidar de tudo para você.</Text>
+              ) : null}
               {data.description && <Text className="color-text-secondary">{data.description}</Text>}
             </Grid>
           </Grid>
