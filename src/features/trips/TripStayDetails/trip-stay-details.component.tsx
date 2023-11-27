@@ -4,7 +4,6 @@ import type { TripStayDetailsProps } from "./trip-stay-details.types";
 import { Button, Divider } from "mars-ds";
 import { Carousel } from "@/ui";
 import { TripStayServiceItem } from "@/features";
-import { parseNumericValue } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
 
 const EMPTY_INFO_DETAILS = "-";
