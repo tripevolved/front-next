@@ -109,7 +109,7 @@ export function TripStayDetails({
           <Box className="trip-stay-details__footer-buttons gap-lg px-md">
             <Button
               className="trip-stay-details__footer-buttons__buttons"
-              variant="naked"
+              variant="secondary"
               href={`/app/viagens/${tripId}/hospedagem/editar`}
             >
               Editar
@@ -118,6 +118,7 @@ export function TripStayDetails({
               className="trip-stay-details__footer-buttons__buttons"
               style={{ color: "var(--color-gray-4)" }}
               onClick={() => handleRoomsButton()}
+              disabled={!stayData.isRoomSelected}
             >
               Quartos
             </Button>
