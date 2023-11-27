@@ -14,7 +14,8 @@ export const usePaymentIntent = ({ travelers, tripId, ...tripPayment }: TripPaym
   const handle = async () => {
     setIsLoading(true);
     await TravelerApiService.create(tripId, travelers);
-    await PaymentsApiService.postTripPaymentIntent({ ...tripPayment, tripId, ipAddress: "" })
+    const ipAddress = window.clientIp || "";
+    await PaymentsApiService.postTripPaymentIntent({ ...tripPayment, tripId, ipAddress })
       .then((result) => {
         if (!result) {
           throw new Error("Empty result");
