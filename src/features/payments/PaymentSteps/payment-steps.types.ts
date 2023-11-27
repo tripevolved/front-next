@@ -29,6 +29,7 @@ export interface PaymentData {
     installmentOptions: { label: string; value: string }[];
   };
   trip: TripDetails;
+  travelers: Traveler[];
 }
 
 export interface PaymentPayloadData {

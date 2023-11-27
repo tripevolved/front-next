@@ -53,6 +53,7 @@ interface TravelerFormProps {
 
 const TravelerForm = ({ index = 0, data }: TravelerFormProps) => {
   const position = index + 1;
+  console.log(data)
   return (
     <Grid>
       <Divider key={`divider-${index}`} />

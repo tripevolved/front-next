@@ -17,7 +17,7 @@ export const usePurchase = (tripId: string) => {
   const travelerEmail = useAppStore((state) => state.travelerState.email);
 
   const price = useSWR(
-    `trips/${tripId}/price`,
+    tripId ? `trips/${tripId}/price` : null,
     async () => TripsApiService.getPriceById(tripId),
     SWROptions
   );
@@ -35,7 +35,7 @@ export const usePurchase = (tripId: string) => {
   const data = useMemo(() => {
     if (!price.data) return null;
     const amount = price.data.price + price.data.serviceFee;
-    const result: PurchaseData = {
+    const result: Omit<PurchaseData, "travelers"> = {
       tripId,
       price: {
         price: price.data.price,

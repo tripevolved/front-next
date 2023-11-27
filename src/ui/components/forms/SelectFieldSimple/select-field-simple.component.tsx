@@ -1,6 +1,7 @@
+import { makeCn } from "@/utils/helpers/css.helpers";
 import type { SelectFieldSimpleProps } from "../SelectFieldSimple/select-field-simple.types";
 import { Icon } from "mars-ds";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 export const SelectFieldSimple = ({
   onChange,
@@ -13,6 +14,11 @@ export const SelectFieldSimple = ({
 }: SelectFieldSimpleProps) => {
   const fieldSetRef = useRef<HTMLFieldSetElement>(null);
   const defaultValue = String(inheritedValue || inheritedDefaultValue) || "";
+  const validDefaultValue = options.find((option) => option.value === defaultValue);
+
+  const cn = makeCn("select-field-simple", {
+    "select-field-simple--filled": !!validDefaultValue,
+  })();
 
   const setFilled = (remove = false) => {
     if (!fieldSetRef.current) return;
@@ -25,14 +31,8 @@ export const SelectFieldSimple = ({
     setFilled();
   };
 
-  useEffect(() => {
-    if (!fieldSetRef.current) return;
-    const hasValidValue = options.find((option) => option.value === defaultValue);
-    setFilled(!hasValidValue);
-  }, [fieldSetRef, defaultValue]);
-
   return (
-    <fieldset ref={fieldSetRef} className="select-field-simple">
+    <fieldset ref={fieldSetRef} className={cn}>
       <legend className="select-field-simple__legend">{label}</legend>
       <Icon name="chevron-down" />
       <select {...props} defaultValue={defaultValue} onChange={handleChange}>
