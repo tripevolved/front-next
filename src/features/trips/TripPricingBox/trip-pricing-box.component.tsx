@@ -15,8 +15,6 @@ import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { useRouter } from "next/router";
-import { PendingDocumentsModal } from "@/features";
 
 interface TripPricingBoxProps {
   destinationName: string;
