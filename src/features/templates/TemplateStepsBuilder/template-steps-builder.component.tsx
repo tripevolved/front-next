@@ -46,6 +46,8 @@ export function TemplateStepsBuilder({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
+  console.log("PROPS", steps, steps[currentIndex]);
+
   return (
     <div style={slider.style}>
       <Component

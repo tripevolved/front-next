@@ -25,14 +25,6 @@ export function FinishedTripScript({ onNext }: StepComponentProps) {
       <Button className="trip-script-builder-step__item" href={`/app/viagens/${idParam}/roteiro`}>
         Ver meu roteiro
       </Button>
-      <Button
-        className="trip-script-builder-step__item"
-        href={`/app/viagens/${idParam}`}
-        variant="naked"
-        size="sm"
-      >
-        Deixar para mais tarde
-      </Button>
     </Grid>
   );
 }
