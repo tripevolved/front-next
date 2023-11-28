@@ -7,7 +7,7 @@ import {
 import { ApiRequest } from "@/services/api/request";
 import { AxiosError } from "axios";
 
-interface PixPaymentInfo {
+export interface PixPaymentInfo {
   qrCode: string;
   amount: number;
   netAmount: number;

@@ -171,7 +171,6 @@ export const TripPurchaseForm = ({ address, payer, price, tripId }: PurchaseData
 
 const createPayload = (values: FormValues & { tripId: string; amount: number }): TripPayment => ({
   tripId: values.tripId,
-  ipAddress: "",
   payer: {
     address: {
       address: values.address,
@@ -195,7 +194,7 @@ const createPayload = (values: FormValues & { tripId: string; amount: number }):
   amount: values.amount,
   installments: Number(values.installments) || 1,
   method: values.method === "PIX" ? "PIX" : "CREDIT_CARD",
-  creditCard: null,
+  shouldHavePaymentLink: true,
 });
 
 const PurchaseDivider = () => (
