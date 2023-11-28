@@ -178,7 +178,7 @@ const TripPricingBoxContentCta = ({
   if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
 
   const BuyButton = ({ isPrimary = false }) => (
-    <Button variant={isPrimary ? "tertiary" : "neutral"} href={`/app/viagens/${tripId}/compra/`}>
+    <Button variant={isPrimary ? "tertiary" : "neutral"} href={`/compra/${tripId}/`}>
       Comprar por {formatToCurrencyBR(total)}
     </Button>
   );
