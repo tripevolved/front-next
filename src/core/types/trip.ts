@@ -101,6 +101,7 @@ export interface TripListView {
   status: string;
   images: Photo[];
   period: string;
+  enableDeletion?: boolean;
 }
 
 export interface AllTrips {
