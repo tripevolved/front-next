@@ -2,10 +2,10 @@ import type { TemplateStepsBuilderProps } from "@/features";
 import { TripBuilderInitialStep } from "./trip-script-builder-initial.component";
 import { TripScriptParametersStep } from "./trip-script-parameters-step.component";
 import { TripScriptInitialBuildStep } from "./trip-script-builder-initial-step.component";
-import { BuildTripScriptStep, FinishedTripScript, RestaurantQuestions } from "@/features";
+import { BuildTripScriptStep, RestaurantQuestions } from "@/features";
 import { FinishStep } from "./trip-script-builder-finish.component";
 import { RestaurantList } from "@/features/restaurants/RestaurantList";
-import { FinishRestaurantsStep } from "./trip-script-builder-finish-restaurants.component";
+import { TripScriptBuilderFinalStep } from "./"
 
 export const SCRIPT_BUILDER_STEPS: TemplateStepsBuilderProps["steps"] = [
   {
@@ -44,8 +44,8 @@ export const SCRIPT_BUILDER_STEPS: TemplateStepsBuilderProps["steps"] = [
     component: RestaurantList,
   },
   {
-    title: "Finaliza a construção do roteiro",
+    title: "Finaliza a construção do roteiro 2",
     name: "finish-script-building",
-    component: FinishedTripScript,
+    component: TripScriptBuilderFinalStep,
   },
 ];
