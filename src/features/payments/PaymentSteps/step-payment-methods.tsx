@@ -1,20 +1,27 @@
 import type { TripPaymentIntent } from "@/core/types";
 import type { PaymentStepProps } from "./payment-steps.types";
+import { differenceInMinutes } from "date-fns";
 
-import { Button, Grid, Label, Modal } from "mars-ds";
+import { Button, Divider, Grid, Icon, ItemElement, Label, Modal } from "mars-ds";
 import {
   ErrorState,
   GlobalLoader,
+  Logo,
   ModalContent,
   SelectFieldSimple,
   Text,
   WhatsappButton,
 } from "@/ui";
 
-import { formatByDataType } from "@/utils/helpers/number.helpers";
+import { formatByDataType, formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { parseBRStringToDate } from "@/utils/helpers/dates.helpers";
 
 import { usePaymentIntent } from "./payment-intent.hook";
+import { PixPaymentInfo, TripPaymentResult } from "@/services/api/payments/payTrip";
+import { QRCodeSVG } from "qrcode.react";
+import { copyToClipboard } from "@/utils/helpers/strings.helper";
+import { useEffect, useState } from "react";
+import NextRouter from "next/router";
 
 export const StepPaymentMethods = ({ price, payload, setPayload, tripId }: PaymentStepProps) => {
   const formattedPrice = formatByDataType(price.amount, "CURRENCY");
@@ -40,12 +47,14 @@ export const StepPaymentMethods = ({ price, payload, setPayload, tripId }: Payme
 
   const payWithPix = () => {
     const tripPayment = parsePayload(true);
-    Modal.open((rest) => <PaymentModal {...rest} tripPayment={tripPayment} />, {});
+    Modal.open((rest) => <PaymentModal {...rest} tripPayment={tripPayment} isPix />, {
+      size: "sm",
+    });
   };
 
   const payWithCreditCard = () => {
     const tripPayment = parsePayload(false);
-    Modal.open((rest) => <PaymentModal {...rest} tripPayment={tripPayment} />, {});
+    Modal.open((rest) => <PaymentModal {...rest} tripPayment={tripPayment} />, { size: "sm" });
   };
 
   return (
@@ -68,39 +77,6 @@ export const StepPaymentMethods = ({ price, payload, setPayload, tripId }: Payme
         <Text>
           <strong>Cartão de Crédito</strong> (Total de {formattedPrice})
         </Text>
-        {/* <TextField
-            label="Número do cartão"
-            required
-            name="number"
-            mask="9999 9999 9999 9999 999"
-            minLength={19}
-          />
-          <TextField label="Nome no cartão" required name="cardHolder" minLength={6} />
-          <Grid columns={2}>
-            <TextField
-              label="Validade"
-              required
-              name="expiration"
-              minLength={5}
-              mask="99/99"
-              info="MM/AA"
-            />
-            <TextField
-              label="CVV"
-              required
-              name="cvv"
-              minLength={3}
-              mask="9999"
-              info="Código de Segurança"
-            />
-          </Grid>
-          <TextField
-            label="CPF do titular"
-            required
-            name="cpf"
-            mask="999.999.999-80"
-            minLength={14}
-          /> */}
         <SelectFieldSimple
           name="installments"
           required
@@ -121,22 +97,29 @@ export const StepPaymentMethods = ({ price, payload, setPayload, tripId }: Payme
 interface PaymentModalProps {
   tripPayment: TripPaymentIntent;
   close: VoidFunction;
+  isPix?: boolean;
 }
 
-const PaymentModal = ({ tripPayment }: PaymentModalProps) => {
+const PaymentModal = ({ tripPayment, isPix = false }: PaymentModalProps) => {
   const { isLoading, error, data } = usePaymentIntent(tripPayment);
+  console.log({ isLoading, error, data });
 
   return (
-    <ModalContent heading="Realize o pagamento">
-      {error ? (
-        <PaymentModalErrorContent />
-      ) : isLoading ? (
-        <GlobalLoader inline />
-      ) : data ? (
-        <PaymentModalErrorContent />
-      ) : (
-        <div>sucesso</div>
-      )}
+    <ModalContent>
+      <div style={{ height: 20 }} />
+      <div className="text-center m-auto" style={{ maxWidth: 380 }}>
+        {error ? (
+          <PaymentModalErrorContent />
+        ) : isLoading ? (
+          <GlobalLoader inline />
+        ) : !data ? (
+          <PaymentModalErrorContent />
+        ) : isPix ? (
+          <PaymentPixContent {...data.pixInfo} />
+        ) : (
+          <PaymentCreditCardContent {...data} />
+        )}
+      </div>
     </ModalContent>
   );
 };
@@ -149,5 +132,86 @@ const PaymentModalErrorContent = () => {
     >
       <WhatsappButton variant="tertiary">Continuar a compra</WhatsappButton>
     </ErrorState>
+  );
+};
+
+const PaymentPixContent = ({ netAmount, expirationDate, qrCode }: PixPaymentInfo) => {
+  const diff = differenceInMinutes(new Date(expirationDate), new Date());
+  return (
+    <Grid>
+      <Logo />
+      <Divider />
+      <Text heading>Realize o pagamento</Text>
+      <div>
+        <Text heading size="xs">
+          Escaneie o QR Code
+        </Text>
+        <Text>para pagar com o PIX</Text>
+      </div>
+      <div>
+        <ItemElement>
+          <QRCodeSVG className="m-auto" value={qrCode} size={165} />
+        </ItemElement>
+        <Text>
+          Valor de <strong>{formatToCurrencyBR(netAmount)}</strong>
+        </Text>
+      </div>
+      <Button
+        iconName="copy"
+        variant="neutral"
+        onClick={() => copyToClipboard(qrCode, "Código copiado com sucesso!")}
+      >
+        Copiar código do Pix
+      </Button>
+      <div>
+        <Text className="color-text-secondary">Expira em {diff} minutos</Text>
+        <ItemElement variant="inline">{qrCode}</ItemElement>
+      </div>
+      <div className="flex align-items-center justify-content-center gap-md">
+        <Icon name="shield" className="color-text-secondary" />
+        <Text>
+          <strong>Compra segura</strong>
+        </Text>
+      </div>
+    </Grid>
+  );
+};
+
+const PaymentCreditCardContent = ({ paymentLinkUrl, provider }: TripPaymentResult) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      NextRouter.replace(paymentLinkUrl);
+      setIsLoading(false);
+    }, 3000);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
+  return (
+    <Grid>
+      <Logo />
+      <Divider />
+      <Text heading>Realize o pagamento</Text>
+      <Text>
+        Você será redirecionado para realizar o pagamento nas condições escolhidas pelo nosso
+        parceiro
+      </Text>
+      {isLoading ? (
+        <GlobalLoader inline />
+      ) : (
+        <Button variant="neutral" href={paymentLinkUrl}>
+          Continuar
+        </Button>
+      )}
+      <div className="flex align-items-center justify-content-center gap-md">
+        <Icon name="shield" className="color-text-secondary" />
+        <Text>
+          <strong>Compra segura</strong>
+        </Text>
+      </div>
+    </Grid>
   );
 };

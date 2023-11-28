@@ -10,6 +10,7 @@ import { useIdParam } from "@/utils/hooks/param.hook";
 import { usePurchase } from "../TripPurchasePage/trip-purchase-page.hook";
 import { scrollToTop } from "@/utils/helpers/dom.helpers";
 import { TravelerApiService } from "@/services/api/traveler";
+import { ErrorState, GlobalLoader } from "@/ui";
 
 export const usePaymentSteps = () => {
   const [payload, setPayload] = useState<PaymentPayloadData>(DEFAULT_PAYLOAD_VALUES);
@@ -55,9 +56,9 @@ export const usePaymentSteps = () => {
   const isFirstStep = !index;
   const { component: Component } = STEPS[index];
   const children = useMemo(() => {
-    if (error) return <div>erro</div>;
-    if (isLoading) return <div>Carregando</div>;
-    if (!data) return <div>Não encontrado</div>;
+    if (error) return <ErrorState />;
+    if (isLoading) return <GlobalLoader />;
+    if (!data) return <ErrorState />;
     return <Component {...data} onNext={onNext} payload={payload} setPayload={handleSetPayload} />;
   }, [Component, error, isLoading, data]);
 

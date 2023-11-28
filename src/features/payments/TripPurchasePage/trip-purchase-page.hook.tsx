@@ -5,6 +5,7 @@ import { useAppStore } from "@/core/store";
 import { PaymentsApiService, TripsApiService } from "@/services/api";
 import { calcInstallmentsOptions } from "./trip-purchase.helpers";
 import { PaymentData } from "../PaymentSteps";
+import { MathHelper } from "@/utils/helpers/math.helper";
 
 const SWROptions = { revalidateOnFocus: false };
 
@@ -34,7 +35,7 @@ export const usePurchase = (tripId: string) => {
 
   const data = useMemo(() => {
     if (!price.data) return null;
-    const amount = price.data.price + price.data.serviceFee;
+    const amount = MathHelper.sum(price.data.price, price.data.serviceFee);
     const result: Omit<PurchaseData, "travelers"> = {
       tripId,
       price: {

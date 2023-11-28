@@ -14,12 +14,11 @@ export type TripPaymentStatus =
 
 export interface TripPayment {
   tripId: string;
-  ipAddress: string;
   payer: TripPayer;
   amount: number;
   installments: number;
   method: TripPaymentMethod;
-  creditCard: TripPaymentCreditCardInfo | null;
+  shouldHavePaymentLink: boolean;
 }
 
 export interface TripPaymentIntent {
