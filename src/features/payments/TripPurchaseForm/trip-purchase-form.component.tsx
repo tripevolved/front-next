@@ -28,7 +28,7 @@ import { parseBRStringToDate } from "@/utils/helpers/dates.helpers";
 import { PaymentsApiService } from "@/services/api";
 import { useAwaitPaymentProcess } from "./trip-purchase.modal";
 
-export const TripPurchaseForm = ({ payer, price, tripId }: PurchaseData) => {
+export const TripPurchaseForm = ({ address, payer, price, tripId }: PurchaseData) => {
   const [firstInstallmentOption] = price.installmentOptions;
 
   const [paymentMethod, setPaymentMethod] = useState<TripPaymentMethod>(
@@ -130,7 +130,7 @@ export const TripPurchaseForm = ({ payer, price, tripId }: PurchaseData) => {
         </PurchaseSection>
         <PurchaseDivider />
         <PurchaseSection title="Endereço de cobrança">
-          <TripPurchaseAddressForm {...payer.address} />
+          <TripPurchaseAddressForm {...address} />
         </PurchaseSection>
         <PurchaseDivider />
         <PurchaseSection title="Forma de pagamento">

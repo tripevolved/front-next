@@ -35,10 +35,9 @@ export const putTripPayment = async (tripPayment: TripPayment) => {
   const route = "payments/trip";
   const paymentResult = await ApiRequest.put<TripPaymentResult>(route, tripPayment).catch(
     (error: AxiosError) => {
-      let errorMessage = "";
-      if (error.response?.status === 500) errorMessage = "Houve um erro no seu pagamento.";
-      else errorMessage = error.message;
-      return { tripId: tripPayment.tripId, isSuccess: false, message: errorMessage };
+      const isServerError = error.response?.status === 500;
+      const errorMessage = isServerError ? "Houve um erro no seu pagamento." : error.message;
+      throw new Error(errorMessage);
     }
   );
   return paymentResult;

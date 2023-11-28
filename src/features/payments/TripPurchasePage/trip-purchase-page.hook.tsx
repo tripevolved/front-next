@@ -4,36 +4,11 @@ import useSWR from "swr";
 import { useAppStore } from "@/core/store";
 import { PaymentsApiService, TripsApiService } from "@/services/api";
 import { calcInstallmentsOptions } from "./trip-purchase.helpers";
+import { PaymentData } from "../PaymentSteps";
 
 const SWROptions = { revalidateOnFocus: false };
 
-export interface PurchaseData {
-  tripId: string;
-  payer: {
-    fullName: string;
-    email: string;
-    phone: string;
-    cpf: string;
-    document: string;
-    motherName: string;
-    gender: string;
-    birthDate: string;
-    address: {
-      postalCode: string;
-      address: string;
-      complement: string;
-      number: string;
-      neighborhood: string;
-      city: string;
-      stateProvince: string;
-      country: string;
-    };
-  };
-  price: {
-    amount: number;
-    installmentOptions: { label: string; value: string }[];
-  };
-}
+export type PurchaseData = Omit<PaymentData, "trip">
 
 const parseIsoDateToBrString = (date: Date) => new Date(date).toLocaleDateString("pt-br");
 
@@ -42,7 +17,7 @@ export const usePurchase = (tripId: string) => {
   const travelerEmail = useAppStore((state) => state.travelerState.email);
 
   const price = useSWR(
-    `trips/${tripId}/price`,
+    tripId ? `trips/${tripId}/price` : null,
     async () => TripsApiService.getPriceById(tripId),
     SWROptions
   );
@@ -60,9 +35,11 @@ export const usePurchase = (tripId: string) => {
   const data = useMemo(() => {
     if (!price.data) return null;
     const amount = price.data.price + price.data.serviceFee;
-    const result: PurchaseData = {
+    const result: Omit<PurchaseData, "travelers"> = {
       tripId,
       price: {
+        price: price.data.price,
+        serviceFee: price.data.serviceFee,
         amount,
         installmentOptions: calcInstallmentsOptions(amount),
       },
@@ -75,16 +52,16 @@ export const usePurchase = (tripId: string) => {
         motherName: payer.data?.motherName || "",
         phone: payer.data?.phone || "",
         email: payer.data?.email || travelerEmail,
-        address: {
-          postalCode: payer.data?.address.postalCode || "",
-          address: payer.data?.address.address || "",
-          complement: payer.data?.address.complement || "",
-          number: payer.data?.address.number || "",
-          neighborhood: payer.data?.address.neighborhood || "",
-          city: payer.data?.address.city || "",
-          stateProvince: payer.data?.address.stateProvince || "",
-          country: payer.data?.address.country || "Brasil",
-        },
+      },
+      address: {
+        postalCode: payer.data?.address.postalCode || "",
+        address: payer.data?.address.address || "",
+        complement: payer.data?.address.complement || "",
+        number: payer.data?.address.number || "",
+        neighborhood: payer.data?.address.neighborhood || "",
+        city: payer.data?.address.city || "",
+        stateProvince: payer.data?.address.stateProvince || "",
+        country: payer.data?.address.country || "Brasil",
       },
     };
     return result;

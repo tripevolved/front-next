@@ -17,10 +17,10 @@ export function CardTrip({
   sx,
   ...props
 }: CardTripProps) {
-  const cn = makeCn("card-trip", className)(sx);
-
+  const cn = makeCn("card-trip", { "card-trip--is-link": !!href }, className)(sx);
+  const Component = href ? Link : "div";
   return (
-    <Link href={href} className={cn} {...props}>
+    <Component href={href} className={cn} {...props}>
       <Picture className="card-trip__image">{image}</Picture>
       {header ? <div className="card-trip__header">{header}</div> : null}
       <div className="card-trip__content">
@@ -34,6 +34,6 @@ export function CardTrip({
         ) : null}
         {children}
       </div>
-    </Link>
+    </Component>
   );
 }
