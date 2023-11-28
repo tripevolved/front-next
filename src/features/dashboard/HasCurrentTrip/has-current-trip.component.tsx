@@ -1,15 +1,13 @@
 import type { AllTrips as AllTripsProps, TripListView } from "@/core/types";
 
-import useSWR from "swr";
-
-import { useAppStore } from "@/core/store";
 import { TripsApiService } from "@/services/api";
 
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
-import { Grid, Icon, Label, LabelVariants, Skeleton, Tabs } from "mars-ds";
-import { CardTrip, EmptyState, ErrorState, Text, CardTripNew } from "@/ui";
+import { Grid, Icon, Label, LabelVariants, Skeleton, Tabs, ToggleButton } from "mars-ds";
+import { CardTrip, EmptyState, ErrorState, Text, CardTripNew, confirmModal } from "@/ui";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
+import { useAllTrips } from "./has-current-trip.hook";
 
 export function HasCurrentTrip() {
   return (
@@ -28,9 +26,7 @@ export function HasCurrentTrip() {
 }
 
 function CurrentTrips() {
-  const travelerId = useAppStore((state) => state.travelerState.id);
-
-  const { isLoading, error, data } = useSWR(travelerId, () => TripsApiService.getAll(travelerId));
+  const { isLoading, error, data } = useAllTrips();
 
   const hasTrip = data && (data.currentTrip || data.otherTrips?.length > 0);
 
@@ -54,22 +50,59 @@ function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
       <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
         <CardTripNew title="Nova viagem" iconName="Plane" href="/app/viagens/descobrir" />
         {otherTrips.map((trip) => (
-          <TripItem key={trip.id} {...trip} />
+          <TripItem key={trip.id} {...trip} enableDeletion={trip.status !== "Só falta viajar!"} />
         ))}
       </Grid>
     </Grid>
   );
 }
 
-function TripItem({ id, title = "Sem nome", status, images, period }: TripListView) {
+const CONFIRM_REMOVE_TEXT =
+  "Ao clicar em confirmar, sua viagem será removida. Essa ação não pode ser desfeita.";
+
+function TripItem({
+  id,
+  title = "Sem nome",
+  status,
+  images,
+  period,
+  enableDeletion,
+}: TripListView) {
   const [photo] = images;
   const image = photo ? parsePhoto(photo) : undefined;
+
+  const { mutate } = useAllTrips();
+
+  const handleRemove = async (event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    await confirmModal(CONFIRM_REMOVE_TEXT, async () => {
+      await TripsApiService.removeById(id);
+      mutate();
+    });
+  };
+
+  const Header = () => (
+    <div className="trip-item__header">
+      <Label variant={LabelVariants.Warning}>{status}</Label>
+      {enableDeletion ? (
+        <ToggleButton
+          iconName="trash-2"
+          variant="text"
+          size="sm"
+          title="Remover essa viagem"
+          className="trip-item__deletion"
+          onClick={handleRemove}
+        />
+      ) : null}
+    </div>
+  );
 
   return (
     <CardTrip
       image={image}
       title={title}
-      header={<Label variant={LabelVariants.Warning}>{status}</Label>}
+      header={<Header />}
       href={`/app/viagens/${id}`}
       className="trip-item"
     >
