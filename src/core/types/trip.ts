@@ -108,12 +108,18 @@ export interface AllTrips {
   otherTrips: TripListView[];
 }
 
+interface TripIncludes {
+  title: string;
+  slug: string | null;
+}
+
 export interface TripPrice {
   isPaid: boolean;
   price: number;
   serviceFee: number;
   description: string | null;
   total: number;
+  includes: TripIncludes[];
 }
 
 export interface TripTravelers {

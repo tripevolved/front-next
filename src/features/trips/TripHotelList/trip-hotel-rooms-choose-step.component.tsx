@@ -3,7 +3,6 @@ import { TripStayRoomCard } from "@/features";
 import type { RoomsStep } from "./trip-hotel-list.types";
 import { Text, Box } from "@/ui";
 import { SubmitButton, Button as BackButton } from "mars-ds";
-import { useState } from "react";
 
 export const TripHotelRoomsChoose = ({
   roomsList,
