@@ -45,11 +45,7 @@ export const PublicDestinationsTab = ({
             image={
               destination.coverImage ? parseImage(destination?.coverImage?.sources) : undefined
             }
-            href={
-              UserService.isAuth()
-                ? `/destinos/${destination.uniqueName}`
-                : getWhatsappLink(`Quero ir para ${destination.name}`)
-            }
+            href={`/destinos/${destination.uniqueName}`}
           >
             <Box className="theme-dark" sx={{ minWidth: 200 }}>
               <Button

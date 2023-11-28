@@ -17,7 +17,7 @@ export function TripPurchasePage() {
   return (
     <PageApp hideHeader seo={{ title: "Comprar viagem" }}>
       <Container container="sm">
-        <TripPurchaseForm {...data} />
+        <TripPurchaseForm {...data} travelers={[]} />
       </Container>
     </PageApp>
   );
