@@ -19,10 +19,18 @@ export interface TripStay {
   roomSelectionMessage: string | null;
 }
 
+export type TripStayHighlightFeature =
+  | "luxury"
+  | "personnel"
+  | "comfort"
+  | "clean"
+  | "rustic"
+  | "location";
+
 export interface TripStayHighlight {
   title: string;
   description: string | null;
-  type: "luxury" | "personnel" | "comfort" | "clean" | "rustic" | "location" | null;
+  type: TripStayHighlightFeature | null;
 }
 
 export interface TripStayDetails {
@@ -41,10 +49,12 @@ interface TripStayImage {
   altText: string | null;
 }
 
+type TripStayFeatureType = "ac" | "wifi" | "breakfast" | "bed" | "close_to_attractions";
+
 export interface TripStayFeature {
   title: string;
   // TODO: redefine these types
-  type: "ac" | "wifi" | "breakfast" | "bed" | "close_to_attractions" | null;
+  type: TripStayFeatureType | null;
 }
 
 export interface TripStayRoom {
