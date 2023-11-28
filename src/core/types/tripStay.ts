@@ -13,8 +13,10 @@ export interface TripStay {
   isSelected: boolean;
   isBuilding: boolean;
   isReserved: boolean;
+  isRoomSelected: boolean;
   message: string;
-  reservationMessage: string;
+  reservationMessage: string | null;
+  roomSelectionMessage: string | null;
 }
 
 export interface TripStayHighlight {
