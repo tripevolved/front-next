@@ -39,6 +39,7 @@ export const usePurchase = (tripId: string) => {
     const result: Omit<PurchaseData, "travelers"> = {
       tripId,
       price: {
+        isPaid: price.data.isPaid,
         price: price.data.price,
         serviceFee: price.data.serviceFee,
         amount,

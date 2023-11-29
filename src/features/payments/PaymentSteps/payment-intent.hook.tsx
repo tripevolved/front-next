@@ -17,7 +17,7 @@ export const usePaymentIntent = ({ travelers, tripId, ...tripPayment }: TripPaym
     await PaymentsApiService.postTripPaymentIntent({
       ...tripPayment,
       tripId,
-      shouldHavePaymentLink: false,
+      shouldHavePaymentLink: true,
     })
       .then((result) => {
         if (!result || !result.isSuccess) {

@@ -33,8 +33,8 @@ export interface TripPaymentIntentAll {
 }
 
 export interface TripPaymentCreditCardInfo {
-  name: string;
-  number: string;
+  cardholder: string;
+  cardNumber: string;
   expirationMonth: number;
   expirationYear: number;
   securityCode: string;

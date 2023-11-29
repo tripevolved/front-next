@@ -1,9 +1,22 @@
-import { CircleStepper, Grid, ToggleButton, Card, CardElevations, Divider } from "mars-ds";
+import { CircleStepper, Grid, ToggleButton, Card, CardElevations, Divider, Button } from "mars-ds";
 
 import { usePaymentSteps } from "./payment-steps.hook";
+import { Text } from "@/ui";
 
 export const PaymentSteps = () => {
-  const { position, children, onPrevious, isFirstStep, stepNames } = usePaymentSteps();
+  const { position, children, onPrevious, isFirstStep, stepNames, price } = usePaymentSteps();
+
+  if (price?.isPaid) {
+    return (
+      <Card elevation={CardElevations.Low}>
+        <Grid style={{ maxWidth: 480 }} className="mx-auto py-md">
+          <Text heading>Essa viagem já está paga!</Text>
+          <Text>Acesse o seu painel para visualizar os detalhes da sua viagem:</Text>
+          <Button variant="tertiary" href="/app/painel">Ir para o painel</Button>
+        </Grid>
+      </Card>
+    )
+  }
 
   return (
     <Card elevation={CardElevations.Low}>

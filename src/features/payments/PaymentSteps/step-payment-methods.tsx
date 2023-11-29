@@ -2,7 +2,17 @@ import type { TripPaymentIntentAll } from "@/core/types";
 import type { PaymentStepProps } from "./payment-steps.types";
 import { differenceInMinutes } from "date-fns";
 
-import { Button, Divider, Grid, Icon, ItemElement, Label, Modal, TextField } from "mars-ds";
+import {
+  Button,
+  Divider,
+  Grid,
+  Icon,
+  ItemElement,
+  Label,
+  Modal,
+  ModalOpenProps,
+  TextField,
+} from "mars-ds";
 import {
   ErrorState,
   GlobalLoader,
@@ -25,15 +35,17 @@ import NextRouter from "next/router";
 import { SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
 
 interface CreditCardValues {
-  number: string;
-  name: string;
+  cardNumber: string;
+  cardholder: string;
   expiration: string;
   securityCode: string;
   cpf: string;
   installments: string;
 }
 
-export const StepPaymentMethods = ({ price, payload, setPayload, tripId }: PaymentStepProps) => {
+const modalOptions: ModalOpenProps = { size: "sm", closable: false };
+
+export const StepPaymentMethods = ({ price, payload, tripId }: PaymentStepProps) => {
   const formattedPrice = formatByDataType(price.amount, "CURRENCY");
 
   const parsePayload = (isPix = false): TripPaymentIntentAll => {
@@ -72,11 +84,11 @@ export const StepPaymentMethods = ({ price, payload, setPayload, tripId }: Payme
         securityCode: values.securityCode,
         expirationMonth: Number(expirationMonth),
         expirationYear: Number(expirationYear),
-        name: values.name,
-        number: values.number,
+        cardholder: values.cardholder,
+        cardNumber: values.cardNumber,
       },
     };
-    Modal.open((rest) => <PaymentModal {...rest} tripPayment={tripPayment} />, { size: "sm" });
+    Modal.open((rest) => <PaymentModal {...rest} tripPayment={tripPayment} />, modalOptions);
   };
 
   return (
@@ -103,12 +115,12 @@ export const StepPaymentMethods = ({ price, payload, setPayload, tripId }: Payme
           <TextField
             label="Número do cartão"
             required
-            name="number"
+            name="cardNumber"
             mask="9999 9999 9999 9999"
             minLength={19}
             rightIconButton={{ name: "credit-card" }}
           />
-          <TextField label="Nome no cartão" required name="name" minLength={6} />
+          <TextField label="Nome no cartão" required name="cardholder" minLength={6} />
           <Grid columns={2}>
             <TextField
               label="Validade"
@@ -180,7 +192,11 @@ const PaymentModal = ({ tripPayment, isPix = false, close }: PaymentModalProps) 
   );
 };
 
-const PaymentModalErrorContent = ({ close }: { close: VoidFunction }) => {
+interface PaymentModalContentProps {
+  close: VoidFunction;
+}
+
+const PaymentModalErrorContent = ({ close }: PaymentModalContentProps) => {
   return (
     <ErrorState
       heading="Devido à um erro não foi possível prosseguir"
@@ -240,7 +256,7 @@ const PaymentCreditCardContent = ({ paymentLinkUrl, isSuccess }: TripPaymentResu
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!paymentLinkUrl) return;
+    if (!paymentLinkUrl || isSuccess) return;
 
     const timeoutId = setTimeout(() => {
       NextRouter.replace(paymentLinkUrl);

@@ -46,15 +46,14 @@ export const putTripPayment = async (tripPayment: TripPaymentIntent) => {
 export const postTripPaymentIntent = async ({ creditCard, ...tripPayment }: TripPaymentIntent) => {
   const routeIntent = "payments/intent/trip";
   const skipCreditCard = !creditCard || tripPayment.method === "PIX";
-  if (skipCreditCard) tripPayment.shouldHavePaymentLink = true;
 
   const paymentResult = await ApiRequest.post<TripPaymentResult>(routeIntent, tripPayment);
   if (skipCreditCard) return paymentResult;
 
-  const { number } = creditCard;
+  const { cardNumber } = creditCard;
   const routeCard = "payments/intent/card";
   const { token: cardToken, paymentMethodId } = await ApiRequest.post(routeCard, {
-    number,
+    cardNumber,
     tripId: tripPayment.tripId,
     transactionId: paymentResult.transactionId,
   });
@@ -68,6 +67,7 @@ export const postTripPaymentIntent = async ({ creditCard, ...tripPayment }: Trip
     tripId: tripPayment.tripId,
     transactionId: paymentResult.transactionId,
     cardToken,
+    name: creditCard.cardholder,
     securityCode: creditCard.securityCode,
     expirationMonth: creditCard.expirationMonth,
     expirationYear: creditCard.expirationYear,
