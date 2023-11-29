@@ -11,6 +11,7 @@ import {
   DestinationInfos,
   DestinationRecommendedBy,
   DestinationTipItem,
+  Itinerary,
   PageApp,
   PageAppHero,
   TripPricingBox,
@@ -88,6 +89,7 @@ export function TripDetailsPage() {
                 isBuilding={isBuilding}
               />
             ) : null}
+            <Itinerary tripId={data.id} />
             <Card elevation={CardElevations.Low}>
               <Grid>
                 <Text as="h2" heading size="xs" className="mb-lg">

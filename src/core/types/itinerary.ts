@@ -1,0 +1,22 @@
+export type ItineraryActionType = "ROUTE" | "FLIGHT" | "ACCOMODATION" | "RENTAL_CAR";
+
+export interface Coordinates {
+  title: string;
+  latitude: number;
+  longitude: number;
+}
+
+export interface ItineraryAction {
+  tripItineraryActionId: string;
+  from: Coordinates;
+  to: Coordinates;
+  type: ItineraryActionType;
+  needsTravelerAction: boolean;
+  isMain: boolean;
+  isReady: boolean;
+}
+
+export interface ItineraryList {
+  tripId: string;
+  actions: ItineraryAction[];
+}
