@@ -1,4 +1,4 @@
-import type { TripPayment, TripPaymentMethod } from "@/core/types";
+import type { TripPaymentIntent, TripPaymentMethod } from "@/core/types";
 import type { PurchaseData } from "../TripPurchasePage/trip-purchase-page.hook";
 import type { FormValues } from "./trip-purchase-form.types";
 
@@ -169,7 +169,7 @@ export const TripPurchaseForm = ({ address, payer, price, tripId }: PurchaseData
   );
 };
 
-const createPayload = (values: FormValues & { tripId: string; amount: number }): TripPayment => ({
+const createPayload = (values: FormValues & { tripId: string; amount: number }): TripPaymentIntent => ({
   tripId: values.tripId,
   payer: {
     address: {
@@ -195,6 +195,7 @@ const createPayload = (values: FormValues & { tripId: string; amount: number }):
   installments: Number(values.installments) || 1,
   method: values.method === "PIX" ? "PIX" : "CREDIT_CARD",
   shouldHavePaymentLink: true,
+  creditCard: null,
 });
 
 const PurchaseDivider = () => (

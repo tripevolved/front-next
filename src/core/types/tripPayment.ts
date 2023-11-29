@@ -12,16 +12,17 @@ export type TripPaymentStatus =
   | "REFUSED"
   | undefined;
 
-export interface TripPayment {
+export interface TripPaymentIntent {
   tripId: string;
   payer: TripPayer;
   amount: number;
   installments: number;
   method: TripPaymentMethod;
   shouldHavePaymentLink: boolean;
+  creditCard: TripPaymentCreditCardInfo | null;
 }
 
-export interface TripPaymentIntent {
+export interface TripPaymentIntentAll {
   tripId: string;
   payer: TripPayer;
   amount: number;
@@ -32,10 +33,12 @@ export interface TripPaymentIntent {
 }
 
 export interface TripPaymentCreditCardInfo {
-  number: string;
+  cardholder: string;
+  cardNumber: string;
   expirationMonth: number;
   expirationYear: number;
-  cvc: string;
+  securityCode: string;
+  cpf: string;
 }
 
 export interface TripPayer {
