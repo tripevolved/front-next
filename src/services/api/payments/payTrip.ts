@@ -1,5 +1,5 @@
 import {
-  TripPayment,
+  TripPaymentIntent,
   TripPaymentMethod,
   TripPaymentStatus,
   TripPaymentProvider,
@@ -31,7 +31,7 @@ export interface TripPaymentStatusResult {
   message: string;
 }
 
-export const putTripPayment = async (tripPayment: TripPayment) => {
+export const putTripPayment = async (tripPayment: TripPaymentIntent) => {
   const route = "payments/trip";
   const paymentResult = await ApiRequest.put<TripPaymentResult>(route, tripPayment).catch(
     (error: AxiosError) => {
@@ -43,10 +43,35 @@ export const putTripPayment = async (tripPayment: TripPayment) => {
   return paymentResult;
 };
 
-export const postTripPaymentIntent = async (tripPayment: TripPayment) => {
-  const route = "payments/intent/trip";
-  const paymentResult = await ApiRequest.post<TripPaymentResult>(route, tripPayment);
-  return paymentResult;
+export const postTripPaymentIntent = async ({ creditCard, ...tripPayment }: TripPaymentIntent) => {
+  const routeIntent = "payments/intent/trip";
+  const skipCreditCard = !creditCard || tripPayment.method === "PIX";
+  if (skipCreditCard) tripPayment.shouldHavePaymentLink = true;
+
+  const paymentResult = await ApiRequest.post<TripPaymentResult>(routeIntent, tripPayment);
+  if (skipCreditCard) return paymentResult;
+
+  const { number } = creditCard;
+  const routeCard = "payments/intent/card";
+  const { token: cardToken, paymentMethodId } = await ApiRequest.post(routeCard, {
+    number,
+    tripId: tripPayment.tripId,
+    transactionId: paymentResult.transactionId,
+  });
+
+  const routeFinish = "payments/intent/finish";
+  const creditCardPaymentResult = await ApiRequest.post(routeFinish, {
+    tripId: tripPayment.tripId,
+    transactionId: paymentResult.transactionId,
+    cardToken,
+    securityCode: creditCard.securityCode,
+    expirationMonth: creditCard.expirationMonth,
+    expirationYear: creditCard.expirationYear,
+    ipAddress: window.clientIp,
+    paymentMethodId,
+  });
+
+  return creditCardPaymentResult;
 };
 
 export const getTripPaymentStatus = async (tripId: string) => {

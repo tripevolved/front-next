@@ -1,8 +1,8 @@
-import type { TripPaymentIntent } from "@/core/types";
+import type { TripPaymentIntentAll } from "@/core/types";
 import type { PaymentStepProps } from "./payment-steps.types";
 import { differenceInMinutes } from "date-fns";
 
-import { Button, Divider, Grid, Icon, ItemElement, Label, Modal } from "mars-ds";
+import { Button, Divider, Grid, Icon, ItemElement, Label, Modal, TextField } from "mars-ds";
 import {
   ErrorState,
   GlobalLoader,
@@ -22,14 +22,24 @@ import { QRCodeSVG } from "qrcode.react";
 import { copyToClipboard } from "@/utils/helpers/strings.helper";
 import { useEffect, useState } from "react";
 import NextRouter from "next/router";
+import { SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
+
+interface CreditCardValues {
+  number: string;
+  name: string;
+  expiration: string;
+  securityCode: string;
+  cpf: string;
+  installments: string;
+}
 
 export const StepPaymentMethods = ({ price, payload, setPayload, tripId }: PaymentStepProps) => {
   const formattedPrice = formatByDataType(price.amount, "CURRENCY");
 
-  const parsePayload = (isPix = false): TripPaymentIntent => {
+  const parsePayload = (isPix = false): TripPaymentIntentAll => {
     return {
       amount: price.amount,
-      installments: isPix ? 1 : Number(payload.maxInstallments),
+      installments: 1,
       creditCard: null,
       method: isPix ? "PIX" : "CREDIT_CARD",
       tripId,
@@ -52,8 +62,20 @@ export const StepPaymentMethods = ({ price, payload, setPayload, tripId }: Payme
     });
   };
 
-  const payWithCreditCard = () => {
-    const tripPayment = parsePayload(false);
+  const payWithCreditCard: SubmitHandler<CreditCardValues> = (values) => {
+    const [expirationMonth, expirationYear] = values.expiration.split("/");
+    const tripPayment: TripPaymentIntentAll = {
+      ...parsePayload(false),
+      installments: Number(values.installments),
+      creditCard: {
+        cpf: values.cpf,
+        securityCode: values.securityCode,
+        expirationMonth: Number(expirationMonth),
+        expirationYear: Number(expirationYear),
+        name: values.name,
+        number: values.number,
+      },
+    };
     Modal.open((rest) => <PaymentModal {...rest} tripPayment={tripPayment} />, { size: "sm" });
   };
 
@@ -73,47 +95,81 @@ export const StepPaymentMethods = ({ price, payload, setPayload, tripId }: Payme
       <Text as="div" className="text-center color-text-secondary mt-sm">
         ou
       </Text>
-      <Grid>
-        <Text>
-          <strong>Cartão de Crédito</strong> (Total de {formattedPrice})
-        </Text>
-        <SelectFieldSimple
-          name="installments"
-          required
-          label="Parcelamento"
-          onValueChange={(maxInstallments) => setPayload({ maxInstallments })}
-          defaultValue={payload.maxInstallments}
-          options={price.installmentOptions}
-          disabled={!price.installmentOptions.length}
-        />
-        <Button variant="tertiary" onClick={payWithCreditCard}>
-          Pagar no Cartão
-        </Button>
-      </Grid>
+      <form onSubmit={handleFormSubmit(payWithCreditCard)}>
+        <Grid>
+          <Text>
+            <strong>Cartão de Crédito</strong> (Total de {formattedPrice})
+          </Text>
+          <TextField
+            label="Número do cartão"
+            required
+            name="number"
+            mask="9999 9999 9999 9999"
+            minLength={19}
+            rightIconButton={{ name: "credit-card" }}
+          />
+          <TextField label="Nome no cartão" required name="name" minLength={6} />
+          <Grid columns={2}>
+            <TextField
+              label="Validade"
+              required
+              name="expiration"
+              minLength={5}
+              mask="99/99"
+              info="MM/AA"
+            />
+            <TextField
+              label="CVV"
+              required
+              name="securityCode"
+              minLength={3}
+              mask="9999"
+              info="Código de Segurança"
+            />
+          </Grid>
+          <TextField
+            label="CPF do titular"
+            required
+            name="cpf"
+            mask="999.999.999-80"
+            minLength={14}
+          />
+          <SelectFieldSimple
+            name="installments"
+            required
+            label="Parcelamento"
+            defaultValue={1}
+            options={price.installmentOptions}
+            disabled={!price.installmentOptions.length}
+          />
+          <Button type="submit" variant="tertiary">
+            Pagar no Cartão
+          </Button>
+        </Grid>
+      </form>
     </Grid>
   );
 };
 
 interface PaymentModalProps {
-  tripPayment: TripPaymentIntent;
+  tripPayment: TripPaymentIntentAll;
   close: VoidFunction;
   isPix?: boolean;
 }
 
-const PaymentModal = ({ tripPayment, isPix = false }: PaymentModalProps) => {
+const PaymentModal = ({ tripPayment, isPix = false, close }: PaymentModalProps) => {
   const { isLoading, error, data } = usePaymentIntent(tripPayment);
-  console.log({ isLoading, error, data });
 
   return (
     <ModalContent>
       <div style={{ height: 20 }} />
       <div className="text-center m-auto" style={{ maxWidth: 380 }}>
         {error ? (
-          <PaymentModalErrorContent />
+          <PaymentModalErrorContent close={close} />
         ) : isLoading ? (
           <GlobalLoader inline />
         ) : !data ? (
-          <PaymentModalErrorContent />
+          <PaymentModalErrorContent close={close} />
         ) : isPix ? (
           <PaymentPixContent {...data.pixInfo} />
         ) : (
@@ -124,13 +180,16 @@ const PaymentModal = ({ tripPayment, isPix = false }: PaymentModalProps) => {
   );
 };
 
-const PaymentModalErrorContent = () => {
+const PaymentModalErrorContent = ({ close }: { close: VoidFunction }) => {
   return (
     <ErrorState
       heading="Devido à um erro não foi possível prosseguir"
-      text="Por favor, entre em contato com o nosso time para dar seguindo à sua compra"
+      text="Por favor, verifique os dados passados, caso o problema persista, entre em contato com o nosso time para dar seguindo à sua compra"
     >
-      <WhatsappButton variant="tertiary">Continuar a compra</WhatsappButton>
+      <Button onClick={close} variant="tertiary">
+        Tentar novamente
+      </Button>
+      <WhatsappButton variant="neutral">Fale com o nosso suporte</WhatsappButton>
     </ErrorState>
   );
 };
@@ -177,10 +236,12 @@ const PaymentPixContent = ({ netAmount, expirationDate, qrCode }: PixPaymentInfo
   );
 };
 
-const PaymentCreditCardContent = ({ paymentLinkUrl, provider }: TripPaymentResult) => {
+const PaymentCreditCardContent = ({ paymentLinkUrl, isSuccess }: TripPaymentResult) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!paymentLinkUrl) return;
+
     const timeoutId = setTimeout(() => {
       NextRouter.replace(paymentLinkUrl);
       setIsLoading(false);
@@ -188,7 +249,21 @@ const PaymentCreditCardContent = ({ paymentLinkUrl, provider }: TripPaymentResul
     return () => {
       clearTimeout(timeoutId);
     };
-  }, []);
+  }, [paymentLinkUrl, isSuccess]);
+
+  if (isSuccess) {
+    return (
+      <Grid>
+        <Logo />
+        <Divider />
+        <Text heading>Pagamento realizado com sucesso!</Text>
+        <Text>Acesse a sua viagem em nosso painel.</Text>
+        <Button variant="neutral" href="/app/painel">
+          Ir para o painel
+        </Button>
+      </Grid>
+    );
+  }
 
   return (
     <Grid>
