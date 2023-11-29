@@ -58,7 +58,7 @@ export const TripCheckoutPricingSection = ({ isEnabled }: { isEnabled: boolean }
       ) : (
         <>
           {/* @ts-ignore */}
-          <Button variant="tertiary" href={`/app/viagens/${idParam}/compra/`} className="trip-checkout__cta-button" disabled={!isEnabled} onClick={submitConditions}>
+          <Button variant="tertiary" href={`/compra/${idParam}/`} className="trip-checkout__cta-button" disabled={!isEnabled} onClick={submitConditions}>
             Prosseguir para pagamento por {formatToCurrencyBR(data.total)}
           </Button>
         </>

@@ -23,6 +23,7 @@ export interface PaymentData {
     country: string;
   };
   price: {
+    isPaid: boolean;
     price: number;
     serviceFee: number;
     amount: number;
