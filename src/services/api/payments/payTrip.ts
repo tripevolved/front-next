@@ -60,7 +60,7 @@ export const postTripPaymentIntent = async ({ creditCard, ...tripPayment }: Trip
   });
 
   if (!cardToken) {
-    throw new Error("Card token not be created");
+    throw new Error("Card token has not been created");
   }
 
   const routeFinish = "payments/intent/finish";
