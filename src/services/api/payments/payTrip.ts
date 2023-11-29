@@ -59,6 +59,10 @@ export const postTripPaymentIntent = async ({ creditCard, ...tripPayment }: Trip
     transactionId: paymentResult.transactionId,
   });
 
+  if (!cardToken) {
+    throw new Error("Card token not be created");
+  }
+
   const routeFinish = "payments/intent/finish";
   const creditCardPaymentResult = await ApiRequest.post(routeFinish, {
     tripId: tripPayment.tripId,
