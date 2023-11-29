@@ -1,3 +1,5 @@
+import { Traveler } from "./traveler";
+
 export type TripPaymentMethod = "PIX" | "CREDIT_CARD";
 
 export type TripPaymentProvider = "STRIPE" | "VALEPAY";
@@ -10,21 +12,33 @@ export type TripPaymentStatus =
   | "REFUSED"
   | undefined;
 
-export interface TripPayment {
+export interface TripPaymentIntent {
   tripId: string;
-  ipAddress: string;
+  payer: TripPayer;
+  amount: number;
+  installments: number;
+  method: TripPaymentMethod;
+  shouldHavePaymentLink: boolean;
+  creditCard: TripPaymentCreditCardInfo | null;
+}
+
+export interface TripPaymentIntentAll {
+  tripId: string;
   payer: TripPayer;
   amount: number;
   installments: number;
   method: TripPaymentMethod;
   creditCard: TripPaymentCreditCardInfo | null;
+  travelers: Traveler[];
 }
 
 export interface TripPaymentCreditCardInfo {
-  number: string;
+  cardholder: string;
+  cardNumber: string;
   expirationMonth: number;
   expirationYear: number;
-  cvc: string;
+  securityCode: string;
+  cpf: string;
 }
 
 export interface TripPayer {

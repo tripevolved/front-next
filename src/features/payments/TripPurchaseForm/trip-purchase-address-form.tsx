@@ -1,5 +1,5 @@
 import type { TripPayerAddress } from "@/core/types";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Grid, Skeleton, TextField } from "mars-ds";
 import { ViaCepService } from "@/services/viacep";
 
@@ -13,17 +13,17 @@ const handleValueChange =
 export const TripPurchaseAddressForm = (address: TripPayerAddress) => {
   const [data, setData] = useState<TripPayerAddress>(address);
   const [isLoading, setIsLoading] = useState(false);
-  const started = useRef(false);
 
   const handleSetData = (newData: Partial<TripPayerAddress>) => {
     setIsLoading(false);
     setData((state) => ({ ...state, ...newData }));
   };
 
+  const isActive = data.postalCode.replace(/\D/, "").length === 8;
+
   const handleChangePostalCode = async (value: string) => {
     const postalCode = value.replace(/\D/, "");
     if (postalCode.length < 8) return;
-    started.current = true;
     setIsLoading(true);
     const result = await ViaCepService.getAddress(postalCode);
     if (!result) return handleSetData({ postalCode });
@@ -52,7 +52,7 @@ export const TripPurchaseAddressForm = (address: TripPayerAddress) => {
         mask={"99999-999"}
       />
 
-      {started.current ? (
+      {isActive ? (
         <>
           <Skeleton active={isLoading}>
             <TextField id="address" name="address" label="Endereço" value={data.address} />

@@ -1,4 +1,4 @@
-import type { TripPayment, TripPaymentMethod } from "@/core/types";
+import type { TripPaymentIntent, TripPaymentMethod } from "@/core/types";
 import type { PurchaseData } from "../TripPurchasePage/trip-purchase-page.hook";
 import type { FormValues } from "./trip-purchase-form.types";
 
@@ -28,7 +28,7 @@ import { parseBRStringToDate } from "@/utils/helpers/dates.helpers";
 import { PaymentsApiService } from "@/services/api";
 import { useAwaitPaymentProcess } from "./trip-purchase.modal";
 
-export const TripPurchaseForm = ({ payer, price, tripId }: PurchaseData) => {
+export const TripPurchaseForm = ({ address, payer, price, tripId }: PurchaseData) => {
   const [firstInstallmentOption] = price.installmentOptions;
 
   const [paymentMethod, setPaymentMethod] = useState<TripPaymentMethod>(
@@ -130,7 +130,7 @@ export const TripPurchaseForm = ({ payer, price, tripId }: PurchaseData) => {
         </PurchaseSection>
         <PurchaseDivider />
         <PurchaseSection title="Endereço de cobrança">
-          <TripPurchaseAddressForm {...payer.address} />
+          <TripPurchaseAddressForm {...address} />
         </PurchaseSection>
         <PurchaseDivider />
         <PurchaseSection title="Forma de pagamento">
@@ -169,9 +169,8 @@ export const TripPurchaseForm = ({ payer, price, tripId }: PurchaseData) => {
   );
 };
 
-const createPayload = (values: FormValues & { tripId: string; amount: number }): TripPayment => ({
+const createPayload = (values: FormValues & { tripId: string; amount: number }): TripPaymentIntent => ({
   tripId: values.tripId,
-  ipAddress: "",
   payer: {
     address: {
       address: values.address,
@@ -195,6 +194,7 @@ const createPayload = (values: FormValues & { tripId: string; amount: number }):
   amount: values.amount,
   installments: Number(values.installments) || 1,
   method: values.method === "PIX" ? "PIX" : "CREDIT_CARD",
+  shouldHavePaymentLink: true,
   creditCard: null,
 });
 

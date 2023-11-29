@@ -101,11 +101,17 @@ export interface TripListView {
   status: string;
   images: Photo[];
   period: string;
+  enableDeletion?: boolean;
 }
 
 export interface AllTrips {
   currentTrip: TripListView | null;
   otherTrips: TripListView[];
+}
+
+interface TripIncludes {
+  title: string;
+  slug: string | null;
 }
 
 export interface TripPrice {
@@ -114,6 +120,7 @@ export interface TripPrice {
   serviceFee: number;
   description: string | null;
   total: number;
+  includes: TripIncludes[];
 }
 
 export interface TripTravelers {

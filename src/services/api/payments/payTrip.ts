@@ -1,5 +1,5 @@
 import {
-  TripPayment,
+  TripPaymentIntent,
   TripPaymentMethod,
   TripPaymentStatus,
   TripPaymentProvider,
@@ -7,7 +7,7 @@ import {
 import { ApiRequest } from "@/services/api/request";
 import { AxiosError } from "axios";
 
-interface PixPaymentInfo {
+export interface PixPaymentInfo {
   qrCode: string;
   amount: number;
   netAmount: number;
@@ -31,23 +31,51 @@ export interface TripPaymentStatusResult {
   message: string;
 }
 
-export const putTripPayment = async (tripPayment: TripPayment) => {
+export const putTripPayment = async (tripPayment: TripPaymentIntent) => {
   const route = "payments/trip";
   const paymentResult = await ApiRequest.put<TripPaymentResult>(route, tripPayment).catch(
     (error: AxiosError) => {
-      let errorMessage = "";
-      if (error.response?.status === 500) errorMessage = "Houve um erro no seu pagamento.";
-      else errorMessage = error.message;
-      return { tripId: tripPayment.tripId, isSuccess: false, message: errorMessage };
+      const isServerError = error.response?.status === 500;
+      const errorMessage = isServerError ? "Houve um erro no seu pagamento." : error.message;
+      throw new Error(errorMessage);
     }
   );
   return paymentResult;
 };
 
-export const postTripPaymentIntent = async (tripPayment: TripPayment) => {
-  const route = "payments/intent/trip";
-  const paymentResult = await ApiRequest.post<TripPaymentResult>(route, tripPayment);
-  return paymentResult;
+export const postTripPaymentIntent = async ({ creditCard, ...tripPayment }: TripPaymentIntent) => {
+  const routeIntent = "payments/intent/trip";
+  const skipCreditCard = !creditCard || tripPayment.method === "PIX";
+
+  const paymentResult = await ApiRequest.post<TripPaymentResult>(routeIntent, tripPayment);
+  if (skipCreditCard) return paymentResult;
+
+  const { cardNumber } = creditCard;
+  const routeCard = "payments/intent/card";
+  const { token: cardToken, paymentMethodId } = await ApiRequest.post(routeCard, {
+    cardNumber,
+    tripId: tripPayment.tripId,
+    transactionId: paymentResult.transactionId,
+  });
+
+  if (!cardToken) {
+    throw new Error("Card token has not been created");
+  }
+
+  const routeFinish = "payments/intent/finish";
+  const creditCardPaymentResult = await ApiRequest.post(routeFinish, {
+    tripId: tripPayment.tripId,
+    transactionId: paymentResult.transactionId,
+    cardToken,
+    name: creditCard.cardholder,
+    securityCode: creditCard.securityCode,
+    expirationMonth: creditCard.expirationMonth,
+    expirationYear: creditCard.expirationYear,
+    ipAddress: window.clientIp,
+    paymentMethodId,
+  });
+
+  return creditCardPaymentResult;
 };
 
 export const getTripPaymentStatus = async (tripId: string) => {

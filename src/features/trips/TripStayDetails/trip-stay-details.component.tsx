@@ -4,7 +4,6 @@ import type { TripStayDetailsProps } from "./trip-stay-details.types";
 import { Button, Divider } from "mars-ds";
 import { Carousel } from "@/ui";
 import { TripStayServiceItem } from "@/features";
-import { parseNumericValue } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
 
 const EMPTY_INFO_DETAILS = "-";
@@ -110,7 +109,7 @@ export function TripStayDetails({
           <Box className="trip-stay-details__footer-buttons gap-lg px-md">
             <Button
               className="trip-stay-details__footer-buttons__buttons"
-              variant="naked"
+              variant="secondary"
               href={`/app/viagens/${tripId}/hospedagem/editar`}
             >
               Editar
@@ -119,6 +118,7 @@ export function TripStayDetails({
               className="trip-stay-details__footer-buttons__buttons"
               style={{ color: "var(--color-gray-4)" }}
               onClick={() => handleRoomsButton()}
+              disabled={!stayData.isRoomSelected}
             >
               Quartos
             </Button>

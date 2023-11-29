@@ -79,6 +79,9 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
               {data.name}
             </Text>
             <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
+            {!data.isRoomSelected ? (
+              <Text size="sm">{data.roomSelectionMessage}</Text>
+            ) : null}
             <Button className="mt-sm" size="sm" variant="neutral" onClick={handleSeeDetails}>
               Ver detalhes
             </Button>
@@ -116,7 +119,7 @@ const TripStayEmptyState = ({ tripId = "" }) => (
     heading="Ainda não escolhemos a acomodação para sua viagem"
     text="Fale conosco e vamos deixar tudo como você deseja!"
     cta={{
-      href: `/app/viagens/${tripId}/hospedagem/editar-hotel`,
+      href: `/app/viagens/${tripId}/hospedagem/editar`,
       label: "Escolher hospedagem",
       iconName: "arrow-right",
       isRtl: true,

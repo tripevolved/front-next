@@ -2,11 +2,25 @@
   width: 100%;
 
   .card-trip__content {
-    display: flex;  
+    display: flex;
     justify-content: space-between;
     align-items: flex-end;
     gap: $spacing-sm;
   }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  &__deletion {
+    background-color: #fff9;
+    &:hover {
+      background-color: white;
+    }
+  }
+
   &__period {
     white-space: nowrap;
     display: flex;

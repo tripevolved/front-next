@@ -1,0 +1,59 @@
+.select-field-simple {
+  border: 1px solid #637381;
+  border-radius: $border-radius-sm;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  position: relative;
+  padding: 0;
+
+  select {
+    position: relative;
+    border-radius: $border-radius-sm;
+    padding: 0 12px;
+    appearance: none;
+    border: none;
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+    outline: none;
+    color: $color-text-secondary;
+    &::-ms-expand {
+      display: none;
+    }
+  }
+
+  legend {
+    display: none;
+    height: 0;
+    font-size: 12px;
+    position: relative;
+    margin-left: 12px;
+    padding-right: $spacing-xs;
+    left: 2px;
+    top: -8px;
+    color: $color-text-secondary;
+  }
+  .icon {
+    position: absolute;
+    right: 12px;
+  }
+
+  &--filled {
+    legend {
+      display: inline-block;
+    }
+    select {
+      color: $color-text-primary;
+    }
+  }
+
+  &:focus-within {
+    border-color: $color-info-500;
+    border-width: 2px;
+    margin: 0 1px;
+    legend {
+      color: $color-info-500;
+    }
+  }
+}

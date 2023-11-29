@@ -9,15 +9,12 @@ import {
   Icon,
   Skeleton,
   SkeletonVariants,
-  Modal,
 } from "mars-ds";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { useRouter } from "next/router";
-import { PendingDocumentsModal } from "@/features";
 
 interface TripPricingBoxProps {
   destinationName: string;
@@ -63,6 +60,7 @@ export const TripPricingBox = ({
           total={data.total}
           isPaid={data.isPaid}
           isBuilt={!!isScriptBuilt}
+          tripIncludes={data.includes}
         />
       </Card>
     </div>
@@ -106,15 +104,8 @@ interface TripPricingBoxContentProps {
   isPaid: boolean;
   isBuilt: boolean;
   tripId: string;
+  tripIncludes: { title: string, slug: string | null }[];
 }
-
-const TRIP_INCLUDES = [
-  { text: "Transporte", image: "/assets/destino/passagem-aerea.svg" },
-  { text: "Hospedagem", image: "/assets/destino/hospedagem.svg" },
-  { text: "Roteiro", image: "/assets/destino/roteiro.svg" },
-  { text: "Dicas gastronômicas", image: "/assets/destino/dicas-gastronomicas.svg" },
-  { text: "Suporte 360°", image: "/assets/destino/suporte.svg" },
-];
 
 const TripPricingBoxContent = ({
   tripId,
@@ -126,6 +117,7 @@ const TripPricingBoxContent = ({
   total,
   isPaid,
   isBuilt,
+  tripIncludes
 }: TripPricingBoxContentProps) => (
   <div className="trip-pricing-box-content">
     <ToggleButton
@@ -143,8 +135,8 @@ const TripPricingBoxContent = ({
         </strong>
       </Text>
       <Grid gap={12} className="px-md">
-        {TRIP_INCLUDES.map((item, key) => (
-          <TripPricingBoxContentItem key={key} {...item} />
+        {tripIncludes.map((item, key) => (
+          <TripPricingBoxContentItem key={key} image={`/assets/destino/${item.slug}.svg`} text={item.title} />
         ))}
       </Grid>
       <Divider />
@@ -183,32 +175,10 @@ const TripPricingBoxContentCta = ({
   tripId,
   total,
 }: Pick<TripPricingBoxContentProps, "tripId" | "total" | "isPaid" | "isBuilt">) => {
-  const router = useRouter();
   if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
 
-  const handleModal = () => {
-    const buyHref = `/app/viagens/${tripId}/comprar`;
-
-    const modal = Modal.open(
-      () => (
-        <PendingDocumentsModal
-          tripId={tripId}
-          title="Dados dos Viajantes"
-          onFinish={() => {
-            modal.close();
-            router.push(buyHref);
-          }}
-        />
-      ),
-      {
-        closable: true,
-        size: "md",
-      }
-    );
-  };
-
   const BuyButton = ({ isPrimary = false }) => (
-    <Button variant={isPrimary ? "tertiary" : "neutral"} onClick={() => handleModal()}>
+    <Button variant={isPrimary ? "tertiary" : "neutral"} href={`/compra/${tripId}/`}>
       Comprar por {formatToCurrencyBR(total)}
     </Button>
   );
@@ -222,7 +192,7 @@ const TripPricingBoxContentCta = ({
       </Button>
       <BuyButton />
       <Text size="sm" className="px-md">
-        <strong>Não se preocupe:</strong> você poderá construir o roteiro em um momento posterior
+        <strong>Não se preocupe:</strong> comprando agora, você poderá construir o roteiro em um momento posterior
       </Text>
     </Grid>
   );
