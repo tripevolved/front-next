@@ -1,12 +1,16 @@
 import { EmptyState, ErrorState, Text } from "@/ui";
 import type { ItineraryProps } from "./itinerary.types";
 
-import { Card, CardElevations, Skeleton } from "mars-ds";
+import { Card, CardElevations, Accordion, Skeleton } from "mars-ds";
 import { TripsApiService } from "@/services/api";
 import useSWR from "swr";
 import { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
+import { useState } from "react";
+import { TripDetailInfo } from "@/features";
 
 export function Itinerary({ tripId }: ItineraryProps) {
+  const [show, setShow] = useState(false);
+
   const fetcher = async () => TripsApiService.getItinerary(tripId);
   const { data, isLoading, error } = useSWR(`get-trip-itinerary-${tripId}`, fetcher);
 
@@ -32,5 +36,36 @@ export function Itinerary({ tripId }: ItineraryProps) {
 }
 
 export const ItineraryAction = (props: ItineraryActionProps) => {
-  return <div></div>;
+  const getTitle = (actionType: ItineraryActionProps["type"]) => {
+    const types = {
+      ROUTE: "Rota",
+      FLIGHT: "Voo",
+      ACCOMMODATION: "Acomodação",
+      RENTAL_CAR: "Aluguel de Carro",
+    };
+
+    return types[actionType];
+  };
+
+  const getIcon = (tag: ItineraryActionProps["type"]) => {
+    const types = {
+      ROUTE: "car",
+      FLIGHT: "passagem-aerea",
+      ACCOMMODATION: "hospedagem",
+      RENTAL_CAR: "car",
+    };
+
+    return types[tag];
+  };
+
+  return (
+    <Skeleton>
+      <Accordion onClick={() => console.log("FUI MOSTRADO")}>
+        <TripDetailInfo
+          image={`/assets/destino/${getIcon(props.type)}.svg`}
+          title={getTitle(props.type)}
+        ></TripDetailInfo>
+      </Accordion>
+    </Skeleton>
+  );
 };

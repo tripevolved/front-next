@@ -1,4 +1,4 @@
-export type ItineraryActionType = "ROUTE" | "FLIGHT" | "ACCOMODATION" | "RENTAL_CAR";
+export type ItineraryActionType = "ROUTE" | "FLIGHT" | "ACCOMMODATION" | "RENTAL_CAR";
 
 export interface Coordinates {
   title: string;
