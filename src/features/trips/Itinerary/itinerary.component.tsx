@@ -2,7 +2,7 @@ import { CardHighlight, EmptyState, ErrorState, Text } from "@/ui";
 import type { ItineraryProps } from "./itinerary.types";
 
 import { Card, CardElevations, Accordion, Skeleton } from "mars-ds";
-import { TripsApiService } from "@/services/api";
+import { TransportationApiService, TripsApiService } from "@/services/api";
 import useSWR from "swr";
 import { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 import { useState } from "react";
@@ -51,7 +51,7 @@ export function Itinerary({ tripId }: ItineraryProps) {
             action.type == "RENTAL_CAR" ? (
               <RentalCarAction {...action} />
             ) : action.type == "FLIGHT" ? (
-              <FlightAction {...action} />
+              <FlightAction {...action} tripId={tripId} />
             ) : null
           )
         : null}
@@ -84,8 +84,18 @@ export const RentalCarAction = (props: ItineraryActionProps) => {
   );
 };
 
-export const FlightAction = (props: ItineraryActionProps) => {
+export const FlightAction = (props: ItineraryActionProps & { tripId: string }) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const fetcher = async () =>
+    TransportationApiService.getTransportationActionItinerary(
+      props.tripId,
+      props.tripItineraryActionId
+    );
+  const { isLoading, data, error } = useSWR(
+    `get-itinerary-action-${props.tripItineraryActionId}`,
+    fetcher
+  );
 
   return (
     <Accordion title={props?.from.title} onClick={() => setIsOpen(true)}>
