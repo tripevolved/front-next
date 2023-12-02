@@ -6,3 +6,12 @@ export const getTransportationByTripId = async (tripId: string) => {
   const tripTransportation = await ApiRequest.get<TripTransportation>(route);
   return tripTransportation;
 };
+
+export const getTransportationActionItinerary = async (
+  tripId: string,
+  itineraryActionId: string
+) => {
+  const route = `transportations/${tripId}?tripItineraryActionId=${itineraryActionId}`;
+  const transportationActionItinerary = await ApiRequest.get<any>(route);
+  return transportationActionItinerary;
+};

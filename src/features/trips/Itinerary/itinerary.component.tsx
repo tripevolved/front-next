@@ -9,8 +9,6 @@ import { useState } from "react";
 import { TripDetailInfo } from "@/features";
 
 export function Itinerary({ tripId }: ItineraryProps) {
-  const [show, setShow] = useState(false);
-
   const fetcher = async () => TripsApiService.getItinerary(tripId);
   const { data, isLoading, error } = useSWR(`get-trip-itinerary-${tripId}`, fetcher);
 
@@ -87,10 +85,12 @@ export const RentalCarAction = (props: ItineraryActionProps) => {
 };
 
 export const FlightAction = (props: ItineraryActionProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <Accordion title={props?.from.title}>
+    <Accordion title={props?.from.title} onClick={() => setIsOpen(true)}>
       <Skeleton>
-        <TripDetailInfo image={`/assets/destino/passagem-aerea.svg`} title="Aluguel de Carro">
+        <TripDetailInfo image={`/assets/destino/passagem-aerea.svg`} title="Aqui é voo">
           <Text style={{ color: "var(--color-gray-1)" }}>
             Sua rota iniciará em {props.from.title} até serguirá até {props.to.title}
           </Text>
