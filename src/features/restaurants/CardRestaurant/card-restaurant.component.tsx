@@ -10,7 +10,6 @@ import { RestaurantDetailComponent } from "@/features";
 
 export function CardRestaurant({ restaurant, onChoice, className, title, subtitle, header, href, image, sx, ...props }: CardRestaurantProps) {
   const cn = makeCn("card-restaurant", className)(sx);
-  console.log(restaurant.isSelected);
   const [toggle, setToggle] = useState<boolean | null>(restaurant.isSelected === true ? true : null);
 
   const openDetailsModal = () => {
