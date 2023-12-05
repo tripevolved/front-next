@@ -39,7 +39,7 @@ export function MatchedDestinationCard({
       header={<Header />}
       href={href}
       onClick={onClick}
-      className="matched-destination-card"
+      className="matched-destinations-card"
     >
       {seeMore ? (
         <div className="theme-dark">
