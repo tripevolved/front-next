@@ -14,13 +14,13 @@ export function CardRestaurant({ restaurant, onChoice, className, title, subtitl
   const [toggle, setToggle] = useState<boolean | null>(restaurant.isSelected === true ? true : null);
 
   const openDetailsModal = () => {
-    Modal.open(
+    const modal = Modal.open(
       () => (
         <>
           <RestaurantDetailComponent
             restaurantId={restaurant.id}
-            onInclude={() => handleToggle(true)}
-            onDiscard={() => handleToggle(false)}
+            onInclude={() => { handleToggle(true); modal.close(); }}
+            onDiscard={() => { handleToggle(false); modal.close(); }}
           />
         </>
       ),
