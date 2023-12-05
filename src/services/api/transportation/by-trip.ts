@@ -12,6 +12,6 @@ export const getTransportationActionItinerary = async (
   itineraryActionId: string
 ) => {
   const route = `transportations/${tripId}?tripItineraryActionId=${itineraryActionId}`;
-  const transportationActionItinerary = await ApiRequest.get<any>(route);
+  const transportationActionItinerary = await ApiRequest.get<TripTransportation>(route);
   return transportationActionItinerary;
 };
