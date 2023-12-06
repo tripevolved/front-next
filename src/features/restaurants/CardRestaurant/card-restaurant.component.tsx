@@ -10,16 +10,16 @@ import { RestaurantDetailComponent } from "@/features";
 
 export function CardRestaurant({ restaurant, onChoice, className, title, subtitle, header, href, image, sx, ...props }: CardRestaurantProps) {
   const cn = makeCn("card-restaurant", className)(sx);
-  const [toggle, setToggle] = useState<boolean | null>(restaurant.isSelected ?? null);
+  const [toggle, setToggle] = useState<boolean | null>(restaurant.isSelected === true ? true : null);
 
   const openDetailsModal = () => {
-    Modal.open(
+    const modal = Modal.open(
       () => (
         <>
           <RestaurantDetailComponent
             restaurantId={restaurant.id}
-            onInclude={() => handleToggle(true)}
-            onDiscard={() => handleToggle(false)}
+            onInclude={() => { handleToggle(true); modal.close(); }}
+            onDiscard={() => { handleToggle(false); modal.close(); }}
           />
         </>
       ),
@@ -52,9 +52,9 @@ export function CardRestaurant({ restaurant, onChoice, className, title, subtitl
   };
 
   return (
-    <Grid className={cn} gap={6} columns={restaurant.imageUrl ? [2,8,1,1] : [10,1,1]} onClick={openDetailsModal} style={{cursor: "pointer"}} {...props}>
+    <Grid className={cn} gap={6} columns={restaurant.imageUrl ? [2,8,1,1] : [10,1,1]}>
       {restaurant.imageUrl && (<Picture className="card-restaurant__icon" src={restaurant.imageUrl} />)}
-      <Box className="card-restaurant__box">
+      <Box className="card-restaurant__box" onClick={openDetailsModal} style={{cursor: "pointer"}} {...props}>
         <Text size="md" className="card-restaurant__title">
           {restaurant.name}
         </Text>
