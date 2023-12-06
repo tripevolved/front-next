@@ -89,7 +89,7 @@ export function TripDetailsPage() {
                 isBuilding={isBuilding}
               />
             ) : null}
-            <Itinerary tripId={data.id} />
+            <Itinerary tripId={data.id} title={title} />
             <Card elevation={CardElevations.Low}>
               <Grid>
                 <Text as="h2" heading size="xs" className="mb-lg">

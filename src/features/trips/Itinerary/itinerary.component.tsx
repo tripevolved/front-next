@@ -9,7 +9,7 @@ import { FlightAction } from "./flight.action";
 import { RouteAction } from "./route.action";
 import { AccommodationAction } from "./accommodation.action";
 
-export function Itinerary({ tripId }: ItineraryProps) {
+export function Itinerary({ tripId, title }: ItineraryProps) {
   const fetcher = async () => TripsApiService.getItinerary(tripId);
   const { data, isLoading, error } = useSWR(`get-trip-itinerary-${tripId}`, fetcher);
 
@@ -22,8 +22,9 @@ export function Itinerary({ tripId }: ItineraryProps) {
         Seu itinerário
       </Text>
       <Text>
-        Analisando suas informações, construímos um itinerário a partir de sua casa até Ouro Preto,
-        para que você só tenha o trabalho de curtir sua viagem. MAIS XALAIÁ...
+        Analisando suas informações, preparamos o seguinte itinerário para você. Ele começa na sua
+        cidade e vai até {title}, para que você só tenha o trabalho de curtir a sua viagem. Você
+        pode alterar suas escolhas e estamos à disposição para atendê-lo da melhor forma
       </Text>
       <Skeleton active={isLoading}>
         {data?.actions.length

@@ -24,11 +24,11 @@ export const RouteAction = (props: ItineraryActionProps & { tripId: string }) =>
   if (error) return <ErrorState />;
 
   return (
-    <Accordion title={props?.from.title} onClick={() => setIsOpen(true)}>
+    <Accordion title={`⚫ ${props?.from.title}`} onClick={() => setIsOpen(true)}>
       <Skeleton active={isLoading}>
         {data ? (
-          <div className="w-100 pl-xl">
-            <TripDetailInfo image={`/assets/itinerario/carro.svg`} title="Carro" />
+          <div className="w-100 pl-xl ml-xs itinerary__item">
+            <TripDetailInfo image={`/assets/destino/carro.svg`} title="Carro" />
             <CarDetailInfo data={data} />
           </div>
         ) : (

@@ -1,5 +1,5 @@
 .itinerary {
-  h3 {
-		color: $color-brand-2;
-	}
+  &__item {
+    border-left: 1px dashed $color-brand-2;
+  }
 }

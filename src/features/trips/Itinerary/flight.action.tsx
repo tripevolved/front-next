@@ -24,14 +24,11 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
   if (error) return <ErrorState />;
 
   return (
-    <Accordion title={props?.from.title} onClick={() => setIsOpen(true)}>
+    <Accordion title={`⚫ ${props?.from.title}`} onClick={() => setIsOpen(true)}>
       <Skeleton active={isLoading}>
         {data ? (
-          <div className="w-100 pl-xl">
-            <TripDetailInfo
-              image={`/assets/itinerario/passagem-aerea.svg`}
-              title="Passagem aérea"
-            />
+          <div className="w-100 pl-xl ml-xs itinerary__item">
+            <TripDetailInfo image={`/assets/destino/passagem-aerea.svg`} title="Passagem aérea" />
             <Grid columns={["56px", "1fr"]} className="mt-lg">
               <Picture src={data?.partnerLogoUrl || "/assets/blank-image.png"} />
               <Grid>

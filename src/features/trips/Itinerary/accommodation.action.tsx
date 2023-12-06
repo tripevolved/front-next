@@ -20,11 +20,11 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   if (error) return <ErrorState />;
 
   return (
-    <Accordion title={props?.from.title} onClick={() => setIsOpen(true)}>
+    <Accordion title={`⚫ ${props?.from.title}`} onClick={() => setIsOpen(true)}>
       <Skeleton active={isLoading}>
         {data ? (
-          <div className="w-100 pl-xl">
-            <TripDetailInfo image={`/assets/itinerario/hospedagem.svg`} title="Hospedagem" />
+          <div className="w-100 pl-xl ml-xs itinerary__item">
+            <TripDetailInfo image={`/assets/destino/hospedagem.svg`} title="Hospedagem" />
             <Grid className="mt-lg">
               <Grid columns={["56px", "auto"]}>
                 <Picture src={data.coverImageUrl || "/assets/blank-image.png"} />
