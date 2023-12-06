@@ -1,5 +1,12 @@
 .itinerary {
   &__item {
     border-left: 1px dashed $color-brand-2;
+
+  }
+
+  .accordion--is-open > .accordion__content {
+    overflow: hidden;
+    transition: height 0.2s ease;
+    height: fit-content !important;
   }
 }

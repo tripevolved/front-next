@@ -21,7 +21,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
 
   return (
     <Accordion title={`⚫ ${props?.from.title}`} onClick={() => setIsOpen(true)}>
-      <Skeleton active={isLoading}>
+      <Skeleton active={isLoading} height={170}>
         {data ? (
           <div className="w-100 pl-xl ml-xs itinerary__item">
             <TripDetailInfo image={`/assets/destino/hospedagem.svg`} title="Hospedagem" />

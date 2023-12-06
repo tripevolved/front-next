@@ -8,7 +8,7 @@ import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
 export const RentalCarAction = (props: ItineraryActionProps) => {
   return (
     <Accordion title={`⚫ ${props?.from.title}`}>
-      <Skeleton>
+      <Skeleton height={170}>
         <div className="w-100 pl-lg ml-xs itinerary__item">
           <TripDetailInfo image={`/assets/destino/carro.svg`} title="Aluguel de Carro">
             <Text style={{ color: "var(--color-gray-1)" }}>
