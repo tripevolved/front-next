@@ -1,16 +1,13 @@
-import { CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
+import { EmptyState, ErrorState, Text } from "@/ui";
 import type { ItineraryProps } from "./itinerary.types";
 
-import { Card, CardElevations, Accordion, Skeleton, Grid } from "mars-ds";
-import { StaysApiService, TransportationApiService, TripsApiService } from "@/services/api";
+import { Card, CardElevations, Skeleton } from "mars-ds";
+import { TripsApiService } from "@/services/api";
 import useSWR from "swr";
-import { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
-import { useState } from "react";
-import { TripDetailInfo } from "@/features";
-import {
-  CarDetailInfo,
-  TripTransportationItem,
-} from "../TripDetailsPage/trip-transportation.section";
+import { RentalCarAction } from "./rental-car.action";
+import { FlightAction } from "./flight.action";
+import { RouteAction } from "./route.action";
+import { AccommodationAction } from "./accommodation.action";
 
 export function Itinerary({ tripId }: ItineraryProps) {
   const fetcher = async () => TripsApiService.getItinerary(tripId);
@@ -30,8 +27,17 @@ export function Itinerary({ tripId }: ItineraryProps) {
       </Text>
       <Skeleton active={isLoading}>
         {data?.actions.length
-          ? data?.actions.map((action, i) =>
-              action.type == "RENTAL_CAR" ? (
+          ? data?.actions.map((action, i) => {
+              if (!action.from.title) {
+                const from = {
+                  title: "Destino!",
+                  latitude: action.from.latitude,
+                  longitude: action.from.longitude,
+                };
+                action = { ...action, from };
+              }
+
+              return action.type == "RENTAL_CAR" ? (
                 <RentalCarAction {...action} key={`${i}-${action.tripItineraryActionId}`} />
               ) : action.type == "FLIGHT" ? (
                 <FlightAction
@@ -51,157 +57,10 @@ export function Itinerary({ tripId }: ItineraryProps) {
                   tripId={tripId}
                   key={`${i}-${action.tripItineraryActionId}`}
                 />
-              ) : null
-            )
+              ) : null;
+            })
           : null}
       </Skeleton>
     </Card>
   );
 }
-
-export const RentalCarAction = (props: ItineraryActionProps) => {
-  return (
-    <Accordion title={props?.from.title}>
-      <Skeleton>
-        <div className="w-100 pl-lg">
-          <TripDetailInfo image={`/assets/itinerario/carro.svg`} title="Aluguel de Carro">
-            <Text style={{ color: "var(--color-gray-1)" }}>
-              Sua rota iniciará em {props.from.title} até serguirá até {props.to.title}
-            </Text>
-            <CardHighlight
-              variant="default"
-              heading="Esta parte do trajeto será feita por terra"
-              text="Gostaria de alugar um veículo com nossa equipe?"
-              cta={{
-                href: ``,
-                label: "Preciso alugar um carro",
-                iconName: "whatsapp",
-                isRtl: true,
-              }}
-            />
-          </TripDetailInfo>
-        </div>
-      </Skeleton>
-    </Accordion>
-  );
-};
-
-export const FlightAction = (props: ItineraryActionProps & { tripId: string }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const fetcher = async () =>
-    TransportationApiService.getTransportationActionItinerary(
-      props.tripId,
-      props.tripItineraryActionId
-    );
-  const { isLoading, data, error } = useSWR(
-    isOpen ? `get-itinerary-flight-action-${props.tripItineraryActionId}` : null,
-    fetcher
-  );
-
-  if (error) return <ErrorState />;
-
-  return (
-    <Accordion title={props?.from.title} onClick={() => setIsOpen(true)}>
-      <Skeleton active={isLoading}>
-        {data ? (
-          <div className="w-100 pl-xl">
-            <TripDetailInfo
-              image={`/assets/itinerario/passagem-aerea.svg`}
-              title="Passagem aérea"
-            />
-            <Grid columns={["56px", "1fr"]} className="mt-lg">
-              <Picture src={data?.partnerLogoUrl || "/assets/blank-image.png"} />
-              <Grid>
-                <TripTransportationItem
-                  title="Saída"
-                  date={data?.departure}
-                  name={data?.fromName}
-                  address={data?.fromAddress}
-                />
-                <TripTransportationItem
-                  title="Chegada prevista"
-                  date={data?.estimatedArrival}
-                  name={data?.toName}
-                  address={data?.toAddress}
-                />
-              </Grid>
-            </Grid>
-          </div>
-        ) : (
-          <EmptyState />
-        )}
-      </Skeleton>
-    </Accordion>
-  );
-};
-
-export const RouteAction = (props: ItineraryActionProps & { tripId: string }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const fetcher = async () =>
-    TransportationApiService.getTransportationActionItinerary(
-      props.tripId,
-      props.tripItineraryActionId
-    );
-  const { isLoading, data, error } = useSWR(
-    isOpen ? `get-itinerary-route-action-${props.tripItineraryActionId}` : null,
-    fetcher
-  );
-
-  if (error) return <ErrorState />;
-
-  return (
-    <Accordion title={props?.from.title} onClick={() => setIsOpen(true)}>
-      <Skeleton active={isLoading}>
-        {data ? (
-          <div className="w-100 pl-xl">
-            <TripDetailInfo image={`/assets/itinerario/carro.svg`} title="Carro" />
-            <CarDetailInfo data={data} />
-          </div>
-        ) : (
-          <EmptyState />
-        )}
-      </Skeleton>
-    </Accordion>
-  );
-};
-
-export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const fetcher = async () =>
-    StaysApiService.getAccommodationItineraryAction(props.tripId, props.tripItineraryActionId);
-  const { isLoading, data, error } = useSWR(
-    isOpen ? `get-itinerary-accommodation-action-${props.tripItineraryActionId}` : null,
-    fetcher
-  );
-
-  if (error) return <ErrorState />;
-
-  return (
-    <Accordion title={props?.from.title} onClick={() => setIsOpen(true)}>
-      <Skeleton active={isLoading}>
-        {data ? (
-          <div className="w-100 pl-xl">
-            <TripDetailInfo image={`/assets/itinerario/hospedagem.svg`} title="Hospedagem" />
-            <Grid className="mt-lg">
-              <Grid columns={["56px", "auto"]}>
-                <Picture src={data.coverImageUrl || "/assets/blank-image.png"} />
-                <div>
-                  <Text as="h3" size="lg">
-                    {data.name}
-                  </Text>
-                  <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
-                  {!data.isRoomSelected ? <Text size="sm">{data.roomSelectionMessage}</Text> : null}
-                </div>
-              </Grid>
-            </Grid>
-          </div>
-        ) : (
-          <EmptyState />
-        )}
-      </Skeleton>
-    </Accordion>
-  );
-};

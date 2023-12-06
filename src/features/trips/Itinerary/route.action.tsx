@@ -1,0 +1,40 @@
+import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
+
+import { useState } from "react";
+import { Accordion, Skeleton } from "mars-ds";
+import { ErrorState, EmptyState } from "@/ui";
+import { TripDetailInfo } from "../TripDetailsPage";
+import useSWR from "swr";
+import { TransportationApiService } from "@/services/api";
+import { CarDetailInfo } from "../TripDetailsPage/trip-transportation.section";
+
+export const RouteAction = (props: ItineraryActionProps & { tripId: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const fetcher = async () =>
+    TransportationApiService.getTransportationActionItinerary(
+      props.tripId,
+      props.tripItineraryActionId
+    );
+  const { isLoading, data, error } = useSWR(
+    isOpen ? `get-itinerary-route-action-${props.tripItineraryActionId}` : null,
+    fetcher
+  );
+
+  if (error) return <ErrorState />;
+
+  return (
+    <Accordion title={props?.from.title} onClick={() => setIsOpen(true)}>
+      <Skeleton active={isLoading}>
+        {data ? (
+          <div className="w-100 pl-xl">
+            <TripDetailInfo image={`/assets/itinerario/carro.svg`} title="Carro" />
+            <CarDetailInfo data={data} />
+          </div>
+        ) : (
+          <EmptyState />
+        )}
+      </Skeleton>
+    </Accordion>
+  );
+};
