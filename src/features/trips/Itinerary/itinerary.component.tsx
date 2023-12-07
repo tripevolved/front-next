@@ -31,7 +31,7 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
           ? data?.actions.map((action, i) => {
               if (!action.from.title) {
                 const from = {
-                  title: "Destino!",
+                  title: "",
                   latitude: action.from.latitude,
                   longitude: action.from.longitude,
                 };

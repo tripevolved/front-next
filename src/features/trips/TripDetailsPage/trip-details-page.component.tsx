@@ -95,10 +95,6 @@ export function TripDetailsPage() {
                 <Text as="h2" heading size="xs" className="mb-lg">
                   <strong>O que sua viagem inclui</strong>
                 </Text>
-                <TripTransportationSection tripId={data.id} />
-                <Divider />
-                <TripStaySection tripId={data.id} />
-                <Divider />
                 <TripScriptSection isBuilt={hasScript} />
                 <Divider />
                 <TripFoodTipsSection text={destination.gastronomicInformation} />
