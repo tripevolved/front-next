@@ -43,7 +43,10 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   if (error) return <ErrorState />;
 
   return (
-    <Accordion title={`🌑 ${props?.from.title || data?.name}`} onClick={() => setIsOpen(true)}>
+    <Accordion
+      title={`🌑 ${props?.from.title || data?.name || ""}`}
+      onClick={() => setIsOpen(true)}
+    >
       <Skeleton active={isLoading} height={170}>
         {data ? (
           <div className="w-100 pl-xl itinerary__item" style={{ marginLeft: 6 }}>

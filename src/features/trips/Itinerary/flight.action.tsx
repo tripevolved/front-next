@@ -24,32 +24,37 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
   if (error) return <ErrorState />;
 
   return (
-    <Accordion title={`🌑 ${props?.from.title || data?.fromName}`} onClick={() => setIsOpen(true)}>
-      <Skeleton active={isLoading} height={170}>
-        {data ? (
-          <div className="w-100 pl-xl itinerary__item" style={{ marginLeft: 6 }}>
-            <TripDetailInfo image={`/assets/destino/passagem-aerea.svg`} title="Passagem aérea" />
-            <Grid columns={["56px", "1fr"]} className="mt-lg">
-              <Picture src={data?.partnerLogoUrl || "/assets/blank-image.png"} />
-              <Grid>
-                <TripTransportationItem
-                  title="Saída"
-                  date={data?.departure}
-                  name={data?.fromName}
-                  address={data?.fromAddress}
-                />
-                <TripTransportationItem
-                  title="Chegada prevista"
-                  date={data?.estimatedArrival}
-                  name={data?.toName}
-                  address={data?.toAddress}
-                />
+    <Accordion
+      title={`🌑 ${props?.from.title || data?.fromName || ""}`}
+      onClick={() => setIsOpen(true)}
+    >
+      <Skeleton active={isLoading} height={200}>
+        <div className="w-100 pl-xl itinerary__item" style={{ marginLeft: 6, height: 200 }}>
+          {data ? (
+            <>
+              <TripDetailInfo image={`/assets/destino/passagem-aerea.svg`} title="Passagem aérea" />
+              <Grid columns={["56px", "1fr"]} className="mt-lg">
+                <Picture src={data?.partnerLogoUrl || "/assets/blank-image.png"} />
+                <Grid>
+                  <TripTransportationItem
+                    title="Saída"
+                    date={data?.departure}
+                    name={data?.fromName}
+                    address={data?.fromAddress}
+                  />
+                  <TripTransportationItem
+                    title="Chegada prevista"
+                    date={data?.estimatedArrival}
+                    name={data?.toName}
+                    address={data?.toAddress}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-          </div>
-        ) : (
-          <EmptyState />
-        )}
+            </>
+          ) : (
+            <EmptyState />
+          )}
+        </div>
       </Skeleton>
     </Accordion>
   );

@@ -28,17 +28,8 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
       </Text>
       <Skeleton active={isLoading}>
         {data?.actions.length
-          ? data?.actions.map((action, i) => {
-              if (!action.from.title) {
-                const from = {
-                  title: "",
-                  latitude: action.from.latitude,
-                  longitude: action.from.longitude,
-                };
-                action = { ...action, from };
-              }
-
-              return action.type == "RENTAL_CAR" ? (
+          ? data?.actions.map((action, i) =>
+              action.type == "RENTAL_CAR" ? (
                 <RentalCarAction {...action} key={`${i}-${action.tripItineraryActionId}`} />
               ) : action.type == "FLIGHT" ? (
                 <FlightAction
@@ -58,8 +49,8 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
                   tripId={tripId}
                   key={`${i}-${action.tripItineraryActionId}`}
                 />
-              ) : null;
-            })
+              ) : null
+            )
           : null}
       </Skeleton>
     </Card>
