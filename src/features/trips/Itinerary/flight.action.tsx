@@ -29,7 +29,7 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
       onClick={() => setIsOpen(true)}
     >
       <Skeleton active={isLoading} height={200}>
-        <div className="w-100 pl-xl itinerary__item" style={{ marginLeft: 6, height: 200 }}>
+        <div className="w-100 pl-xl itinerary__item" style={{ marginLeft: 6 }}>
           {data ? (
             <>
               <TripDetailInfo image={`/assets/destino/passagem-aerea.svg`} title="Passagem aérea" />
