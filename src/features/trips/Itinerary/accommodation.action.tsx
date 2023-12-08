@@ -54,7 +54,6 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
               <TripDetailInfo image={`/assets/destino/hospedagem.svg`} title="Hospedagem" />
               <StayEditionButton tripId={props.tripId} />
             </Grid>
-            {/* <TripDetailInfo image={`/assets/destino/hospedagem.svg`} title="Hospedagem" /> */}
             <Grid className="mt-lg">
               <Grid columns={["56px", "auto"]}>
                 <Picture src={data.coverImageUrl || "/assets/blank-image.png"} />
