@@ -15,7 +15,7 @@ export function FlightDetailsPainel({
 }: FlightDetailsPainelProps) {
   const cn = makeCn("flight-details-painel", className)(sx);
 
-  const { outboundFlightDetails, returnFlightDetails } = transportationData.flightView;
+  const { outboundFlight, returnFlight } = transportationData.flightView;
 
   return (
     <div className={`${cn} w-100 p-xl`} {...props}>
@@ -25,13 +25,13 @@ export function FlightDetailsPainel({
         </Text>
         <Box className="flight-details-painel__container__flight w-100 flex-column gap-md">
           <Text size="xl">Voo de ida</Text>
-          {outboundFlightDetails.map((flight, i) => (
+          {outboundFlight.flightDetails.map((flight, i) => (
             <FlightCard flight={flight} key={i} />
           ))}
         </Box>
         <Box className="flight-details-painel__container__flight flex-column gap-md">
           <Text size="xl">Voo de volta</Text>
-          {returnFlightDetails.map((flight, i) => (
+          {returnFlight.flightDetails.map((flight, i) => (
             <FlightCard flight={flight} key={i} />
           ))}
         </Box>

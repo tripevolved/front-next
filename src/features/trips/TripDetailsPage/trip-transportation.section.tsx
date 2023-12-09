@@ -31,7 +31,7 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
   const { data, error, isLoading } = useSwr(fetcherKey, fetcher, swrOptions);
 
   const handleSeeDetails = () => {
-    const modal = Modal.open(() => <FlightDetailsPainel transportationData={data!} />, {
+    Modal.open(() => <FlightDetailsPainel transportationData={data!} isModalView />, {
       size: "md",
       closable: true,
     });
@@ -91,9 +91,11 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
               </Text>
             ) : null}
             {data.description && <Text className="color-text-secondary">{data.description}</Text>}
-            <Button variant="naked" onClick={() => handleSeeDetails()}>
-              ver mais detalhes
-            </Button>
+            {data.iconSlug == "flight" ? (
+              <Button variant="naked" onClick={() => handleSeeDetails()}>
+                ver mais detalhes
+              </Button>
+            ) : null}
           </Grid>
         </Grid>
       )}
