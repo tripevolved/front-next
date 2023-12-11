@@ -44,7 +44,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     <Accordion title={`🌑 ${props?.from.title || data?.name || ""}`} defaultOpen>
       <Skeleton active={isLoading} height={355}>
         {data ? (
-          <div className="pl-xl itinerary__item" style={{ marginLeft: 6 }}>
+          <div className="pl-xl itinerary__item">
             <Grid columns={["1fr", "auto"]}>
               <TripDetailInfo image={`/assets/destino/hospedagem.svg`} title="Hospedagem" />
               <StayEditionButton tripId={props.tripId} />

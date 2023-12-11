@@ -23,7 +23,7 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
   return (
     <Accordion title={`🌑 ${props?.from.title || data?.fromName || ""}`} defaultOpen>
       <Skeleton active={isLoading} height={170}>
-        <div className="pl-xl itinerary__item" style={{ marginLeft: 6 }}>
+        <div className="pl-xl itinerary__item">
           {data ? (
             <>
               <TripDetailInfo image={`/assets/destino/passagem-aerea.svg`} title="Passagem aérea" />

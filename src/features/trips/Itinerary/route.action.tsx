@@ -24,7 +24,7 @@ export const RouteAction = (props: ItineraryActionProps & { tripId: string }) =>
     <Accordion title={`🌑 ${props?.from.title || data?.fromName || ""}`} defaultOpen>
       <Skeleton active={isLoading} height={230}>
         {data ? (
-          <div className="pl-xl itinerary__item" style={{ marginLeft: 6 }}>
+          <div className="pl-xl itinerary__item">
             <TripDetailInfo image={`/assets/destino/carro.svg`} title="Carro" />
             <CarDetailInfo data={data} />
           </div>

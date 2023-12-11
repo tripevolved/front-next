@@ -1,6 +1,9 @@
 .itinerary {
   &__item {
-    border-left: 1px dashed $color-brand-2;
+    border-left: 1px dotted $color-brand-2;
+    border-width: 4px;
+
+    margin-left: 10px;
   }
 
   .accordion {
