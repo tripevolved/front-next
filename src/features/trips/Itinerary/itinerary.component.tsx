@@ -9,6 +9,7 @@ import { FlightAction } from "./flight.action";
 import { RouteAction } from "./route.action";
 import { AccommodationAction } from "./accommodation.action";
 import { ItineraryItem } from "./itinerary-item.wrapper";
+import { TripDetailInfo } from "@/features";
 
 export function Itinerary({ tripId, title }: ItineraryProps) {
   const fetcher = async () => TripsApiService.getItinerary(tripId);
