@@ -52,8 +52,10 @@ export function CardRestaurant({ restaurant, onChoice, className, title, subtitl
   };
 
   return (
-    <Grid className={cn} gap={6} columns={restaurant.imageUrl ? [2,8,1,1] : [10,1,1]}>
-      {restaurant.imageUrl && (<Picture className="card-restaurant__icon" src={restaurant.imageUrl} />)}
+    <Grid className={cn} gap={6} columns={[2,8,1,1]}>
+      {restaurant.imageUrl !== null && restaurant.imageUrl !== undefined 
+        ? (<Picture className="card-restaurant__icon" src={restaurant.imageUrl} />)
+        : (<Picture className="card-restaurant__icon" src={`/assets/script/restaurant.svg`} />)}
       <Box className="card-restaurant__box" onClick={openDetailsModal} style={{cursor: "pointer"}} {...props}>
         <Text size="md" className="card-restaurant__title">
           {restaurant.name}

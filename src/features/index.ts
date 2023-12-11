@@ -70,6 +70,7 @@ export * from "./templates/PrivacyBanner";
 export * from "./templates/TemplateStepsBuilder";
 export * from "./trips/FlightCard";
 export * from "./trips/FlightDetailsPainel";
+export * from "./trips/Itinerary";
 export * from "./trips/MatchedDestinationsPage";
 export * from "./trips/PageTrip";
 export * from "./trips/ReservationsPanel";
