@@ -1,6 +1,5 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
-import { useState } from "react";
 import { Accordion, Skeleton, Grid, Modal, Button } from "mars-ds";
 import { ErrorState, EmptyState, Picture, Text } from "@/ui";
 import { TripDetailInfo } from "@/features";
@@ -13,13 +12,12 @@ import { StayEditionButton } from "../TripDetailsPage/trip-stay.section";
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
   const fetcher = async () =>
     StaysApiService.getAccommodationItineraryAction(props.tripId, props.tripItineraryActionId);
   const { isLoading, data, error } = useSWR(
-    isOpen ? `get-itinerary-accommodation-action-${props.tripItineraryActionId}` : null,
+    `get-itinerary-accommodation-action-${props.tripItineraryActionId}`,
     fetcher
   );
 
@@ -43,13 +41,10 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   if (error) return <ErrorState />;
 
   return (
-    <Accordion
-      title={`🌑 ${props?.from.title || data?.name || ""}`}
-      onClick={() => setIsOpen(true)}
-    >
-      <Skeleton active={isLoading} height={170}>
+    <Accordion title={`🌑 ${props?.from.title || data?.name || ""}`} defaultOpen>
+      <Skeleton active={isLoading} height={355}>
         {data ? (
-          <div className="w-100 pl-xl itinerary__item" style={{ marginLeft: 6 }}>
+          <div className="pl-xl itinerary__item" style={{ marginLeft: 6 }}>
             <Grid columns={["1fr", "auto"]}>
               <TripDetailInfo image={`/assets/destino/hospedagem.svg`} title="Hospedagem" />
               <StayEditionButton tripId={props.tripId} />

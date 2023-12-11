@@ -1,6 +1,5 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
-import { useState } from "react";
 import { Accordion, Skeleton, Grid } from "mars-ds";
 import { ErrorState, EmptyState, Picture } from "@/ui";
 import { TripDetailInfo } from "../TripDetailsPage";
@@ -9,27 +8,22 @@ import { TransportationApiService } from "@/services/api";
 import { TripTransportationItem } from "../TripDetailsPage/trip-transportation.section";
 
 export const FlightAction = (props: ItineraryActionProps & { tripId: string }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const fetcher = async () =>
     TransportationApiService.getTransportationActionItinerary(
       props.tripId,
       props.tripItineraryActionId
     );
   const { isLoading, data, error } = useSWR(
-    isOpen ? `get-itinerary-flight-action-${props.tripItineraryActionId}` : null,
+    `get-itinerary-flight-action-${props.tripItineraryActionId}`,
     fetcher
   );
 
   if (error) return <ErrorState />;
 
   return (
-    <Accordion
-      title={`🌑 ${props?.from.title || data?.fromName || ""}`}
-      onClick={() => setIsOpen(true)}
-    >
-      <Skeleton active={isLoading} height={200}>
-        <div className="w-100 pl-xl itinerary__item" style={{ marginLeft: 6 }}>
+    <Accordion title={`🌑 ${props?.from.title || data?.fromName || ""}`} defaultOpen>
+      <Skeleton active={isLoading} height={170}>
+        <div className="pl-xl itinerary__item" style={{ marginLeft: 6 }}>
           {data ? (
             <>
               <TripDetailInfo image={`/assets/destino/passagem-aerea.svg`} title="Passagem aérea" />
