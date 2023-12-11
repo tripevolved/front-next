@@ -21,17 +21,15 @@ export const RouteAction = (props: ItineraryActionProps & { tripId: string }) =>
   if (error) return <ErrorState />;
 
   return (
-    <Accordion title={`🌑 ${props?.from.title || data?.fromName || ""}`} defaultOpen>
-      <Skeleton active={isLoading} height={230}>
-        {data ? (
-          <div className="pl-xl itinerary__item">
-            <TripDetailInfo image={`/assets/destino/carro.svg`} title="Carro" />
-            <CarDetailInfo data={data} />
-          </div>
-        ) : (
-          <EmptyState />
-        )}
-      </Skeleton>
-    </Accordion>
+    <Skeleton active={isLoading} height={230}>
+      {data ? (
+        <div className="pl-xl itinerary__item">
+          <TripDetailInfo image={`/assets/destino/carro.svg`} title="Carro" />
+          <CarDetailInfo data={data} />
+        </div>
+      ) : (
+        <EmptyState />
+      )}
+    </Skeleton>
   );
 };

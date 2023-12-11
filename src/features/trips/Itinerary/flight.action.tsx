@@ -21,35 +21,33 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
   if (error) return <ErrorState />;
 
   return (
-    <Accordion title={`🌑 ${props?.from.title || data?.fromName || ""}`} defaultOpen>
-      <Skeleton active={isLoading} height={170}>
-        <div className="pl-xl itinerary__item">
-          {data ? (
-            <>
-              <TripDetailInfo image={`/assets/destino/passagem-aerea.svg`} title="Passagem aérea" />
-              <Grid columns={["56px", "1fr"]} className="mt-lg">
-                <Picture src={data?.partnerLogoUrl || "/assets/blank-image.png"} />
-                <Grid>
-                  <TripTransportationItem
-                    title="Saída"
-                    date={data?.departure}
-                    name={data?.fromName}
-                    address={data?.fromAddress}
-                  />
-                  <TripTransportationItem
-                    title="Chegada prevista"
-                    date={data?.estimatedArrival}
-                    name={data?.toName}
-                    address={data?.toAddress}
-                  />
-                </Grid>
+    <Skeleton active={isLoading} height={170}>
+      <div className="pl-xl itinerary__item">
+        {data ? (
+          <>
+            <TripDetailInfo image={`/assets/destino/passagem-aerea.svg`} title="Passagem aérea" />
+            <Grid columns={["56px", "1fr"]} className="mt-lg">
+              <Picture src={data?.partnerLogoUrl || "/assets/blank-image.png"} />
+              <Grid>
+                <TripTransportationItem
+                  title="Saída"
+                  date={data?.departure}
+                  name={data?.fromName}
+                  address={data?.fromAddress}
+                />
+                <TripTransportationItem
+                  title="Chegada prevista"
+                  date={data?.estimatedArrival}
+                  name={data?.toName}
+                  address={data?.toAddress}
+                />
               </Grid>
-            </>
-          ) : (
-            <EmptyState />
-          )}
-        </div>
-      </Skeleton>
-    </Accordion>
+            </Grid>
+          </>
+        ) : (
+          <EmptyState />
+        )}
+      </div>
+    </Skeleton>
   );
 };

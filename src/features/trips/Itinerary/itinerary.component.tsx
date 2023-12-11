@@ -8,6 +8,7 @@ import { RentalCarAction } from "./rental-car.action";
 import { FlightAction } from "./flight.action";
 import { RouteAction } from "./route.action";
 import { AccommodationAction } from "./accommodation.action";
+import { ItineraryItem } from "./itinerary-item.wrapper";
 
 export function Itinerary({ tripId, title }: ItineraryProps) {
   const fetcher = async () => TripsApiService.getItinerary(tripId);
@@ -32,23 +33,34 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
               action.type == "RENTAL_CAR" ? (
                 <RentalCarAction {...action} key={`${i}-${action.tripItineraryActionId}`} />
               ) : action.type == "FLIGHT" ? (
-                <FlightAction
-                  {...action}
-                  tripId={tripId}
+                <ItineraryItem
+                  title={action.from.title}
                   key={`${i}-${action.tripItineraryActionId}`}
-                />
+                >
+                  <FlightAction {...action} tripId={tripId} />
+                </ItineraryItem>
               ) : action.type == "ROUTE" ? (
-                <RouteAction
-                  {...action}
-                  tripId={tripId}
+                <ItineraryItem
+                  title={action.from.title}
                   key={`${i}-${action.tripItineraryActionId}`}
-                />
+                >
+                  <RouteAction
+                    {...action}
+                    tripId={tripId}
+                    key={`${i}-${action.tripItineraryActionId}`}
+                  />
+                </ItineraryItem>
               ) : action.type == "ACCOMMODATION" ? (
-                <AccommodationAction
-                  {...action}
-                  tripId={tripId}
+                <ItineraryItem
+                  title={action.from.title}
                   key={`${i}-${action.tripItineraryActionId}`}
-                />
+                >
+                  <AccommodationAction
+                    {...action}
+                    tripId={tripId}
+                    key={`${i}-${action.tripItineraryActionId}`}
+                  />
+                </ItineraryItem>
               ) : null
             )
           : null}
