@@ -93,7 +93,7 @@ export function TripDetailsPage() {
             <Card elevation={CardElevations.Low}>
               <Grid>
                 <Text as="h2" heading size="xs" className="mb-lg">
-                  <strong>O que sua viagem inclui</strong>
+                  <strong>Sua viagem ainda inclui</strong>
                 </Text>
                 <TripScriptSection isBuilt={hasScript} />
                 <Divider />

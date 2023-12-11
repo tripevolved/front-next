@@ -1,9 +1,9 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
+import { TripDetailInfo } from "@/features";
 
-import { Accordion, Skeleton } from "mars-ds";
-import { Text, CardHighlight } from "@/ui";
-import { TripDetailInfo } from "../TripDetailsPage";
+import { CardHighlight, Text } from "@/ui";
 import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
+import { Accordion, Skeleton } from "mars-ds";
 
 export const RentalCarAction = (props: ItineraryActionProps) => {
   return (
