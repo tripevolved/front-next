@@ -1,64 +1,66 @@
-import { EmptyState, GlobalLoader, Box, Text, SectionBase, ErrorState } from "@/ui";
-import useSwr from "swr";
+import { EmptyState, GlobalLoader, Box, Text, ErrorState } from "@/ui";
 import { TripScriptDetailedDay } from "./trip-script-detailed-day.section";
-import { Button } from "mars-ds";
-import { useAppStore } from "@/core/store";
+
+import useSwr from "swr";
 import { TripScriptsApiService } from "@/services/api";
-import { TripScriptActionOrSuggestion } from "./trip-script-action.component";
-import { TripScriptFreeDay } from "./trip-script-free-day.component";
+import { TripScriptActionOrSuggestion } from "../TripScriptPanel";
+import { TripScriptFreeDay } from "../TripScriptPanel/trip-script-free-day.component";
 import { useIdParam } from "@/utils/hooks/param.hook";
+import { Button, Grid } from "mars-ds";
 
 export function TripScriptPanel() {
   const idParam = useIdParam();
 
-  const fetcherKey = `trip-script-panel-${idParam}`;
-  const fetcher = async () => TripScriptsApiService.getFull(idParam!);
+  const fetcherKey = `trip-script-preview-${idParam}`;
+  const fetcher = () => TripScriptsApiService.getPreview(idParam!);
   const { isLoading, data, error } = useSwr(fetcherKey, fetcher);
-  const { setTripScriptDay } = useAppStore();
 
   if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
-  if (data === undefined) return <EmptyState />;
+  if (!data) return <EmptyState />;
 
-  const { days, isPreview } = data;
+  const { days } = data;
 
   return (
-    <SectionBase className="trip-script">
-      <div className="trip-script-day-section">
+    <div className="trip-script-preview">
+      <Grid columns={[13, 1]}>
+        <div>
+          <Text size="xl">
+            Aqui, você pode pode ver como ficou seu roteiro, dia a dia.
+          </Text>
+          <Text size="sm">Você ainda pode editá-lo, se quiser.</Text>
+        </div>
+        <Button iconName="edit" variant="naked" size="sm" href={`/app/viagens/${idParam}/roteiro/configurar`}>Editar</Button>
+      </Grid>
+      <div className="trip-script-preview-day-section">
         {days ? (
           days.map((tripScriptDay, i) => {
             return (
-              <div className="trip-script-day-section__border" key={i}>
-                <Box className="trip-script-day-section__header">
-                  <Text size="lg" className="trip-script-day-section__title">
+              <div className="trip-script-preview-day-section__border" key={i}>
+                <Box className="trip-script-preview-day-section__header">
+                  <Text size="lg" className="trip-script-preview-day-section__title">
                     <span style={{ fontSize: 22, color: "var(--color-brand-1)" }}>&#x2022;</span>{" "}
                     {"Dia " + (i + 1)}
                   </Text>
-                  <Text size="md" className="trip-script-day-section__subtitle">
+                  <Text size="md" className="trip-script-preview-day-section__subtitle">
                     {tripScriptDay.date}
                   </Text>
-                  {isPreview ? (
-                    <TripScriptDetailedDay details={tripScriptDay.details} />
-                  ) : (
-                    <Button
-                      size="sm"
-                      variant="naked"
-                      className="trip-script-day-section__edit-button"
-                      iconName="edit-2"
-                      href={`/app/viagens/${idParam}/roteiro/atracoes/`}
-                      onClick={() => setTripScriptDay(tripScriptDay)}
-                    >
-                      Editar
-                    </Button>
-                  )}
+                  {/* TODO: this modal needs to be visually organized 
+                  <TripScriptDetailedDay details={tripScriptDay.details} /> */}
                 </Box>
-                <div className="trip-script-day-section__content">
-                  {tripScriptDay.actions.length ? (
-                    <>
-                      {tripScriptDay.actions.map((tripScriptAction, j) => {
-                        return <TripScriptActionOrSuggestion action={tripScriptAction} key={j} />;
-                      })}
-                    </>
+                <div className="trip-script-preview-day-section__content">
+                  {tripScriptDay.actions.some((action) => action.isSelected) ? (
+                    tripScriptDay.actions.map((tripScriptAction, j) => {
+                      return (
+                        tripScriptAction.isSelected && (
+                          <TripScriptActionOrSuggestion
+                            ignoreNotSelected={false}
+                            action={tripScriptAction}
+                            key={j}
+                          />
+                        )
+                      );
+                    })
                   ) : (
                     <TripScriptFreeDay />
                   )}
@@ -67,9 +69,9 @@ export function TripScriptPanel() {
             );
           })
         ) : (
-          <Text>Ainda não definimos seu roteiro de viagem...</Text>
+          <Text> Ainda não definimos seu roteiro de viagem...</Text>
         )}
       </div>
-    </SectionBase>
+    </div>
   );
 }
