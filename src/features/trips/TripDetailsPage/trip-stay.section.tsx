@@ -79,9 +79,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
               {data.name}
             </Text>
             <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
-            {!data.isRoomSelected ? (
-              <Text size="sm">{data.roomSelectionMessage}</Text>
-            ) : null}
+            {!data.isRoomSelected ? <Text size="sm">{data.roomSelectionMessage}</Text> : null}
             <Button className="mt-sm" size="sm" variant="neutral" onClick={handleSeeDetails}>
               Ver detalhes
             </Button>
@@ -93,7 +91,7 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
   );
 };
 
-const StayEditionButton = ({ tripId }: { tripId: string }) => (
+export const StayEditionButton = ({ tripId }: { tripId: string }) => (
   <Button
     variant="naked"
     size="sm"

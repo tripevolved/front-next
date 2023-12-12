@@ -91,11 +91,6 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
               </Text>
             ) : null}
             {data.description && <Text className="color-text-secondary">{data.description}</Text>}
-            {data.iconSlug == "flight" ? (
-              <Button variant="naked" onClick={() => handleSeeDetails()}>
-                ver mais detalhes
-              </Button>
-            ) : null}
           </Grid>
         </Grid>
       )}
@@ -103,7 +98,7 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
   );
 };
 
-const TripTransportationItem = ({ title = "", date = "", name = "", address = "" }) => {
+export const TripTransportationItem = ({ title = "", date = "", name = "", address = "" }) => {
   if (!date) return null;
   return (
     <div className="color-text-secondary">
@@ -111,6 +106,7 @@ const TripTransportationItem = ({ title = "", date = "", name = "", address = ""
         <strong>{title}:</strong> {date.replace("./", "/")}
       </Text>
       <Text style={{ margin: 0 }}>
+        <strong>Local: </strong>
         {address ? `${name},` : name} {address}
       </Text>
     </div>
@@ -134,7 +130,7 @@ const TripTransportationEmptyState = () => (
   />
 );
 
-const CarDetailInfo = ({ data }: { data: TripTransportation }) => (
+export const CarDetailInfo = ({ data }: { data: TripTransportation }) => (
   <Grid columns={["40px", "1fr"]}>
     <div>
       <Picture src={data.partnerLogoUrl} />

@@ -3,6 +3,7 @@ import {
   getAllReservedStaysByTripId,
   getTripHotelsToEditByTripId,
   setTripHotelToStay,
+  getAccommodationItineraryAction,
 } from "./by-trip";
 
 export const StaysApiService = {
@@ -10,4 +11,5 @@ export const StaysApiService = {
   getAllReservedByTripId: getAllReservedStaysByTripId,
   getHotels: getTripHotelsToEditByTripId,
   setStay: setTripHotelToStay,
+  getAccommodationItineraryAction,
 };

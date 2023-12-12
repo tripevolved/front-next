@@ -63,7 +63,7 @@ export const RestaurantDetailComponent = ({ restaurantId, onInclude, onDiscard }
         <Divider className="restaurant-detail__info__divider" />
         <Grid columns={[1,24]} className="restaurant-detail__info__subinfo">
           <Picture src="/assets/stays/time.png" />
-          <Text size="md" as="p">{data.functioningHoursDetail}</Text>
+          <Text size="md" as="p">{data.functioningHoursDetail ?? "Sem informação de horário de funcionamento"}</Text>
         </Grid>
         <Grid columns={[1,24]} className="restaurant-detail__info__subinfo">
           <Picture src="/assets/stays/pin.png" />
