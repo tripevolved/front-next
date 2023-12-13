@@ -6,9 +6,9 @@ import { ItineraryItemProps } from "./itinerary.types";
 export function ItineraryItem({ title, children }: ItineraryItemProps) {
   return (
     <Box className="itinerary-item w-100 flex-column">
-      <Grid columns={["20px", "auto"]}>
+      <Grid columns={["20px", "auto"]} className="align-items-center">
         <Icon name="circle" size={"lg"} color="var(--color-brand-2)" />
-        <Text heading size="xs">
+        <Text heading size="xs" className="mt-xs">
           {title}
         </Text>
       </Grid>
