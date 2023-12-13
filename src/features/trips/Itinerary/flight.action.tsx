@@ -29,13 +29,14 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
   const getFlight = (data: TripTransportation) => {
     const fromCode = data.fromName?.split("-")[0].trim();
     const outboundFlight =
-      data.flightView.outboundFlight.fromAirportCode === fromCode
-        ? data.flightView.outboundFlight.flightDetails[0]
-        : null;
+      data.flightView.outboundFlight.flightDetails.find(
+        (item) => item.fromAirportCode === fromCode
+      ) || null;
+
     const returnFlight =
-      data.flightView.returnFlight.fromAirportCode === fromCode
-        ? data.flightView.returnFlight.flightDetails[0]
-        : null;
+      data.flightView.returnFlight.flightDetails.find(
+        (item) => item.fromAirportCode === fromCode
+      ) || null;
 
     return outboundFlight || returnFlight;
   };
