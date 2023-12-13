@@ -43,8 +43,10 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   if (!data || !data.isSelected) {
     return (
       <>
-        <TripDetailInfo image={`/assets/destino/hospedagem.svg`} title="Hospedagem" />
-        <TripStayEmptyState tripId={props.tripId} />
+        <div className="px-xl w-100 flex-column gap-lg">
+          <TripDetailInfo image={`/assets/destino/hospedagem.svg`} title="Hospedagem" />
+          <TripStayEmptyState tripId={props.tripId} />
+        </div>
       </>
     );
   }
