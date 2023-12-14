@@ -44,7 +44,6 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     return (
       <>
         <div className="px-xl w-100 flex-column gap-lg">
-          <TripDetailInfo image={`/assets/destino/hospedagem.svg`} title="Hospedagem" />
           <TripStayEmptyState tripId={props.tripId} />
         </div>
       </>
@@ -56,7 +55,6 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
       {data ? (
         <div className="pl-xl itinerary__item">
           <Grid columns={["1fr", "auto"]}>
-            <TripDetailInfo image={`/assets/destino/hospedagem.svg`} title="Hospedagem" />
             <StayEditionButton tripId={props.tripId} />
           </Grid>
           <Grid className="mt-lg">

@@ -24,7 +24,6 @@ export const RouteAction = (props: ItineraryActionProps & { tripId: string }) =>
     <Skeleton active={isLoading} height={230}>
       {data ? (
         <div className="pl-xl itinerary__item">
-          <TripDetailInfo image={`/assets/destino/carro.svg`} title="Carro" />
           <CarDetailInfo data={data} />
         </div>
       ) : (

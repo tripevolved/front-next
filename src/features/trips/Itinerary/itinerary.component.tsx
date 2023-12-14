@@ -35,6 +35,7 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
                 <RentalCarAction {...action} key={`${i}-${action.tripItineraryActionId}`} />
               ) : action.type == "FLIGHT" ? (
                 <ItineraryItem
+                  actionType={action.type}
                   title={action.from.title}
                   key={`${i}-${action.tripItineraryActionId}`}
                 >
@@ -42,6 +43,7 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
                 </ItineraryItem>
               ) : action.type == "ROUTE" ? (
                 <ItineraryItem
+                  actionType={action.type}
                   title={action.from.title}
                   key={`${i}-${action.tripItineraryActionId}`}
                 >
@@ -53,6 +55,7 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
                 </ItineraryItem>
               ) : action.type == "ACCOMMODATION" ? (
                 <ItineraryItem
+                  actionType={action.type}
                   title={action.from.title}
                   key={`${i}-${action.tripItineraryActionId}`}
                 >
