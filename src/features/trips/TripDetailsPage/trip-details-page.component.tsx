@@ -11,6 +11,7 @@ import {
   DestinationInfos,
   DestinationRecommendedBy,
   DestinationTipItem,
+  Itinerary,
   PageApp,
   PageAppHero,
   TripPricingBox,
@@ -88,15 +89,12 @@ export function TripDetailsPage() {
                 isBuilding={isBuilding}
               />
             ) : null}
+            <Itinerary tripId={data.id} title={title} />
             <Card elevation={CardElevations.Low}>
               <Grid>
                 <Text as="h2" heading size="xs" className="mb-lg">
-                  <strong>O que sua viagem inclui</strong>
+                  <strong>Sua viagem ainda inclui</strong>
                 </Text>
-                <TripTransportationSection tripId={data.id} />
-                <Divider />
-                <TripStaySection tripId={data.id} />
-                <Divider />
                 <TripScriptSection isBuilt={hasScript} />
                 <Divider />
                 <TripFoodTipsSection text={destination.gastronomicInformation} />

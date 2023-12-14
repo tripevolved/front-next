@@ -14,3 +14,4 @@ export * from "./tripStay";
 export * from "./tripPayment";
 export * from "./tripPending";
 export * from "./user";
+export * from "./itinerary";

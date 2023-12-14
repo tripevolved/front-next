@@ -11,14 +11,6 @@ export const TABS = [
     label: "Aventureiro",
     uniqueName: "aventureiro",
   },
-  // {
-  //   label: "Agitador",
-  //   uniqueName: "agitador",
-  // },
-  // {
-  //   label: "Automático",
-  //   uniqueName: "automatico",
-  // },
   {
     label: "Gastronômico",
     uniqueName: "gastronomico",
@@ -34,10 +26,6 @@ export const TABS = [
   {
     label: "Só se vive uma vez",
     uniqueName: "so-se-vive-uma-vez",
-  },
-  {
-    label: "Negócios",
-    uniqueName: "negocios",
   },
   {
     label: "Espiritual",
@@ -58,10 +46,6 @@ export const TABS = [
   {
     label: "Insaciável",
     uniqueName: "insaciavel",
-  },
-  {
-    label: "Musicalidade",
-    uniqueName: "musicalidade",
   },
 ];
 
