@@ -121,19 +121,25 @@ const TripTransportationEmptyState = () => (
   />
 );
 
-export const CarDetailInfo = ({ data }: { data: TripTransportation }) => (
-  <Grid columns={["40px", "1fr"]}>
-    <div>
-      <Picture src={data.partnerLogoUrl} />
-    </div>
-    <Grid>
-      <TripTransportationItem title="Saída" date={data.departure} name={data.fromName} />
-      <TripTransportationItem
-        title="Chegada prevista"
-        date={data.estimatedArrival}
-        name={data.toName}
-      />
-      {data.description && <Text className="color-text-secondary">{data.description}</Text>}
+export const CarDetailInfo = ({ data }: { data: TripTransportation }) => {
+  console.log("carro", data);
+  const columns = data.partnerLogoUrl ? ["40px", "1fr"] : ["auto"];
+  return (
+    <Grid columns={columns}>
+      {data.partnerLogoUrl ? (
+        <div>
+          <Picture src={data.partnerLogoUrl} />
+        </div>
+      ) : null}
+      <Grid>
+        <TripTransportationItem title="Saída" date={data.departure} name={data.fromName} />
+        <TripTransportationItem
+          title="Chegada prevista"
+          date={data.estimatedArrival}
+          name={data.toName}
+        />
+        {data.description && <Text className="color-text-secondary">{data.description}</Text>}
+      </Grid>
     </Grid>
-  </Grid>
-);
+  );
+};
