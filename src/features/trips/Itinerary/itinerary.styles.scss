@@ -2,5 +2,12 @@
   .itinerary-item__content {
     border-left: 1px dotted $color-gray-3;
     border-width: 2px;
+
+    @media(min-width: $breakpoint-sm) {
+      &__break {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
   }
 }

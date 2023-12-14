@@ -1,8 +1,7 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
-import { Accordion, Skeleton, Grid } from "mars-ds";
+import { Skeleton, Grid } from "mars-ds";
 import { ErrorState, EmptyState, Picture } from "@/ui";
-import { TripDetailInfo } from "../TripDetailsPage";
 import useSWR from "swr";
 import { TransportationApiService } from "@/services/api";
 import { TripTransportationItem } from "../TripDetailsPage/trip-transportation.section";

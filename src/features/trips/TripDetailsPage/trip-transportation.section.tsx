@@ -122,7 +122,6 @@ const TripTransportationEmptyState = () => (
 );
 
 export const CarDetailInfo = ({ data }: { data: TripTransportation }) => {
-  console.log("carro", data);
   const columns = data.partnerLogoUrl ? ["40px", "1fr"] : ["auto"];
   return (
     <Grid columns={columns}>
