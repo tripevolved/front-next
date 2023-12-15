@@ -14,6 +14,7 @@ export interface ItineraryAction {
   needsTravelerAction: boolean;
   isMain: boolean;
   isReady: boolean;
+  title: string;
 }
 
 export interface ItineraryList {
