@@ -44,7 +44,6 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     return (
       <>
         <div className="px-xl w-100 flex-column gap-lg">
-          <TripDetailInfo image={`/assets/destino/hospedagem.svg`} title="Hospedagem" />
           <TripStayEmptyState tripId={props.tripId} />
         </div>
       </>
@@ -54,28 +53,27 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   return (
     <Skeleton active={isLoading} height={355}>
       {data ? (
-        <div className="pl-xl itinerary__item">
-          <Grid columns={["1fr", "auto"]}>
-            <TripDetailInfo image={`/assets/destino/hospedagem.svg`} title="Hospedagem" />
-            <StayEditionButton tripId={props.tripId} />
-          </Grid>
-          <Grid className="mt-lg">
-            <Grid columns={["56px", "auto"]}>
-              <Picture src={data.coverImageUrl || "/assets/blank-image.png"} />
-              <div>
-                <Text as="h3" size="lg">
-                  {data.name}
-                </Text>
-                <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
-                {!data.isRoomSelected ? <Text size="sm">{data.roomSelectionMessage}</Text> : null}
-                <Button className="mt-sm" size="sm" variant="neutral" onClick={handleSeeDetails}>
-                  Ver detalhes
-                </Button>
+        <Grid className="pl-lg">
+          <Grid columns={["56px", "auto"]}>
+            <Picture src={data.coverImageUrl || "/assets/blank-image.png"} />
+            <div>
+              <div className="w-100 flex-column itinerary-item__content__break">
+                <div>
+                  <Text as="h3" size="lg">
+                    {data.name}
+                  </Text>
+                  <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
+                </div>
+                <StayEditionButton tripId={props.tripId} />
               </div>
-            </Grid>
-            {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
+              {!data.isRoomSelected ? <Text size="sm">{data.roomSelectionMessage}</Text> : null}
+              <Button className="mt-sm" size="sm" variant="neutral" onClick={handleSeeDetails}>
+                Ver detalhes
+              </Button>
+            </div>
           </Grid>
-        </div>
+          {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
+        </Grid>
       ) : (
         <EmptyState />
       )}
