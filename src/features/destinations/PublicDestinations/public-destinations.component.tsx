@@ -19,7 +19,7 @@ export function PublicDestinations() {
   };
 
   const handleSearch: SubmitHandler<{ search: string }> = (values) => {
-    if (values.search.length < 3) {
+    if (values.search.length > 0 && values.search.length < 3) {
       setErrorMsg("O nome deve possuir no mínimo 3 letras");
       return;
     }
