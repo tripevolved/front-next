@@ -1,4 +1,4 @@
-import { ComponentHTMLProps } from "@/core/types/";
+import { ComponentHTMLProps, ItineraryActionType } from "@/core/types/";
 
 export interface ItineraryProps {
   tripId: string;
@@ -7,4 +7,5 @@ export interface ItineraryProps {
 
 export interface ItineraryItemProps extends ComponentHTMLProps {
   title: string;
+  actionType: ItineraryActionType;
 }

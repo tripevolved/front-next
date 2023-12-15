@@ -1,8 +1,7 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
-import { Skeleton, Grid, Modal, Button, Icon } from "mars-ds";
-import { ErrorState, EmptyState, Picture } from "@/ui";
-import { TripDetailInfo } from "../TripDetailsPage";
+import { Skeleton, Grid, Modal, Button } from "mars-ds";
+import { ErrorState, EmptyState } from "@/ui";
 import useSWR from "swr";
 import { TransportationApiService } from "@/services/api";
 import { FlightBox, FlightDetailsPainel } from "@/features";
@@ -47,23 +46,17 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
     <Skeleton active={isLoading} height={170}>
       <div className="pl-xl itinerary__item">
         {data ? (
-          <>
-            <TripDetailInfo image={`/assets/destino/passagem-aerea.svg`} title="Passagem aérea" />
-            <Grid columns={["45px", "auto"]} className="my-lg">
-              <Picture src={data?.partnerLogoUrl || "/assets/blank-image.png"} />
-              <Grid>
-                <FlightBox {...getFlight(data)!} hideTitle />
-                <Button
-                  variant="neutral"
-                  size="sm"
-                  onClick={() => handleSeeDetails()}
-                  style={{ width: "fit-content" }}
-                >
-                  Ver detalhes
-                </Button>
-              </Grid>
-            </Grid>
-          </>
+          <Grid>
+            <FlightBox {...getFlight(data)!} hideTitle />
+            <Button
+              variant="neutral"
+              size="sm"
+              onClick={() => handleSeeDetails()}
+              style={{ width: "fit-content" }}
+            >
+              Ver detalhes
+            </Button>
+          </Grid>
         ) : (
           <EmptyState />
         )}
