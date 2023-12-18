@@ -32,7 +32,7 @@ export function FlightCard({ flight }: FlightCardProps) {
           },
           {
             iconName: "map-pin",
-            title: `${toTimeOnlyString(new Date(flight.departure))} - Aeroporto: ${
+            title: `${toTimeOnlyString(new Date(flight.arrival))} - Aeroporto: ${
               flight.toAirportName
             }`,
             subtitle: flight.toAirportAddress && `${flight.fromAirportAddress}`,

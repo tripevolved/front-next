@@ -1,10 +1,11 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
-import { Skeleton, Grid } from "mars-ds";
-import { ErrorState, EmptyState, Picture } from "@/ui";
+import { Skeleton, Grid, Modal, Button } from "mars-ds";
+import { ErrorState, EmptyState } from "@/ui";
 import useSWR from "swr";
 import { TransportationApiService } from "@/services/api";
-import { TripTransportationItem } from "../TripDetailsPage/trip-transportation.section";
+import { FlightBox, FlightDetailsPainel } from "@/features";
+import { TripTransportation } from "@/core/types";
 
 export const FlightAction = (props: ItineraryActionProps & { tripId: string }) => {
   const fetcher = async () =>
@@ -17,28 +18,44 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
     fetcher
   );
 
+  const handleSeeDetails = () => {
+    Modal.open(() => <FlightDetailsPainel transportationData={data!} isModalView />, {
+      size: "md",
+      closable: true,
+    });
+  };
+
+  const getFlight = (data: TripTransportation) => {
+    const fromCode = data.fromName?.split("-")[0].trim();
+    const outboundFlight =
+      data.flightView.outboundFlight.flightDetails.find(
+        (item) => item.fromAirportCode === fromCode
+      ) || null;
+
+    const returnFlight =
+      data.flightView.returnFlight.flightDetails.find(
+        (item) => item.fromAirportCode === fromCode
+      ) || null;
+
+    return outboundFlight || returnFlight;
+  };
+
   if (error) return <ErrorState />;
 
   return (
     <Skeleton active={isLoading} height={170}>
       <div className="pl-xl itinerary__item">
         {data ? (
-          <Grid columns={["56px", "1fr"]} className="mt-lg">
-            <Picture src={data?.partnerLogoUrl || "/assets/blank-image.png"} />
-            <Grid>
-              <TripTransportationItem
-                title="Saída"
-                date={data?.departure}
-                name={data?.fromName}
-                address={data?.fromAddress}
-              />
-              <TripTransportationItem
-                title="Chegada prevista"
-                date={data?.estimatedArrival}
-                name={data?.toName}
-                address={data?.toAddress}
-              />
-            </Grid>
+          <Grid>
+            <FlightBox {...getFlight(data)!} hideTitle />
+            <Button
+              variant="neutral"
+              size="sm"
+              onClick={() => handleSeeDetails()}
+              style={{ width: "fit-content" }}
+            >
+              Ver detalhes
+            </Button>
           </Grid>
         ) : (
           <EmptyState />

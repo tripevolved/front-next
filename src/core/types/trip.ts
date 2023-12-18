@@ -13,14 +13,18 @@ export interface TripDetails {
 export interface FlightDetails {
   airlineCompanyLogoUrl: string;
   flightTime: string;
+  flightCode: string;
   departure: string;
   arrival: string;
   fromAirportCode: string;
   fromAirportName: string;
   fromAirportAddress: string;
+  luggageInfo: string;
   toAirportAddress: string;
   toAirportCode: string;
   toAirportName: string;
+  connections: number;
+  classFamily?: string;
 }
 
 export interface FlightView {
@@ -28,13 +32,18 @@ export interface FlightView {
   flightTime: string;
   departure: string;
   arrival: string;
+  connections: number;
   fromAirportCode: string;
   fromAirportName: string;
+  flightDetails: FlightDetails[];
   toAirportCode: string;
   toAirportName: string;
-  connections: number;
-  outboundFlightDetails: FlightDetails[];
-  returnFlightDetails: FlightDetails[];
+}
+
+export interface CompanyFlightView {
+  airlineCompanyLogoUrl: string;
+  outboundFlight: FlightView;
+  returnFlight: FlightView;
 }
 
 export interface TripTransportation {
@@ -52,7 +61,7 @@ export interface TripTransportation {
   message: string;
   toAddress?: string;
   toName?: string;
-  flightView: FlightView;
+  flightView: CompanyFlightView;
 }
 
 export interface TripConfiguration {
