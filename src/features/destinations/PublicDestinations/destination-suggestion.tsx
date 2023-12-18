@@ -73,7 +73,7 @@ export const DestinationSuggestionFormModal = ({
       >
         <Text heading>Sugestão de Destino: {destination}</Text>
         <Text style={{ color: "var(--color-gray-1)", textAlign: "center" }} size="lg">
-          Assim que este destino for adicionado você será avisado!
+          Assim que finalizarmos a curadoria desse destino você será avisado!
         </Text>
         <TextField
           name="email"
