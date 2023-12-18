@@ -31,7 +31,7 @@ export const DestinationSuggestion = ({ destination }: { destination: string }) 
           Oi! Ainda não realizamos a curadoria para esse destino.
         </Text>
         <Text style={{ color: "var(--color-gray-1)", textAlign: "center" }} size="lg">
-          Clique no botão abaixo para receber um aviso quando incluirmos este destino
+          Clique no botão abaixo para receber um aviso quando o incluirmos
         </Text>
         <Button variant="tertiary" onClick={() => handleSendSuggestion()}>
           Me avise quando incluir este destino!
