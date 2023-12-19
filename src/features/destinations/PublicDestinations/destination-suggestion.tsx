@@ -49,7 +49,7 @@ export const DestinationSuggestion = ({ destination }: { destination: string }) 
   return (
     <Box className="w-100 flex justify-content-center">
       <div className="flex-column align-items-center gap-xl p-lg w-100" style={{ maxWidth: 500 }}>
-        <Text size="lg">Resultados para "{destination}"</Text>
+        <Text size="lg">Resultados para &quot;{destination}&quot;</Text>
         <Text heading size="md" style={{ color: "var(--color-brand-2)", textAlign: "center" }}>
           Oi! Ainda não realizamos a curadoria para esse destino.
         </Text>
