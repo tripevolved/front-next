@@ -1,26 +1,49 @@
-import { Button, FormWithSubmitButton, Modal, Notification, TextField } from "mars-ds";
+import { Button, FormWithSubmitButton, Loader, Modal, Notification, TextField } from "mars-ds";
 import { Text, Box } from "@/ui";
-import { ProfileApiService } from "@/services/api";
+import { LeadApiService, ProfileApiService } from "@/services/api";
 import useSWR from "swr";
 import { useAppStore } from "@/core/store";
 import { useState } from "react";
 import { DestinationSuggestionBody } from "@/services/api/profile/destinations";
 import { handleFormSubmit } from "@/utils/helpers/form.helpers";
+import { UserService } from "@/services/user";
 
 export const DestinationSuggestion = ({ destination }: { destination: string }) => {
+  const isAuth = UserService.isAuth();
+  const { email } = useAppStore((state) => state.user);
+  const { id: travelerId } = useAppStore((state) => state.travelerState);
+  const lead = LeadApiService.getLocal();
+
+  const [canSendData, setCanSendData] = useState(false);
+
+  const fetcher = () =>
+    ProfileApiService.sendDestinationSuggestion({
+      email: lead?.email || email,
+      travelerId,
+      destination,
+    })
+      .then(() => Notification.success("Solicitação enviada com Sucesso!"))
+      .catch(() => Notification.error("Ops! Houve algum erro ao enviar sua solicitação..."));
+  const { isLoading } = useSWR(canSendData ? "post-destination-suggestion" : null, fetcher);
+
   const handleSendSuggestion = () => {
-    const modal = Modal.open(
-      () => (
-        <DestinationSuggestionFormModal
-          onClose={() => {
-            modal.close();
-            location.reload();
-          }}
-          destination={destination}
-        />
-      ),
-      { closable: true, size: "md" }
-    );
+    if (isAuth || lead?.email) {
+      setCanSendData(true);
+    } else {
+      const modal = Modal.open(
+        () => (
+          <DestinationSuggestionFormModal
+            travelerId={travelerId}
+            onClose={() => {
+              modal.close();
+              location.reload();
+            }}
+            destination={destination}
+          />
+        ),
+        { closable: true, size: "md" }
+      );
+    }
   };
 
   return (
@@ -33,9 +56,10 @@ export const DestinationSuggestion = ({ destination }: { destination: string }) 
         <Text style={{ color: "var(--color-gray-1)", textAlign: "center" }} size="lg">
           Clique no botão abaixo para receber um aviso quando incluirmos este destino
         </Text>
-        <Button variant="tertiary" onClick={() => handleSendSuggestion()}>
+        <Button variant="tertiary" disabled={isLoading} onClick={() => handleSendSuggestion()}>
           Me avise quando incluir este destino!
         </Button>
+        {isLoading ? <Loader size="xl" /> : null}
       </div>
     </Box>
   );
@@ -44,13 +68,14 @@ export const DestinationSuggestion = ({ destination }: { destination: string }) 
 export const DestinationSuggestionFormModal = ({
   destination,
   onClose,
+  travelerId,
 }: {
   destination: string;
   onClose: VoidFunction;
+  travelerId: string;
 }) => {
   const [data, setData] = useState<DestinationSuggestionBody>({});
   const [canSendData, setCanSendData] = useState(false);
-  const { id: travelerId } = useAppStore((state) => state.travelerState);
 
   const fetcher = () =>
     ProfileApiService.sendDestinationSuggestion(data)
@@ -78,6 +103,7 @@ export const DestinationSuggestionFormModal = ({
         <TextField
           name="email"
           minLength={3}
+          required
           label="Email"
           onChange={(e: any) =>
             setData({

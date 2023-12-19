@@ -3,7 +3,7 @@ import { Button, TextField } from "mars-ds";
 import { useState } from "react";
 import { SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
 
-import { TABS } from "./public-destinations.constants";
+import { TABS, TIME_FOR_REQUEST_IN_MILISECONDS } from "./public-destinations.constants";
 import { PublicDestinationsTab } from "./public-destinations-tab";
 import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 
@@ -27,6 +27,12 @@ export function PublicDestinations() {
     setSearchName(values.search);
   };
 
+  const handleChange = (value: string) => {
+    if (value == "") {
+      setTimeout(() => setSearchName(value), TIME_FOR_REQUEST_IN_MILISECONDS);
+    }
+  };
+
   return (
     <SectionBase
       className="public-destinations"
@@ -41,6 +47,7 @@ export function PublicDestinations() {
           minLength={3}
           label="Nossos destinos"
           value={searchName}
+          onChange={(e: any) => handleChange(e.target.value)}
         />
         <ToggleButton iconName="search" type="submit" title="Encontrar destino" variant="neutral" />
       </form>
