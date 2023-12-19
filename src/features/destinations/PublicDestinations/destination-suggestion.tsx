@@ -51,10 +51,10 @@ export const DestinationSuggestion = ({ destination }: { destination: string }) 
       <div className="flex-column align-items-center gap-xl p-lg w-100" style={{ maxWidth: 500 }}>
         <Text size="lg">Resultados para "{destination}"</Text>
         <Text heading size="md" style={{ color: "var(--color-brand-2)", textAlign: "center" }}>
-          Opa! Ainda não temos este destino em nossa lista
+          Oi! Ainda não realizamos a curadoria para esse destino.
         </Text>
         <Text style={{ color: "var(--color-gray-1)", textAlign: "center" }} size="lg">
-          Clique no botão abaixo para receber um aviso quando incluirmos este destino
+          Clique no botão abaixo para receber um aviso quando o incluirmos
         </Text>
         <Button variant="tertiary" disabled={isLoading} onClick={() => handleSendSuggestion()}>
           Me avise quando incluir este destino!
