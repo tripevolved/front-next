@@ -119,7 +119,7 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
               style={{ width: 336 }}
               // @ts-ignore
               variant="tertiary"
-              href={`/app/viagens/descobrir?para=${uniqueName}`}
+              href={`/app/viagens/nova?para=${uniqueName}`}
             >
               Quero ir
             </Button>
