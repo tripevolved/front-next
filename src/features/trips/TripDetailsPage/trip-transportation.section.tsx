@@ -1,11 +1,12 @@
 import useSwr from "swr";
 
-import { Grid } from "mars-ds";
+import { Button, Grid, Modal } from "mars-ds";
 import { Picture, Text, CardHighlight, GlobalLoader } from "@/ui";
 
 import { TransportationApiService } from "@/services/api";
 import { TripDetailInfo } from "./trip-detail-info.component";
 import { TripTransportation } from "@/core/types";
+import { FlightDetailsPainel } from "@/features";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = TransportationApiService;
@@ -28,6 +29,13 @@ export const TripTransportationSection = ({ tripId }: { tripId: string }) => {
   const fetcherKey = `transportation-${tripId}`;
   const fetcher = async () => getByTripId(tripId);
   const { data, error, isLoading } = useSwr(fetcherKey, fetcher, swrOptions);
+
+  const handleSeeDetails = () => {
+    Modal.open(() => <FlightDetailsPainel transportationData={data!} isModalView />, {
+      size: "md",
+      closable: true,
+    });
+  };
 
   if (error) {
     return (
@@ -98,6 +106,7 @@ export const TripTransportationItem = ({ title = "", date = "", name = "", addre
         <strong>{title}:</strong> {date.replace("./", "/")}
       </Text>
       <Text style={{ margin: 0 }}>
+        <strong>Local: </strong>
         {address ? `${name},` : name} {address}
       </Text>
     </div>
@@ -121,19 +130,24 @@ const TripTransportationEmptyState = () => (
   />
 );
 
-export const CarDetailInfo = ({ data }: { data: TripTransportation }) => (
-  <Grid columns={["40px", "1fr"]}>
-    <div>
-      <Picture src={data.partnerLogoUrl} />
-    </div>
-    <Grid>
-      <TripTransportationItem title="Saída" date={data.departure} name={data.fromName} />
-      <TripTransportationItem
-        title="Chegada prevista"
-        date={data.estimatedArrival}
-        name={data.toName}
-      />
-      {data.description && <Text className="color-text-secondary">{data.description}</Text>}
+export const CarDetailInfo = ({ data }: { data: TripTransportation }) => {
+  const columns = data.partnerLogoUrl ? ["40px", "1fr"] : ["auto"];
+  return (
+    <Grid columns={columns}>
+      {data.partnerLogoUrl ? (
+        <div>
+          <Picture src={data.partnerLogoUrl} />
+        </div>
+      ) : null}
+      <Grid>
+        <TripTransportationItem title="Saída" date={data.departure} name={data.fromName} />
+        <TripTransportationItem
+          title="Chegada prevista"
+          date={data.estimatedArrival}
+          name={data.toName}
+        />
+        {data.description && <Text className="color-text-secondary">{data.description}</Text>}
+      </Grid>
     </Grid>
-  </Grid>
-);
+  );
+};

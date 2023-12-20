@@ -50,3 +50,5 @@ export const TABS = [
 ];
 
 export const KEY_NAME = "get-public-destinations";
+
+export const TIME_FOR_REQUEST_IN_MILISECONDS = 2000;
