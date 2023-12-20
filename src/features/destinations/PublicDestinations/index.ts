@@ -4,3 +4,5 @@
  */
 export * from "./public-destinations.component";
 export * from "./public-destinations.types";
+export * from "./public-destinations-tab";
+export * from "./destination-suggestion";

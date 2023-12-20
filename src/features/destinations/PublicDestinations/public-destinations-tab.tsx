@@ -5,11 +5,12 @@ import useSWR from "swr";
 import { ProfileApiService } from "@/services/api";
 
 import { LoadingSkeleton as LoadingSkeletonDestinations } from "@/features/dashboard/HasCurrentTrip";
-import { Box, CardTrip, EmptyState, ErrorState } from "@/ui";
+import { Box, CardTrip, EmptyState, ErrorState, Text } from "@/ui";
 import { Button, Grid, Pagination } from "mars-ds";
 import { KEY_NAME } from "./public-destinations.constants";
 import { UserService } from "@/services/user";
 import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
+import { DestinationSuggestion } from "./destination-suggestion";
 
 export const PublicDestinationsTab = ({
   searchName,
@@ -28,6 +29,9 @@ export const PublicDestinationsTab = ({
   if (isLoading || isValidating) return <LoadingSkeletonDestinations />;
 
   if (!data) return <EmptyState />;
+
+  if (!data.destinations.length && searchName)
+    return <DestinationSuggestion destination={searchName} />;
 
   if (!data.destinations.length) return <EmptyState />;
 
