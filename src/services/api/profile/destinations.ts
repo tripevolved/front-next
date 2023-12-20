@@ -33,6 +33,12 @@ export interface PublicDestinationsRequestParams {
   page?: number;
 }
 
+export interface DestinationSuggestionBody {
+  email?: string;
+  travelerId?: string;
+  destination?: string;
+}
+
 const serializer = ({ destinations }: DestinationsResponse): Destination[] =>
   destinations.map(({ destinationId, name, coverImage, uniqueName }) => ({
     id: destinationId,
@@ -58,4 +64,10 @@ export const getPublicDestinations = async ({
   });
   const route = `destinations/paginated?${params.toString()}`;
   return ApiRequest.get<PublicDestinationResponse>(route);
+};
+
+export const sendDestinationSuggestion = async (data: DestinationSuggestionBody) => {
+  const body: DestinationSuggestionBody = { ...data };
+  const route = "destinations/suggestion";
+  return ApiRequest.post<{ message: string; statusCode: number; messageCode: string }>(route, body);
 };
