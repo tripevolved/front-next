@@ -52,7 +52,7 @@ export interface TripTransportation {
   departure: string;
   estimatedArrival: string;
   description: string;
-  isSelected: Boolean;
+  isSelected: boolean;
   fromAddress?: string;
   fromName?: string;
   isBuilding: boolean;

@@ -28,7 +28,7 @@ const SeeScriptButton = () => {
   );
 };
 
-const TripScriptFeatures = () => (
+export const TripScriptFeatures = () => (
   <List
     style={{ paddingLeft: 24 }}
     defaultBulletIconName="check"
