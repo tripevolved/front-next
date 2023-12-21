@@ -26,18 +26,11 @@ export interface CheckoutScript {
   notFinishedMessage: string;
 }
 
-export interface CheckoutTransportationDetails
-  extends Pick<
-    TripTransportation,
-    "iconSlug" | "partnerLogoUrl" | "fromName" | "toName" | "fromAddress" | "toAddress"
-  > {
-  flight: TripTransportation["flightView"];
-}
-
 export interface CheckoutTransportation {
   isSelected: boolean;
   notSelectedMessage: string;
-  details: CheckoutTransportationDetails[];
+  flights: TripTransportation["flightView"][];
+  hasTerrestrialRoute: boolean;
 }
 
 export interface Checkout {

@@ -7,4 +7,5 @@ export interface ConfirmFlightModalProps extends ComponentHTMLProps {
 export interface FlightBoxProps extends FlightDetails {
   isOutbound?: boolean;
   hideTitle?: boolean;
+  className?: string;
 }

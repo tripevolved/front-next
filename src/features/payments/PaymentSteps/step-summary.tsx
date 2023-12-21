@@ -1,18 +1,12 @@
 import type { PaymentData, PaymentStepProps } from "./payment-steps.types";
 
 import { CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
-import { Button, Checkbox, Divider, Grid, Icon } from "mars-ds";
+import { Button, Checkbox, Divider, Grid, Icon, Skeleton } from "mars-ds";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { TripsApiService } from "@/services/api";
 import useSWR from "swr";
-import {
-  CheckoutAccommodation,
-  CheckoutScript,
-  CheckoutTransportation,
-  CheckoutTransportationDetails,
-  TripTransportation,
-} from "@/core/types";
+import { CheckoutAccommodation, CheckoutScript, CheckoutTransportation } from "@/core/types";
 import { TripScriptFeatures } from "@/features/trips/TripDetailsPage/trip-script.section";
 import { FlightBox } from "@/features/dashboard/ConfirmFlightModal";
 
@@ -27,9 +21,8 @@ export const StepSummary = ({ trip, price, onNext, payload, setPayload }: Paymen
   );
 
   if (error) return <ErrorState />;
+  if (isLoading) return <StepSummaryLoadingState />;
   if (!data) return <EmptyState />;
-
-  console.log("informações", data);
   return (
     <Grid>
       <Text heading size="xs" className="mb-sm">
@@ -80,23 +73,30 @@ const StepSummaryConfiguration = ({
 const StepSummaryTransportation = (props: CheckoutTransportation) => {
   return (
     <PaymentStepSection image="/assets/transportation/flight.svg" title="Transporte">
-      {props.details.map((item, i) => (
-        <Grid gap={"lg"} key={i}>
-          <Text heading size="xs">
+      {props.flights?.map((item, i) => (
+        <Grid gap={20}>
+          <Text heading size="xs" className="mt-lg">
             Voo de Ida
           </Text>
-          {item.flight?.outboundFlight?.flightDetails.map((flight, j) => (
-            <FlightBox {...flight} key={j} hideTitle />
+          {item?.outboundFlight?.flightDetails.map((flight, i) => (
+            <FlightBox {...flight} key={i} hideTitle />
           ))}
-
           <Text heading size="xs" className="mt-lg">
             Voo de Volta
           </Text>
-          {item.flight?.returnFlight?.flightDetails.map((flight, j) => (
-            <FlightBox {...flight} key={j} hideTitle />
+          {item?.returnFlight?.flightDetails.map((flight, i) => (
+            <FlightBox {...flight} key={i} hideTitle />
           ))}
         </Grid>
       ))}
+      {props.hasTerrestrialRoute ?? (
+        <CardHighlight
+          className="my-md"
+          variant="info"
+          heading="Rota Terrestre"
+          text="Você possui rotas terrestres, mas estas não fazem parte da cobrança."
+        />
+      )}
     </PaymentStepSection>
   );
 };
@@ -117,10 +117,20 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
                   <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>
                     {accommodation.tags}
                   </Text>
+                  <Text style={{ marginTop: 0, color: "var(--color-gray-2)" }}>
+                    {accommodation.fullAddress}
+                  </Text>
                 </div>
               </div>
               {!accommodation.isRoomSelected ? (
                 <Text size="sm">{accommodation.roomSelectionMessage}</Text>
+              ) : null}
+              {accommodation.cancellationInfo ? (
+                <CardHighlight
+                  variant="info"
+                  heading="Informação de Candelamento"
+                  text={accommodation.cancellationInfo}
+                />
               ) : null}
             </div>
           </Grid>
@@ -185,13 +195,19 @@ interface PaymentStepSectionProps {
   children: React.ReactNode;
 }
 
+const StepSummaryLoadingState = (active: boolean) => {
+  return [1, 2, 3, 4].map((_, i) => (
+    <Skeleton active={active} height={400} className="my-lg" key={i} />
+  ));
+};
+
 const PaymentStepSection = ({ image, title, children }: PaymentStepSectionProps) => {
   return (
     <Grid columns={["4px", "36px", 1]}>
       <span />
       <Picture height={36} width={36} src={image} />
       <div className="pt-xs">
-        <Text className="color-primary" heading size="xs">
+        <Text className="color-primary mb-lg" heading size="xs">
           {title}
         </Text>
         {children}
