@@ -1,7 +1,7 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
 import { Skeleton, Grid, Modal, Button } from "mars-ds";
-import { ErrorState, EmptyState } from "@/ui";
+import { ErrorState, EmptyState, GlobalLoader } from "@/ui";
 import useSWR from "swr";
 import { TransportationApiService } from "@/services/api";
 import { FlightBox, FlightDetailsPainel } from "@/features";
@@ -41,6 +41,7 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
   };
 
   if (error) return <ErrorState />;
+  if (isLoading) return <GlobalLoader inline />;
 
   return (
     <Skeleton active={isLoading} height={170}>

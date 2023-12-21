@@ -1,7 +1,7 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
 import { Accordion, Skeleton, Grid, Modal, Button } from "mars-ds";
-import { ErrorState, EmptyState, Picture, Text, CardHighlight } from "@/ui";
+import { ErrorState, EmptyState, Picture, Text, CardHighlight, GlobalLoader } from "@/ui";
 import { TripDetailInfo } from "@/features";
 import useSWR from "swr";
 import { StaysApiService } from "@/services/api";
@@ -39,6 +39,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   };
 
   if (error) return <ErrorState />;
+  if (isLoading) return <GlobalLoader inline />;
 
   if (!data || !data.isSelected) {
     return (
