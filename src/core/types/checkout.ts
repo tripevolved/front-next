@@ -26,7 +26,7 @@ export interface CheckoutScript {
   notFinishedMessage: string;
 }
 
-interface CheckoutTransportationDetails
+export interface CheckoutTransportationDetails
   extends Pick<
     TripTransportation,
     "iconSlug" | "partnerLogoUrl" | "fromName" | "toName" | "fromAddress" | "toAddress"

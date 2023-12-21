@@ -10,6 +10,7 @@ import {
   CheckoutAccommodation,
   CheckoutScript,
   CheckoutTransportation,
+  CheckoutTransportationDetails,
   TripTransportation,
 } from "@/core/types";
 import { TripScriptFeatures } from "@/features/trips/TripDetailsPage/trip-script.section";
@@ -77,29 +78,24 @@ const StepSummaryConfiguration = ({
 };
 
 const StepSummaryTransportation = (props: CheckoutTransportation) => {
-  const getFlight = (data: TripTransportation) => {
-    const fromCode = data.fromName?.split("-")[0].trim();
-    const outboundFlight =
-      data.flightView.outboundFlight.flightDetails.find(
-        (item) => item.fromAirportCode === fromCode
-      ) || null;
-
-    const returnFlight =
-      data.flightView.returnFlight.flightDetails.find(
-        (item) => item.fromAirportCode === fromCode
-      ) || null;
-
-    return outboundFlight || returnFlight;
-  };
-
   return (
     <PaymentStepSection image="/assets/transportation/flight.svg" title="Transporte">
       {props.details.map((item, i) => (
-        <FlightBox
-          {...getFlight({ ...item, flightView: item.flight } as TripTransportation)}
-          hideTitle
-          key={i}
-        />
+        <Grid gap={"lg"} key={i}>
+          <Text heading size="xs">
+            Voo de Ida
+          </Text>
+          {item.flight?.outboundFlight?.flightDetails.map((flight, j) => (
+            <FlightBox {...flight} key={j} hideTitle />
+          ))}
+
+          <Text heading size="xs" className="mt-lg">
+            Voo de Volta
+          </Text>
+          {item.flight?.returnFlight?.flightDetails.map((flight, j) => (
+            <FlightBox {...flight} key={j} hideTitle />
+          ))}
+        </Grid>
       ))}
     </PaymentStepSection>
   );
