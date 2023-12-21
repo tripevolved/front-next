@@ -64,7 +64,7 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
               <CardHighlight
                 variant="warning"
                 heading="Ainda não escolhemos o voo para sua viagem"
-                text="Fale conosco e vamos deixar te ajudar!"
+                text="Fale conosco e vamos te ajudar!"
               />
             )}
           </Grid>
