@@ -5,7 +5,6 @@ import { type SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpe
 
 export const StepBuyer = ({ onNext, payload, payer, setPayload }: PaymentStepProps) => {
   const handleSubmit: SubmitHandler<PaymentPayloadData["payer"]> = (payer) => {
-    console.log("pagadeiro", payer);
     setPayload({ payer });
     onNext();
   };
