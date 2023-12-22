@@ -74,7 +74,7 @@ const StepSummaryTransportation = (props: CheckoutTransportation) => {
   return (
     <PaymentStepSection image="/assets/transportation/flight.svg" title="Transporte">
       {props.flights?.map((item, i) => (
-        <Grid gap={20}>
+        <Grid gap={20} key={i}>
           <Text heading size="xs" className="mt-lg">
             Voo de Ida
           </Text>
@@ -105,7 +105,7 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
   return (
     <PaymentStepSection image="/assets/destino/hospedagem.svg" title="Hospedagem">
       <Grid className="pl-lg">
-        {props.details.map((accommodation, i) => (
+        {props.details?.map((accommodation, i) => (
           <Grid columns={["56px", "auto"]} key={i}>
             <Picture src={accommodation.coverImageUrl || "/assets/blank-image.png"} />
             <div>
