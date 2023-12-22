@@ -145,7 +145,7 @@ const StepSummaryScript = (props: CheckoutScript) => {
     <PaymentStepSection image="/assets/destino/roteiro.svg" title="Roteiro">
       {props.isFinished ? (
         <>
-          <TripScriptFeatures />
+          <TripScriptFeatures paddingLeft={0} />
           <Text>Você já construiu seu roteiro, mas saiba que podeár alterá-lo se desejar</Text>
         </>
       ) : (
@@ -195,16 +195,19 @@ interface PaymentStepSectionProps {
   children: React.ReactNode;
 }
 
-const StepSummaryLoadingState = (active: boolean) => {
-  return [1, 2, 3, 4].map((_, i) => (
-    <Skeleton active={active} height={400} className="my-lg" key={i} />
-  ));
+const StepSummaryLoadingState = () => {
+  return (
+    <>
+      {[1, 2, 3, 4].map((_, i) => (
+        <Skeleton active={true} height={400} className="my-lg" key={i} />
+      ))}
+    </>
+  );
 };
 
 const PaymentStepSection = ({ image, title, children }: PaymentStepSectionProps) => {
   return (
-    <Grid columns={["4px", "36px", 1]}>
-      <span />
+    <Grid columns={["36px", 1]}>
       <Picture height={36} width={36} src={image} />
       <div className="pt-xs">
         <Text className="color-primary mb-lg" heading size="xs">
