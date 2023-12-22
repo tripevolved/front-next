@@ -5,8 +5,13 @@ import { type SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpe
 
 export const StepBuyer = ({ onNext, payload, payer, setPayload }: PaymentStepProps) => {
   const handleSubmit: SubmitHandler<PaymentPayloadData["payer"]> = (payer) => {
+    console.log("pagadeiro", payer);
     setPayload({ payer });
     onNext();
+  };
+
+  const cleanPhonePrefix = (phone: string) => {
+    return phone.replace("+55", "");
   };
 
   return (
@@ -77,7 +82,7 @@ export const StepBuyer = ({ onNext, payload, payer, setPayload }: PaymentStepPro
           id="phone"
           mask="(99) 99999-9999"
           required
-          value={payload.payer.phone}
+          value={cleanPhonePrefix(payload.payer.phone)}
           minLength={14}
         />
         <br />
