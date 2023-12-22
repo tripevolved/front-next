@@ -63,6 +63,7 @@ export const StepPaymentMethods = ({ price, payload, tripId }: PaymentStepProps)
       travelers: payload.travelers.map((traveler) => ({
         ...traveler,
         birthDate: parseBRStringToDate(traveler.birthDate).toISOString(),
+        rgValidUntil: parseBRStringToDate(traveler.rgValidUntil).toISOString(),
       })),
     };
   };

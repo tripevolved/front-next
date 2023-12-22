@@ -3,6 +3,8 @@ export interface Traveler {
   travelerId?: string;
   fullName: string;
   rg: string;
+  rgValidUntil: string;
+  rgIssuer: string;
   cpf: string;
   email: string;
   gender: string;
