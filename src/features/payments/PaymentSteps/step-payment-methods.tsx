@@ -74,7 +74,6 @@ export const StepPaymentMethods = ({ price, payload, tripId }: PaymentStepProps)
 
   const payWithPix = () => {
     const tripPayment = parsePayload(true);
-    console.log(tripPayment.amount);
     Modal.open((rest) => <PaymentModal {...rest} tripPayment={tripPayment} isPix />, {
       size: "sm",
     });
