@@ -4,6 +4,7 @@ import type { TripDashboardProps } from "./trip-dashboard.types";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { Grid } from "mars-ds";
 import { TripDashboardCard } from "./trip-dashboard-card.component";
+import { TripDashboardReservations } from "./trip-dashboard-reservations.component";
 
 export function TripDashboard({
   className,
@@ -35,12 +36,7 @@ export function TripDashboard({
             qtd={0}
             href={`/app/viagens/${tripId}/documentos/`}
           />
-          <TripDashboardCard
-            icon="flight-and-tickets"
-            description="Voos e Reservas"
-            qtd={0}
-            href={`/app/viagens/${tripId}/reservas/`}
-          />
+          <TripDashboardReservations tripId={tripId} />
           <TripDashboardCard
             icon="tips"
             description="Dicas"
