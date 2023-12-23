@@ -3,7 +3,7 @@ import { render } from "@testing-library/react";
 import { TripDashboard } from "./trip-dashboard.component";
 
 const FAKE_PROPS: TripDashboardProps = {
-  tripDashboard: { name: "", pendingActions: 1, status: "AWAITING_ACTION", attractionsNumber: 3 },
+  tripDashboard: { name: "", pendingActions: 1, status: "AWAITING_ACTION", attractionsNumber: 3, isScriptFinished: true },
   tripId: "FAKE_TRIP_ID",
 };
 

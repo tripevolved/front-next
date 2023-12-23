@@ -5,6 +5,7 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { Grid } from "mars-ds";
 import { TripDashboardCard } from "./trip-dashboard-card.component";
 import { TripDashboardReservations } from "./trip-dashboard-reservations.component";
+import { TripDashboardScript } from "./trip-dashboard-script.component";
 
 export function TripDashboard({
   className,
@@ -15,7 +16,7 @@ export function TripDashboard({
   ...props
 }: TripDashboardProps) {
   const cn = makeCn("trip-dashboard", className)(sx);
-  const { pendingActions, attractionsNumber, status } = tripDashboard;
+  const { pendingActions, attractionsNumber, status, isScriptFinished } = tripDashboard;
   const hasWarning = status === "AWAITING_ACTION";
   return (
     <Grid className={cn} {...props}>
@@ -44,13 +45,7 @@ export function TripDashboard({
             href={`/app/viagens/${tripId}/dicas/`}
           />
         </Grid>
-        <TripDashboardCard
-          icon="script"
-          description="Roteiro"
-          qtd={attractionsNumber}
-          href={`/app/viagens/${tripId}/roteiro/`}
-          type="script"
-        />
+        <TripDashboardScript tripId={tripId} attractionsNumber={attractionsNumber} isScriptFinished={isScriptFinished} />
       </Grid>
     </Grid>
   );
