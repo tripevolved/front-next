@@ -12,6 +12,7 @@ export function StepTripGoal({ onNext }: StepComponentProps) {
       controller={TripsApiService.getTripQuestions}
       controllerKey="trip-goal"
       onSubmit={handleSubmit}
+      finishButtonLabel="Continuar"
       disableLocalSave
       hideStepper
     />

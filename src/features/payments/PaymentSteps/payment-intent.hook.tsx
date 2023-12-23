@@ -13,11 +13,11 @@ export const usePaymentIntent = ({ travelers, tripId, ...tripPayment }: TripPaym
 
   const handle = async () => {
     setIsLoading(true);
-    await TravelerApiService.create(tripId, travelers);
+    await TravelerApiService.setTripTravelers({ tripId, travelers });
     await PaymentsApiService.postTripPaymentIntent({
       ...tripPayment,
       tripId,
-      shouldHavePaymentLink: true,
+      shouldHavePaymentLink: false,
     })
       .then((result) => {
         if (!result || !result.isSuccess) {

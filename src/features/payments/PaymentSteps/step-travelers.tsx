@@ -94,13 +94,33 @@ const TravelerForm = ({ index = 0, data }: TravelerFormProps) => {
       <TextField label="E-mail" name={`${index}.email`} type="email" value={data?.email} required />
       <TextField
         required
-        label="Número de RG"
+        label="Número do RG"
         name={`${index}.rg`}
         mask="9999999999"
         value={data?.rg}
         maxLength={10}
         minLength={3}
       />
+      <Grid columns={{ sm: 2 }}>
+        <TextField
+          info="DD/MM/AAAA"
+          name={`${index}.rgValidUntil`}
+          required
+          label="Validade do RG"
+          type="text"
+          mask="99/99/9999"
+          value={parseIsoToBRString(data?.rgValidUntil)}
+          minLength={10}
+        />
+        <TextField
+          required
+          label="Emissor do RG"
+          value={data?.rgIssuer}
+          name={`${index}.rgIssuer`}
+          minLength={3}
+          maxLength={10}
+        />
+      </Grid>
     </Grid>
   );
 };
