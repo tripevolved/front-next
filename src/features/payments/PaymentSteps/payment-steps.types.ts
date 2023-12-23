@@ -27,6 +27,12 @@ export interface PaymentData {
     price: number;
     serviceFee: number;
     amount: number;
+    amountWithDiscount: number | null;
+    amountWithPixDiscount: number | null;
+    pixDiscountAmount: number | null;
+    pixPercentageDiscount: number | null;
+    discountAmount: number | null;
+    percentageDiscount: number | null;
     installmentOptions: { label: string; value: string }[];
   };
   trip: TripDetails;

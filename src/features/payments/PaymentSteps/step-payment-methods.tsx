@@ -46,7 +46,8 @@ interface CreditCardValues {
 const modalOptions: ModalOpenProps = { size: "sm", closable: false };
 
 export const StepPaymentMethods = ({ price, payload, tripId }: PaymentStepProps) => {
-  const formattedPrice = formatByDataType(price.amount, "CURRENCY");
+  const formattedPrice = formatByDataType(price.amountWithDiscount ?? price.amount, "CURRENCY");
+  const formattedPixPrice = formatByDataType(price.amountWithPixDiscount ?? price.amountWithDiscount ?? price.amount, "CURRENCY");
 
   const parsePayload = (isPix = false): TripPaymentIntentAll => {
     return {
@@ -97,9 +98,9 @@ export const StepPaymentMethods = ({ price, payload, tripId }: PaymentStepProps)
       <Grid>
         <div className="flex align-items-center gap-md">
           <Text>
-            <strong>Pix</strong> (Total de {formattedPrice})
+            <strong>Pix</strong> (Total de {formattedPixPrice})
           </Text>
-          <Label>3% OFF</Label>
+          {price.pixPercentageDiscount && <Label>{(price.pixPercentageDiscount).toLocaleString(undefined, { style: 'percent' })} OFF</Label>}
         </div>
         <Button variant="tertiary" onClick={payWithPix}>
           Pagar no Pix

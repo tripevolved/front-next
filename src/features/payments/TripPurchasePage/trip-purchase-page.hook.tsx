@@ -5,7 +5,6 @@ import { useAppStore } from "@/core/store";
 import { PaymentsApiService, TripsApiService } from "@/services/api";
 import { calcInstallmentsOptions } from "./trip-purchase.helpers";
 import { PaymentData } from "../PaymentSteps";
-import { MathHelper } from "@/utils/helpers/math.helper";
 
 const SWROptions = { revalidateOnFocus: false };
 
@@ -35,15 +34,20 @@ export const usePurchase = (tripId: string) => {
 
   const data = useMemo(() => {
     if (!price.data) return null;
-    const amount = MathHelper.sum(price.data.price, price.data.serviceFee);
     const result: Omit<PurchaseData, "travelers"> = {
       tripId,
       price: {
         isPaid: price.data.isPaid,
         price: price.data.price,
         serviceFee: price.data.serviceFee,
-        amount,
-        installmentOptions: calcInstallmentsOptions(amount),
+        amount: price.data.amount,
+        amountWithDiscount: price.data.amountWithDiscount,
+        amountWithPixDiscount: price.data.amountWithPixDiscount,
+        pixDiscountAmount: price.data.pixDiscountAmount,
+        pixPercentageDiscount: price.data.pixPercentageDiscount,
+        discountAmount: price.data.discountAmount,
+        percentageDiscount: price.data.percentageDiscount,
+        installmentOptions: calcInstallmentsOptions(price.data.amount),
       },
       payer: {
         birthDate: payer.data?.birthDate ? parseIsoDateToBrString(payer.data.birthDate) : "",
