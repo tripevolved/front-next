@@ -46,12 +46,15 @@ interface CreditCardValues {
 const modalOptions: ModalOpenProps = { size: "sm", closable: false };
 
 export const StepPaymentMethods = ({ price, payload, tripId }: PaymentStepProps) => {
-  const formattedPrice = formatByDataType(price.amountWithDiscount ?? price.amount, "CURRENCY");
-  const formattedPixPrice = formatByDataType(price.amountWithPixDiscount ?? price.amountWithDiscount ?? price.amount, "CURRENCY");
+  const pixAmount = price.amountWithPixDiscount ?? price.amountWithDiscount ?? price.amount;
+  const amount = price.amountWithDiscount ?? price.amount;
+
+  const formattedPrice = formatByDataType(amount, "CURRENCY");
+  const formattedPixPrice = formatByDataType(pixAmount, "CURRENCY");
 
   const parsePayload = (isPix = false): TripPaymentIntentAll => {
     return {
-      amount: price.amount,
+      amount: isPix ? pixAmount : amount,
       installments: 1,
       creditCard: null,
       method: isPix ? "PIX" : "CREDIT_CARD",
@@ -71,6 +74,7 @@ export const StepPaymentMethods = ({ price, payload, tripId }: PaymentStepProps)
 
   const payWithPix = () => {
     const tripPayment = parsePayload(true);
+    console.log(tripPayment.amount);
     Modal.open((rest) => <PaymentModal {...rest} tripPayment={tripPayment} isPix />, {
       size: "sm",
     });
