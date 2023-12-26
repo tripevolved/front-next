@@ -72,7 +72,6 @@ const StepSummaryConfiguration = ({
 };
 
 const StepSummaryTransportation = (props: CheckoutTransportation) => {
-  console.log("rotas terrestres", props.hasTerrestrialRoute);
   return (
     <PaymentStepSection image="/assets/transportation/flight.svg" title="Transporte">
       {props.flights?.map((item, i) => (
