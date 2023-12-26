@@ -48,7 +48,7 @@ export const TripPricingBox = ({
   return (
     <div className={makeCn("trip-pricing-box", { "trip-pricing-box--offset": hasPhotos })()}>
       <div className="trip-pricing-box-spacer" />
-      <TripPricingBoxToggle title={destinationName} total={data.total} />
+      <TripPricingBoxToggle title={destinationName} total={data.amountWithDiscount ?? data.amount} />
       <Card className="trip-pricing-box__card" elevation={CardElevations.Low}>
         <TripPricingBoxContent
           tripId={idParam}
@@ -57,7 +57,7 @@ export const TripPricingBox = ({
           people={people}
           price={data.price}
           serviceFee={data.serviceFee}
-          total={data.total}
+          total={data.amountWithDiscount ?? data.amount}
           isPaid={data.isPaid}
           isBuilt={!!isScriptBuilt}
           tripIncludes={data.includes}
