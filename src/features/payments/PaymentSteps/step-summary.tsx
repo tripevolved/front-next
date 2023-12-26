@@ -9,6 +9,7 @@ import useSWR from "swr";
 import { CheckoutAccommodation, CheckoutScript, CheckoutTransportation } from "@/core/types";
 import { TripScriptFeatures } from "@/features/trips/TripDetailsPage/trip-script.section";
 import { FlightBox } from "@/features/dashboard/ConfirmFlightModal";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 export const StepSummary = ({ trip, price, onNext, payload, setPayload }: PaymentStepProps) => {
   const fetcher = async () => TripsApiService.getCheckout(trip.id);
@@ -71,6 +72,7 @@ const StepSummaryConfiguration = ({
 };
 
 const StepSummaryTransportation = (props: CheckoutTransportation) => {
+  console.log("rotas terrestres", props.hasTerrestrialRoute);
   return (
     <PaymentStepSection image="/assets/transportation/flight.svg" title="Transporte">
       {props.flights?.map((item, i) => (
@@ -89,52 +91,68 @@ const StepSummaryTransportation = (props: CheckoutTransportation) => {
           ))}
         </Grid>
       ))}
-      {props.hasTerrestrialRoute ?? (
+      {props.hasTerrestrialRoute ? (
         <CardHighlight
           className="my-md"
           variant="info"
           heading="Rota Terrestre"
           text="Você possui rotas terrestres, mas estas não fazem parte da cobrança."
         />
-      )}
+      ) : null}
     </PaymentStepSection>
   );
 };
 
 const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
+  const tripId = useIdParam();
+
   return (
     <PaymentStepSection image="/assets/destino/hospedagem.svg" title="Hospedagem">
-      <Grid className="pl-lg">
-        {props.details?.map((accommodation, i) => (
-          <Grid columns={["56px", "auto"]} key={i}>
-            <Picture src={accommodation.coverImageUrl || "/assets/blank-image.png"} />
-            <div>
-              <div className="w-100 flex-column itinerary-item__content__break">
-                <div>
-                  <Text as="h3" size="lg">
-                    {accommodation.name}
-                  </Text>
-                  <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>
-                    {accommodation.tags}
-                  </Text>
-                  <Text style={{ marginTop: 0, color: "var(--color-gray-2)" }}>
-                    {accommodation.fullAddress}
-                  </Text>
+      <Grid>
+        {props.details?.length ? (
+          props.details?.map((accommodation, i) => (
+            <Grid columns={["56px", "auto"]} key={i}>
+              <Picture src={accommodation.coverImageUrl || "/assets/blank-image.png"} />
+              <div>
+                <div className="w-100 flex-column itinerary-item__content__break">
+                  <div>
+                    <Text as="h3" size="lg">
+                      {accommodation.name}
+                    </Text>
+                    <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>
+                      {accommodation.tags}
+                    </Text>
+                    <Text style={{ marginTop: 0, color: "var(--color-gray-2)" }}>
+                      {accommodation.fullAddress}
+                    </Text>
+                  </div>
                 </div>
+                {!accommodation.isRoomSelected ? (
+                  <Text size="sm">{accommodation.roomSelectionMessage}</Text>
+                ) : null}
+                {accommodation.cancellationInfo ? (
+                  <CardHighlight
+                    variant="info"
+                    heading="Informação de Candelamento"
+                    text={accommodation.cancellationInfo}
+                  />
+                ) : null}
               </div>
-              {!accommodation.isRoomSelected ? (
-                <Text size="sm">{accommodation.roomSelectionMessage}</Text>
-              ) : null}
-              {accommodation.cancellationInfo ? (
-                <CardHighlight
-                  variant="info"
-                  heading="Informação de Candelamento"
-                  text={accommodation.cancellationInfo}
-                />
-              ) : null}
-            </div>
-          </Grid>
-        ))}
+            </Grid>
+          ))
+        ) : (
+          <CardHighlight
+            variant="warning"
+            heading="Ainda não escolhemos a acomodação para sua viagem"
+            text="Fale conosco e vamos deixar tudo como você deseja!"
+            cta={{
+              href: `/app/viagens/${tripId}/hospedagem/editar`,
+              label: "Escolher hospedagem",
+              iconName: "arrow-right",
+              isRtl: true,
+            }}
+          />
+        )}
       </Grid>
     </PaymentStepSection>
   );
