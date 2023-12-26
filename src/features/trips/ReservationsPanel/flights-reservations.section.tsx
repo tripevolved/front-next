@@ -1,15 +1,24 @@
 import { Box, Text, Picture, DashedDivider, EmptyState, GlobalLoader } from "@/ui";
 import { Button } from "mars-ds";
-import { useTripFlights } from "./trip-flights.hook";
 import { toFullDate } from "@/utils/helpers/dates.helpers";
+import { useIdParam } from "@/utils/hooks/param.hook";
+import { TransportationApiService } from "@/services/api";
+import useSWR from "swr";
 
 export const FlightsReservationsSection = () => {
-  const { isLoading, data, error, tripId } = useTripFlights();
+  const idParam = useIdParam();
+
+  const fetcher = async () =>
+    TransportationApiService.getFlightReservationsById(idParam);
+  const { isLoading, data, error } = useSWR(
+    `get-flight-reservations-${idParam}`,
+    fetcher
+  );
 
   // TODO: use tripId to see tickets
 
   if (error) return <EmptyState />;
-  if (isLoading) return <GlobalLoader />;
+  if (isLoading) return <GlobalLoader inline />;
   if (!data) return <EmptyState text={"Não há voos reservados para esta viagem"} />;
 
   return (

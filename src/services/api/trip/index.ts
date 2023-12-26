@@ -11,10 +11,12 @@ import { putDestinationIdForTrip } from "./destination-set";
 import { editTrip } from "./configuration";
 import { removeById } from "./remove";
 import { getItinerary } from "./itinerary";
+import { getTripReservationsCountForDashboard } from "./reservations-count";
 
 export const TripsApiService = {
   getById: getTripDetailsById,
   getByIdForDashboard: getTripDetailsByIdForDashboard,
+  getReservationsCountById: getTripReservationsCountForDashboard,
   getAll: getAllByTravelerId,
   getCurrentTripId: TripLocalService.get,
   getTripDestinationQuestions: getTripDestinationQuestions,

@@ -80,6 +80,7 @@ export interface TripDashboard {
   status: "AWAITING_ACTION" | "TO_HAPPEN" | "TAKEN" | "NONE";
   pendingActions: number;
   attractionsNumber: number;
+  isScriptFinished: boolean;
 }
 
 export interface TripMatchedDestination {
