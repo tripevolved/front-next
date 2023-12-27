@@ -11,6 +11,7 @@ import { putDestinationIdForTrip } from "./destination-set";
 import { editTrip } from "./configuration";
 import { removeById } from "./remove";
 import { getItinerary } from "./itinerary";
+import { getCheckoutById } from "./checkout";
 import { getTripReservationsCountForDashboard } from "./reservations-count";
 
 export const TripsApiService = {
@@ -30,4 +31,5 @@ export const TripsApiService = {
   setTripConfiguration: editTrip,
   removeById,
   getItinerary,
+  getCheckout: getCheckoutById,
 };
