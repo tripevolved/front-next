@@ -110,11 +110,6 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
   };
 
   const handleFinish = () => {
-    // if (errorSentData)
-    //   return Notification.error(
-    //     "Tivemos um problema ao enviar suas informações! Aguarde e tente novamente"
-    //   );
-    // Notification.success("Hotel e quartos selecionados com Sucesso!");
     router.push(`/app/viagens/${tripId}/detalhes`);
   };
 
