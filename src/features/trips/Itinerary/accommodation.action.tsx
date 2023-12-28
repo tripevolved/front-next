@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 
 import { StayEditionButton } from "../TripDetailsPage/trip-stay.section";
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
   const router = useRouter();
@@ -55,8 +56,8 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     <Skeleton active={isLoading} height={355}>
       {data ? (
         <Grid className="pl-lg">
-          <Grid columns={["56px", "auto"]}>
-            <Picture src={data.coverImageUrl || "/assets/blank-image.png"} />
+          <Grid columns={["96px", "auto"]}>
+          <Picture>{data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}</Picture>
             <div>
               <div className="w-100 flex-column itinerary-item__content__break">
                 <div>
