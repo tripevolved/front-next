@@ -1,10 +1,12 @@
+import { Photo } from "./photo";
+
 export interface TripStay {
   id?: string; // AccommodationId
   code?: string;
   signature?: string;
   provider?: string;
   system: string;
-  coverImageUrl: string | null;
+  coverImage: Photo | null;
   cancellationInfo: string;
   name: string;
   tags: string;
