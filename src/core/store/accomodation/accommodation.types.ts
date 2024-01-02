@@ -1,7 +1,9 @@
 import type { TripStay } from "@/core/types";
 import { StoreState, UpdateState } from "../store.types";
 
-export type AccommodationValue = Partial<TripStay & { uniqueTransactionId?: string }>;
+export type AccommodationValue = Partial<
+  TripStay & { uniqueTransactionId?: string; itineraryActionId: string }
+>;
 
 export type AccommodationState = StoreState<AccommodationValue>;
 
