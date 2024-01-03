@@ -4,6 +4,7 @@ import { Button, Card, Modal } from "mars-ds";
 import { TripStayDetails, TripStayServiceItem } from "@/features";
 import { Picture, Text } from "@/ui";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 export const TripHotelCard = ({
   tripStayData,
@@ -45,10 +46,9 @@ export const TripHotelCard = ({
         <div className="trip-hotel-card__content__info gap-md">
           <Picture
             className="trip-hotel-card__content__info__image"
-            src={
-              tripStayData.coverImageUrl ? tripStayData.coverImageUrl : "/assets/blank-image.png"
-            }
-          />
+          >
+            {tripStayData.coverImage ? parsePhoto(tripStayData.coverImage) : "/assets/blank-image.png"}
+          </Picture>
           <div className="trip-hotel-card__content__info__data gap-md">
             <div className="trip-hotel-card__content__info__data__header">
               <Text size="xl">{tripStayData.name}</Text>

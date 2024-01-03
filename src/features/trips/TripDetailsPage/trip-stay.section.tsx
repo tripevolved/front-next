@@ -8,6 +8,7 @@ import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
 import { TripStayDetails } from "@/features";
 import { TripDetailInfo } from "./trip-detail-info.component";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { useAppStore } from "@/core/store";
 import { AccommodationState } from "@/core/store/accomodation";
 
@@ -78,8 +79,8 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
         />
       </Grid>
       <Grid>
-        <Grid columns={["56px", "auto"]}>
-          <Picture src={data.coverImageUrl ? data.coverImageUrl : "/assets/blank-image.png"} />
+        <Grid columns={["96px", "auto"]}>
+          <Picture>{data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}</Picture>
           <div>
             <Text as="h3" size="lg">
               {data.name}
