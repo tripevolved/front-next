@@ -37,7 +37,7 @@ export const TripStayRoomCard = ({
   const getBoardChoice = (str: TripStayRoom["boardChoice"] | string) => {
     const options = {
       RO: "Somente quarto",
-      BB: "Cama e café da  manhhã",
+      BB: "Cama e café da manhã",
       AI: "Tudo incluso",
     };
     // @ts-ignore

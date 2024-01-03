@@ -25,13 +25,13 @@ export function SeeAttractionDetailsModal({
           {attraction.purchasePrice && formatByDataType(attraction.purchasePrice, "CURRENCY")}
         </Text>
       </Box>
-      {attraction.availabilityInfo && (
+      {attraction.description && (
         <Box className="see-attraction-details-modal__body">
           <Text size="xxl" className="see-attraction-details-modal__body__title">
             Informações
           </Text>
           <Text className="see-attraction-details-modal__body__description">
-            {attraction.availabilityInfo}
+            {attraction.description}
           </Text>
         </Box>
       )}
