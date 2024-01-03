@@ -45,7 +45,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     return (
       <>
         <div className="px-xl w-100 flex-column gap-lg">
-          <TripStayEmptyState tripId={props.tripId} />
+          <TripStayEmptyState tripId={props.tripId} tripItineraryActionId={props.tripItineraryActionId} />
         </div>
       </>
     );
@@ -86,13 +86,13 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   );
 };
 
-const TripStayEmptyState = ({ tripId = "" }) => (
+const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "" }) => (
   <CardHighlight
     variant="warning"
     heading="Ainda não escolhemos a acomodação para sua viagem"
     text="Fale conosco e vamos deixar tudo como você deseja!"
     cta={{
-      href: `/app/viagens/${tripId}/hospedagem/editar`,
+      href: `/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`,
       label: "Escolher hospedagem",
       iconName: "arrow-right",
       isRtl: true,

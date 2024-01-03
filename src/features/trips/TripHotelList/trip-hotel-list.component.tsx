@@ -55,12 +55,15 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
 
   const router = useRouter();
   const currentAccommodation = useAppStore((state) => state.accommodation);
+
+  const tripItineraryActionId = currentAccommodation.itineraryActionId ?? String(typeof router.query.iditinerario === "string" ? router.query.iditinerario : "");
+
   const animation = useAnimation();
   const { isLoadingSentData, errorSentData, canSendTD, setCanSendTD, setObjDTO } =
     useTripHotelEdit(tripId);
 
   const fetcher = async () =>
-    StaysApiService.getHotels(tripId, currentAccommodation.itineraryActionId!);
+    StaysApiService.getHotels(tripId, tripItineraryActionId);
   const { data, isLoading, error } = useSwr(`accomodation-get-${tripId}`, fetcher);
 
   const handleBack = () => {
@@ -73,7 +76,7 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
 
     const objDTO: TripHotelDTO = {
       uniqueTransactionId: data!.uniqueTransactionId,
-      tripItineraryActionId: currentAccommodation.itineraryActionId!,
+      tripItineraryActionId: tripItineraryActionId,
       accommodations: [
         {
           id: tripHotel?.id,
