@@ -43,12 +43,16 @@ export const TripHotelCard = ({
     >
       <div className="trip-hotel-card__content">
         <div className="trip-hotel-card__content__info gap-md">
-          <Picture
-            className="trip-hotel-card__content__info__image"
-            src={
-              tripStayData.coverImageUrl ? tripStayData.coverImageUrl : "/assets/blank-image.png"
-            }
-          />
+          {tripStayData.coverImage ? (
+            <Picture className="trip-hotel-card__content__info__image">
+              {tripStayData.coverImage}
+            </Picture>
+          ) : (
+            <Picture
+              className="trip-hotel-card__content__info__image"
+              src="/assets/blank-image.png"
+            />
+          )}
           <div className="trip-hotel-card__content__info__data gap-md">
             <div className="trip-hotel-card__content__info__data__header">
               <Text size="xl">{tripStayData.name}</Text>

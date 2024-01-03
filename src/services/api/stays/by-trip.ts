@@ -1,12 +1,7 @@
 import { TripStay, TripStayReservation, TripHotelListTransaction } from "@/core/types";
 import { ApiRequest } from "@/services/api/request";
 
-interface RoomAccomodation extends Omit<Accomodation, "system" | "rooms"> {
-  unitPrice: number;
-  totalPrice: number;
-  currency: string;
-  boardChoice: string;
-}
+export interface RoomAccomodation extends Omit<Accomodation, "system" | "rooms"> {}
 
 interface Accomodation {
   id?: string;
@@ -18,8 +13,8 @@ interface Accomodation {
 }
 
 export interface TripHotelDTO {
-  uniqueTransactionId: string;
-  tripItineraryActionId: string;
+  uniqueTransactionId?: string;
+  tripItineraryActionId?: string;
   accommodations: Accomodation[];
 }
 

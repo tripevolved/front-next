@@ -2,9 +2,13 @@ import { Box, Text, Picture } from "@/ui";
 import type { TripStayDetailsProps } from "./trip-stay-details.types";
 
 import { Button, Divider } from "mars-ds";
+
 import { Carousel } from "@/ui";
 import { TripStayServiceItem } from "@/features";
 import { useAppStore } from "@/core/store";
+import { StaysApiService } from "@/services/api";
+import { AccommodationBody, RoomAccomodation } from "@/services/api/stays/by-trip";
+import useSWR from "swr";
 
 const EMPTY_INFO_DETAILS = "-";
 
@@ -28,6 +32,27 @@ export function TripStayDetails({
     router.push(`/app/viagens/${tripId}/hospedagem/quartos`);
   };
 
+  const fetcher = async () =>
+    StaysApiService.getHotelDetails(tripId, {
+      tripItineraryActionId: accommodation.itineraryActionId,
+      accommodation: {
+        id: stayData.id,
+        code: stayData.code,
+        system: stayData.system,
+        provider: stayData.provider,
+        signature: stayData.signature,
+        rooms: stayData.details.rooms.map((room) => ({
+          id: room.id,
+          code: room.code,
+          signature: room.signature,
+          provider: room.provider,
+        })),
+      },
+    });
+  const { data: hotelData, isLoading, error } = useSWR(`get-hotel-details-${tripId}`, fetcher);
+
+  console.log("INFORMAÇÕES DO HOTEL", hotelData);
+
   return (
     <>
       {/** @ts-ignore */}
@@ -50,12 +75,10 @@ export function TripStayDetails({
                 />
               ))}
             </Carousel>
-          ) : stayData.coverImageUrl ? (
-            <Picture
-              className="trip-stay-details__initial-info__image"
-              src={stayData.coverImageUrl}
-              alt={stayData.name}
-            />
+          ) : stayData.coverImage ? (
+            <Picture className="trip-stay-details__initial-info__image" alt={stayData.name}>
+              {stayData.coverImage}
+            </Picture>
           ) : (
             <Picture
               style={{
