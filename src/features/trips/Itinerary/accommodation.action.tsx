@@ -1,8 +1,7 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
-import { Accordion, Skeleton, Grid, Modal, Button } from "mars-ds";
+import { Skeleton, Grid, Modal, Button } from "mars-ds";
 import { ErrorState, EmptyState, Picture, Text, CardHighlight, GlobalLoader } from "@/ui";
-import { TripDetailInfo } from "@/features";
 import useSWR from "swr";
 import { StaysApiService } from "@/services/api";
 import { TripStayDetails } from "@/features";
@@ -11,6 +10,7 @@ import { useRouter } from "next/router";
 import { StayEditionButton } from "../TripDetailsPage/trip-stay.section";
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
+import { AccommodationState } from "@/core/store/accomodation";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
   const router = useRouter();
@@ -66,7 +66,11 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
                   </Text>
                   <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
                 </div>
-                <StayEditionButton tripId={props.tripId} />
+                <StayEditionButton
+                  tripId={props.tripId}
+                  itineraryActionId={props.tripItineraryActionId}
+                  accommodationData={data as AccommodationState}
+                />
               </div>
               {!data.isRoomSelected ? <Text size="sm">{data.roomSelectionMessage}</Text> : null}
               <Button className="mt-sm" size="sm" variant="neutral" onClick={handleSeeDetails}>

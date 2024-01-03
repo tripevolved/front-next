@@ -19,6 +19,7 @@ interface Accomodation {
 
 export interface TripHotelDTO {
   uniqueTransactionId: string;
+  tripItineraryActionId: string;
   accommodations: Accomodation[];
 }
 
@@ -34,8 +35,11 @@ export const getAllReservedStaysByTripId = async (tripId: string) => {
   return tripStays;
 };
 
-export const getTripHotelsToEditByTripId = async (tripId: string) => {
-  const route = `stays/${tripId}/options`;
+export const getTripHotelsToEditByTripId = async (
+  tripId: string,
+  tripItineraryActionId: string
+) => {
+  const route = `stays/${tripId}/options?accommodationActionId=${tripItineraryActionId}`;
   const tripHotels = await ApiRequest.post<TripHotelListTransaction>(route, {});
   return tripHotels;
 };

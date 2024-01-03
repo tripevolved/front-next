@@ -14,7 +14,7 @@ export function TripAccommodation() {
 
   const accommodation = useAppStore((state) => state.accommodation);
 
-  const fetcher = async () => StaysApiService.getHotels(idParam);
+  const fetcher = async () => StaysApiService.getHotels(idParam, accommodation.itineraryActionId!);
   const fetcherKey = `trip-accommodation-${idParam}`;
   const { data, isLoading, error } = useSwr(fetcherKey, fetcher);
 

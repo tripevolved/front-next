@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import { TripStayDetails } from "@/features";
 import { TripDetailInfo } from "./trip-detail-info.component";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
+import { useAppStore } from "@/core/store";
+import { AccommodationState } from "@/core/store/accomodation";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
@@ -70,7 +72,11 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
     <>
       <Grid columns={["1fr", "auto"]}>
         <TripDetailInfo {...detailInfoProps} />
-        <StayEditionButton tripId={tripId} />
+        <StayEditionButton
+          tripId={tripId}
+          itineraryActionId={""}
+          accommodationData={{} as AccommodationState}
+        />
       </Grid>
       <Grid>
         <Grid columns={["96px", "auto"]}>
@@ -92,16 +98,32 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
   );
 };
 
-export const StayEditionButton = ({ tripId }: { tripId: string }) => (
-  <Button
-    variant="naked"
-    size="sm"
-    iconName="edit-2"
-    href={`/app/viagens/${tripId}/hospedagem/editar`}
-  >
-    Editar
-  </Button>
-);
+export const StayEditionButton = ({
+  tripId,
+  itineraryActionId,
+  accommodationData,
+}: {
+  tripId: string;
+  accommodationData: AccommodationState;
+  itineraryActionId: string;
+}) => {
+  const router = useRouter();
+  const { accommodation, updateAccommodation } = useAppStore((state) => ({
+    updateAccommodation: state.updateAccommodationState,
+    accommodation: state.accommodation,
+  }));
+
+  const handleClick = () => {
+    updateAccommodation({ ...accommodation, ...accommodationData, itineraryActionId });
+    router.push(`/app/viagens/${tripId}/hospedagem/editar`);
+  };
+
+  return (
+    <Button variant="naked" size="sm" iconName="edit-2" onClick={handleClick}>
+      Editar
+    </Button>
+  );
+};
 
 const TripStayErrorState = () => (
   <CardHighlight
