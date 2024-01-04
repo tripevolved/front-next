@@ -5,6 +5,7 @@ import { Button, Divider } from "mars-ds";
 import { Carousel } from "@/ui";
 import { TripStayServiceItem } from "@/features";
 import { useAppStore } from "@/core/store";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 const EMPTY_INFO_DETAILS = "-";
 
@@ -44,18 +45,19 @@ export function TripStayDetails({
               {stayData.details.images.map((image, key) => (
                 <Picture
                   className="trip-stay-details__initial-info__image"
-                  src={image.url}
-                  alt={image.altText!}
                   key={key}
-                />
+                >
+                  {parsePhoto(image)}
+                </Picture>
               ))}
             </Carousel>
-          ) : stayData.coverImageUrl ? (
+          ) : stayData.coverImage ? (
             <Picture
               className="trip-stay-details__initial-info__image"
-              src={stayData.coverImageUrl}
               alt={stayData.name}
-            />
+            >
+              {parsePhoto(stayData.coverImage)}
+            </Picture>
           ) : (
             <Picture
               style={{

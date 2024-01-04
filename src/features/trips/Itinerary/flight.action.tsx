@@ -1,7 +1,7 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
 import { Skeleton, Grid, Modal, Button } from "mars-ds";
-import { ErrorState, EmptyState } from "@/ui";
+import { ErrorState, EmptyState, GlobalLoader, CardHighlight } from "@/ui";
 import useSWR from "swr";
 import { TransportationApiService } from "@/services/api";
 import { FlightBox, FlightDetailsPainel } from "@/features";
@@ -41,21 +41,32 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
   };
 
   if (error) return <ErrorState />;
+  if (isLoading) return <GlobalLoader inline />;
 
   return (
     <Skeleton active={isLoading} height={170}>
       <div className="pl-xl itinerary__item">
         {data ? (
           <Grid>
-            <FlightBox {...getFlight(data)!} hideTitle />
-            <Button
-              variant="neutral"
-              size="sm"
-              onClick={() => handleSeeDetails()}
-              style={{ width: "fit-content" }}
-            >
-              Ver detalhes
-            </Button>
+            {data.flightView !== null ? (
+              <>
+                <FlightBox {...getFlight(data)!} hideTitle />
+                <Button
+                  variant="neutral"
+                  size="sm"
+                  onClick={() => handleSeeDetails()}
+                  style={{ width: "fit-content" }}
+                >
+                  Ver detalhes
+                </Button>
+              </>
+            ) : (
+              <CardHighlight
+                variant="warning"
+                heading="Ainda não escolhemos o voo para sua viagem"
+                text="Fale conosco e vamos te ajudar!"
+              />
+            )}
           </Grid>
         ) : (
           <EmptyState />

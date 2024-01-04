@@ -32,11 +32,14 @@ const MILLISECONDS = FIFTEEN_SECONDS_IN_MS;
 const swrOptions = { revalidateOnFocus: false };
 
 export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
+  const currentHotelData = useAppStore((state) => state.accommodation);
+
   const [roomList, setRoomList] = useState<TripStayRoom[]>([]);
   const router = useRouter();
 
   // Getting Hotel List to find the current hotel data with the full room list
-  const fetcher = async () => StaysApiService.getHotels(tripId);
+  const fetcher = async () =>
+    StaysApiService.getHotels(tripId, currentHotelData.itineraryActionId!);
   const {
     data: hotelList,
     isLoading,
@@ -54,8 +57,6 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
     isLoadingSentData,
     errorSentData,
   } = useTripStayRoomEdit(tripId);
-
-  const currentHotelData = useAppStore((state) => state.accommodation);
 
   const doesObjHaveRooms = (object: AccommodationState): boolean => {
     if (!object.details?.rooms.length) return false;
@@ -111,6 +112,7 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
 
     const objDTO: TripHotelDTO = {
       uniqueTransactionId: hotelList.uniqueTransactionId,
+      tripItineraryActionId: currentHotelData.itineraryActionId!,
       accommodations: [
         {
           id: accommodationData?.id,

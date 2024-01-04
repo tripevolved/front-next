@@ -1,8 +1,7 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
-import { Accordion, Skeleton, Grid, Modal, Button } from "mars-ds";
-import { ErrorState, EmptyState, Picture, Text, CardHighlight } from "@/ui";
-import { TripDetailInfo } from "@/features";
+import { Skeleton, Grid, Modal, Button } from "mars-ds";
+import { ErrorState, EmptyState, Picture, Text, CardHighlight, GlobalLoader } from "@/ui";
 import useSWR from "swr";
 import { StaysApiService } from "@/services/api";
 import { TripStayDetails } from "@/features";
@@ -10,6 +9,8 @@ import { useRouter } from "next/router";
 
 import { StayEditionButton } from "../TripDetailsPage/trip-stay.section";
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
+import { AccommodationState } from "@/core/store/accomodation";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
   const router = useRouter();
@@ -39,12 +40,13 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   };
 
   if (error) return <ErrorState />;
+  if (isLoading) return <GlobalLoader inline />;
 
   if (!data || !data.isSelected) {
     return (
       <>
         <div className="px-xl w-100 flex-column gap-lg">
-          <TripStayEmptyState tripId={props.tripId} />
+          <TripStayEmptyState tripId={props.tripId} tripItineraryActionId={props.tripItineraryActionId} />
         </div>
       </>
     );
@@ -54,8 +56,8 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     <Skeleton active={isLoading} height={355}>
       {data ? (
         <Grid className="pl-lg">
-          <Grid columns={["56px", "auto"]}>
-            <Picture src={data.coverImageUrl || "/assets/blank-image.png"} />
+          <Grid columns={["96px", "auto"]}>
+          <Picture>{data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}</Picture>
             <div>
               <div className="w-100 flex-column itinerary-item__content__break">
                 <div>
@@ -64,7 +66,11 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
                   </Text>
                   <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
                 </div>
-                <StayEditionButton tripId={props.tripId} />
+                <StayEditionButton
+                  tripId={props.tripId}
+                  itineraryActionId={props.tripItineraryActionId}
+                  accommodationData={data as AccommodationState}
+                />
               </div>
               {!data.isRoomSelected ? <Text size="sm">{data.roomSelectionMessage}</Text> : null}
               <Button className="mt-sm" size="sm" variant="neutral" onClick={handleSeeDetails}>
@@ -81,13 +87,13 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   );
 };
 
-const TripStayEmptyState = ({ tripId = "" }) => (
+const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "" }) => (
   <CardHighlight
     variant="warning"
     heading="Ainda não escolhemos a acomodação para sua viagem"
     text="Fale conosco e vamos deixar tudo como você deseja!"
     cta={{
-      href: `/app/viagens/${tripId}/hospedagem/editar`,
+      href: `/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`,
       label: "Escolher hospedagem",
       iconName: "arrow-right",
       isRtl: true,

@@ -35,9 +35,9 @@ export function ConfirmFlightModal({
   );
 }
 
-export const FlightBox = ({ isOutbound = false, ...props }: FlightBoxProps) => {
+export const FlightBox = ({ isOutbound = false, className, ...props }: FlightBoxProps) => {
   return (
-    <Box className="flight-box">
+    <Box className={`flight-box ${className}`}>
       {!props.hideTitle ? (
         <Text size="lg" className="flight-box__label">
           Voo de {isOutbound ? "ida" : "volta"}

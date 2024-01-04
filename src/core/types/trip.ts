@@ -52,7 +52,7 @@ export interface TripTransportation {
   departure: string;
   estimatedArrival: string;
   description: string;
-  isSelected: Boolean;
+  isSelected: boolean;
   fromAddress?: string;
   fromName?: string;
   isBuilding: boolean;
@@ -80,6 +80,7 @@ export interface TripDashboard {
   status: "AWAITING_ACTION" | "TO_HAPPEN" | "TAKEN" | "NONE";
   pendingActions: number;
   attractionsNumber: number;
+  isScriptFinished: boolean;
 }
 
 export interface TripMatchedDestination {
@@ -124,11 +125,17 @@ interface TripIncludes {
 }
 
 export interface TripPrice {
-  isPaid: boolean;
+  amount: number;
+  amountWithDiscount: number | null;
+  amountWithPixDiscount: number | null;
   price: number;
   serviceFee: number;
+  pixDiscountAmount: number | null;
+  pixPercentageDiscount: number | null;
+  discountAmount: number | null;
+  percentageDiscount: number | null;
+  isPaid: boolean;
   description: string | null;
-  total: number;
   includes: TripIncludes[];
 }
 

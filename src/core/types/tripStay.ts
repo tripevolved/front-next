@@ -1,10 +1,12 @@
+import { Photo } from "./photo";
+
 export interface TripStay {
   id?: string; // AccommodationId
   code?: string;
   signature?: string;
   provider?: string;
   system: string;
-  coverImageUrl: string | null;
+  coverImage: Photo | null;
   cancellationInfo: string;
   name: string;
   tags: string;
@@ -34,7 +36,7 @@ export interface TripStayHighlight {
 }
 
 export interface TripStayDetails {
-  images: TripStayImage[] | null;
+  images: Photo[] | null;
   information: string;
   checkInHour: string | null;
   address: string | null;
@@ -42,11 +44,6 @@ export interface TripStayDetails {
   currency: string;
   services: TripStayFeature[];
   rooms: TripStayRoom[];
-}
-
-interface TripStayImage {
-  url: string;
-  altText: string | null;
 }
 
 type TripStayFeatureType = "ac" | "wifi" | "breakfast" | "bed" | "close_to_attractions";

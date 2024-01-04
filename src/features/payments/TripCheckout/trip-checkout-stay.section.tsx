@@ -6,6 +6,7 @@ import { Box, CardHighlight, EmptyState, LoaderState, Picture, Text } from "@/ui
 import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
 import { TripStayDetails } from "@/features";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 const swrOptions = { revalidateOnFocus: false };
 const { getByTripId } = StaysApiService;
@@ -98,7 +99,7 @@ export const TripCheckoutStaySection = ({ tripId }: { tripId: string }) => {
           <Box className="trip-stay-section__content">
             <Text size="lg"></Text>
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture src={data.coverImageUrl ? data.coverImageUrl : "/assets/stays/empty.svg"} />
+              <Picture>{data.coverImage ? parsePhoto(data.coverImage) : "/assets/stays/empty.svg"}</Picture>
               <Box className="trip-stay-section__content__stay-desc__box">
                 <Text size="lg">{data.name}</Text>
                 <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>

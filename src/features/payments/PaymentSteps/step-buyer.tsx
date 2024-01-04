@@ -9,6 +9,10 @@ export const StepBuyer = ({ onNext, payload, payer, setPayload }: PaymentStepPro
     onNext();
   };
 
+  const cleanPhonePrefix = (phone: string) => {
+    return phone.replace("+55", "");
+  };
+
   return (
     <form onSubmit={handleFormSubmit(handleSubmit)}>
       <Grid>
@@ -77,7 +81,7 @@ export const StepBuyer = ({ onNext, payload, payer, setPayload }: PaymentStepPro
           id="phone"
           mask="(99) 99999-9999"
           required
-          value={payload.payer.phone}
+          value={cleanPhonePrefix(payload.payer.phone)}
           minLength={14}
         />
         <br />
