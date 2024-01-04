@@ -10,6 +10,7 @@ export const TripHotelCard = ({
   isCurated = false,
   onSelect,
   isSelected,
+  tripId,
   router,
 }: TripHotelCardProps) => {
   const selectedColor = isCurated ? "var(--color-brand-4)" : "var(--color-brand-1)";
@@ -24,7 +25,7 @@ export const TripHotelCard = ({
         <TripStayDetails
           uniqueTransactionId=""
           stayData={tripStay}
-          tripId={tripStayData.id!}
+          tripId={tripId}
           router={router}
           isModalView
         />

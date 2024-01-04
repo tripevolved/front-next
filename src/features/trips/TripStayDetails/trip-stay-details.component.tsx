@@ -1,13 +1,12 @@
-import { Box, Text, Picture } from "@/ui";
+import { Box, Text, Picture, ErrorState, EmptyState } from "@/ui";
 import type { TripStayDetailsProps } from "./trip-stay-details.types";
 
-import { Button, Divider } from "mars-ds";
+import { Button, Divider, Grid, Skeleton } from "mars-ds";
 
 import { Carousel } from "@/ui";
 import { TripStayServiceItem } from "@/features";
 import { useAppStore } from "@/core/store";
 import { StaysApiService } from "@/services/api";
-import { AccommodationBody, RoomAccomodation } from "@/services/api/stays/by-trip";
 import useSWR from "swr";
 
 const EMPTY_INFO_DETAILS = "-";
@@ -51,7 +50,9 @@ export function TripStayDetails({
     });
   const { data: hotelData, isLoading, error } = useSWR(`get-hotel-details-${tripId}`, fetcher);
 
-  console.log("INFORMAÇÕES DO HOTEL", hotelData);
+  if (error) return <ErrorState />;
+  if (!hotelData) return <EmptyState />;
+  if (isLoading) return <StayDetailsLoadingState />;
 
   return (
     <>
@@ -60,13 +61,13 @@ export function TripStayDetails({
         <Box className="trip-stay-details__initial-info">
           <div className="trip-stay-details__initial-info__header">
             <Text size="sm" heading className="trip-stay-details__initial-info__header__title">
-              {stayData.name}
+              {hotelData.name}
             </Text>
-            <Text>{stayData.details.address}</Text>
+            <Text>{hotelData.details.address}</Text>
           </div>
-          {stayData.details.images?.length ? (
+          {hotelData.details.images?.length ? (
             <Carousel height={300}>
-              {stayData.details.images.map((image, key) => (
+              {hotelData.details.images.map((image, key) => (
                 <Picture
                   className="trip-stay-details__initial-info__image"
                   src={image.url}
@@ -75,9 +76,9 @@ export function TripStayDetails({
                 />
               ))}
             </Carousel>
-          ) : stayData.coverImage ? (
-            <Picture className="trip-stay-details__initial-info__image" alt={stayData.name}>
-              {stayData.coverImage}
+          ) : hotelData.coverImage ? (
+            <Picture className="trip-stay-details__initial-info__image" alt={hotelData.name}>
+              {hotelData.coverImage}
             </Picture>
           ) : (
             <Picture
@@ -96,12 +97,12 @@ export function TripStayDetails({
             Informações
           </Text>
           <Text className="trip-stay-details__content__description">
-            {stayData.details.information || EMPTY_INFO_DETAILS}
+            {hotelData.details.information || EMPTY_INFO_DETAILS}
           </Text>
 
-          {stayData.details.services && (
+          {hotelData.details.services && (
             <div className="trip-stay-details__content__service-list">
-              {stayData.details.services.map((service, i) => (
+              {hotelData.details.services.map((service, i) => (
                 <TripStayServiceItem {...service} key={i} />
               ))}
             </div>
@@ -110,20 +111,20 @@ export function TripStayDetails({
             <Divider />
             <div className="trip-stay-details__content__check-in-address__item">
               <Picture src="/assets/stays/time.png" />
-              <Text>Check-in às {stayData.details.checkInHour || EMPTY_INFO_DETAILS}</Text>
+              <Text>Check-in às {hotelData.details.checkInHour || EMPTY_INFO_DETAILS}</Text>
             </div>
             <div className="trip-stay-details__content__check-in-address__item">
               <Picture src="/assets/stays/pin.png" />
-              <Text>{stayData.details.address}</Text>
+              <Text>{hotelData.details.address}</Text>
             </div>
           </Box>
-          {stayData.cancellationInfo ? (
+          {hotelData.cancellationInfo ? (
             <>
               <Text heading size="xs" className="trip-stay-details__content__title">
                 Informações de cancelamento
               </Text>
               <Text className="trip-stay-details__content__description">
-                {stayData.cancellationInfo}
+                {hotelData.cancellationInfo}
               </Text>
             </>
           ) : null}
@@ -141,7 +142,7 @@ export function TripStayDetails({
               className="trip-stay-details__footer-buttons__buttons"
               style={{ color: "var(--color-gray-4)" }}
               onClick={() => handleRoomsButton()}
-              disabled={!stayData.isRoomSelected}
+              disabled={!hotelData.isRoomSelected}
             >
               Quartos
             </Button>
@@ -151,3 +152,19 @@ export function TripStayDetails({
     </>
   );
 }
+
+const StayDetailsLoadingState = () => (
+  <Box className="flex-column w-100 gap-lg">
+    <Skeleton width={"60%"} height={20} />
+    <Skeleton width={"40%"} style={{ marginBottom: 15 }} />
+    <Skeleton width={"100%"} height={300} />
+    <Skeleton width={"30%"} height={20} style={{ marginBottom: 15 }} />
+    <Grid className="w-100">
+      <Skeleton width={"100%"} />
+      <Skeleton width={"100%"} />
+      <Skeleton width={"100%"} />
+    </Grid>
+    <Skeleton width={"30%"} />
+    <Skeleton width={"30%"} />
+  </Box>
+);

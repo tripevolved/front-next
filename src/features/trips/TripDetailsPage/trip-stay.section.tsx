@@ -79,7 +79,9 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
       </Grid>
       <Grid>
         <Grid columns={["56px", "auto"]}>
-          <Picture src={data.coverImageUrl ? data.coverImageUrl : "/assets/blank-image.png"} />
+          <Picture
+            src={data.coverImage ? data.coverImage.sources[0].url : "/assets/blank-image.png"}
+          />
           <div>
             <Text as="h3" size="lg">
               {data.name}

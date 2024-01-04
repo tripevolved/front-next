@@ -5,11 +5,12 @@ import { ErrorState, EmptyState, Picture, Text, CardHighlight, GlobalLoader } fr
 import useSWR from "swr";
 import { StaysApiService } from "@/services/api";
 import { TripStayDetails } from "@/features";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 
 import { StayEditionButton } from "../TripDetailsPage/trip-stay.section";
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
 import { AccommodationState } from "@/core/store/accomodation";
+import { useAppStore } from "@/core/store";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
   const router = useRouter();
@@ -45,7 +46,11 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     return (
       <>
         <div className="px-xl w-100 flex-column gap-lg">
-          <TripStayEmptyState tripId={props.tripId} />
+          <TripStayEmptyState
+            tripId={props.tripId}
+            router={router}
+            itineraryActionId={props.tripItineraryActionId}
+          />
         </div>
       </>
     );
@@ -88,16 +93,36 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   );
 };
 
-const TripStayEmptyState = ({ tripId = "" }) => (
-  <CardHighlight
-    variant="warning"
-    heading="Ainda não escolhemos a acomodação para sua viagem"
-    text="Fale conosco e vamos deixar tudo como você deseja!"
-    cta={{
-      href: `/app/viagens/${tripId}/hospedagem/editar`,
-      label: "Escolher hospedagem",
-      iconName: "arrow-right",
-      isRtl: true,
-    }}
-  />
-);
+const TripStayEmptyState = ({
+  tripId = "",
+  router,
+  itineraryActionId,
+}: {
+  tripId: string;
+  router: NextRouter;
+  itineraryActionId: string;
+}) => {
+  const { accommodation, updateAccommodation } = useAppStore((state) => ({
+    updateAccommodation: state.updateAccommodationState,
+    accommodation: state.accommodation,
+  }));
+
+  const handleClick = () => {
+    updateAccommodation({ ...accommodation, itineraryActionId });
+    router.push(`/app/viagens/${tripId}/hospedagem/editar`);
+  };
+
+  return (
+    <CardHighlight
+      variant="warning"
+      heading="Ainda não escolhemos a acomodação para sua viagem"
+      text="Fale conosco e vamos deixar tudo como você deseja!"
+      onClick={() => handleClick()}
+      cta={{
+        label: "Escolher hospedagem",
+        iconName: "arrow-right",
+        isRtl: true,
+      }}
+    />
+  );
+};

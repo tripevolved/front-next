@@ -5,12 +5,14 @@ import { Accordion as MarsAccordion, Button } from "mars-ds";
 import { TripHotelCard } from "@/features";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useIdParam } from "@/utils/hooks/param.hook";
 
 export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepProps) => {
   const [selectedHotel, setSelectedHotel] = useState<Omit<TripStay, "highlight">>(
     {} as Omit<TripStay, "highlight">
   );
   const router = useRouter();
+  const tripId = useIdParam();
 
   const handleButton = () => {
     setFunction(selectedHotel);
@@ -23,6 +25,7 @@ export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepPr
         <div className="trip-hotel-list__list gap-md">
           {hotelLists.curated.map((hotel, i) => (
             <TripHotelCard
+              tripId={tripId}
               onSelect={() => setSelectedHotel(hotel)}
               tripStayData={hotel}
               isSelected={selectedHotel?.name === hotel.name}
@@ -38,6 +41,7 @@ export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepPr
           <div className="trip-hotel-list__list gap-md">
             {hotelLists.others.map((hotel, i) => (
               <TripHotelCard
+                tripId={tripId}
                 onSelect={() => setSelectedHotel(hotel)}
                 tripStayData={hotel}
                 isSelected={selectedHotel?.name === hotel.name}
