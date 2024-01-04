@@ -9,6 +9,7 @@ import { NextRouter, useRouter } from "next/router";
 
 import { StayEditionButton } from "../TripDetailsPage/trip-stay.section";
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { AccommodationState } from "@/core/store/accomodation";
 import { useAppStore } from "@/core/store";
 
@@ -48,8 +49,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
         <div className="px-xl w-100 flex-column gap-lg">
           <TripStayEmptyState
             tripId={props.tripId}
-            router={router}
-            itineraryActionId={props.tripItineraryActionId}
+            tripItineraryActionId={props.tripItineraryActionId}
           />
         </div>
       </>
@@ -60,9 +60,9 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     <Skeleton active={isLoading} height={355}>
       {data ? (
         <Grid className="pl-lg">
-          <Grid columns={["56px", "auto"]}>
+          <Grid columns={["96px", "auto"]}>
             <Picture>
-              {data.coverImage ? data.coverImage.sources[0].url : "/assets/blank-image.png"}
+              {data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}
             </Picture>
             <div>
               <div className="w-100 flex-column itinerary-item__content__break">
@@ -93,36 +93,16 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   );
 };
 
-const TripStayEmptyState = ({
-  tripId = "",
-  router,
-  itineraryActionId,
-}: {
-  tripId: string;
-  router: NextRouter;
-  itineraryActionId: string;
-}) => {
-  const { accommodation, updateAccommodation } = useAppStore((state) => ({
-    updateAccommodation: state.updateAccommodationState,
-    accommodation: state.accommodation,
-  }));
-
-  const handleClick = () => {
-    updateAccommodation({ ...accommodation, itineraryActionId });
-    router.push(`/app/viagens/${tripId}/hospedagem/editar`);
-  };
-
-  return (
-    <CardHighlight
-      variant="warning"
-      heading="Ainda não escolhemos a acomodação para sua viagem"
-      text="Fale conosco e vamos deixar tudo como você deseja!"
-      onClick={() => handleClick()}
-      cta={{
-        label: "Escolher hospedagem",
-        iconName: "arrow-right",
-        isRtl: true,
-      }}
-    />
-  );
-};
+const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "" }) => (
+  <CardHighlight
+    variant="warning"
+    heading="Ainda não escolhemos a acomodação para sua viagem"
+    text="Fale conosco e vamos deixar tudo como você deseja!"
+    cta={{
+      href: `/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`,
+      label: "Escolher hospedagem",
+      iconName: "arrow-right",
+      isRtl: true,
+    }}
+  />
+);

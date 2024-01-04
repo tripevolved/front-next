@@ -163,7 +163,7 @@ const StepSummaryScript = (props: CheckoutScript) => {
       {props.isFinished ? (
         <>
           <TripScriptFeatures paddingLeft={0} />
-          <Text>Você já construiu seu roteiro, mas saiba que podeár alterá-lo se desejar</Text>
+          <Text>Você já construiu seu roteiro, mas saiba que poderá alterá-lo se desejar</Text>
         </>
       ) : (
         <CardHighlight

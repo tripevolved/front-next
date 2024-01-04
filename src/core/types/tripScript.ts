@@ -43,6 +43,7 @@ export interface TripScriptAttraction {
   isHighlyRecommended: boolean;
   name: string;
   address: string;
+  description: string;
   availabilityInfo: string;
   purchasePrice: number;
   attractionId: string | null;

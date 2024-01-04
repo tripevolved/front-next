@@ -8,6 +8,7 @@ import { TripStayServiceItem } from "@/features";
 import { useAppStore } from "@/core/store";
 import { StaysApiService } from "@/services/api";
 import useSWR from "swr";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 const EMPTY_INFO_DETAILS = "-";
 
@@ -68,17 +69,14 @@ export function TripStayDetails({
           {hotelData.details.images?.length ? (
             <Carousel height={300}>
               {hotelData.details.images.map((image, key) => (
-                <Picture
-                  className="trip-stay-details__initial-info__image"
-                  src={image.url}
-                  alt={image.altText!}
-                  key={key}
-                />
+                <Picture className="trip-stay-details__initial-info__image" key={key}>
+                  {parsePhoto(image)}
+                </Picture>
               ))}
             </Carousel>
           ) : hotelData.coverImage ? (
             <Picture className="trip-stay-details__initial-info__image" alt={hotelData.name}>
-              {hotelData.coverImage}
+              {parsePhoto(hotelData.coverImage)}
             </Picture>
           ) : (
             <Picture

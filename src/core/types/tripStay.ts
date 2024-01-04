@@ -36,7 +36,7 @@ export interface TripStayHighlight {
 }
 
 export interface TripStayDetails {
-  images: TripStayImage[] | null;
+  images: Photo[] | null;
   information: string;
   checkInHour: string | null;
   address: string | null;
@@ -44,11 +44,6 @@ export interface TripStayDetails {
   currency: string;
   services: TripStayFeature[];
   rooms: TripStayRoom[];
-}
-
-interface TripStayImage {
-  url: string;
-  altText: string | null;
 }
 
 type TripStayFeatureType = "ac" | "wifi" | "breakfast" | "bed" | "close_to_attractions";
