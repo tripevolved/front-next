@@ -1,7 +1,8 @@
 import { Box, Text, Picture, ErrorState, EmptyState } from "@/ui";
-import type { TripStayDetailsProps } from "./trip-stay-details.types";
 
 import { Button, Divider, Grid, Skeleton } from "mars-ds";
+
+import type { SeeMoreAccommodationProps } from "@/features";
 
 import { Carousel } from "@/ui";
 import { TripStayServiceItem } from "@/features";
@@ -12,74 +13,51 @@ import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 const EMPTY_INFO_DETAILS = "-";
 
-export function TripStayDetails({
-  stayData,
+export function SeeMoreAccommodation({
   tripId,
-  isModalView = false,
-  style,
-  uniqueTransactionId,
+  itineraryActionId,
   router,
   onCloseModal,
-}: TripStayDetailsProps) {
+}: SeeMoreAccommodationProps) {
   const { accommodation, updateAccommodation } = useAppStore((state) => ({
     updateAccommodation: state.updateAccommodationState,
     accommodation: state.accommodation,
   }));
 
-  const handleRoomsButton = () => {
-    updateAccommodation({ ...accommodation, ...stayData, uniqueTransactionId });
+  const handleEditButton = () => {
     if (onCloseModal) onCloseModal();
-    router.push(`/app/viagens/${tripId}/hospedagem/quartos`);
+    router.push(`/app/viagens/${tripId}/hospedagem/editar?iditinerario=${itineraryActionId}`);
   };
 
-  const fetcher = async () =>
-    StaysApiService.getHotelDetails(tripId, {
-      tripItineraryActionId: accommodation.itineraryActionId,
-      uniqueTransactionId,
-      accommodation: {
-        id: stayData.id,
-        code: stayData.code,
-        system: stayData.system,
-        provider: stayData.provider,
-        signature: stayData.signature,
-        rooms: [stayData.details.rooms[0]],
-      },
-    });
-  const identificator =
-    stayData.id ?? stayData.code ?? stayData.system ?? stayData.provider ?? stayData.signature;
-  const {
-    data: hotelData,
-    isLoading,
-    error,
-    isValidating,
-  } = useSWR(`get-hotel-details-${tripId}-hotel-${identificator}`, fetcher);
+  const fetcher = async () => StaysApiService.getByTripId(tripId, itineraryActionId!);
+  const { data: data, isLoading, error } = useSWR(`trip-stay-${tripId}`, fetcher);
 
   if (error) return <ErrorState />;
-  if (isLoading || isValidating) return <StayDetailsLoadingState />;
-  if (!hotelData) return <EmptyState />;
+  if (isLoading) return <StayDetailsLoadingState />;
+  if (!data) return <EmptyState />;
 
   return (
     <>
       {/** @ts-ignore */}
-      <div className="trip-stay-details" style={style}>
+      <div className="trip-stay-details">
         <Box className="trip-stay-details__initial-info">
           <div className="trip-stay-details__initial-info__header">
             <Text size="sm" heading className="trip-stay-details__initial-info__header__title">
-              {hotelData.name}
+              {data.name}
             </Text>
-            <Text>{hotelData.details.address}</Text>
+            <Text>{data.details.address}</Text>
           </div>
-          {hotelData.details.images?.length ? (
+          {data.details.images?.length ? (
             <Carousel height={300}>
-              {hotelData.details.images.map((image, key) => (
+              {data.details.images.map((image, key) => (
                 <Picture className="trip-stay-details__initial-info__image" key={key}>
                   {parsePhoto(image)}
                 </Picture>
               ))}
             </Carousel>
-          ) : hotelData.coverImage ? (
-            <Picture className="trip-stay-details__initial-info__image" alt={hotelData.name}>
-              {parsePhoto(hotelData.coverImage)}
+          ) : data.coverImage ? (
+            <Picture className="trip-stay-details__initial-info__image" alt={data.name}>
+              {parsePhoto(data.coverImage)}
             </Picture>
           ) : (
             <Picture
@@ -98,12 +76,12 @@ export function TripStayDetails({
             Informações
           </Text>
           <Text className="trip-stay-details__content__description">
-            {hotelData.details.information || EMPTY_INFO_DETAILS}
+            {data.details.information || EMPTY_INFO_DETAILS}
           </Text>
 
-          {hotelData.details.services && (
+          {data.details.services && (
             <div className="trip-stay-details__content__service-list">
-              {hotelData.details.services.map((service, i) => (
+              {data.details.services.map((service, i) => (
                 <TripStayServiceItem {...service} key={i} />
               ))}
             </div>
@@ -112,43 +90,29 @@ export function TripStayDetails({
             <Divider />
             <div className="trip-stay-details__content__check-in-address__item">
               <Picture src="/assets/stays/time.png" />
-              <Text>Check-in às {hotelData.details.checkInHour || EMPTY_INFO_DETAILS}</Text>
+              <Text>Check-in às {data.details.checkInHour || EMPTY_INFO_DETAILS}</Text>
             </div>
             <div className="trip-stay-details__content__check-in-address__item">
               <Picture src="/assets/stays/pin.png" />
-              <Text>{hotelData.details.address}</Text>
+              <Text>{data.details.address}</Text>
             </div>
           </Box>
-          {hotelData.cancellationInfo ? (
+          {data.cancellationInfo ? (
             <>
               <Text heading size="xs" className="trip-stay-details__content__title">
                 Informações de cancelamento
               </Text>
               <Text className="trip-stay-details__content__description">
-                {hotelData.cancellationInfo}
+                {data.cancellationInfo}
               </Text>
             </>
           ) : null}
         </Box>
-        {!isModalView ? (
-          <Box className="trip-stay-details__footer-buttons gap-lg px-md">
-            <Button
-              className="trip-stay-details__footer-buttons__buttons"
-              variant="secondary"
-              href={`/app/viagens/${tripId}/hospedagem/editar`}
-            >
-              Editar
-            </Button>
-            <Button
-              className="trip-stay-details__footer-buttons__buttons"
-              style={{ color: "var(--color-gray-4)" }}
-              onClick={() => handleRoomsButton()}
-              disabled={!hotelData.isRoomSelected}
-            >
-              Quartos
-            </Button>
-          </Box>
-        ) : null}
+        <Box className="flex justify-content-center px-md">
+          <Button className="w-100" style={{ maxWidth: 380 }} onClick={() => handleEditButton()}>
+            Editar
+          </Button>
+        </Box>
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 import type { TripStay } from "@/core/types";
 import type { TripHotelCardProps } from "./trip-hotel-card.types";
-import { Button, Card, Modal } from "mars-ds";
+import { Button, Card, Modal, Grid } from "mars-ds";
 import { TripStayDetails, TripStayServiceItem } from "@/features";
 import { Picture, Text } from "@/ui";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
@@ -13,6 +13,7 @@ export const TripHotelCard = ({
   isSelected,
   tripId,
   router,
+  uniqueTransactionId,
 }: TripHotelCardProps) => {
   const selectedColor = isCurated ? "var(--color-brand-4)" : "var(--color-brand-1)";
 
@@ -24,7 +25,7 @@ export const TripHotelCard = ({
     Modal.open(
       () => (
         <TripStayDetails
-          uniqueTransactionId=""
+          uniqueTransactionId={uniqueTransactionId}
           stayData={tripStay}
           tripId={tripId}
           router={router}
@@ -37,17 +38,18 @@ export const TripHotelCard = ({
       }
     );
   };
-
   return (
     <Card
       className="trip-hotel-card"
       style={{ border: `2px solid ${isSelected ? selectedColor : "var(--color-gray-3)"}` }}
     >
       <div className="trip-hotel-card__content">
-        <div className="trip-hotel-card__content__info gap-md">
+        <Grid className="gap-md" columns={["150px", "auto"]}>
           <Picture className="trip-hotel-card__content__info__image">
             {tripStayData.coverImage
               ? parsePhoto(tripStayData.coverImage)
+              : tripStayData.coverImageUrl
+              ? tripStayData.coverImageUrl
               : "/assets/blank-image.png"}
           </Picture>
           <div className="trip-hotel-card__content__info__data gap-md">
@@ -65,7 +67,7 @@ export const TripHotelCard = ({
               </Text>
             </div>
           </div>
-        </div>
+        </Grid>
         <div className="trip-hotel-card__content__info__services gap-lg">
           {tripStayData.details.services.map((item, i) => (
             <TripStayServiceItem

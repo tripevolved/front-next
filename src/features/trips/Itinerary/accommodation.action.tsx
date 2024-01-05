@@ -4,14 +4,13 @@ import { Skeleton, Grid, Modal, Button } from "mars-ds";
 import { ErrorState, EmptyState, Picture, Text, CardHighlight, GlobalLoader } from "@/ui";
 import useSWR from "swr";
 import { StaysApiService } from "@/services/api";
-import { TripStayDetails } from "@/features";
-import { NextRouter, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 import { StayEditionButton } from "../TripDetailsPage/trip-stay.section";
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { AccommodationState } from "@/core/store/accomodation";
-import { useAppStore } from "@/core/store";
+import { SeeMoreAccommodation } from "./see-more-accommodation.modal";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
   const router = useRouter();
@@ -26,16 +25,16 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   const handleSeeDetails = () => {
     const modal = Modal.open(
       () => (
-        <TripStayDetails
-          stayData={data!}
+        <SeeMoreAccommodation
           tripId={props.tripId}
+          itineraryActionId={props.tripItineraryActionId}
           router={router}
           onCloseModal={() => modal.close()}
         />
       ),
       {
         closable: true,
-        size: "lg",
+        size: "md",
       }
     );
   };

@@ -25,6 +25,7 @@ export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepPr
         <div className="trip-hotel-list__list gap-md">
           {hotelLists.curated.map((hotel, i) => (
             <TripHotelCard
+              uniqueTransactionId={hotelLists.uniqueTransactionId}
               tripId={tripId}
               onSelect={() => setSelectedHotel(hotel)}
               tripStayData={hotel}
@@ -41,6 +42,7 @@ export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepPr
           <div className="trip-hotel-list__list gap-md">
             {hotelLists.others.map((hotel, i) => (
               <TripHotelCard
+                uniqueTransactionId={hotelLists.uniqueTransactionId}
                 tripId={tripId}
                 onSelect={() => setSelectedHotel(hotel)}
                 tripStayData={hotel}
