@@ -1,9 +1,12 @@
-import { Text, Box } from "@/ui";
+import { Text, Box, ErrorState, GlobalLoader, EmptyState } from "@/ui";
 import type { SeeAttractionDetailsModalProps } from "./see-attraction-details-modal.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { Button, Divider, Icon } from "mars-ds";
 import { formatByDataType } from "@/utils/helpers/number.helpers";
+import { TripScriptsApiService } from "@/services/api";
+import { AttractionDetail } from "@/core/types";
+import useSWR from "swr";
 
 export function SeeAttractionDetailsModal({
   className,
@@ -15,6 +18,31 @@ export function SeeAttractionDetailsModal({
 }: SeeAttractionDetailsModalProps) {
   const cn = makeCn("see-attraction-details-modal", className)(sx);
 
+  const uniqueKeyName = `attraction-${attraction.id}-details`;
+  const fetcher = async () => TripScriptsApiService.getAttractionDetails(attraction.id);
+  const { isLoading, data, error } = useSWR<AttractionDetail>(uniqueKeyName, fetcher);
+
+  if (error) {
+    return (
+      <div className={cn} {...props}>
+        <ErrorState />
+      </div>);
+  }
+
+  if (isLoading) {
+    return (
+      <div className={cn} {...props}>
+        <GlobalLoader inline />
+      </div>);
+  }
+
+  if (!data) {
+    return (
+      <div className={cn} {...props}>
+        <EmptyState />
+      </div>);
+  }
+
   return (
     <div className={cn} {...props}>
       <Box className="see-attraction-details-modal__header">
@@ -22,25 +50,25 @@ export function SeeAttractionDetailsModal({
           {attraction.name}
         </Text>
         <Text className="see-attraction-details-modal__header__subtitle">
-          {attraction.purchasePrice && formatByDataType(attraction.purchasePrice, "CURRENCY")}
+          {data.tags}
         </Text>
       </Box>
-      {attraction.description && (
+      {data.description && (
         <Box className="see-attraction-details-modal__body">
           <Text size="xxl" className="see-attraction-details-modal__body__title">
             Informações
           </Text>
           <Text className="see-attraction-details-modal__body__description">
-            {attraction.description}
+            {data.description}
           </Text>
         </Box>
       )}
       <Divider />
       <Box className="see-attraction-details-modal__info-list">
-        {attraction.availabilityInfo && (
+        {data.availabilityInfo && (
           <div className="see-attraction-details-modal__info-list__item">
             <Icon size="sm" color="var(--color-brand-3)" name="clock" />
-            <Text size="md">{attraction.availabilityInfo}</Text>
+            <Text size="md">{data.availabilityInfo}</Text>
           </div>
         )}
         {attraction.address && (
