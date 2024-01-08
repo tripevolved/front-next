@@ -8,6 +8,7 @@ export * from "./admin/SignIn";
 export * from "./auth/AuthForgotPassword";
 export * from "./auth/AuthFormSection";
 export * from "./auth/AuthPasswordConfirmationPage";
+export * from "./auth/AuthRegisterForm";
 export * from "./auth/AuthSection";
 export * from "./auth/AuthSignIn";
 export * from "./dashboard/BlogCardCarousel";

@@ -1,24 +1,36 @@
 import { EmptyState, Text } from "@/ui";
 import { AuthSection } from "../AuthSection";
-import { SubmitButton } from "mars-ds";
+import { Button, Card, SubmitButton } from "mars-ds";
 import { useState } from "react";
-import { delay } from "@/utils/helpers/async.helpers";
+import { UserApiService } from "@/services/api/user";
+import { useRouter } from "next/router";
 
 export const AuthPasswordConfirmationNew = () => {
   const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(true);
+
+  const router = useRouter();
+  const uniqueIdParam = typeof router.query.uniqueId === "string" ? router.query.uniqueId : undefined;
+  const emailParam = typeof router.query.email === "string" ? router.query.email : "";
 
   const sendNewLink = async () => {
     setSubmitting(true);
-    console.log("sendNewLink");
-    await delay(1000);
-    setSuccess(true);
+    const { email, uniqueId } = await UserApiService.resetUniqueSignUp({ currentEmail: emailParam, currentUniqueId: uniqueIdParam });
+
+    if (email && uniqueId) {
+      router.replace(`/app/cadastro/${encodeURIComponent(uniqueId!)}?email=${encodeURIComponent(email)}`);
+    } else {
+      setSuccess(false);
+    }
   };
 
-  if (success) {
+  if (!success) {
     return (
-      <AuthSection style={{ textAlign: "center" }} heading="Novo link gerado com sucesso!" withCard>
-        <Text>Em breve um e-mail com o novo link chegará eu sua caixa de entrada.</Text>
+      <AuthSection heading="Houve um problema com seu cadastro">
+        <Card elevation="md" className="auth-section__card">
+          <EmptyState text="Não foi possível gerar um novo link para seu cadastro." />
+        </Card>
+        <Button href="/">Voltar à home</Button>
       </AuthSection>
     );
   }
@@ -27,7 +39,7 @@ export const AuthPasswordConfirmationNew = () => {
     <AuthSection style={{ textAlign: "center" }} heading="Finalizar cadastro" withCard>
       <EmptyState
         heading="Esse link expirou!"
-        text="Para gerar um novo link, clique no botão abaixo e espere um novo e-mail chegar para você."
+        text="Para gerar um novo link, clique no botão abaixo e você será redirecionado para completar seu cadastro."
       />
       <SubmitButton onClick={sendNewLink} submitting={submitting}>
         Gerar um novo link
