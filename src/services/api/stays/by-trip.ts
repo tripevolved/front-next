@@ -22,7 +22,7 @@ export interface AccommodationBody extends Omit<TripHotelDTO, "accommodations"> 
   accommodation: Accomodation;
 }
 
-export const getStayByTripId = async (tripId: string, tripItineraryActionId: string) => {
+export const getStayByTripId = async (tripId: string, tripItineraryActionId: string = "") => {
   const route = `stays/${tripId}?tripItineraryActionId=${tripItineraryActionId}`;
   const tripStay = await ApiRequest.get<TripStay>(route);
   return tripStay;
