@@ -39,8 +39,7 @@ export function Footer({ slogan, menu = [], social = [] }: FooterProps) {
       <Divider className="my-lg" />
       <div className="py-lg footer__container">
         <div className="flex gap-lg align-items-end">
-          Associados a <Picture alt="Cadastur" src="/assets/cadastur.png" height={21} width={134} />{" "}
-          <Picture alt="ABAV" src="/assets/abav.png" height={29} width={56} />
+          Registrados no <Picture alt="Cadastur" src="/assets/cadastur.png" height={21} width={134} />{" "}
         </div>
         <Text size="sm" className="pt-lg">
           Copyright © {new Date().getFullYear()} Trip Evolved. Todos os direitos reservados.
