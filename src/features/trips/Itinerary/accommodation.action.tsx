@@ -57,7 +57,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
       {data ? (
         <Grid className="pl-lg">
           <Grid columns={["96px", "auto"]}>
-          <Picture>{data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}</Picture>
+            <Picture>{data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}</Picture>
             <div>
               <div className="w-100 flex-column itinerary-item__content__break">
                 <div>
