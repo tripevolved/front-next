@@ -26,4 +26,3 @@ export const GROUP_STEPS: TemplateStepsBuilderProps["steps"] = [
     component: StepFinish,
   },
 ];
-
