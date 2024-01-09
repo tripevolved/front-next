@@ -144,3 +144,14 @@ export interface TripTravelers {
   travelers: Traveler[];
   travelerCount: number;
 }
+
+export interface TripTip {
+  id: string;
+  tripId: string;
+  type: "RESTAURANT" | "ATTRACTION" | "INFORMATION" | "ALERT";
+  title: string;
+  subtitle: string | null;
+  details: string;
+  restaurantId: string | null;
+  attractionId: string | null;
+}

@@ -22,6 +22,7 @@ export * from "./dashboard/NoProfile";
 export * from "./dashboard/PendingDocumentsModal";
 export * from "./dashboard/TripDashboard";
 export * from "./dashboard/TripPendings";
+export * from "./dashboard/TripTips";
 export * from "./destinations/CustomProfileDestinations";
 export * from "./destinations/DestinationInfos";
 export * from "./destinations/DestinationPage";
