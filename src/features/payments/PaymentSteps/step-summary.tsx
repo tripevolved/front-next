@@ -134,7 +134,7 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
               {accommodation.cancellationInfo ? (
                 <CardHighlight
                   variant="info"
-                  heading="Informação de Candelamento"
+                  heading="Informação de Cancelamento"
                   text={accommodation.cancellationInfo}
                 />
               ) : null}
