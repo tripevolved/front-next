@@ -8,7 +8,7 @@ export default function DocumentsTravelRoute() {
   const idParam = useIdParam();
   return (
     <PageApp headerOptions={{ title, backUrl: `/app/viagens/${idParam}` }} seo={{ title }}>
-      <EmptyState />
+      <EmptyState heading="Nada por aqui!" text="Sua viagem ainda não possui documentos anexados." />
     </PageApp>
   );
 }
