@@ -110,34 +110,35 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
       <Grid>
         {props.details?.length ? (
           props.details?.map((accommodation, i) => (
-            <Grid columns={["56px", "auto"]} key={i}>
-              <Picture src={accommodation.coverImageUrl || "/assets/blank-image.png"} />
-              <div>
-                <div className="w-100 flex-column itinerary-item__content__break">
-                  <div>
-                    <Text as="h3" size="lg">
-                      {accommodation.name}
-                    </Text>
-                    <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>
-                      {accommodation.tags}
-                    </Text>
-                    <Text style={{ marginTop: 0, color: "var(--color-gray-2)" }}>
-                      {accommodation.fullAddress}
-                    </Text>
-                  </div>
+            <div className="flex-column gap-sm" key={i}>
+              <Grid columns={["56px", "auto"]}>
+                <Picture src={accommodation.coverImageUrl || "/assets/blank-image.png"} />
+                <div>
+                  <Text as="h3" size="lg">
+                    {accommodation.name}
+                  </Text>
+                  <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>
+                    {accommodation.tags}
+                  </Text>
                 </div>
-                {!accommodation.isRoomSelected ? (
-                  <Text size="sm">{accommodation.roomSelectionMessage}</Text>
-                ) : null}
-                {accommodation.cancellationInfo ? (
-                  <CardHighlight
-                    variant="info"
-                    heading="Informação de Candelamento"
-                    text={accommodation.cancellationInfo}
-                  />
-                ) : null}
+              </Grid>
+
+              <div className="w-100 flex-column itinerary-item__content__break">
+                <Text style={{ marginTop: 0, color: "var(--color-gray-2)" }}>
+                  {accommodation.fullAddress}
+                </Text>
               </div>
-            </Grid>
+              {!accommodation.isRoomSelected ? (
+                <Text size="sm">{accommodation.roomSelectionMessage}</Text>
+              ) : null}
+              {accommodation.cancellationInfo ? (
+                <CardHighlight
+                  variant="info"
+                  heading="Informação de Cancelamento"
+                  text={accommodation.cancellationInfo}
+                />
+              ) : null}
+            </div>
           ))
         ) : (
           <CardHighlight
