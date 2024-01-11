@@ -4,13 +4,13 @@ import { Skeleton, Grid, Modal, Button } from "mars-ds";
 import { ErrorState, EmptyState, Picture, Text, CardHighlight, GlobalLoader } from "@/ui";
 import useSWR from "swr";
 import { StaysApiService } from "@/services/api";
-import { TripStayDetails } from "@/features";
 import { useRouter } from "next/router";
 
 import { StayEditionButton } from "../TripDetailsPage/trip-stay.section";
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { AccommodationState } from "@/core/store/accomodation";
+import { SeeMoreAccommodation } from "./see-more-accommodation.modal";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
   const router = useRouter();
@@ -25,16 +25,16 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   const handleSeeDetails = () => {
     const modal = Modal.open(
       () => (
-        <TripStayDetails
-          stayData={data!}
+        <SeeMoreAccommodation
           tripId={props.tripId}
+          itineraryActionId={props.tripItineraryActionId}
           router={router}
           onCloseModal={() => modal.close()}
         />
       ),
       {
         closable: true,
-        size: "lg",
+        size: "md",
       }
     );
   };
@@ -46,7 +46,10 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     return (
       <>
         <div className="px-xl w-100 flex-column gap-lg">
-          <TripStayEmptyState tripId={props.tripId} tripItineraryActionId={props.tripItineraryActionId} />
+          <TripStayEmptyState
+            tripId={props.tripId}
+            tripItineraryActionId={props.tripItineraryActionId}
+          />
         </div>
       </>
     );
@@ -57,7 +60,9 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
       {data ? (
         <Grid className="pl-lg">
           <Grid columns={["96px", "auto"]}>
-          <Picture>{data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}</Picture>
+            <Picture>
+              {data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}
+            </Picture>
             <div>
               <div className="w-100 flex-column itinerary-item__content__break">
                 <div>

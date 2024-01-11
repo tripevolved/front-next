@@ -1,3 +1,5 @@
+import { Photo } from "./photo";
+
 export interface TripScript {
   tripId: string;
   isPreview: boolean;
@@ -43,10 +45,26 @@ export interface TripScriptAttraction {
   isHighlyRecommended: boolean;
   name: string;
   address: string;
-  description: string;
-  availabilityInfo: string;
-  purchasePrice: number;
   attractionId: string | null;
+}
+
+export interface AttractionDetail {
+  id: string;
+  name: string;
+  address: string;
+  tags: string;
+  description: string;
+  availabilityInfo: string | null;
+  restrictions: string | null;
+  purchasePrice: number;
+  baseRating: number;
+  ratings: AttractionRating[] | null;
+  images: Photo[] | null;
+}
+
+interface AttractionRating {
+  feature: string;
+  rating: number;
 }
 
 export interface UpdateScriptAction {

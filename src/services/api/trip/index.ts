@@ -13,6 +13,7 @@ import { removeById } from "./remove";
 import { getItinerary } from "./itinerary";
 import { getCheckoutById } from "./checkout";
 import { getTripReservationsCountForDashboard } from "./reservations-count";
+import { getTripTips } from "./tips";
 
 export const TripsApiService = {
   getById: getTripDetailsById,
@@ -24,6 +25,7 @@ export const TripsApiService = {
   getTripQuestions: getTripQuestions,
   postCreate: createTrip,
   getTripPending,
+  getTips: getTripTips,
   getPriceById: getTripPriceById,
   getMatchedDestinations: getMatchedDestinations,
   setMatchedDestinations: putMatchedDestinations,

@@ -20,6 +20,8 @@ export interface Lead {
   email: string;
   phone?: string;
 
+  uniqueId?: string;
+
   launchList?: null | LaunchList;
   invitedBy?: null | Inviter;
   profile?: null | Profile;

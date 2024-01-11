@@ -80,7 +80,9 @@ export const TripStaySection = ({ tripId }: { tripId: string }) => {
       </Grid>
       <Grid>
         <Grid columns={["96px", "auto"]}>
-          <Picture>{data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}</Picture>
+          <Picture>
+            {data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}
+          </Picture>
           <div>
             <Text as="h3" size="lg">
               {data.name}
@@ -115,7 +117,7 @@ export const StayEditionButton = ({
 
   const handleClick = () => {
     updateAccommodation({ ...accommodation, ...accommodationData, itineraryActionId });
-    router.push(`/app/viagens/${tripId}/hospedagem/editar`);
+    router.push(`/app/viagens/${tripId}/hospedagem/editar?iditinerario=${itineraryActionId}`);
   };
 
   return (

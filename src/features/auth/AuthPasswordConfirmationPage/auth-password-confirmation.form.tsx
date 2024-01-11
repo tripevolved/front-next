@@ -8,6 +8,7 @@ import { SubmitHandler } from "@/utils/helpers/form.helpers";
 import { UserApiService } from "@/services/api/user";
 import { SignUpResponse } from "@/services/api/user/sign-up";
 import { EmptyState } from "@/ui";
+import { AuthPasswordConfirmationNew } from "./auth-password-confirmation-new";
 
 type PasswordConfirmationData = Record<string, string>;
 
@@ -28,6 +29,12 @@ export function  AuthPasswordConfirmationForm() {
   };
 
   if (error || (signUpResponse && !signUpResponse.isSignUpSuccessful)) {
+    if (signUpResponse?.resultType === "INVALID_SIGN_UP_TOKEN") {
+      return (
+        <AuthPasswordConfirmationNew />
+      );
+    }
+
     return (
       <AuthSection heading="Houve um problema com seu cadastro">
         <Card elevation="md" className="auth-section__card">
