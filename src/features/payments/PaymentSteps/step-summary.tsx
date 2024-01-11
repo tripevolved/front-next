@@ -110,8 +110,8 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
       <Grid>
         {props.details?.length ? (
           props.details?.map((accommodation, i) => (
-            <div className="flex-column gap-sm">
-              <Grid columns={["56px", "auto"]} key={i}>
+            <div className="flex-column gap-sm" key={i}>
+              <Grid columns={["56px", "auto"]}>
                 <Picture src={accommodation.coverImageUrl || "/assets/blank-image.png"} />
                 <div>
                   <Text as="h3" size="lg">
