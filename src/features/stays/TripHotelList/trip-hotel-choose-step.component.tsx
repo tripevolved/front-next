@@ -6,6 +6,7 @@ import { TripHotelCard } from "@/features";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useIdParam } from "@/utils/hooks/param.hook";
+import { Box, CardHighlight, Picture, Text } from "@/ui";
 
 export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepProps) => {
   const [selectedHotel, setSelectedHotel] = useState<Omit<TripStay, "highlight">>(
@@ -21,24 +22,30 @@ export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepPr
 
   return (
     <>
-      <MarsAccordion title="Com selo Trip Evolved" defaultOpen>
-        <div className="trip-hotel-list__list gap-md">
-          {hotelLists.curated.map((hotel, i) => (
-            <TripHotelCard
-              uniqueTransactionId={hotelLists.uniqueTransactionId}
-              tripId={tripId}
-              onSelect={() => setSelectedHotel(hotel)}
-              tripStayData={hotel}
-              isSelected={selectedHotel?.name === hotel.name}
-              router={router}
-              isCurated
-              key={i}
-            />
-          ))}
-        </div>
-      </MarsAccordion>
+      {hotelLists.curated.length > 0 ? (
+        <Box>
+          <div className="trip-hotel-list__list gap-md">
+            <Text heading size="sm">
+              <Picture src="/assets/stays/badge.png" style={{paddingRight: "12px"}} />
+              Com selo Trip Evolved
+            </Text>
+            <Text size="sm">Nossos especialistas escolheram esses hotéis por suas características, únicas no destino.</Text>
+            {hotelLists.curated.map((hotel, i) => (
+              <TripHotelCard
+                uniqueTransactionId={hotelLists.uniqueTransactionId}
+                tripId={tripId}
+                onSelect={() => setSelectedHotel(hotel)}
+                tripStayData={hotel}
+                isSelected={hotel.isSelected}
+                router={router}
+                isCurated
+                key={i}
+              />
+            ))}
+          </div>
+        </Box>) : <></>}
       {hotelLists.others?.length ? (
-        <MarsAccordion title="Outros">
+        <MarsAccordion title={hotelLists.curated.length > 0 ? "Outras opções" : "Opções"} defaultOpen={hotelLists.curated.length == 0}>
           <div className="trip-hotel-list__list gap-md">
             {hotelLists.others.map((hotel, i) => (
               <TripHotelCard

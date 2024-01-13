@@ -11,13 +11,11 @@ import { TripHotelChoose } from "./trip-hotel-choose-step.component";
 import { TripHotelDTO } from "@/services/api/stays/by-trip";
 import { TripHotelRoomsChoose } from "./trip-hotel-rooms-choose-step.component";
 import { useTripHotelEdit } from "./trip-hotel-list.hook";
-import { Notification } from "mars-ds";
 import { useRouter } from "next/router";
-import { useAppStore } from "@/core/store";
 
 const EDIT_STEPS = [
   {
-    title: "Lista de Hotéis",
+    title: "Listagem de Hotéis",
     name: "hotelSelection",
     component: TripHotelChoose,
   },
@@ -54,11 +52,9 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
 
   const router = useRouter();
-  const currentAccommodation = useAppStore((state) => state.accommodation);
 
   const tripItineraryActionId =
-    currentAccommodation.itineraryActionId ??
-    String(typeof router.query.iditinerario === "string" ? router.query.iditinerario : "");
+    String(typeof router.query.idItinerario === "string" ? router.query.idItinerario : "");
 
   const animation = useAnimation();
   const { isLoadingSentData, errorSentData, canSendTD, setCanSendTD, setObjDTO } =

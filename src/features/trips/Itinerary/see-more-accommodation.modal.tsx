@@ -26,7 +26,7 @@ export function SeeMoreAccommodation({
 
   const handleEditButton = () => {
     if (onCloseModal) onCloseModal();
-    router.push(`/app/viagens/${tripId}/hospedagem/editar?iditinerario=${itineraryActionId}`);
+    router.push(`/app/viagens/${tripId}/hospedagem/editar?idItinerario=${itineraryActionId}`);
   };
 
   const fetcher = async () => StaysApiService.getByTripId(tripId, itineraryActionId!);

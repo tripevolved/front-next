@@ -44,7 +44,7 @@ export const TripHotelCard = ({
       style={{ border: `2px solid ${isSelected ? selectedColor : "var(--color-gray-3)"}` }}
     >
       <div className="trip-hotel-card__content">
-        <Grid className="gap-md" columns={["150px", "auto"]}>
+        <Grid className="gap-md" columns={["30%", "auto"]}>
           <Picture className="trip-hotel-card__content__info__image">
             {tripStayData.coverImage
               ? parsePhoto(tripStayData.coverImage)
