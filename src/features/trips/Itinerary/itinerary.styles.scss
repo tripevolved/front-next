@@ -9,5 +9,9 @@
         justify-content: space-between;
       }
     }
+
+    .accommodation-action_image img {
+      border-radius: $border-radius-xs;
+    }
   }
 }

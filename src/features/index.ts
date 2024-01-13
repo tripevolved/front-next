@@ -61,6 +61,7 @@ export * from "./scripts/TripScriptDay";
 export * from "./scripts/TripScriptPanel";
 export * from "./scripts/TripScriptPreviewPanel";
 export * from "./scripts/UpdateAttractions";
+export * from "./stays/AccommodationDetailModal";
 export * from "./stays/TripAccommodation";
 export * from "./stays/TripHotelCard";
 export * from "./stays/TripHotelList";
