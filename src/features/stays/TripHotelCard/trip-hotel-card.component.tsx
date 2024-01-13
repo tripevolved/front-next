@@ -38,13 +38,14 @@ export const TripHotelCard = ({
       }
     );
   };
+
   return (
     <Card
       className="trip-hotel-card"
       style={{ border: `2px solid ${isSelected ? selectedColor : "var(--color-gray-3)"}` }}
     >
       <div className="trip-hotel-card__content">
-        <Grid className="gap-md" columns={["30%", "auto"]}>
+        <Grid className="gap-md" columns={isCurated ? ["30%", "auto"] : ["20%", "auto"]}>
           <Picture className="trip-hotel-card__content__info__image">
             {tripStayData.coverImage
               ? parsePhoto(tripStayData.coverImage)

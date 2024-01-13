@@ -13,20 +13,15 @@
 
       &__image {
         min-width: 80px;
-        background-color: $color-brand-1;
+        min-height: 80px;
         border-radius: $border-radius-md;
         
         img {
-          width: 90px;
-          height: 90px;
+          width: 100%;
+          height: 100%;
           object-position: center;
           object-fit: cover;
           border-radius: 5px;
-
-          @media (min-width: $breakpoint-md) {
-            width: 100px;
-            height: 100px;
-          }
         }
       }
 

@@ -6,7 +6,7 @@ import { TripHotelCard } from "@/features";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useIdParam } from "@/utils/hooks/param.hook";
-import { Box, CardHighlight, Picture, Text } from "@/ui";
+import { Box, Picture, Text } from "@/ui";
 
 export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepProps) => {
   const [selectedHotel, setSelectedHotel] = useState<Omit<TripStay, "highlight">>(

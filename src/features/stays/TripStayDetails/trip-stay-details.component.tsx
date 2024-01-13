@@ -32,9 +32,12 @@ export function TripStayDetails({
     router.push(`/app/viagens/${tripId}/hospedagem/quartos`);
   };
 
+  const tripItineraryActionId =
+    String(typeof router.query.idItinerario === "string" ? router.query.idItinerario : "");
+
   const fetcher = async () =>
     StaysApiService.getHotelDetails(tripId, {
-      tripItineraryActionId: accommodation.itineraryActionId,
+      tripItineraryActionId: tripItineraryActionId,
       uniqueTransactionId,
       accommodation: {
         id: stayData.id,
@@ -135,7 +138,7 @@ export function TripStayDetails({
             <Button
               className="trip-stay-details__footer-buttons__buttons"
               variant="secondary"
-              href={`/app/viagens/${tripId}/hospedagem/editar`}
+              href={`/app/viagens/${tripId}/hospedagem/editar?idItinerario=${tripItineraryActionId}`}
             >
               Editar
             </Button>
