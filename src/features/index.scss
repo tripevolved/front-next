@@ -42,6 +42,8 @@
 @import "./scripts/TripScriptPreviewPanel/trip-script-preview-panel.styles.scss";
 @import "./scripts/UpdateAttractions/update-attractions.styles.scss";
 @import "./stays/TripAccommodation/trip-accommodation.styles.scss";
+@import "./stays/TripHotelCard/trip-hotel-card.styles.scss";
+@import "./stays/TripHotelList/trip-hotel-list.styles.scss";
 @import "./stays/TripStayDetails/trip-stay-details.styles.scss";
 @import "./stays/TripStayRoomCard/trip-stay-room-card.styles.scss";
 @import "./stays/TripStayRoomDetailsModal/trip-stay-room-details-modal.styles.scss";
@@ -65,6 +67,4 @@
 @import "./trips/TripDetailsPage/trip-details-page.styles.scss";
 @import "./trips/TripDetailsPanel/trip-details-panel.styles.scss";
 @import "./trips/TripEditConfiguration/trip-edit-configuration.styles.scss";
-@import "./trips/TripHotelCard/trip-hotel-card.styles.scss";
-@import "./trips/TripHotelList/trip-hotel-list.styles.scss";
 @import "./trips/TripPricingBox/trip-pricing-box.styles.scss";
