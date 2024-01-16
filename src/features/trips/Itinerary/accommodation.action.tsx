@@ -1,6 +1,6 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
-import { Skeleton, Grid, Modal, Button, Card } from "mars-ds";
+import { Skeleton, Grid, Modal, Button, Card, Icon } from "mars-ds";
 import { ErrorState, EmptyState, Picture, Text, CardHighlight, GlobalLoader } from "@/ui";
 import useSWR from "swr";
 import { StaysApiService } from "@/services/api";
@@ -12,6 +12,7 @@ import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { AccommodationState } from "@/core/store/accomodation";
 import { TripStay } from "@/core/types";
 import { StayDetailsModal } from "@/features/stays/StayDetailsModal";
+import { TripStayServiceItem } from "../TripStayServiceItem";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
   const router = useRouter();
@@ -76,6 +77,17 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     <Skeleton active={isLoading} height={355}>
       {data ? (
         <Grid className="pl-lg">
+          <div className="stay-detail-info">
+            {data.checkIn && data.checkOut && (
+              <div className="stay-detail-info__item">
+                <Icon name="calendar" size="sm" color="#8253F6" />
+                <Text><strong>Sua estadia é de {`${data.checkIn}`} até {`${data.checkOut}`}</strong></Text>
+              </div>)}
+            <div className="stay-detail-info__item">
+              <Icon name="info" size="sm" color="#8253F6" />
+              <Text><strong>{data.cancellationInfo}</strong></Text>
+            </div>
+          </div>
           <Grid columns={["96px", "auto"]}>
             <Picture>
               {data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}
@@ -87,6 +99,13 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
                     {data.name}
                   </Text>
                   <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
+                  {data.details.services && (
+                    <div className="trip-stay-details__content__service-list">
+                      {data.details.services.map((service, i) => (
+                        <TripStayServiceItem {...service} key={i} />
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <StayEditionButton
                   tripId={props.tripId}
@@ -94,7 +113,6 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
                   accommodationData={data as AccommodationState}
                 />
               </div>
-              {!data.isRoomSelected ? <Text size="sm">{data.roomSelectionMessage}</Text> : null}
               <Button className="mt-sm" size="sm" variant="neutral" onClick={() => handleSeeDetails(data)}>
                 Ver detalhes
               </Button>
