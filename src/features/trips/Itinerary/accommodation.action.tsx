@@ -13,6 +13,7 @@ import { AccommodationState } from "@/core/store/accomodation";
 import { TripStay } from "@/core/types";
 import { StayDetailsModal } from "@/features/stays/StayDetailsModal";
 import { TripStayServiceItem } from "../TripStayServiceItem";
+import { toFullDetailedDate } from "@/utils/helpers/dates.helpers";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
   const router = useRouter();
@@ -81,21 +82,21 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
             {data.checkIn && data.checkOut && (
               <div className="stay-detail-info__item">
                 <Icon name="calendar" size="sm" color="#8253F6" />
-                <Text><strong>Sua estadia é de {`${data.checkIn}`} até {`${data.checkOut}`}</strong></Text>
+                <Text>Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até {`${toFullDetailedDate(data.checkOut)}`}</Text>
               </div>)}
             <div className="stay-detail-info__item">
               <Icon name="info" size="sm" color="#8253F6" />
-              <Text><strong>{data.cancellationInfo}</strong></Text>
+              <Text>{data.cancellationInfo}</Text>
             </div>
           </div>
-          <Grid columns={["96px", "auto"]}>
+          <Grid columns={["120px", "auto"]}>
             <Picture>
               {data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}
             </Picture>
             <div>
               <div className="w-100 flex-column itinerary-item__content__break">
-                <div>
-                  <Text as="h3" size="lg">
+                <Grid gap={4}>
+                  <Text as="h3" size="xl">
                     {data.name}
                   </Text>
                   <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
@@ -106,17 +107,20 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
                       ))}
                     </div>
                   )}
-                </div>
-                <StayEditionButton
-                  tripId={props.tripId}
-                  itineraryActionId={props.tripItineraryActionId}
-                  accommodationData={data as AccommodationState}
-                />
+                </Grid>
+                
               </div>
-              <Button className="mt-sm" size="sm" variant="neutral" onClick={() => handleSeeDetails(data)}>
-                Ver detalhes
-              </Button>
             </div>
+          </Grid>
+          <Grid columns={["75%", "20%"]}>
+            <Button size="sm" variant="neutral" onClick={() => handleSeeDetails(data)}>
+              Ver detalhes
+            </Button>
+            <StayEditionButton
+              tripId={props.tripId}
+              itineraryActionId={props.tripItineraryActionId}
+              accommodationData={data as AccommodationState}
+            />
           </Grid>
           {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
         </Grid>
