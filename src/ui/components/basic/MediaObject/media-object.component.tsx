@@ -8,6 +8,7 @@ export function MediaObject({
   className,
   children,
   image,
+  gap = 24,
   heading,
   tag,
   text,
@@ -18,7 +19,7 @@ export function MediaObject({
   const cn = cx("media-object", className, css(sx));
   return (
     <div className={cn} {...props}>
-      <Grid className="media-object__content" gap={24}>
+      <Grid className="media-object__content" gap={gap}>
         {tag ? (
           <div className="media-object__tag">
             <Tag>{tag}</Tag>

@@ -8,6 +8,7 @@ interface PageProps extends Partial<TemplateProps> {
 
 interface NavbarProps {
   menu?: MenuProps;
+  exact?: Boolean;
 }
 
 interface FooterProps {

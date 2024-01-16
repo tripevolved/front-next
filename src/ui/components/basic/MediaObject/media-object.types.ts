@@ -8,4 +8,5 @@ export interface MediaObjectProps extends ComponentHTMLProps {
   heading?: string | HeadingProps;
   text?: string | TextProps;
   cta?: ButtonProps;
+  gap?: number | string;
 }
