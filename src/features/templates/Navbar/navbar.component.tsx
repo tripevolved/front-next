@@ -11,7 +11,7 @@ const subscribedMenu = {
   href: "/inscrito",
 } satisfies MenuItemProps;
 
-export function Navbar({ menu: inheritedMenu = [] }: NavbarProps) {
+export function Navbar({ menu: inheritedMenu = [], exact }: NavbarProps) {
   const [menu, setMenu] = useState<MenuItemProps[]>(inheritedMenu);
   const [open, setOpen] = useState(false);
   const hasMenu = Boolean(menu?.length);
@@ -19,7 +19,7 @@ export function Navbar({ menu: inheritedMenu = [] }: NavbarProps) {
   const { lead } = useAppStore();
 
   useEffect(() => {
-    if (!lead.id) return;
+    if (exact || !lead.id) return;
     setMenu([subscribedMenu, ...inheritedMenu]);
   }, [inheritedMenu, lead.id]);
 
