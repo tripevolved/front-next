@@ -61,6 +61,7 @@ export * from "./scripts/TripScriptDay";
 export * from "./scripts/TripScriptPanel";
 export * from "./scripts/TripScriptPreviewPanel";
 export * from "./scripts/UpdateAttractions";
+export * from "./stays/StayDetailsModal";
 export * from "./templates/ChatFloatingButton";
 export * from "./templates/Footer";
 export * from "./templates/Navbar";

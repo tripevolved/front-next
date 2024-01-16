@@ -10,8 +10,8 @@ import { StayEditionButton } from "../TripDetailsPage/trip-stay.section";
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { AccommodationState } from "@/core/store/accomodation";
-import { SeeMoreAccommodation } from "./see-more-accommodation.modal";
 import { TripStay } from "@/core/types";
+import { StayDetailsModal } from "@/features/stays/StayDetailsModal";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
   const router = useRouter();
@@ -23,14 +23,15 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     fetcher
   );
 
-  const handleSeeDetails = () => {
+  const handleSeeDetails = (tripStay: TripStay) => {
     const modal = Modal.open(
       () => (
-        <SeeMoreAccommodation
+        <StayDetailsModal
           tripId={props.tripId}
           itineraryActionId={props.tripItineraryActionId}
           router={router}
           onCloseModal={() => modal.close()}
+          tripStay={tripStay}
         />
       ),
       {
@@ -64,7 +65,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
             tripId={props.tripId}
             tripItineraryActionId={props.tripItineraryActionId}
             tripStay={data}
-            handleSeeDetails={handleSeeDetails}
+            handleSeeDetails={() => handleSeeDetails(data)}
           />
         </div>
       </>
@@ -94,7 +95,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
                 />
               </div>
               {!data.isRoomSelected ? <Text size="sm">{data.roomSelectionMessage}</Text> : null}
-              <Button className="mt-sm" size="sm" variant="neutral" onClick={handleSeeDetails}>
+              <Button className="mt-sm" size="sm" variant="neutral" onClick={() => handleSeeDetails(data)}>
                 Ver detalhes
               </Button>
             </div>
