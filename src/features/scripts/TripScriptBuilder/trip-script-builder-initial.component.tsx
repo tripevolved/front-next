@@ -32,11 +32,9 @@ export function TripBuilderInitialStep({ onNext, goToStepName }: StepComponentPr
   const { isLoading, data, error } = useSWR<TripScriptStepInfo>(uniqueKeyName, fetcher);
 
   const getAction = () => {
-    if (error) return (<ErrorState />);
     if (isLoading) return (<Loader />);
-    if (!data) return (<EmptyState />);
-
-    const stepName = ACTION_AND_STEPS[data.step];
+    
+    const stepName = error || !data ? ACTION_AND_STEPS["START"] : ACTION_AND_STEPS[data.step];
     return (
       <>
         <Button className="trip-script-builder-step__item" onClick={() => goToStepName(stepName.step)}>{stepName.cta ?? "Começar"}</Button>
