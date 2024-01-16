@@ -17,7 +17,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   const router = useRouter();
 
   const fetcher = async () =>
-    StaysApiService.getAccommodationItineraryAction(props.tripId, props.tripItineraryActionId);
+    StaysApiService.getByTripId(props.tripId, props.tripItineraryActionId);
   const { isLoading, data, error } = useSWR(
     `get-itinerary-accommodation-action-${props.tripItineraryActionId}`,
     fetcher

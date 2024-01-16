@@ -54,12 +54,3 @@ export const setTripHotelToStay = async (tripId: string, body: TripHotelDTO) => 
   const tripHotels = await ApiRequest.put(route, body);
   return tripHotels;
 };
-
-export const getAccommodationItineraryAction = async (
-  tripId: string,
-  itineraryActionId: string
-) => {
-  const route = `stays/${tripId}?tripItineraryActionId=${itineraryActionId}`;
-  const accommodationAction = await ApiRequest.get<TripStay>(route);
-  return accommodationAction;
-};
