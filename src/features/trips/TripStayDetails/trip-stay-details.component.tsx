@@ -15,26 +15,21 @@ const EMPTY_INFO_DETAILS = "-";
 export function TripStayDetails({
   stayData,
   tripId,
-  isModalView = false,
   style,
   uniqueTransactionId,
   router,
   onCloseModal,
 }: TripStayDetailsProps) {
+  const itineraryActionId = String(router.query.iditinerario ?? "");
+
   const { accommodation, updateAccommodation } = useAppStore((state) => ({
     updateAccommodation: state.updateAccommodationState,
     accommodation: state.accommodation,
   }));
 
-  const handleRoomsButton = () => {
-    updateAccommodation({ ...accommodation, ...stayData, uniqueTransactionId });
-    if (onCloseModal) onCloseModal();
-    router.push(`/app/viagens/${tripId}/hospedagem/quartos`);
-  };
-
   const fetcher = async () =>
     StaysApiService.getHotelDetails(tripId, {
-      tripItineraryActionId: accommodation.itineraryActionId,
+      tripItineraryActionId: itineraryActionId,
       uniqueTransactionId,
       accommodation: {
         id: stayData.id,
@@ -130,25 +125,6 @@ export function TripStayDetails({
             </>
           ) : null}
         </Box>
-        {!isModalView ? (
-          <Box className="trip-stay-details__footer-buttons gap-lg px-md">
-            <Button
-              className="trip-stay-details__footer-buttons__buttons"
-              variant="secondary"
-              href={`/app/viagens/${tripId}/hospedagem/editar`}
-            >
-              Editar
-            </Button>
-            <Button
-              className="trip-stay-details__footer-buttons__buttons"
-              style={{ color: "var(--color-gray-4)" }}
-              onClick={() => handleRoomsButton()}
-              disabled={!hotelData.isRoomSelected}
-            >
-              Quartos
-            </Button>
-          </Box>
-        ) : null}
       </div>
     </>
   );

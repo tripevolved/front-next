@@ -17,7 +17,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
 
   const fetcher = async () =>
     StaysApiService.getAccommodationItineraryAction(props.tripId, props.tripItineraryActionId);
-  const { isLoading, data, error } = useSWR(
+  const { isLoading, data, error, isValidating } = useSWR(
     `get-itinerary-accommodation-action-${props.tripItineraryActionId}`,
     fetcher
   );
@@ -40,13 +40,13 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   };
 
   if (error) return <ErrorState />;
-  if (isLoading) return <GlobalLoader inline />;
+  if (isLoading || isValidating) return <GlobalLoader inline />;
 
   if (!data || !data.isSelected) {
     return (
       <>
         <div className="px-xl w-100 flex-column gap-lg">
-          <TripStayEmptyState
+          <TripAccommodationEmptyState
             tripId={props.tripId}
             tripItineraryActionId={props.tripItineraryActionId}
           />
@@ -60,7 +60,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
       {data ? (
         <Grid className="pl-lg">
           <Grid columns={["96px", "auto"]}>
-            <Picture>
+            <Picture className="itinerary-item__content__image">
               {data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}
             </Picture>
             <div>
@@ -92,16 +92,26 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   );
 };
 
-const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "" }) => (
-  <CardHighlight
-    variant="warning"
-    heading="Ainda não escolhemos a acomodação para sua viagem"
-    text="Fale conosco e vamos deixar tudo como você deseja!"
-    cta={{
-      href: `/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`,
-      label: "Escolher hospedagem",
-      iconName: "arrow-right",
-      isRtl: true,
-    }}
-  />
-);
+const TripAccommodationEmptyState = ({ tripId = "", tripItineraryActionId = "" }) => {
+  const router = useRouter();
+
+  return (
+    <CardHighlight
+      variant="warning"
+      heading="Ainda não escolhemos a acomodação para sua viagem"
+      text="Fale conosco e vamos deixar tudo como você deseja!"
+      cta={{
+        onClick: () => {
+          console.log("tá batendo aqui", tripItineraryActionId);
+
+          router.push(
+            `/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`
+          );
+        },
+        label: "Escolher hospedagem",
+        iconName: "arrow-right",
+        isRtl: true,
+      }}
+    />
+  );
+};

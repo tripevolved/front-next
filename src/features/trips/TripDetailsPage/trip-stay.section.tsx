@@ -110,13 +110,8 @@ export const StayEditionButton = ({
   itineraryActionId: string;
 }) => {
   const router = useRouter();
-  const { accommodation, updateAccommodation } = useAppStore((state) => ({
-    updateAccommodation: state.updateAccommodationState,
-    accommodation: state.accommodation,
-  }));
 
   const handleClick = () => {
-    updateAccommodation({ ...accommodation, ...accommodationData, itineraryActionId });
     router.push(`/app/viagens/${tripId}/hospedagem/editar?iditinerario=${itineraryActionId}`);
   };
 

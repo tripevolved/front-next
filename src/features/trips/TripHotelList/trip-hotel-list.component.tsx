@@ -54,18 +54,20 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
 
   const router = useRouter();
-  const currentAccommodation = useAppStore((state) => state.accommodation);
 
-  const tripItineraryActionId =
-    currentAccommodation.itineraryActionId ??
-    String(typeof router.query.iditinerario === "string" ? router.query.iditinerario : "");
+  const tripItineraryActionId = String(
+    typeof router.query.iditinerario === "string" ? router.query.iditinerario : ""
+  );
 
   const animation = useAnimation();
   const { isLoadingSentData, errorSentData, canSendTD, setCanSendTD, setObjDTO } =
     useTripHotelEdit(tripId);
 
   const fetcher = async () => StaysApiService.getHotels(tripId, tripItineraryActionId);
-  const { data, isLoading, error } = useSwr(`accomodation-get-${tripId}`, fetcher);
+  const { data, isLoading, error } = useSwr(
+    `accommodation-get-${tripId}-action-${tripItineraryActionId}`,
+    fetcher
+  );
 
   const handleBack = () => {
     setCurrentIndex(currentIndex - 1);
@@ -119,7 +121,15 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
 
   if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
-  if (!data) return <EmptyState />;
+  if (!data)
+    return (
+      <div className="trip-hotel-list">
+        <Text heading size="sm" className="color-primary">
+          Hotéis indisponíveis...
+        </Text>
+        <EmptyState text="Infelizmente não existem hotéis disponiveis para esta localidade no momento" />
+      </div>
+    );
 
   if (isLoadingSentData || canSendTD) {
     return (

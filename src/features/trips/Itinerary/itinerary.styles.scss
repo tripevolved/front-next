@@ -3,6 +3,13 @@
     border-left: 1px dotted $color-gray-3;
     border-width: 2px;
 
+    &__image{
+      img {
+        width: 100%;
+        border-radius: 10px;
+      }
+    }
+
     @media(min-width: $breakpoint-sm) {
       &__break {
         flex-direction: row;
