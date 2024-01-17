@@ -49,7 +49,7 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
       </Grid>
       <Button
         className="update-attractions__save-button"
-        href={`/app/viagens/${idParam}/roteiro/`}
+        href={`/app/viagens/${idParam}/roteiro/configurar?day=${data.day}`}
         onClick={() => updateTripScript()}
       >
         Salvar
