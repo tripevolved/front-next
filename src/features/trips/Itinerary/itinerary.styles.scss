@@ -17,4 +17,17 @@
       }
     }
   }
+
+  .stay-detail-info {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 15px;
+
+    &__item {
+      display: flex;
+      width: 100%;
+      gap: 10px;
+    }
+  }
 }
