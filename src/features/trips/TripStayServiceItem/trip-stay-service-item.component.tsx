@@ -8,7 +8,7 @@ export const TripStayServiceItem = ({
 }: TripStayFeature & { color?: string }) => {
   return (
     <div className="trip-stay-service-item" style={{ color }}>
-      <Picture src={`/assets/stays/${type}.svg`} />
+      {type && <Picture src={`/assets/stays/${type}.svg`} />}
       <Text>{title}</Text>
     </div>
   );

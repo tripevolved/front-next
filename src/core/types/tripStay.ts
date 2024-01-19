@@ -8,6 +8,8 @@ export interface TripStay {
   system: string;
   coverImage: Photo | null;
   cancellationInfo: string;
+  checkIn: Date;
+  checkOut: Date;
   name: string;
   tags: string;
   highlight?: TripStayHighlight;
