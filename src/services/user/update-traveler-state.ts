@@ -6,6 +6,7 @@ export const updateTravelerState = async () => {
   try {
     const state = await TravelerApiService.getTravelerState();
     useAppStore.getState().setTravelerState(state);
+    console.log(state);
   } catch (error) {
     Notification.error("Não foi possível atualizar o seu perfil.");
   }
