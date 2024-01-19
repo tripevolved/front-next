@@ -15,10 +15,13 @@
     z-index: 20;
   }
   &__ribo {
+    height: calc(100vh - $header-size);
+    background-color: black;
     iframe {
       width: 100%;
       height: calc(100vh - $header-size);
       border: none;
+      background-color: white;
     }
   }
 
@@ -33,6 +36,14 @@
     &__ribo {
       &--show-code {
         width: calc(100% - 16px);
+      }
+      &--is-mobile-view {
+        display: flex;
+        iframe {
+          margin: auto;
+          width: calc(375px + 16px);
+          height: 600px;
+        }
       }
     }
     &__editor {
