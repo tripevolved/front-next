@@ -21,7 +21,7 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
   const SAVE_ROUTE_BUTTON =
     cameFrom === "dashboard"
       ? `/app/viagens/${idParam}/roteiro`
-      : `/app/viagens/${idParam}/roiteiro/configurar?day=${data.day}`;
+      : `/app/viagens/${idParam}/roteiro/configurar?day=${data.day}`;
 
   if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
