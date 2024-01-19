@@ -44,7 +44,7 @@ function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
     <Grid className="all-trips py-md">
       {currentTrip ? (
         <div className="all-trips__main">
-          <TripItem {...currentTrip} />
+          <TripItem {...currentTrip} enableDeletion={currentTrip.status !== "Só falta viajar!"} />
         </div>
       ) : null}
       <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
