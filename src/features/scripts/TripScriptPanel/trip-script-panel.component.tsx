@@ -25,12 +25,17 @@ export function TripScriptPanel() {
     <div className="trip-script-preview">
       <Grid columns={[13, 1]}>
         <div>
-          <Text size="xl">
-            Aqui, você pode pode ver como ficou seu roteiro, dia a dia.
-          </Text>
+          <Text size="xl">Aqui, você pode pode ver como ficou seu roteiro, dia a dia.</Text>
           <Text size="sm">Você ainda pode editá-lo, se quiser.</Text>
         </div>
-        <Button iconName="edit" variant="naked" size="sm" href={`/app/viagens/${idParam}/roteiro/configurar`}>Editar</Button>
+        <Button
+          iconName="edit"
+          variant="naked"
+          size="sm"
+          href={`/app/viagens/${idParam}/roteiro/configurar?cameFrom=dashboard`}
+        >
+          Editar
+        </Button>
       </Grid>
       <div className="trip-script-preview-day-section">
         {days ? (

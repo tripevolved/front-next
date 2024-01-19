@@ -8,13 +8,20 @@ import { Button, Grid } from "mars-ds";
 import { AddAttractionsSection } from "@/features";
 import { TripScriptDayComponent } from "../TripScriptDay";
 import { useIdParam } from "@/utils/hooks/param.hook";
+import { useRouter } from "next/router";
 
 export function UpdateAttractions({ className, children, sx, ...props }: UpdateAttractionsProps) {
   const cn = makeCn("update-attractions", className)(sx);
+  const router = useRouter();
 
   const idParam = useIdParam();
+  const cameFrom = String(router.query.cameFrom ?? "");
 
   const { data, setData, error, isLoading, updateTripScript } = useUpdateAttractions();
+  const SAVE_ROUTE_BUTTON =
+    cameFrom === "dashboard"
+      ? `/app/viagens/${idParam}/roteiro`
+      : `/app/viagens/${idParam}/roiteiro/configurar?day=${data.day}`;
 
   if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
@@ -49,7 +56,7 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
       </Grid>
       <Button
         className="update-attractions__save-button"
-        href={`/app/viagens/${idParam}/roteiro/configurar?day=${data.day}`}
+        href={SAVE_ROUTE_BUTTON}
         onClick={() => updateTripScript()}
       >
         Salvar
