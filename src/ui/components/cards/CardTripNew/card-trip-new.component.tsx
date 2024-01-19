@@ -5,7 +5,7 @@ import { useAppStore } from "@/core/store";
 
 export const CardTripNew = ({ href, iconName, title }: CardTripNewProps) => {
   const { availableFeatures } = useAppStore((state) => state.travelerState);
-  const enableNewTrip = false; //availableFeatures.includes("ITINERARY");
+  const enableNewTrip = availableFeatures.includes("ITINERARY");
 
   const childrenComponent = (
     <div className="card-trip-new__content">
