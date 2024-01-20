@@ -14,19 +14,17 @@ export function HasCurrentTrip() {
     <section className="has-current-trip">
       <Tabs
         tabs={[
-          { label: "Próximas viagens", children: <CurrentTrips /> },
-          {
-            label: "Viagens passadas",
-            children: <EmptyState text="Você ainda não possui viagens realizadas" />,
-          },
+          { label: "Próximas viagens", children: <MountTripTab tabType={"CURRENT"} /> },
+          { label: "Viagens passadas", children: <MountTripTab tabType={"PAST"} /> },
         ]}
       />
     </section>
   );
 }
 
-function CurrentTrips() {
-  const { isLoading, error, data } = useAllTrips();
+function MountTripTab({ tabType }: { tabType: "CURRENT" | "PAST" }) {
+  const pastTrips = tabType === "PAST" ? true : false;
+  const { isLoading, error, data } = useAllTrips(pastTrips);
 
   const hasTrip = data && (data.currentTrip || data.otherTrips?.length > 0);
 
@@ -36,10 +34,10 @@ function CurrentTrips() {
 
   if (!hasTrip) return <EmptyState />;
 
-  return <AllTrips {...data} />;
+  return <AllTrips {...data} disableDeletion={pastTrips} />;
 }
 
-function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
+function AllTrips({ currentTrip, otherTrips, disableDeletion = false }: AllTripsProps & { disableDeletion: boolean }) {
   return (
     <Grid className="all-trips py-md">
       {currentTrip ? (
@@ -50,7 +48,7 @@ function AllTrips({ currentTrip, otherTrips }: AllTripsProps) {
       <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
         <CardTripNew title="Nova viagem" iconName="Plane" href="/app/viagens/descobrir" />
         {otherTrips.map((trip) => (
-          <TripItem key={trip.id} {...trip} enableDeletion={trip.status !== "Só falta viajar!"} />
+          <TripItem key={trip.id} {...trip} enableDeletion={!disableDeletion && (trip.status !== "Só falta viajar!" && trip.status !== "Pena que já passou :(")} />
         ))}
       </Grid>
     </Grid>
@@ -71,7 +69,7 @@ function TripItem({
   const [photo] = images;
   const image = photo ? parsePhoto(photo) : undefined;
 
-  const { mutate } = useAllTrips();
+  const { mutate } = useAllTrips(false);
 
   const handleRemove = async (event: React.MouseEvent) => {
     event.stopPropagation();

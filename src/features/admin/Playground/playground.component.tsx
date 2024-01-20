@@ -15,6 +15,7 @@ const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 
 export const Playground = () => {
   const [showCode, setShowCode] = useState(true);
+  const [mobileView, setMobileView] = useState(false);
   const [value, setValue] = useLocalStorage("playground-trip-evolved", jsonToString(jsonDefault));
   const [autoSaveEnabled, setAutoSaveEnabled] = useState(false);
   const editorRef = useRef<null | any>(null);
@@ -58,6 +59,11 @@ export const Playground = () => {
           <Heading size="xs">Playground</Heading>
         </div>
         <div>
+          <OptionButton
+            iconName={mobileView ? "monitor" : "smartphone"}
+            onClick={() => setMobileView((state) => !state)}
+            title="Toggle mobile view"
+          />
           <OptionButton iconName="copy" onClick={onCopy} title="copy" />
           <OptionButton
             iconName="code"
@@ -75,6 +81,7 @@ export const Playground = () => {
         <div
           className={classNames("playground__ribo", {
             "playground__ribo--show-code": showCode,
+            "playground__ribo--is-mobile-view": mobileView,
           })}
         >
           <iframe src="/admin/playground/canvas" />
