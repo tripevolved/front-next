@@ -9,6 +9,7 @@ import { AddAttractionsSection } from "@/features";
 import { TripScriptDayComponent } from "../TripScriptDay";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { useRouter } from "next/router";
+import { SCRIPT_BUILDER_STEPS } from "../TripScriptBuilder/trip-script-builder.steps";
 
 export function UpdateAttractions({ className, children, sx, ...props }: UpdateAttractionsProps) {
   const cn = makeCn("update-attractions", className)(sx);
@@ -21,7 +22,7 @@ export function UpdateAttractions({ className, children, sx, ...props }: UpdateA
   const SAVE_ROUTE_BUTTON =
     cameFrom === "dashboard"
       ? `/app/viagens/${idParam}/roteiro`
-      : `/app/viagens/${idParam}/roteiro/configurar?day=${data.day}`;
+      : `/app/viagens/${idParam}/roteiro/configurar?day=${data.day}&stepName=build`;
 
   if (error) return <ErrorState />;
   if (isLoading) return <GlobalLoader />;
