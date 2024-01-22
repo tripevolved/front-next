@@ -1,6 +1,7 @@
-import { Card, CardElevations, Grid, Link } from "mars-ds";
+import { Button, Card, CardElevations, Grid, Link } from "mars-ds";
 import { TripDashboardCard } from "./trip-dashboard-card.component";
-import { CardHighlight, Picture, Text } from "@/ui";
+import { CardHighlight, HoverTooltipCard, Picture, Text } from "@/ui";
+import { useAppStore } from "@/core/store";
 
 export const TripDashboardScript = ({
   tripId,
@@ -8,6 +9,9 @@ export const TripDashboardScript = ({
   isScriptFinished = false
 }: { tripId: string, attractionsNumber: number, isScriptFinished: boolean }) => {
   const backToUrl = `/app/viagens/${tripId}`;
+
+  const { availableFeatures } = useAppStore(state => state.travelerState);
+  const allowScriptBuilder = false; availableFeatures.includes("SCRIPT");
 
   return (
     isScriptFinished ? (
@@ -29,18 +33,30 @@ export const TripDashboardScript = ({
       >
         <Picture src={`/assets/trip-dashboard/script.svg`} />
         <Text size="lg">Roteiro</Text>
-        <CardHighlight
-          variant="default"
-          heading="Vamos construir seu roteiro junto com você"
-          text="Recomendando as melhores experiências para o seu perfil e objetivo de viagem!"
-          style={{width: "100%"}}
-          cta={{
-            href: `/app/viagens/${tripId}/roteiro/configurar/?voltarPara=${backToUrl}`,
-            label: "Construir meu roteiro",
-            iconName: "arrow-right",
-            isRtl: true,
-          }}
-        />
+        {allowScriptBuilder ? (
+          <CardHighlight
+            variant="default"
+            heading="Vamos construir seu roteiro junto com você"
+            text="Recomendando as melhores experiências para o seu perfil e objetivo de viagem!"
+            style={{width: "100%"}}
+            cta={{
+              href: `/app/viagens/${tripId}/roteiro/configurar/?voltarPara=${backToUrl}`,
+              label: "Construir meu roteiro",
+              iconName: "arrow-right",
+              isRtl: true,
+            }}
+          />) : (
+            <CardHighlight
+              variant="default"
+              heading="Vamos construir seu roteiro junto com você"
+              text="Recomendando as melhores experiências para o seu perfil e objetivo de viagem!"
+              style={{width: "100%"}}
+            >
+              <HoverTooltipCard text="A construção do roteiro ainda não está disponível online.">
+                <Button variant="neutral" size="sm" label="Construir meu roteiro" iconName="lock" isRtl={true} />
+              </HoverTooltipCard>
+            </CardHighlight>
+          )}
       </Card>
     )
   );

@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { Picture, Text } from "@/ui";
+import { HoverTooltipCard, Picture, Text } from "@/ui";
 import {
   Button,
   Card,
@@ -15,6 +15,7 @@ import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 import { makeCn } from "@/utils/helpers/css.helpers";
+import { useAppStore } from "@/core/store";
 
 interface TripPricingBoxProps {
   destinationName: string;
@@ -31,6 +32,9 @@ export const TripPricingBox = ({
   isScriptBuilt,
   hasPhotos,
 }: TripPricingBoxProps) => {
+  const { availableFeatures } = useAppStore(state => state.travelerState);
+  const allowScriptBuilder = availableFeatures.includes("SCRIPT");
+  
   const idParam = useIdParam();
 
   const fetcherKey = `trip-pricing-${idParam}`;
@@ -59,7 +63,8 @@ export const TripPricingBox = ({
           serviceFee={data.serviceFee}
           total={data.amountWithDiscount ?? data.amount}
           isPaid={data.isPaid}
-          isBuilt={!!isScriptBuilt}
+          isScriptBuilt={!!isScriptBuilt}
+          isScriptAvailable={allowScriptBuilder}
           tripIncludes={data.includes}
         />
       </Card>
@@ -102,7 +107,8 @@ interface TripPricingBoxContentProps {
   serviceFee: number;
   total: number;
   isPaid: boolean;
-  isBuilt: boolean;
+  isScriptBuilt: boolean;
+  isScriptAvailable: boolean;
   tripId: string;
   tripIncludes: { title: string, slug: string | null }[];
 }
@@ -116,7 +122,8 @@ const TripPricingBoxContent = ({
   serviceFee,
   total,
   isPaid,
-  isBuilt,
+  isScriptBuilt,
+  isScriptAvailable,
   tripIncludes
 }: TripPricingBoxContentProps) => (
   <div className="trip-pricing-box-content">
@@ -144,7 +151,7 @@ const TripPricingBoxContent = ({
         <TripPricingBoxContentPrice label="Total" value={price} />
         <TripPricingBoxContentPrice label="Taxa" value={serviceFee} />
       </Grid>
-      <TripPricingBoxContentCta isBuilt={isBuilt} isPaid={isPaid} total={total} tripId={tripId} />
+      <TripPricingBoxContentCta isScriptBuilt={isScriptBuilt} isScriptAvailable={isScriptAvailable} isPaid={isPaid} total={total} tripId={tripId} />
       {description ? (
         <Text size="sm" className="color-text-secondary px-md">
           *{description}
@@ -171,10 +178,11 @@ const TripPricingBoxContentHeader = ({
 
 const TripPricingBoxContentCta = ({
   isPaid,
-  isBuilt,
+  isScriptBuilt,
+  isScriptAvailable,
   tripId,
   total,
-}: Pick<TripPricingBoxContentProps, "tripId" | "total" | "isPaid" | "isBuilt">) => {
+}: Pick<TripPricingBoxContentProps, "tripId" | "total" | "isPaid" | "isScriptBuilt" | "isScriptAvailable">) => {
   if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
 
   const BuyButton = ({ isPrimary = false }) => (
@@ -183,14 +191,21 @@ const TripPricingBoxContentCta = ({
     </Button>
   );
 
-  if (isBuilt) return <BuyButton isPrimary />;
+  if (isScriptBuilt) return <BuyButton isPrimary />;
 
   return (
     <Grid>
-      <Button variant={"tertiary" as any} href={`/app/viagens/${tripId}/roteiro/configurar/`}>
-        Construir meu roteiro
-      </Button>
-      <BuyButton />
+      {isScriptAvailable ? (
+        <Button variant={"tertiary" as any} href={`/app/viagens/${tripId}/roteiro/configurar/`}>
+          Construir meu roteiro
+        </Button>) : (
+        <HoverTooltipCard text="A construção do roteiro ainda não está disponível online.">
+          <Button variant={"naked"} href={`/app/viagens/${tripId}/roteiro/configurar/`} iconName="lock" disabled>
+            Construir meu roteiro
+          </Button>
+        </HoverTooltipCard>
+      )}
+      <BuyButton isPrimary={!isScriptAvailable} />
       <Text size="sm" className="px-md">
         <strong>Não se preocupe:</strong> comprando agora, você poderá construir o roteiro em um momento posterior
       </Text>
