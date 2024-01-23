@@ -5,6 +5,7 @@ import { Button, Link, ToggleButton } from "mars-ds";
 import { useEffect, useState } from "react";
 import { MenuItemProps } from "@/core/types";
 import { useAppStore } from "@/core/store";
+import { UserService } from "@/services/user";
 
 const subscribedMenu = {
   label: "Página do inscrito",
@@ -17,6 +18,7 @@ export function Navbar({ menu: inheritedMenu = [], exact }: NavbarProps) {
   const hasMenu = Boolean(menu?.length);
 
   const { lead } = useAppStore();
+  const isAuthorized = UserService.isAuth();
 
   useEffect(() => {
     if (exact || !lead.id) return;
@@ -39,7 +41,7 @@ export function Navbar({ menu: inheritedMenu = [], exact }: NavbarProps) {
         ) : null}
       </div>
       {hasMenu ? (
-        <menu className="navbar__menu" data-open={open}>
+        <menu className="navbar__menu gap-sm" data-open={open}>
           {menu?.map(({ label, href, isExternal, highlight }) => (
             <Button
               key={href}
@@ -50,6 +52,11 @@ export function Navbar({ menu: inheritedMenu = [], exact }: NavbarProps) {
               {label}
             </Button>
           ))}
+          {isAuthorized ? (
+            <Button href="/app/painel" variant="primary">
+              Acessar meu Painel
+            </Button>
+          ) : null}
         </menu>
       ) : null}
     </nav>
