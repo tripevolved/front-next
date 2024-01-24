@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { GTMService } from "./gtm-service";
 import { DATA_LAYER_NAME } from "./constants";
 
-const GTM_ID = "NPW6LMRB";
+const GTM_ID = "GTM-NPW6LMRB";
 
 export const useAnalytics = () => {
   useEffect(() => {
