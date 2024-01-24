@@ -42,21 +42,26 @@ export function Navbar({ menu: inheritedMenu = [], exact }: NavbarProps) {
       </div>
       {hasMenu ? (
         <menu className="navbar__menu gap-sm" data-open={open}>
-          {menu?.map(({ label, href, isExternal, highlight }) => (
-            <Button
-              key={href}
-              href={href}
-              variant={highlight ? "secondary" : "naked"}
-              target={isExternal ? "_blank" : undefined}
-            >
-              {label}
-            </Button>
-          ))}
-          {isAuthorized ? (
-            <Button href="/app/painel" variant="primary">
-              Acessar meu Painel
-            </Button>
-          ) : null}
+          {menu?.map(
+            ({
+              label,
+              href,
+              isExternal,
+              highlight,
+              authVerification,
+              internalHref,
+              internalLabel,
+            }) => (
+              <Button
+                key={href}
+                href={!authVerification ? href : isAuthorized ? internalHref : href}
+                variant={highlight ? "secondary" : "naked"}
+                target={isExternal ? "_blank" : undefined}
+              >
+                {!authVerification ? label : isAuthorized ? internalLabel : label}
+              </Button>
+            )
+          )}
         </menu>
       ) : null}
     </nav>

@@ -72,6 +72,29 @@
                 "placeholder_true": "true",
                 "default_value": false
               }
+            },
+            "authVerification": {
+              "type": "Boolean",
+              "config": {
+                "label": "Verificar Autenticação",
+                "placeholder_true": "false",
+                "placeholder_false": "true",
+                "default_value": false
+              }
+            },
+            "internalHref": {
+              "type": "Text",
+              "config": {
+                "label": "Link interno",
+                "placeholder": ""
+              }
+            },
+            "internalLabel": {
+              "type": "Text",
+              "config": {
+                "label": "Label interna",
+                "placeholder": ""
+              }
             }
           }
         }

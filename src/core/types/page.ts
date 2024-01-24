@@ -38,6 +38,9 @@ interface MenuItemProps {
   href: string;
   isExternal?: boolean;
   highlight?: boolean;
+  authVerification?: boolean;
+  internalHref?: string;
+  internalLabel?: string;
 }
 
 interface TemplateProps {
