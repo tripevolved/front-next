@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   transition: background-color ease 150ms;
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -13,10 +14,12 @@
     justify-content: center;
     gap: $spacing-lg;
   }
+
   a.link.btn {
     color: $color-brand-1;
     border-color: $color-brand-1;
   }
+
   &__image {
     background-color: $color-brand-6;
     border-radius: 50%;
@@ -26,6 +29,7 @@
     width: 52px;
     height: 52px;
   }
+
   &:hover {
     background-color: $color-brand-7;
   }
