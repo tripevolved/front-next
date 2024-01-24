@@ -8,9 +8,17 @@ const fathersDayMessage =
 const currentMessage = process.env.MKT_FLAG === "fathers_day" ? fathersDayMessage : defaultMessage;
 const whatsappLink = getWhatsappLink(currentMessage);
 
+const ID = "whatsapp-botao-flutuante";
+
 export function ChatFloatingButton() {
   return (
-    <a className="chat-floating-button" href={whatsappLink} target="_blank" rel="noreferrer">
+    <a
+      className="chat-floating-button"
+      id={ID}
+      href={whatsappLink}
+      target="_blank"
+      rel="noreferrer"
+    >
       <Icon name="whatsapp" size="xl" />
     </a>
   );
