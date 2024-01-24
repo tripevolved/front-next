@@ -32,6 +32,7 @@ export * from "./cards/CardHighlight";
 export * from "./cards/CardTrip";
 export * from "./cards/CardTripNew";
 export * from "./cards/CardYoutube";
+export * from "./cards/HoverTooltipCard";
 export * from "./cards/TooltipCard";
 export * from "./forms/AutoCompleteTextField";
 export * from "./forms/DatePicker";

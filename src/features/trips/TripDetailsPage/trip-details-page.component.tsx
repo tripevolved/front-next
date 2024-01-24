@@ -1,5 +1,3 @@
-import { TripTransportationSection } from "./trip-transportation.section";
-import { TripStaySection } from "./trip-stay.section";
 import { TripScriptSection } from "./trip-script.section";
 import { TripFoodTipsSection } from "./trip-food-tips.section";
 import { TripSupportSection } from "./trip-support.section";
