@@ -1,12 +1,19 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
 import { Skeleton, Grid, Modal, Button, Card, Icon } from "mars-ds";
-import { ErrorState, EmptyState, Picture, Text, CardHighlight, GlobalLoader } from "@/ui";
+import {
+  ErrorState,
+  EmptyState,
+  Picture,
+  Text,
+  CardHighlight,
+  GlobalLoader,
+  HoverTooltipCard,
+} from "@/ui";
 import useSWR from "swr";
 import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
 
-import { StayEditionButton } from "../TripDetailsPage/trip-stay.section";
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { AccommodationState } from "@/core/store/accomodation";
@@ -14,8 +21,12 @@ import { TripStay } from "@/core/types";
 import { TripStayServiceItem } from "../TripStayServiceItem";
 import { toFullDetailedDate } from "@/utils/helpers/dates.helpers";
 import { StayDetailsModal } from "@/features";
+import { useAppStore } from "@/core/store";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
+  const { availableFeatures } = useAppStore((state) => state.travelerState);
+  const allowStayEdit = availableFeatures.includes("STAY_EDIT");
+
   const router = useRouter();
 
   const fetcher = async () =>
@@ -32,7 +43,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     return (
       <>
         <div className="px-xl w-100 flex-column gap-lg">
-          <TripAccommodationEmptyState
+          <TripStayEmptyState
             tripId={props.tripId}
             tripItineraryActionId={props.tripItineraryActionId}
           />
@@ -59,6 +70,23 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     );
   };
 
+  if (error) return <ErrorState />;
+  if (isLoading) return <GlobalLoader inline />;
+
+  if (!data || !data.isSelected) {
+    return (
+      <>
+        <div className="px-xl w-100 flex-column gap-lg">
+          <TripStayEmptyState
+            tripId={props.tripId}
+            tripItineraryActionId={props.tripItineraryActionId}
+            allowEdit={allowStayEdit}
+          />
+        </div>
+      </>
+    );
+  }
+
   if (!data.isRoomSelected) {
     return (
       <>
@@ -68,6 +96,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
             tripItineraryActionId={props.tripItineraryActionId}
             tripStay={data}
             handleSeeDetails={() => handleSeeDetails()}
+            allowEdit={allowStayEdit}
           />
         </div>
       </>
@@ -123,6 +152,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
               tripId={props.tripId}
               itineraryActionId={props.tripItineraryActionId}
               accommodationData={data as AccommodationState}
+              allowEdit={allowStayEdit}
             />
           </Grid>
           {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
@@ -134,25 +164,44 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   );
 };
 
-const TripAccommodationEmptyState = ({ tripId = "", tripItineraryActionId = "" }) => (
-  <CardHighlight
-    variant="warning"
-    heading="Ainda não escolhemos a acomodação para sua viagem"
-    text="Fale conosco e vamos deixar tudo como você deseja!"
-    cta={{
-      href: `/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`,
-      label: "Escolher hospedagem",
-      iconName: "arrow-right",
-      isRtl: true,
-    }}
-  />
-);
+const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "", allowEdit = true }) => {
+  return allowEdit ? (
+    <CardHighlight
+      variant="warning"
+      heading="Ainda não escolhemos a acomodação para sua viagem"
+      text="Fale conosco e vamos deixar tudo como você deseja!"
+      cta={{
+        href: `/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`,
+        label: "Escolher hospedagem",
+        iconName: "arrow-right",
+        isRtl: true,
+      }}
+    />
+  ) : (
+    <CardHighlight
+      variant="warning"
+      heading="Ainda não escolhemos a acomodação para sua viagem"
+      text="Fale conosco e vamos deixar tudo como você deseja!"
+    >
+      <HoverTooltipCard text="A escolha da sua hospedagem ainda não está disponível online.">
+        <Button
+          variant="neutral"
+          size="sm"
+          label="Escolher hospedagem"
+          iconName="lock"
+          isRtl={true}
+        />
+      </HoverTooltipCard>
+    </CardHighlight>
+  );
+};
 
 interface TripStayEmptyRoomStateProps {
   tripId: string;
   tripItineraryActionId: string;
   tripStay: TripStay;
   handleSeeDetails: () => void;
+  allowEdit: boolean;
 }
 
 const TripStayEmptyRoomState = ({
@@ -160,6 +209,7 @@ const TripStayEmptyRoomState = ({
   tripItineraryActionId = "",
   tripStay,
   handleSeeDetails,
+  allowEdit,
 }: TripStayEmptyRoomStateProps) => {
   return (
     <Card className={"card-highlight card-highlight--warning"}>
@@ -186,15 +236,63 @@ const TripStayEmptyRoomState = ({
         </Button>
       </Grid>
       <div>
-        <Button
-          variant="neutral"
-          size="sm"
-          href={`/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`}
-          label="Escolher outra hospedagem online"
-          iconName="arrow-right"
-          isRtl={true}
-        />
+        {!allowEdit ? (
+          <HoverTooltipCard text="A escolha da sua hospedagem ainda não está disponível online.">
+            <Button
+              variant="neutral"
+              size="sm"
+              label="Escolher outra hospedagem online"
+              iconName="lock"
+              isRtl={true}
+              disabled
+            />
+          </HoverTooltipCard>
+        ) : (
+          <Button
+            variant="neutral"
+            size="sm"
+            href={`/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`}
+            label="Escolher outra hospedagem online"
+            iconName="arrow-right"
+            isRtl={true}
+          />
+        )}
       </div>
     </Card>
+  );
+};
+
+export const StayEditionButton = ({
+  tripId,
+  itineraryActionId,
+  accommodationData,
+  allowEdit,
+}: {
+  tripId: string;
+  accommodationData: AccommodationState;
+  itineraryActionId: string;
+  allowEdit: boolean;
+}) => {
+  const router = useRouter();
+  const { accommodation, updateAccommodation } = useAppStore((state) => ({
+    updateAccommodation: state.updateAccommodationState,
+    accommodation: state.accommodation,
+  }));
+
+  const handleClick = () => {
+    updateAccommodation({ ...accommodation, ...accommodationData, itineraryActionId });
+    router.push(`/app/viagens/${tripId}/hospedagem/editar?iditinerario=${itineraryActionId}`);
+  };
+
+  return allowEdit ? (
+    <Button variant="naked" size="sm" iconName="edit-2" onClick={handleClick}>
+      Editar
+    </Button>
+  ) : (
+    <HoverTooltipCard text="A escolha da sua hospedagem ainda não está disponível online.">
+      <Button variant="naked" size="sm" iconName="lock" onClick={handleClick}>
+        Editar
+      </Button>
+    </HoverTooltipCard>
   );
 };

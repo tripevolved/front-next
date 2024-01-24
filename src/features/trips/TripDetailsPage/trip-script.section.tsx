@@ -1,7 +1,8 @@
-import { CardHighlight } from "@/ui";
+import { CardHighlight, HoverTooltipCard } from "@/ui";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { Button, Grid, List } from "mars-ds";
 import { TripDetailInfo } from "./trip-detail-info.component";
+import { useAppStore } from "@/core/store";
 
 export const TripScriptSection = ({ isBuilt = false }) => (
   <>
@@ -47,8 +48,11 @@ export const TripScriptFeatures = ({ paddingLeft = 24 }: { paddingLeft?: number 
 );
 
 const TripScriptBuildCta = () => {
+  const { availableFeatures } = useAppStore(state => state.travelerState);
+  const allowScriptBuilder = availableFeatures.includes("SCRIPT");
+
   const idParam = useIdParam();
-  return (
+  return allowScriptBuilder ? (
     <CardHighlight
       variant="default"
       heading="Vamos construir seu roteiro junto com você"
@@ -60,5 +64,15 @@ const TripScriptBuildCta = () => {
         isRtl: true,
       }}
     />
+  ) : (
+    <CardHighlight
+      variant="default"
+      heading="Vamos construir seu roteiro junto com você"
+      text="Recomendando as melhores experiências para o seu perfil e objetivo de viagem!"
+    >
+      <HoverTooltipCard text="A construção do roteiro ainda não está disponível online.">
+        <Button variant="neutral" size="sm" label="Construir meu roteiro" iconName="lock" isRtl={true} />
+      </HoverTooltipCard>
+    </CardHighlight>
   );
 };

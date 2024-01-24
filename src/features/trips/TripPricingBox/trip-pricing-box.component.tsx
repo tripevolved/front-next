@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { Picture, Text } from "@/ui";
+import { HoverTooltipCard, Picture, Text } from "@/ui";
 import {
   Button,
   Card,
@@ -15,6 +15,7 @@ import { TripsApiService } from "@/services/api";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 import { makeCn } from "@/utils/helpers/css.helpers";
+import { useAppStore } from "@/core/store";
 
 interface TripPricingBoxProps {
   destinationName: string;
@@ -31,6 +32,10 @@ export const TripPricingBox = ({
   isScriptBuilt,
   hasPhotos,
 }: TripPricingBoxProps) => {
+  const { availableFeatures } = useAppStore(state => state.travelerState);
+  const allowScriptBuilder = availableFeatures.includes("SCRIPT");
+  const allowPurchase = availableFeatures.includes("PURCHASE");
+  
   const idParam = useIdParam();
 
   const fetcherKey = `trip-pricing-${idParam}`;
@@ -48,7 +53,7 @@ export const TripPricingBox = ({
   return (
     <div className={makeCn("trip-pricing-box", { "trip-pricing-box--offset": hasPhotos })()}>
       <div className="trip-pricing-box-spacer" />
-      <TripPricingBoxToggle title={destinationName} total={data.amountWithDiscount ?? data.amount} />
+      <TripPricingBoxToggle title={destinationName} total={data.amountWithDiscount ?? data.amount} isPurchaseAvailable={allowPurchase} />
       <Card className="trip-pricing-box__card" elevation={CardElevations.Low}>
         <TripPricingBoxContent
           tripId={idParam}
@@ -59,8 +64,10 @@ export const TripPricingBox = ({
           serviceFee={data.serviceFee}
           total={data.amountWithDiscount ?? data.amount}
           isPaid={data.isPaid}
-          isBuilt={!!isScriptBuilt}
+          isScriptBuilt={!!isScriptBuilt}
+          isScriptAvailable={allowScriptBuilder}
           tripIncludes={data.includes}
+          isPurchaseAvailable={allowPurchase}
         />
       </Card>
     </div>
@@ -70,7 +77,8 @@ export const TripPricingBox = ({
 const TripPricingBoxToggle = ({
   title,
   total,
-}: Pick<TripPricingBoxContentProps, "title" | "total">) => (
+  isPurchaseAvailable
+}: Pick<TripPricingBoxContentProps, "title" | "total" | "isPurchaseAvailable">) => (
   <Card
     as="button"
     elevation={CardElevations.Medium}
@@ -89,7 +97,11 @@ const TripPricingBoxToggle = ({
         </Text>
         <Icon className="trip-pricing-box-toggle__icon" name="chevron-up" />
       </Grid>
-      <Button>Comprar viagem</Button>
+      {isPurchaseAvailable ? <Button>Comprar viagem</Button> : (
+        <HoverTooltipCard text="A compra ainda não está disponível online. Fale conosco e ajustamos tudo para você.">
+          <Button iconName="lock" disabled style={{width: "100%"}}>Comprar viagem</Button>
+        </HoverTooltipCard>
+      )}
     </Grid>
   </Card>
 );
@@ -102,9 +114,11 @@ interface TripPricingBoxContentProps {
   serviceFee: number;
   total: number;
   isPaid: boolean;
-  isBuilt: boolean;
+  isScriptBuilt: boolean;
+  isScriptAvailable: boolean;
   tripId: string;
   tripIncludes: { title: string, slug: string | null }[];
+  isPurchaseAvailable: boolean;
 }
 
 const TripPricingBoxContent = ({
@@ -116,7 +130,9 @@ const TripPricingBoxContent = ({
   serviceFee,
   total,
   isPaid,
-  isBuilt,
+  isScriptBuilt,
+  isScriptAvailable,
+  isPurchaseAvailable,
   tripIncludes
 }: TripPricingBoxContentProps) => (
   <div className="trip-pricing-box-content">
@@ -144,7 +160,7 @@ const TripPricingBoxContent = ({
         <TripPricingBoxContentPrice label="Total" value={price} />
         <TripPricingBoxContentPrice label="Taxa" value={serviceFee} />
       </Grid>
-      <TripPricingBoxContentCta isBuilt={isBuilt} isPaid={isPaid} total={total} tripId={tripId} />
+      <TripPricingBoxContentCta isScriptBuilt={isScriptBuilt} isScriptAvailable={isScriptAvailable} isPaid={isPaid} total={total} tripId={tripId} isPurchaseAvailable={isPurchaseAvailable} />
       {description ? (
         <Text size="sm" className="color-text-secondary px-md">
           *{description}
@@ -171,26 +187,42 @@ const TripPricingBoxContentHeader = ({
 
 const TripPricingBoxContentCta = ({
   isPaid,
-  isBuilt,
+  isScriptBuilt,
+  isScriptAvailable,
+  isPurchaseAvailable,
   tripId,
   total,
-}: Pick<TripPricingBoxContentProps, "tripId" | "total" | "isPaid" | "isBuilt">) => {
+}: Pick<TripPricingBoxContentProps, "tripId" | "total" | "isPaid" | "isScriptBuilt" | "isScriptAvailable" | "isPurchaseAvailable">) => {
   if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
 
-  const BuyButton = ({ isPrimary = false }) => (
-    <Button variant={isPrimary ? "tertiary" : "neutral"} href={`/compra/${tripId}/`}>
-      Comprar por {formatToCurrencyBR(total)}
-    </Button>
+  const BuyButton = ({ isPrimary = false, isPurchaseAvailable = true }) => (
+    isPurchaseAvailable ? (
+      <Button variant={isPrimary ? "tertiary" : "neutral"} href={`/compra/${tripId}/`}>
+        Comprar por {formatToCurrencyBR(total)}
+      </Button>) : (
+      <HoverTooltipCard text="A compra ainda não está disponível online. Fale conosco e ajustamos tudo para você.">
+        <Button variant={isPrimary ? "tertiary" : "neutral"} href={`/compra/${tripId}/`} iconName="lock" disabled style={{width: "100%"}}>
+          Comprar por {formatToCurrencyBR(total)}
+        </Button>
+      </HoverTooltipCard>
+    )
   );
 
-  if (isBuilt) return <BuyButton isPrimary />;
+  if (isScriptBuilt) return <BuyButton isPrimary />;
 
   return (
     <Grid>
-      <Button variant={"tertiary" as any} href={`/app/viagens/${tripId}/roteiro/configurar/`}>
-        Construir meu roteiro
-      </Button>
-      <BuyButton />
+      {isScriptAvailable ? (
+        <Button variant={"tertiary" as any} href={`/app/viagens/${tripId}/roteiro/configurar/`}>
+          Construir meu roteiro
+        </Button>) : (
+        <HoverTooltipCard text="A construção do roteiro ainda não está disponível online.">
+          <Button variant={"naked"} href={`/app/viagens/${tripId}/roteiro/configurar/`} iconName="lock" disabled>
+            Construir meu roteiro
+          </Button>
+        </HoverTooltipCard>
+      )}
+      <BuyButton isPrimary={!isScriptAvailable} isPurchaseAvailable={isPurchaseAvailable} />
       <Text size="sm" className="px-md">
         <strong>Não se preocupe:</strong> comprando agora, você poderá construir o roteiro em um momento posterior
       </Text>
