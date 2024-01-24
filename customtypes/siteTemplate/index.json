@@ -86,14 +86,16 @@
               "type": "Text",
               "config": {
                 "label": "Link interno",
-                "placeholder": ""
+                "placeholder": "",
+                "default_value": ""
               }
             },
             "internalLabel": {
               "type": "Text",
               "config": {
                 "label": "Label interna",
-                "placeholder": ""
+                "placeholder": "",
+                "default_value": ""
               }
             }
           }
