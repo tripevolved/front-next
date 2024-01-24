@@ -32,7 +32,7 @@ export function TripScriptPanel() {
           iconName="edit"
           variant="naked"
           size="sm"
-          href={`/app/viagens/${idParam}/roteiro/configurar?cameFrom=dashboard`}
+          href={`/app/viagens/${idParam}/roteiro/configurar?vindoDe=dashboard`}
         >
           Editar
         </Button>
