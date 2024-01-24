@@ -127,7 +127,7 @@ export function TripHotelList({ tripId }: TripHotelListProps) {
         <Text heading size="sm" className="color-primary">
           Hotéis indisponíveis...
         </Text>
-        <EmptyState text="Infelizmente não existem hotéis disponiveis para esta localidade no momento" />
+        <EmptyState text="Infelizmente não existem hotéis disponíveis para esta localidade nas suas datas" />
       </div>
     );
 

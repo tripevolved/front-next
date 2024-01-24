@@ -13,7 +13,7 @@ import { AccommodationState } from "@/core/store/accomodation";
 import { TripStay } from "@/core/types";
 import { TripStayServiceItem } from "../TripStayServiceItem";
 import { toFullDetailedDate } from "@/utils/helpers/dates.helpers";
-import { SeeMoreAccommodation } from "./see-more-accommodation.modal";
+import { StayDetailsModal } from "@/features";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
   const router = useRouter();
@@ -24,23 +24,6 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     `get-itinerary-accommodation-action-${props.tripItineraryActionId}`,
     fetcher
   );
-
-  const handleSeeDetails = (tripStay: TripStay) => {
-    const modal = Modal.open(
-      () => (
-        <SeeMoreAccommodation
-          tripId={props.tripId}
-          itineraryActionId={props.tripItineraryActionId}
-          router={router}
-          onCloseModal={() => modal.close()}
-        />
-      ),
-      {
-        closable: true,
-        size: "md",
-      }
-    );
-  };
 
   if (error) return <ErrorState />;
   if (isLoading || isValidating) return <GlobalLoader inline />;
@@ -58,6 +41,24 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     );
   }
 
+  const handleSeeDetails = () => {
+    const modal = Modal.open(
+      () => (
+        <StayDetailsModal
+          tripId={props.tripId}
+          tripStay={data}
+          itineraryActionId={props.tripItineraryActionId}
+          router={router}
+          onCloseModal={() => modal.close()}
+        />
+      ),
+      {
+        closable: true,
+        size: "md",
+      }
+    );
+  };
+
   if (!data.isRoomSelected) {
     return (
       <>
@@ -66,7 +67,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
             tripId={props.tripId}
             tripItineraryActionId={props.tripItineraryActionId}
             tripStay={data}
-            handleSeeDetails={() => handleSeeDetails(data)}
+            handleSeeDetails={() => handleSeeDetails()}
           />
         </div>
       </>
@@ -82,7 +83,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
               <div className="stay-detail-info__item">
                 <Icon name="calendar" size="sm" color="#8253F6" />
                 <Text>
-                  Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até{" "}
+                  Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até
                   {`${toFullDetailedDate(data.checkOut)}`}
                 </Text>
               </div>
@@ -115,7 +116,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
             </div>
           </Grid>
           <Grid columns={["75%", "20%"]}>
-            <Button size="sm" variant="neutral" onClick={() => handleSeeDetails(data)}>
+            <Button size="sm" variant="neutral" onClick={() => handleSeeDetails()}>
               Ver detalhes
             </Button>
             <StayEditionButton
