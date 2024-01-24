@@ -11,7 +11,7 @@ export const TripDashboardScript = ({
   const backToUrl = `/app/viagens/${tripId}`;
 
   const { availableFeatures } = useAppStore(state => state.travelerState);
-  const allowScriptBuilder = availableFeatures.includes("SCRIPT");
+  const allowScriptBuilder = availableFeatures !== undefined ? availableFeatures.includes("SCRIPT") : false;
 
   return (
     isScriptFinished ? (
