@@ -10,6 +10,7 @@ import "@/ui/styles/index.scss";
 import { LeadProvider } from "@/features";
 import { Environment } from "@/utils/helpers/environment.helpers";
 import { AppAuthProvider } from "@/core/app-auth";
+import { useAnalytics } from "@/services/analytics";
 
 const LinkComponent = ({ url, ...props }: any) => {
   const isAnchor = /^#/.test(url);
@@ -18,6 +19,7 @@ const LinkComponent = ({ url, ...props }: any) => {
 };
 
 export default function App({ Component, pageProps }: AppProps) {
+  useAnalytics()
   return (
     <LeadProvider>
       <Seo />
