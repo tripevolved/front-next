@@ -112,7 +112,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
               <div className="stay-detail-info__item">
                 <Icon name="calendar" size="sm" color="#8253F6" />
                 <Text>
-                  Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até
+                  Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até 
                   {`${toFullDetailedDate(data.checkOut)}`}
                 </Text>
               </div>
