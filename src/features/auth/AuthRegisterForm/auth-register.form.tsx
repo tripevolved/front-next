@@ -8,18 +8,22 @@ import { UserApiService } from "@/services/api/user";
 import { useAppStore } from "@/core/store";
 import { LeadCreateDTO } from "@/core/types";
 
-
 export function AuthRegisterForm() {
   const [submitting, setSubmitting] = useState(false);
   const { leadCreate, lead } = useAppStore();
   const router = useRouter();
+  const redirectTo = String(router.query.redirectTo || "");
 
   const handleSubmit: SubmitHandler<LeadCreateDTO> = async (data) => {
     setSubmitting(true);
     try {
       const newLead = await UserApiService.uniqueSignUp(data);
       leadCreate(newLead);
-      router.replace(`/app/cadastro/${encodeURIComponent(newLead.uniqueId!)}?email=${encodeURIComponent(newLead.email)}`);
+      router.replace(
+        `/app/cadastro/${encodeURIComponent(newLead.uniqueId!)}?email=${encodeURIComponent(
+          newLead.email
+        )}&${redirectTo}`
+      );
     } catch (error) {
       console.error(error);
       setSubmitting(false);

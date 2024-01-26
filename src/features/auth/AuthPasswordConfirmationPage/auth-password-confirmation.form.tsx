@@ -12,13 +12,14 @@ import { AuthPasswordConfirmationNew } from "./auth-password-confirmation-new";
 
 type PasswordConfirmationData = Record<string, string>;
 
-export function  AuthPasswordConfirmationForm() {
+export function AuthPasswordConfirmationForm() {
   const { submitting, error, signUpResponse, confirmAccount } = useAccountConfirmation();
   const [data, setData] = useState<PasswordConfirmationData>({});
   const [passwordOK, setPasswordOK] = useState(false);
   const [terms, setTerms] = useState(false);
 
   const router = useRouter();
+  const redirectTo = String(router.query.redirectTo || "");
 
   const passwordConfirmationOK = data["password"] === data["passwordConfirmation"];
   const isValid = passwordOK && passwordConfirmationOK && terms;
@@ -30,9 +31,7 @@ export function  AuthPasswordConfirmationForm() {
 
   if (error || (signUpResponse && !signUpResponse.isSignUpSuccessful)) {
     if (signUpResponse?.resultType === "INVALID_SIGN_UP_TOKEN") {
-      return (
-        <AuthPasswordConfirmationNew />
-      );
+      return <AuthPasswordConfirmationNew />;
     }
 
     return (
@@ -45,8 +44,8 @@ export function  AuthPasswordConfirmationForm() {
     );
   }
 
-  if (signUpResponse && signUpResponse.isSignUpSuccessful){
-    router.replace("/app/entrar");
+  if (signUpResponse && signUpResponse.isSignUpSuccessful) {
+    router.replace(redirectTo !== "" ? `/app/entrar?redirectTo=${redirectTo}` : "/app/entrar");
   }
 
   return (
@@ -71,9 +70,25 @@ export function  AuthPasswordConfirmationForm() {
         required
         disabled={submitting}
       />
-      <ToggleSwitch label="Ao concluir seu cadastro, você concorda com nossos termos de uso e aviso de privacidade" defaultChecked={false} onChange={(checked) => setTerms(checked)}/>
-      <Link target="_blank" href={`https://www.tripevolved.com.br/termos-de-uso/`} iconName="external-link">Ver termos de uso</Link>
-      <Link target="_blank" href={`https://www.tripevolved.com.br/politica-de-privacidade/`} iconName="external-link">Ver aviso de privacidade</Link>
+      <ToggleSwitch
+        label="Ao concluir seu cadastro, você concorda com nossos termos de uso e aviso de privacidade"
+        defaultChecked={false}
+        onChange={(checked) => setTerms(checked)}
+      />
+      <Link
+        target="_blank"
+        href={`https://www.tripevolved.com.br/termos-de-uso/`}
+        iconName="external-link"
+      >
+        Ver termos de uso
+      </Link>
+      <Link
+        target="_blank"
+        href={`https://www.tripevolved.com.br/politica-de-privacidade/`}
+        iconName="external-link"
+      >
+        Ver aviso de privacidade
+      </Link>
     </AuthFormSection>
   );
 }
