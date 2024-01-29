@@ -22,7 +22,7 @@ export function AuthRegisterForm() {
       router.replace(
         `/app/cadastro/${encodeURIComponent(newLead.uniqueId!)}?email=${encodeURIComponent(
           newLead.email
-        )}&${redirectTo}`
+        )}&redirectTo=${redirectTo}`
       );
     } catch (error) {
       console.error(error);
