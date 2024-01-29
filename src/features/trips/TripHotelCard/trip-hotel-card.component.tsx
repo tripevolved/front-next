@@ -29,7 +29,6 @@ export const TripHotelCard = ({
           stayData={tripStay}
           tripId={tripId}
           router={router}
-          isModalView
         />
       ),
       {
@@ -38,6 +37,7 @@ export const TripHotelCard = ({
       }
     );
   };
+
   return (
     <Card
       className="trip-hotel-card"
@@ -46,7 +46,7 @@ export const TripHotelCard = ({
       <div className="trip-hotel-card__content">
         <Grid className="gap-md" columns={["150px", "auto"]}>
           <Picture className="trip-hotel-card__content__info__image">
-            {tripStayData.coverImage
+            {tripStayData.coverImage?.sources[0].url
               ? parsePhoto(tripStayData.coverImage)
               : tripStayData.coverImageUrl
               ? tripStayData.coverImageUrl
