@@ -17,12 +17,12 @@ export const GROUP_STEPS: TemplateStepsBuilderProps["steps"] = [
     component: StepCityRegistration,
   },
   {
-    title: "",
+    title: "Configuração da Viagem",
     name: "configuration",
     component: StepConfiguration,
   },
   {
-    title: "",
+    title: "Objetivos da viagem",
     name: "trip-goal",
     component: StepTripGoal,
   },
