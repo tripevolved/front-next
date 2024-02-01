@@ -20,9 +20,13 @@ export function AuthRegisterForm() {
       const newLead = await UserApiService.uniqueSignUp(data);
       leadCreate(newLead);
       router.replace(
-        `/app/cadastro/${encodeURIComponent(newLead.uniqueId!)}?email=${encodeURIComponent(
-          newLead.email
-        )}&redirectTo=${redirectTo}`
+        redirectTo
+          ? `/app/cadastro/${encodeURIComponent(newLead.uniqueId!)}?email=${encodeURIComponent(
+              newLead.email
+            )}&redirectTo=${redirectTo}`
+          : `/app/cadastro/${encodeURIComponent(newLead.uniqueId!)}?email=${encodeURIComponent(
+              newLead.email
+            )}`
       );
     } catch (error) {
       console.error(error);

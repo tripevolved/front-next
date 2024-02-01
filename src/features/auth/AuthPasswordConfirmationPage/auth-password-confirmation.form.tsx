@@ -9,6 +9,7 @@ import { UserApiService } from "@/services/api/user";
 import { SignUpResponse } from "@/services/api/user/sign-up";
 import { EmptyState } from "@/ui";
 import { AuthPasswordConfirmationNew } from "./auth-password-confirmation-new";
+import { useLogin } from "../AuthSignIn/use-login.hook";
 
 type PasswordConfirmationData = Record<string, string>;
 
@@ -17,9 +18,6 @@ export function AuthPasswordConfirmationForm() {
   const [data, setData] = useState<PasswordConfirmationData>({});
   const [passwordOK, setPasswordOK] = useState(false);
   const [terms, setTerms] = useState(false);
-
-  const router = useRouter();
-  const redirectTo = String(router.query.redirectTo || "");
 
   const passwordConfirmationOK = data["password"] === data["passwordConfirmation"];
   const isValid = passwordOK && passwordConfirmationOK && terms;
@@ -42,10 +40,6 @@ export function AuthPasswordConfirmationForm() {
         <Button href="/">Voltar à home</Button>
       </AuthSection>
     );
-  }
-
-  if (signUpResponse && signUpResponse.isSignUpSuccessful) {
-    router.replace(redirectTo !== "" ? `/app/entrar?redirectTo=${redirectTo}` : "/app/entrar");
   }
 
   return (
@@ -97,6 +91,7 @@ const useAccountConfirmation = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(false);
   const [signUpResponse, setSignUpResponse] = useState<SignUpResponse>();
+  const { login } = useLogin();
 
   const router = useRouter();
   const uniqueIdParam = typeof router.query.uniqueId === "string" ? router.query.uniqueId : null;
@@ -107,7 +102,10 @@ const useAccountConfirmation = () => {
     setError(false);
 
     return UserApiService.signUp({ email: emailParam, password, signUpUniqueId: uniqueIdParam })
-      .then(setSignUpResponse)
+      .then((data) => {
+        setSignUpResponse(data);
+        login({ email: emailParam, password });
+      })
       .catch(() => {
         setError(true);
       });
