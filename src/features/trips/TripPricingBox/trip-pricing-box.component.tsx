@@ -8,6 +8,7 @@ import {
   Grid,
   Icon,
   ItemButton,
+  ItemElement,
   Skeleton,
   SkeletonVariants,
 } from "mars-ds";
@@ -17,6 +18,7 @@ import { useIdParam } from "@/utils/hooks/param.hook";
 import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
+import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
 
 interface TripPricingBoxProps {
   destinationName: string;
@@ -180,6 +182,14 @@ const TripPricingBoxContent = ({
         total={total}
         tripId={tripId}
         isPurchaseAvailable={isPurchaseAvailable}
+        messageProps={{
+          budget: "R$ 39.000,00",
+          travelersNumber: 2,
+          tripName: "Natal",
+          dateArrange: "9 a 13 Abr/24",
+          userName: "Pablo Gabriel",
+          itinerary: "oaisdjas",
+        }}
       />
       {description ? (
         <Text size="sm" className="color-text-secondary px-md">
@@ -205,6 +215,15 @@ const TripPricingBoxContentHeader = ({
   </div>
 );
 
+interface MessageProps {
+  tripName: string;
+  budget: number | string;
+  itinerary: any;
+  userName: string;
+  dateArrange: string;
+  travelersNumber: number;
+}
+
 const TripPricingBoxContentCta = ({
   isPaid,
   isScriptBuilt,
@@ -212,10 +231,20 @@ const TripPricingBoxContentCta = ({
   isPurchaseAvailable,
   tripId,
   total,
+  messageProps,
 }: Pick<
   TripPricingBoxContentProps,
   "tripId" | "total" | "isPaid" | "isScriptBuilt" | "isScriptAvailable" | "isPurchaseAvailable"
->) => {
+> & { messageProps: MessageProps }) => {
+  const message = `
+    *Dados da Viagem:*
+    - Nome da Trip: ${messageProps.tripName};
+    - Orçamento: ${messageProps.budget};
+    - Itinerário: ${messageProps.itinerary};
+    - Nome do usuário: ${messageProps.userName};
+    - Número de viajantes: ${messageProps.travelersNumber}
+  `;
+
   if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
 
   const BuyButton = ({ isPrimary = false, isPurchaseAvailable = true }) =>
@@ -225,20 +254,21 @@ const TripPricingBoxContentCta = ({
       </Button>
     ) : (
       <HoverTooltipCard text="A compra ainda não está disponível online. Fale conosco e ajustamos tudo para você.">
-        {/* <Button
-          variant={isPrimary ? "tertiary" : "neutral"}
-          href={`/compra/${tripId}/`}
-          iconName="lock"
-          disabled
-          style={{ width: "100%" }}
-        >
-          Comprar por {formatToCurrencyBR(total)}
-        </Button> */}
-        <ItemButton
-          iconName="dollar"
-          title="Compra Manual"
-          subtitle="Disponibilizamos para a você a possibiliade de realizar a sua comprar com um de nossos especialistas. Clique aqui e te daremos todo suporte necessário para a compra de sua viagem"
-        />
+        <ItemElement className="flex-column gap-md">
+          <Text size="lg" style={{ color: "var(--color-gray-1)" }}>
+            Disponibilizamos para a você a possibilidade de{" "}
+            <span className="color-primary">
+              realizar a sua compra com um dos nossos especialistas
+            </span>
+            . Clique aqui e terá todo o suporte necessário em todas as etapas da sua viagem.
+          </Text>
+          <Button
+            iconName="whatsapp"
+            label="Realizar Compra"
+            size="sm"
+            href={getWhatsappLink(message)}
+          />
+        </ItemElement>
       </HoverTooltipCard>
     );
 
@@ -263,10 +293,12 @@ const TripPricingBoxContentCta = ({
         </HoverTooltipCard>
       )}
       <BuyButton isPrimary={!isScriptAvailable} isPurchaseAvailable={isPurchaseAvailable} />
-      <Text size="sm" className="px-md">
-        <strong>Não se preocupe:</strong> comprando agora, você poderá construir o roteiro em um
-        momento posterior
-      </Text>
+      {isPurchaseAvailable ? (
+        <Text size="sm" className="px-md">
+          <strong>Não se preocupe:</strong> comprando agora, você poderá construir o roteiro em um
+          momento posterior
+        </Text>
+      ) : null}
     </Grid>
   );
 };

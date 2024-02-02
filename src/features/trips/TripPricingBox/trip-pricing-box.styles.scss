@@ -27,6 +27,11 @@
       display: none;
     }
   }
+
+  @media(max-height: 760px) {
+    max-height: 730px;
+    overflow-y: scroll;
+  }
 }
 
 body[data-pricing-box="opened"] {
