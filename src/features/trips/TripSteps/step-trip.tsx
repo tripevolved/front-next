@@ -34,19 +34,19 @@ const TRIP_STEPS = [
   },
 ];
 
-const EIGHT_SECONDS_IN_MS = 8 * 1000;
-const MILLISECONDS = EIGHT_SECONDS_IN_MS;
+const TWELVE_SECONDS_IN_MS = 12 * 1000;
+const MILLISECONDS = TWELVE_SECONDS_IN_MS;
 const LOADING_STEPS = [
   {
     text: "Construindo sua viagem...",
     iconName: "settings",
   },
   {
-    text: "Procurando atrações para seu roteiro...",
+    text: "Procurando as melhores opções para seu itinerário...",
     iconName: "map",
   },
   {
-    text: "Estamos selecionando as melhores opções",
+    text: "Estamos selecionando tudo de acordo com seu perfil de viajante!",
     iconName: "search",
   },
 ];
