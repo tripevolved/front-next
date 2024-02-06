@@ -119,7 +119,6 @@ export function TripDetailsPage() {
               tripName: destination.title,
               username,
               email,
-              itinerary: "",
             }}
           />
         </Grid>
