@@ -19,6 +19,17 @@ import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.com
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
 import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
+import { SimpleItineraryAction } from "@/core/types";
+
+interface MessageProps {
+  tripName: string;
+  budget: number | string;
+  itinerary: SimpleItineraryAction[];
+  username: string;
+  email: string;
+  formattedDates: string;
+  travelersNumber: number | string;
+}
 
 interface TripPricingBoxProps {
   destinationName: string;
@@ -26,6 +37,7 @@ interface TripPricingBoxProps {
   numChildren?: number;
   isScriptBuilt?: boolean;
   hasPhotos?: boolean;
+  messageProps: MessageProps;
 }
 
 export const TripPricingBox = ({
@@ -34,8 +46,10 @@ export const TripPricingBox = ({
   numChildren = 0,
   isScriptBuilt,
   hasPhotos,
+  messageProps,
 }: TripPricingBoxProps) => {
   const { availableFeatures } = useAppStore((state) => state.travelerState);
+  const simpleItinerary = useAppStore((state) => state.simpleItinerary);
   const allowScriptBuilder = availableFeatures.includes("SCRIPT");
   const allowPurchase = availableFeatures.includes("PURCHASE");
 
@@ -75,6 +89,7 @@ export const TripPricingBox = ({
           isScriptAvailable={allowScriptBuilder}
           tripIncludes={data.includes}
           isPurchaseAvailable={allowPurchase}
+          messageProps={{ ...messageProps, itinerary: simpleItinerary.actions! }}
         />
       </Card>
     </div>
@@ -130,6 +145,7 @@ interface TripPricingBoxContentProps {
   tripId: string;
   tripIncludes: { title: string; slug: string | null }[];
   isPurchaseAvailable: boolean;
+  messageProps: MessageProps;
 }
 
 const TripPricingBoxContent = ({
@@ -145,6 +161,7 @@ const TripPricingBoxContent = ({
   isScriptAvailable,
   isPurchaseAvailable,
   tripIncludes,
+  messageProps,
 }: TripPricingBoxContentProps) => (
   <div className="trip-pricing-box-content">
     <ToggleButton
@@ -182,14 +199,7 @@ const TripPricingBoxContent = ({
         total={total}
         tripId={tripId}
         isPurchaseAvailable={isPurchaseAvailable}
-        messageProps={{
-          budget: "R$ 39.000,00",
-          travelersNumber: 2,
-          tripName: "Natal",
-          dateArrange: "9 a 13 Abr/24",
-          userName: "Pablo Gabriel",
-          itinerary: "oaisdjas",
-        }}
+        messageProps={messageProps}
       />
       {description ? (
         <Text size="sm" className="color-text-secondary px-md">
@@ -215,15 +225,6 @@ const TripPricingBoxContentHeader = ({
   </div>
 );
 
-interface MessageProps {
-  tripName: string;
-  budget: number | string;
-  itinerary: any;
-  userName: string;
-  dateArrange: string;
-  travelersNumber: number;
-}
-
 const TripPricingBoxContentCta = ({
   isPaid,
   isScriptBuilt,
@@ -237,11 +238,14 @@ const TripPricingBoxContentCta = ({
   "tripId" | "total" | "isPaid" | "isScriptBuilt" | "isScriptAvailable" | "isPurchaseAvailable"
 > & { messageProps: MessageProps }) => {
   const message = `
-    *Dados da Viagem:*
-    - Nome da Trip: ${messageProps.tripName};
+  Olá, eu sou ${messageProps.username}. Segue os dados da minha viagem para ${messageProps.tripName}
+
+  *Dados da Viagem:*
     - Orçamento: ${messageProps.budget};
-    - Itinerário: ${messageProps.itinerary};
-    - Nome do usuário: ${messageProps.userName};
+    - Itinerário:${messageProps.itinerary.map(
+      (item) => `
+        - ${item.title}`
+    )};
     - Número de viajantes: ${messageProps.travelersNumber}
   `;
 
@@ -266,6 +270,7 @@ const TripPricingBoxContentCta = ({
             iconName="whatsapp"
             label="Realizar Compra"
             size="sm"
+            target="_blank"
             href={getWhatsappLink(message)}
           />
         </ItemElement>
