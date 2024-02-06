@@ -22,7 +22,7 @@ export function StayDetailsModal({
     if (onCloseModal) onCloseModal();
     router.push(`/app/viagens/${tripId}/hospedagem/editar?iditinerario=${itineraryActionId}`);
   };
-allowEdit = false;
+  
   return (
     <>
       {/** @ts-ignore */}
