@@ -61,6 +61,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
           itineraryActionId={props.tripItineraryActionId}
           router={router}
           onCloseModal={() => modal.close()}
+          allowEdit={allowStayEdit}
         />
       ),
       {
