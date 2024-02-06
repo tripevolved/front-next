@@ -7,7 +7,6 @@ import {
   Divider,
   Grid,
   Icon,
-  ItemButton,
   ItemElement,
   Skeleton,
   SkeletonVariants,
@@ -24,7 +23,7 @@ import { SimpleItineraryAction } from "@/core/types";
 interface MessageProps {
   tripName: string;
   budget: number | string;
-  itinerary: SimpleItineraryAction[];
+  itinerary?: SimpleItineraryAction[];
   username: string;
   email: string;
   formattedDates: string;
@@ -89,7 +88,7 @@ export const TripPricingBox = ({
           isScriptAvailable={allowScriptBuilder}
           tripIncludes={data.includes}
           isPurchaseAvailable={allowPurchase}
-          messageProps={{ ...messageProps, itinerary: simpleItinerary.actions! }}
+          messageProps={{ ...messageProps, itinerary: simpleItinerary.actions }}
         />
       </Card>
     </div>
@@ -242,7 +241,7 @@ const TripPricingBoxContentCta = ({
 
   *Dados da Viagem:*
     - Orçamento: ${messageProps.budget};
-    - Itinerário:${messageProps.itinerary.map(
+    - Itinerário:${messageProps.itinerary!.map(
       (item) => `
         - ${item.title}`
     )};
@@ -257,24 +256,22 @@ const TripPricingBoxContentCta = ({
         Comprar por {formatToCurrencyBR(total)}
       </Button>
     ) : (
-      <HoverTooltipCard text="A compra ainda não está disponível online. Fale conosco e ajustamos tudo para você.">
-        <ItemElement className="flex-column gap-md">
-          <Text size="lg" style={{ color: "var(--color-gray-1)" }}>
-            Disponibilizamos para a você a possibilidade de{" "}
-            <span className="color-primary">
-              realizar a sua compra com um dos nossos especialistas
-            </span>
-            . Clique aqui e terá todo o suporte necessário em todas as etapas da sua viagem.
-          </Text>
-          <Button
-            iconName="whatsapp"
-            label="Realizar Compra"
-            size="sm"
-            target="_blank"
-            href={getWhatsappLink(message)}
-          />
-        </ItemElement>
-      </HoverTooltipCard>
+      <ItemElement className="flex-column gap-md">
+        <Text size="lg" style={{ color: "var(--color-gray-1)" }}>
+          Disponibilizamos para a você a possibilidade de{" "}
+          <span className="color-primary">
+            realizar a sua compra com um dos nossos especialistas
+          </span>
+          . Clique aqui e terá todo o suporte necessário em todas as etapas da sua viagem.
+        </Text>
+        <Button
+          iconName="whatsapp"
+          label="Realizar Compra"
+          size="sm"
+          target="_blank"
+          href={getWhatsappLink(message)}
+        />
+      </ItemElement>
     );
 
   if (isScriptBuilt) return <BuyButton isPrimary />;

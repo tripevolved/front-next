@@ -19,9 +19,6 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
   const fetcher = async () => TripsApiService.getItinerary(tripId);
   const { data, isLoading, error } = useSWR(`get-trip-itinerary-${tripId}`, fetcher);
 
-  if (error) return <ErrorState />;
-  if (data?.actions.length == 0) return <EmptyState />;
-
   const buildSimpleItinerary = (itinerary: ItineraryList) => {
     setSimpleItinerary({
       actions: itinerary.actions.map((action) => ({ type: action.type, title: action.title })),
@@ -31,6 +28,9 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
   useEffect(() => {
     if (data) buildSimpleItinerary(data);
   }, []);
+
+  if (error) return <ErrorState />;
+  if (data?.actions.length == 0) return <EmptyState />;
 
   return (
     <Card className="itinerary flex-column gap-lg" elevation={CardElevations.Low}>
