@@ -7,6 +7,7 @@ import {
   Divider,
   Grid,
   Icon,
+  ItemElement,
   Skeleton,
   SkeletonVariants,
 } from "mars-ds";
@@ -16,6 +17,18 @@ import { useIdParam } from "@/utils/hooks/param.hook";
 import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
+import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
+import { SimpleItineraryAction } from "@/core/types";
+
+interface MessageProps {
+  tripName: string;
+  budget: number;
+  itinerary?: SimpleItineraryAction[];
+  username: string;
+  email: string;
+  formattedDates: string;
+  travelersNumber: number | string;
+}
 
 interface TripPricingBoxProps {
   destinationName: string;
@@ -23,6 +36,7 @@ interface TripPricingBoxProps {
   numChildren?: number;
   isScriptBuilt?: boolean;
   hasPhotos?: boolean;
+  messageProps: MessageProps;
 }
 
 export const TripPricingBox = ({
@@ -31,11 +45,13 @@ export const TripPricingBox = ({
   numChildren = 0,
   isScriptBuilt,
   hasPhotos,
+  messageProps,
 }: TripPricingBoxProps) => {
-  const { availableFeatures } = useAppStore(state => state.travelerState);
+  const { availableFeatures } = useAppStore((state) => state.travelerState);
+  const simpleItinerary = useAppStore((state) => state.simpleItinerary);
   const allowScriptBuilder = availableFeatures.includes("SCRIPT");
   const allowPurchase = availableFeatures.includes("PURCHASE");
-  
+
   const idParam = useIdParam();
 
   const fetcherKey = `trip-pricing-${idParam}`;
@@ -53,7 +69,11 @@ export const TripPricingBox = ({
   return (
     <div className={makeCn("trip-pricing-box", { "trip-pricing-box--offset": hasPhotos })()}>
       <div className="trip-pricing-box-spacer" />
-      <TripPricingBoxToggle title={destinationName} total={data.amountWithDiscount ?? data.amount} isPurchaseAvailable={allowPurchase} />
+      <TripPricingBoxToggle
+        title={destinationName}
+        total={data.amountWithDiscount ?? data.amount}
+        isPurchaseAvailable={allowPurchase}
+      />
       <Card className="trip-pricing-box__card" elevation={CardElevations.Low}>
         <TripPricingBoxContent
           tripId={idParam}
@@ -68,6 +88,7 @@ export const TripPricingBox = ({
           isScriptAvailable={allowScriptBuilder}
           tripIncludes={data.includes}
           isPurchaseAvailable={allowPurchase}
+          messageProps={{ ...messageProps, itinerary: simpleItinerary.actions }}
         />
       </Card>
     </div>
@@ -77,7 +98,7 @@ export const TripPricingBox = ({
 const TripPricingBoxToggle = ({
   title,
   total,
-  isPurchaseAvailable
+  isPurchaseAvailable,
 }: Pick<TripPricingBoxContentProps, "title" | "total" | "isPurchaseAvailable">) => (
   <Card
     as="button"
@@ -97,9 +118,13 @@ const TripPricingBoxToggle = ({
         </Text>
         <Icon className="trip-pricing-box-toggle__icon" name="chevron-up" />
       </Grid>
-      {isPurchaseAvailable ? <Button>Comprar viagem</Button> : (
+      {isPurchaseAvailable ? (
+        <Button>Comprar viagem</Button>
+      ) : (
         <HoverTooltipCard text="A compra ainda não está disponível online. Fale conosco e ajustamos tudo para você.">
-          <Button iconName="lock" disabled style={{width: "100%"}}>Comprar viagem</Button>
+          <Button iconName="lock" disabled style={{ width: "100%" }}>
+            Comprar viagem
+          </Button>
         </HoverTooltipCard>
       )}
     </Grid>
@@ -117,8 +142,9 @@ interface TripPricingBoxContentProps {
   isScriptBuilt: boolean;
   isScriptAvailable: boolean;
   tripId: string;
-  tripIncludes: { title: string, slug: string | null }[];
+  tripIncludes: { title: string; slug: string | null }[];
   isPurchaseAvailable: boolean;
+  messageProps: MessageProps;
 }
 
 const TripPricingBoxContent = ({
@@ -133,7 +159,8 @@ const TripPricingBoxContent = ({
   isScriptBuilt,
   isScriptAvailable,
   isPurchaseAvailable,
-  tripIncludes
+  tripIncludes,
+  messageProps,
 }: TripPricingBoxContentProps) => (
   <div className="trip-pricing-box-content">
     <ToggleButton
@@ -152,7 +179,11 @@ const TripPricingBoxContent = ({
       </Text>
       <Grid gap={12} className="px-md">
         {tripIncludes.map((item, key) => (
-          <TripPricingBoxContentItem key={key} image={`/assets/destino/${item.slug}.svg`} text={item.title} />
+          <TripPricingBoxContentItem
+            key={key}
+            image={`/assets/destino/${item.slug}.svg`}
+            text={item.title}
+          />
         ))}
       </Grid>
       <Divider />
@@ -160,7 +191,15 @@ const TripPricingBoxContent = ({
         <TripPricingBoxContentPrice label="Total" value={price} />
         <TripPricingBoxContentPrice label="Taxa" value={serviceFee} />
       </Grid>
-      <TripPricingBoxContentCta isScriptBuilt={isScriptBuilt} isScriptAvailable={isScriptAvailable} isPaid={isPaid} total={total} tripId={tripId} isPurchaseAvailable={isPurchaseAvailable} />
+      <TripPricingBoxContentCta
+        isScriptBuilt={isScriptBuilt}
+        isScriptAvailable={isScriptAvailable}
+        isPaid={isPaid}
+        total={total}
+        tripId={tripId}
+        isPurchaseAvailable={isPurchaseAvailable}
+        messageProps={messageProps}
+      />
       {description ? (
         <Text size="sm" className="color-text-secondary px-md">
           *{description}
@@ -192,21 +231,49 @@ const TripPricingBoxContentCta = ({
   isPurchaseAvailable,
   tripId,
   total,
-}: Pick<TripPricingBoxContentProps, "tripId" | "total" | "isPaid" | "isScriptBuilt" | "isScriptAvailable" | "isPurchaseAvailable">) => {
+  messageProps,
+}: Pick<
+  TripPricingBoxContentProps,
+  "tripId" | "total" | "isPaid" | "isScriptBuilt" | "isScriptAvailable" | "isPurchaseAvailable"
+> & { messageProps: MessageProps }) => {
+  const message = `
+  Olá, eu sou ${messageProps.username}. Segue os dados da minha viagem para ${messageProps.tripName}
+
+  *Dados da Viagem:*
+    - Posso gastar até ${formatToCurrencyBR(messageProps.budget)};
+    - Itinerário:${messageProps.itinerary!.map(
+      (item) => `
+        - ${item.title}`
+    )};
+    - Número de viajantes: ${messageProps.travelersNumber}
+    - Datas da viagem: ${messageProps.formattedDates}
+  `;
+
   if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
 
-  const BuyButton = ({ isPrimary = false, isPurchaseAvailable = true }) => (
+  const BuyButton = ({ isPrimary = false, isPurchaseAvailable = true }) =>
     isPurchaseAvailable ? (
       <Button variant={isPrimary ? "tertiary" : "neutral"} href={`/compra/${tripId}/`}>
         Comprar por {formatToCurrencyBR(total)}
-      </Button>) : (
-      <HoverTooltipCard text="A compra ainda não está disponível online. Fale conosco e ajustamos tudo para você.">
-        <Button variant={isPrimary ? "tertiary" : "neutral"} href={`/compra/${tripId}/`} iconName="lock" disabled style={{width: "100%"}}>
-          Comprar por {formatToCurrencyBR(total)}
-        </Button>
-      </HoverTooltipCard>
-    )
-  );
+      </Button>
+    ) : (
+      <ItemElement className="flex-column gap-md">
+        <Text size="lg" style={{ color: "var(--color-gray-1)" }}>
+          Disponibilizamos para você a possibilidade de{" "}
+          <span className="color-primary">
+            realizar a sua compra com um dos nossos especialistas
+          </span>
+          . Clique aqui e terá todo o suporte necessário em todas as etapas da sua viagem.
+        </Text>
+        <Button
+          iconName="whatsapp"
+          label="Realizar Compra"
+          size="sm"
+          target="_blank"
+          href={getWhatsappLink(message)}
+        />
+      </ItemElement>
+    );
 
   if (isScriptBuilt) return <BuyButton isPrimary />;
 
@@ -215,17 +282,26 @@ const TripPricingBoxContentCta = ({
       {isScriptAvailable ? (
         <Button variant={"tertiary" as any} href={`/app/viagens/${tripId}/roteiro/configurar/`}>
           Construir meu roteiro
-        </Button>) : (
+        </Button>
+      ) : (
         <HoverTooltipCard text="A construção do roteiro ainda não está disponível online.">
-          <Button variant={"naked"} href={`/app/viagens/${tripId}/roteiro/configurar/`} iconName="lock" disabled>
+          <Button
+            variant={"naked"}
+            href={`/app/viagens/${tripId}/roteiro/configurar/`}
+            iconName="lock"
+            disabled
+          >
             Construir meu roteiro
           </Button>
         </HoverTooltipCard>
       )}
       <BuyButton isPrimary={!isScriptAvailable} isPurchaseAvailable={isPurchaseAvailable} />
-      <Text size="sm" className="px-md">
-        <strong>Não se preocupe:</strong> comprando agora, você poderá construir o roteiro em um momento posterior
-      </Text>
+      {isPurchaseAvailable ? (
+        <Text size="sm" className="px-md">
+          <strong>Não se preocupe:</strong> comprando agora, você poderá construir o roteiro em um
+          momento posterior
+        </Text>
+      ) : null}
     </Grid>
   );
 };

@@ -21,3 +21,12 @@ export interface ItineraryList {
   tripId: string;
   actions: ItineraryAction[];
 }
+
+export interface SimpleItineraryAction {
+  type: ItineraryActionType;
+  title: string;
+}
+
+export interface SimpleItinerary {
+  actions: SimpleItineraryAction[];
+}
