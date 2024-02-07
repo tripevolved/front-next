@@ -7,5 +7,6 @@ export interface StayDetailsModalProps {
   router: NextRouter;
   onCloseModal?: VoidFunction;
   tripStay: TripStay;
+  allowEdit: Boolean;
 }
   

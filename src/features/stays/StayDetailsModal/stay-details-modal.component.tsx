@@ -1,4 +1,4 @@
-import { Box, Text, Picture } from "@/ui";
+import { Box, Text, Picture, HoverTooltipCard } from "@/ui";
 
 import { Button, Divider, Grid, Skeleton } from "mars-ds";
 
@@ -15,13 +15,14 @@ export function StayDetailsModal({
   itineraryActionId,
   router,
   onCloseModal,
-  tripStay
+  tripStay,
+  allowEdit
 }: StayDetailsModalProps) {
   const handleEditButton = () => {
     if (onCloseModal) onCloseModal();
     router.push(`/app/viagens/${tripId}/hospedagem/editar?iditinerario=${itineraryActionId}`);
   };
-
+  
   return (
     <>
       {/** @ts-ignore */}
@@ -95,9 +96,18 @@ export function StayDetailsModal({
           ) : null}
         </Box>
         <Box className="flex justify-content-center px-md">
-          <Button className="w-100" style={{ maxWidth: 380 }} onClick={() => handleEditButton()}>
-            Editar
-          </Button>
+          {allowEdit ? (
+              <Button className="w-100" style={{ maxWidth: 380 }} onClick={() => handleEditButton()}>
+              Editar
+            </Button>
+            ) : (
+              <HoverTooltipCard text="A escolha da sua hospedagem ainda não está disponível online.">
+                <Button className="w-100" style={{ maxWidth: 380 }} variant="secondary" size="sm" iconName="lock">
+                  Editar
+                </Button>
+              </HoverTooltipCard>
+            )
+          }          
         </Box>
       </div>
     </>
