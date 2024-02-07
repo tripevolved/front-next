@@ -9,16 +9,15 @@ import { UserApiService } from "@/services/api/user";
 import { SignUpResponse } from "@/services/api/user/sign-up";
 import { EmptyState } from "@/ui";
 import { AuthPasswordConfirmationNew } from "./auth-password-confirmation-new";
+import { useLogin } from "../AuthSignIn/use-login.hook";
 
 type PasswordConfirmationData = Record<string, string>;
 
-export function  AuthPasswordConfirmationForm() {
+export function AuthPasswordConfirmationForm() {
   const { submitting, error, signUpResponse, confirmAccount } = useAccountConfirmation();
   const [data, setData] = useState<PasswordConfirmationData>({});
   const [passwordOK, setPasswordOK] = useState(false);
   const [terms, setTerms] = useState(false);
-
-  const router = useRouter();
 
   const passwordConfirmationOK = data["password"] === data["passwordConfirmation"];
   const isValid = passwordOK && passwordConfirmationOK && terms;
@@ -30,9 +29,7 @@ export function  AuthPasswordConfirmationForm() {
 
   if (error || (signUpResponse && !signUpResponse.isSignUpSuccessful)) {
     if (signUpResponse?.resultType === "INVALID_SIGN_UP_TOKEN") {
-      return (
-        <AuthPasswordConfirmationNew />
-      );
+      return <AuthPasswordConfirmationNew />;
     }
 
     return (
@@ -43,10 +40,6 @@ export function  AuthPasswordConfirmationForm() {
         <Button href="/">Voltar à home</Button>
       </AuthSection>
     );
-  }
-
-  if (signUpResponse && signUpResponse.isSignUpSuccessful){
-    router.replace("/app/entrar");
   }
 
   return (
@@ -71,9 +64,25 @@ export function  AuthPasswordConfirmationForm() {
         required
         disabled={submitting}
       />
-      <ToggleSwitch label="Ao concluir seu cadastro, você concorda com nossos termos de uso e aviso de privacidade" defaultChecked={false} onChange={(checked) => setTerms(checked)}/>
-      <Link target="_blank" href={`https://www.tripevolved.com.br/termos-de-uso/`} iconName="external-link">Ver termos de uso</Link>
-      <Link target="_blank" href={`https://www.tripevolved.com.br/politica-de-privacidade/`} iconName="external-link">Ver aviso de privacidade</Link>
+      <ToggleSwitch
+        label="Ao concluir seu cadastro, você concorda com nossos termos de uso e aviso de privacidade"
+        defaultChecked={false}
+        onChange={(checked) => setTerms(checked)}
+      />
+      <Link
+        target="_blank"
+        href={`https://www.tripevolved.com.br/termos-de-uso/`}
+        iconName="external-link"
+      >
+        Ver termos de uso
+      </Link>
+      <Link
+        target="_blank"
+        href={`https://www.tripevolved.com.br/politica-de-privacidade/`}
+        iconName="external-link"
+      >
+        Ver aviso de privacidade
+      </Link>
     </AuthFormSection>
   );
 }
@@ -82,6 +91,7 @@ const useAccountConfirmation = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(false);
   const [signUpResponse, setSignUpResponse] = useState<SignUpResponse>();
+  const { login } = useLogin();
 
   const router = useRouter();
   const uniqueIdParam = typeof router.query.uniqueId === "string" ? router.query.uniqueId : null;
@@ -92,7 +102,10 @@ const useAccountConfirmation = () => {
     setError(false);
 
     return UserApiService.signUp({ email: emailParam, password, signUpUniqueId: uniqueIdParam })
-      .then(setSignUpResponse)
+      .then((data) => {
+        setSignUpResponse(data);
+        login({ email: emailParam, password });
+      })
       .catch(() => {
         setError(true);
       });

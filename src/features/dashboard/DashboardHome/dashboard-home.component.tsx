@@ -13,8 +13,8 @@ export function DashboardHome() {
   const firstName = name.replace(/\s.*/, "");
   const title = `Olá, ${firstName} 👋`;
   const subtitle = useMemo(() => {
-    if (!travelerProfile) return "Queremos saber qual é o seu perfil de viagem!";
     if (hasCurrentTrip) return "Você tem uma viagem em aberto.";
+    if (!travelerProfile) return "Queremos saber qual é o seu perfil de viajante!";
     return "Te esperamos na sua próxima viagem.";
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

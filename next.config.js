@@ -6,6 +6,7 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_API_URL: process.env.API_URL,
     NEXT_PUBLIC_API_KEY: process.env.API_KEY,
+    NEXT_PUBLIC_CAN_SIGNUP: process.env.CAN_SIGNUP,
   },
   images: {
     unoptimized: true,
