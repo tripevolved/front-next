@@ -240,7 +240,7 @@ const TripPricingBoxContentCta = ({
   Olá, eu sou ${messageProps.username}. Segue os dados da minha viagem para ${messageProps.tripName}
 
   *Dados da Viagem:*
-    - Orçamento: ${messageProps.budget};
+    - Posso gastar até ${turnIntoCurrency(messageProps.budget)};
     - Itinerário:${messageProps.itinerary!.map(
       (item) => `
         - ${item.title}`
