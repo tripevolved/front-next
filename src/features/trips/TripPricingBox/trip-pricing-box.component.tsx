@@ -22,7 +22,7 @@ import { SimpleItineraryAction } from "@/core/types";
 
 interface MessageProps {
   tripName: string;
-  budget: number | string;
+  budget: number;
   itinerary?: SimpleItineraryAction[];
   username: string;
   email: string;
@@ -240,12 +240,13 @@ const TripPricingBoxContentCta = ({
   Olá, eu sou ${messageProps.username}. Segue os dados da minha viagem para ${messageProps.tripName}
 
   *Dados da Viagem:*
-    - Posso gastar até ${turnIntoCurrency(messageProps.budget)};
+    - Posso gastar até ${formatToCurrencyBR(messageProps.budget)};
     - Itinerário:${messageProps.itinerary!.map(
       (item) => `
         - ${item.title}`
     )};
     - Número de viajantes: ${messageProps.travelersNumber}
+    - Datas da viagem: ${messageProps.formattedDates}
   `;
 
   if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
