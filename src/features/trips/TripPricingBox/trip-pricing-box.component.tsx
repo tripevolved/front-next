@@ -258,7 +258,7 @@ const TripPricingBoxContentCta = ({
     ) : (
       <ItemElement className="flex-column gap-md">
         <Text size="lg" style={{ color: "var(--color-gray-1)" }}>
-          Disponibilizamos para a você a possibilidade de{" "}
+          Disponibilizamos para você a possibilidade de{" "}
           <span className="color-primary">
             realizar a sua compra com um dos nossos especialistas
           </span>
