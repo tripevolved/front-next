@@ -6,7 +6,7 @@ import { Button, Card } from "mars-ds";
 export default function AuthSignUpRoute() {
   return (
     <PageApp hideHeader seo={{ title: "Cadastro" }}>
-      {canSignUp() ? <RegisterNotAvailable /> : <AuthRegisterForm />}
+      {canSignUp() ? <AuthRegisterForm /> : <RegisterNotAvailable />}
     </PageApp>
   );
 }
