@@ -87,14 +87,7 @@ export const TripPricingBox = ({
           isPaid={data.isPaid}
           isScriptBuilt={!!isScriptBuilt}
           isScriptAvailable={allowScriptBuilder}
-          tripIncludes={[
-            { slug: "carro", title: "Titulo de teste" },
-            { slug: "roteiro", title: "Titulo de teste" },
-            { slug: "hospedagem", title: "Titulo de teste" },
-            { slug: "carro", title: "Titulo de teste" },
-            { slug: "suporte", title: "Titulo de teste" },
-            { slug: "dicas-gastronomicas", title: "Titulo de teste" },
-          ]}
+          tripIncludes={data.includes}
           isPurchaseAvailable={allowPurchase}
           messageProps={{ ...messageProps, itinerary: simpleItinerary.actions }}
         />
@@ -278,7 +271,8 @@ const TripPricingBoxContentCta = ({
         <Text size="lg" style={{ color: "var(--color-gray-1)" }}>
           Disponibilizamos para você a possibilidade de{" "}
           <span className="color-primary">
-            realizar a sua compra com um dos nossos especialistas
+            <strong>realizar a sua compra</strong> e <strong>construir seu roteiro</strong> com um
+            dos nossos especialistas
           </span>
           . <strong>Clique aqui</strong> e terá todo o suporte necessário em todas as etapas da sua
           viagem.
@@ -306,20 +300,7 @@ const TripPricingBoxContentCta = ({
         >
           Construir meu roteiro
         </Button>
-      ) : (
-        <HoverTooltipCard text="A construção do roteiro ainda não está disponível online.">
-          <Button
-            variant={"naked"}
-            href={`/app/viagens/${tripId}/roteiro/configurar/`}
-            iconName="lock"
-            className="w-100"
-            size="sm"
-            disabled
-          >
-            Construir meu roteiro
-          </Button>
-        </HoverTooltipCard>
-      )}
+      ) : null}
       <BuyButton isPrimary={!isScriptAvailable} isPurchaseAvailable={isPurchaseAvailable} />
       {isPurchaseAvailable ? (
         <Text size="sm" className="px-md">
