@@ -1,5 +1,7 @@
 .trip-pricing-box {
   &__card {
+    padding: 20px;
+
     @media (max-width: $breakpoint-md) {
       position: fixed;
       inset: 0 0 0 0;
@@ -44,7 +46,7 @@ body[data-pricing-box="opened"] {
   overflow-y: hidden;
 }
 
-$pricing-header-height: 150px;
+$pricing-header-height: 120px;
 
 @media (max-width: $breakpoint-md) {
   .trip-pricing-box-spacer {
