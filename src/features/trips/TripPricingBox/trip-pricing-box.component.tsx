@@ -19,6 +19,7 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
 import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
 import { SimpleItineraryAction } from "@/core/types";
+import { useRef } from "react";
 
 interface MessageProps {
   tripName: string;
@@ -171,13 +172,13 @@ const TripPricingBoxContent = ({
       }}
     />
     <TripPricingBoxContentHeader title={title} people={people} />
-    <Grid>
+    <Grid gap={8}>
       <Text heading as="h3" size="xs">
         <strong>
           <small>O que inclui</small>
         </strong>
       </Text>
-      <Grid gap={12} className="px-md">
+      <Grid gap={8} className="px-md">
         {tripIncludes.map((item, key) => (
           <TripPricingBoxContentItem
             key={key}
@@ -187,7 +188,7 @@ const TripPricingBoxContent = ({
         ))}
       </Grid>
       <Divider />
-      <Grid className="px-md">
+      <Grid className="px-md" gap={8}>
         <TripPricingBoxContentPrice label="Total" value={price} />
         <TripPricingBoxContentPrice label="Taxa" value={serviceFee} />
       </Grid>
@@ -214,10 +215,10 @@ const TripPricingBoxContentHeader = ({
   people,
 }: Pick<TripPricingBoxContentProps, "title" | "people">) => (
   <div className="flex-grow">
-    <Text heading as="h2" className="mb-sm">
+    <Text heading as="h2">
       {title}
     </Text>
-    <Grid columns={["auto", "1fr"]} className="color-text-secondary mb-xl">
+    <Grid columns={["auto", "1fr"]} className="color-text-secondary mb-md">
       <Icon name="users" size="sm" />
       <Text size="sm">{people}</Text>
     </Grid>
@@ -249,6 +250,10 @@ const TripPricingBoxContentCta = ({
     - Datas da viagem: ${messageProps.formattedDates}
   `;
 
+  const handleClick = () => {
+    document.getElementById("whatsapp-purchase-button")?.click();
+  };
+
   if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
 
   const BuyButton = ({ isPrimary = false, isPurchaseAvailable = true }) =>
@@ -257,15 +262,23 @@ const TripPricingBoxContentCta = ({
         Comprar por {formatToCurrencyBR(total)}
       </Button>
     ) : (
-      <ItemElement className="flex-column gap-md">
+      <ItemElement
+        id="whatsapp-purchase-area"
+        className="flex-column gap-md"
+        style={{ cursor: "pointer", padding: 15 }}
+        onClick={() => handleClick()}
+      >
         <Text size="lg" style={{ color: "var(--color-gray-1)" }}>
           Disponibilizamos para você a possibilidade de{" "}
           <span className="color-primary">
-            realizar a sua compra com um dos nossos especialistas
+            <strong>realizar a sua compra</strong> e <strong>construir seu roteiro</strong> com um
+            dos nossos especialistas
           </span>
-          . Clique aqui e terá todo o suporte necessário em todas as etapas da sua viagem.
+          . <strong>Clique aqui</strong> e terá todo o suporte necessário em todas as etapas da sua
+          viagem.
         </Text>
         <Button
+          id="whatsapp-purchase-button"
           iconName="whatsapp"
           label="Realizar Compra"
           size="sm"
@@ -280,21 +293,14 @@ const TripPricingBoxContentCta = ({
   return (
     <Grid>
       {isScriptAvailable ? (
-        <Button variant={"tertiary" as any} href={`/app/viagens/${tripId}/roteiro/configurar/`}>
+        <Button
+          variant={"tertiary" as any}
+          href={`/app/viagens/${tripId}/roteiro/configurar/`}
+          size="sm"
+        >
           Construir meu roteiro
         </Button>
-      ) : (
-        <HoverTooltipCard text="A construção do roteiro ainda não está disponível online.">
-          <Button
-            variant={"naked"}
-            href={`/app/viagens/${tripId}/roteiro/configurar/`}
-            iconName="lock"
-            disabled
-          >
-            Construir meu roteiro
-          </Button>
-        </HoverTooltipCard>
-      )}
+      ) : null}
       <BuyButton isPrimary={!isScriptAvailable} isPurchaseAvailable={isPurchaseAvailable} />
       {isPurchaseAvailable ? (
         <Text size="sm" className="px-md">

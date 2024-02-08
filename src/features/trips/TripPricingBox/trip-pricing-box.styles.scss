@@ -1,5 +1,7 @@
 .trip-pricing-box {
   &__card {
+    padding: 20px;
+
     @media (max-width: $breakpoint-md) {
       position: fixed;
       inset: 0 0 0 0;
@@ -13,6 +15,11 @@
         top: 16px;
         right: 16px;
       }
+    }
+
+    #whatsapp-purchase-area:hover {
+      transition: background-color ease 0.3s;
+      background-color: $color-info-100;
     }
   }
 
@@ -28,9 +35,10 @@
     }
   }
 
-  @media(max-height: 750px) {
-    max-height: 630px;
-    overflow-y: scroll;
+  @media(max-height: 750px) and (min-width: $breakpoint-md){
+    #whatsapp-purchase-button {
+      display: none;
+    }
   }
 }
 
@@ -38,7 +46,7 @@ body[data-pricing-box="opened"] {
   overflow-y: hidden;
 }
 
-$pricing-header-height: 150px;
+$pricing-header-height: 120px;
 
 @media (max-width: $breakpoint-md) {
   .trip-pricing-box-spacer {
