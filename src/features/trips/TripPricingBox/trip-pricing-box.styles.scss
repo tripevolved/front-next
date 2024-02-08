@@ -14,6 +14,11 @@
         right: 16px;
       }
     }
+
+    #whatsapp-purchase-area:hover {
+      transition: background-color ease 0.3s;
+      background-color: $color-info-100;
+    }
   }
 
   @media (min-width: $breakpoint-md) {

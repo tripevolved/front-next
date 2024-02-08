@@ -263,6 +263,7 @@ const TripPricingBoxContentCta = ({
       </Button>
     ) : (
       <ItemElement
+        id="whatsapp-purchase-area"
         className="flex-column gap-md"
         style={{ cursor: "pointer", padding: 15 }}
         onClick={() => handleClick()}
