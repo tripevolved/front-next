@@ -28,9 +28,10 @@
     }
   }
 
-  @media(max-height: 750px) {
-    max-height: 630px;
-    overflow-y: scroll;
+  @media(min-height:670px) and (max-height: 750px) {
+    #whatsapp-purchase-button {
+      display: none;
+    }
   }
 }
 

@@ -19,6 +19,7 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
 import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
 import { SimpleItineraryAction } from "@/core/types";
+import { useRef } from "react";
 
 interface MessageProps {
   tripName: string;
@@ -249,6 +250,10 @@ const TripPricingBoxContentCta = ({
     - Datas da viagem: ${messageProps.formattedDates}
   `;
 
+  const handleClick = () => {
+    document.getElementById("whatsapp-purchase-button")?.click();
+  };
+
   if (isPaid) return <Button disabled>A viagem já está paga.</Button>;
 
   const BuyButton = ({ isPrimary = false, isPurchaseAvailable = true }) =>
@@ -257,15 +262,21 @@ const TripPricingBoxContentCta = ({
         Comprar por {formatToCurrencyBR(total)}
       </Button>
     ) : (
-      <ItemElement className="flex-column gap-md">
-        <Text size="lg" style={{ color: "var(--color-gray-1)" }}>
+      <ItemElement
+        className="flex-column gap-md"
+        style={{ cursor: "pointer" }}
+        onClick={() => handleClick()}
+      >
+        <Text size="md" style={{ color: "var(--color-gray-1)" }}>
           Disponibilizamos para você a possibilidade de{" "}
           <span className="color-primary">
             realizar a sua compra com um dos nossos especialistas
           </span>
-          . Clique aqui e terá todo o suporte necessário em todas as etapas da sua viagem.
+          . <strong>Clique aqui</strong> e terá todo o suporte necessário em todas as etapas da sua
+          viagem.
         </Text>
         <Button
+          id="whatsapp-purchase-button"
           iconName="whatsapp"
           label="Realizar Compra"
           size="sm"
