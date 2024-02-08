@@ -264,7 +264,7 @@ const TripPricingBoxContentCta = ({
     ) : (
       <ItemElement
         className="flex-column gap-md"
-        style={{ cursor: "pointer" }}
+        style={{ cursor: "pointer", padding: 15 }}
         onClick={() => handleClick()}
       >
         <Text size="md" style={{ color: "var(--color-gray-1)" }}>
