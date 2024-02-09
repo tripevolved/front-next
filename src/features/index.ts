@@ -42,6 +42,7 @@ export * from "./payments/TripCheckout";
 export * from "./payments/TripPurchaseForm";
 export * from "./payments/TripPurchasePage";
 export * from "./profile/ProfileQuestions";
+export * from "./profile/ProfileSettingsModal";
 export * from "./questions/QuestionNavigationController";
 export * from "./questions/QuestionOptions";
 export * from "./questions/QuestionSlider";

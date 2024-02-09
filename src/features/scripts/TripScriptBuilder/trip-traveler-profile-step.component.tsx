@@ -2,11 +2,18 @@ import type { StepComponentProps } from "@/features";
 import { useAppStore } from "@/core/store";
 
 import { ErrorState, Text } from "@/ui";
-import { Button, Grid, Link } from "mars-ds";
-import { HasProfile } from "@/features";
+import { Button, Grid, Link, Modal } from "mars-ds";
+import { HasProfile, ProfileSettingsModal } from "@/features";
 
 export function TripTravelerProfileStep({ onNext, onPrevious }: StepComponentProps) {
   const travelerProfile = useAppStore((state) => state.travelerState.travelerProfile);
+
+  const handleProfileButton = () => {
+    const modal = Modal.open(() => <ProfileSettingsModal onClose={() => modal.close()} />, {
+      size: "lg",
+      closable: true,
+    });
+  };
 
   if (!travelerProfile) {
     return (
@@ -34,9 +41,13 @@ export function TripTravelerProfileStep({ onNext, onPrevious }: StepComponentPro
       >
         Avançar com este perfil
       </Button>
-      <Link className="trip-script-builder-step__link" href="/perfil">
+      <Button
+        className="trip-script-builder-step__item"
+        variant="secondary"
+        onClick={() => handleProfileButton()}
+      >
         Quero refazer meu perfil
-      </Link>
+      </Button>
     </Grid>
   );
 }
