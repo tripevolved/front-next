@@ -42,7 +42,6 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
   };
 
   if (error) return <ErrorState />;
-  if (isLoading) return <GlobalLoader inline />;
 
   return (
     <Skeleton active={isLoading} height={170}>
