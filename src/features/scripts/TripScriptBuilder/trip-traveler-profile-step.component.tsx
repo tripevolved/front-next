@@ -2,7 +2,7 @@ import type { StepComponentProps } from "@/features";
 import { useAppStore } from "@/core/store";
 
 import { ErrorState, Text } from "@/ui";
-import { Button, Grid, Link, Modal } from "mars-ds";
+import { Button, Grid, Modal } from "mars-ds";
 import { HasProfile, ProfileSettingsModal } from "@/features";
 
 export function TripTravelerProfileStep({ onNext, onPrevious }: StepComponentProps) {
@@ -10,7 +10,7 @@ export function TripTravelerProfileStep({ onNext, onPrevious }: StepComponentPro
 
   const handleProfileButton = () => {
     const modal = Modal.open(() => <ProfileSettingsModal onClose={() => modal.close()} />, {
-      size: "lg",
+      size: "md",
       closable: true,
     });
   };
