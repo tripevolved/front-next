@@ -24,11 +24,6 @@ import { StayDetailsModal } from "@/features";
 import { useAppStore } from "@/core/store";
 
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
-  const { availableFeatures } = useAppStore((state) => state.travelerState);
-  const allowStayEdit = availableFeatures.includes("STAY_EDIT");
-
-  const router = useRouter();
-
   const fetcher = async () =>
     StaysApiService.getByTripId(props.tripId, props.tripItineraryActionId);
   const { isLoading, data, error, isValidating } = useSWR(
@@ -37,15 +32,32 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   );
 
   if (error) return <ErrorState />;
-  if (isLoading || isValidating) return <GlobalLoader inline />;
+
+  return (
+    <Skeleton active={isLoading || isValidating} height={355}>
+      {data ? (
+        <AccommodationComponent data={data} tripId={props.tripId} tripItineraryActionId={props.tripItineraryActionId}/>
+      ) : (
+        <TripStayEmptyState />
+      )}
+    </Skeleton>
+  );
+};
+
+const AccommodationComponent = ({ data, tripId, tripItineraryActionId } : { data: TripStay, tripId: string, tripItineraryActionId: string }) => {
+  const { availableFeatures } = useAppStore((state) => state.travelerState);
+  const allowStayEdit = availableFeatures.includes("STAY_EDIT");
+
+  const router = useRouter();
 
   if (!data || !data.isSelected) {
     return (
       <>
         <div className="px-xl w-100 flex-column gap-lg">
           <TripStayEmptyState
-            tripId={props.tripId}
-            tripItineraryActionId={props.tripItineraryActionId}
+            tripId={tripId}
+            tripItineraryActionId={tripItineraryActionId}
+            allowEdit={allowStayEdit}
           />
         </div>
       </>
@@ -56,9 +68,9 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     const modal = Modal.open(
       () => (
         <StayDetailsModal
-          tripId={props.tripId}
+          tripId={tripId}
           tripStay={data}
-          itineraryActionId={props.tripItineraryActionId}
+          itineraryActionId={tripItineraryActionId}
           router={router}
           onCloseModal={() => modal.close()}
           allowEdit={allowStayEdit}
@@ -71,30 +83,13 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     );
   };
 
-  if (error) return <ErrorState />;
-  if (isLoading) return <GlobalLoader inline />;
-
-  if (!data || !data.isSelected) {
-    return (
-      <>
-        <div className="px-xl w-100 flex-column gap-lg">
-          <TripStayEmptyState
-            tripId={props.tripId}
-            tripItineraryActionId={props.tripItineraryActionId}
-            allowEdit={allowStayEdit}
-          />
-        </div>
-      </>
-    );
-  }
-
   if (!data.isRoomSelected) {
     return (
       <>
         <div className="px-xl w-100 flex-column gap-lg">
           <TripStayEmptyRoomState
-            tripId={props.tripId}
-            tripItineraryActionId={props.tripItineraryActionId}
+            tripId={tripId}
+            tripItineraryActionId={tripItineraryActionId}
             tripStay={data}
             handleSeeDetails={() => handleSeeDetails()}
             allowEdit={allowStayEdit}
@@ -105,65 +100,59 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   }
 
   return (
-    <Skeleton active={isLoading} height={355}>
-      {data ? (
-        <Grid className="pl-lg">
-          <div className="stay-detail-info">
-            {data.checkIn && data.checkOut && (
-              <div className="stay-detail-info__item">
-                <Icon name="calendar" size="sm" color="#8253F6" />
-                <Text>
-                  Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até 
-                  {`${toFullDetailedDate(data.checkOut)}`}
-                </Text>
-              </div>
-            )}
-            <div className="stay-detail-info__item">
-              <Icon name="info" size="sm" color="#8253F6" />
-              <Text>{data.cancellationInfo}</Text>
-            </div>
+    <Grid className="pl-lg">
+      <div className="stay-detail-info">
+        {data.checkIn && data.checkOut && (
+          <div className="stay-detail-info__item">
+            <Icon name="calendar" size="sm" color="#8253F6" />
+            <Text>
+              Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até 
+              {`${toFullDetailedDate(data.checkOut)}`}
+            </Text>
           </div>
-          <Grid columns={["120px", "auto"]}>
-            <Picture className="itinerary-item__content__image">
-              {data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}
-            </Picture>
-            <div>
-              <div className="w-100 flex-column itinerary-item__content__break">
-                <Grid gap={4}>
-                  <Text as="h3" size="xl">
-                    {data.name}
-                  </Text>
-                  <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
-                  {data.details.services && (
-                    <div className="trip-stay-details__content__service-list">
-                      {data.details.services.map((service, i) => (
-                        <TripStayServiceItem {...service} key={i} />
-                      ))}
-                    </div>
-                  )}
-                </Grid>
-              </div>
-            </div>
-          </Grid>
-          <Grid columns={["75%", "20%"]}>
-            <Button size="sm" variant="neutral" onClick={() => handleSeeDetails()}>
-              Ver detalhes
-            </Button>
-            <StayEditionButton
-              tripId={props.tripId}
-              itineraryActionId={props.tripItineraryActionId}
-              accommodationData={data as AccommodationState}
-              allowEdit={allowStayEdit}
-            />
-          </Grid>
-          {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
-        </Grid>
-      ) : (
-        <EmptyState />
-      )}
-    </Skeleton>
+        )}
+        <div className="stay-detail-info__item">
+          <Icon name="info" size="sm" color="#8253F6" />
+          <Text>{data.cancellationInfo}</Text>
+        </div>
+      </div>
+      <Grid columns={["120px", "auto"]}>
+        <Picture className="itinerary-item__content__image">
+          {data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}
+        </Picture>
+        <div>
+          <div className="w-100 flex-column itinerary-item__content__break">
+            <Grid gap={4}>
+              <Text as="h3" size="xl">
+                {data.name}
+              </Text>
+              <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
+              {data.details.services && (
+                <div className="trip-stay-details__content__service-list">
+                  {data.details.services.map((service, i) => (
+                    <TripStayServiceItem {...service} key={i} />
+                  ))}
+                </div>
+              )}
+            </Grid>
+          </div>
+        </div>
+      </Grid>
+      <Grid columns={["75%", "20%"]}>
+        <Button size="sm" variant="neutral" onClick={() => handleSeeDetails()}>
+          Ver detalhes
+        </Button>
+        <StayEditionButton
+          tripId={tripId}
+          itineraryActionId={tripItineraryActionId}
+          accommodationData={data as AccommodationState}
+          allowEdit={allowStayEdit}
+        />
+      </Grid>
+      {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
+    </Grid>
   );
-};
+}
 
 const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "", allowEdit = true }) => {
   return allowEdit ? (

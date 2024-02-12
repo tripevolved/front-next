@@ -40,7 +40,7 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
       <Text>
         Analisando suas informações, preparamos o seguinte itinerário para você. Ele começa na sua
         cidade e vai até {title}, para que você só tenha o trabalho de curtir a sua viagem. Você
-        pode alterar suas escolhas e estamos à disposição para atendê-lo da melhor forma
+        pode alterar suas escolhas e estamos à disposição para atendê-lo da melhor forma.
       </Text>
       <Skeleton active={isLoading}>
         {data?.actions.length
@@ -61,7 +61,7 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
                 >
                   <FlightAction {...action} tripId={tripId} />
                 </ItineraryItem>
-              ) : action.type == "ROUTE" ? (
+              ) : action.type == "ROUTE" || action.type == "TRANSFER" ? (
                 <ItineraryItem
                   actionType={action.type}
                   title={action.title}
