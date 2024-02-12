@@ -43,9 +43,9 @@ export function ProfileSettingsModal({
   if (data?.profileSlug && onClose) onClose();
 
   return (
-    <div className="" {...props}>
+    <div className="profile-settings-modal" {...props}>
       <Picture
-        className="profile-questions__brand"
+        className="profile-settings-modal__brand"
         height={60}
         width={60}
         src="/brand/logo-symbol.svg"
