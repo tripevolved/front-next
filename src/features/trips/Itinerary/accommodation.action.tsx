@@ -180,6 +180,7 @@ const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "", allowEdit
           label="Escolher hospedagem"
           iconName="lock"
           isRtl={true}
+          disabled
         />
       </HoverTooltipCard>
     </CardHighlight>
