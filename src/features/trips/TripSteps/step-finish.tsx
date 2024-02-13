@@ -11,9 +11,6 @@ const DEFAULT_ADULTS = 2;
 const BASE_CHILDREN_AGE = 6;
 
 export function StepFinish({ onNext, numAdults = DEFAULT_ADULTS, numChildren, childrenAgeInfo }: StepComponentProps) {
-  console.log(numChildren);
-  console.log(childrenAgeInfo);
-
   const [submitting, setSubmitting] = useState(false);
   const [adults, setAdults] = useState(numAdults);
   const [children, setChildrenInternal] = useState(numChildren ?? 0);
