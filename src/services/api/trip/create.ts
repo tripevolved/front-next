@@ -16,6 +16,14 @@ export interface Travelers {
   type: number;
   adults: number;
   children: number;
+  childrenAges: number[];
+  rooms?: TravelerRoomInfo[];
+}
+
+interface TravelerRoomInfo {
+  adults: number;
+  children: number;
+  childrenAges: number[];
 }
 
 interface TripBehaviorAnswer {
@@ -42,7 +50,7 @@ export type CreateTripDto = {
   days: number;
   dates: [Date, Date];
   maxBudget: number;
-  travelers: Pick<Travelers, "adults">;
+  travelers: Pick<Travelers, "adults" | "children" | "childrenAges" | "rooms">;
 };
 
 export type CreatedTrip = {
@@ -85,7 +93,8 @@ export const createTrip = async ({
     maxBudget,
     travelers: {
       adults: travelers.adults || 2,
-      children: 0,
+      children: travelers.children || 0,
+      childrenAges: travelers.childrenAges || [],
       type: 0,
     },
   };

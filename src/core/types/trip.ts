@@ -72,6 +72,14 @@ export interface TripConfiguration {
   budget: number;
   numAdults: number;
   numChildren: number;
+  childrenAges: number[];
+  rooms: TripConfigurationRoom[] | null;
+}
+
+export interface TripConfigurationRoom {
+  numAdults: number;
+  numChildren: number;
+  childrenAges: number[];
 }
 
 // Traveler Dashboard

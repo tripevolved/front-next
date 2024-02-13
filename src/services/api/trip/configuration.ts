@@ -13,7 +13,7 @@ export type EditTripDto = {
   days: number;
   dates: [Date, Date];
   maxBudget: number;
-  travelers: Pick<Travelers, "adults">;
+  travelers: Pick<Travelers, "adults" | "children" | "childrenAges" | "rooms">;
   tripId: string;
 };
 
@@ -42,7 +42,8 @@ export const editTrip = async ({
     maxBudget,
     travelers: {
       adults: travelers.adults || 2,
-      children: 0,
+      children: travelers.children || 0,
+      childrenAges: travelers.childrenAges || [],
       type: 0,
     },
   } satisfies EditTripConfigurationRequest;

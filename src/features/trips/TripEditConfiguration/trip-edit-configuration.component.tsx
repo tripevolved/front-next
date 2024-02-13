@@ -42,18 +42,22 @@ export function TripEditConfiguration({
   tripId,
   budget,
   numAdults,
+  numChildren,
+  childrenAges,
+  rooms,
   endDate,
   startDate,
 }: TripEditConfigurationProps) {
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
   const [submitting, setSubmitting] = useState(false);
 
-  const data = useRef<Record<string, any>>({ budget, numAdults, endDate, startDate });
+  const data = useRef<Record<string, any>>({ budget, numAdults, numChildren, childrenAgeInfo: childrenAges, rooms, endDate, startDate });
 
   const animation = useAnimation();
 
   const handleSubmit = async () => {
     data.current = { ...data.current, tripId };
+    console.log(data.current);
     try {
       // @ts-ignore
       const response = await TripsApiService.setTripConfiguration({ ...data.current });
