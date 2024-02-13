@@ -19,7 +19,6 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
 import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
 import { SimpleItineraryAction } from "@/core/types";
-import { useRef } from "react";
 
 interface MessageProps {
   tripName: string;
@@ -64,8 +63,8 @@ export const TripPricingBox = ({
   if (!data) return <TripPricingBoxErrorState title={destinationName} />;
 
   const people = numChildren
-    ? `Para ${numAdults} adultos e ${numChildren} crianças`
-    : `Para ${numAdults} adultos`;
+    ? `Para ${(numAdults > 1 ? `${numAdults} adultos` : `${numAdults} adulto`)} e ${(numChildren > 1 ? `${numChildren} crianças` : `${numChildren} criança`)}`
+    : `Para ${(numAdults > 1 ? `${numAdults} adultos` : `${numAdults} adulto`)}`;
 
   return (
     <div className={makeCn("trip-pricing-box", { "trip-pricing-box--offset": hasPhotos })()}>
