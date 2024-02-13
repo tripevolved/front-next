@@ -280,7 +280,7 @@ export const StayEditionButton = ({
     </Button>
   ) : (
     <HoverTooltipCard text="A escolha da sua hospedagem ainda não está disponível online.">
-      <Button variant="naked" size="sm" iconName="lock" onClick={handleClick}>
+      <Button variant="naked" size="sm" iconName="lock" onClick={handleClick} disabled>
         Editar
       </Button>
     </HoverTooltipCard>
