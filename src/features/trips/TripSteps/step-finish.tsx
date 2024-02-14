@@ -18,7 +18,7 @@ export function StepFinish({ onNext, numAdults = DEFAULT_ADULTS, numChildren, ch
   const handleSubmit = () => {
     setSubmitting(true);
     const travelers = { adults, children, childrenAges };
-    onNext({ travelers });
+    onNext({ travelersIntermediate: travelers });
   };
 
   const setChildren = (value: number) => {
@@ -111,7 +111,7 @@ export function StepFinish({ onNext, numAdults = DEFAULT_ADULTS, numChildren, ch
         submitting={submitting}
         onClick={handleSubmit}
       >
-        Receber minha recomendação
+        Continuar
       </SubmitButton>
     </Grid>
   );

@@ -95,6 +95,7 @@ export const createTrip = async ({
       adults: travelers.adults || 2,
       children: travelers.children || 0,
       childrenAges: travelers.childrenAges || [],
+      rooms: travelers.rooms,
       type: 0,
     },
   };
