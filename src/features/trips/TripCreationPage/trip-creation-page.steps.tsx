@@ -1,9 +1,10 @@
 import type { TemplateStepsBuilderProps } from "@/features";
 import { StepConfiguration } from "../TripSteps/step-configuration";
 import { StepTripGoal } from "../TripSteps/step-trip-goal";
-import { StepFinish } from "../TripSteps/step-finish";
+import { StepTravelersCount } from "../TripSteps/step-travelers-count";
 import { StepCityDestination } from "../TripSteps/step-city-destination";
 import { StepCityRegistration } from "../TripSteps/step-city-registration";
+import { StepRoomChoice } from "../TripSteps/step-room-choice";
 
 export const GROUP_STEPS: TemplateStepsBuilderProps["steps"] = [
   {
@@ -27,8 +28,13 @@ export const GROUP_STEPS: TemplateStepsBuilderProps["steps"] = [
     component: StepTripGoal,
   },
   {
-    title: "Finalização",
-    name: "finish",
-    component: StepFinish,
+    title: "Pessoas da viagem",
+    name: "travelers",
+    component: StepTravelersCount,
+  },
+  {
+    title: "Quartos",
+    name: "rooms",
+    component: StepRoomChoice,
   },
 ];

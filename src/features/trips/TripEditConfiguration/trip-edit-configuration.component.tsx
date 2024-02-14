@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { StepConfiguration } from "../TripSteps/step-configuration";
-import { StepFinish } from "../TripSteps/step-finish";
+import { StepTravelersCount } from "../TripSteps/step-travelers-count";
 import { StepRoomChoice } from "../TripSteps/step-room-choice";
 import type { TripEditConfigurationProps } from "./trip-edit-configuration.types";
 
@@ -17,8 +17,8 @@ const CONFIG_STEPS = [
   },
   {
     title: "Pessoas da viagem",
-    name: "finish",
-    component: StepFinish,
+    name: "travelers",
+    component: StepTravelersCount,
   },
   {
     title: "Quartos",

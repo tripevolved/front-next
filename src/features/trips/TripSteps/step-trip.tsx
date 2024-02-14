@@ -4,12 +4,13 @@ import { useRef, useState } from "react";
 import { StepDestinations } from "./step-destinations";
 import { StepConfiguration } from "./step-configuration";
 import { StepTripGoal } from "./step-trip-goal";
-import { StepFinish } from "./step-finish";
+import { StepTravelersCount } from "./step-travelers-count";
 import { StepsLoader, StepsProgressBar } from "@/ui";
 import { TripsApiService } from "@/services/api";
 import { useAppStore } from "@/core/store";
 import { useAnimation } from "@/utils/hooks/animation.hook";
 import { useRouter } from "next/router";
+import { StepRoomChoice } from "./step-room-choice";
 
 const TRIP_STEPS = [
   {
@@ -28,10 +29,15 @@ const TRIP_STEPS = [
     component: StepTripGoal,
   },
   {
-    title: "Finalização",
-    name: "finish",
-    component: StepFinish,
+    title: "Pessoas da viagem",
+    name: "travelers",
+    component: StepTravelersCount,
   },
+  {
+    title: "Quartos",
+    name: "rooms",
+    component: StepRoomChoice,
+  },  
 ];
 
 const TWELVE_SECONDS_IN_MS = 12 * 1000;
@@ -113,7 +119,8 @@ export const StepTrip = ({}: StepComponentProps) => {
         <Component
           onNext={handleNext}
           onPrevious={() => setCurrentIndex((state) => state - 1)}
-          goToStepName={() => undefined}
+          goToStepName={() => {}}
+          {...data.current}
         />
       </div>
     </Grid>

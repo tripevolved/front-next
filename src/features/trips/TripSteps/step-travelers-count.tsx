@@ -9,7 +9,7 @@ import { formatToPlural } from "@/utils/helpers/number.helpers";
 const DEFAULT_ADULTS = 2;
 const BASE_CHILDREN_AGE = 6;
 
-export function StepFinish({ onNext, numAdults = DEFAULT_ADULTS, numChildren, childrenAgeInfo }: StepComponentProps) {
+export function StepTravelersCount({ onNext, numAdults = DEFAULT_ADULTS, numChildren, childrenAgeInfo }: StepComponentProps) {
   const [submitting, setSubmitting] = useState(false);
   const [adults, setAdults] = useState(numAdults);
   const [children, setChildrenInternal] = useState(numChildren ?? 0);
