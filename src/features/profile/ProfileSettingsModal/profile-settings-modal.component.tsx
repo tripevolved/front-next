@@ -3,7 +3,7 @@ import { useProfileSettings } from "./profile-settings-modal.hook";
 import type { ProfileSettingsModalProps } from "./profile-settings-modal.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { EmptyState, Picture, StepsLoader } from "@/ui";
+import { EmptyState, ErrorState, Picture, StepsLoader } from "@/ui";
 import { ProfileQuestionsForm } from "../ProfileQuestions/profile-questions-form";
 
 const EIGHT_SECONDS_IN_MS = 8 * 1000;
@@ -30,17 +30,14 @@ export function ProfileSettingsModal({
   onClose,
   ...props
 }: ProfileSettingsModalProps) {
-  const { answers, setCanSubmit, isLoading, error, data } = useProfileSettings();
+  const { answers, setCanSubmit, isLoading, error, data, isValidating } =
+    useProfileSettings(onClose);
 
-  const handleAnswers = (newAnswers?: AnswersDto) => {
-    if (newAnswers) answers.current = newAnswers;
+  const handleAnswers = (newAnswers: AnswersDto) => {
+    answers.current = newAnswers;
     setCanSubmit(true);
   };
-
-  if (isLoading) return <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} />;
-  if (error) return <EmptyState />;
-
-  if (data?.profileSlug && onClose) onClose();
+  if (error) return <ErrorState />;
 
   return (
     <div className="profile-settings-modal" {...props}>
@@ -50,7 +47,11 @@ export function ProfileSettingsModal({
         width={60}
         src="/brand/logo-symbol.svg"
       />
-      <ProfileQuestionsForm onSubmit={handleAnswers} />
+      {isLoading || isValidating ? (
+        <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} />
+      ) : (
+        <ProfileQuestionsForm onSubmit={handleAnswers} />
+      )}
     </div>
   );
 }

@@ -4,14 +4,15 @@ import { AnswersDto } from "@/services/api/profile/answers";
 import { useRef, useState } from "react";
 import useSWR from "swr";
 
-export const useProfileSettings = () => {
+export const useProfileSettings = (onClose: VoidFunction) => {
   const { email } = useAppStore((state) => state.user);
   const [canSubmit, setCanSubmit] = useState(false);
   const answers = useRef<AnswersDto>({});
 
-  const fetcher = async () => ProfileApiService.sendAnswers({ answers: answers.current, email });
-  const { isLoading, error, data } = useSWR(
-    canSubmit ? `set-traveler-profile-${email}` : null,
+  const fetcher = async () =>
+    ProfileApiService.sendAnswers({ answers: answers.current, email }).then(() => onClose);
+  const { isLoading, error, data, isValidating } = useSWR(
+    canSubmit ? `send-answers-to-set-traveler-profile-${email}` : null,
     fetcher
   );
 
@@ -19,6 +20,7 @@ export const useProfileSettings = () => {
     answers,
     setCanSubmit,
     isLoading,
+    isValidating,
     error,
     data,
   };

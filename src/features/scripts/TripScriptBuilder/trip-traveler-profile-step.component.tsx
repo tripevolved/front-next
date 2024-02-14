@@ -43,7 +43,7 @@ export function TripTravelerProfileStep({ onNext, onPrevious }: StepComponentPro
       </Button>
       <Button
         className="trip-script-builder-step__item"
-        variant="secondary"
+        variant="naked"
         onClick={() => handleProfileButton()}
       >
         Quero refazer meu perfil
