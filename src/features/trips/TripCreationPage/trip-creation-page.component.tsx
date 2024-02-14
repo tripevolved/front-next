@@ -104,7 +104,8 @@ const StepBuilder = ({ steps }: TemplateStepsBuilderProps) => {
         <Component
           onNext={handleNext}
           onPrevious={() => setCurrentIndex((state) => state - 1)}
-          goToStepName={() => undefined}
+          goToStepName={() => {}}
+          {...data.current}
         />
       </div>
     </Grid>

@@ -12,7 +12,7 @@ interface TripConfigurationSectionProps extends TripConfiguration {
 
 export const TripConfigurationSection = (props: TripConfigurationSectionProps) => {
   const openModalEdition = () => {
-    Modal.open(() => <TripEditConfiguration {...props} />, { closable: false });
+    Modal.open(() => <TripEditConfiguration {...props} />, { closable: true });
   };
 
   if (props.isBuilding)
@@ -20,7 +20,7 @@ export const TripConfigurationSection = (props: TripConfigurationSectionProps) =
       <CardHighlight
         variant="warning"
         heading="Sua trip está sendo reconstruída"
-        text="Ainda não será possível realizar a edição da sua viagem sem que ela esteja construída"
+        text="Ainda não será possível realizar a edição da sua viagem. Aguarde, por favor."
         style={{ padding: 12, paddingLeft: 24 }}
       />
     );
