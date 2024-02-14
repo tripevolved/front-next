@@ -2,7 +2,7 @@ import type { StepComponentProps } from "@/features";
 import { useAppStore } from "@/core/store";
 
 import { ErrorState, Text } from "@/ui";
-import { Button, Grid, Modal } from "mars-ds";
+import { Button, Link, Grid, Modal } from "mars-ds";
 import { HasProfile, ProfileSettingsModal } from "@/features";
 
 export function TripTravelerProfileStep({ onNext, onPrevious }: StepComponentProps) {
@@ -41,13 +41,9 @@ export function TripTravelerProfileStep({ onNext, onPrevious }: StepComponentPro
       >
         Avançar com este perfil
       </Button>
-      <Button
-        className="trip-script-builder-step__item"
-        variant="naked"
-        onClick={() => handleProfileButton()}
-      >
+      <Link className="trip-script-builder-step__link" onClick={() => handleProfileButton()}>
         Quero refazer meu perfil
-      </Button>
+      </Link>
     </Grid>
   );
 }

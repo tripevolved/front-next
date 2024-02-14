@@ -30,7 +30,7 @@ export function ProfileSettingsModal({
   onClose,
   ...props
 }: ProfileSettingsModalProps) {
-  const { answers, setCanSubmit, isLoading, error, data, isValidating, success } =
+  const { answers, setCanSubmit, isLoading, error, data, isValidating } =
     useProfileSettings(onClose);
 
   const handleAnswers = (newAnswers: AnswersDto) => {
@@ -49,23 +49,6 @@ export function ProfileSettingsModal({
       />
       {isLoading || isValidating ? (
         <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} />
-      ) : success ? (
-        <Grid gap={20} className="justify-center">
-          <Picture
-            className="profile-settings-modal__brand"
-            height={100}
-            width={100}
-            src="/assets/notifications/success.png"
-          />
-          <Text heading className="color-primary" style={{ textAlign: "center" }}>
-            Dados enviados com Sucesso!
-          </Text>
-          <div className="w-100 flex justify-content-center">
-            <Button iconName="thumbs-up" className="w-75" onClick={() => onClose()}>
-              OK
-            </Button>
-          </div>
-        </Grid>
       ) : (
         <ProfileQuestionsForm onSubmit={handleAnswers} />
       )}
