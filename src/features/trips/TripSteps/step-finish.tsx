@@ -1,7 +1,6 @@
-import type { StepComponentProps } from "@/features";
-
 import { useState } from "react";
 
+import type { StepComponentProps } from "@/features";
 import { IncrementField, Text } from "@/ui";
 import { Grid, SubmitButton } from "mars-ds";
 
@@ -56,9 +55,6 @@ export function StepFinish({ onNext, numAdults = DEFAULT_ADULTS, numChildren, ch
         <Text heading size="xs" className="mt-md">
           Quantas pessoas vão viajar?
         </Text>
-        <Text className="color-text-secondary mt-sm" size="md">
-          Máximo de 8 adultos (Incluindo você mesmo)
-        </Text>
       </div>
       <IncrementField
         className="slider--with-steps"
@@ -84,7 +80,12 @@ export function StepFinish({ onNext, numAdults = DEFAULT_ADULTS, numChildren, ch
       />
       {children > 0 ? (
         <>
-          <Text heading size="xs">Qual a idade {(children === 1 ? "da criança" : "das crianças")}?</Text>
+          <div>
+            <Text heading size="xs" className="mt-md">Qual a idade {(children === 1 ? "da criança" : "das crianças")}?</Text>
+            <Text className="color-text-secondary mt-sm" size="md">
+              Para encontrar a melhor hospedagem para vocês, precisamos saber a idade das crianças no momento do checkout
+            </Text>
+          </div>
           <Grid columns={{"sm": 1, "md": 2}}>
             {childrenAges?.map((childrenAge, index) => 
               <IncrementField

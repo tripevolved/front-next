@@ -57,7 +57,6 @@ export function TripEditConfiguration({
 
   const handleSubmit = async () => {
     data.current = { ...data.current, tripId };
-    console.log(data.current);
     try {
       // @ts-ignore
       const response = await TripsApiService.setTripConfiguration({ ...data.current });
