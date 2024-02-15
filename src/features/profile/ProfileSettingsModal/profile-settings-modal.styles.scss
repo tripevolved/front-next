@@ -1,0 +1,37 @@
+.profile-settings-modal {
+  min-height: 100vh;
+
+  @media (max-width: $mobile) {
+    min-height: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    &__card {
+      border-radius: 24px 24px 0 0;
+    }
+  }
+
+  &__brand {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  &__success-icon{
+    font-size: 60px;
+    justify-self: center;
+  }
+
+  .profile-questions-navigation {
+    display: flex;
+    gap: 8px;
+    background-color: white;
+    &__next {
+      min-width: 200px;
+    }
+  
+    @media (max-width: $mobile) {
+      bottom: unset;
+    }
+  }
+}

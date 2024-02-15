@@ -106,8 +106,7 @@ const AccommodationComponent = ({ data, tripId, tripItineraryActionId } : { data
           <div className="stay-detail-info__item">
             <Icon name="calendar" size="sm" color="#8253F6" />
             <Text>
-              Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até 
-              {`${toFullDetailedDate(data.checkOut)}`}
+              Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até {`${toFullDetailedDate(data.checkOut)}`}
             </Text>
           </div>
         )}
