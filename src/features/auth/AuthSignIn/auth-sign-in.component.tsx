@@ -1,9 +1,13 @@
 import { Link, PasswordField, TextField } from "mars-ds";
 import { useLogin } from "./use-login.hook";
 import { AuthFormSection } from "../AuthFormSection";
+import { useRouter } from "next/router";
 
 export function AuthSignIn() {
   const { login, submitting } = useLogin();
+  const router = useRouter();
+
+  const redirectTo = String(router.query.redirectTo || "");
 
   return (
     <AuthFormSection
@@ -13,7 +17,9 @@ export function AuthSignIn() {
       submitButton={{ children: "Entrar" }}
       buttonActions={[
         {
-          href: "/app/cadastro",
+          href: redirectTo
+            ? `/app/cadastro?redirectTo=${encodeURIComponent(redirectTo)}`
+            : `/app/cadastro`,
           label: "Criar novo cadastro",
         },
       ]}

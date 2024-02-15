@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { StepConfiguration } from "../TripSteps/step-configuration";
-import { StepFinish } from "../TripSteps/step-finish";
+import { StepTravelersCount } from "../TripSteps/step-travelers-count";
+import { StepRoomChoice } from "../TripSteps/step-room-choice";
 import type { TripEditConfigurationProps } from "./trip-edit-configuration.types";
 
 import { useAnimation } from "@/utils/hooks/animation.hook";
@@ -15,10 +16,15 @@ const CONFIG_STEPS = [
     component: StepConfiguration,
   },
   {
-    title: "Finalização",
-    name: "finish",
-    component: StepFinish,
+    title: "Pessoas da viagem",
+    name: "travelers",
+    component: StepTravelersCount,
   },
+  {
+    title: "Quartos",
+    name: "rooms",
+    component: StepRoomChoice,
+  }
 ];
 const NINE_SECONDS_IN_MS = 9 * 1000;
 const MILLISECONDS = NINE_SECONDS_IN_MS;
@@ -42,13 +48,16 @@ export function TripEditConfiguration({
   tripId,
   budget,
   numAdults,
+  numChildren,
+  childrenAges,
+  rooms,
   endDate,
   startDate,
 }: TripEditConfigurationProps) {
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
   const [submitting, setSubmitting] = useState(false);
 
-  const data = useRef<Record<string, any>>({ budget, numAdults, endDate, startDate });
+  const data = useRef<Record<string, any>>({ budget, numAdults, numChildren, childrenAgeInfo: childrenAges, rooms, endDate, startDate });
 
   const animation = useAnimation();
 

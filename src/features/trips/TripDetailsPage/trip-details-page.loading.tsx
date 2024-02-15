@@ -7,16 +7,16 @@ const STEPS = [
     iconName: "settings",
   },
   {
-    text: "Personalizando as opções de roteiro",
-    iconName: "map",
-  },
-  {
-    text: "Encontrando meios de trasporte",
+    text: "Encontrando as opções de transporte até o destino",
     iconName: "search",
   },
   {
-    text: "Achamos algumas atrações que você vai curtir!",
-    iconName: "star",
+    text: "Construindo seu itinerário detalhado",
+    iconName: "map",
+  },
+  {
+    text: "Encontrando o melhor transporte até o destino...",
+    iconName: "search",
   },
   {
     text: "Adicionando dicas do destino",
@@ -25,6 +25,10 @@ const STEPS = [
   {
     text: "Verificando opções de hospedagem",
     iconName: "book-open",
+  },
+  {
+    text: "Achamos algumas atrações que você vai curtir!",
+    iconName: "star",
   },
 ];
 

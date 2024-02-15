@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 
 import { AuthSignIn } from "./auth-sign-in.component";
 import * as UseLoginHook from "./use-login.hook";
+import { mockUseRouter } from "@/utils/mocks/next-router.mock";
 
 jest.mock("./use-login.hook");
 
@@ -11,6 +12,7 @@ const LOGIN_DATA = {
   password: "any_password",
 };
 
+mockUseRouter();
 const makeSut = () => {
   const loginMock = jest.fn();
   jest.spyOn(UseLoginHook, "useLogin").mockImplementation(() => ({

@@ -6,22 +6,11 @@ import { useEffect, useState } from "react";
 import { MenuItemProps } from "@/core/types";
 import { useAppStore } from "@/core/store";
 
-const subscribedMenu = {
-  label: "Página do inscrito",
-  href: "/inscrito",
-} satisfies MenuItemProps;
-
-export function Navbar({ menu: inheritedMenu = [], exact }: NavbarProps) {
-  const [menu, setMenu] = useState<MenuItemProps[]>(inheritedMenu);
+export function Navbar({ menu, exact }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const hasMenu = Boolean(menu?.length);
 
-  const { lead } = useAppStore();
-
-  useEffect(() => {
-    if (exact || !lead.id) return;
-    setMenu([subscribedMenu, ...inheritedMenu]);
-  }, [inheritedMenu, lead.id]);
+  const { user } = useAppStore();
 
   return (
     <nav className="navbar">
@@ -50,6 +39,11 @@ export function Navbar({ menu: inheritedMenu = [], exact }: NavbarProps) {
               {label}
             </Button>
           ))}
+          {exact ? null : user.fetched ? (
+            <Button href="/app/painel" className="navbar__menu__signin-button">
+              Acessar painel
+            </Button>
+          ) : null}
         </menu>
       ) : null}
     </nav>

@@ -18,6 +18,7 @@ import { Card, CardElevations, Divider, Grid } from "mars-ds";
 import type { Photo, PublicDestinationTip } from "@/core/types";
 import { DEFAULT_CARD_IMAGE_URL } from "@/core/constants";
 import { TripDetailsPageLoading } from "./trip-details-page.loading";
+import { useAppStore } from "@/core/store";
 
 interface TemplateProps {
   children: React.ReactNode;
@@ -33,6 +34,7 @@ const DEFAULT_PHOTOS: Photo[] = [
 ];
 
 export function TripDetailsPage() {
+  const { username, email } = useAppStore((state) => state.user);
   const { data, isLoading, error } = useTripDetails();
 
   const Template = ({ children, title = "Sua viagem", hideHeader }: TemplateProps) => {
@@ -110,6 +112,14 @@ export function TripDetailsPage() {
             numAdults={configuration.numAdults}
             numChildren={configuration.numChildren}
             isScriptBuilt={hasScript}
+            messageProps={{
+              budget: configuration.budget,
+              formattedDates: configuration.formattedDates,
+              travelersNumber: configuration.numAdults + configuration.numChildren,
+              tripName: destination.title,
+              username,
+              email,
+            }}
           />
         </Grid>
       </Template>

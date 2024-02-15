@@ -76,7 +76,7 @@ const StepBuilder = ({ steps }: TemplateStepsBuilderProps) => {
     router.replace(`/app/viagens/${tripId.current}/detalhes`);
   };
 
-  if (!hasValidAddress) {
+  if (!hasValidAddress && !steps.find((step) => step.name == "register-city")) {
     steps.splice(1, 0, {
       title: "Seu endereço",
       name: "register-city",
@@ -104,7 +104,8 @@ const StepBuilder = ({ steps }: TemplateStepsBuilderProps) => {
         <Component
           onNext={handleNext}
           onPrevious={() => setCurrentIndex((state) => state - 1)}
-          goToStepName={() => undefined}
+          goToStepName={() => {}}
+          {...data.current}
         />
       </div>
     </Grid>

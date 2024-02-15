@@ -1,4 +1,4 @@
-export type ItineraryActionType = "ROUTE" | "FLIGHT" | "ACCOMMODATION" | "RENTAL_CAR";
+export type ItineraryActionType = "ROUTE" | "FLIGHT" | "ACCOMMODATION" | "RENTAL_CAR" | "TRANSFER";
 
 export interface Coordinates {
   title: string;
@@ -20,4 +20,13 @@ export interface ItineraryAction {
 export interface ItineraryList {
   tripId: string;
   actions: ItineraryAction[];
+}
+
+export interface SimpleItineraryAction {
+  type: ItineraryActionType;
+  title: string;
+}
+
+export interface SimpleItinerary {
+  actions: SimpleItineraryAction[];
 }

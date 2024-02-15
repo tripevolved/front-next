@@ -9,10 +9,25 @@ import { FlightAction } from "./flight.action";
 import { RouteAction } from "./route.action";
 import { AccommodationAction } from "./accommodation.action";
 import { ItineraryItem } from "./itinerary-item.wrapper";
+import { useAppStore } from "@/core/store";
+import { useEffect } from "react";
+import { ItineraryList } from "@/core/types";
 
 export function Itinerary({ tripId, title }: ItineraryProps) {
+  const setSimpleItinerary = useAppStore((state) => state.setSimpleItinerary);
+
   const fetcher = async () => TripsApiService.getItinerary(tripId);
   const { data, isLoading, error } = useSWR(`get-trip-itinerary-${tripId}`, fetcher);
+
+  const buildSimpleItinerary = (itinerary: ItineraryList) => {
+    setSimpleItinerary({
+      actions: itinerary.actions.map((action) => ({ type: action.type, title: action.title })),
+    });
+  };
+
+  useEffect(() => {
+    if (data) buildSimpleItinerary(data);
+  }, []);
 
   if (error) return <ErrorState />;
   if (data?.actions.length == 0) return <EmptyState />;
@@ -25,7 +40,7 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
       <Text>
         Analisando suas informações, preparamos o seguinte itinerário para você. Ele começa na sua
         cidade e vai até {title}, para que você só tenha o trabalho de curtir a sua viagem. Você
-        pode alterar suas escolhas e estamos à disposição para atendê-lo da melhor forma
+        pode alterar suas escolhas e estamos à disposição para atendê-lo da melhor forma.
       </Text>
       <Skeleton active={isLoading}>
         {data?.actions.length
@@ -46,7 +61,7 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
                 >
                   <FlightAction {...action} tripId={tripId} />
                 </ItineraryItem>
-              ) : action.type == "ROUTE" ? (
+              ) : action.type == "ROUTE" || action.type == "TRANSFER" ? (
                 <ItineraryItem
                   actionType={action.type}
                   title={action.title}

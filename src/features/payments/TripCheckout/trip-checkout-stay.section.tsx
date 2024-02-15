@@ -28,7 +28,6 @@ export const TripCheckoutStaySection = ({ tripId }: { tripId: string }) => {
           tripId={tripId}
           router={router}
           onCloseModal={() => modal.close()}
-          isModalView
         />
       ),
       {
@@ -99,7 +98,9 @@ export const TripCheckoutStaySection = ({ tripId }: { tripId: string }) => {
           <Box className="trip-stay-section__content">
             <Text size="lg"></Text>
             <Box className="trip-stay-section__content__stay-desc">
-              <Picture>{data.coverImage ? parsePhoto(data.coverImage) : "/assets/stays/empty.svg"}</Picture>
+              <Picture>
+                {data.coverImage ? parsePhoto(data.coverImage) : "/assets/stays/empty.svg"}
+              </Picture>
               <Box className="trip-stay-section__content__stay-desc__box">
                 <Text size="lg">{data.name}</Text>
                 <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>
