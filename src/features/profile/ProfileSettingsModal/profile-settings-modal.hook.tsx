@@ -13,7 +13,8 @@ export const useProfileSettings = (onClose: VoidFunction) => {
     ProfileApiService.sendAnswers({ answers: answers.current, email }).finally(() => onClose());
   const { isLoading, error, data, isValidating } = useSWR(
     canSubmit ? `send-answers-to-set-traveler-profile-${email}` : null,
-    fetcher
+    fetcher,
+    { revalidateOnFocus: false }
   );
 
   return {

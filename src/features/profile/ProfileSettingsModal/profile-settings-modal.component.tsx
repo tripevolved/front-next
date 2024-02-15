@@ -28,6 +28,7 @@ export function ProfileSettingsModal({
   children,
   sx,
   onClose,
+  isModalView = false,
   ...props
 }: ProfileSettingsModalProps) {
   const { answers, setCanSubmit, isLoading, error, data, isValidating } =
@@ -41,16 +42,23 @@ export function ProfileSettingsModal({
 
   return (
     <div className="profile-settings-modal" {...props}>
-      <Picture
-        className="profile-settings-modal__brand"
-        height={60}
-        width={60}
-        src="/brand/logo-symbol.svg"
-      />
+      {isModalView ? (
+        <Picture
+          className="profile-settings-modal__brand"
+          height={60}
+          width={60}
+          src="/brand/logo-symbol.svg"
+        />
+      ) : null}
       {isLoading || isValidating ? (
-        <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} />
+        <div
+          className="flex w-100"
+          style={{ height: "100vh", alignContent: "center", justifyContent: "center" }}
+        >
+          <StepsLoader steps={STEPS} milliseconds={MILLISECONDS} />
+        </div>
       ) : (
-        <ProfileQuestionsForm onSubmit={handleAnswers} />
+        <ProfileQuestionsForm onSubmit={handleAnswers} isModalView={isModalView} />
       )}
     </div>
   );
