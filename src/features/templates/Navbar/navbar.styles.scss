@@ -1,5 +1,7 @@
 .navbar {
   $navbar-height: 88px;
+  $navbar-breakpoint-desktop: 1300px;
+  $navbar-breakpoint-mobile: $navbar-breakpoint-desktop - 1;
   border-bottom: 1px solid $color-divider;
   &__main {
     display: flex;
@@ -14,26 +16,36 @@
     margin: 0;
     display: flex;
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $navbar-breakpoint-mobile) {
       padding: 0 $spacing-xl $spacing-xl;
       flex-direction: column;
+      align-items: center;
       > * {
         width: 100%;
+        max-width: 320px;
         text-align: center;
         display: inline;
       }
       &[data-open="false"] {
         display: none;
       }
+      &__signin-button {
+        margin-top: 8px;
+      }
     }
   }
 
-  @media (min-width: $breakpoint-sm) {
+  @media (min-width: $navbar-breakpoint-desktop) {
     display: flex;
     justify-content: space-between;
     align-items: center;
     &__hamburger {
       display: none;
+    }
+    &__menu {
+      &__signin-button {
+        margin-left: 8px;
+      }
     }
   }
 }
