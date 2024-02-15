@@ -1,6 +1,9 @@
 import type { ProfileBuilderProps } from "./profile-builder.types";
 import { render } from "@testing-library/react";
 import { ProfileBuilder } from "./profile-builder.component";
+import { mockUseRouter } from "@/utils/mocks/next-router.mock";
+
+mockUseRouter();
 
 const makeSut = (props?: ProfileBuilderProps) => render(<ProfileBuilder {...props} />);
 
