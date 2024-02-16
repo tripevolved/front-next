@@ -9,10 +9,13 @@ export function TripTravelerProfileStep({ onNext, onPrevious }: StepComponentPro
   const travelerProfile = useAppStore((state) => state.travelerState.travelerProfile);
 
   const handleProfileButton = () => {
-    const modal = Modal.open(() => <ProfileSettingsModal onClose={() => modal.close()} />, {
-      size: "md",
-      closable: true,
-    });
+    const modal = Modal.open(
+      () => <ProfileSettingsModal isModalView onClose={() => modal.close()} />,
+      {
+        size: "md",
+        closable: true,
+      }
+    );
   };
 
   if (!travelerProfile) {

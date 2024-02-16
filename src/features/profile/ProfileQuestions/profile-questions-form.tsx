@@ -13,12 +13,16 @@ import type { AnswersDto } from "@/services/api/profile/answers";
 
 export interface ProfileQuestionsFormProps {
   onSubmit: (answers: AnswersDto) => void;
+  isModalView?: boolean;
 }
 
 const swrOptions = { revalidateOnFocus: false };
 const { getQuestions } = ProfileApiService;
 
-export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) => {
+export const ProfileQuestionsForm = ({
+  onSubmit,
+  isModalView = false,
+}: ProfileQuestionsFormProps) => {
   const { data = [], error, isLoading } = useSwr("questions", getQuestions, swrOptions);
 
   const [localAnswers, setLocalAnswers] = useLocalStorage("travel-profile-answers");
@@ -96,6 +100,7 @@ export const ProfileQuestionsForm = ({ onSubmit }: ProfileQuestionsFormProps) =>
       </main>
       <div className="profile-questions__footer">
         <QuestionNavigationController
+          style={{ bottom: isModalView ? "unset" : 0 }}
           position={currentIndex}
           total={total}
           onNavigation={handleSteps}
