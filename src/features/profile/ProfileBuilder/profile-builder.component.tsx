@@ -14,9 +14,6 @@ export function ProfileBuilder({ className, children, sx, ...props }: ProfileBui
 
   return (
     <PageTrip backToText="Voltar para o painel" backToUrl="/app/painel">
-      {/* <div className={cn} {...props}>
-        {children}
-      </div> */}
       <ProfileSettingsModal onClose={() => handleFinishProcess()} />
     </PageTrip>
   );
