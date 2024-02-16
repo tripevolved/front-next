@@ -8,7 +8,7 @@ export function ProfileBuilder({ className, children, sx, ...props }: ProfileBui
   const router = useRouter();
 
   const handleFinishProcess = () => {
-    Notification.success("Perfil configurado com Sucesso!");
+    Notification.success("Encontramos o seu perfil de viajante!");
     router.replace("/app/painel/");
   };
 
