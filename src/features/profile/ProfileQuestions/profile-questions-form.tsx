@@ -25,7 +25,7 @@ export const ProfileQuestionsForm = ({
 }: ProfileQuestionsFormProps) => {
   const { data = [], error, isLoading } = useSwr("questions", getQuestions, swrOptions);
 
-  const [localAnswers, setLocalAnswers] = useLocalStorage("travel-profile-answers");
+  const [localAnswers, setLocalAnswers, cleanAnswers] = useLocalStorage("travel-profile-answers");
   const [answers, setAnswers] = useState<AnswersDto>({});
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -55,6 +55,7 @@ export const ProfileQuestionsForm = ({
   );
 
   useEffect(() => {
+    cleanAnswers();
     const initialLocalAnswers = toJson(localAnswers);
     if (initialLocalAnswers) setAnswers(initialLocalAnswers as AnswersDto);
     // eslint-disable-next-line react-hooks/exhaustive-deps
