@@ -11,6 +11,7 @@ import { KEY_NAME } from "./public-destinations.constants";
 import { UserService } from "@/services/user";
 import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
 import { DestinationSuggestion } from "./destination-suggestion";
+import { canSignUp } from "@/utils/helpers/environment.helpers";
 
 export const PublicDestinationsTab = ({
   searchName,
@@ -58,7 +59,7 @@ export const PublicDestinationsTab = ({
                 iconName="arrow-right"
                 isRtl
                 href={
-                  UserService.isAuth()
+                  UserService.isAuth() || canSignUp()
                     ? `/destinos/${destination.uniqueName}`
                     : getWhatsappLink(`Quero ir para ${destination.name}`)
                 }

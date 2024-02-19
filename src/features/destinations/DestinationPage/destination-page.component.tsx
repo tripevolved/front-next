@@ -9,6 +9,7 @@ import { DestinationFaqSection } from "./destination-faq.section";
 import { Button } from "mars-ds";
 import { UserCredentials } from "@/services/user/credentials";
 import { WhatsappButton } from "@/ui";
+import { canSignUp } from "@/utils/helpers/environment.helpers";
 
 const mock = {
   features: [
@@ -113,7 +114,7 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
       {posts.length ? <DestinationPostsSection posts={posts} /> : null}
       <DestinationFaqSection faq={mock.faq} title={title}>
         <div>
-          {userData?.idToken ? (
+          {canSignUp() || userData?.idToken ? (
             <Button
               className="mt-2x"
               style={{ width: 336 }}
@@ -124,7 +125,7 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
               Quero ir
             </Button>
           ) : (
-            <WhatsappButton 
+            <WhatsappButton
               className="mt-2x"
               style={{ width: 336 }}
               // @ts-ignore
@@ -132,7 +133,7 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
               message={`Olá! Quero ir para ${destination.title}!`}
             >
               Quero ir
-            </WhatsappButton>  
+            </WhatsappButton>
           )}
         </div>
       </DestinationFaqSection>
