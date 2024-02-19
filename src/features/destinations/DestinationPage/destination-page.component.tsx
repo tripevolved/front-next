@@ -130,7 +130,7 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
               style={{ width: 336 }}
               // @ts-ignore
               variant="tertiary"
-              href={`/app/cadastro?redirecTo=${encodeURIComponent(
+              href={`/app/cadastro?redirectTo=${encodeURIComponent(
                 `/app/viagens/nova?para=${uniqueName}`
               )}`}
             >
