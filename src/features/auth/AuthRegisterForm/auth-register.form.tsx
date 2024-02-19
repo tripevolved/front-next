@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-import { TextField } from "mars-ds";
+import { Button, Grid, TextField } from "mars-ds";
 import { AuthFormSection } from "../AuthFormSection";
 import { SubmitHandler } from "@/utils/helpers/form.helpers";
 import { UserApiService } from "@/services/api/user";
@@ -40,6 +40,14 @@ export function AuthRegisterForm() {
       submitting={submitting}
       onSubmitHandler={handleSubmit}
       submitButton={{ children: "Continuar" }}
+      buttonActions={[
+        {
+          href: redirectTo
+            ? `/app/entrar?redirectTo=${encodeURIComponent(redirectTo)}`
+            : `/app/entrar`,
+          label: "Entrar na minha conta",
+        },
+      ]}
     >
       <TextField required name="name" label="Nome" minLength={3} />
       <TextField required name="email" label="Seu melhor e-mail" type="email" />
