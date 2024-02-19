@@ -27,7 +27,7 @@ export function AuthFormSection({
       </form>
       {buttonActions?.map((action, key) => (
         <div key={action.id || key} className="auth-section__element">
-          <Button href="/app/cadastro" variant="naked" {...action} />
+          <Button variant="naked" {...action} />
         </div>
       ))}
     </AuthSection>
