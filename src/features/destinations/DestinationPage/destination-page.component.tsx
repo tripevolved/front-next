@@ -114,13 +114,25 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
       {posts.length ? <DestinationPostsSection posts={posts} /> : null}
       <DestinationFaqSection faq={mock.faq} title={title}>
         <div>
-          {canSignUp() || userData?.idToken ? (
+          {userData?.idToken ? (
             <Button
               className="mt-2x"
               style={{ width: 336 }}
               // @ts-ignore
               variant="tertiary"
               href={`/app/viagens/nova?para=${uniqueName}`}
+            >
+              Quero ir
+            </Button>
+          ) : canSignUp() ? (
+            <Button
+              className="mt-2x"
+              style={{ width: 336 }}
+              // @ts-ignore
+              variant="tertiary"
+              href={`/app/cadastro?redirecTo=${encodeURIComponent(
+                `/app/viagens/nova?para=${uniqueName}`
+              )}`}
             >
               Quero ir
             </Button>
