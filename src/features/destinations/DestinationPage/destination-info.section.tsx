@@ -13,7 +13,7 @@ export const DestinationInfoSection = ({
 }: DestinationInfoSectionProps) => {
   return (
     <SectionBase columns={{ md: [1, "320px"] }} gap={32}>
-      {features.length ? <DestinationInfos features={features} children={children} /> : null}
+      {features.length ? <DestinationInfos features={features}>{children}</DestinationInfos> : null}
       {recommendedBy ? <DestinationRecommendedBy {...recommendedBy} /> : null}
     </SectionBase>
   );

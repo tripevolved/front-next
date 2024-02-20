@@ -108,11 +108,19 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
   return (
     <PageBase navbar={navbar} footer={footer} seo={seo}>
       <DestinationHeroSection title={title} photos={photos} />
-      <DestinationInfoSection features={features} recommendedBy={recommendedBy} children={<Cta />} />
+      <DestinationInfoSection features={features} recommendedBy={recommendedBy}>
+        <Cta />
+      </DestinationInfoSection>
       {videos.length ? <DestinationVideoSection title={title} videos={videos} /> : null}
-      {tips.length ? <DestinationTipsSection tips={tips} children={<Cta />} /> : null}
+      {tips.length ? (
+        <DestinationTipsSection tips={tips}>
+          <Cta />
+        </DestinationTipsSection>
+      ) : null}
       {posts.length ? <DestinationPostsSection posts={posts} /> : null}
-      <DestinationFaqSection faq={mock.faq} title={title} children={<Cta />} />
+      <DestinationFaqSection faq={mock.faq} title={title}>
+        <Cta />
+      </DestinationFaqSection>
     </PageBase>
   );
 }
