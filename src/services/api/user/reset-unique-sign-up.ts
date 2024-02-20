@@ -5,7 +5,16 @@ interface ResetSignUpApiResponse {
   uniqueId?: string;
 }
 
-export const resetUniqueSignUp = async ({ currentEmail, currentUniqueId } : { currentEmail: string, currentUniqueId?: string }) => {
+export const resetUniqueSignUp = async ({
+  currentEmail,
+  currentUniqueId,
+}: {
+  currentEmail: string;
+  currentUniqueId?: string;
+}) => {
   const url = `users/reset-unique-sign-up`;
-  return await ApiRequest.post<ResetSignUpApiResponse>(url, { email: currentEmail, uniqueId: currentUniqueId });
+  return await ApiRequest.post<ResetSignUpApiResponse>(url, {
+    email: currentEmail,
+    uniqueId: currentUniqueId,
+  });
 };
