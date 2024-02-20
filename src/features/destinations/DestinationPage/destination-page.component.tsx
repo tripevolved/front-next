@@ -9,6 +9,7 @@ import { DestinationFaqSection } from "./destination-faq.section";
 import { Button } from "mars-ds";
 import { UserCredentials } from "@/services/user/credentials";
 import { WhatsappButton } from "@/ui";
+import { canSignUp } from "@/utils/helpers/environment.helpers";
 
 const mock = {
   features: [
@@ -123,8 +124,20 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
             >
               Quero ir
             </Button>
+          ) : canSignUp() ? (
+            <Button
+              className="mt-2x"
+              style={{ width: 336 }}
+              // @ts-ignore
+              variant="tertiary"
+              href={`/app/cadastro?redirectTo=${encodeURIComponent(
+                `/app/viagens/nova?para=${uniqueName}`
+              )}`}
+            >
+              Quero ir
+            </Button>
           ) : (
-            <WhatsappButton 
+            <WhatsappButton
               className="mt-2x"
               style={{ width: 336 }}
               // @ts-ignore
@@ -132,7 +145,7 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
               message={`Olá! Quero ir para ${destination.title}!`}
             >
               Quero ir
-            </WhatsappButton>  
+            </WhatsappButton>
           )}
         </div>
       </DestinationFaqSection>
