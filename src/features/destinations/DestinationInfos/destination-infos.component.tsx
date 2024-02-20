@@ -2,10 +2,11 @@ import { PublicDestinationFeature } from "@/core/types";
 import { CardHighlight, Picture, Text } from "@/ui";
 
 interface DestinationInfosProps {
-  features: PublicDestinationFeature[]
+  features: PublicDestinationFeature[],
+  children?: any;
 }
 
-export const DestinationInfos = ({ features = [] }: DestinationInfosProps) => {
+export const DestinationInfos = ({ features = [], children }: DestinationInfosProps) => {
 
   return (
     <CardHighlight className="destination-infos">
@@ -15,6 +16,7 @@ export const DestinationInfos = ({ features = [] }: DestinationInfosProps) => {
       {features.map((props, key) => (
         <DestinationInfosItem key={key} {...props} />
       ))}
+      {children}
     </CardHighlight>
   );
 }
