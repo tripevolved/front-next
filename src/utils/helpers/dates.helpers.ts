@@ -22,7 +22,9 @@ export const toFullDetailedDate = (date: Date | null | undefined) => {
   if (date === undefined || date === null) return null;
 
   let newDate = new Date(date);
-  return `${newDate.toLocaleDateString()} às ${newDate.toLocaleTimeString([], { hour: "2-digit" })}h`;
+  return `${newDate.toLocaleDateString()} às ${newDate.toLocaleTimeString([], {
+    hour: "2-digit",
+  })}h`;
 };
 
 export const toLocaleShortDateOnlyString = (date: Date) => {

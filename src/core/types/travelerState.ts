@@ -28,4 +28,11 @@ export interface TravelerState {
   availableFeatures: ProductFeature[];
 }
 
-type ProductFeature = "ITINERARY" | "PURCHASE" | "STAY_EDIT" | "SCRIPT" | "RESTAURANTS" | "FLIGHT_EDIT" | "ITINERARY_EDIT";
+type ProductFeature =
+  | "ITINERARY"
+  | "PURCHASE"
+  | "STAY_EDIT"
+  | "SCRIPT"
+  | "RESTAURANTS"
+  | "FLIGHT_EDIT"
+  | "ITINERARY_EDIT";
