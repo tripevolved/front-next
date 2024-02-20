@@ -12,14 +12,24 @@ import { Environment } from "@/utils/helpers/environment.helpers";
 import { AppAuthProvider } from "@/core/app-auth";
 import { useAnalytics } from "@/services/analytics";
 
+const scrollTo = (id: string, event: React.MouseEvent<HTMLAnchorElement>) => {
+  const el = document.querySelector(id);
+  if (!el) return;
+  event.preventDefault();
+  const rect = el.getBoundingClientRect();
+  const offset = 32;
+  const top = rect.top - offset;
+  window.scrollTo({ top, behavior: "smooth" });
+};
+
 const LinkComponent = ({ url, ...props }: any) => {
   const isAnchor = /^#/.test(url);
-  if (isAnchor) return <a href={url} {...props} />;
+  if (isAnchor) return <a href={url} onClick={(event) => scrollTo(url, event)} {...props} />;
   return <NextLink href={url} {...props} />;
 };
 
 export default function App({ Component, pageProps }: AppProps) {
-  useAnalytics()
+  useAnalytics();
   return (
     <LeadProvider>
       <Seo />
