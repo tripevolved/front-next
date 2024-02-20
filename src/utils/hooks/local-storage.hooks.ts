@@ -15,5 +15,7 @@ export function useLocalStorage(key: string, initialValue = "") {
     LocalStorageService.save(key, valueToStore);
   };
 
-  return [storedValue, setValue] as const;
+  const cleanValue = () => LocalStorageService.remove(key);
+
+  return [storedValue, setValue, cleanValue] as const;
 }

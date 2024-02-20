@@ -9,7 +9,7 @@ export function NoProfile() {
       text="Separamos algumas perguntas para entender o perfil de viagem ideal para você. Responda a seguir e descubra nossas recomendações de destinos."
       cta={{
         label: "Descobrir meu perfil de Viajante",
-        href: "/perfil/perguntas",
+        href: "/app/perfil",
         variant: "tertiary",
       }}
     />

@@ -29,9 +29,5 @@
     &__next {
       min-width: 200px;
     }
-  
-    @media (max-width: $mobile) {
-      bottom: unset;
-    }
   }
 }
