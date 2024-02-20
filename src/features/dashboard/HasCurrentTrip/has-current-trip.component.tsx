@@ -8,6 +8,8 @@ import { Grid, Icon, Label, LabelVariants, Skeleton, Tabs, ToggleButton } from "
 import { CardTrip, EmptyState, ErrorState, Text, CardTripNew, confirmModal } from "@/ui";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { useAllTrips } from "./has-current-trip.hook";
+import { useAppStore } from "@/core/store";
+import { DestinationsByProfileName } from "@/features/";
 
 export function HasCurrentTrip() {
   return (
@@ -37,20 +39,49 @@ function MountTripTab({ tabType }: { tabType: "CURRENT" | "PAST" }) {
   return <AllTrips {...data} disableDeletion={pastTrips} />;
 }
 
-function AllTrips({ currentTrip, otherTrips, disableDeletion = false }: AllTripsProps & { disableDeletion: boolean }) {
+function AllTrips({
+  currentTrip,
+  otherTrips,
+  disableDeletion = false,
+}: AllTripsProps & { disableDeletion: boolean }) {
+  const { travelerProfile } = useAppStore((state) => state.travelerState);
   return (
     <Grid className="all-trips py-md">
       {currentTrip ? (
-        <div className="all-trips__main">
-          <TripItem {...currentTrip} enableDeletion={currentTrip.status !== "Só falta viajar!"} />
-        </div>
+        <>
+          <div>
+            <Text className="mt-lg" as="h2" heading size="xs">
+              Destinos que você pode gostar:
+            </Text>
+            <DestinationsByProfileName profileName={travelerProfile || "relax"} />
+          </div>
+          <div className="all-trips__main">
+            <TripItem {...currentTrip} enableDeletion={currentTrip.status !== "Só falta viajar!"} />
+          </div>
+        </>
       ) : null}
       <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
         <CardTripNew title="Nova viagem" iconName="Plane" href="/app/viagens/descobrir" />
         {otherTrips.map((trip) => (
-          <TripItem key={trip.id} {...trip} enableDeletion={!disableDeletion && (trip.status !== "Só falta viajar!" && trip.status !== "Pena que já passou :(")} />
+          <TripItem
+            key={trip.id}
+            {...trip}
+            enableDeletion={
+              !disableDeletion &&
+              trip.status !== "Só falta viajar!" &&
+              trip.status !== "Pena que já passou :("
+            }
+          />
         ))}
       </Grid>
+      {!currentTrip ? (
+        <div className="w-100 mt-xl">
+          <Text className="mb-lg" as="h2" heading size="xs">
+            Destinos que você pode gostar:
+          </Text>
+          <DestinationsByProfileName profileName={travelerProfile || "relax"} />
+        </div>
+      ) : null}
     </Grid>
   );
 }
