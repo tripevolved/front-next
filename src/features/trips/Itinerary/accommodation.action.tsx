@@ -36,7 +36,11 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   return (
     <Skeleton active={isLoading || isValidating} height={355}>
       {data ? (
-        <AccommodationComponent data={data} tripId={props.tripId} tripItineraryActionId={props.tripItineraryActionId}/>
+        <AccommodationComponent
+          data={data}
+          tripId={props.tripId}
+          tripItineraryActionId={props.tripItineraryActionId}
+        />
       ) : (
         <TripStayEmptyState />
       )}
@@ -44,7 +48,15 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   );
 };
 
-const AccommodationComponent = ({ data, tripId, tripItineraryActionId } : { data: TripStay, tripId: string, tripItineraryActionId: string }) => {
+const AccommodationComponent = ({
+  data,
+  tripId,
+  tripItineraryActionId,
+}: {
+  data: TripStay;
+  tripId: string;
+  tripItineraryActionId: string;
+}) => {
   const { availableFeatures } = useAppStore((state) => state.travelerState);
   const allowStayEdit = availableFeatures.includes("STAY_EDIT");
 
@@ -106,7 +118,8 @@ const AccommodationComponent = ({ data, tripId, tripItineraryActionId } : { data
           <div className="stay-detail-info__item">
             <Icon name="calendar" size="sm" color="#8253F6" />
             <Text>
-              Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até {`${toFullDetailedDate(data.checkOut)}`}
+              Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até{" "}
+              {`${toFullDetailedDate(data.checkOut)}`}
             </Text>
           </div>
         )}
@@ -151,7 +164,7 @@ const AccommodationComponent = ({ data, tripId, tripItineraryActionId } : { data
       {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
     </Grid>
   );
-}
+};
 
 const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "", allowEdit = true }) => {
   return allowEdit ? (
