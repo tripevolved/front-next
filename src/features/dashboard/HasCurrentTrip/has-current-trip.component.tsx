@@ -10,16 +10,31 @@ import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { useAllTrips } from "./has-current-trip.hook";
 import { useAppStore } from "@/core/store";
 import { DestinationsByProfileName } from "@/features/";
+import { useRouter } from "next/router";
 
 export function HasCurrentTrip() {
+  const router = useRouter();
+  const { hasCurrentTrip } = router.query;
+  const { travelerProfile } = useAppStore((state) => state.travelerState);
+
   return (
     <section className="has-current-trip">
+      {hasCurrentTrip ? (
+        <div className="mb-xl">
+          <ProfileDestinationsSuggestion travelerProfile={travelerProfile} />
+        </div>
+      ) : null}
       <Tabs
         tabs={[
           { label: "Próximas viagens", children: <MountTripTab tabType={"CURRENT"} /> },
           { label: "Viagens passadas", children: <MountTripTab tabType={"PAST"} /> },
         ]}
       />
+      {!hasCurrentTrip ? (
+        <div className="w-100 mt-xl">
+          <ProfileDestinationsSuggestion travelerProfile={travelerProfile} />
+        </div>
+      ) : null}
     </section>
   );
 }
@@ -44,21 +59,12 @@ function AllTrips({
   otherTrips,
   disableDeletion = false,
 }: AllTripsProps & { disableDeletion: boolean }) {
-  const { travelerProfile } = useAppStore((state) => state.travelerState);
   return (
     <Grid className="all-trips py-md">
       {currentTrip ? (
-        <>
-          <div>
-            <Text className="mt-lg" as="h2" heading size="xs">
-              Destinos que você pode gostar:
-            </Text>
-            <DestinationsByProfileName profileName={travelerProfile || "relax"} />
-          </div>
-          <div className="all-trips__main">
-            <TripItem {...currentTrip} enableDeletion={currentTrip.status !== "Só falta viajar!"} />
-          </div>
-        </>
+        <div className="all-trips__main">
+          <TripItem {...currentTrip} enableDeletion={currentTrip.status !== "Só falta viajar!"} />
+        </div>
       ) : null}
       <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
         <CardTripNew title="Nova viagem" iconName="Plane" href="/app/viagens/descobrir" />
@@ -74,14 +80,6 @@ function AllTrips({
           />
         ))}
       </Grid>
-      {!currentTrip ? (
-        <div className="w-100 mt-xl">
-          <Text className="mb-lg" as="h2" heading size="xs">
-            Destinos que você pode gostar:
-          </Text>
-          <DestinationsByProfileName profileName={travelerProfile || "relax"} />
-        </div>
-      ) : null}
     </Grid>
   );
 }
@@ -151,4 +149,17 @@ export const LoadingSkeleton = () => (
       <Skeleton key={key} active height={270} />
     ))}
   </Grid>
+);
+
+export const ProfileDestinationsSuggestion = ({
+  travelerProfile,
+}: {
+  travelerProfile: string | null;
+}) => (
+  <>
+    <Text className="mb-lg" as="h2" heading size="xs">
+      Destinos que você pode gostar:
+    </Text>
+    <DestinationsByProfileName profileName={travelerProfile || "relax"} />
+  </>
 );
