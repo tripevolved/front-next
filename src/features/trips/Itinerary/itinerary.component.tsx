@@ -33,7 +33,11 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
   if (data?.actions.length == 0) return <EmptyState />;
 
   return (
-    <Card className="itinerary flex-column gap-lg" elevation={CardElevations.Low}>
+    <Card
+      className="itinerary flex-column gap-lg"
+      style={{ padding: 16 }}
+      elevation={CardElevations.Low}
+    >
       <Text heading size="lg">
         Seu itinerário
       </Text>

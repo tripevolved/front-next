@@ -65,7 +65,7 @@ const AccommodationComponent = ({
   if (!data || !data.isSelected) {
     return (
       <>
-        <div className="px-xl w-100 flex-column gap-lg">
+        <div className="w-100 flex-column gap-lg">
           <TripStayEmptyState
             tripId={tripId}
             tripItineraryActionId={tripItineraryActionId}
@@ -98,7 +98,7 @@ const AccommodationComponent = ({
   if (!data.isRoomSelected) {
     return (
       <>
-        <div className="px-xl w-100 flex-column gap-lg">
+        <div className="w-100 flex-column gap-lg">
           <TripStayEmptyRoomState
             tripId={tripId}
             tripItineraryActionId={tripItineraryActionId}
@@ -150,7 +150,7 @@ const AccommodationComponent = ({
           </div>
         </div>
       </Grid>
-      <Grid columns={["75%", "20%"]}>
+      <Grid columns={["60%", "20%"]}>
         <Button size="sm" variant="neutral" onClick={() => handleSeeDetails()}>
           Ver detalhes
         </Button>
@@ -181,6 +181,7 @@ const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "", allowEdit
     />
   ) : (
     <CardHighlight
+      sx={{ padding: 10 }}
       variant="warning"
       heading="Ainda não escolhemos a acomodação para sua viagem"
       text="Fale conosco e vamos deixar tudo como você deseja!"
