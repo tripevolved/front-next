@@ -103,52 +103,70 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
     uniqueName,
     videos = [],
   } = destination;
-  const userData = UserCredentials.get();
+  const Cta = () => <DestinationCta uniqueName={uniqueName} destinationTitle={destination.title} />;
 
   return (
     <PageBase navbar={navbar} footer={footer} seo={seo}>
       <DestinationHeroSection title={title} photos={photos} />
-      <DestinationInfoSection features={features} recommendedBy={recommendedBy} />
+      <DestinationInfoSection features={features} recommendedBy={recommendedBy}>
+        <Cta />
+      </DestinationInfoSection>
       {videos.length ? <DestinationVideoSection title={title} videos={videos} /> : null}
-      {tips.length ? <DestinationTipsSection tips={tips} /> : null}
+      {tips.length ? (
+        <DestinationTipsSection tips={tips}>
+          <Cta />
+        </DestinationTipsSection>
+      ) : null}
       {posts.length ? <DestinationPostsSection posts={posts} /> : null}
       <DestinationFaqSection faq={mock.faq} title={title}>
-        <div>
-          {userData?.idToken ? (
-            <Button
-              className="mt-2x"
-              style={{ width: 336 }}
-              // @ts-ignore
-              variant="tertiary"
-              href={`/app/viagens/nova?para=${uniqueName}`}
-            >
-              Quero ir
-            </Button>
-          ) : canSignUp() ? (
-            <Button
-              className="mt-2x"
-              style={{ width: 336 }}
-              // @ts-ignore
-              variant="tertiary"
-              href={`/app/cadastro?redirectTo=${encodeURIComponent(
-                `/app/viagens/nova?para=${uniqueName}`
-              )}`}
-            >
-              Quero ir
-            </Button>
-          ) : (
-            <WhatsappButton
-              className="mt-2x"
-              style={{ width: 336 }}
-              // @ts-ignore
-              variant="tertiary"
-              message={`Olá! Quero ir para ${destination.title}!`}
-            >
-              Quero ir
-            </WhatsappButton>
-          )}
-        </div>
+        <Cta />
       </DestinationFaqSection>
     </PageBase>
   );
 }
+
+interface DestinationCtaProps {
+  uniqueName: string;
+  destinationTitle: string;
+}
+
+const DestinationCta = ({ uniqueName, destinationTitle }: DestinationCtaProps) => {
+  const userData = UserCredentials.get();
+  return (
+    <div className="text-center">
+      {userData?.idToken ? (
+        <Button
+          className="mt-2x"
+          style={{ width: 336 }}
+          // @ts-ignore
+          variant="tertiary"
+          href={`/app/viagens/nova?para=${uniqueName}`}
+        >
+          Quero ir
+        </Button>
+      ) : canSignUp() ? (
+        <Button
+          className="mt-2x"
+          style={{ width: 336 }}
+          // @ts-ignore
+          variant="tertiary"
+          href={`/app/cadastro?redirectTo=${encodeURIComponent(
+            `/app/viagens/nova?para=${uniqueName}`
+          )}`}
+        >
+          Montar a minha viagem
+        </Button>
+      ) : (
+        <WhatsappButton
+          className="mt-2x"
+          style={{ width: 336 }}
+          // @ts-ignore
+          variant="tertiary"
+          message={`Olá! Quero ir para ${destinationTitle}!`}
+        >
+          Quero ir
+        </WhatsappButton>
+      )}
+    </div>
+  );
+};

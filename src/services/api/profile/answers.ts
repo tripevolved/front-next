@@ -44,7 +44,7 @@ const parseAnswers = (answers: AnswersDto): Answer[] => {
   return result;
 };
 
-const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 export const sendAnswers = async ({ answers, email }: AnswersBody) => {
   const url = "profiles/answers";
@@ -57,11 +57,10 @@ export const sendAnswers = async ({ answers, email }: AnswersBody) => {
     answers: parseAnswers(answers),
   };
 
-  const response = await ApiRequest.post(url, payload)
-    .then(async () => {
-      await delay(6000);
-      return await getResult({ id });
-    });
+  const response = await ApiRequest.post(url, payload).then(async () => {
+    await delay(6000);
+    return await getResult({ id });
+  });
   await UserService.updateTravelerState();
   return response;
 };

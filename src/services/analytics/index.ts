@@ -1,1 +1,1 @@
-export { useAnalytics } from "./hook"
+export { useAnalytics } from "./hook";

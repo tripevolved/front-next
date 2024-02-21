@@ -9,4 +9,3 @@ export interface StayDetailsModalProps {
   tripStay: TripStay;
   allowEdit: Boolean;
 }
-  
