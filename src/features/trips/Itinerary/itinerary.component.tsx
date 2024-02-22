@@ -16,7 +16,11 @@ import { ItineraryList } from "@/core/types";
 export function Itinerary({ tripId, title }: ItineraryProps) {
   const setSimpleItinerary = useAppStore((state) => state.setSimpleItinerary);
 
-  const fetcher = async () => TripsApiService.getItinerary(tripId);
+  const fetcher = async () =>
+    TripsApiService.getItinerary(tripId).then((data) => {
+      buildSimpleItinerary(data);
+      return data;
+    });
   const { data, isLoading, error } = useSWR(`get-trip-itinerary-${tripId}`, fetcher);
 
   const buildSimpleItinerary = (itinerary: ItineraryList) => {
@@ -24,10 +28,6 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
       actions: itinerary.actions.map((action) => ({ type: action.type, title: action.title })),
     });
   };
-
-  useEffect(() => {
-    if (data) buildSimpleItinerary(data);
-  }, [data?.actions]);
 
   if (error) return <ErrorState />;
   if (data?.actions.length == 0) return <EmptyState />;
