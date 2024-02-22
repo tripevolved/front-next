@@ -27,7 +27,7 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
 
   useEffect(() => {
     if (data) buildSimpleItinerary(data);
-  }, []);
+  }, [data?.actions]);
 
   if (error) return <ErrorState />;
   if (data?.actions.length == 0) return <EmptyState />;

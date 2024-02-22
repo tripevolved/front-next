@@ -221,7 +221,7 @@ const TripStayEmptyRoomState = ({
         <strong>Temos uma sugestão de hospedagem</strong>
       </Text>
       <Text className="color-text-secondary mb-md">{tripStay.roomSelectionMessage}</Text>
-      <Grid columns={["56px", "auto", "25%"]} style={{ padding: "8px 0 12px 0" }}>
+      <Grid columns={{ sm: 1, md: ["48px", "auto", "25%"] }} style={{ padding: "8px 0 12px 0" }}>
         <Picture>
           {tripStay.coverImage ? parsePhoto(tripStay.coverImage) : "/assets/blank-image.png"}
         </Picture>

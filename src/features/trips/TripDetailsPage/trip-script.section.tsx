@@ -48,7 +48,7 @@ export const TripScriptFeatures = ({ paddingLeft = 24 }: { paddingLeft?: number 
 );
 
 const TripScriptBuildCta = () => {
-  const { availableFeatures } = useAppStore(state => state.travelerState);
+  const { availableFeatures } = useAppStore((state) => state.travelerState);
   const allowScriptBuilder = availableFeatures.includes("SCRIPT");
 
   const idParam = useIdParam();
@@ -71,7 +71,13 @@ const TripScriptBuildCta = () => {
       text="Recomendando as melhores experiências para o seu perfil e objetivo de viagem!"
     >
       <HoverTooltipCard text="A construção do roteiro ainda não está disponível online.">
-        <Button variant="neutral" size="sm" label="Construir meu roteiro" iconName="lock" isRtl={true} />
+        <Button
+          variant="neutral"
+          size="sm"
+          label="Construir meu roteiro"
+          iconName="lock"
+          isRtl={true}
+        />
       </HoverTooltipCard>
     </CardHighlight>
   );

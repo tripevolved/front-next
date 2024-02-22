@@ -45,7 +45,7 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
 
   return (
     <Skeleton active={isLoading} height={170}>
-      <div className="pl-xl itinerary__item">
+      <div className="pl-lg itinerary__item">
         {data ? (
           <Grid>
             {data.flightView !== null ? (
