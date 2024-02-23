@@ -47,13 +47,22 @@ export function PageAppHeader({
               </div>
             </Grid>
           </div>
-          <ToggleButton
-            className="page-app-header__toggle"
-            variant="text"
-            iconName="menu"
-            title="Abrir o menu"
-            onClick={() => Modal.open(MenuModal, { closable: true, size: "lg" })}
-          />
+          <div>
+            <ToggleButton
+              className="page-app-header__toggle"
+              variant="text"
+              iconName="bell"
+              title="Notificações"
+              onClick={() => null}
+            />
+            <ToggleButton
+              className="page-app-header__toggle"
+              variant="text"
+              iconName="menu"
+              title="Abrir o menu"
+              onClick={() => Modal.open(MenuModal, { closable: true, size: "lg" })}
+            />
+          </div>
         </Container>
       </nav>
       <div className="page-app-header-extension" />
