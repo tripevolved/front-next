@@ -4,7 +4,7 @@ import { TripsApiService } from "@/services/api";
 
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
-import { Grid, Icon, Label, LabelVariants, Skeleton, Tabs, ToggleButton } from "mars-ds";
+import { Divider, Grid, Icon, Label, LabelVariants, Skeleton, Tabs, ToggleButton } from "mars-ds";
 import { CardTrip, EmptyState, ErrorState, Text, CardTripNew, confirmModal } from "@/ui";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { useAllTrips } from "./has-current-trip.hook";
@@ -18,11 +18,14 @@ export function HasCurrentTrip() {
   const { travelerProfile } = useAppStore((state) => state.travelerState);
 
   return (
-    <section className="has-current-trip">
+    <section className="has-current-trip grid gap-lg">
       {hasCurrentTrip ? (
-        <div className="mb-xl">
-          <ProfileDestinationsSuggestion travelerProfile={travelerProfile} />
-        </div>
+        <>
+          <div className="mb-md">
+            <ProfileDestinationsSuggestion travelerProfile={travelerProfile} />
+          </div>
+          <Divider />
+        </>
       ) : null}
       <Tabs
         tabs={[
@@ -31,9 +34,12 @@ export function HasCurrentTrip() {
         ]}
       />
       {!hasCurrentTrip ? (
-        <div className="w-100 mt-xl">
-          <ProfileDestinationsSuggestion travelerProfile={travelerProfile} />
-        </div>
+        <>
+          <Divider />
+          <div className="w-100">
+            <ProfileDestinationsSuggestion travelerProfile={travelerProfile} />
+          </div>
+        </>
       ) : null}
     </section>
   );
