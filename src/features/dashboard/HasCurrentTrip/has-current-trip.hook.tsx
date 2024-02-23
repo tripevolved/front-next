@@ -9,13 +9,15 @@ export const useAllTrips = (pastTrips: boolean) => {
 
   const fetcherKey = `trips/${travelerId}/all?pastTrips=${pastTrips}`;
   const fetcher = async () =>
-    TripsApiService.getAll(travelerId, pastTrips).then((data) => {
-      if (data.currentTrip) {
-        const newURLState = { hasCurrentTrip: true };
-        router.replace({ pathname: router.pathname, query: newURLState });
-      }
-      return data;
-    });
+    TripsApiService.getAll(travelerId, pastTrips)
+      .then((data) => {
+        if (data.currentTrip) {
+          const newURLState = { hasCurrentTrip: true };
+          router.replace({ pathname: router.pathname, query: newURLState });
+        }
+        return data;
+      })
+      .catch(() => null);
   const { isLoading, error, data, mutate } = useSWR(fetcherKey, fetcher);
 
   return { isLoading, error, data, mutate };
