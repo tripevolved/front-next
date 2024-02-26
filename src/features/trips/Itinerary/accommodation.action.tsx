@@ -110,7 +110,6 @@ const AccommodationComponent = ({
       </>
     );
   }
-
   return (
     <Grid className="pl-lg">
       <div className="stay-detail-info">
@@ -118,17 +117,18 @@ const AccommodationComponent = ({
           <div className="stay-detail-info__item">
             <Icon name="calendar" size="sm" color="#8253F6" />
             <Text>
-              Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até{" "}
-              {`${toFullDetailedDate(data.checkOut)}`}
+              Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até {`${toFullDetailedDate(data.checkOut)}`}
             </Text>
           </div>
         )}
-        <div className="stay-detail-info__item">
-          <Icon name="info" size="sm" color="#8253F6" />
-          <Text>{data.cancellationInfo}</Text>
-        </div>
+        {data.cancellationInfo ? (
+          <div className="stay-detail-info__item">
+            <Icon name="info" size="sm" color="#8253F6" />
+            <Text>{data.cancellationInfo}</Text>
+          </div>
+        ) : null}
       </div>
-      <Grid columns={["120px", "auto"]}>
+      <Grid columns={{ sm: 1, md: ["120px", "auto"] }}>
         <Picture className="itinerary-item__content__image">
           {data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}
         </Picture>
@@ -150,7 +150,7 @@ const AccommodationComponent = ({
           </div>
         </div>
       </Grid>
-      <Grid columns={["60%", "20%"]}>
+      <Grid columns={{ sm: 1, md: ["60%", "30%"] }}>
         <Button size="sm" variant="neutral" onClick={() => handleSeeDetails()}>
           Ver detalhes
         </Button>
@@ -294,7 +294,14 @@ export const StayEditionButton = ({
     </Button>
   ) : (
     <HoverTooltipCard text="A escolha da sua hospedagem ainda não está disponível online.">
-      <Button variant="naked" size="sm" iconName="lock" onClick={handleClick} disabled>
+      <Button
+        className="w-100"
+        variant="naked"
+        size="sm"
+        iconName="lock"
+        onClick={handleClick}
+        disabled
+      >
         Editar
       </Button>
     </HoverTooltipCard>
