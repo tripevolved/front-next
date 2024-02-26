@@ -2,6 +2,7 @@ import { useAppStore } from "@/core/store";
 import { ModalContent, Text, UserAvatar } from "@/ui";
 import { Avatar, Button, Container, Divider, Grid, Modal, ToggleButton } from "mars-ds";
 import { makeCn } from "@/utils/helpers/css.helpers";
+import { NotificationButton } from "@/features";
 
 export interface PageAppHeaderProps {
   image?: string;
@@ -48,13 +49,7 @@ export function PageAppHeader({
             </Grid>
           </div>
           <div>
-            <ToggleButton
-              className="page-app-header__toggle"
-              variant="text"
-              iconName="bell"
-              title="Notificações"
-              onClick={() => null}
-            />
+            <NotificationButton />
             <ToggleButton
               className="page-app-header__toggle"
               variant="text"

@@ -67,6 +67,7 @@ export * from "./stays/StayDetailsModal";
 export * from "./templates/ChatFloatingButton";
 export * from "./templates/Footer";
 export * from "./templates/Navbar";
+export * from "./templates/NotificationButton";
 export * from "./templates/PageApp";
 export * from "./templates/PageAppHeader";
 export * from "./templates/PageAppHero";
