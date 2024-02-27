@@ -10,7 +10,7 @@ export interface TripDetailInfoPros {
 
 export const TripDetailInfo = ({ title, text, image, children }: TripDetailInfoPros) => (
   <Grid columns={["auto", "1fr"]}>
-    <Picture src={image} height={40} width={40} />
+    <Picture src={image} style={{ width: 40 }} />
     <div className="mt-sm">
       <Text as="h3" size="xl" className="color-primary">
         {title}

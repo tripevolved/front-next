@@ -36,7 +36,11 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   return (
     <Skeleton active={isLoading || isValidating} height={355}>
       {data ? (
-        <AccommodationComponent data={data} tripId={props.tripId} tripItineraryActionId={props.tripItineraryActionId}/>
+        <AccommodationComponent
+          data={data}
+          tripId={props.tripId}
+          tripItineraryActionId={props.tripItineraryActionId}
+        />
       ) : (
         <TripStayEmptyState />
       )}
@@ -44,7 +48,15 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
   );
 };
 
-const AccommodationComponent = ({ data, tripId, tripItineraryActionId } : { data: TripStay, tripId: string, tripItineraryActionId: string }) => {
+const AccommodationComponent = ({
+  data,
+  tripId,
+  tripItineraryActionId,
+}: {
+  data: TripStay;
+  tripId: string;
+  tripItineraryActionId: string;
+}) => {
   const { availableFeatures } = useAppStore((state) => state.travelerState);
   const allowStayEdit = availableFeatures.includes("STAY_EDIT");
 
@@ -53,7 +65,7 @@ const AccommodationComponent = ({ data, tripId, tripItineraryActionId } : { data
   if (!data || !data.isSelected) {
     return (
       <>
-        <div className="px-xl w-100 flex-column gap-lg">
+        <div className="w-100 flex-column gap-lg">
           <TripStayEmptyState
             tripId={tripId}
             tripItineraryActionId={tripItineraryActionId}
@@ -86,7 +98,7 @@ const AccommodationComponent = ({ data, tripId, tripItineraryActionId } : { data
   if (!data.isRoomSelected) {
     return (
       <>
-        <div className="px-xl w-100 flex-column gap-lg">
+        <div className="w-100 flex-column gap-lg">
           <TripStayEmptyRoomState
             tripId={tripId}
             tripItineraryActionId={tripItineraryActionId}
@@ -98,7 +110,6 @@ const AccommodationComponent = ({ data, tripId, tripItineraryActionId } : { data
       </>
     );
   }
-
   return (
     <Grid className="pl-lg">
       <div className="stay-detail-info">
@@ -110,12 +121,14 @@ const AccommodationComponent = ({ data, tripId, tripItineraryActionId } : { data
             </Text>
           </div>
         )}
-        <div className="stay-detail-info__item">
-          <Icon name="info" size="sm" color="#8253F6" />
-          <Text>{data.cancellationInfo}</Text>
-        </div>
+        {data.cancellationInfo ? (
+          <div className="stay-detail-info__item">
+            <Icon name="info" size="sm" color="#8253F6" />
+            <Text>{data.cancellationInfo}</Text>
+          </div>
+        ) : null}
       </div>
-      <Grid columns={["120px", "auto"]}>
+      <Grid columns={{ sm: 1, md: ["120px", "auto"] }}>
         <Picture className="itinerary-item__content__image">
           {data.coverImage ? parsePhoto(data.coverImage) : "/assets/blank-image.png"}
         </Picture>
@@ -137,7 +150,7 @@ const AccommodationComponent = ({ data, tripId, tripItineraryActionId } : { data
           </div>
         </div>
       </Grid>
-      <Grid columns={["75%", "20%"]}>
+      <Grid columns={{ sm: 1, md: ["60%", "30%"] }}>
         <Button size="sm" variant="neutral" onClick={() => handleSeeDetails()}>
           Ver detalhes
         </Button>
@@ -151,7 +164,7 @@ const AccommodationComponent = ({ data, tripId, tripItineraryActionId } : { data
       {data.highlight ? <TripStayHighlightSection highlight={data.highlight} /> : null}
     </Grid>
   );
-}
+};
 
 const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "", allowEdit = true }) => {
   return allowEdit ? (
@@ -168,6 +181,7 @@ const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "", allowEdit
     />
   ) : (
     <CardHighlight
+      sx={{ padding: 10 }}
       variant="warning"
       heading="Ainda não escolhemos a acomodação para sua viagem"
       text="Fale conosco e vamos deixar tudo como você deseja!"
@@ -207,7 +221,7 @@ const TripStayEmptyRoomState = ({
         <strong>Temos uma sugestão de hospedagem</strong>
       </Text>
       <Text className="color-text-secondary mb-md">{tripStay.roomSelectionMessage}</Text>
-      <Grid columns={["56px", "auto", "25%"]} style={{ padding: "8px 0 12px 0" }}>
+      <Grid columns={{ sm: 1, md: ["48px", "auto", "25%"] }} style={{ padding: "8px 0 12px 0" }}>
         <Picture>
           {tripStay.coverImage ? parsePhoto(tripStay.coverImage) : "/assets/blank-image.png"}
         </Picture>
@@ -280,7 +294,14 @@ export const StayEditionButton = ({
     </Button>
   ) : (
     <HoverTooltipCard text="A escolha da sua hospedagem ainda não está disponível online.">
-      <Button variant="naked" size="sm" iconName="lock" onClick={handleClick} disabled>
+      <Button
+        className="w-100"
+        variant="naked"
+        size="sm"
+        iconName="lock"
+        onClick={handleClick}
+        disabled
+      >
         Editar
       </Button>
     </HoverTooltipCard>
