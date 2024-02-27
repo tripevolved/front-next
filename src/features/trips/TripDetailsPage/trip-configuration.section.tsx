@@ -26,14 +26,14 @@ export const TripConfigurationSection = (props: TripConfigurationSectionProps) =
     );
 
   return (
-    <CardHighlight variant="default" style={{ padding: 12, paddingLeft: 24 }}>
+    <CardHighlight variant="default" style={{ padding: 12 }}>
       <Grid columns={["1fr", "auto"]}>
         <div className="flex gap-lg justify-content-between flex-wrap">
           <Feature iconName="calendar">{normalizeDateString(props.formattedDates)}</Feature>
           <Feature iconName="clock">{props.period}</Feature>
           <Feature iconName="dollar-sign">{formatToCurrencyBR(props.budget)}</Feature>
         </div>
-        <div className="text-right" style={{ minWidth: 150 }}>
+        <div className="text-right" style={{ minWidth: 100 }}>
           <Button iconName="edit-2" size="sm" variant="neutral" onClick={openModalEdition}>
             Editar
           </Button>

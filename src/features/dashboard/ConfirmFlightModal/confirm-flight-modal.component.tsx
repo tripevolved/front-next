@@ -44,7 +44,7 @@ export const FlightBox = ({ isOutbound = false, className, ...props }: FlightBox
         </Text>
       ) : null}
 
-      <Grid className="flight-box__card" columns={[1, "30px", 1]}>
+      <Grid className="flight-box__card" gap={5} columns={[1, "30px", 1]}>
         <div className="flight-box__card__column h-100 gap-sm">
           <Text size="sm" className="flight-box__card__column__label text-center">
             {toFullDate(new Date(props.departure))}

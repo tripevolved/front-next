@@ -4,20 +4,43 @@ import { TripsApiService } from "@/services/api";
 
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
-import { Grid, Icon, Label, LabelVariants, Skeleton, Tabs, ToggleButton } from "mars-ds";
+import { Divider, Grid, Icon, Label, LabelVariants, Skeleton, Tabs, ToggleButton } from "mars-ds";
 import { CardTrip, EmptyState, ErrorState, Text, CardTripNew, confirmModal } from "@/ui";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { useAllTrips } from "./has-current-trip.hook";
+import { useAppStore } from "@/core/store";
+import { DestinationsByProfileName } from "@/features/";
+import { useRouter } from "next/router";
 
 export function HasCurrentTrip() {
+  const router = useRouter();
+  const { hasCurrentTrip } = router.query;
+  const { travelerProfile } = useAppStore((state) => state.travelerState);
+
   return (
-    <section className="has-current-trip">
+    <section className="has-current-trip grid gap-lg">
+      {hasCurrentTrip ? (
+        <>
+          <div className="mb-md">
+            <ProfileDestinationsSuggestion travelerProfile={travelerProfile} />
+          </div>
+          <Divider />
+        </>
+      ) : null}
       <Tabs
         tabs={[
           { label: "Próximas viagens", children: <MountTripTab tabType={"CURRENT"} /> },
           { label: "Viagens passadas", children: <MountTripTab tabType={"PAST"} /> },
         ]}
       />
+      {!hasCurrentTrip ? (
+        <>
+          <Divider />
+          <div className="w-100">
+            <ProfileDestinationsSuggestion travelerProfile={travelerProfile} />
+          </div>
+        </>
+      ) : null}
     </section>
   );
 }
@@ -37,7 +60,11 @@ function MountTripTab({ tabType }: { tabType: "CURRENT" | "PAST" }) {
   return <AllTrips {...data} disableDeletion={pastTrips} />;
 }
 
-function AllTrips({ currentTrip, otherTrips, disableDeletion = false }: AllTripsProps & { disableDeletion: boolean }) {
+function AllTrips({
+  currentTrip,
+  otherTrips,
+  disableDeletion = false,
+}: AllTripsProps & { disableDeletion: boolean }) {
   return (
     <Grid className="all-trips py-md">
       {currentTrip ? (
@@ -48,7 +75,15 @@ function AllTrips({ currentTrip, otherTrips, disableDeletion = false }: AllTrips
       <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
         <CardTripNew title="Nova viagem" iconName="Plane" href="/app/viagens/descobrir" />
         {otherTrips.map((trip) => (
-          <TripItem key={trip.id} {...trip} enableDeletion={!disableDeletion && (trip.status !== "Só falta viajar!" && trip.status !== "Pena que já passou :(")} />
+          <TripItem
+            key={trip.id}
+            {...trip}
+            enableDeletion={
+              !disableDeletion &&
+              trip.status !== "Só falta viajar!" &&
+              trip.status !== "Pena que já passou :("
+            }
+          />
         ))}
       </Grid>
     </Grid>
@@ -120,4 +155,17 @@ export const LoadingSkeleton = () => (
       <Skeleton key={key} active height={270} />
     ))}
   </Grid>
+);
+
+export const ProfileDestinationsSuggestion = ({
+  travelerProfile,
+}: {
+  travelerProfile: string | null;
+}) => (
+  <>
+    <Text className="mb-lg" as="h2" heading size="xs">
+      Destinos que você pode gostar:
+    </Text>
+    <DestinationsByProfileName profileName={travelerProfile || "relax"} />
+  </>
 );
