@@ -29,6 +29,7 @@ export * from "./buttons/WhatsappButton";
 export * from "./cards/CardBlog";
 export * from "./cards/CardDestination";
 export * from "./cards/CardHighlight";
+export * from "./cards/CardNotification";
 export * from "./cards/CardTrip";
 export * from "./cards/CardTripNew";
 export * from "./cards/CardYoutube";

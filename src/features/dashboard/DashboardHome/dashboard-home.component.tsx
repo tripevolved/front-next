@@ -1,5 +1,6 @@
 import { useAppStore } from "@/core/store";
-import { HasCurrentTrip, NoCurrentTrip, NoProfile, PageApp } from "@/features";
+import { HasCurrentTrip, NoCurrentTrip, NoProfile, NotificationColumn, PageApp } from "@/features";
+import { Grid } from "mars-ds";
 import { useMemo } from "react";
 
 const LOGO_IMAGE = "/brand/logo-symbol-circle.svg";
@@ -25,8 +26,13 @@ export function DashboardHome() {
       seo={{ title: "Painel" }}
       className="dashboard-home"
     >
-      {travelerProfile ? null : <NoProfile />}
-      {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
+      <Grid columns={{ sm: 1, md: ["auto", "320px"] }}>
+        <Grid>
+          {travelerProfile ? null : <NoProfile />}
+          {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
+        </Grid>
+        <NotificationColumn className="p-md" />
+      </Grid>
     </PageApp>
   );
 }

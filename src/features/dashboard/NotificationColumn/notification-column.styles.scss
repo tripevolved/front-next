@@ -1,5 +1,6 @@
 .notification-column {
-  background-color: red;
-  padding: 24px;
-  color: white;
+  &__read-all{
+    color: $color-gray-2;
+    cursor: pointer;
+  }
 }
