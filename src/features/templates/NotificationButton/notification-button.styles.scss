@@ -1,3 +1,14 @@
 .notification-button {
-  color: white;
+
+  &__button {
+    color: $color-gray-4;
+  }
+
+  &__bullet {
+    position: relative;
+    color: #e76c6c;
+    top: -15px;
+    right: 25px;
+    font-size: 23px;
+  }
 }

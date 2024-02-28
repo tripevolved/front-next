@@ -48,7 +48,7 @@ export function PageAppHeader({
               </div>
             </Grid>
           </div>
-          <div>
+          <div className="flex">
             <NotificationButton />
             <ToggleButton
               className="page-app-header__toggle"
