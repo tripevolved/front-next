@@ -14,7 +14,7 @@ export function ItineraryItem({ title, actionType, children }: ItineraryItemProp
   return (
     <Box className="itinerary-item w-100 flex-column">
       <TripDetailInfo image={`/assets/destino/${icon[actionType]}.svg`} title={title} />
-      <div className="itinerary-item__content w-100 px-md my-lg ml-lg">{children}</div>
+      <div className="itinerary-item__content px-sm my-lg ml-lg">{children}</div>
     </Box>
   );
 }
