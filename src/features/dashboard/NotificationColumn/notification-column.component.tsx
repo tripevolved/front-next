@@ -11,10 +11,10 @@ import { DropdownNotificationFilters } from "./dropdown-notification-filters.com
 export function NotificationColumn({ className, children, sx, ...props }: NotificationColumnProps) {
   const cn = makeCn("notification-column", className)(sx);
 
-  const fetcher = async () => NotificationApiService.getTripNotifications();
+  const fetcher = async () => NotificationApiService.getTripNotifications({});
   const { data, isLoading, error } = useSWR("get-all-user-notifications", fetcher);
 
-  const { requestLoading, readAll } = useNotificationColumn();
+  const { requestLoading, readAll, getNotifications } = useNotificationColumn();
 
   if (error) return <ErrorState />;
   if (isLoading) return <NotificationsLoadingState />;
@@ -35,12 +35,15 @@ export function NotificationColumn({ className, children, sx, ...props }: Notifi
           list={[
             {
               label: "Pendentes",
+              onClick: () => getNotifications("PENDING"),
             },
             {
               label: "Lidas",
+              onClick: () => getNotifications("READ"),
             },
             {
               label: "Ignoradas",
+              onClick: () => getNotifications("IGNORED"),
             },
           ]}
         />
