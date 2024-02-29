@@ -26,7 +26,7 @@ export function DashboardHome() {
       seo={{ title: "Painel" }}
       className="dashboard-home"
     >
-      <Grid columns={{ sm: 1, md: ["auto", "320px"] }}>
+      <Grid columns={{ sm: 1, md: ["auto", "350px"] }}>
         <Grid>
           {travelerProfile ? null : <NoProfile />}
           {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
