@@ -2,6 +2,7 @@ import { ToggleButton } from "mars-ds";
 import type { NotificationButtonProps } from "./notification-button.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
+import { useAppStore } from "@/core/store";
 
 export function NotificationButton({
   className,
@@ -11,6 +12,7 @@ export function NotificationButton({
   ...props
 }: NotificationButtonProps) {
   const cn = makeCn("notification-button", className)(sx);
+  const { hasNotifications } = useAppStore((state) => state.user);
 
   return (
     <div className={cn}>
@@ -23,7 +25,7 @@ export function NotificationButton({
         onClick={() => null}
         className="notification-button__button"
       />
-      <span className="notification-button__bullet">⏺</span>
+      {hasNotifications && <span className="notification-button__bullet">⏺</span>}
     </div>
   );
 }

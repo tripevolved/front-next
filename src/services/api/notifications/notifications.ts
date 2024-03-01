@@ -2,8 +2,8 @@ import type { Notification as TripNotification } from "@/core/types";
 import { ApiRequest } from "../request";
 
 export interface TripNotificationsRequestParams {
-  status?: TripNotification["status"] | null;
-  type?: TripNotification["type"] | null;
+  status?: TripNotification["status"] | "";
+  type?: TripNotification["type"] | "";
   page?: number;
 }
 
@@ -16,7 +16,7 @@ export interface TripNotificationsResponse {
 
 export const getTripNotifications = async ({
   status = "PENDING",
-  type = null,
+  type = "",
   page = 1,
 }: TripNotificationsRequestParams) => {
   const route = `/notifications?status=${status}&type=${type}&page=${page}`;
