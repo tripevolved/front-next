@@ -17,6 +17,7 @@ export * from "./basic/FeatureIcon";
 export * from "./basic/LineDecoration";
 export * from "./basic/MediaObject";
 export * from "./basic/NoSSR";
+export * from "./basic/NotificationBadge";
 export * from "./basic/Picture";
 export * from "./basic/Pricing";
 export * from "./basic/Slide";

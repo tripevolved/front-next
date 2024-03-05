@@ -1,6 +1,6 @@
 export type NotificationStatus = "PENDING" | "READ" | "IGNORED";
 
-export type NotificationType = "NEW" | "BLOG" | "TRIP";
+export type NotificationType = "NEWS" | "BLOG" | "TRIP";
 
 export interface Notification {
   id: string;
