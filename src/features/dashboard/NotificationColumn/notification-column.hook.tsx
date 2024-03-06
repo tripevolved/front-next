@@ -39,6 +39,16 @@ export const useNotificationColumn = ({ status = "PENDING" }: UseNotificationCol
     }
   };
 
+  const readNotification = (notificationId: string) => {
+    try {
+      NotificationApiService.readById(notificationId).then(() =>
+        MarsNotification.success("Notificação lida com sucesso!!")
+      );
+    } catch (e) {
+      MarsNotification.error("Error ao marcar notificação como lida...");
+    }
+  };
+
   return {
     data,
     isLoading,
@@ -46,5 +56,6 @@ export const useNotificationColumn = ({ status = "PENDING" }: UseNotificationCol
 
     requestLoading,
     readAll,
+    readNotification,
   };
 };

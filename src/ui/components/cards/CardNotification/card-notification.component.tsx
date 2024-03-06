@@ -10,12 +10,13 @@ export function CardNotification({
   children,
   sx,
   notification,
+  onClick,
   ...props
 }: CardNotificationProps) {
   const cn = makeCn("card-notification", className)(sx);
 
   return (
-    <Card className={cn} {...props} elevation={CardElevations.Medium}>
+    <Card className={cn} {...props} elevation={CardElevations.Medium} onClick={onClick}>
       <Grid columns={["40px", "auto"]} className="gap-lg">
         <Picture className="w-100" src="/assets/trip-notifications/lamp.svg" />
         <Grid gap={8}>

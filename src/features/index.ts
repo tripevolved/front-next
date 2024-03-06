@@ -20,6 +20,7 @@ export * from "./dashboard/HeaderUserMenu";
 export * from "./dashboard/NoCurrentTrip";
 export * from "./dashboard/NoProfile";
 export * from "./dashboard/NotificationColumn";
+export * from "./dashboard/NotificationView";
 export * from "./dashboard/PendingDocumentsModal";
 export * from "./dashboard/TripDashboard";
 export * from "./dashboard/TripPendings";
