@@ -141,6 +141,9 @@ const AccommodationComponent = ({
               <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
               {data.details.services && (
                 <div className="trip-stay-details__content__service-list">
+                  {data.boardInfo ? (
+                    <TripStayServiceItem title={data.boardInfo} type={"breakfast"} />
+                  ) : null}
                   {data.details.services.map((service, i) => (
                     <TripStayServiceItem {...service} key={i} />
                   ))}
