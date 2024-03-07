@@ -177,7 +177,7 @@ const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "", allowEdit
       heading="Ainda não escolhemos a acomodação para sua viagem"
       text="Fale conosco e vamos deixar tudo como você deseja!"
       cta={{
-        href: `/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`,
+        href: `/app/viagens/${tripId}/hospedagem/editar/${tripItineraryActionId}`,
         label: "Escolher hospedagem",
         iconName: "arrow-right",
         isRtl: true,
@@ -259,7 +259,7 @@ const TripStayEmptyRoomState = ({
           <Button
             variant="neutral"
             size="sm"
-            href={`/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`}
+            href={`/app/viagens/${tripId}/hospedagem/editar/${tripItineraryActionId}`}
             label="Escolher outra hospedagem online"
             iconName="arrow-right"
             isRtl={true}

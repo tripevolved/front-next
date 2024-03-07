@@ -1,0 +1,21 @@
+.curated-stay-list-item {
+  border: 1px solid $color-gray-3;
+
+  &__selected {
+    border: 2px solid $color-brand-4;
+    background-color: $color-background-gold;
+  }
+
+  &__recommendation-header {
+    color: $color-brand-4;
+
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  &__features {
+    display: flex;
+    gap: 8px;
+  }
+}

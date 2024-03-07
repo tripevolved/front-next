@@ -96,3 +96,21 @@ export interface TripHotelListTransaction {
   curated: Omit<TripStay, "highlight">[];
   others?: Omit<TripStay, "highlight">[];
 }
+
+export interface TripStayListCuratedItem extends TripStayListItem {
+  features: TripStayListItemFeature[];
+  highlight: TripStayHighlight | null;
+}
+
+export interface TripStayListItemFeature {
+  title: string;
+  type: string | null;
+}
+
+export interface TripStayListItem {
+  id: string;
+  coverImage: Photo | null;
+  name: string;
+  tags: string;
+  services: TripStayFeature[];
+}
