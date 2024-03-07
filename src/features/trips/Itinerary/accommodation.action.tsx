@@ -144,9 +144,10 @@ const AccommodationComponent = ({
                   {data.boardInfo ? (
                     <TripStayServiceItem title={data.boardInfo} type={"breakfast"} />
                   ) : null}
-                  {data.details.services.map((service, i) => (
-                    <TripStayServiceItem {...service} key={i} />
-                  ))}
+                  {data.details.services.map((service, i) => {
+                    if (service.title == data.boardInfo) return null;
+                    return <TripStayServiceItem {...service} key={i} />
+                  })}
                 </div>
               )}
             </Grid>
