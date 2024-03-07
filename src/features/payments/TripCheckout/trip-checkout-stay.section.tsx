@@ -5,7 +5,7 @@ import { Box, CardHighlight, EmptyState, LoaderState, Picture, Text } from "@/ui
 
 import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
-import { TripStayDetails } from "@/features";
+import { TripStayDetails, TripStayServiceItem } from "@/features";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 const swrOptions = { revalidateOnFocus: false };
@@ -104,6 +104,9 @@ export const TripCheckoutStaySection = ({ tripId }: { tripId: string }) => {
               <Box className="trip-stay-section__content__stay-desc__box">
                 <Text size="lg">{data.name}</Text>
                 <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>
+                {data.boardInfo ? (
+                  <TripStayServiceItem title={data.boardInfo} type={"breakfast"} />
+                ) : null}
               </Box>
             </Box>
             <Button
