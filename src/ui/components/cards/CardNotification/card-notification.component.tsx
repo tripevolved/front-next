@@ -25,10 +25,15 @@ export function CardNotification({
   return (
     <Card className={cn} {...props} elevation={CardElevations.Medium} onClick={onClick}>
       <Grid columns={["40px", "auto"]} className="gap-lg">
-        <Picture
-          className="w-100"
-          src={`/assets/trip-notifications/${imageType[notification.type]}.svg`}
-        />
+        <div style={{ width: 40 }}>
+          {notification.status == "PENDING" ? (
+            <span className="card-notification__bullet">⏺</span>
+          ) : null}
+          <Picture
+            className="w-100"
+            src={`/assets/trip-notifications/${imageType[notification.type]}.svg`}
+          />
+        </div>
         <Grid gap={8}>
           <NotificationBadge type={notification?.type} text="Suas viagens" />
           {/** @ts-ignore */}

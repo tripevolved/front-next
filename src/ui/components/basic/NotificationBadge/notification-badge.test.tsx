@@ -2,7 +2,8 @@ import type { NotificationBadgeProps } from "./notification-badge.types";
 import { render } from "@testing-library/react";
 import { NotificationBadge } from "./notification-badge.component";
 
-const makeSut = (props?: NotificationBadgeProps) => render(<NotificationBadge {...props} />);
+const makeSut = (props?: NotificationBadgeProps) =>
+  render(<NotificationBadge {...props} type="TRIP" />);
 
 describe("<NotificationBadge>", () => {
   it("should render component", () => {

@@ -2,6 +2,14 @@
   background-color: $color-gray-4;
   cursor: pointer;
 
+  &__bullet{
+    position: relative;
+    color: #e76c6c;
+    top: 8px;
+    left: -10px;
+    font-size: 20px;
+  }
+
   &__datetime {
     color: $color-gray-2;
   }
