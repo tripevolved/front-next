@@ -4,6 +4,13 @@ import type { CardNotificationProps } from "./card-notification.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { toFullDetailedDate } from "@/utils/helpers/dates.helpers";
+import type { NotificationType as TripNotificationType } from "@/core/types";
+
+const imageType: Record<TripNotificationType, string> = {
+  BLOG: "blog",
+  NEWS: "news",
+  TRIP: "trip",
+};
 
 export function CardNotification({
   className,
@@ -18,7 +25,10 @@ export function CardNotification({
   return (
     <Card className={cn} {...props} elevation={CardElevations.Medium} onClick={onClick}>
       <Grid columns={["40px", "auto"]} className="gap-lg">
-        <Picture className="w-100" src="/assets/trip-notifications/lamp.svg" />
+        <Picture
+          className="w-100"
+          src={`/assets/trip-notifications/${imageType[notification.type]}.svg`}
+        />
         <Grid gap={8}>
           <NotificationBadge type={notification?.type} text="Suas viagens" />
           {/** @ts-ignore */}
