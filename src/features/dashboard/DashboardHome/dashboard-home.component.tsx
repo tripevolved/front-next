@@ -1,6 +1,6 @@
 import { useAppStore } from "@/core/store";
 import { HasCurrentTrip, NoCurrentTrip, NoProfile, NotificationColumn, PageApp } from "@/features";
-import { Grid } from "mars-ds";
+import { Grid, Sidebar } from "mars-ds";
 import { useMemo } from "react";
 
 const LOGO_IMAGE = "/brand/logo-symbol-circle.svg";

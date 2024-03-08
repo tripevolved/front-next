@@ -26,7 +26,7 @@ export function NotificationColumn({ className, children, sx, ...props }: Notifi
   };
 
   return (
-    <div className={`${cn} flex-column gap-lg`} {...props}>
+    <div id="notification-column" className={`${cn} flex-column gap-lg`} {...props}>
       <Box className="flex justify-content-between">
         <div>
           <MarsLink className="notification-column__title">Notificações</MarsLink>
