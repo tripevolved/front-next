@@ -141,9 +141,13 @@ const AccommodationComponent = ({
               <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{data.tags}</Text>
               {data.details.services && (
                 <div className="trip-stay-details__content__service-list">
-                  {data.details.services.map((service, i) => (
-                    <TripStayServiceItem {...service} key={i} />
-                  ))}
+                  {data.boardInfo ? (
+                    <TripStayServiceItem title={data.boardInfo} type={"breakfast"} />
+                  ) : null}
+                  {data.details.services.map((service, i) => {
+                    if (service.title == data.boardInfo) return null;
+                    return <TripStayServiceItem {...service} key={i} />
+                  })}
                 </div>
               )}
             </Grid>
@@ -173,7 +177,7 @@ const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "", allowEdit
       heading="Ainda não escolhemos a acomodação para sua viagem"
       text="Fale conosco e vamos deixar tudo como você deseja!"
       cta={{
-        href: `/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`,
+        href: `/app/viagens/${tripId}/hospedagem/editar/${tripItineraryActionId}`,
         label: "Escolher hospedagem",
         iconName: "arrow-right",
         isRtl: true,
@@ -255,7 +259,7 @@ const TripStayEmptyRoomState = ({
           <Button
             variant="neutral"
             size="sm"
-            href={`/app/viagens/${tripId}/hospedagem/editar/?iditinerario=${tripItineraryActionId}`}
+            href={`/app/viagens/${tripId}/hospedagem/editar/${tripItineraryActionId}`}
             label="Escolher outra hospedagem online"
             iconName="arrow-right"
             isRtl={true}

@@ -10,6 +10,7 @@ import { CheckoutAccommodation, CheckoutScript, CheckoutTransportation } from "@
 import { TripScriptFeatures } from "@/features/trips/TripDetailsPage/trip-script.section";
 import { FlightBox } from "@/features/dashboard/ConfirmFlightModal";
 import { useIdParam } from "@/utils/hooks/param.hook";
+import { TripStayServiceItem } from "@/features/trips/TripStayServiceItem";
 
 export const StepSummary = ({ trip, price, onNext, payload, setPayload }: PaymentStepProps) => {
   const fetcher = async () => TripsApiService.getCheckout(trip.id);
@@ -111,7 +112,7 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
         {props.details?.length ? (
           props.details?.map((accommodation, i) => (
             <div className="flex-column gap-sm" key={i}>
-              <Grid columns={["56px", "auto"]}>
+              <Grid columns={["28%", "auto"]}>
                 <Picture src={accommodation.coverImageUrl || "/assets/blank-image.png"} />
                 <div>
                   <Text as="h3" size="lg">
@@ -120,6 +121,9 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
                   <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>
                     {accommodation.tags}
                   </Text>
+                  {accommodation.boardInfo ? (
+                    <TripStayServiceItem title={accommodation.boardInfo} type={"breakfast"} />
+                  ) : null}
                 </div>
               </Grid>
 
