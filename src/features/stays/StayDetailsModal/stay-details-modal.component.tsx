@@ -20,7 +20,7 @@ export function StayDetailsModal({
 }: StayDetailsModalProps) {
   const handleEditButton = () => {
     if (onCloseModal) onCloseModal();
-    router.push(`/app/viagens/${tripId}/hospedagem/editar?iditinerario=${itineraryActionId}`);
+    router.push(`/app/viagens/${tripId}/hospedagem/editar/${itineraryActionId}`);
   };
   
   return (
