@@ -68,9 +68,13 @@ export function StayDetailsModal({
 
           {tripStay.details.services && (
             <div className="trip-stay-details__content__service-list">
-              {tripStay.details.services.map((service, i) => (
-                <TripStayServiceItem {...service} key={i} />
-              ))}
+              {tripStay.boardInfo ? (
+                <TripStayServiceItem title={tripStay.boardInfo} type={"breakfast"} />
+              ) : null}
+              {tripStay.details.services.map((service, i) => {
+                if (service.title == tripStay.boardInfo) return null;
+                return <TripStayServiceItem {...service} key={i} />
+              })}
             </div>
           )}
           <Box className="trip-stay-details__content__check-in-address">
