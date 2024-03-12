@@ -31,7 +31,9 @@ export function DashboardHome() {
           {travelerProfile ? null : <NoProfile />}
           {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
         </Grid>
-        <NotificationColumn className="p-md" />
+        <div className="dashboard-home__right-column">
+          <NotificationColumn className="p-md" />
+        </div>
       </Grid>
     </PageApp>
   );

@@ -1,4 +1,10 @@
 .dashboard-home {
   display: grid;
   gap: 40px;
+
+  &__right-column{
+    @media(max-width: $breakpoint-md) {
+      display: none;
+    }
+  }
 }

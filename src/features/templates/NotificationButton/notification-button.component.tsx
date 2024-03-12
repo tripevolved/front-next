@@ -1,4 +1,4 @@
-import { ToggleButton } from "mars-ds";
+import { Icon, ToggleButton } from "mars-ds";
 import type { NotificationButtonProps } from "./notification-button.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -32,6 +32,9 @@ export function NotificationButton({
       />
       {hasNotifications && <span className="notification-button__bullet">⏺</span>}
       <Box className={`notification-button__sidebar${showSidebar ? "--active" : ""}`}>
+        <div className="flex w-100 justify-content-end mb-md">
+          <Icon name="x" onClick={() => setShowSidebar(false)} style={{ cursor: "pointer" }} />
+        </div>
         <NotificationColumn />
       </Box>
     </div>
