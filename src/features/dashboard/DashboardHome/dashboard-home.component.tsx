@@ -1,11 +1,15 @@
 import { useAppStore } from "@/core/store";
 import { HasCurrentTrip, NoCurrentTrip, NoProfile, NotificationColumn, PageApp } from "@/features";
-import { Grid, Sidebar } from "mars-ds";
+import { Grid, Icon } from "mars-ds";
+import { useRouter } from "next/router";
 import { useMemo } from "react";
 
 const LOGO_IMAGE = "/brand/logo-symbol-circle.svg";
 
 export function DashboardHome() {
+  const router = useRouter();
+  const { pathname, query } = router;
+
   const {
     name = "viajante",
     hasCurrentTrip,
@@ -20,6 +24,10 @@ export function DashboardHome() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const closeColumn = () => {
+    router.replace(`${pathname}?hasCurrentTrip=${query.hasCurrentTrip}&showSidebar=${false}`);
+  };
+
   return (
     <PageApp
       headerOptions={{ title, subtitle, image: LOGO_IMAGE }}
@@ -31,7 +39,12 @@ export function DashboardHome() {
           {travelerProfile ? null : <NoProfile />}
           {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
         </Grid>
-        <div className="dashboard-home__right-column">
+        <div className={`dashboard-home__right-column${query.showSidebar ? "--active" : ""}`}>
+          {query.showSidebar ? (
+            <div className="flex w-100 justify-content-end mb-md">
+              <Icon name="x" onClick={() => closeColumn()} style={{ cursor: "pointer" }} />
+            </div>
+          ) : null}
           <NotificationColumn className="p-md" />
         </div>
       </Grid>
