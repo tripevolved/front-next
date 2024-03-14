@@ -18,6 +18,7 @@ export function NotificationButton({
     <div className={cn}>
       <ToggleButton
         {...props}
+        type="button"
         href={href}
         variant="text"
         iconName="bell"
