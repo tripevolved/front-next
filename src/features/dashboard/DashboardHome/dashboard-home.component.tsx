@@ -14,6 +14,7 @@ export function DashboardHome() {
     name = "viajante",
     hasCurrentTrip,
     travelerProfile,
+    availableFeatures,
   } = useAppStore((state) => state.travelerState);
   const firstName = name.replace(/\s.*/, "");
   const title = `Olá, ${firstName} 👋`;
@@ -24,9 +25,13 @@ export function DashboardHome() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const allowNotifications = availableFeatures.includes("NOTIFICATIONS");
+
   const closeColumn = () => {
     router.replace(`${pathname}?hasCurrentTrip=${query.hasCurrentTrip}&showSidebar=${false}`);
   };
+
+  const mdColumns = allowNotifications ? ["auto", "350px"] : ["auto"];
 
   return (
     <PageApp
@@ -34,19 +39,21 @@ export function DashboardHome() {
       seo={{ title: "Painel" }}
       className="dashboard-home"
     >
-      <Grid columns={{ sm: 1, md: ["auto", "350px"] }}>
+      <Grid columns={{ sm: 1, md: mdColumns }}>
         <Grid>
           {travelerProfile ? null : <NoProfile />}
           {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
         </Grid>
-        <div className={`dashboard-home__right-column${query.showSidebar ? "--active" : ""}`}>
-          {query.showSidebar ? (
-            <div className="flex w-100 justify-content-end mb-md">
-              <Icon name="x" onClick={() => closeColumn()} style={{ cursor: "pointer" }} />
-            </div>
-          ) : null}
-          <NotificationColumn className="p-md" />
-        </div>
+        {allowNotifications ? (
+          <div className={`dashboard-home__right-column${query.showSidebar ? "--active" : ""}`}>
+            {query.showSidebar ? (
+              <div className="flex w-100 justify-content-end mb-md">
+                <Icon name="x" onClick={() => closeColumn()} style={{ cursor: "pointer" }} />
+              </div>
+            ) : null}
+            <NotificationColumn className="p-md" />
+          </div>
+        ) : null}
       </Grid>
     </PageApp>
   );
