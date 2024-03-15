@@ -21,7 +21,7 @@ export function PageAppHeader({
 }: PageAppHeaderProps) {
   const cn = makeCn("page-app-header", { "page-app-header--sm": hideMobileMoldure })();
   const { availableFeatures } = useAppStore((state) => state.travelerState);
-  const allowScriptBuilder = availableFeatures.includes("NOTIFICATIONS");
+  const allowNotifications = availableFeatures?.includes("NOTIFICATIONS");
   return (
     <>
       <nav className={cn}>
@@ -51,7 +51,7 @@ export function PageAppHeader({
             </Grid>
           </div>
           <div className="flex">
-            {allowScriptBuilder ? <NotificationButton /> : null}
+            {allowNotifications ? <NotificationButton /> : null}
             <ToggleButton
               className="page-app-header__toggle"
               variant="text"
