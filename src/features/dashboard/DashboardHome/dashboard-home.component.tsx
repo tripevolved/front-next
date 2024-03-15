@@ -25,7 +25,9 @@ export function DashboardHome() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const allowNotifications = availableFeatures.includes("NOTIFICATIONS");
+  const allowNotifications = availableFeatures
+    ? availableFeatures.includes("NOTIFICATIONS")
+    : false;
 
   const closeColumn = () => {
     router.replace(`${pathname}?hasCurrentTrip=${query.hasCurrentTrip}&showSidebar=${false}`);

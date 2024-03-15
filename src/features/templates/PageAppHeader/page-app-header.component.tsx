@@ -21,8 +21,9 @@ export function PageAppHeader({
 }: PageAppHeaderProps) {
   const cn = makeCn("page-app-header", { "page-app-header--sm": hideMobileMoldure })();
   const { availableFeatures } = useAppStore((state) => state.travelerState);
+
   const allowNotifications = availableFeatures
-    ? availableFeatures?.includes("NOTIFICATIONS")
+    ? availableFeatures.includes("NOTIFICATIONS")
     : false;
   return (
     <>
