@@ -23,7 +23,7 @@ export function PageAppHeader({
   const cn = makeCn("page-app-header", { "page-app-header--sm": hideMobileMoldure })();
   const router = useRouter();
   const { pathname } = router;
-  const isPainel = pathname.includes("painel");
+  const isPanel = pathname.includes("painel");
 
   return (
     <>
