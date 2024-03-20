@@ -21,7 +21,7 @@ export function NotificationColumn({ className, children, sx, ...props }: Notifi
     Modal.open(() => <NotificationView notificationId={notification.id} />, {
       closable: true,
       size: "sm",
-      onClose: () => readNotification(notification.id),
+      onClose: () => {if (notification.status == 'PENDING') readNotification(notification.id)},
     });
   };
 
