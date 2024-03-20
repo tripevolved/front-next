@@ -27,7 +27,7 @@ export function NotificationView({
     <div className={cn} {...props}>
       <div className="notification-view__header flex-column gap-lg">
         <Text heading size="sm" className="notification-view__header__title">
-          <strong>Notificação:</strong> {data.title}
+          <strong>{data.title}</strong>
         </Text>
         <Text size="md" className="notification-view__header__subtitle">
           {data.subtitle}
