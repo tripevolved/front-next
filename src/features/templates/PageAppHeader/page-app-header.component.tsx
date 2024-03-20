@@ -3,6 +3,7 @@ import { ModalContent, Text, UserAvatar } from "@/ui";
 import { Avatar, Button, Container, Divider, Grid, Modal, ToggleButton } from "mars-ds";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { NotificationButton } from "@/features";
+import { useRouter } from "next/router";
 
 export interface PageAppHeaderProps {
   image?: string;
@@ -25,6 +26,10 @@ export function PageAppHeader({
   const allowNotifications = availableFeatures
     ? availableFeatures.includes("NOTIFICATIONS")
     : false;
+  const router = useRouter();
+  const { pathname } = router;
+  const isPanel = pathname.includes("painel");
+
   return (
     <>
       <nav className={cn}>
@@ -54,7 +59,7 @@ export function PageAppHeader({
             </Grid>
           </div>
           <div className="flex">
-            {allowNotifications ? <NotificationButton /> : null}
+            {allowNotifications ? null : isPanel ? <NotificationButton /> : null}
             <ToggleButton
               className="page-app-header__toggle"
               variant="text"

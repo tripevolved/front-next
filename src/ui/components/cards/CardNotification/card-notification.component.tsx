@@ -23,7 +23,7 @@ export function CardNotification({
   const cn = makeCn("card-notification", className)(sx);
 
   return (
-    <Card className={cn} {...props} elevation={CardElevations.Medium} onClick={onClick}>
+    <Card className={cn} {...props} elevation={CardElevations.Low} onClick={onClick}>
       <Grid columns={["40px", "auto"]} className="gap-lg">
         <div style={{ width: 40 }}>
           {notification.status == "PENDING" ? (
@@ -38,7 +38,7 @@ export function CardNotification({
           <NotificationBadge type={notification?.type} text="Suas viagens" />
           {/** @ts-ignore */}
           <Text heading size="xxs" className="color-text-secondary font-bold">
-            {notification.title}
+            <strong>{notification.title}</strong>
           </Text>
           <Divider />
           <Text className="card-notification__datetime">

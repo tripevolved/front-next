@@ -32,7 +32,7 @@ export const useNotificationColumn = ({ status = "PENDING" }: UseNotificationCol
     setRequestLoading(true);
     try {
       NotificationApiService.readAll()
-        .then(() => MarsNotification.success("Todas as notificações foram lidas com sucesso!"))
+        .then(() => MarsNotification.success("Você marcou todas as notificações como lidas."))
         .finally(() => setRequestLoading(false));
     } catch (e) {
       MarsNotification.error("Erro ao ler as notificações...");

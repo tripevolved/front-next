@@ -1,12 +1,34 @@
-import type { Notification as TripNotification } from "@/core/types";
+import type {
+  Notification as TripNotification,
+  NotificationStatus as TripNotificationStatus,
+} from "@/core/types";
 import type { NotificationColumnProps } from "./notification-column.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { Grid, Skeleton, Link as MarsLink, Loader, SelectField, Modal } from "mars-ds";
-import { ErrorState, EmptyState, CardNotification, Box } from "@/ui";
+import { Grid, Skeleton, Loader, Label, LabelThemes, LabelVariants, Modal } from "mars-ds";
+import { ErrorState, EmptyState, CardNotification, Box, Text } from "@/ui";
 import { useNotificationColumn } from "./notification-column.hook";
 import { useState } from "react";
 import { NotificationView } from "@/features";
+
+const FILTER_OPTIONS = [
+  {
+    label: "Pendentes",
+    value: "PENDING",
+  },
+  {
+    label: "Lidas",
+    value: "READ",
+  },
+  {
+    label: "Ignoradas",
+    value: "IGNORED",
+  },
+  {
+    label: "Todos",
+    value: "",
+  },
+];
 
 export function NotificationColumn({ className, children, sx, ...props }: NotificationColumnProps) {
   const cn = makeCn("notification-column", className)(sx);
@@ -21,7 +43,9 @@ export function NotificationColumn({ className, children, sx, ...props }: Notifi
     Modal.open(() => <NotificationView notificationId={notification.id} />, {
       closable: true,
       size: "sm",
-      onClose: () => readNotification(notification.id),
+      onClose: () => {
+        if (notification.status == "PENDING") readNotification(notification.id);
+      },
     });
   };
 
@@ -29,7 +53,9 @@ export function NotificationColumn({ className, children, sx, ...props }: Notifi
     <div id="notification-column" className={`${cn} flex-column gap-lg`} {...props}>
       <Box className="flex justify-content-between">
         <div>
-          <MarsLink className="notification-column__title">Notificações</MarsLink>
+          <Text heading size="xs" className="notification-column__title color-primary">
+            Notificações
+          </Text>
         </div>
         <div>
           <span className="notification-column__read-all" onClick={() => readAll()}>
@@ -37,32 +63,9 @@ export function NotificationColumn({ className, children, sx, ...props }: Notifi
           </span>
         </div>
       </Box>
-      <SelectField
-        label="Filtro"
-        onSelect={(e: any) => setStatus(e.value)}
-        defaultValue={status}
-        defaultOption={{
-          label: "Pendentes",
-          value: "PENDING",
-        }}
-        options={[
-          {
-            label: "Pendentes",
-            value: "PENDING",
-          },
-          {
-            label: "Lidas",
-            value: "READ",
-          },
-          {
-            label: "Ignoradas",
-            value: "IGNORED",
-          },
-          {
-            label: "Todos",
-            value: "",
-          },
-        ]}
+      <FilterButtons
+        selectFunction={(value: TripNotificationStatus | "") => setStatus(value)}
+        selectedFilter={status}
       />
       {requestLoading ? (
         <div className="py-lg flex justify-content-center">
@@ -94,3 +97,30 @@ const NotificationsLoadingState = () => (
     ))}
   </Grid>
 );
+
+const FilterButtons = ({
+  selectedFilter,
+  selectFunction,
+}: {
+  selectedFilter: TripNotificationStatus | "";
+  selectFunction: (value: TripNotificationStatus | "") => void;
+}) => {
+  return (
+    <div className="flex gap-md w-100">
+      {FILTER_OPTIONS.map((opt, i) => (
+        <Label
+          style={{ cursor: "pointer" }}
+          variant={LabelVariants.Primary}
+          theme={opt.value == selectedFilter ? LabelThemes.Solid : LabelThemes.Ghost}
+          key={i}
+          onClick={() => {
+            // @ts-ignore
+            selectFunction(opt.value);
+          }}
+        >
+          {opt.label}
+        </Label>
+      ))}
+    </div>
+  );
+};

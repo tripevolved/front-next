@@ -3,7 +3,6 @@ import { PageAppHeader } from "./page-app-header.component";
 import { mockUseRouter } from "@/utils/mocks/next-router.mock";
 
 mockUseRouter();
-
 const makeSut = () => render(<PageAppHeader />);
 
 describe("<PageAppMenu>", () => {

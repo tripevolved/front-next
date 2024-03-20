@@ -33,7 +33,7 @@ export function DashboardHome() {
     router.replace(`${pathname}?hasCurrentTrip=${query.hasCurrentTrip}&showSidebar=${false}`);
   };
 
-  const mdColumns = allowNotifications ? ["auto", "350px"] : ["auto"];
+  const mdColumns = !allowNotifications ? ["auto", "350px"] : ["auto"];
 
   return (
     <PageApp
@@ -46,7 +46,7 @@ export function DashboardHome() {
           {travelerProfile ? null : <NoProfile />}
           {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
         </Grid>
-        {allowNotifications ? (
+        {!allowNotifications ? (
           <div className={`dashboard-home__right-column${query.showSidebar ? "--active" : ""}`}>
             {query.showSidebar ? (
               <div className="flex w-100 justify-content-end mb-md">
