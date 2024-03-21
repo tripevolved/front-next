@@ -14,5 +14,5 @@ export const UserService = {
   getCredentials: UserCredentials.get,
   isGuest,
   isAuth,
-  updateTravelerState,
+  updateTravelerState: () => { if (isAuth()) updateTravelerState(); },
 };
