@@ -95,7 +95,6 @@ export function TripStayDetails({
           <Text className="trip-stay-details__content__description">
             {hotelData.details.information || EMPTY_INFO_DETAILS}
           </Text>
-
           {hotelData.details.services && (
             <div className="trip-stay-details__content__service-list">
               {hotelData.details.services.map((service, i) => (

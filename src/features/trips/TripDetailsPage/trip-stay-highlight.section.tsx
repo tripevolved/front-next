@@ -3,9 +3,9 @@ import { TripStayHighlight, TripStayHighlightFeature } from "@/core/types";
 
 const DESCRIPTION_MAP: Record<TripStayHighlightFeature, string> = {
   clean: "Essa hospedagem é recomendada por sua limpeza sempre impecável.",
-  comfort: "Pode esperar um enorme conforto em sua hospedagem!",
+  comfort: "Pode esperar conforto em sua hospedagem!",
   location: "A localização é o ponto alto dessa hospedagem!",
-  luxury: "Curte luxo? Então pode esperar que essa hospedagem não vai te decepcionar.",
+  luxury: "Curte luxo? Essa hospedagem não vai te decepcionar.",
   personnel: "O atendimento por aqui é espetacular!",
   rustic: "Lugar bastante rústico.",
 };

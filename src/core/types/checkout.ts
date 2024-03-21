@@ -8,6 +8,7 @@ export interface CheckoutAccommodationDetails {
   name: string;
   tags: string;
   cancellationInfo: string;
+  boardInfo: string;
   isRoomSelected: boolean;
   roomSelectionMessage: string;
   fullAddress: string;
