@@ -16,17 +16,12 @@ export function NotificationButton({
   ...props
 }: NotificationButtonProps) {
   const cn = makeCn("notification-button", className)(sx);
-  const { hasNotifications } = useAppStore((state) => state.user);
-  const router = useRouter();
-  const { pathname, query } = router;
-
-  const [showSidebar, setShowSidebar] = useState(false);
+  const user = useAppStore((state) => state.user);
+  const { updateUser } = useAppStore((state) => state);
+  const { hasNotifications, showNotifications } = user;
 
   const handleToggle = () => {
-    setShowSidebar(!showSidebar);
-    router.replace(
-      `${pathname}?hasCurrentTrip=${query.hasCurrentTrip}&showSidebar=${!showSidebar}`
-    );
+    updateUser({ ...user, showNotifications: !showNotifications });
   };
 
   return (

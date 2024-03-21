@@ -84,7 +84,7 @@ export function NotificationColumn({ className, children, sx, ...props }: Notifi
           />
         ))
       ) : (
-        <EmptyState />
+        <NotificationsEmptyState status={status} />
       )}
     </div>
   );
@@ -121,6 +121,20 @@ const FilterButtons = ({
           {opt.label}
         </Label>
       ))}
+    </div>
+  );
+};
+
+const NotificationsEmptyState = ({ status }: { status: TripNotificationStatus | "" }) => {
+  const names: Record<TripNotificationStatus, string> = {
+    PENDING: "Pendentes",
+    IGNORED: "Ignoradas",
+    READ: "",
+  };
+
+  return (
+    <div className="notification-column__empty-state flex w-100 p-lg justify-content-center align-items-center">
+      <Text size="lg">Você não possui notificações {status != "" && names[status]}</Text>
     </div>
   );
 };

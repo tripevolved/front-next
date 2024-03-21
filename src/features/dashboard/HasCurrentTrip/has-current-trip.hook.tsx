@@ -18,7 +18,9 @@ export const useAllTrips = (pastTrips: boolean) => {
         return data;
       })
       .catch(() => null);
-  const { isLoading, error, data, mutate } = useSWR(fetcherKey, fetcher);
+  const { isLoading, error, data, mutate } = useSWR(fetcherKey, fetcher, {
+    revalidateOnFocus: false,
+  });
 
   return { isLoading, error, data, mutate };
 };

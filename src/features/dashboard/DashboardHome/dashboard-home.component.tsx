@@ -1,15 +1,12 @@
 import { useAppStore } from "@/core/store";
 import { HasCurrentTrip, NoCurrentTrip, NoProfile, NotificationColumn, PageApp } from "@/features";
 import { Grid, Icon } from "mars-ds";
-import { useRouter } from "next/router";
 import { useMemo } from "react";
 
 const LOGO_IMAGE = "/brand/logo-symbol-circle.svg";
 
 export function DashboardHome() {
-  const router = useRouter();
-  const { pathname, query } = router;
-
+  const { updateUser, user } = useAppStore((state) => state);
   const {
     name = "viajante",
     hasCurrentTrip,
@@ -30,7 +27,7 @@ export function DashboardHome() {
     : false;
 
   const closeColumn = () => {
-    router.replace(`${pathname}?hasCurrentTrip=${query.hasCurrentTrip}&showSidebar=${false}`);
+    updateUser({ ...user, showNotifications: false });
   };
 
   const mdColumns = !allowNotifications ? ["auto", "350px"] : ["auto"];
@@ -47,8 +44,10 @@ export function DashboardHome() {
           {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
         </Grid>
         {!allowNotifications ? (
-          <div className={`dashboard-home__right-column${query.showSidebar ? "--active" : ""}`}>
-            {query.showSidebar ? (
+          <div
+            className={`dashboard-home__right-column${user.showNotifications ? "--active" : ""}`}
+          >
+            {user.showNotifications ? (
               <div className="flex w-100 justify-content-end mb-md">
                 <Icon name="x" onClick={() => closeColumn()} style={{ cursor: "pointer" }} />
               </div>

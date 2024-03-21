@@ -4,4 +4,12 @@
     color: $color-gray-2;
     cursor: pointer;
   }
+
+  &__empty-state {
+    color: $color-brand-1;
+    background-color: $color-primary-100;
+    border: 1px solid $color-brand-1;
+    border-radius: 20px;
+    height: 200px;
+  }
 }

@@ -5,5 +5,6 @@ export const initialUserState = {
   username: "",
   email: "",
   hasNotifications: false,
+  showNotifications: false,
   ...FETCH_STATE.UN_FETCHED,
 } satisfies UserState;
