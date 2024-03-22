@@ -30,7 +30,7 @@ export function DashboardHome() {
     updateUser({ ...user, showNotifications: false });
   };
 
-  const mdColumns = !allowNotifications ? ["auto", "350px"] : ["auto"];
+  const mdColumns = allowNotifications ? ["auto", "350px"] : ["auto"];
 
   return (
     <PageApp
@@ -43,7 +43,7 @@ export function DashboardHome() {
           {travelerProfile ? null : <NoProfile />}
           {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
         </Grid>
-        {!allowNotifications ? (
+        {allowNotifications ? (
           <div
             className={`dashboard-home__right-column${user.showNotifications ? "--active" : ""}`}
           >
