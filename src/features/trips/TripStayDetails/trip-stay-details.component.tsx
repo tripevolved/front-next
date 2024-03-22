@@ -1,8 +1,9 @@
-import { Box, Text, Picture, ErrorState, EmptyState, ThumbnailCarousel } from "@/ui";
+import { Box, Text, Picture, ErrorState, EmptyState } from "@/ui";
 import type { TripStayDetailsProps } from "./trip-stay-details.types";
 
 import { Button, Divider, Grid, Skeleton } from "mars-ds";
 
+import { Carousel } from "@/ui";
 import { TripStayServiceItem } from "@/features";
 import { useAppStore } from "@/core/store";
 import { StaysApiService } from "@/services/api";
@@ -64,7 +65,13 @@ export function TripStayDetails({
             <Text>{hotelData.details.address}</Text>
           </div>
           {hotelData.details.images?.length ? (
-            <ThumbnailCarousel height={300} slides={hotelData.details.images} options={{}} />
+            <Carousel height={300}>
+              {hotelData.details.images.map((image, key) => (
+                <Picture className="trip-stay-details__initial-info__image" key={key}>
+                  {parsePhoto(image)}
+                </Picture>
+              ))}
+            </Carousel>
           ) : hotelData.coverImage ? (
             <Picture className="trip-stay-details__initial-info__image" alt={hotelData.name}>
               {parsePhoto(hotelData.coverImage)}

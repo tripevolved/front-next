@@ -45,8 +45,8 @@ export function ThumbnailCarousel({
 
   return (
     <div className={cn} {...props}>
-      <div className="embla__viewport" ref={emblaMainRef}>
-        <div className="embla__container">
+      <div className="thumbnail-carousel__viewport" ref={emblaMainRef}>
+        <div className="thumbnail-carousel__container">
           {slides.map((content, i) => (
             <Picture key={i}>{content}</Picture>
           ))}
