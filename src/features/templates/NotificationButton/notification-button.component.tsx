@@ -1,11 +1,8 @@
-import { Icon, ToggleButton } from "mars-ds";
+import { ToggleButton } from "mars-ds";
 import type { NotificationButtonProps } from "./notification-button.types";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
-import { Box } from "@/ui";
-import { useState } from "react";
-import { NotificationColumn } from "@/features";
 import { useRouter } from "next/router";
 
 export function NotificationButton({
@@ -16,12 +13,12 @@ export function NotificationButton({
   ...props
 }: NotificationButtonProps) {
   const cn = makeCn("notification-button", className)(sx);
-  const user = useAppStore((state) => state.user);
-  const { updateUser } = useAppStore((state) => state);
-  const { hasNotifications, showNotifications } = user;
+  const { hasNotifications } = useAppStore((state) => state.user);
+  const router = useRouter();
+  const { asPath, query } = router;
 
   const handleToggle = () => {
-    updateUser({ ...user, showNotifications: !showNotifications });
+    router.push(asPath, { query: { ...query, showNotifications: true } });
   };
 
   return (

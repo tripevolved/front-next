@@ -59,7 +59,7 @@ export function PageAppHeader({
             </Grid>
           </div>
           <div className="flex">
-            {!allowNotifications ? null : isPanel ? <NotificationButton /> : null}
+            {allowNotifications ? null : isPanel ? <NotificationButton /> : null}
             <ToggleButton
               className="page-app-header__toggle"
               variant="text"

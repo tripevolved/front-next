@@ -1,12 +1,17 @@
 import { useAppStore } from "@/core/store";
 import { HasCurrentTrip, NoCurrentTrip, NoProfile, NotificationColumn, PageApp } from "@/features";
 import { Grid, Icon } from "mars-ds";
-import { useMemo } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useState } from "react";
 
 const LOGO_IMAGE = "/brand/logo-symbol-circle.svg";
 
 export function DashboardHome() {
-  const { updateUser, user } = useAppStore((state) => state);
+  const router = useRouter();
+  const { query, asPath } = router;
+  const showNotifications = query.showNotifications;
+  const [showSidebar, setShowSidebar] = useState(false);
+
   const {
     name = "viajante",
     hasCurrentTrip,
@@ -27,10 +32,17 @@ export function DashboardHome() {
     : false;
 
   const closeColumn = () => {
-    updateUser({ ...user, showNotifications: false });
+    router.replace(asPath, { query: { ...query, showNotifications: false } });
+    setShowSidebar(false);
   };
 
-  const mdColumns = allowNotifications ? ["auto", "350px"] : ["auto"];
+  const mdColumns = !allowNotifications ? ["auto", "350px"] : ["auto"];
+
+  useEffect(() => {
+    if (showNotifications === "true") {
+      setShowSidebar(true);
+    }
+  }, [showNotifications]);
 
   return (
     <PageApp
@@ -43,11 +55,9 @@ export function DashboardHome() {
           {travelerProfile ? null : <NoProfile />}
           {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
         </Grid>
-        {allowNotifications ? (
-          <div
-            className={`dashboard-home__right-column${user.showNotifications ? "--active" : ""}`}
-          >
-            {user.showNotifications ? (
+        {!allowNotifications ? (
+          <div className={`dashboard-home__right-column${showSidebar ? "--active" : ""}`}>
+            {showSidebar ? (
               <div className="flex w-100 justify-content-end mb-md">
                 <Icon name="x" onClick={() => closeColumn()} style={{ cursor: "pointer" }} />
               </div>

@@ -51,13 +51,13 @@ export function NotificationColumn({ className, children, sx, ...props }: Notifi
 
   return (
     <div id="notification-column" className={`${cn} flex-column gap-lg`} {...props}>
-      <Box className="flex justify-content-between">
+      <Box className="flex justify-content-between gap-md">
         <div>
           <Text heading size="xs" className="notification-column__title color-primary">
             Notificações
           </Text>
         </div>
-        <div>
+        <div className="flex text-right">
           <span className="notification-column__read-all" onClick={() => readAll()}>
             Marcar todas como lidas
           </span>
@@ -134,7 +134,9 @@ const NotificationsEmptyState = ({ status }: { status: TripNotificationStatus | 
 
   return (
     <div className="notification-column__empty-state flex w-100 p-lg justify-content-center align-items-center">
-      <Text size="lg">Você não possui notificações {status != "" && names[status]}</Text>
+      <Text size="lg" className="text-center">
+        Você não possui notificações {status != "" && names[status]}
+      </Text>
     </div>
   );
 };
