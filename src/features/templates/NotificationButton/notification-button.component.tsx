@@ -4,6 +4,7 @@ import type { NotificationButtonProps } from "./notification-button.types";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useAppStore } from "@/core/store";
 import { useRouter } from "next/router";
+import { RefObject, useRef } from "react";
 
 export function NotificationButton({
   className,
@@ -14,15 +15,22 @@ export function NotificationButton({
 }: NotificationButtonProps) {
   const cn = makeCn("notification-button", className)(sx);
   const { hasNotifications } = useAppStore((state) => state.user);
-  const router = useRouter();
-  const { asPath, query } = router;
+  const checkboxRef = useRef<HTMLInputElement>(null);
 
   const handleToggle = () => {
-    router.push(asPath, { query: { ...query, showNotifications: true } });
+    if (checkboxRef.current) {
+      checkboxRef.current.click();
+    }
   };
 
   return (
     <div className={cn}>
+      <input
+        type="checkbox"
+        id="notification-toggle"
+        style={{ display: "none" }}
+        ref={checkboxRef}
+      />
       <ToggleButton
         {...props}
         type="button"

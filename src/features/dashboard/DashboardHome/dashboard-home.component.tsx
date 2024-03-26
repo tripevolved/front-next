@@ -7,9 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 const LOGO_IMAGE = "/brand/logo-symbol-circle.svg";
 
 export function DashboardHome() {
-  const router = useRouter();
-  const { query, asPath } = router;
-  const showNotifications = query.showNotifications;
+  const checkbox = document.getElementById("notification-toggle");
   const [showSidebar, setShowSidebar] = useState(false);
 
   const {
@@ -31,18 +29,18 @@ export function DashboardHome() {
     ? availableFeatures.includes("NOTIFICATIONS")
     : false;
 
-  const closeColumn = () => {
-    router.replace(asPath, { query: { ...query, showNotifications: false } });
-    setShowSidebar(false);
-  };
+  const closeColumn = () => setShowSidebar(false);
 
   const mdColumns = !allowNotifications ? ["auto", "350px"] : ["auto"];
 
+  const eventAdder = () =>
+    checkbox?.addEventListener("click", () => {
+      setShowSidebar(!showSidebar);
+    });
+
   useEffect(() => {
-    if (showNotifications === "true") {
-      setShowSidebar(true);
-    }
-  }, [showNotifications]);
+    eventAdder();
+  }, [checkbox]);
 
   return (
     <PageApp
