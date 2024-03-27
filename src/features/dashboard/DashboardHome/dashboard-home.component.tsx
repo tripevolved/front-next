@@ -6,7 +6,6 @@ import { useEffect, useMemo, useState } from "react";
 const LOGO_IMAGE = "/brand/logo-symbol-circle.svg";
 
 export function DashboardHome() {
-  const checkbox = document.getElementById("notification-toggle");
   const [showSidebar, setShowSidebar] = useState(false);
 
   const {
@@ -32,14 +31,15 @@ export function DashboardHome() {
 
   const mdColumns = allowNotifications ? ["auto", "350px"] : ["auto"];
 
-  const eventAdder = () =>
+  const eventAdder = (checkbox: HTMLElement | null) =>
     checkbox?.addEventListener("click", () => {
       setShowSidebar(!showSidebar);
     });
 
   useEffect(() => {
-    eventAdder();
-  }, [checkbox]);
+    const checkbox = document.getElementById("notification-toggle");
+    eventAdder(checkbox);
+  }, []);
 
   return (
     <PageApp
