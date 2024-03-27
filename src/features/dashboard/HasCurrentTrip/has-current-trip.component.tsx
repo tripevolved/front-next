@@ -19,7 +19,7 @@ export function HasCurrentTrip() {
 
   return (
     <section className="has-current-trip grid gap-lg">
-      {hasCurrentTrip ? (
+      {!hasCurrentTrip ? (
         <>
           <div className="mb-md">
             <ProfileDestinationsSuggestion travelerProfile={travelerProfile} />
@@ -33,11 +33,11 @@ export function HasCurrentTrip() {
           { label: "Viagens passadas", children: <MountTripTab tabType={"PAST"} /> },
         ]}
       />
-      {!hasCurrentTrip ? (
+      {hasCurrentTrip ? (
         <>
           <Divider />
           <div className="w-100">
-            <ProfileDestinationsSuggestion travelerProfile={travelerProfile} />
+            <ProfileDestinationsSuggestion travelerProfile={travelerProfile} title="Outros destinos que você pode gostar:" />
           </div>
         </>
       ) : null}
@@ -159,12 +159,14 @@ export const LoadingSkeleton = () => (
 
 export const ProfileDestinationsSuggestion = ({
   travelerProfile,
+  title = "Destinos que você pode gostar:"
 }: {
   travelerProfile: string | null;
+  title?: string;
 }) => (
   <>
     <Text className="mb-lg" as="h2" heading size="xs">
-      Destinos que você pode gostar:
+      {title}
     </Text>
     <DestinationsByProfileName profileName={travelerProfile || "relax"} />
   </>
