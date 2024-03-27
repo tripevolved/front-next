@@ -4,6 +4,7 @@ import type { ThumbnailCarouselProps } from "./thumbnail-carousel.types";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useCallback, useEffect, useState } from "react";
 import { Picture } from "../Picture";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 export function ThumbnailCarousel({
   className,
@@ -48,14 +49,15 @@ export function ThumbnailCarousel({
       <div className="thumbnail-carousel__viewport" ref={emblaMainRef}>
         <div className="thumbnail-carousel__container">
           {slides.map((content, i) => (
-            <Picture key={i}>{content}</Picture>
+            <Picture className="thumbnail-carousel__container__slide" key={i}>
+              {parsePhoto(content)}
+            </Picture>
           ))}
         </div>
       </div>
-
       <div className="carousel-thumbs">
         <div className="carousel-thumbs__viewport" ref={emblaThumbsRef}>
-          <div className="carousel-thumbs__container">
+          <div className="carousel-thumbs__viewport__container">
             {slides.map((content, i) => (
               <Picture
                 key={i}
@@ -63,9 +65,9 @@ export function ThumbnailCarousel({
                 style={{
                   border: i === selectedIndex ? "2px solid var(--color-brand-1)" : undefined,
                 }}
-                className="carousel-thumbs__container__slide"
+                className="carousel-thumbs__viewport__container__slide"
               >
-                {content}
+                {parsePhoto(content)}
               </Picture>
             ))}
           </div>
