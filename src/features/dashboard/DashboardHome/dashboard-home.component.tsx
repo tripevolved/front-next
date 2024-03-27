@@ -1,7 +1,6 @@
 import { useAppStore } from "@/core/store";
 import { HasCurrentTrip, NoCurrentTrip, NoProfile, NotificationColumn, PageApp } from "@/features";
 import { Grid, Icon } from "mars-ds";
-import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
 const LOGO_IMAGE = "/brand/logo-symbol-circle.svg";
@@ -31,7 +30,7 @@ export function DashboardHome() {
 
   const closeColumn = () => setShowSidebar(false);
 
-  const mdColumns = !allowNotifications ? ["auto", "350px"] : ["auto"];
+  const mdColumns = allowNotifications ? ["auto", "350px"] : ["auto"];
 
   const eventAdder = () =>
     checkbox?.addEventListener("click", () => {
@@ -53,7 +52,7 @@ export function DashboardHome() {
           {travelerProfile ? null : <NoProfile />}
           {hasCurrentTrip ? <HasCurrentTrip /> : <NoCurrentTrip />}
         </Grid>
-        {!allowNotifications ? (
+        {allowNotifications ? (
           <div className={`dashboard-home__right-column${showSidebar ? "--active" : ""}`}>
             {showSidebar ? (
               <div className="flex w-100 justify-content-end mb-md">
