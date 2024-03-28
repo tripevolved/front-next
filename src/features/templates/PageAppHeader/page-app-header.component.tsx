@@ -2,6 +2,8 @@ import { useAppStore } from "@/core/store";
 import { ModalContent, Text, UserAvatar } from "@/ui";
 import { Avatar, Button, Container, Divider, Grid, Modal, ToggleButton } from "mars-ds";
 import { makeCn } from "@/utils/helpers/css.helpers";
+import { NotificationButton } from "@/features";
+import { useRouter } from "next/router";
 
 export interface PageAppHeaderProps {
   image?: string;
@@ -19,6 +21,15 @@ export function PageAppHeader({
   hideMobileMoldure,
 }: PageAppHeaderProps) {
   const cn = makeCn("page-app-header", { "page-app-header--sm": hideMobileMoldure })();
+  const { availableFeatures } = useAppStore((state) => state.travelerState);
+
+  const allowNotifications = availableFeatures
+    ? availableFeatures.includes("NOTIFICATIONS")
+    : false;
+  const router = useRouter();
+  const { pathname } = router;
+  const isPanel = pathname.includes("painel");
+
   return (
     <>
       <nav className={cn}>
@@ -47,13 +58,16 @@ export function PageAppHeader({
               </div>
             </Grid>
           </div>
-          <ToggleButton
-            className="page-app-header__toggle"
-            variant="text"
-            iconName="menu"
-            title="Abrir o menu"
-            onClick={() => Modal.open(MenuModal, { closable: true, size: "lg" })}
-          />
+          <div className="flex">
+            {!allowNotifications ? null : isPanel ? <NotificationButton /> : null}
+            <ToggleButton
+              className="page-app-header__toggle"
+              variant="text"
+              iconName="menu"
+              title="Abrir o menu"
+              onClick={() => Modal.open(MenuModal, { closable: true, size: "lg" })}
+            />
+          </div>
         </Container>
       </nav>
       <div className="page-app-header-extension" />
