@@ -1,0 +1,11 @@
+.notification-view {
+  &__header {
+    &__title {
+      color: $color-brand-1;
+    }
+  }
+
+  &__footer {
+    color: $color-gray-2;
+  }
+}

@@ -1,4 +1,30 @@
 .dashboard-home {
   display: grid;
   gap: 40px;
+
+  &__right-column{
+    @media(max-width: $breakpoint-md) {
+      top: 0;
+      right: -350px;
+      width: 350px;
+      position: fixed;
+      z-index: 0;
+      height: 100vh;
+      background-color: $color-gray-4;
+      transition: right 0.3s ease;
+
+      &--active {
+        top: 0;
+        right: 0;
+        padding: 16px;
+        border-radius: 15px;
+        width: 90%;
+        background-color: $color-gray-4;
+        box-shadow: 0px 0px 69px 21px rgba(0,0,0,0.75);
+        position: fixed;
+        z-index: 0;
+        height: 100%;
+      }
+    }
+  }
 }

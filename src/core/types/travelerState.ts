@@ -35,4 +35,5 @@ type ProductFeature =
   | "SCRIPT"
   | "RESTAURANTS"
   | "FLIGHT_EDIT"
-  | "ITINERARY_EDIT";
+  | "ITINERARY_EDIT"
+  | "NOTIFICATIONS";

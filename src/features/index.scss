@@ -14,6 +14,8 @@
 @import "./dashboard/HeaderUserMenu/header-user-menu.styles.scss";
 @import "./dashboard/NoCurrentTrip/no-current-trip.styles.scss";
 @import "./dashboard/NoProfile/no-profile.styles.scss";
+@import "./dashboard/NotificationColumn/notification-column.styles.scss";
+@import "./dashboard/NotificationView/notification-view.styles.scss";
 @import "./dashboard/PendingDocumentsModal/pending-documents-modal.styles.scss";
 @import "./dashboard/TripDashboard/trip-dashboard.styles.scss";
 @import "./destinations/DestinationInfos/destinations-infos.styles.scss";
@@ -47,6 +49,7 @@
 @import "./templates/ChatFloatingButton/chat-floating-button.styles.scss";
 @import "./templates/Footer/footer.styles.scss";
 @import "./templates/Navbar/navbar.styles.scss";
+@import "./templates/NotificationButton/notification-button.styles.scss";
 @import "./templates/PageApp/page-app.styles.scss";
 @import "./templates/PageAppHeader/page-app-header.styles.scss";
 @import "./templates/PageAppHero/page-app-hero.styles.scss";

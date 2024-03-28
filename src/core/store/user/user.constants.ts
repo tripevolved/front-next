@@ -4,5 +4,6 @@ import type { UserState } from "./user.types";
 export const initialUserState = {
   username: "",
   email: "",
+  hasNotifications: false,
   ...FETCH_STATE.UN_FETCHED,
 } satisfies UserState;

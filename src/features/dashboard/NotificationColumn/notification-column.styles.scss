@@ -1,0 +1,13 @@
+.notification-column {
+
+  &__read-all{
+    color: $color-gray-2;
+    cursor: pointer;
+  }
+
+  &__empty-state {
+    color: $color-gray-2;
+    border-radius: 20px;
+    height: 200px;
+  }
+}
