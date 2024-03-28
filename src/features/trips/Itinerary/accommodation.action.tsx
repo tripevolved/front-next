@@ -23,67 +23,6 @@ import { toFullDetailedDate } from "@/utils/helpers/dates.helpers";
 import { StayDetailsModal } from "@/features";
 import { useAppStore } from "@/core/store";
 
-const mockData: TripStay = {
-  id: "232ecb4e-54a5-4c72-bb97-a1813efa934d",
-  coverImage: {
-    alt: "infos",
-    title: "Foto de capa",
-    sources: [{ height: 400, width: 800, type: "md", url: "https://picsum.photos/800/400" }],
-  },
-  name: "NANNAI Muro Alto",
-  tags: "resort 5 estrelas",
-  checkIn: new Date("2024-04-24T00:00:00"),
-  checkOut: new Date("2024-04-28T00:00:00"),
-  cancellationInfo: "null",
-  boardInfo: "null",
-  isRoomSelected: false,
-  roomSelectionMessage:
-    "A hospedagem sugerida não está disponível online e ainda não faz parte do preço da sua viagem. Nosso time de atendimento vai te ajudar nessa escolha!",
-  isReserved: false,
-  reservationMessage: null,
-  highlight: {
-    title: "Conforto",
-    description: null,
-    type: "comfort",
-  },
-  details: {
-    images: [
-      {
-        alt: "infos",
-        title: "Primeira foto",
-        sources: [{ height: 400, width: 800, type: "md", url: "https://picsum.photos/800/400" }],
-      },
-      {
-        alt: "trecos",
-        title: "Foto do Carrossel",
-        sources: [{ height: 400, width: 800, type: "md", url: "https://picsum.photos/1000/500" }],
-      },
-      {
-        alt: "infos",
-        title: "Foto de Carrosel",
-        sources: [{ height: 400, width: 800, type: "md", url: "https://picsum.photos/800/400" }],
-      },
-      {
-        alt: "infos",
-        title: "Foto de Carrossel",
-        sources: [{ height: 400, width: 800, type: "md", url: "https://picsum.photos/900/450" }],
-      },
-    ],
-    information:
-      "Nannai Resort & Spa é um resort luxuoso localizado na Praia de Muro Alto, oferecendo uma ampla variedade de atividades para seus hóspedes. O resort conta com uma piscina ao ar livre, um spa e sauna para relaxar, além de um restaurante e bar para desfrutar de refeições deliciosas.\n\nOs quartos do Nannai Resort & Spa são equipados com ar-condicionado, TV a cabo, DVD player, base para MP3, frigobar e banheiro privativo com chuveiro de água quente. Cada acomodação também possui uma varanda com vista para o jardim, enquanto os chalés apresentam uma piscina privativa, área de estar, cafeteira e banheira.\n\nO resort também oferece uma quadra de tênis e a possibilidade de jogar na praia do hotel. Além disso, a famosa Praia de Porto de Galinhas e o centro da cidade ficam a cerca de 9 km, enquanto a Praia de Maracaípe fica a 12 km. O Aeroporto Internacional dos Guararapes, em Recife, fica a aproximadamente 54 km de distância.",
-    checkInHour: "00:00",
-    address: "Praia de Muro Alto - N. São do Ó, Ipojuca - PE, Brasil",
-    price: 0,
-    currency: "BRL",
-    services: [],
-    rooms: [],
-  },
-  isBuilding: false,
-  isSelected: true,
-  message: "null",
-  system: "",
-};
-
 export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
   const fetcher = async () =>
     StaysApiService.getByTripId(props.tripId, props.tripItineraryActionId);
@@ -96,9 +35,9 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
 
   return (
     <Skeleton active={isLoading || isValidating} height={355}>
-      {mockData ? (
+      {data ? (
         <AccommodationComponent
-          data={mockData}
+          data={data}
           tripId={props.tripId}
           tripItineraryActionId={props.tripItineraryActionId}
         />
