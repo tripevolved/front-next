@@ -289,7 +289,7 @@ export const StayEditionButton = ({
 
   const handleClick = () => {
     updateAccommodation({ ...accommodation, ...accommodationData, itineraryActionId });
-    router.push(`/app/viagens/${tripId}/hospedagem/editar?iditinerario=${itineraryActionId}`);
+    router.push(`/app/viagens/${tripId}/hospedagem/editar/${itineraryActionId}`);
   };
 
   return allowEdit ? (
