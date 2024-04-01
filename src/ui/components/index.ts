@@ -24,6 +24,7 @@ export * from "./basic/Slide";
 export * from "./basic/StepsProgressBar";
 export * from "./basic/Tag";
 export * from "./basic/Text";
+export * from "./basic/ThumbnailCarousel";
 export * from "./buttons/ShareButton";
 export * from "./buttons/ToggleButton";
 export * from "./buttons/WhatsappButton";

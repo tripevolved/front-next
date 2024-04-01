@@ -1,4 +1,4 @@
-import { Box, Text, Picture, ErrorState, EmptyState } from "@/ui";
+import { Box, Text, Picture, ErrorState, EmptyState, ThumbnailCarousel } from "@/ui";
 import type { TripStayDetailsProps } from "./trip-stay-details.types";
 
 import { Button, Divider, Grid, Skeleton } from "mars-ds";
@@ -65,13 +65,7 @@ export function TripStayDetails({
             <Text>{hotelData.details.address}</Text>
           </div>
           {hotelData.details.images?.length ? (
-            <Carousel height={300}>
-              {hotelData.details.images.map((image, key) => (
-                <Picture className="trip-stay-details__initial-info__image" key={key}>
-                  {parsePhoto(image)}
-                </Picture>
-              ))}
-            </Carousel>
+            <ThumbnailCarousel options={{}} slides={hotelData.details.images} />
           ) : hotelData.coverImage ? (
             <Picture className="trip-stay-details__initial-info__image" alt={hotelData.name}>
               {parsePhoto(hotelData.coverImage)}
