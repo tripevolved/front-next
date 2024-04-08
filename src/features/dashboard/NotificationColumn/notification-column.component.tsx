@@ -75,7 +75,7 @@ export function NotificationColumn({ className, children, sx, ...props }: Notifi
 
       {isLoading ? (
         <NotificationsLoadingState />
-      ) : data?.notifications.length ? (
+      ) : data?.notifications?.length ? (
         data.notifications.map((notification: TripNotification, i: number) => (
           <CardNotification
             notification={notification}
