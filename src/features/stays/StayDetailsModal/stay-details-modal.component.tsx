@@ -1,10 +1,9 @@
-import { Box, Text, Picture, HoverTooltipCard } from "@/ui";
+import { Box, Text, Picture, HoverTooltipCard, ThumbnailCarousel } from "@/ui";
 
 import { Button, Divider, Grid, Skeleton } from "mars-ds";
 
 import type { StayDetailsModalProps } from "@/features";
 
-import { Carousel } from "@/ui";
 import { TripStayServiceItem } from "@/features";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
@@ -16,13 +15,13 @@ export function StayDetailsModal({
   router,
   onCloseModal,
   tripStay,
-  allowEdit
+  allowEdit,
 }: StayDetailsModalProps) {
   const handleEditButton = () => {
     if (onCloseModal) onCloseModal();
-    router.push(`/app/viagens/${tripId}/hospedagem/editar?iditinerario=${itineraryActionId}`);
+    router.push(`/app/viagens/${tripId}/hospedagem/editar/${itineraryActionId}`);
   };
-  
+
   return (
     <>
       {/** @ts-ignore */}
@@ -35,13 +34,7 @@ export function StayDetailsModal({
             <Text>{tripStay.details.address}</Text>
           </div>
           {tripStay.details.images?.length ? (
-            <Carousel height={300}>
-              {tripStay.details.images.map((image, key) => (
-                <Picture className="trip-stay-details__initial-info__image" key={key}>
-                  {parsePhoto(image)}
-                </Picture>
-              ))}
-            </Carousel>
+            <ThumbnailCarousel options={{}} slides={tripStay.details.images} />
           ) : tripStay.coverImage ? (
             <Picture className="trip-stay-details__initial-info__image" alt={tripStay.name}>
               {parsePhoto(tripStay.coverImage)}
@@ -73,7 +66,7 @@ export function StayDetailsModal({
               ) : null}
               {tripStay.details.services.map((service, i) => {
                 if (service.title == tripStay.boardInfo) return null;
-                return <TripStayServiceItem {...service} key={i} />
+                return <TripStayServiceItem {...service} key={i} />;
               })}
             </div>
           )}
@@ -101,17 +94,22 @@ export function StayDetailsModal({
         </Box>
         <Box className="flex justify-content-center px-md">
           {allowEdit ? (
-              <Button className="w-100" style={{ maxWidth: 380 }} onClick={() => handleEditButton()}>
+            <Button className="w-100" style={{ maxWidth: 380 }} onClick={() => handleEditButton()}>
               Editar
             </Button>
-            ) : (
-              <HoverTooltipCard text="A escolha da sua hospedagem ainda não está disponível online.">
-                <Button className="w-100" style={{ maxWidth: 380 }} variant="secondary" size="sm" iconName="lock">
-                  Editar
-                </Button>
-              </HoverTooltipCard>
-            )
-          }          
+          ) : (
+            <HoverTooltipCard text="A escolha da sua hospedagem ainda não está disponível online.">
+              <Button
+                className="w-100"
+                style={{ maxWidth: 380 }}
+                variant="secondary"
+                size="sm"
+                iconName="lock"
+              >
+                Editar
+              </Button>
+            </HoverTooltipCard>
+          )}
         </Box>
       </div>
     </>

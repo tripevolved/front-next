@@ -117,7 +117,8 @@ const AccommodationComponent = ({
           <div className="stay-detail-info__item">
             <Icon name="calendar" size="sm" color="#8253F6" />
             <Text>
-              Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até {`${toFullDetailedDate(data.checkOut)}`}
+              Sua estadia é de {`${toFullDetailedDate(data.checkIn)}`} até{" "}
+              {`${toFullDetailedDate(data.checkOut)}`}
             </Text>
           </div>
         )}
@@ -146,7 +147,7 @@ const AccommodationComponent = ({
                   ) : null}
                   {data.details.services.map((service, i) => {
                     if (service.title == data.boardInfo) return null;
-                    return <TripStayServiceItem {...service} key={i} />
+                    return <TripStayServiceItem {...service} key={i} />;
                   })}
                 </div>
               )}
@@ -289,7 +290,7 @@ export const StayEditionButton = ({
 
   const handleClick = () => {
     updateAccommodation({ ...accommodation, ...accommodationData, itineraryActionId });
-    router.push(`/app/viagens/${tripId}/hospedagem/editar?iditinerario=${itineraryActionId}`);
+    router.push(`/app/viagens/${tripId}/hospedagem/editar/${itineraryActionId}`);
   };
 
   return allowEdit ? (
