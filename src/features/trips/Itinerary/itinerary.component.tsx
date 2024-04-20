@@ -10,7 +10,6 @@ import { RouteAction } from "./route.action";
 import { AccommodationAction } from "./accommodation.action";
 import { ItineraryItem } from "./itinerary-item.wrapper";
 import { useAppStore } from "@/core/store";
-import { useEffect } from "react";
 import { ItineraryList } from "@/core/types";
 
 export function Itinerary({ tripId, title }: ItineraryProps) {

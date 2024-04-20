@@ -31,6 +31,9 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     fetcher
   );
 
+  const { availableFeatures } = useAppStore((state) => state.travelerState);
+  const allowStayEdit = availableFeatures.includes("STAY_EDIT");
+
   if (error) return <ErrorState />;
 
   return (
@@ -40,9 +43,14 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
           data={data}
           tripId={props.tripId}
           tripItineraryActionId={props.tripItineraryActionId}
+          allowStayEdit={allowStayEdit}
         />
       ) : (
-        <TripStayEmptyState />
+        <TripStayEmptyState
+          tripId={props.tripId}
+          tripItineraryActionId={props.tripItineraryActionId}
+          allowEdit={allowStayEdit}
+        />
       )}
     </Skeleton>
   );
@@ -52,14 +60,13 @@ const AccommodationComponent = ({
   data,
   tripId,
   tripItineraryActionId,
+  allowStayEdit
 }: {
   data: TripStay;
   tripId: string;
   tripItineraryActionId: string;
+  allowStayEdit: boolean;
 }) => {
-  const { availableFeatures } = useAppStore((state) => state.travelerState);
-  const allowStayEdit = availableFeatures.includes("STAY_EDIT");
-
   const router = useRouter();
 
   if (!data || !data.isSelected) {
