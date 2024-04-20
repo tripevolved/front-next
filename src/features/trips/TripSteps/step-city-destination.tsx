@@ -9,7 +9,7 @@ export function StepCityDestination({ onNext }: StepComponentProps) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  const byPass = async (destinationName: string) => {
+  const bypass = async (destinationName: string) => {
     try {
       const { id, title } = await DestinationApiService.getByName(destinationName);
       onNext({ destinationId: id, destinationTitle: title });
@@ -24,7 +24,7 @@ export function StepCityDestination({ onNext }: StepComponentProps) {
     if (!router.isReady) return;
     const destinationName = router.query.para;
     if (typeof destinationName === "string") {
-      byPass(destinationName);
+      bypass(destinationName);
       return;
     }
     setIsLoading(false);
