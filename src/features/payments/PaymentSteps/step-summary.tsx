@@ -148,13 +148,7 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
           <CardHighlight
             variant="warning"
             heading="Ainda não escolhemos a acomodação para sua viagem"
-            text="Fale conosco e vamos deixar tudo como você deseja!"
-            cta={{
-              href: `/app/viagens/${tripId}/hospedagem/editar`,
-              label: "Escolher hospedagem",
-              iconName: "arrow-right",
-              isRtl: true,
-            }}
+            text="Podemos escolher com você em um segundo momento e deixar tudo como deseja!"
           />
         )}
       </Grid>
@@ -174,7 +168,7 @@ const StepSummaryScript = (props: CheckoutScript) => {
         <CardHighlight
           variant="default"
           heading="Seu roteiro será construído depois"
-          text="Não se preocupe. Assim que finalizarmos esta fase você poderá realizar a construção do seu roteiro tranquilamente"
+          text="Sua viagem inclui um roteiro 100% personalizado, que será construído na sequência com a ajuda de nossos especialistas."
         />
       )}
     </PaymentStepSection>

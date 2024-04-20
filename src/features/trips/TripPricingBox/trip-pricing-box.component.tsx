@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { HoverTooltipCard, Picture, Text } from "@/ui";
+import { HoverTooltipCard, Picture, Text, WhatsappButton } from "@/ui";
 import {
   Button,
   Card,
@@ -257,9 +257,14 @@ const TripPricingBoxContentCta = ({
 
   const BuyButton = ({ isPrimary = false, isPurchaseAvailable = true }) =>
     isPurchaseAvailable ? (
-      <Button variant={isPrimary ? "tertiary" : "neutral"} href={`/compra/${tripId}/`}>
-        Comprar por {formatToCurrencyBR(total)}
-      </Button>
+      <>
+        <Button variant={isPrimary ? "tertiary" : "neutral"} href={`/compra/${tripId}/`}>
+          Comprar por {formatToCurrencyBR(total)}
+        </Button>
+        <WhatsappButton message={`Quero conversar sobre minha viagem para ${messageProps.tripName}.`} variant="secondary">
+          Falar com especialista
+        </WhatsappButton>
+      </>
     ) : (
       <ItemElement
         id="whatsapp-purchase-area"
@@ -301,12 +306,6 @@ const TripPricingBoxContentCta = ({
         </Button>
       ) : null}
       <BuyButton isPrimary={!isScriptAvailable} isPurchaseAvailable={isPurchaseAvailable} />
-      {isPurchaseAvailable ? (
-        <Text size="sm" className="px-md">
-          <strong>Não se preocupe:</strong> comprando agora, você poderá construir o roteiro em um
-          momento posterior
-        </Text>
-      ) : null}
     </Grid>
   );
 };
@@ -350,6 +349,9 @@ const TripPricingBoxErrorState = ({ title }: Pick<TripPricingBoxContentProps, "t
       <Button iconName="refresh-ccw" variant="neutral" onClick={location.reload}>
         Tentar novamente
       </Button>
+      <WhatsappButton message={`Quero conversar sobre minha viagem para ${title}.`}>
+        Falar com especialista
+      </WhatsappButton>
     </Grid>
   </Card>
 );

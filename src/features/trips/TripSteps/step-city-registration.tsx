@@ -4,7 +4,9 @@ import { RegisterApiService } from "@/services/api";
 import { StepCity } from "./step-city";
 
 export function StepCityRegistration({ onNext }: StepComponentProps) {
-  const travelerId = useAppStore((state) => state.travelerState.id);
+  const { id: travelerId, hasValidAddress } = useAppStore((state) => state.travelerState);
+
+  if (hasValidAddress) { onNext(); }
 
   const onSubmit = async (cityId: string) => {
     await RegisterApiService.putRegisterCity({

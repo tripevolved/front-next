@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import { Caption, Grid, Notification } from "mars-ds";
 import { StepsLoader, StepsProgressBar } from "@/ui";
 import { TripsApiService } from "@/services/api";
-import { StepCityRegistration } from "../TripSteps/step-city-registration";
 
 export const TripCreationPage = () => {
   return (
@@ -36,7 +35,7 @@ const LOADING_STEPS = [
 const DEFAULT_INITIAL_INDEX = 0;
 
 const StepBuilder = ({ steps }: TemplateStepsBuilderProps) => {
-  const { id: travelerId, hasValidAddress } = useAppStore((state) => state.travelerState);
+  const { id: travelerId } = useAppStore((state) => state.travelerState);
 
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
   const [submitting, setSubmitting] = useState(false);
@@ -75,14 +74,6 @@ const StepBuilder = ({ steps }: TemplateStepsBuilderProps) => {
   const handleFinish = () => {
     router.replace(`/app/viagens/${tripId.current}/detalhes`);
   };
-
-  if (!hasValidAddress && !steps.find((step) => step.name == "register-city")) {
-    steps.splice(1, 0, {
-      title: "Seu endereço",
-      name: "register-city",
-      component: StepCityRegistration,
-    });
-  }
 
   const { component: Component } = steps[currentIndex];
 
