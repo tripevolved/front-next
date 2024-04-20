@@ -60,14 +60,14 @@ export const usePurchase = (tripId: string) => {
         email: payer.data?.email || travelerEmail,
       },
       address: {
-        postalCode: payer.data?.address.postalCode || "",
-        address: payer.data?.address.address || "",
-        complement: payer.data?.address.complement || "",
-        number: payer.data?.address.number || "",
-        neighborhood: payer.data?.address.neighborhood || "",
-        city: payer.data?.address.city || "",
-        stateProvince: payer.data?.address.stateProvince || "",
-        country: payer.data?.address.country || "Brasil",
+        postalCode: payer.data?.address?.postalCode || "",
+        address: payer.data?.address?.address || "",
+        complement: payer.data?.address?.complement || "",
+        number: payer.data?.address?.number || "",
+        neighborhood: payer.data?.address?.neighborhood || "",
+        city: payer.data?.address?.city || "",
+        stateProvince: payer.data?.address?.stateProvince || "",
+        country: payer.data?.address?.country || "Brasil",
       },
     };
     return result;
