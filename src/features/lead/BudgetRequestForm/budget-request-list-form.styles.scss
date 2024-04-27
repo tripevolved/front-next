@@ -1,0 +1,41 @@
+.budget-request-list-form {
+  background-color: $color-brand-2;
+  color: white;
+  position: relative;
+  &:before,
+  &:after {
+    position: absolute;
+    content: "";
+    display: inline-block;
+    height: 48px;
+    width: 48px;
+    border-radius: 100%;
+    background: var(--bullet-background, white);
+  }
+  &:before {
+    left: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  &:after {
+    right: 0;
+    top: 50%;
+    transform: translate(50%, -50%);
+  }
+  &__label {
+    letter-spacing: 0.25rem;
+  }
+  .field {
+    --color-info-500: var(--color-primary-500);
+    &__label {
+      left: 31px;
+      color: white;
+    }
+    &__fieldset {
+      border-radius: 999px;
+      border-color: var(--color-white);
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+}
