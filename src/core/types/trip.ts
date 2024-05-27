@@ -56,6 +56,7 @@ export interface TripTransportation {
   fromAddress?: string;
   fromName?: string;
   isBuilding: boolean;
+  isReady: boolean;
   isRouteFinished: boolean;
   isOffBudget: boolean;
   message: string;

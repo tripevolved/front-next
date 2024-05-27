@@ -17,6 +17,7 @@ export interface TripStay {
   details: TripStayDetails;
   isSelected: boolean;
   isBuilding: boolean;
+  isReady: boolean;
   isReserved: boolean;
   isRoomSelected: boolean;
   message: string;
