@@ -6,6 +6,7 @@ import { DestinationVideoSection } from "./destination-video.section";
 import { DestinationTipsSection } from "./destination-tips.section";
 import { DestinationPostsSection } from "./destinations-posts.section";
 import { DestinationFaqSection } from "./destination-faq.section";
+import { DestinationProfileSection } from "./destination-profile.section";
 import { Button } from "mars-ds";
 import { UserCredentials } from "@/services/user/credentials";
 import { WhatsappButton } from "@/ui";
@@ -90,6 +91,8 @@ const mock = {
       source: "kSvaiM9Go2Y",
     },
   ],
+  travelerProfiles: [ "relax", "aventureiro" ],
+  travelType: "COUPLES"
 };
 
 export function DestinationPage({ destination, seo, navbar, footer }: DestinationPageProps) {
@@ -102,20 +105,21 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
     title,
     uniqueName,
     videos = [],
+    travelerProfiles = [],
+    travelType
   } = destination;
   const Cta = () => <DestinationCta uniqueName={uniqueName} destinationTitle={destination.title} />;
 
   return (
     <PageBase navbar={navbar} footer={footer} seo={seo}>
       <DestinationHeroSection title={title} photos={photos} />
+      <DestinationProfileSection title={title} travelerProfiles={travelerProfiles} />
       <DestinationInfoSection features={features} recommendedBy={recommendedBy}>
         <Cta />
       </DestinationInfoSection>
       {videos.length ? <DestinationVideoSection title={title} videos={videos} /> : null}
       {tips.length ? (
-        <DestinationTipsSection tips={tips}>
-          <Cta />
-        </DestinationTipsSection>
+        <DestinationTipsSection tips={tips} />
       ) : null}
       {posts.length ? <DestinationPostsSection posts={posts} /> : null}
       <DestinationFaqSection faq={mock.faq} title={title}>
@@ -142,7 +146,7 @@ const DestinationCta = ({ uniqueName, destinationTitle }: DestinationCtaProps) =
           variant="tertiary"
           href={`/app/viagens/nova?para=${uniqueName}`}
         >
-          Quero ir
+          Planejar a minha viagem
         </Button>
       ) : canSignUp() ? (
         <Button
@@ -154,7 +158,7 @@ const DestinationCta = ({ uniqueName, destinationTitle }: DestinationCtaProps) =
             `/app/viagens/nova?para=${uniqueName}`
           )}`}
         >
-          Montar a minha viagem
+          Planejar a minha viagem
         </Button>
       ) : (
         <WhatsappButton

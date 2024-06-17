@@ -11,6 +11,8 @@ export interface PublicDestination {
   features: PublicDestinationFeature[];
   tips: PublicDestinationTip[];
   faq: PublicDestinationFaq[];
+  travelerProfiles: string[];
+  travelType: "PAIRS" | "INDIVIDUALS" | "COUPLES" | "FAMILIES";
 }
 
 export interface TripDestination {
