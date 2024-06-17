@@ -113,7 +113,7 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
   return (
     <PageBase navbar={navbar} footer={footer} seo={seo}>
       <DestinationHeroSection title={title} photos={photos} />
-      <DestinationProfileSection title={title} travelerProfiles={travelerProfiles} />
+      <DestinationProfileSection title={title} travelerProfiles={travelerProfiles} travelType={travelType} />
       <DestinationInfoSection features={features} recommendedBy={recommendedBy}>
         <Cta />
       </DestinationInfoSection>
