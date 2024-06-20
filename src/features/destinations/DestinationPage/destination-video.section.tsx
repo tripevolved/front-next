@@ -3,17 +3,27 @@ import type { DestinationProps } from "./destination-page.types";
 
 import { CardYoutube, SectionBase, Text } from "@/ui";
 import { Label, LabelVariants } from "mars-ds";
+// import Slider from "react-slick";
 
 interface DestinationVideoSectionProps extends Pick<DestinationProps, "videos" | "title"> {}
 
 export const DestinationVideoSection = ({ title, videos }: DestinationVideoSectionProps) => {
-  const [video] = videos;
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
+
   return (
     <SectionBase container="md" className="destination-video-section">
       <Text heading className="mb-xl destination-video-section__heading">
         Top 5: Lugares mais incríveis de {title}
       </Text>
-      <DestinationVideo {...video} />
+      {/* <Slider {...settings}> */}
+        {videos.map((video, index) => <DestinationVideo key={index} {...video} />)}
+      {/* </Slider> */}
     </SectionBase>
   );
 };
@@ -21,7 +31,7 @@ export const DestinationVideoSection = ({ title, videos }: DestinationVideoSecti
 const DestinationVideo = ({ source }: PublicDestinationVideo) => {
   return (
     <div className="destination-video">
-      <Label variant={LabelVariants.Warning} className="destination-video__tag">Disponível para assinantes</Label>
+      {/* <Label variant={LabelVariants.Warning} className="destination-video__tag">Disponível para assinantes</Label> */}
       <CardYoutube videoId={source} elevation="none" />
     </div>
   );
