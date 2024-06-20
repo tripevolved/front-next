@@ -12,14 +12,14 @@ const emojiProfiles = {
   "intelectual": "📚",
   "so-se-vive-uma-vez": "🧗",
   "alternativo": "🌍",
-  "relax": "🏖",
-  "fa-da-rotina": "🛋",
+  "relax": "🧘‍♂️",
+  "fa-da-rotina": "🛏️",
   "insaciavel": "🗼",
-  "dinamico": "🤸‍♀️",
-  "gastronomico": "🫕",
+  "dinamico": "🍻",
+  "gastronomico": "🍽️",
   "musicalidade": "🎶",
   "espiritual": "🙏",
-  "garantido": "🛌"
+  "garantido": "🏨"
 } as { [key: string]: string };
 
 const travelTypeMapping = {
