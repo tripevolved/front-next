@@ -37,7 +37,7 @@ export const DestinationProfileSection = ({
 }: DestinationProfileSectionProps) => {
   return (<>
       {travelerProfiles.length ? (
-        <Container className="pt-xl">
+        <Container className="pt-xl px-md">
           <Tag className="mb-xl mt-sm" >
             Recomendado para <strong>{travelTypeMapping[travelType]}</strong>
           </Tag>
