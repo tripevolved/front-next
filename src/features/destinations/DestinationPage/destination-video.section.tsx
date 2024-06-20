@@ -3,7 +3,11 @@ import type { DestinationProps } from "./destination-page.types";
 
 import { CardYoutube, SectionBase, Text } from "@/ui";
 import { Label, LabelVariants } from "mars-ds";
-// import Slider from "react-slick";
+
+import Slider from "react-slick";
+// Import css files
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 interface DestinationVideoSectionProps extends Pick<DestinationProps, "videos" | "title"> {}
 
@@ -19,11 +23,11 @@ export const DestinationVideoSection = ({ title, videos }: DestinationVideoSecti
   return (
     <SectionBase container="md" className="destination-video-section">
       <Text heading className="mb-xl destination-video-section__heading">
-        Top 5: Lugares mais incríveis de {title}
+        Os lugares mais incríveis: {title}
       </Text>
-      {/* <Slider {...settings}> */}
+      <Slider {...settings}>
         {videos.map((video, index) => <DestinationVideo key={index} {...video} />)}
-      {/* </Slider> */}
+      </Slider>
     </SectionBase>
   );
 };
