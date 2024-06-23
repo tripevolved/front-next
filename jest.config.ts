@@ -13,7 +13,7 @@ const customJestConfig: Config.InitialOptions = {
   },
   clearMocks: true,
   verbose: true,
-  setupFilesAfterEnv: ["@testing-library/jest-dom/extend-expect"],
+  setupFilesAfterEnv: ["<rootDir>/src/test-setup.tsx"],
 };
 
 module.exports = createJestConfig(customJestConfig);
