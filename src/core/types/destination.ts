@@ -11,7 +11,11 @@ export interface PublicDestination {
   features: PublicDestinationFeature[];
   tips: PublicDestinationTip[];
   faq: PublicDestinationFaq[];
+  travelerProfiles: string[];
+  travelType: TravelType;
 }
+
+export type TravelType = "PAIRS" | "INDIVIDUALS" | "COUPLES" | "FAMILIES";
 
 export interface TripDestination {
   id: string;
