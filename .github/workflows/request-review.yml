@@ -15,7 +15,7 @@ jobs:
         with:
           token: ${{ secrets.DISCORD_BOT_TOKEN }}
           channel-id: ${{ secrets.DISCORD_CHANNEL_ID }}
-          message-content: ${{ format('https://github.com/tripevolved/travel-service/pull/{0}', github.event.pull_request.number)}}
+          message-content: ${{ format('https://github.com/tripevolved/front-next/pull/{0}', github.event.pull_request.number)}}
           emote-id: "1257878286294323341"
           emote-name: propen
           emote-animated: false
