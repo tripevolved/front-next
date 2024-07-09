@@ -74,5 +74,10 @@
     "slick-carousel": "^1.8.1",
     "swr": "^2.1.5",
     "zustand": "^4.3.8"
+  },
+  "engines": {
+    "yarn": ">= 1.22.21",
+    "npm": "please-use-yarn",
+    "pnpm": "please-use-yarn"
   }
 }
