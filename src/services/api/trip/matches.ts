@@ -40,3 +40,19 @@ export const getMatchedDestinations = async ({
 
   return match;
 };
+
+export const getMatches = async ({
+  travelerType,
+  travelPurpose,
+  duration,
+  budget,
+}: {
+  travelerType: string;
+  travelPurpose: string;
+  duration: string;
+  budget: string;
+}): Promise<MatchedDestinationReturn> => {
+  const url = `trips/matches?travelerType=${encodeURIComponent(travelerType)}&travelPurpose=${encodeURIComponent(travelPurpose)}&duration=${encodeURIComponent(duration)}&budget=${encodeURIComponent(budget)}`;
+  const response = await ApiRequest.get<MatchedDestinationReturn>(url);
+  return response;
+};
