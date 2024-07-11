@@ -3,6 +3,8 @@ import type { ButtonProps, GridProps } from "mars-ds";
 
 import { SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
 import { LeadApiService } from "@/services/api/lead";
+import { GTMService } from "@/services/analytics/gtm-service";
+import { DATA_LAYER_NAME } from "@/services/analytics/constants";
 
 import { Grid, SubmitButton, TextField } from "mars-ds";
 import { useState } from "react";
@@ -22,6 +24,9 @@ export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => 
     try {
       const newLead = await LeadApiService.create(data);
       leadCreate(newLead);
+
+      GTMService.addEvent({ event: "conversion", dataLayerName: DATA_LAYER_NAME, k: { send_to: "AW-11471805885/BUJnCN21-MEZEL27l94q" } })
+
       onSubmitCallback?.(newLead);
     } catch (error) {
       console.error(error);
