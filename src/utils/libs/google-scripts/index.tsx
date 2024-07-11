@@ -1,5 +1,6 @@
 import { Environment } from "@/utils/helpers/environment.helpers";
 import { RawScript } from "../RawScript";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const GTM = process.env["NEXT_PUBLIC_GTM"] || "GTM-KK9FMT3";
 const GA = process.env["NEXT_PUBLIC_GA"] || "G-4W2CG7W3GC";
@@ -27,3 +28,7 @@ const GoogleScripts = () => {
 }
 
 export default GoogleScripts;
+
+export const InlineGoogleTagManager = () => {
+  return <GoogleTagManager gtmId={GTM} />;
+}
