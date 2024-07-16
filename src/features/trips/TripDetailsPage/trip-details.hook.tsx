@@ -10,14 +10,17 @@ export const useTripDetails = () => {
 
   const fetcherKey = idParam ? `trip-details-hook-${idParam}` : null;
   const fetcher = async () => fetchTripById(idParam);
-  const { isLoading, data, error } = useSWR(fetcherKey, fetcher);
+  const { isLoading, data, error } = useSWR(fetcherKey, fetcher, {revalidateOnFocus: false});
 
   return { isLoading, data, error };
 };
 
 const fetchTripById = async (id: string, retry = MAX_REFRESH_COUNT): Promise<TripDetails> => {
-  const data = await TripsApiService.getById(id);
-  if (!data.isBuilding) return data;
+  const {ready} = await TripsApiService.getStatusById(id);
+  if(ready) {
+    const data = await TripsApiService.getById(id);
+    return data;
+  }
   if (retry === 0) {
     throw new Error("Timeout");
   }

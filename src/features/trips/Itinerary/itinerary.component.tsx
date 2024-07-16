@@ -20,7 +20,7 @@ export function Itinerary({ tripId, title }: ItineraryProps) {
       buildSimpleItinerary(data);
       return data;
     });
-  const { data, isLoading, error } = useSWR(`get-trip-itinerary-${tripId}`, fetcher);
+  const { data, isLoading, error } = useSWR(`get-trip-itinerary-${tripId}`, fetcher, {revalidateOnFocus: false});
 
   const buildSimpleItinerary = (itinerary: ItineraryList) => {
     setSimpleItinerary({

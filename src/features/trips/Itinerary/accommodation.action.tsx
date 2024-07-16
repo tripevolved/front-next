@@ -28,7 +28,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     StaysApiService.getByTripId(props.tripId, props.tripItineraryActionId);
   const { isLoading, data, error, isValidating } = useSWR(
     `get-itinerary-accommodation-action-${props.tripItineraryActionId}`,
-    fetcher
+    fetcher, {revalidateOnFocus: false}
   );
 
   const { availableFeatures } = useAppStore((state) => state.travelerState);
