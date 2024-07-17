@@ -174,10 +174,10 @@ const TripPricingBoxContent = ({
     <Grid gap={8}>
       <Text heading as="h3" size="xs">
         <strong>
-          <small>O que inclui</small>
+          <small style={{color: 'rgba(26, 54, 93, 1)', fontFamily:'"Comfortaa", sans-serif', fontSize: 14}}>O que inclui</small>
         </strong>
       </Text>
-      <Grid gap={8} className="px-md">
+      <Grid gap={8} className="px-md" style={{ padding: "20px 0"}}>
         {tripIncludes.map((item, key) => (
           <TripPricingBoxContentItem
             key={key}
@@ -217,9 +217,8 @@ const TripPricingBoxContentHeader = ({
     <Text heading as="h2">
       {title}
     </Text>
-    <Grid columns={["auto", "1fr"]} className="color-text-secondary mb-md">
-      <Icon name="users" size="sm" />
-      <Text size="sm">{people}</Text>
+    <Grid columns={["auto", "1fr"]} className="mb-md" style={{ color: 'rgba(26, 54, 93, 1)', fontFamily:'"Comfortaa", sans-serif'}}>
+      <Text style={{color: 'rgba(140, 142, 146, 1)', fontSize: 14, padding: '10px 0'}}>{people}</Text>
     </Grid>
   </div>
 );
@@ -257,14 +256,14 @@ const TripPricingBoxContentCta = ({
 
   const BuyButton = ({ isPrimary = false, isPurchaseAvailable = true }) =>
     isPurchaseAvailable ? (
-      <>
-        <Button variant={isPrimary ? "tertiary" : "neutral"} href={`/compra/${tripId}/`}>
+      <div style={{ paddingTop: 20, display: 'flex', flexDirection: 'column'}}>
+        <Button variant="tertiary" href={`/compra/${tripId}/`}>
           Comprar por {formatToCurrencyBR(total)}
         </Button>
-        <WhatsappButton message={`Quero conversar sobre minha viagem para ${messageProps.tripName}.`} variant="secondary">
-          Falar com especialista
+        <WhatsappButton message={`Quero conversar sobre minha viagem para ${messageProps.tripName}.`} variant="secondary" style={{ border: 'none', color: '#1A365D', fontSize: 14}}>
+        Quero alterar a viagem
         </WhatsappButton>
-      </>
+      </div>
     ) : (
       <ItemElement
         id="whatsapp-purchase-area"
@@ -296,7 +295,7 @@ const TripPricingBoxContentCta = ({
 
   return (
     <Grid>
-      {isScriptAvailable ? (
+      {/* {isScriptAvailable ? (
         <Button
           variant={"tertiary" as any}
           href={`/app/viagens/${tripId}/roteiro/configurar/`}
@@ -304,7 +303,7 @@ const TripPricingBoxContentCta = ({
         >
           Construir meu roteiro
         </Button>
-      ) : null}
+      ) : null} */}
       <BuyButton isPrimary={!isScriptAvailable} isPurchaseAvailable={isPurchaseAvailable} />
     </Grid>
   );
@@ -350,7 +349,7 @@ const TripPricingBoxErrorState = ({ title }: Pick<TripPricingBoxContentProps, "t
         Tentar novamente
       </Button>
       <WhatsappButton message={`Quero conversar sobre minha viagem para ${title}.`}>
-        Falar com especialista
+        Quero alterar a viagem
       </WhatsappButton>
     </Grid>
   </Card>
