@@ -14,11 +14,9 @@ import { getItinerary } from "./itinerary";
 import { getCheckoutById } from "./checkout";
 import { getTripReservationsCountForDashboard } from "./reservations-count";
 import { getTripTips } from "./tips";
-import { getTripStatusById } from "./status";
 
 export const TripsApiService = {
   getById: getTripDetailsById,
-  getStatusById: getTripStatusById,
   getByIdForDashboard: getTripDetailsByIdForDashboard,
   getReservationsCountById: getTripReservationsCountForDashboard,
   getAll: getAllByTravelerId,

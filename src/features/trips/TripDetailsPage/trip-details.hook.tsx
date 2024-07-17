@@ -16,14 +16,17 @@ export const useTripDetails = () => {
 };
 
 const fetchTripById = async (id: string, retry = MAX_REFRESH_COUNT): Promise<TripDetails> => {
-  const {ready} = await TripsApiService.getStatusById(id);
-  if(ready) {
-    const data = await TripsApiService.getById(id);
+  const data = await TripsApiService.getById(id);
+  if(!data.isBuilding) {
     return data;
   }
   if (retry === 0) {
     throw new Error("Timeout");
   }
-  await delay(REFRESH_INTERVAL);
+  if(retry === MAX_REFRESH_COUNT) { //chance of have this ready at the beginning is minimal due to how it process today
+    await delay(REFRESH_INTERVAL * 2);
+  } else {
+    await delay(REFRESH_INTERVAL);
+  }
   return fetchTripById(id, retry - 1);
 };
