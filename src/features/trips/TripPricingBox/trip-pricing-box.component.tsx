@@ -295,15 +295,6 @@ const TripPricingBoxContentCta = ({
 
   return (
     <Grid>
-      {/* {isScriptAvailable ? (
-        <Button
-          variant={"tertiary" as any}
-          href={`/app/viagens/${tripId}/roteiro/configurar/`}
-          size="sm"
-        >
-          Construir meu roteiro
-        </Button>
-      ) : null} */}
       <BuyButton isPrimary={!isScriptAvailable} isPurchaseAvailable={isPurchaseAvailable} />
     </Grid>
   );

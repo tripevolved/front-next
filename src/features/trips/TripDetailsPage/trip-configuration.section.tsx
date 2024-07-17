@@ -26,8 +26,8 @@ export const TripConfigurationSection = (props: TripConfigurationSectionProps) =
     );
 
   return (
-    <CardHighlight variant="default" style={{ padding: 12, backgroundColor: 'rgba(238, 251, 250, 1)' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+    <CardHighlight variant="default" style={{ padding: 12, backgroundColor: 'rgba(238, 251, 250, 1)'}}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', padding: '0 20px'}}>
         <div className="flex gap-lg justify-content-between flex-wrap" style={{ alignItems: "center", flex: 2}}>
           <div>
             <FeatureIcon name="calendar-day" size={20} />

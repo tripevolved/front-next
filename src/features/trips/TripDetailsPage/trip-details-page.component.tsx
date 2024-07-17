@@ -14,7 +14,7 @@ import {
   PageAppHero,
   TripPricingBox,
 } from "@/features";
-import { Card, CardElevations, Divider, Grid } from "mars-ds";
+import { Card, CardElevations, Divider, Grid, ToggleButton } from "mars-ds";
 import type { Photo, PublicDestinationTip } from "@/core/types";
 import { DEFAULT_CARD_IMAGE_URL } from "@/core/constants";
 import { TripDetailsPageLoading } from "./trip-details-page.loading";
@@ -82,6 +82,15 @@ export function TripDetailsPage() {
     <>
       <PageAppHero photos={photos} title={title} backUrl="/app/painel" />
       <Template title={title} hideHeader>
+        <div className="trip-stay-header">
+          <ToggleButton
+            className="page-app-header__backButton"
+            variant="neutral"
+            iconName="x"
+            title="Fechar"
+            href="/app/painel"
+          />
+        </div>
         <div className="trip-stay-content">
           <div className="trip-stay-center-margin">
             <Grid columns={{ md: ["1fr", "320px"] }} growing={false} className="trip-stay-center-margin" style={{ gap: 80}}>
