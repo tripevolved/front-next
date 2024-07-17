@@ -25,3 +25,39 @@
     }
   }
 }
+
+.itinerary {
+  padding-top: 20px;
+  .itinerary-item__content {
+    border-left: 1px dotted $color-gray-3;
+    border-width: 2px;
+    margin: 0px 10px;
+
+    &__image{
+      img {
+        width: 100%;
+        border-radius: 10px;
+      }
+    }
+
+    @media(min-width: $breakpoint-sm) {
+      &__break {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+  }
+
+  .stay-detail-info {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 15px;
+
+    &__item {
+      display: flex;
+      width: 100%;
+      gap: 10px;
+    }
+  }
+}

@@ -9,6 +9,7 @@ import {
   DestinationInfos,
   DestinationRecommendedBy,
   DestinationTipItem,
+  Itinerary,
   NewItinerary,
   PageApp,
   PageAppHero,
@@ -89,6 +90,7 @@ export function TripDetailsPage() {
             iconName="x"
             title="Fechar"
             href="/app/painel"
+            style={{ border: 'none'}}
           />
         </div>
         <div className="trip-stay-content">
@@ -103,21 +105,6 @@ export function TripDetailsPage() {
                   />
                 ) : null}
                 <NewItinerary tripId={data.id} title={title} />
-                <Card elevation={CardElevations.Low}>
-                  <Grid>
-                    <Text as="h2" heading size="xs" className="mb-lg">
-                      <strong>Sua viagem ainda inclui</strong>
-                    </Text>
-                    <TripScriptSection isBuilt={hasScript} />
-                    <Divider />
-                    <TripFoodTipsSection text={destination.gastronomicInformation} />
-                    <Divider />
-                    <TripSupportSection />
-                  </Grid>
-                </Card>
-                {tips.length ? <DestinationTips tips={tips} /> : null}
-                {features.length ? <DestinationInfos features={features} /> : null}
-                {recommendedBy ? <DestinationRecommendedBy {...recommendedBy} /> : null}
               </Grid>
               <TripPricingBox
                 hasPhotos={photos.length > 0}
