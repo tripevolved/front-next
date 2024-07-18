@@ -14,7 +14,7 @@ export const RouteAction = (props: ItineraryActionProps & { tripId: string }) =>
     );
   const { isLoading, data, error } = useSWR(
     `get-itinerary-route-action-${props.tripItineraryActionId}`,
-    fetcher
+    fetcher, {revalidateOnFocus:false}
   );
 
   if (error) return <ErrorState />;
