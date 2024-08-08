@@ -17,6 +17,13 @@ export type MatchedDestinationReturn = {
   otherChoices: MatchedDestination[];
 };
 
+export type FormData = {
+  travelerProfile: string;
+  objectiveId: string;
+  days: string;
+  budget: string;
+}
+
 export const putMatchedDestinations = async ({ tripId }: { tripId: string }): Promise<any> => {
   const url = "trips/matches/" + tripId;
   const ok = await ApiRequest.put(url, null);
@@ -41,18 +48,13 @@ export const getMatchedDestinations = async ({
   return match;
 };
 
-export const getMatches = async ({
-  travelerType,
-  travelPurpose,
-  duration,
+export const getMatches = async <T>({
+  travelerProfile,
+  objectiveId,
+  days,
   budget,
-}: {
-  travelerType: string;
-  travelPurpose: string;
-  duration: string;
-  budget: string;
-}): Promise<MatchedDestinationReturn> => {
-  const url = `trips/matches?travelerType=${encodeURIComponent(travelerType)}&travelPurpose=${encodeURIComponent(travelPurpose)}&duration=${encodeURIComponent(duration)}&budget=${encodeURIComponent(budget)}`;
-  const response = await ApiRequest.get<MatchedDestinationReturn>(url);
+}: FormData): Promise<T> => {
+  const url = `trips/matches?travelerProfile=${encodeURIComponent(travelerProfile)}&objectiveId=${encodeURIComponent(objectiveId)}&days=${encodeURIComponent(days.toString())}&budget=${encodeURIComponent(budget.toString())}`;
+  const response = await ApiRequest.get<T>(url);
   return response;
 };

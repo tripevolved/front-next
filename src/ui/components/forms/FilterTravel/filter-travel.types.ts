@@ -1,9 +1,15 @@
 export interface FilterTravelProps {
   options: {
-    travelerTypes: { value: string, label: string }[],
-    travelPurposes: { value: string, label: string }[],
-    durations: { value: string, label: string }[],
+    travelerProfiles: { value: string, label: string }[],
+    objectiveIds: { value: string, label: string }[],
+    days: { value: string, label: string }[],
     budgets: { value: string, label: string }[]
-  },
-  buttonText: string,
+  };
+  buttonText: string;
+  onFetchResults: (formData: {
+    travelerProfile: string;
+    objectiveId: string;
+    days: string;
+    budget: string;
+  }) => void;
 }

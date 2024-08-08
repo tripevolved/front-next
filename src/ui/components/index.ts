@@ -54,6 +54,7 @@ export * from "./modals/ConfirmationModal";
 export * from "./modals/ModalContent";
 export * from "./notifications/NotificationResult";
 export * from "./sections/SectionBase";
+export * from "./sections/SectionFilterTravel";
 export * from "./sections/SectionFaq";
 export * from "./states/EmptyState";
 export * from "./states/ErrorState";
