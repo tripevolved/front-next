@@ -10,18 +10,17 @@ export interface TripDetailInfoPros {
 }
 
 export const TripDetailInfo = ({ title, text, image, children, icon }: TripDetailInfoPros) => {
-  const iconName = icon?.replaceAll('-', ' ')
+  const iconName = icon?.replaceAll("-", " ");
   return (
-
-  <Grid columns={["auto", "1fr"]} style={{ alignItems: 'center'}}>
-    <div style={{ backgroundColor: '#0ab9ad', width: 20, height: 20, borderRadius: '50%'}} />
-    <div className="mt-sm" style={{ display: 'flex', flexDirection: 'column'}}>
-      <Text as="h3" size="xl" className="color-primary">
-        {title}
-      </Text>
-      {text ? <Text className="color-text-secondary">{text}</Text> : null}
-      {children}
-    </div>
-  </Grid>
-  )
+    <Grid columns={["auto", "1fr"]} style={{ alignItems: "center" }}>
+      <div style={{ backgroundColor: "#0ab9ad", width: 20, height: 20, borderRadius: "50%" }} />
+      <div className="mt-sm" style={{ display: "flex", flexDirection: "column" }}>
+        <Text as="h3" size="xl" className="color-primary">
+          {title}
+        </Text>
+        {text ? <Text className="color-text-secondary">{text}</Text> : null}
+        {children}
+      </div>
+    </Grid>
+  );
 };

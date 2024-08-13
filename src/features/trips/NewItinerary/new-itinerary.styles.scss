@@ -33,14 +33,14 @@
     border-width: 2px;
     margin: 0px 10px;
 
-    &__image{
+    &__image {
       img {
         width: 100%;
         border-radius: 10px;
       }
     }
 
-    @media(min-width: $breakpoint-sm) {
+    @media (min-width: $breakpoint-sm) {
       &__break {
         flex-direction: row;
         justify-content: space-between;

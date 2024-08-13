@@ -10,7 +10,7 @@ import { useAppStore } from "@/core/store";
 import useSWR from "swr";
 import { ItineraryList } from "@/core/types";
 
-export function NewItinerary({ tripId, title }: any ) {
+export function NewItinerary({ tripId, title }: any) {
   const setSimpleItinerary = useAppStore((state) => state.setSimpleItinerary);
 
   const fetcher = async () =>
@@ -40,24 +40,30 @@ export function NewItinerary({ tripId, title }: any ) {
   return (
     <div className="new-itinerary">
       <div>
-      <Text heading size="lg">
-        Seu itinerário
-      </Text>
-      <Text>
-        Analisando suas informações, preparamos o seguinte itinerário para você. Ele começa na sua
-        cidade e vai até {title}, para que você só tenha o trabalho de curtir a sua viagem. Você
-        pode alterar suas escolhas e estamos à disposição para atendê-lo da melhor forma.
-      </Text>
-      <Button
+        <Text heading size="lg">
+          Seu itinerário
+        </Text>
+        <Text>
+          Analisando suas informações, preparamos o seguinte itinerário para você. Ele começa na sua
+          cidade e vai até {title}, para que você só tenha o trabalho de curtir a sua viagem. Você
+          pode alterar suas escolhas e estamos à disposição para atendê-lo da melhor forma.
+        </Text>
+        <Button
           variant="neutral"
           href="#"
           size="sm"
-          style={{ border: "none", textDecoration: "underline", padding: 0, fontWeight: 500, marginTop: 10}}
+          style={{
+            border: "none",
+            textDecoration: "underline",
+            padding: 0,
+            fontWeight: 500,
+            marginTop: 10,
+          }}
         >
           Ver itinerário completo
         </Button>
-        </div>
-        <div className="itinerary">
+      </div>
+      <div className="itinerary">
         {data?.actions.length
           ? data?.actions.map((action, i) =>
               action.type == "RENTAL_CAR" ? (
@@ -94,15 +100,38 @@ export function NewItinerary({ tripId, title }: any ) {
                   title={action.title}
                   key={`${i}-${action.tripItineraryActionId}`}
                 >
-                        <div style={{ display: 'flex', alignItems: 'flex-start', marginTop: 10, padding: 10}}>
-                        <div>
-                          <Picture src={`/assets/destino/${icon[action.type]}.svg`} style={{ width: 40 }} />
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 8}}>
-                          <label style={{color: '#1A365D', fontSize: 16, textTransform: 'capitalize'}}>{icon[action.type]}</label>
-                          <span style={{color: '#5A626D', fontSize: 14, marginTop: 6, textTransform: 'lowercase'}}>{action.title}</span>
-                        </div>
-                      </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      marginTop: 10,
+                      padding: 10,
+                    }}
+                  >
+                    <div>
+                      <Picture
+                        src={`/assets/destino/${icon[action.type]}.svg`}
+                        style={{ width: 40 }}
+                      />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", marginLeft: 8 }}>
+                      <label
+                        style={{ color: "#1A365D", fontSize: 16, textTransform: "capitalize" }}
+                      >
+                        {icon[action.type]}
+                      </label>
+                      <span
+                        style={{
+                          color: "#5A626D",
+                          fontSize: 14,
+                          marginTop: 6,
+                          textTransform: "lowercase",
+                        }}
+                      >
+                        {action.title}
+                      </span>
+                    </div>
+                  </div>
                   <AccommodationAction
                     {...action}
                     tripId={tripId}
@@ -112,7 +141,7 @@ export function NewItinerary({ tripId, title }: any ) {
               ) : null
             )
           : null}
-        </div>
       </div>
-  )
+    </div>
+  );
 }
