@@ -6,3 +6,14 @@
     border-color: $color-brand-1;
   }
 }
+
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+}
+.no-border {
+  border-color: transparent;
+  .btn__content {
+    color: $color-gray-2;
+  }
+}

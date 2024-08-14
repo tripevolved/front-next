@@ -44,6 +44,7 @@ export function TripDetailsPage() {
         hideHeader={hideHeader}
         headerOptions={{ title, backUrl: "/app/painel" }}
         seo={{ title }}
+
       >
         {children}
       </PageApp>
@@ -89,18 +90,13 @@ export function TripDetailsPage() {
             iconName="x"
             title="Fechar"
             href="/app/painel"
-            style={{ border: "none" }}
+            style={{ border: 'none'}}
           />
         </div>
         <div className="trip-stay-content">
           <div className="trip-stay-center-margin">
-            <Grid
-              columns={{ md: ["1fr", "320px"] }}
-              growing={false}
-              className="trip-stay-center-margin"
-              style={{ gap: 80 }}
-            >
-              <Grid>
+            <Grid columns={{ md: ["1fr", "320px"] }} growing={false} className="trip-stay-center-margin" style={{ gap: 80}}>
+              <Grid >
                 {configuration ? (
                   <TripConfigurationSection
                     {...configuration}

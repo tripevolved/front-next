@@ -1,4 +1,4 @@
-import { EmptyState, ErrorState, Picture, Text } from "@/ui";
+import { CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
 import { Button } from "mars-ds";
 import { AccommodationAction } from "../Itinerary/accommodation.action";
 import { FlightAction } from "../Itinerary/flight.action";
@@ -9,9 +9,11 @@ import { TripsApiService } from "@/services/api";
 import { useAppStore } from "@/core/store";
 import useSWR from "swr";
 import { ItineraryList } from "@/core/types";
+import { useState } from "react";
 
 export function NewItinerary({ tripId, title }: any) {
   const setSimpleItinerary = useAppStore((state) => state.setSimpleItinerary);
+  const [open, setOpen] = useState(false)
 
   const fetcher = async () =>
     TripsApiService.getItinerary(tripId).then((data) => {
@@ -37,6 +39,9 @@ export function NewItinerary({ tripId, title }: any) {
     ACCOMMODATION: "hospedagem",
   };
 
+  const openAccordion = () => {
+    setOpen(!open)
+  }
   return (
     <div className="new-itinerary">
       <div>
@@ -64,6 +69,27 @@ export function NewItinerary({ tripId, title }: any) {
         </Button>
       </div>
       <div className="itinerary">
+        <div>
+        <CardHighlight
+          className="d-flex"
+          variant="warning"
+          text="Preciso de um aluguel de carro"
+          onClick={openAccordion}
+          cta={{
+            label: "Ver detalhes",
+            isRtl: true,
+            className: "no-border"
+          }}
+        >
+          {
+            open && (
+              <div style={{ display: 'block'}}>
+                <p style={{ color: '#8c8e92'}}>Seu vôo só parte as 7h30 do dia 21 de agosto. Selecionamos uma hospedagem para você!</p>
+              </div>
+            )
+          }
+          </CardHighlight>
+        </div>
         {data?.actions.length
           ? data?.actions.map((action, i) =>
               action.type == "RENTAL_CAR" ? (
