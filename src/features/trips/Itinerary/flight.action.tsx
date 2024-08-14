@@ -55,7 +55,7 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
                   variant="neutral"
                   size="sm"
                   onClick={() => handleSeeDetails()}
-                  style={{ width: "fit-content" }}
+                  style={{ width: "fit-content", border: 'none' }}
                 >
                   Ver detalhes
                 </Button>

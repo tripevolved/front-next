@@ -71,7 +71,6 @@ export function NewItinerary({ tripId, title }: any) {
       <div className="itinerary">
         <div>
         <CardHighlight
-          className="d-flex"
           variant="warning"
           text="Preciso de um aluguel de carro"
           onClick={openAccordion}
