@@ -50,11 +50,9 @@ export const FlightBox = ({ isOutbound = false, className, ...props }: FlightBox
             Passagem aérea
           </Text>
         </div>
-      <Grid className="flight-box__card" gap={5} columns={[1, "30px", 1]}>
-        <div>
-        <Picture src= {props.airlineCompanyLogoUrl} />
-
-
+      <div style={{ display: 'flex'}}>
+        <div style={{ marginRight: 20}}>
+          <Picture src= {props.airlineCompanyLogoUrl} />
         </div>
         <div>
           <Text  className="flight-box__card__column__initials">
@@ -64,7 +62,7 @@ export const FlightBox = ({ isOutbound = false, className, ...props }: FlightBox
             Chegada: {props.toAirportName}
           </Text>
         </div>
-      </Grid>
+      </div>
     </Box>
   );
 };
