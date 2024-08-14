@@ -151,7 +151,6 @@ export function NewItinerary({ tripId, title }: any) {
                           color: "#5A626D",
                           fontSize: 14,
                           marginTop: 6,
-                          textTransform: "lowercase",
                         }}
                       >
                         {action.title}
