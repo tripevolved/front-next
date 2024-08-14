@@ -38,9 +38,11 @@
   }
 
   .trip-stay-header {
-    position: absolute;
-    right: 170px;
-    top: 22px;
+    @media (min-width: 900px) {
+      position: absolute;
+      right: 170px;
+      top: 22px;
+    }
   }
 
   .trip-stay-content {
