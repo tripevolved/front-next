@@ -9,3 +9,19 @@ export interface SectionFilterTravelProps {
   },
   buttonText: string,
 }
+
+export interface TravelChoice {
+  destinationId: string;
+  matchScore: number;
+  percentualMatchScore: string;
+  name: string;
+  uniqueName: string;
+  details: string;
+  price: string;
+  images: { url: string; type: string; width: number; height: number }[];
+}
+
+export interface ListTravelProps {
+  mainChoice: TravelChoice;
+  otherChoices: TravelChoice[];
+}

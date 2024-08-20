@@ -219,6 +219,21 @@
   border-radius: 10px;
 }
 
+.list-travel-image-1,
+.list-travel-image-2,
+.list-travel-image-3 {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 25px 25px;
+  border-radius: 10px;
+}
+
 .footer-item-travel {
   display: flex;
   flex-direction: column;

@@ -1,32 +1,39 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import { FilterTravel } from "../../forms/FilterTravel";
 import { LoaderTravel } from "./LoaderTravel";
-import { SectionFilterTravelProps } from "./section-filter-travel.types";
+import { SectionFilterTravelProps, TravelChoice } from "./section-filter-travel.types";
 import { FormData, getMatches } from "@/services/api/trip/matches";
 import { ListTravel } from "./ListTravel";
 
 export function SectionFilterTravel({ id, title, optionsFilter, buttonText }: SectionFilterTravelProps) {
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<any[]>([]);
+  const [mainChoice, setMainChoice] = useState<TravelChoice | null>(null);
+  const [otherChoices, setOtherChoices] = useState<TravelChoice[]>([]);
+  const router = useRouter();
 
   const handleFetchResults = async (formData: FormData) => {
     setLoading(true);
     try {
-      const response: Response = await getMatches(formData);
+      const response: any = await getMatches(formData);
 
-      if (!response.ok) {
-        setResults([1, 2]);
-        return
-      }
-
-      const data = await response.json();
-      setResults(data || []);
+      setMainChoice(response.mainChoice);
+      setOtherChoices(response.otherChoices);
     } catch (error) {
       console.error("Erro ao buscar os resultados:", error);
-      setResults([]);
+      setMainChoice(null);
+      setOtherChoices([]);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleProfileClick = () => {
+    router.push("/perfil");
+  };
+
+  const handleExploreClick = () => {
+    router.push("/destinos");
   };
 
   return (
@@ -44,26 +51,32 @@ export function SectionFilterTravel({ id, title, optionsFilter, buttonText }: Se
           <div className="box-image-3"></div>
         </div>
       </div>
-      {(results && results.length > 0 || loading) && (
+      {(mainChoice || loading) && (
         loading ? (
           <div className="box-results-filter">
             <LoaderTravel />
           </div>
         ) : (
-          results && <div>
-            <div className="box-results-filter">
-              <ListTravel />
-            </div>
-            <div className="box-form-travel">
-              <div className="box-form-travel-container">
-                <p>Descubra seu perfil de viajante<br /> e faça seu cadastro para receber recomendações<br /><span style={{ color: '#0AB9AD' }}> 100% personalizadas</span></p>
-                <div className="box-buttons">
-                  <button className="btn-form-travel-primary">Descobrir meu perfil de viajante</button>
-                  <button className="btn-form-travel-second">Explorar destinos</button>
+          mainChoice && (
+            <div>
+              <div className="box-results-filter">
+                <ListTravel mainChoice={mainChoice} otherChoices={otherChoices} />
+              </div>
+              <div className="box-form-travel">
+                <div className="box-form-travel-container">
+                  <p>Descubra seu perfil de viajante<br /> e faça seu cadastro para receber recomendações<br /><span style={{ color: '#0AB9AD' }}> 100% personalizadas</span></p>
+                  <div className="box-buttons">
+                    <button className="btn-form-travel-primary" onClick={handleProfileClick}>
+                      Descobrir meu perfil de viajante
+                    </button>
+                    <button className="btn-form-travel-second" onClick={handleExploreClick}>
+                      Explorar destinos
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )
         )
       )}
     </div>
