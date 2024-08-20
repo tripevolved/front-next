@@ -17,7 +17,7 @@ export function ListTravel({ mainChoice, otherChoices }: ListTravelProps) {
     if (images && images.length > 0) {
       const xxlImage = images[0].sources.find((item: any) => item.type === Size.XXL);
       if (xxlImage && xxlImage.url) {
-        return xxlImage.url.replace('&w=1920&h=1080', '&w=2442&h=822');
+        return xxlImage.url;
       }
     }
     return DEFAULT_CARD_IMAGE_URL;
