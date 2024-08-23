@@ -19,6 +19,7 @@ export default function Page({ seo, ...children }: PageProps) {
   return (
     <>
       <NextSeo {...seo} />
+
       <AppRibo>{children}</AppRibo>
     </>
   );
