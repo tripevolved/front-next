@@ -54,7 +54,7 @@ export const getMatches = async <T>({
   days,
   budget,
 }: FormData): Promise<T> => {
-  const url = `trips/matches?travelerProfile=${encodeURIComponent(travelerProfile)}&objectiveId=${encodeURIComponent(objectiveId)}&days=${encodeURIComponent(days.toString())}&budget=${encodeURIComponent(budget.toString())}`;
+  const url = `/trips/matches?travelerProfile=${encodeURIComponent(travelerProfile)}&objectiveId=${encodeURIComponent(objectiveId)}&days=${encodeURIComponent(days.toString())}&budget=${encodeURIComponent(budget.toString())}`;
   const response = await ApiRequest.get<T>(url);
   return response;
 };

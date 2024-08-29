@@ -4,10 +4,10 @@ import { FilterTravelProps } from "./filter-travel.types";
 
 export const FilterTravel = ({ options, buttonText, onFetchResults }: FilterTravelProps) => {
   const [formData, setFormData] = useState({
-    travelerProfile: "",
-    objectiveId: "",
-    days: "",
-    budget: ""
+    travelerProfile: options.travelerProfiles[0]?.value || "",
+    objectiveId: options.objectiveIds[0]?.value || "",
+    days: options.days[0]?.value || "",
+    budget: options.budgets[0]?.value || ""
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
