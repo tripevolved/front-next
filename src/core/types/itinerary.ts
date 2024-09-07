@@ -1,3 +1,6 @@
+import { TripTransportation } from "./trip";
+import { TripStaySimplified } from "./tripStay";
+
 export type ItineraryActionType = "ROUTE" | "FLIGHT" | "ACCOMMODATION" | "RENTAL_CAR" | "TRANSFER";
 
 export interface Coordinates {
@@ -20,6 +23,13 @@ export interface ItineraryAction {
 export interface ItineraryList {
   tripId: string;
   actions: ItineraryAction[];
+}
+
+export interface ItineraryListV2 {
+  tripId: string;
+  isReady: boolean;
+  stays:TripStaySimplified[],
+  transportations: TripTransportation[]
 }
 
 export interface SimpleItineraryAction {

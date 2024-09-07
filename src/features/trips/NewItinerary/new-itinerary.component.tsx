@@ -13,15 +13,21 @@ import { useState } from "react";
 
 export function NewItinerary({ tripId, title }: any) {
   const setSimpleItinerary = useAppStore((state) => state.setSimpleItinerary);
+  const setTripItinerary = useAppStore((state) => state.setTripItinerary)
   const [open, setOpen] = useState(false)
 
-  const fetcher = async () =>
+  const fetcherOld = async () =>
     TripsApiService.getItinerary(tripId).then((data) => {
       buildSimpleItinerary(data);
       return data;
     });
-  const { data, isLoading, error } = useSWR(`get-trip-itinerary-${tripId}`, fetcher);
-
+    const fetcher = async () => {
+      const itinerary = await TripsApiService.getItineraryV2(tripId);
+      setTripItinerary(itinerary);
+      return itinerary;
+    }
+  const { data: oldData, isLoading: isLoadingOld, error: isErrorOld } = useSWR(`get-trip-itinerary-${tripId}`, fetcherOld, {revalidateOnFocus: false});
+    const {data, isLoading, error} =  useSWR(`get-trip-itinerary-${tripId}`, fetcher, {revalidateOnFocus: false});
   const buildSimpleItinerary = (itinerary: ItineraryList) => {
     setSimpleItinerary({
       actions: itinerary.actions.map((action) => ({ type: action.type, title: action.title })),
@@ -29,7 +35,7 @@ export function NewItinerary({ tripId, title }: any) {
   };
 
   if (error) return <ErrorState />;
-  if (data?.actions.length == 0) return <EmptyState />;
+  if ([...(data?.stays?? []), ...(data?.transportations??[])].length == 0) return <EmptyState />;
 
   const icon = {
     ROUTE: "carro",
