@@ -15,7 +15,7 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
     );
   const { isLoading, data, error } = useSWR(
     `get-itinerary-flight-action-${props.tripItineraryActionId}`,
-    fetcher
+    fetcher, {revalidateOnFocus:false}
   );
 
   const handleSeeDetails = () => {
