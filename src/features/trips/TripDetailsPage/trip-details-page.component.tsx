@@ -2,7 +2,7 @@ import { TripScriptSection } from "./trip-script.section";
 import { TripFoodTipsSection } from "./trip-food-tips.section";
 import { TripSupportSection } from "./trip-support.section";
 import { TripConfigurationSection } from "./trip-configuration.section";
-import { ErrorState, Text, WhatsappButton } from "@/ui";
+import { ErrorState, FeatureIcon, Picture, Text, WhatsappButton } from "@/ui";
 
 import { useTripDetails } from "./trip-details.hook";
 import {
@@ -10,11 +10,12 @@ import {
   DestinationRecommendedBy,
   DestinationTipItem,
   Itinerary,
+  NewItinerary,
   PageApp,
   PageAppHero,
   TripPricingBox,
 } from "@/features";
-import { Card, CardElevations, Divider, Grid } from "mars-ds";
+import { Card, CardElevations, Divider, Grid, ToggleButton } from "mars-ds";
 import type { Photo, PublicDestinationTip } from "@/core/types";
 import { DEFAULT_CARD_IMAGE_URL } from "@/core/constants";
 import { TripDetailsPageLoading } from "./trip-details-page.loading";
@@ -43,6 +44,7 @@ export function TripDetailsPage() {
         hideHeader={hideHeader}
         headerOptions={{ title, backUrl: "/app/painel" }}
         seo={{ title }}
+
       >
         {children}
       </PageApp>
@@ -76,52 +78,52 @@ export function TripDetailsPage() {
 
   const { destination, configuration, hasScript, isBuilding } = data;
   const { features = [], photos = DEFAULT_PHOTOS, recommendedBy, tips = [], title } = destination;
+
   return (
     <>
       <PageAppHero photos={photos} title={title} backUrl="/app/painel" />
       <Template title={title} hideHeader>
-        <Grid columns={{ md: ["1fr", "320px"] }} growing={false}>
-          <Grid>
-            {configuration ? (
-              <TripConfigurationSection
-                {...configuration}
-                tripId={data.id}
-                isBuilding={isBuilding}
-              />
-            ) : null}
-            <Itinerary tripId={data.id} title={title} />
-            <Card elevation={CardElevations.Low}>
-              <Grid>
-                <Text as="h2" heading size="xs" className="mb-lg">
-                  <strong>Sua viagem ainda inclui</strong>
-                </Text>
-                <TripScriptSection isBuilt={hasScript} />
-                <Divider />
-                <TripFoodTipsSection text={destination.gastronomicInformation} />
-                <Divider />
-                <TripSupportSection />
-              </Grid>
-            </Card>
-            {tips.length ? <DestinationTips tips={tips} /> : null}
-            {features.length ? <DestinationInfos features={features} /> : null}
-            {recommendedBy ? <DestinationRecommendedBy {...recommendedBy} /> : null}
-          </Grid>
-          <TripPricingBox
-            hasPhotos={photos.length > 0}
-            destinationName={destination.title}
-            numAdults={configuration.numAdults}
-            numChildren={configuration.numChildren}
-            isScriptBuilt={hasScript}
-            messageProps={{
-              budget: configuration.budget,
-              formattedDates: configuration.formattedDates,
-              travelersNumber: configuration.numAdults + configuration.numChildren,
-              tripName: destination.title,
-              username,
-              email,
-            }}
+        <div className="trip-stay-header">
+          <ToggleButton
+            className="page-app-header__backButton"
+            variant="neutral"
+            iconName="x"
+            title="Fechar"
+            href="/app/painel"
+            style={{ border: 'none'}}
           />
-        </Grid>
+        </div>
+        <div className="trip-stay-content">
+          <div className="trip-stay-center-margin">
+            <Grid columns={{ md: ["1fr", "320px"] }} growing={false} className="trip-stay-center-margin" style={{ gap: 80}}>
+              <Grid >
+                {configuration ? (
+                  <TripConfigurationSection
+                    {...configuration}
+                    tripId={data.id}
+                    isBuilding={isBuilding}
+                  />
+                ) : null}
+                <NewItinerary tripId={data.id} title={title} />
+              </Grid>
+              <TripPricingBox
+                hasPhotos={photos.length > 0}
+                destinationName={destination.title}
+                numAdults={configuration.numAdults}
+                numChildren={configuration.numChildren}
+                isScriptBuilt={hasScript}
+                messageProps={{
+                  budget: configuration.budget,
+                  formattedDates: configuration.formattedDates,
+                  travelersNumber: configuration.numAdults + configuration.numChildren,
+                  tripName: destination.title,
+                  username,
+                  email,
+                }}
+              />
+            </Grid>
+          </div>
+        </div>
       </Template>
     </>
   );

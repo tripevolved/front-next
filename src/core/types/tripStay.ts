@@ -24,6 +24,16 @@ export interface TripStay {
   roomSelectionMessage: string | null;
 }
 
+export interface TripStaySimplified {
+  coverImage?: string;
+  id: string;
+  isReady: boolean;
+  isSelected: boolean;
+  message: string;
+  name: string;
+  tags: string;
+}
+
 export type TripStayHighlightFeature =
   | "luxury"
   | "personnel"

@@ -181,6 +181,7 @@ const AccommodationComponent = ({
 const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "", allowEdit = true }) => {
   return allowEdit ? (
     <CardHighlight
+    style={{ margin: 20}}
       variant="warning"
       heading="Ainda não escolhemos a acomodação para sua viagem"
       text="Fale conosco e vamos deixar tudo como você deseja!"

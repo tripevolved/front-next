@@ -44,31 +44,25 @@ export const FlightBox = ({ isOutbound = false, className, ...props }: FlightBox
         </Text>
       ) : null}
 
-      <Grid className="flight-box__card" gap={5} columns={[1, "30px", 1]}>
-        <div className="flight-box__card__column h-100 gap-sm">
-          <Text size="sm" className="flight-box__card__column__label text-center">
-            {toFullDate(new Date(props.departure))}
-          </Text>
-          <Text heading className="flight-box__card__column__initials">
-            {props.fromAirportCode}
-          </Text>
-          <Text size="sm" className="flight-box__card__column__label text-center">
-            {props.fromAirportName}
+        <div className="mt-md" style={{ display: 'flex'}}>
+          <Picture src="/assets/destino/passagem-aerea.svg" />
+          <Text heading className="flight-box__card__column__initials" style={{ marginLeft: 10}}>
+            Passagem aérea
           </Text>
         </div>
-        <Picture src="/assets/trip-dashboard/confirm-flight/flight.svg" />
-        <div className="flight-box__card__column h-100 gap-sm">
-          <Text size="sm" className="flight-box__card__column__label text-center">
-            {toFullDate(new Date(props.arrival))}
+      <div style={{ display: 'flex'}}>
+        <div style={{ marginRight: 20}}>
+          <Picture src= {props.airlineCompanyLogoUrl} />
+        </div>
+        <div>
+          <Text  className="flight-box__card__column__initials">
+            Saída: {props.fromAirportName}
           </Text>
-          <Text heading className="flight-box__card__column__initials">
-            {props.toAirportCode}
-          </Text>
-          <Text size="sm" className="flight-box__card__column__label text-center">
-            {props.toAirportName}
+          <Text  className="flight-box__card__column__initials">
+            Chegada: {props.toAirportName}
           </Text>
         </div>
-      </Grid>
+      </div>
     </Box>
   );
 };

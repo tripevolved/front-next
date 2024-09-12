@@ -47,7 +47,7 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
     <Skeleton active={isLoading} height={170}>
       <div className="pl-lg itinerary__item">
         {data ? (
-          <Grid>
+          <div style={{ display: 'flex', justifyContent: 'space-between'}}>
             {data.flightView !== null ? (
               <>
                 <FlightBox {...getFlight(data)!} hideTitle />
@@ -55,7 +55,7 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
                   variant="neutral"
                   size="sm"
                   onClick={() => handleSeeDetails()}
-                  style={{ width: "fit-content" }}
+                  style={{ width: "fit-content", border: 'none' }}
                 >
                   Ver detalhes
                 </Button>
@@ -67,7 +67,7 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
                 text="Fale conosco e vamos te ajudar!"
               />
             )}
-          </Grid>
+          </div>
         ) : (
           <EmptyState />
         )}
