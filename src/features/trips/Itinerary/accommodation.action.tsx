@@ -1,54 +1,48 @@
-import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
 import { Skeleton, Grid, Modal, Button, Card, Icon } from "mars-ds";
 import {
   ErrorState,
-  EmptyState,
   Picture,
   Text,
   CardHighlight,
-  GlobalLoader,
   HoverTooltipCard,
 } from "@/ui";
 import useSWR from "swr";
-import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
 
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { AccommodationState } from "@/core/store/accomodation";
-import { TripStay } from "@/core/types";
+import { TripStay, TripStaySimplified } from "@/core/types";
 import { TripStayServiceItem } from "../TripStayServiceItem";
 import { toFullDetailedDate } from "@/utils/helpers/dates.helpers";
 import { StayDetailsModal } from "@/features";
 import { useAppStore } from "@/core/store";
+import { StaysApiService } from "@/services/api";
 
-export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
-  const fetcher = async () =>
-    StaysApiService.getByTripId(props.tripId, props.tripItineraryActionId);
-  const { isLoading, data, error, isValidating } = useSWR(
-    `get-itinerary-accommodation-action-${props.tripItineraryActionId}`,
-    fetcher
-  );
-
+interface Props {
+  tripId: string;
+  accomodationAction: Partial<Omit<TripStaySimplified, 'id'>> & {id: string} | null
+}
+export const AccommodationAction = (props: Props)  => {
   const { availableFeatures } = useAppStore((state) => state.travelerState);
   const allowStayEdit = availableFeatures.includes("STAY_EDIT");
 
-  if (error) return <ErrorState />;
-
+  if (props.accomodationAction === null) return <ErrorState />;
+  const data = props.accomodationAction
   return (
-    <Skeleton active={isLoading || isValidating} height={355}>
-      {data ? (
+    <Skeleton active={props !== undefined} height={355}>
+      {data.isReady ? (
         <AccommodationComponent
           data={data}
           tripId={props.tripId}
-          tripItineraryActionId={props.tripItineraryActionId}
+          tripItineraryActionId={data.id}
           allowStayEdit={allowStayEdit}
         />
       ) : (
         <TripStayEmptyState
           tripId={props.tripId}
-          tripItineraryActionId={props.tripItineraryActionId}
+          tripItineraryActionId={data.id}
           allowEdit={allowStayEdit}
         />
       )}
@@ -62,7 +56,7 @@ const AccommodationComponent = ({
   tripItineraryActionId,
   allowStayEdit
 }: {
-  data: TripStay;
+  data: Partial<Omit<TripStaySimplified, 'id'>> & {id: string};
   tripId: string;
   tripItineraryActionId: string;
   allowStayEdit: boolean;
@@ -83,7 +77,8 @@ const AccommodationComponent = ({
     );
   }
 
-  const handleSeeDetails = () => {
+  const handleSeeDetails = async () => {
+    const data = await StaysApiService.getByTripId(tripId, tripItineraryActionId);
     const modal = Modal.open(
       () => (
         <StayDetailsModal
@@ -102,7 +97,7 @@ const AccommodationComponent = ({
     );
   };
 
-  if (!data.isRoomSelected) {
+  if (!data.isSelected) {
     return (
       <>
         <div className="w-100 flex-column gap-lg">

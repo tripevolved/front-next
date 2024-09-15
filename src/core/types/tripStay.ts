@@ -32,6 +32,9 @@ export interface TripStaySimplified {
   message: string;
   name: string;
   tags: string;
+  previousActionId: string | null;
+  nextActionId: string | null;
+  actionId: string;
 }
 
 export type TripStayHighlightFeature =

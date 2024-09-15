@@ -1,55 +1,55 @@
-import { CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
+import { CardHighlight, EmptyState, ErrorState, Text } from "@/ui";
 import { Button } from "mars-ds";
-import { AccommodationAction } from "../Itinerary/accommodation.action";
-import { FlightAction } from "../Itinerary/flight.action";
-import { ItineraryItem } from "../Itinerary/itinerary-item.wrapper";
-import { RentalCarAction } from "../Itinerary/rental-car.action";
-import { RouteAction } from "../Itinerary/route.action";
 import { TripsApiService } from "@/services/api";
-import { useAppStore } from "@/core/store";
 import useSWR from "swr";
-import { ItineraryList } from "@/core/types";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { Action, IsStayAction, IsTransportationAction } from "@/core/types";
+import { ItineraryItem } from "../Itinerary/itinerary-item.wrapper";
+import { StayAction } from "../Itinerary/stay.action";
 
 export function NewItinerary({ tripId, title }: any) {
-  const setSimpleItinerary = useAppStore((state) => state.setSimpleItinerary);
-  const setTripItinerary = useAppStore((state) => state.setTripItinerary)
   const [open, setOpen] = useState(false)
 
-  const fetcherOld = async () =>
-    TripsApiService.getItinerary(tripId).then((data) => {
-      buildSimpleItinerary(data);
-      return data;
-    });
+
     const fetcher = async () => {
       const itinerary = await TripsApiService.getItineraryV2(tripId);
-      setTripItinerary(itinerary);
       return itinerary;
     }
-  const { data: oldData, isLoading: isLoadingOld, error: isErrorOld } = useSWR(`get-trip-itinerary-${tripId}`, fetcherOld, {revalidateOnFocus: false});
     const {data, isLoading, error} =  useSWR(`get-trip-itinerary-${tripId}`, fetcher, {revalidateOnFocus: false});
-  const buildSimpleItinerary = (itinerary: ItineraryList) => {
-    setSimpleItinerary({
-      actions: itinerary.actions.map((action) => ({ type: action.type, title: action.title })),
-    });
-  };
 
-  if (error) return <ErrorState />;
-  if ([...(data?.stays?? []), ...(data?.transportations??[])].length == 0) return <EmptyState />;
-
-  const icon = {
-    ROUTE: "carro",
-    TRANSFER: "carro",
-    FLIGHT: "passagem-aerea",
-    RENTAL_CAR: "carro",
-    ACCOMMODATION: "hospedagem",
-  };
-
-  const openAccordion = () => {
-    setOpen(!open)
-  }
-  return (
-    <div className="new-itinerary">
+    const itinerary = useMemo(() => {
+      if(!data) return []
+      const firstAction: Action  = (data?.stays.find(action => action.previousActionId === null) ?? data?.transportations.find(action => action.previousActionId === null))!
+      if(!firstAction) {
+        throw Error("")
+      }
+      let actionsInOrder: Action[] = [firstAction];
+      while(actionsInOrder.length<(data?.stays.length ?? 0) + (data?.transportations.length??0) ) {
+        actionsInOrder = [
+          ...actionsInOrder, 
+          (data?.transportations.find(nextAction => nextAction.actionId === actionsInOrder.at(-1)?.nextActionId) ??
+          data?.stays.find(nextAction => nextAction.actionId === actionsInOrder.at(-1)?.nextActionId))!
+        ]
+      }
+      return actionsInOrder;
+    }, [data])
+    
+    const icon = {
+      ROUTE: "carro",
+      TRANSFER: "carro",
+      FLIGHT: "passagem-aerea",
+      RENTAL_CAR: "carro",
+      ACCOMMODATION: "hospedagem",
+    };
+    
+    const openAccordion = () => {
+      setOpen(!open)
+    }
+    if(!data) return <EmptyState/>
+    if ([...(data?.stays?? []), ...(data?.transportations??[])].length == 0) return <EmptyState />;
+    if (error) return <ErrorState />;
+    return (
+      <div className="new-itinerary">
       <div>
         <Text heading size="lg">
           Seu itinerário
@@ -95,26 +95,35 @@ export function NewItinerary({ tripId, title }: any) {
           }
           </CardHighlight>
         </div>
-        {data?.actions.length
+        {!itinerary || itinerary.length === 0 ? <>ERRO</>: itinerary.map(itineraryAction => {
+          if(IsStayAction(itineraryAction)) {
+            return (<ItineraryItem actionType="ACCOMMODATION" title={itineraryAction.name} key={itineraryAction.actionId}>
+              <StayAction action={itineraryAction} tripId={data?.tripId}/>
+            </ItineraryItem>)
+          } else if(IsTransportationAction(itineraryAction)) {
+            return <div>TRANSPORTE {itineraryAction.actionId}</div>
+          }
+        })}
+        {/* {data?.actions.length
           ? data?.actions.map((action, i) =>
-              action.type == "RENTAL_CAR" ? (
-                <ItineraryItem
+              action.type == "RENTAL_CAR" ? ( */}
+                {/* <ItineraryItem
                   actionType={action.type}
                   title={action.title}
                   key={`${i}-${action.tripItineraryActionId}`}
                 >
                   <RentalCarAction {...action} key={`${i}-${action.tripItineraryActionId}`} />
                 </ItineraryItem>
-              ) : action.type == "FLIGHT" ? (
-                <ItineraryItem
+              {/* ) : action.type == "FLIGHT" ? ( */}
+                {/* <ItineraryItem
                   actionType={action.type}
                   title={action.title}
                   key={`${i}-${action.tripItineraryActionId}`}
                 >
                   <FlightAction {...action} tripId={tripId} />
                 </ItineraryItem>
-              ) : action.type == "ROUTE" || action.type == "TRANSFER" ? (
-                <ItineraryItem
+              {/* ) : action.type == "ROUTE" || action.type == "TRANSFER" ? ( */}
+                {/* <ItineraryItem
                   actionType={action.type}
                   title={action.title}
                   key={`${i}-${action.tripItineraryActionId}`}
@@ -125,52 +134,51 @@ export function NewItinerary({ tripId, title }: any) {
                     key={`${i}-${action.tripItineraryActionId}`}
                   />
                 </ItineraryItem>
-              ) : action.type == "ACCOMMODATION" ? (
-                <ItineraryItem
-                  actionType={action.type}
-                  title={action.title}
-                  key={`${i}-${action.tripItineraryActionId}`}
-                >
-                  <div
+            {data?.stays.map((stay, index) => 
+              <ItineraryItem
+              actionType={'ACCOMMODATION'}
+              title={stay.name}
+              key={`${index}-${stay.id}`}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  marginTop: 10,
+                  padding: 10,
+                }}
+              >
+                <div>
+                  <Picture
+                    src={`/assets/destino/${icon.ACCOMMODATION}.svg`}
+                    style={{ width: 40 }}
+                  />
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", marginLeft: 8 }}>
+                  <label
+                    style={{ color: "#1A365D", fontSize: 16, textTransform: "capitalize" }}
+                  >
+                    {icon.ACCOMMODATION}
+                  </label>
+                  <span
                     style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      marginTop: 10,
-                      padding: 10,
+                      color: "#5A626D",
+                      fontSize: 14,
+                      marginTop: 6,
                     }}
                   >
-                    <div>
-                      <Picture
-                        src={`/assets/destino/${icon[action.type]}.svg`}
-                        style={{ width: 40 }}
-                      />
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", marginLeft: 8 }}>
-                      <label
-                        style={{ color: "#1A365D", fontSize: 16, textTransform: "capitalize" }}
-                      >
-                        {icon[action.type]}
-                      </label>
-                      <span
-                        style={{
-                          color: "#5A626D",
-                          fontSize: 14,
-                          marginTop: 6,
-                        }}
-                      >
-                        {action.title}
-                      </span>
-                    </div>
-                  </div>
-                  <AccommodationAction
-                    {...action}
-                    tripId={tripId}
-                    key={`${i}-${action.tripItineraryActionId}`}
-                  />
-                </ItineraryItem>
-              ) : null
-            )
-          : null}
+                    {stay.name}
+                  </span>
+                </div>
+              </div> } */}
+              {/* <AccommodationAction
+                {...action}
+                tripId={tripId}
+                key={`${index}-${stay.id}`}
+              /> */}
+            {/* </ItineraryItem>
+              )} */}
+                
       </div>
     </div>
   );

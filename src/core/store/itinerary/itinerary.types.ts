@@ -9,7 +9,6 @@ export type ItineraryListV2State = StoreState<ItineraryListV2>
 export interface SimpleItinerarySlice {
   simpleItinerary: SimpleItineraryState;
   updateSimpleItineraryState: UpdateState<SimpleItineraryValue>;
-  setSimpleItinerary: (simpleItinerary: SimpleItineraryValue) => void;
   setTripItinerary: (tripItinerary: ItineraryListV2) => void;
   clearSimpleItinerary: VoidFunction;
 }

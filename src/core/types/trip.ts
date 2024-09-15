@@ -62,6 +62,9 @@ export interface TripTransportation {
   toAddress?: string;
   toName?: string;
   flightView: CompanyFlightView;
+  previousActionId: string | null;
+  nextActionId: string | null;
+  actionId: string;
 }
 
 export interface TripConfiguration {
