@@ -65,6 +65,9 @@ export interface TripTransportation {
   previousActionId: string | null;
   nextActionId: string | null;
   actionId: string;
+  from: string | null;
+  fromLatitude: number;
+  fromLongitude: number;
 }
 
 export interface TripConfiguration {

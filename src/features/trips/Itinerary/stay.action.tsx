@@ -29,17 +29,30 @@ export const StayAction = ({action,tripId}: Props) => {
                     <strong>Hospedagem</strong>
                 </Text>
             </div>
-            <div className="mx-20">
-                <Picture src={action.coverImage} alt={action.name} style={{width: 50, height: 50}} />
-                <div>
-                       <Text as="h1" size="xs" style={{padding: 0}}>
+            <div className="fleex flex-row pl-20" style={{left:60}}>
+                <div className="flex flex-row gap-xl">
+                    <Picture src={action.coverImage ?? `/assets/destino/hotel-casa-grande.png`} alt={action.name} style={{width: 50, height: 50}} />
+                    <div>
+                        <Text as="h1" size="xs" style={{padding: 0}}>
                             <strong >{action.name}</strong>
                         </Text> 
                         <Text as="p" size="xs">
                             <strong style={{color:"var(--color-brand-4"}}>{action.tags}</strong>
                         </Text>
                     </div>
-                <Button className="mt-sm" size="sm" variant="neutral" onClick={handleSeeDetails}>Ver Detalhes</Button>
+                </div>
+                <Button
+                    variant="neutral"
+                    size="sm"
+                    style={{
+                        border: "none",
+                        textDecoration: "underline",
+                        padding: 0,
+                        fontWeight: 500,
+                        marginTop: 10,
+                    }}
+                    onClick={handleSeeDetails}
+                > Ver Detalhes</Button>
             </div>
         </div>
     )

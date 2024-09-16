@@ -35,6 +35,9 @@ export interface TripStaySimplified {
   previousActionId: string | null;
   nextActionId: string | null;
   actionId: string;
+  from: string | null;
+  fromLatitude: number;
+  fromLongitude: number;
 }
 
 export type TripStayHighlightFeature =

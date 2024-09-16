@@ -9,8 +9,6 @@ import { StayAction } from "../Itinerary/stay.action";
 
 export function NewItinerary({ tripId, title }: any) {
   const [open, setOpen] = useState(false)
-
-
     const fetcher = async () => {
       const itinerary = await TripsApiService.getItineraryV2(tripId);
       return itinerary;
@@ -31,7 +29,20 @@ export function NewItinerary({ tripId, title }: any) {
           data?.stays.find(nextAction => nextAction.actionId === actionsInOrder.at(-1)?.nextActionId))!
         ]
       }
-      return actionsInOrder;
+      const groupedActions = actionsInOrder.reduce<{fromIndex: string, actions: Action[]}[]>((acc: {fromIndex: string, actions: Action[]}[], curr) => {
+        if(acc.length === 0) {
+          return [{fromIndex: curr.from??"", actions: [curr]}]
+        } else {
+          const foundSameFromIndex = acc.find(action => action.fromIndex === curr.from);
+          if(foundSameFromIndex) {
+            return [...acc.filter(item => item.fromIndex !== curr.from), {fromIndex: curr.from??"", actions: [...foundSameFromIndex.actions, curr]}]
+          } else {
+            return [...acc, {fromIndex: curr.from??"", actions: [curr]}]
+          }
+        }
+      }, []);
+      console.log(groupedActions);
+      return groupedActions
     }, [data])
     
     const icon = {
@@ -95,15 +106,16 @@ export function NewItinerary({ tripId, title }: any) {
           }
           </CardHighlight>
         </div>
-        {!itinerary || itinerary.length === 0 ? <>ERRO</>: itinerary.map(itineraryAction => {
+        {!itinerary || itinerary.length === 0 ? <>ERRO</>: itinerary.map(itineraryOrigin => {
+          return itineraryOrigin.actions.map(itineraryAction => {
           if(IsStayAction(itineraryAction)) {
-            return (<ItineraryItem actionType="ACCOMMODATION" title={itineraryAction.name} key={itineraryAction.actionId}>
+            return (<ItineraryItem actionType="ACCOMMODATION" title={itineraryAction.from??""} key={itineraryAction.actionId}>
               <StayAction action={itineraryAction} tripId={data?.tripId}/>
             </ItineraryItem>)
           } else if(IsTransportationAction(itineraryAction)) {
             return <div>TRANSPORTE {itineraryAction.actionId}</div>
           }
-        })}
+        })})}
         {/* {data?.actions.length
           ? data?.actions.map((action, i) =>
               action.type == "RENTAL_CAR" ? ( */}
