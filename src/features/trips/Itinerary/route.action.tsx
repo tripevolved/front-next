@@ -14,7 +14,8 @@ export const RouteAction = (props: ItineraryActionProps & { tripId: string }) =>
     );
   const { isLoading, data, error } = useSWR(
     `get-itinerary-route-action-${props.tripItineraryActionId}`,
-    fetcher
+    fetcher,
+    { revalidateOnFocus: false }
   );
 
   if (error) return <ErrorState />;
@@ -26,10 +27,13 @@ export const RouteAction = (props: ItineraryActionProps & { tripId: string }) =>
           {props.type == "TRANSFER" ? (
             <Card>
               <Text size="xl">
-                Incluímos o transfer de <strong>{data.fromName}</strong> a <strong>{data.toName}</strong> para você.
+                Incluímos o transfer de <strong>{data.fromName}</strong> a{" "}
+                <strong>{data.toName}</strong> para você.
               </Text>
             </Card>
-          ) : <></>}
+          ) : (
+            <></>
+          )}
           <CarDetailInfo data={data} />
         </div>
       ) : (

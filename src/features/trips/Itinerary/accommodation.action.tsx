@@ -1,12 +1,5 @@
-
 import { Skeleton, Grid, Modal, Button, Card, Icon } from "mars-ds";
-import {
-  ErrorState,
-  Picture,
-  Text,
-  CardHighlight,
-  HoverTooltipCard,
-} from "@/ui";
+import { ErrorState, Picture, Text, CardHighlight, HoverTooltipCard } from "@/ui";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 
@@ -20,16 +13,20 @@ import { StayDetailsModal } from "@/features";
 import { useAppStore } from "@/core/store";
 import { StaysApiService } from "@/services/api";
 
-interface Props {
-  tripId: string;
-  accomodationAction: Partial<Omit<TripStaySimplified, 'id'>> & {id: string} | null
-}
-export const AccommodationAction = (props: Props)  => {
+export const AccommodationAction = (props: ItineraryActionProps & { tripId: string }) => {
+  const fetcher = async () =>
+    StaysApiService.getByTripId(props.tripId, props.tripItineraryActionId);
+  const { isLoading, data, error, isValidating } = useSWR(
+    `get-itinerary-accommodation-action-${props.tripItineraryActionId}`,
+    fetcher,
+    { revalidateOnFocus: false }
+  );
+
   const { availableFeatures } = useAppStore((state) => state.travelerState);
   const allowStayEdit = availableFeatures.includes("STAY_EDIT");
 
   if (props.accomodationAction === null) return <ErrorState />;
-  const data = props.accomodationAction
+  const data = props.accomodationAction;
   return (
     <Skeleton active={props !== undefined} height={355}>
       {data.isReady ? (
@@ -54,9 +51,9 @@ const AccommodationComponent = ({
   data,
   tripId,
   tripItineraryActionId,
-  allowStayEdit
+  allowStayEdit,
 }: {
-  data: Partial<Omit<TripStaySimplified, 'id'>> & {id: string};
+  data: Partial<Omit<TripStaySimplified, "id">> & { id: string };
   tripId: string;
   tripItineraryActionId: string;
   allowStayEdit: boolean;
@@ -176,7 +173,7 @@ const AccommodationComponent = ({
 const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "", allowEdit = true }) => {
   return allowEdit ? (
     <CardHighlight
-    style={{ margin: 20}}
+      style={{ margin: 20 }}
       variant="warning"
       heading="Ainda não escolhemos a acomodação para sua viagem"
       text="Fale conosco e vamos deixar tudo como você deseja!"
