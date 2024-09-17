@@ -8,59 +8,118 @@ import { ItineraryItem } from "../Itinerary/itinerary-item.wrapper";
 import { StayAction } from "../Itinerary/stay.action";
 
 export function NewItinerary({ tripId, title }: any) {
-  const [open, setOpen] = useState(false)
-    const fetcher = async () => {
-      const itinerary = await TripsApiService.getItineraryV2(tripId);
-      return itinerary;
-    }
-    const {data, isLoading, error} =  useSWR(`get-trip-itinerary-${tripId}`, fetcher, {revalidateOnFocus: false});
+  const [open, setOpen] = useState(false);
+  const fetcher = async () => {
+    const itinerary = await TripsApiService.getItineraryV2(tripId);
+    return itinerary;
+  };
+  const { data, isLoading, error } = useSWR(`get-trip-itinerary-${tripId}`, fetcher, {
+    revalidateOnFocus: false,
+  });
 
-    const itinerary = useMemo(() => {
-      if(!data) return []
-      const firstAction: Action  = (data?.stays.find(action => action.previousActionId === null) ?? data?.transportations.find(action => action.previousActionId === null))!
-      if(!firstAction) {
-        throw Error("")
-      }
-      let actionsInOrder: Action[] = [firstAction];
-      while(actionsInOrder.length<(data?.stays.length ?? 0) + (data?.transportations.length??0) ) {
-        actionsInOrder = [
-          ...actionsInOrder, 
-          (data?.transportations.find(nextAction => nextAction.actionId === actionsInOrder.at(-1)?.nextActionId) ??
-          data?.stays.find(nextAction => nextAction.actionId === actionsInOrder.at(-1)?.nextActionId))!
-        ]
-      }
-      const groupedActions = actionsInOrder.reduce<{fromIndex: string, actions: Action[]}[]>((acc: {fromIndex: string, actions: Action[]}[], curr) => {
-        if(acc.length === 0) {
-          return [{fromIndex: curr.from??"", actions: [curr]}]
+  const itinerary = useMemo(() => {
+    if (!data) return [];
+    type GroupedActions = { fromIndex: string; actions: Action[] };
+    let groupedActions = [...data.stays, ...data.transportations].reduce<GroupedActions[]>(
+      (acc: GroupedActions[], curr: Action) => {
+        if (acc.length === 0) {
+          acc = [
+            {
+              fromIndex: curr.from ?? "",
+              actions: [curr],
+            },
+          ];
         } else {
-          const foundSameFromIndex = acc.find(action => action.fromIndex === curr.from);
-          if(foundSameFromIndex) {
-            return [...acc.filter(item => item.fromIndex !== curr.from), {fromIndex: curr.from??"", actions: [...foundSameFromIndex.actions, curr]}]
+          const existingGroup = acc.find((action) => action.fromIndex === curr.from);
+          if (existingGroup) {
+            const accFiltered = acc.filter((item) => item.fromIndex !== existingGroup.fromIndex);
+            const newActionsList = [...existingGroup.actions, curr];
+            const updatedExistingGroup = {
+              fromIndex: existingGroup.fromIndex,
+              actions: newActionsList,
+            };
+            console.log(newActionsList, updatedExistingGroup);
+            acc = [...accFiltered, updatedExistingGroup];
           } else {
-            return [...acc, {fromIndex: curr.from??"", actions: [curr]}]
+            acc = [...acc, { fromIndex: curr.from ?? "", actions: [curr] }];
           }
         }
-      }, []);
-      console.log(groupedActions);
-      return groupedActions
-    }, [data])
-    
-    const icon = {
-      ROUTE: "carro",
-      TRANSFER: "carro",
-      FLIGHT: "passagem-aerea",
-      RENTAL_CAR: "carro",
-      ACCOMMODATION: "hospedagem",
-    };
-    
-    const openAccordion = () => {
-      setOpen(!open)
+        console.log("ACC", acc);
+        return acc;
+      },
+      []
+    );
+
+    let groupedAndSortedActions: GroupedActions[] = [];
+    console.info(groupedActions);
+    for (let group of groupedActions) {
+      if (group.actions.length > 1) {
+        const firstAction =
+          group.actions.find(
+            (action) =>
+              action.previousActionId === null ||
+              !group.actions.some((innerAction) => innerAction.actionId === action.previousActionId)
+          ) ?? group.actions[0];
+        let actionsInOrder: Action[] = [firstAction];
+        while (actionsInOrder.length < group.actions.length) {
+          actionsInOrder = [
+            ...actionsInOrder,
+            group.actions.find(
+              (nextAction) => nextAction.actionId === actionsInOrder.at(-1)?.nextActionId
+            )!,
+          ];
+          group.actions = actionsInOrder;
+        }
+      }
+      if (group.actions.some((action) => action.previousActionId === null)) {
+        groupedAndSortedActions = [group, ...groupedAndSortedActions];
+      } else if (group.actions.some((action) => action.nextActionId === null)) {
+        groupedAndSortedActions = [...groupedAndSortedActions, group];
+      } else {
+        const foundIndexNext = groupedAndSortedActions.findIndex((sortedGroup) =>
+          sortedGroup.actions.some((action) => action.nextActionId === group.actions[0].actionId)
+        );
+        if (foundIndexNext > -1) {
+          groupedAndSortedActions = [
+            ...groupedAndSortedActions.slice(0, foundIndexNext),
+            group,
+            ...groupedAndSortedActions.slice(foundIndexNext),
+          ];
+        }
+        const foundIndexPrevious = groupedAndSortedActions.findIndex((sortedGroup) =>
+          sortedGroup.actions.some(
+            (action) => action.previousActionId === group.actions[group.actions.length - 1].actionId
+          )
+        );
+        if (foundIndexPrevious > -1) {
+          groupedAndSortedActions = [
+            ...groupedAndSortedActions.slice(0, foundIndexPrevious - 1),
+            group,
+            ...groupedAndSortedActions.slice(foundIndexPrevious - 1),
+          ];
+        }
+      }
     }
-    if(!data) return <EmptyState/>
-    if ([...(data?.stays?? []), ...(data?.transportations??[])].length == 0) return <EmptyState />;
-    if (error) return <ErrorState />;
-    return (
-      <div className="new-itinerary">
+    console.log(groupedAndSortedActions);
+    return groupedAndSortedActions;
+  }, [data]);
+
+  const icon = {
+    ROUTE: "carro",
+    TRANSFER: "carro",
+    FLIGHT: "passagem-aerea",
+    RENTAL_CAR: "carro",
+    ACCOMMODATION: "hospedagem",
+  };
+
+  const openAccordion = () => {
+    setOpen(!open);
+  };
+  if (!data) return <EmptyState />;
+  if ([...(data?.stays ?? []), ...(data?.transportations ?? [])].length == 0) return <EmptyState />;
+  if (error) return <ErrorState />;
+  return (
+    <div className="new-itinerary">
       <div>
         <Text heading size="lg">
           Seu itinerário
@@ -87,39 +146,53 @@ export function NewItinerary({ tripId, title }: any) {
       </div>
       <div className="itinerary">
         <div>
-        <CardHighlight
-          variant="warning"
-          text="Preciso de um aluguel de carro"
-          onClick={openAccordion}
-          cta={{
-            label: "Ver detalhes",
-            isRtl: true,
-            className: "no-border"
-          }}
-        >
-          {
-            open && (
-              <div style={{ display: 'block'}}>
-                <p style={{ color: '#8c8e92'}}>Seu vôo só parte as 7h30 do dia 21 de agosto. Selecionamos uma hospedagem para você!</p>
+          <CardHighlight
+            variant="warning"
+            text="Preciso de um aluguel de carro"
+            onClick={openAccordion}
+            cta={{
+              label: "Ver detalhes",
+              isRtl: true,
+              className: "no-border",
+            }}
+          >
+            {open && (
+              <div style={{ display: "block" }}>
+                <p style={{ color: "#8c8e92" }}>
+                  Seu vôo só parte as 7h30 do dia 21 de agosto. Selecionamos uma hospedagem para
+                  você!
+                </p>
               </div>
-            )
-          }
+            )}
           </CardHighlight>
         </div>
-        {!itinerary || itinerary.length === 0 ? <>ERRO</>: itinerary.map(itineraryOrigin => {
-          return itineraryOrigin.actions.map(itineraryAction => {
-          if(IsStayAction(itineraryAction)) {
-            return (<ItineraryItem actionType="ACCOMMODATION" title={itineraryAction.from??""} key={itineraryAction.actionId}>
-              <StayAction action={itineraryAction} tripId={data?.tripId}/>
-            </ItineraryItem>)
-          } else if(IsTransportationAction(itineraryAction)) {
-            return <div>TRANSPORTE {itineraryAction.actionId}</div>
-          }
-        })})}
+        {!itinerary || itinerary.length === 0 ? (
+          <>ERRO</>
+        ) : (
+          itinerary.map((itineraryOrigin) => {
+            return itineraryOrigin.actions.map((itineraryAction) => {
+              if (IsStayAction(itineraryAction)) {
+                return (
+                  <ItineraryItem
+                    actionType="ACCOMMODATION"
+                    title={itineraryAction.from ?? ""}
+                    key={itineraryAction.actionId}
+                  >
+                    <StayAction action={itineraryAction} tripId={data?.tripId} />
+                  </ItineraryItem>
+                );
+              } else if (IsTransportationAction(itineraryAction)) {
+                return (
+                  <div key={itineraryAction.actionId}>TRANSPORTE {itineraryAction.actionId}</div>
+                );
+              }
+            });
+          })
+        )}
         {/* {data?.actions.length
           ? data?.actions.map((action, i) =>
               action.type == "RENTAL_CAR" ? ( */}
-                {/* <ItineraryItem
+        {/* <ItineraryItem
                   actionType={action.type}
                   title={action.title}
                   key={`${i}-${action.tripItineraryActionId}`}
@@ -127,7 +200,7 @@ export function NewItinerary({ tripId, title }: any) {
                   <RentalCarAction {...action} key={`${i}-${action.tripItineraryActionId}`} />
                 </ItineraryItem>
               {/* ) : action.type == "FLIGHT" ? ( */}
-                {/* <ItineraryItem
+        {/* <ItineraryItem
                   actionType={action.type}
                   title={action.title}
                   key={`${i}-${action.tripItineraryActionId}`}
@@ -135,7 +208,7 @@ export function NewItinerary({ tripId, title }: any) {
                   <FlightAction {...action} tripId={tripId} />
                 </ItineraryItem>
               {/* ) : action.type == "ROUTE" || action.type == "TRANSFER" ? ( */}
-                {/* <ItineraryItem
+        {/* <ItineraryItem
                   actionType={action.type}
                   title={action.title}
                   key={`${i}-${action.tripItineraryActionId}`}
@@ -183,14 +256,13 @@ export function NewItinerary({ tripId, title }: any) {
                   </span>
                 </div>
               </div> } */}
-              {/* <AccommodationAction
+        {/* <AccommodationAction
                 {...action}
                 tripId={tripId}
                 key={`${index}-${stay.id}`}
               /> */}
-            {/* </ItineraryItem>
+        {/* </ItineraryItem>
               )} */}
-                
       </div>
     </div>
   );
