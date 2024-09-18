@@ -49,6 +49,7 @@ export interface CompanyFlightView {
 export interface TripTransportation {
   partnerLogoUrl?: string;
   iconSlug: "car" | "flight" | "bus" | "train" | "rentalcar";
+  transportationType: "ROUTE" | "FLIGHT" | "TRANSFER";
   departure: string;
   estimatedArrival: string;
   description: string;
