@@ -63,11 +63,10 @@ export function NewItinerary({ tripId, title }: any) {
     return itinerary.reduce<{ groupName: string; actions: Action[] }[]>(
       (acc: { groupName: string; actions: Action[] }[], itineraryAction, currentIndex) => {
         if (!itineraryAction) return acc;
+        const lastGroup = acc[acc.length - 1];
         if (currentIndex === 0) {
           acc = [{ groupName: itineraryAction.from ?? "", actions: [itineraryAction] }];
-        }
-        const lastGroup = acc[acc.length - 1];
-        if (lastGroup.groupName === itineraryAction?.from ?? "") {
+        } else if (lastGroup.groupName === (itineraryAction?.from ?? "")) {
           lastGroup.actions.push(itineraryAction);
         } else {
           acc = [...acc, { groupName: itineraryAction.from ?? "", actions: [itineraryAction] }];
@@ -77,6 +76,7 @@ export function NewItinerary({ tripId, title }: any) {
       []
     );
   }, [itinerary]);
+  console.log(groupedActions);
   if (!data) return <EmptyState />;
   if ([...(data?.stays ?? []), ...(data?.transportations ?? [])].length == 0) return <EmptyState />;
   if (error) return <ErrorState />;
