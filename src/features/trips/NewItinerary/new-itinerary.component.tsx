@@ -2,8 +2,8 @@ import { CardHighlight, EmptyState, ErrorState, Text } from "@/ui";
 import { Button } from "mars-ds";
 import { TripsApiService } from "@/services/api";
 import useSWR from "swr";
-import { ReactNode, useMemo, useState } from "react";
-import { Action, IsStayAction, IsTransportationAction } from "@/core/types";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { Action, IsStayAction, IsTransportationAction, ItineraryListV2 } from "@/core/types";
 import { ItineraryItem } from "../Itinerary/itinerary-item.wrapper";
 import { StayAction } from "../Itinerary/stay.action";
 import { FlightAction } from "../Itinerary/flight.action";
@@ -11,13 +11,20 @@ import { RouteAction } from "../Itinerary/route.action";
 
 export function NewItinerary({ tripId, title }: any) {
   const [open, setOpen] = useState(false);
-  const fetcher = async () => {
-    const itinerary = await TripsApiService.getItineraryV2(tripId);
-    return itinerary;
-  };
-  const { data, isLoading, error } = useSWR(`get-trip-itinerary-${tripId}`, fetcher, {
-    revalidateOnFocus: false,
-  });
+  const [data, setData] = useState<ItineraryListV2>();
+  const [error, setError] = useState<string | undefined>();
+
+  useEffect(() => {
+    TripsApiService.getItineraryV2(tripId).then(setData).catch(setError);
+  }, [tripId]);
+
+  useEffect(() => {
+    if (data?.isReady === false) {
+      setTimeout(() => {
+        TripsApiService.getItineraryV2(tripId).then(setData).catch(setError);
+      }, 5000);
+    }
+  }, [data, tripId]);
 
   const itinerary = useMemo(() => {
     if (!data) return [];
@@ -51,6 +58,25 @@ export function NewItinerary({ tripId, title }: any) {
   const openAccordion = () => {
     setOpen(!open);
   };
+
+  const groupedActions = useMemo(() => {
+    return itinerary.reduce<{ groupName: string; actions: Action[] }[]>(
+      (acc: { groupName: string; actions: Action[] }[], itineraryAction, currentIndex) => {
+        if (!itineraryAction) return acc;
+        if (currentIndex === 0) {
+          acc = [{ groupName: itineraryAction.from ?? "", actions: [itineraryAction] }];
+        }
+        const lastGroup = acc[acc.length - 1];
+        if (lastGroup.groupName === itineraryAction?.from ?? "") {
+          lastGroup.actions.push(itineraryAction);
+        } else {
+          acc = [...acc, { groupName: itineraryAction.from ?? "", actions: [itineraryAction] }];
+        }
+        return acc;
+      },
+      []
+    );
+  }, [itinerary]);
   if (!data) return <EmptyState />;
   if ([...(data?.stays ?? []), ...(data?.transportations ?? [])].length == 0) return <EmptyState />;
   if (error) return <ErrorState />;
@@ -105,55 +131,33 @@ export function NewItinerary({ tripId, title }: any) {
         {!itinerary || itinerary.length === 0 ? (
           <>ERRO</>
         ) : (
-          itinerary
-            .reduce<{ groupName: string; actions: Action[] }[]>(
-              (
-                acc: { groupName: string; actions: Action[] }[],
-                itineraryAction,
-                currentIndex,
-                allActions
-              ) => {
-                if (currentIndex === 0) {
-                  acc = [{ groupName: itineraryAction.from ?? "", actions: [itineraryAction] }];
-                }
-                const lastGroup = acc[acc.length - 1];
-                if (lastGroup.groupName === itineraryAction.from) {
-                  lastGroup.actions.push(itineraryAction);
-                } else {
-                  acc = [
-                    ...acc,
-                    { groupName: itineraryAction.from ?? "", actions: [itineraryAction] },
-                  ];
-                }
-                return acc;
-              },
-              []
-            )
-            .map((group) => {
-              return (
-                <ItineraryItem title={group.groupName} key={group.groupName}>
-                  {group.actions.map((itineraryAction) => {
-                    if (IsStayAction(itineraryAction)) {
+          groupedActions.map((group) => {
+            return (
+              <ItineraryItem title={group.groupName} key={group.groupName}>
+                {group.actions.map((itineraryAction) => {
+                  if (IsStayAction(itineraryAction)) {
+                    return (
+                      <StayAction
+                        action={itineraryAction}
+                        tripId={data?.tripId}
+                        key={itineraryAction.actionId}
+                      />
+                    );
+                  } else if (IsTransportationAction(itineraryAction)) {
+                    if (["ROUTE", "TRANSFER"].includes(itineraryAction.transportationType)) {
                       return (
-                        <StayAction
-                          action={itineraryAction}
-                          tripId={data?.tripId}
-                          key={itineraryAction.actionId}
-                        />
+                        <RouteAction action={itineraryAction} key={itineraryAction.actionId} />
                       );
-                    } else if (IsTransportationAction(itineraryAction)) {
-                      if (["ROUTE", "TRANSFER"].includes(itineraryAction.transportationType)) {
-                        return (
-                          <RouteAction action={itineraryAction} key={itineraryAction.actionId} />
-                        );
-                      } else if (itineraryAction.transportationType === "FLIGHT") {
-                        return <></>; //<FlightAction {...action} tripId={tripId} />
-                      }
+                    } else if (itineraryAction.transportationType === "FLIGHT") {
+                      return (
+                        <FlightAction key={itineraryAction.actionId} action={itineraryAction} />
+                      );
                     }
-                  })}
-                </ItineraryItem>
-              );
-            })
+                  }
+                })}
+              </ItineraryItem>
+            );
+          })
         )}
       </div>
     </div>

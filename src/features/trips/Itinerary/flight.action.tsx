@@ -1,26 +1,11 @@
-import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
-
-import { Skeleton, Grid, Modal, Button } from "mars-ds";
-import { ErrorState, EmptyState, GlobalLoader, CardHighlight } from "@/ui";
-import useSWR from "swr";
-import { TransportationApiService } from "@/services/api";
-import { FlightBox, FlightDetailsPainel } from "@/features";
+import { Modal, Button } from "mars-ds";
+import { Text, CardHighlight, Picture } from "@/ui";
+import { FlightDetailsPainel } from "@/features";
 import { TripTransportation } from "@/core/types";
 
-export const FlightAction = (props: ItineraryActionProps & { tripId: string }) => {
-  const fetcher = async () =>
-    TransportationApiService.getTransportationActionItinerary(
-      props.tripId,
-      props.tripItineraryActionId
-    );
-  const { isLoading, data, error } = useSWR(
-    `get-itinerary-flight-action-${props.tripItineraryActionId}`,
-    fetcher,
-    { revalidateOnFocus: false }
-  );
-
+export const FlightAction = ({ action }: { action: TripTransportation }) => {
   const handleSeeDetails = () => {
-    Modal.open(() => <FlightDetailsPainel transportationData={data!} isModalView />, {
+    Modal.open(() => <FlightDetailsPainel transportationData={action!} isModalView />, {
       size: "md",
       closable: true,
     });
@@ -42,37 +27,61 @@ export const FlightAction = (props: ItineraryActionProps & { tripId: string }) =
     return outboundFlight || returnFlight;
   };
 
-  if (error) return <ErrorState />;
+  // if (error) return <ErrorState />;
 
   return (
-    <Skeleton active={isLoading} height={170}>
-      <div className="pl-lg itinerary__item">
-        {data ? (
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {data.flightView !== null ? (
-              <>
-                <FlightBox {...getFlight(data)!} hideTitle />
-                <Button
-                  variant="neutral"
-                  size="sm"
-                  onClick={() => handleSeeDetails()}
-                  style={{ width: "fit-content", border: "none" }}
-                >
-                  Ver detalhes
-                </Button>
-              </>
-            ) : (
-              <CardHighlight
-                variant="warning"
-                heading="Ainda não escolhemos o voo para sua viagem"
-                text="Fale conosco e vamos te ajudar!"
-              />
-            )}
+    <div className="pl-lg itinerary__item">
+      {action.isReady ? (
+        <div className="flex flex-column gap-md py-lg ml-xl">
+          <div className="flex flex-row gap-xl  items-center">
+            <Picture src={`/assets/destino/passagem-aerea.svg`} style={{ width: 40 }} />
+            <Text as="h3" heading size="xs" className="my-auto">
+              <strong>Passagem aérea</strong>
+            </Text>
           </div>
-        ) : (
-          <EmptyState />
-        )}
-      </div>
-    </Skeleton>
+          <div className="flex flex-row gap-xl">
+            <div style={{ width: 40 }} />
+            <div className="flex flex-row justify-start gap-md">
+              <div className="flex flex-row gap-xl">
+                <Picture
+                  src={action.partnerLogoUrl ?? `/assets/destino/hotel-casa-grande.png`}
+                  alt={"flight"}
+                  style={{ width: 50, height: 50 }}
+                />
+                <div className="items-end self-end">
+                  <Text as="p" size="xs" style={{ padding: 0, margin: 0 }}>
+                    <p>{`Saída: ${action.fromName}`}</p>
+                  </Text>
+                  <Text as="p" size="xs" style={{ padding: 0, margin: 0 }}>
+                    <p>{`Chegada: ${action.toName}`}</p>
+                  </Text>
+                </div>
+              </div>
+              <Button
+                variant="neutral"
+                size="sm"
+                style={{
+                  border: "none",
+                  textDecoration: "underline",
+                  alignSelf: "flex-end",
+                  padding: 0,
+                  fontWeight: 500,
+                  marginTop: 10,
+                }}
+                onClick={handleSeeDetails}
+              >
+                Ver Detalhes do vôo
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <CardHighlight
+          variant="warning"
+          heading="Ainda não escolhemos o voo para sua viagem"
+          text="Fale conosco e vamos te ajudar!"
+        />
+      )}
+    </div>
   );
 };

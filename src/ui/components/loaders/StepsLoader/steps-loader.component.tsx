@@ -45,9 +45,9 @@ export function StepsLoader({
 
   return (
     <div className={cn} {...props}>
-      <CircleProgress percentage={(currentIndex * 100) / steps.length}>
+      <CircleProgressCustom percentage={(currentIndex * 100) / steps.length}>
         <Icon color="white" name={steps[currentIndex]?.iconName || "map"} />
-      </CircleProgress>
+      </CircleProgressCustom>
       <Text className="opacity-animation">{steps[currentIndex]?.text}</Text>
     </div>
   );
@@ -58,7 +58,7 @@ interface CircleProgressProps extends BoxProps {
   children?: ReactNode;
 }
 
-const CircleProgress = ({
+export const CircleProgressCustom = ({
   percentage = 20,
   children,
   className,

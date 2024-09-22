@@ -1,7 +1,7 @@
 import { TripStaySimplified } from "@/core/types";
-import { Button, Modal } from "mars-ds";
-import { useCallback } from "react";
-import { Picture } from "@/ui";
+import { Button, Icon, Modal } from "mars-ds";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { CircleProgressCustom, Picture } from "@/ui";
 import { Text } from "@/ui";
 import { StayDetailsModal } from "@/features/stays/StayDetailsModal";
 import { StaysApiService } from "@/services/api";
@@ -13,7 +13,23 @@ interface Props {
 }
 export const StayAction = ({ action, tripId }: Props) => {
   const router = useRouter();
+  const [loadingStayValue, setLoadingStayValue] = useState(0);
+  const timerRef = useRef<NodeJS.Timer | undefined>();
 
+  useEffect(() => {
+    if (!action.isReady) {
+      timerRef.current = setInterval(() => {
+        setLoadingStayValue((curr) => (curr < 100 ? curr + 10 : 0));
+      }, 1000);
+    } else if (action.isReady) {
+      clearInterval(timerRef.current);
+      timerRef.current = undefined;
+    }
+    return () => {
+      clearInterval(timerRef.current);
+      timerRef.current = undefined;
+    };
+  }, [action.isReady]);
   const handleSeeDetails = useCallback(async () => {
     const data = await StaysApiService.getByTripId(tripId, action.actionId);
     const modal = Modal.open(
@@ -44,42 +60,56 @@ export const StayAction = ({ action, tripId }: Props) => {
           <strong>Hospedagem</strong>
         </Text>
       </div>
-      <div className="flex flex-row gap-xl">
-        <div style={{ width: 40 }} />
-        <div className="flex flex-column justify-start">
-          <div className="flex flex-row gap-xl">
-            <Picture
-              src={action.coverImage ?? `/assets/destino/hotel-casa-grande.png`}
-              alt={action.name}
-              style={{ width: 50, height: 50 }}
-            />
-            <div>
-              <Text as="h1" size="xs" style={{ padding: 0 }}>
-                <strong>{action.name}</strong>
-              </Text>
-              <Text as="p" size="xs">
-                <strong style={{ color: "var(--color-brand-4" }}>{action.tags}</strong>
-              </Text>
+      {action.isReady ? (
+        <div className="flex flex-row gap-xl">
+          <div style={{ width: 40 }} />
+          <div className="flex flex-column justify-start">
+            <div className="flex flex-row gap-xl">
+              <Picture
+                src={action.coverImage ?? `/assets/destino/hotel-casa-grande.png`}
+                alt={action.name}
+                style={{ width: 50, height: 50 }}
+              />
+              <div>
+                <Text as="h1" size="xs" style={{ padding: 0 }}>
+                  <strong>{action.name}</strong>
+                </Text>
+                <Text as="p" size="xs">
+                  <strong style={{ color: "var(--color-brand-4" }}>{action.tags}</strong>
+                </Text>
+              </div>
             </div>
+            <Button
+              variant="neutral"
+              size="sm"
+              style={{
+                border: "none",
+                textDecoration: "underline",
+                alignSelf: "flex-start",
+                padding: 0,
+                fontWeight: 500,
+                marginTop: 10,
+              }}
+              onClick={handleSeeDetails}
+            >
+              {" "}
+              Ver Detalhes
+            </Button>
           </div>
-          <Button
-            variant="neutral"
-            size="sm"
-            style={{
-              border: "none",
-              textDecoration: "underline",
-              alignSelf: "flex-start",
-              padding: 0,
-              fontWeight: 500,
-              marginTop: 10,
-            }}
-            onClick={handleSeeDetails}
-          >
-            {" "}
-            Ver Detalhes
-          </Button>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-row gap-xl">
+          <div style={{ width: 40 }} />
+          <div className="flex flex-column justify-center gap-md">
+            <div className="m-auto">
+              <CircleProgressCustom percentage={loadingStayValue}>
+                <Icon color="white" name={"map"} />
+              </CircleProgressCustom>
+            </div>
+            <Text className="opacity-animation"> {action.message}</Text>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
