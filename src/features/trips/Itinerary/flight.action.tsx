@@ -2,29 +2,25 @@ import { Modal, Button } from "mars-ds";
 import { Text, CardHighlight, Picture } from "@/ui";
 import { FlightDetailsPainel } from "@/features";
 import { TripTransportation } from "@/core/types";
+import { TransportationApiService } from "@/services/api";
 
-export const FlightAction = ({ action }: { action: TripTransportation }) => {
-  const handleSeeDetails = () => {
-    Modal.open(() => <FlightDetailsPainel transportationData={action!} isModalView />, {
+export const FlightAction = ({
+  action,
+  tripId,
+}: {
+  action: TripTransportation;
+  tripId: string;
+}) => {
+  const handleSeeDetails = async () => {
+    const details = await TransportationApiService.getTransportationActionItinerary(
+      tripId,
+      action.actionId
+    );
+    console.log(tripId, details);
+    Modal.open(() => <FlightDetailsPainel transportationData={details} isModalView />, {
       size: "md",
       closable: true,
     });
-  };
-
-  const getFlight = (data: TripTransportation) => {
-    const fromCode = data.fromName?.split("-")[0].trim();
-    const toCode = data.toName?.split("-")[0].trim();
-    const outboundFlight =
-      data.flightView.outboundFlight.flightDetails.find(
-        (item) => item.fromAirportCode === fromCode && item.toAirportCode === toCode
-      ) || null;
-
-    const returnFlight =
-      data.flightView.returnFlight.flightDetails.find(
-        (item) => item.fromAirportCode === fromCode && item.toAirportCode === toCode
-      ) || null;
-
-    return outboundFlight || returnFlight;
   };
 
   // if (error) return <ErrorState />;

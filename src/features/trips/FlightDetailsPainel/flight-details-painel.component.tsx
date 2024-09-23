@@ -14,7 +14,6 @@ export function FlightDetailsPainel({
   ...props
 }: FlightDetailsPainelProps) {
   const cn = makeCn("flight-details-painel", className)(sx);
-
   const { outboundFlight, returnFlight } = transportationData.flightView;
 
   return (

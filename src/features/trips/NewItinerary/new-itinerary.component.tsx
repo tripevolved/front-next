@@ -76,7 +76,6 @@ export function NewItinerary({ tripId, title }: any) {
       []
     );
   }, [itinerary]);
-  console.log(groupedActions);
   if (!data) return <EmptyState />;
   if ([...(data?.stays ?? []), ...(data?.transportations ?? [])].length == 0) return <EmptyState />;
   if (error) return <ErrorState />;
@@ -150,7 +149,11 @@ export function NewItinerary({ tripId, title }: any) {
                       );
                     } else if (itineraryAction.transportationType === "FLIGHT") {
                       return (
-                        <FlightAction key={itineraryAction.actionId} action={itineraryAction} />
+                        <FlightAction
+                          key={itineraryAction.actionId}
+                          action={itineraryAction}
+                          tripId={tripId}
+                        />
                       );
                     }
                   }
