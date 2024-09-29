@@ -1,8 +1,7 @@
-import { CardHighlight, EmptyState, ErrorState, Text } from "@/ui";
+import { EmptyState, ErrorState, Text } from "@/ui";
 import { Button } from "mars-ds";
 import { TripsApiService } from "@/services/api";
-import useSWR from "swr";
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Action, IsStayAction, IsTransportationAction, ItineraryListV2 } from "@/core/types";
 import { ItineraryItem } from "../Itinerary/itinerary-item.wrapper";
 import { StayAction } from "../Itinerary/stay.action";
@@ -10,12 +9,12 @@ import { FlightAction } from "../Itinerary/flight.action";
 import { RouteAction } from "../Itinerary/route.action";
 
 export function NewItinerary({ tripId, title }: any) {
-  const [open, setOpen] = useState(false);
   const [data, setData] = useState<ItineraryListV2>();
   const [error, setError] = useState<string | undefined>();
 
   useEffect(() => {
     TripsApiService.getItineraryV2(tripId).then(setData).catch(setError);
+    TripsApiService.getItinerary(tripId).then((d) => console.log("ITINERARY", JSON.stringify(d)));
   }, [tripId]);
 
   useEffect(() => {
@@ -36,28 +35,17 @@ export function NewItinerary({ tripId, title }: any) {
       return [];
     }
     let actionsInOrder: Action[] = [firstAction];
-    while (actionsInOrder.length < allActions.length) {
-      actionsInOrder = [
-        ...actionsInOrder,
-        allActions.find(
-          (nextAction) => nextAction.actionId === actionsInOrder.at(-1)?.nextActionId
-        )!,
-      ];
+    for (let index = 0; index < allActions.length; index++) {
+      const next = allActions.find(
+        (nextAction) => nextAction.actionId === actionsInOrder[index].nextActionId
+      );
+      if (next) {
+        actionsInOrder = [...actionsInOrder, next];
+      }
     }
+
     return actionsInOrder;
   }, [data]);
-
-  const icon = {
-    ROUTE: "carro",
-    TRANSFER: "carro",
-    FLIGHT: "passagem-aerea",
-    RENTAL_CAR: "carro",
-    ACCOMMODATION: "hospedagem",
-  };
-
-  const openAccordion = () => {
-    setOpen(!open);
-  };
 
   const groupedActions = useMemo(() => {
     return itinerary.reduce<{ groupName: string; actions: Action[] }[]>(
@@ -106,27 +94,6 @@ export function NewItinerary({ tripId, title }: any) {
         </Button>
       </div>
       <div className="itinerary">
-        <div>
-          <CardHighlight
-            variant="warning"
-            text="Preciso de um aluguel de carro"
-            onClick={openAccordion}
-            cta={{
-              label: "Ver detalhes",
-              isRtl: true,
-              className: "no-border",
-            }}
-          >
-            {open && (
-              <div style={{ display: "block" }}>
-                <p style={{ color: "#8c8e92" }}>
-                  Seu vôo só parte as 7h30 do dia 21 de agosto. Selecionamos uma hospedagem para
-                  você!
-                </p>
-              </div>
-            )}
-          </CardHighlight>
-        </div>
         {!itinerary || itinerary.length === 0 ? (
           <>ERRO</>
         ) : (

@@ -26,7 +26,7 @@ export const FlightAction = ({
   // if (error) return <ErrorState />;
 
   return (
-    <div className="pl-lg itinerary__item">
+    <div className=" itinerary__item">
       {action.isReady ? (
         <div className="flex flex-column gap-md py-lg ml-xl">
           <div className="flex flex-row gap-xl  items-center">

@@ -1,4 +1,4 @@
-import { Picture, Text } from "@/ui";
+import { CardHighlight, Picture, Text } from "@/ui";
 import { TripTransportation } from "@/core/types";
 
 export const RouteAction = ({ action }: { action: TripTransportation }) => {
@@ -22,6 +22,21 @@ export const RouteAction = ({ action }: { action: TripTransportation }) => {
             </Text>
           </div>
         </div>
+      </div>
+      <div>
+        {/*not implemented yet*/}
+        {/* <CardHighlight
+            variant="warning"
+            text="Preciso de um aluguel de carro"
+            onClick={() => {}}
+            style={{padding: 8}}
+            cta={{
+              label: "Ver detalhes",
+              isRtl: true,
+              className: "no-border",
+            }}
+          >
+          </CardHighlight> */}
       </div>
     </div>
   );
