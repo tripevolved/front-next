@@ -22,7 +22,7 @@ export type FormData = {
   objectiveId: string;
   days: string;
   budget: string;
-}
+};
 
 export const putMatchedDestinations = async ({ tripId }: { tripId: string }): Promise<any> => {
   const url = "trips/matches/" + tripId;
@@ -54,7 +54,11 @@ export const getMatches = async <T>({
   days,
   budget,
 }: FormData): Promise<T> => {
-  const url = `/trips/matches?travelerProfile=${encodeURIComponent(travelerProfile)}&objectiveId=${encodeURIComponent(objectiveId)}&days=${encodeURIComponent(days.toString())}&budget=${encodeURIComponent(budget.toString())}`;
+  const url = `/trips/matches?travelerProfile=${encodeURIComponent(
+    travelerProfile
+  )}&objectiveId=${encodeURIComponent(objectiveId)}&days=${encodeURIComponent(
+    days.toString()
+  )}&budget=${encodeURIComponent(budget.toString())}`;
   const response = await ApiRequest.get<T>(url);
   return response;
 };

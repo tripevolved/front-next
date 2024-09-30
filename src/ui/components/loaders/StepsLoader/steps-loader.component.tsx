@@ -7,7 +7,7 @@ import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { Icon } from "mars-ds";
 import { clamp } from "@/utils/helpers/math.helpers";
 
-const EIGHT_SECONDS_IN_MS = 8000;
+const EIGHT_SECONDS_IN_MS = 8 * 1000;
 
 export function StepsLoader({
   color = "var(--color-primary-500)",
@@ -45,9 +45,9 @@ export function StepsLoader({
 
   return (
     <div className={cn} {...props}>
-      <CircleProgress percentage={(currentIndex * 100) / steps.length}>
+      <CircleProgressCustom percentage={(currentIndex * 100) / steps.length}>
         <Icon color="white" name={steps[currentIndex]?.iconName || "map"} />
-      </CircleProgress>
+      </CircleProgressCustom>
       <Text className="opacity-animation">{steps[currentIndex]?.text}</Text>
     </div>
   );
@@ -58,7 +58,7 @@ interface CircleProgressProps extends BoxProps {
   children?: ReactNode;
 }
 
-const CircleProgress = ({
+export const CircleProgressCustom = ({
   percentage = 20,
   children,
   className,

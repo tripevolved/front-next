@@ -1,53 +1,90 @@
-import { CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
+import { EmptyState, ErrorState, Text } from "@/ui";
 import { Button } from "mars-ds";
-import { AccommodationAction } from "../Itinerary/accommodation.action";
-import { FlightAction } from "../Itinerary/flight.action";
-import { ItineraryItem } from "../Itinerary/itinerary-item.wrapper";
-import { RentalCarAction } from "../Itinerary/rental-car.action";
-import { RouteAction } from "../Itinerary/route.action";
 import { TripsApiService } from "@/services/api";
-import { useAppStore } from "@/core/store";
-import useSWR from "swr";
-import { ItineraryList } from "@/core/types";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Action, IsStayAction, IsTransportationAction, ItineraryListV2 } from "@/core/types";
+import { ItineraryItem } from "../Itinerary/itinerary-item.wrapper";
+import { StayAction } from "../Itinerary/stay.action";
+import { FlightAction } from "../Itinerary/flight.action";
+import { RouteAction } from "../Itinerary/route.action";
+import { ItineraryEnd } from "../Itinerary/itinerary-end.action";
+import { DestinationDetails } from "./destination-details/destination-details.component";
 
 export function NewItinerary({ tripId, title }: any) {
-  const setSimpleItinerary = useAppStore((state) => state.setSimpleItinerary);
-  const setTripItinerary = useAppStore((state) => state.setTripItinerary)
-  const [open, setOpen] = useState(false)
+  const [data, setData] = useState<ItineraryListV2>();
+  const [error, setError] = useState<string | undefined>();
 
-  const fetcherOld = async () =>
-    TripsApiService.getItinerary(tripId).then((data) => {
-      buildSimpleItinerary(data);
-      return data;
-    });
-    const fetcher = async () => {
-      const itinerary = await TripsApiService.getItineraryV2(tripId);
-      setTripItinerary(itinerary);
-      return itinerary;
+  useEffect(() => {
+    TripsApiService.getItineraryV2(tripId).then(setData).catch(setError);
+  }, [tripId]);
+
+  useEffect(() => {
+    let token: NodeJS.Timeout;
+    if (data?.isReady === false) {
+      token = setTimeout(() => {
+        TripsApiService.getItineraryV2(tripId).then(setData).catch(setError);
+      }, 5000);
     }
-  const { data: oldData, isLoading: isLoadingOld, error: isErrorOld } = useSWR(`get-trip-itinerary-${tripId}`, fetcherOld, {revalidateOnFocus: false});
-    const {data, isLoading, error} =  useSWR(`get-trip-itinerary-${tripId}`, fetcher, {revalidateOnFocus: false});
-  const buildSimpleItinerary = (itinerary: ItineraryList) => {
-    setSimpleItinerary({
-      actions: itinerary.actions.map((action) => ({ type: action.type, title: action.title })),
-    });
-  };
+    return () => {
+      clearTimeout(token);
+    };
+  }, [data, tripId]);
+
+  const itinerary = useMemo(() => {
+    if (!data) return [];
+    let allActions: Action[] = [...data.stays, ...data.transportations];
+    let actionsInOrder: Action[] = [];
+    try {
+      const firstAction = allActions.find((action) => action.previousActionId === null);
+      if (firstAction === undefined) {
+        console.error("Error on getting actions. No first action.");
+        return [];
+      }
+      actionsInOrder = [firstAction];
+      for (let index = 0; index < allActions.length; index++) {
+        const next = allActions.find(
+          (nextAction) => nextAction.actionId === actionsInOrder[index].nextActionId
+        );
+        if (next) {
+          actionsInOrder = [...actionsInOrder, next];
+        }
+      }
+    } catch {
+      setError("Error on sorting actions");
+    } finally {
+      return actionsInOrder;
+    }
+  }, [data]);
+
+  const groupedActions = useMemo(() => {
+    type GroupedAction = { groupName: string; actions: Action[] };
+    let actions: GroupedAction[] = [];
+    try {
+      actions = itinerary.reduce<{ groupName: string; actions: Action[] }[]>(
+        (acc: { groupName: string; actions: Action[] }[], itineraryAction, currentIndex) => {
+          if (!itineraryAction) return acc;
+          const lastGroup = acc[acc.length - 1];
+          if (currentIndex === 0) {
+            acc = [{ groupName: itineraryAction.from ?? "", actions: [itineraryAction] }];
+          } else if (lastGroup.groupName === (itineraryAction?.from ?? "")) {
+            lastGroup.actions.push(itineraryAction);
+          } else {
+            acc = [...acc, { groupName: itineraryAction.from ?? "", actions: [itineraryAction] }];
+          }
+          return acc;
+        },
+        []
+      );
+    } catch {
+      setError("Error sorting actions by city");
+    } finally {
+      return actions;
+    }
+  }, [itinerary]);
 
   if (error) return <ErrorState />;
-  if ([...(data?.stays?? []), ...(data?.transportations??[])].length == 0) return <EmptyState />;
+  if (!data) return <EmptyState />;
 
-  const icon = {
-    ROUTE: "carro",
-    TRANSFER: "carro",
-    FLIGHT: "passagem-aerea",
-    RENTAL_CAR: "carro",
-    ACCOMMODATION: "hospedagem",
-  };
-
-  const openAccordion = () => {
-    setOpen(!open)
-  }
   return (
     <div className="new-itinerary">
       <div>
@@ -75,103 +112,40 @@ export function NewItinerary({ tripId, title }: any) {
         </Button>
       </div>
       <div className="itinerary">
-        <div>
-        <CardHighlight
-          variant="warning"
-          text="Preciso de um aluguel de carro"
-          onClick={openAccordion}
-          cta={{
-            label: "Ver detalhes",
-            isRtl: true,
-            className: "no-border"
-          }}
-        >
-          {
-            open && (
-              <div style={{ display: 'block'}}>
-                <p style={{ color: '#8c8e92'}}>Seu vôo só parte as 7h30 do dia 21 de agosto. Selecionamos uma hospedagem para você!</p>
-              </div>
-            )
-          }
-          </CardHighlight>
-        </div>
-        {data?.actions.length
-          ? data?.actions.map((action, i) =>
-              action.type == "RENTAL_CAR" ? (
-                <ItineraryItem
-                  actionType={action.type}
-                  title={action.title}
-                  key={`${i}-${action.tripItineraryActionId}`}
-                >
-                  <RentalCarAction {...action} key={`${i}-${action.tripItineraryActionId}`} />
-                </ItineraryItem>
-              ) : action.type == "FLIGHT" ? (
-                <ItineraryItem
-                  actionType={action.type}
-                  title={action.title}
-                  key={`${i}-${action.tripItineraryActionId}`}
-                >
-                  <FlightAction {...action} tripId={tripId} />
-                </ItineraryItem>
-              ) : action.type == "ROUTE" || action.type == "TRANSFER" ? (
-                <ItineraryItem
-                  actionType={action.type}
-                  title={action.title}
-                  key={`${i}-${action.tripItineraryActionId}`}
-                >
-                  <RouteAction
-                    {...action}
-                    tripId={tripId}
-                    key={`${i}-${action.tripItineraryActionId}`}
-                  />
-                </ItineraryItem>
-              ) : action.type == "ACCOMMODATION" ? (
-                <ItineraryItem
-                  actionType={action.type}
-                  title={action.title}
-                  key={`${i}-${action.tripItineraryActionId}`}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      marginTop: 10,
-                      padding: 10,
-                    }}
-                  >
-                    <div>
-                      <Picture
-                        src={`/assets/destino/${icon[action.type]}.svg`}
-                        style={{ width: 40 }}
+        {groupedActions.map((group) => {
+          return (
+            <ItineraryItem title={group.groupName} key={group.groupName}>
+              {group.actions.map((itineraryAction) => {
+                if (IsStayAction(itineraryAction)) {
+                  return (
+                    <StayAction
+                      action={itineraryAction}
+                      tripId={data?.tripId}
+                      key={itineraryAction.actionId}
+                    />
+                  );
+                } else if (IsTransportationAction(itineraryAction)) {
+                  if (["ROUTE", "TRANSFER"].includes(itineraryAction.transportationType)) {
+                    return <RouteAction action={itineraryAction} key={itineraryAction.actionId} />;
+                  } else if (itineraryAction.transportationType === "FLIGHT") {
+                    return (
+                      <FlightAction
+                        key={itineraryAction.actionId}
+                        action={itineraryAction}
+                        tripId={tripId}
                       />
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column", marginLeft: 8 }}>
-                      <label
-                        style={{ color: "#1A365D", fontSize: 16, textTransform: "capitalize" }}
-                      >
-                        {icon[action.type]}
-                      </label>
-                      <span
-                        style={{
-                          color: "#5A626D",
-                          fontSize: 14,
-                          marginTop: 6,
-                        }}
-                      >
-                        {action.title}
-                      </span>
-                    </div>
-                  </div>
-                  <AccommodationAction
-                    {...action}
-                    tripId={tripId}
-                    key={`${i}-${action.tripItineraryActionId}`}
-                  />
-                </ItineraryItem>
-              ) : null
-            )
-          : null}
+                    );
+                  }
+                }
+              })}
+            </ItineraryItem>
+          );
+        })}
+        <ItineraryItem title="Aproveitar!" key="enjoy">
+          <ItineraryEnd />
+        </ItineraryItem>
       </div>
+      <DestinationDetails />
     </div>
   );
 }

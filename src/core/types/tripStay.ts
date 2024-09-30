@@ -32,6 +32,13 @@ export interface TripStaySimplified {
   message: string;
   name: string;
   tags: string;
+  previousActionId: string | null;
+  nextActionId: string | null;
+  actionId: string;
+  from: string | null;
+  fromLatitude: number;
+  fromLongitude: number;
+  isMain: boolean;
 }
 
 export type TripStayHighlightFeature =

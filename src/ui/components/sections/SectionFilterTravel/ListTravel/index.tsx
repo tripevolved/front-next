@@ -4,10 +4,10 @@ import { ListTravelProps } from "../section-filter-travel.types";
 import { DEFAULT_CARD_IMAGE_URL } from "@/core/constants";
 
 enum Size {
-  MD = 'md',
-  LG = 'lg',
-  XL = 'xl',
-  XXL = 'xxl'
+  MD = "md",
+  LG = "lg",
+  XL = "xl",
+  XXL = "xxl",
 }
 
 export function ListTravel({ mainChoice, otherChoices }: ListTravelProps) {
@@ -38,9 +38,9 @@ export function ListTravel({ mainChoice, otherChoices }: ListTravelProps) {
           style={{
             background: `linear-gradient(180deg, rgba(58, 56, 56, 0.7) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%),
             url('${getImageUrl(mainChoice.images)}')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
           }}
           onClick={() => handleDestinationClick(mainChoice.uniqueName)}
         >
@@ -62,9 +62,9 @@ export function ListTravel({ mainChoice, otherChoices }: ListTravelProps) {
               style={{
                 background: `linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%),
                 url('${getImageUrl(choice.images)}')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
               }}
               onClick={() => handleDestinationClick(choice.uniqueName)}
             >
