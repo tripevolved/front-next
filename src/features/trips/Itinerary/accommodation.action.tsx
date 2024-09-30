@@ -1,15 +1,7 @@
 import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
 
 import { Skeleton, Grid, Modal, Button, Card, Icon } from "mars-ds";
-import {
-  ErrorState,
-  EmptyState,
-  Picture,
-  Text,
-  CardHighlight,
-  GlobalLoader,
-  HoverTooltipCard,
-} from "@/ui";
+import { ErrorState, Picture, Text, CardHighlight, HoverTooltipCard } from "@/ui";
 import useSWR from "swr";
 import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
@@ -28,7 +20,7 @@ export const AccommodationAction = (props: ItineraryActionProps & { tripId: stri
     StaysApiService.getByTripId(props.tripId, props.tripItineraryActionId);
   const { isLoading, data, error, isValidating } = useSWR(
     `get-itinerary-accommodation-action-${props.tripItineraryActionId}`,
-    fetcher, {revalidateOnFocus: false}
+    fetcher
   );
 
   const { availableFeatures } = useAppStore((state) => state.travelerState);
@@ -60,7 +52,7 @@ const AccommodationComponent = ({
   data,
   tripId,
   tripItineraryActionId,
-  allowStayEdit
+  allowStayEdit,
 }: {
   data: TripStay;
   tripId: string;
@@ -181,7 +173,7 @@ const AccommodationComponent = ({
 const TripStayEmptyState = ({ tripId = "", tripItineraryActionId = "", allowEdit = true }) => {
   return allowEdit ? (
     <CardHighlight
-    style={{ margin: 20}}
+      style={{ margin: 20 }}
       variant="warning"
       heading="Ainda não escolhemos a acomodação para sua viagem"
       text="Fale conosco e vamos deixar tudo como você deseja!"

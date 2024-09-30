@@ -25,7 +25,11 @@ export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => 
       const newLead = await LeadApiService.create(data);
       leadCreate(newLead);
 
-      GTMService.addEvent({ event: "conversion", dataLayerName: DATA_LAYER_NAME, k: { send_to: "AW-11471805885/BUJnCN21-MEZEL27l94q" } })
+      GTMService.addEvent({
+        event: "conversion",
+        dataLayerName: DATA_LAYER_NAME,
+        k: { send_to: "AW-11471805885/BUJnCN21-MEZEL27l94q" },
+      });
 
       onSubmitCallback?.(newLead);
     } catch (error) {

@@ -6,7 +6,12 @@ import { SectionFilterTravelProps, TravelChoice } from "./section-filter-travel.
 import { FormData, getMatches } from "@/services/api/trip/matches";
 import { ListTravel } from "./ListTravel";
 
-export function SectionFilterTravel({ id, title, optionsFilter, buttonText }: SectionFilterTravelProps) {
+export function SectionFilterTravel({
+  id,
+  title,
+  optionsFilter,
+  buttonText,
+}: SectionFilterTravelProps) {
   const [loading, setLoading] = useState(false);
   const [mainChoice, setMainChoice] = useState<TravelChoice | null>(null);
   const [otherChoices, setOtherChoices] = useState<TravelChoice[]>([]);
@@ -45,14 +50,18 @@ export function SectionFilterTravel({ id, title, optionsFilter, buttonText }: Se
           <div className="box-image-2"></div>
         </div>
         <div className="box-filter">
-          <FilterTravel options={optionsFilter} buttonText={buttonText} onFetchResults={handleFetchResults} />
+          <FilterTravel
+            options={optionsFilter}
+            buttonText={buttonText}
+            onFetchResults={handleFetchResults}
+          />
         </div>
         <div className="box-title">
           <div className="box-image-3"></div>
         </div>
       </div>
-      {(mainChoice || loading) && (
-        loading ? (
+      {(mainChoice || loading) &&
+        (loading ? (
           <div className="box-results-filter">
             <LoaderTravel />
           </div>
@@ -64,7 +73,12 @@ export function SectionFilterTravel({ id, title, optionsFilter, buttonText }: Se
               </div>
               <div className="box-form-travel">
                 <div className="box-form-travel-container">
-                  <p>Descubra seu perfil de viajante<br /> e faça seu cadastro para receber recomendações<br /><span style={{ color: '#0AB9AD' }}> 100% personalizadas</span></p>
+                  <p>
+                    Descubra seu perfil de viajante
+                    <br /> e faça seu cadastro para receber recomendações
+                    <br />
+                    <span style={{ color: "#0AB9AD" }}> 100% personalizadas</span>
+                  </p>
                   <div className="box-buttons">
                     <button className="btn-form-travel-primary" onClick={handleProfileClick}>
                       Descobrir meu perfil de viajante
@@ -77,8 +91,7 @@ export function SectionFilterTravel({ id, title, optionsFilter, buttonText }: Se
               </div>
             </div>
           )
-        )
-      )}
+        ))}
     </div>
   );
 }

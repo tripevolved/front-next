@@ -1,3 +1,4 @@
+import { TripStayDetails } from "@/features";
 import { TripTransportation } from "./trip";
 import { TripStaySimplified } from "./tripStay";
 
@@ -31,7 +32,13 @@ export interface ItineraryListV2 {
   stays:TripStaySimplified[],
   transportations: TripTransportation[]
 }
-
+export type Action = TripStaySimplified |TripTransportation
+export const IsStayAction = (action: Action):action is TripStaySimplified => {
+  return action.hasOwnProperty('coverImage')
+}
+export const IsTransportationAction = (action: Action):action is TripTransportation => {
+  return action.hasOwnProperty('partnerLogoUrl')
+}
 export interface SimpleItineraryAction {
   type: ItineraryActionType;
   title: string;

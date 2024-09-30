@@ -10,6 +10,7 @@ export const createSimpleItinerarySlice: StateCreator<SimpleItinerarySlice> = (s
   return {
     simpleItinerary: initialSimpleItineraryState,
     updateSimpleItineraryState: update,
+
     setSimpleItinerary: (simpleItinerary: SimpleItineraryValue) =>
       set({ simpleItinerary: { ...simpleItinerary, ...FETCH_STATE.FETCHED } }),
     clearSimpleItinerary: () => set({ simpleItinerary: initialSimpleItineraryState }),

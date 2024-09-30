@@ -31,7 +31,7 @@ export function StayDetailsModal({
             <Text size="sm" heading className="trip-stay-details__initial-info__header__title">
               {tripStay.name}
             </Text>
-            <Text>{tripStay.details.address}</Text>
+            <Text>{tripStay.tags}</Text>
           </div>
           {tripStay.details.images?.length ? (
             <ThumbnailCarousel options={{}} slides={tripStay.details.images} />
