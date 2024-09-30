@@ -64,7 +64,7 @@ export function TripDetailsPage() {
   }
 
   const { destination, configuration, hasScript, isBuilding } = data;
-  const { features = [], photos = DEFAULT_PHOTOS, recommendedBy, tips = [], title } = destination;
+  const { photos = DEFAULT_PHOTOS, title } = destination;
 
   return (
     <>

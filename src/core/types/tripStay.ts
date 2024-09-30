@@ -38,6 +38,7 @@ export interface TripStaySimplified {
   from: string | null;
   fromLatitude: number;
   fromLongitude: number;
+  isMain: boolean;
 }
 
 export type TripStayHighlightFeature =

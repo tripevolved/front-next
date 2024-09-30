@@ -1,6 +1,6 @@
 import type { FlightDetailsPainelProps } from "./flight-details-painel.types";
 
-import { Text, Box } from "@/ui";
+import { Text, Box, ErrorState } from "@/ui";
 import { FlightCard } from "@/features";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
@@ -14,6 +14,9 @@ export function FlightDetailsPainel({
   ...props
 }: FlightDetailsPainelProps) {
   const cn = makeCn("flight-details-painel", className)(sx);
+  if (transportationData.flightView === null) {
+    return <ErrorState />;
+  }
   const { outboundFlight, returnFlight } = transportationData.flightView;
 
   return (
@@ -22,14 +25,14 @@ export function FlightDetailsPainel({
         <Text heading style={{ color: "var(--color-brand-1)" }}>
           Detalhes do voo
         </Text>
+        <Text size="xl">Voo de ida</Text>
         <Box className="flight-details-painel__container__flight w-100 flex-column gap-md">
-          <Text size="xl">Voo de ida</Text>
           {outboundFlight.flightDetails.map((flight, i) => (
             <FlightCard flight={flight} key={i} />
           ))}
         </Box>
+        <Text size="xl">Voo de volta</Text>
         <Box className="flight-details-painel__container__flight flex-column gap-md">
-          <Text size="xl">Voo de volta</Text>
           {returnFlight.flightDetails.map((flight, i) => (
             <FlightCard flight={flight} key={i} />
           ))}

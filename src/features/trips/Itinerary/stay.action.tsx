@@ -1,11 +1,12 @@
 import { TripStaySimplified } from "@/core/types";
 import { Button, Icon, Modal } from "mars-ds";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CircleProgressCustom, Picture } from "@/ui";
+import { CardHighlight, CircleProgressCustom, Picture } from "@/ui";
 import { Text } from "@/ui";
 import { StayDetailsModal } from "@/features/stays/StayDetailsModal";
 import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
+import { StayNotMain } from "./stay.notMain.action";
 
 interface Props {
   action: TripStaySimplified;
@@ -50,7 +51,11 @@ export const StayAction = ({ action, tripId }: Props) => {
         size: "md",
       }
     );
-  }, []);
+  }, [action.actionId, router, tripId]);
+
+  if (!action.isMain) {
+    return <StayNotMain action={action} showDetails={handleSeeDetails} />;
+  }
 
   return (
     <div className="flex flex-column gap-md py-lg ml-xl">

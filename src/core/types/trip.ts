@@ -70,6 +70,7 @@ export interface TripTransportation {
   from: string | null;
   fromLatitude: number;
   fromLongitude: number;
+  isMain: boolean;
 }
 
 export interface TripConfiguration {

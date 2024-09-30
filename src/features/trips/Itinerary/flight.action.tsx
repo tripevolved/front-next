@@ -16,7 +16,6 @@ export const FlightAction = ({
       tripId,
       action.actionId
     );
-    console.log(tripId, details);
     Modal.open(() => <FlightDetailsPainel transportationData={details} isModalView />, {
       size: "md",
       closable: true,
@@ -66,7 +65,7 @@ export const FlightAction = ({
                 }}
                 onClick={handleSeeDetails}
               >
-                Ver Detalhes do vôo
+                Ver Detalhes do voo
               </Button>
             </div>
           </div>
