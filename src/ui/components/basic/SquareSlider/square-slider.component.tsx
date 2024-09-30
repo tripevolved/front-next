@@ -7,10 +7,12 @@ import classNames from "classnames";
 import { parseNumericValue } from "@/utils/helpers/css.helpers";
 import { ToggleButton } from "mars-ds";
 import Link from "next/link";
+import { Text } from "../Text";
 
 export const SquareSlider = ({
   children,
   className,
+  title,
   height,
   hideDots,
   style,
@@ -70,6 +72,9 @@ export const SquareSlider = ({
     <>
       <div className="trending">
         <div className="container">
+          <Text heading size="lg" as="strong">
+            {title}
+          </Text>
           <div className="title-btns">
             <h3></h3>
             <div className="btns">

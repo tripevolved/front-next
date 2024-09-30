@@ -21,23 +21,11 @@ export default function Page({ seo, ...children }: PageProps) {
   return (
     <>
       <SectionBase>
-        <SquareSlider style={{backgroundColor: "var(--color-primary-500)", borderRadius: "12px", padding: "12px"}}>
+        <SquareSlider title="O que dizem os nossos clientes" style={{backgroundColor: "var(--color-primary-500)", borderRadius: "12px", padding: "12px"}}>
           <CardHighlight style={{minWidth: "300px"}}>
             <Picture src="/assets/home/quote.png" />
             <Text size="md">
-              A viagem para Paris foi cuidada nos mínimos detalhes, tudo perfeito!"
-            </Text>
-            <div>
-              <Avatar size="xl" thumbnail={"https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp"} />
-              <Text as="strong" className="my-0 color-primary">
-                João Silva - Viajou para Paris
-              </Text>
-            </div>
-          </CardHighlight>
-          <CardHighlight style={{minWidth: "300px"}}>
-            <Picture src="/assets/home/quote.png" />
-            <Text size="md">
-              A viagem para Paris foi cuidada nos mínimos detalhes, tudo perfeito!"
+              A viagem para Paris foi cuidada nos mínimos detalhes, tudo perfeito!&quot
             </Text>
             <div>
               <Avatar size="xl" thumbnail={"https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp"} />
@@ -61,7 +49,7 @@ export default function Page({ seo, ...children }: PageProps) {
           <CardHighlight style={{minWidth: "300px"}}>
             <Picture src="/assets/home/quote.png" />
             <Text size="md">
-              A viagem para Paris foi cuidada nos mínimos detalhes, tudo perfeito!"
+              A viagem para Paris foi cuidada nos mínimos detalhes, tudo perfeito!&quot
             </Text>
             <div>
               <Avatar size="xl" thumbnail={"https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp"} />
@@ -73,7 +61,19 @@ export default function Page({ seo, ...children }: PageProps) {
           <CardHighlight style={{minWidth: "300px"}}>
             <Picture src="/assets/home/quote.png" />
             <Text size="md">
-              A viagem para Paris foi cuidada nos mínimos detalhes, tudo perfeito!"
+              A viagem para Paris foi cuidada nos mínimos detalhes, tudo perfeito!&quot
+            </Text>
+            <div>
+              <Avatar size="xl" thumbnail={"https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp"} />
+              <Text as="strong" className="my-0 color-primary">
+                João Silva - Viajou para Paris
+              </Text>
+            </div>
+          </CardHighlight>
+          <CardHighlight style={{minWidth: "300px"}}>
+            <Picture src="/assets/home/quote.png" />
+            <Text size="md">
+              A viagem para Paris foi cuidada nos mínimos detalhes, tudo perfeito!&quot
             </Text>
             <div>
               <Avatar size="xl" thumbnail={"https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp"} />
