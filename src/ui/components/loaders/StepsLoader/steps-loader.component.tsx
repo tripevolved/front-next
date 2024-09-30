@@ -7,7 +7,7 @@ import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { Icon } from "mars-ds";
 import { clamp } from "@/utils/helpers/math.helpers";
 
-const EIGHT_SECONDS_IN_MS = 1000;
+const EIGHT_SECONDS_IN_MS = 8 * 1000;
 
 export function StepsLoader({
   color = "var(--color-primary-500)",
