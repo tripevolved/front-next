@@ -1,0 +1,19 @@
+.card-quote {
+  min-width: 280px;
+  max-width: 500px;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .1);
+
+  &__footer {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+
+    &__sub {
+      margin-top: 0 !important;
+    }
+  }
+
+  @media (min-width: $breakpoint-lg) {
+    min-width: 420px;
+  }
+}
