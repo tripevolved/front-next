@@ -21,6 +21,7 @@ export * from "./basic/NotificationBadge";
 export * from "./basic/Picture";
 export * from "./basic/Pricing";
 export * from "./basic/Slide";
+export * from "./basic/SquareSlider";
 export * from "./basic/StepsProgressBar";
 export * from "./basic/Tag";
 export * from "./basic/Text";
