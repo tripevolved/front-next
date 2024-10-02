@@ -10,20 +10,21 @@ export const useTripDetails = () => {
 
   const fetcherKey = idParam ? `trip-details-hook-${idParam}` : null;
   const fetcher = async () => fetchTripById(idParam);
-  const { isLoading, data, error } = useSWR(fetcherKey, fetcher, {revalidateOnFocus: false});
+  const { isLoading, data, error } = useSWR(fetcherKey, fetcher, { revalidateOnFocus: false });
 
   return { isLoading, data, error };
 };
 
 const fetchTripById = async (id: string, retry = MAX_REFRESH_COUNT): Promise<TripDetails> => {
   const data = await TripsApiService.getById(id);
-  if(!data.isBuilding) {
+  if (!data.isBuilding) {
     return data;
   }
   if (retry === 0) {
     throw new Error("Timeout");
   }
-  if(retry === MAX_REFRESH_COUNT) { //chance of have this ready at the beginning is minimal due to how it process today
+  if (retry === MAX_REFRESH_COUNT) {
+    //chance of have this ready at the beginning is minimal due to how it process today
     await delay(REFRESH_INTERVAL * 2);
   } else {
     await delay(REFRESH_INTERVAL);

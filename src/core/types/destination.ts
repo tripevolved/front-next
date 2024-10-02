@@ -26,6 +26,8 @@ export interface TripDestination {
   photos: Photo[];
   features: PublicDestinationFeature[];
   tips: PublicDestinationTip[];
+  travelerProfiles: string[] | null;
+  travelType: string;
 }
 
 export interface PublicDestinationVideo {

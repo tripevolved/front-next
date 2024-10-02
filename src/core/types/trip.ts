@@ -48,7 +48,9 @@ export interface CompanyFlightView {
 
 export interface TripTransportation {
   partnerLogoUrl?: string;
+  isReady: boolean;
   iconSlug: "car" | "flight" | "bus" | "train" | "rentalcar";
+  transportationType: "ROUTE" | "FLIGHT" | "TRANSFER";
   departure: string;
   estimatedArrival: string;
   description: string;
@@ -62,6 +64,13 @@ export interface TripTransportation {
   toAddress?: string;
   toName?: string;
   flightView: CompanyFlightView;
+  previousActionId: string | null;
+  nextActionId: string | null;
+  actionId: string;
+  from: string | null;
+  fromLatitude: number;
+  fromLongitude: number;
+  isMain: boolean;
 }
 
 export interface TripConfiguration {

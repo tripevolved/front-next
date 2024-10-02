@@ -1,21 +1,9 @@
-import { TripScriptSection } from "./trip-script.section";
-import { TripFoodTipsSection } from "./trip-food-tips.section";
-import { TripSupportSection } from "./trip-support.section";
 import { TripConfigurationSection } from "./trip-configuration.section";
-import { ErrorState, FeatureIcon, Picture, Text, WhatsappButton } from "@/ui";
+import { ErrorState, Text, WhatsappButton } from "@/ui";
 
 import { useTripDetails } from "./trip-details.hook";
-import {
-  DestinationInfos,
-  DestinationRecommendedBy,
-  DestinationTipItem,
-  Itinerary,
-  NewItinerary,
-  PageApp,
-  PageAppHero,
-  TripPricingBox,
-} from "@/features";
-import { Card, CardElevations, Divider, Grid, ToggleButton } from "mars-ds";
+import { DestinationTipItem, NewItinerary, PageApp, PageAppHero, TripPricingBox } from "@/features";
+import { Card, CardElevations, Grid, ToggleButton } from "mars-ds";
 import type { Photo, PublicDestinationTip } from "@/core/types";
 import { DEFAULT_CARD_IMAGE_URL } from "@/core/constants";
 import { TripDetailsPageLoading } from "./trip-details-page.loading";
@@ -44,7 +32,6 @@ export function TripDetailsPage() {
         hideHeader={hideHeader}
         headerOptions={{ title, backUrl: "/app/painel" }}
         seo={{ title }}
-
       >
         {children}
       </PageApp>
@@ -77,7 +64,7 @@ export function TripDetailsPage() {
   }
 
   const { destination, configuration, hasScript, isBuilding } = data;
-  const { features = [], photos = DEFAULT_PHOTOS, recommendedBy, tips = [], title } = destination;
+  const { photos = DEFAULT_PHOTOS, title } = destination;
 
   return (
     <>
@@ -90,13 +77,18 @@ export function TripDetailsPage() {
             iconName="x"
             title="Fechar"
             href="/app/painel"
-            style={{ border: 'none'}}
+            style={{ border: "none" }}
           />
         </div>
         <div className="trip-stay-content">
           <div className="trip-stay-center-margin">
-            <Grid columns={{ md: ["1fr", "320px"] }} growing={false} className="trip-stay-center-margin" style={{ gap: 80}}>
-              <Grid >
+            <Grid
+              columns={{ md: ["1fr", "320px"] }}
+              growing={false}
+              className="trip-stay-center-margin"
+              style={{ gap: 80 }}
+            >
+              <Grid>
                 {configuration ? (
                   <TripConfigurationSection
                     {...configuration}

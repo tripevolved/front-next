@@ -7,7 +7,7 @@ import { useAppStore } from "@/core/store";
 export const TripScriptSection = ({ isBuilt = false }) => (
   <>
     <Grid columns={["1fr", "auto"]}>
-      <TripDetailInfo image="/assets/destino/roteiro.svg" title="Roteiro" />
+      <TripDetailInfo title="Roteiro" />
       {isBuilt ? <SeeScriptButton /> : null}
     </Grid>
     {isBuilt ? <TripScriptFeatures /> : <TripScriptBuildCta />}
