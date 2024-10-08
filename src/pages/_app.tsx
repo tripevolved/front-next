@@ -11,6 +11,7 @@ import { LeadProvider } from "@/features";
 import { Environment } from "@/utils/helpers/environment.helpers";
 import { AppAuthProvider } from "@/core/app-auth";
 import { useAnalytics } from "@/services/analytics";
+import Head from "next/head";
 
 const scrollTo = (id: string, event: React.MouseEvent<HTMLAnchorElement>) => {
   const el = document.querySelector(id);
@@ -31,18 +32,23 @@ const LinkComponent = ({ url, ...props }: any) => {
 export default function App({ Component, pageProps }: AppProps) {
   useAnalytics();
   return (
-    <LeadProvider>
-      <Seo />
-      <GoogleScripts />
-      <AppProvider linkComponent={LinkComponent}>
-        <ProgressIndicator />
-        <AppAuthProvider>
-          <NoSSR enabled={Environment.isProduction()}>
-            <Component {...pageProps} />
-          </NoSSR>
-        </AppAuthProvider>
-      </AppProvider>
-    </LeadProvider>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
+      <LeadProvider>
+        <Seo />
+        <GoogleScripts />
+        <AppProvider linkComponent={LinkComponent}>
+          <ProgressIndicator />
+          <AppAuthProvider>
+            <NoSSR enabled={Environment.isProduction()}>
+              <Component {...pageProps} />
+            </NoSSR>
+          </AppAuthProvider>
+        </AppProvider>
+      </LeadProvider>
+    </>
   );
 }
 

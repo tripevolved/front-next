@@ -17,34 +17,48 @@ export function FlightCard({ flight }: FlightCardProps) {
         />
         <Divider />
         <div
-          className=" mt-sm flex flex-column sm:flex-row gap-xl"
+          id="flight-card-main-content"
+          className=" mt-sm flex flex-colun  gap-xl"
           style={{ alignItems: "center" }}
         >
-          <div className="flex flex-column gap-sm" style={{ alignItems: "center" }}>
-            <span>{`${new Date(flight.departure).toLocaleDateString()} - ${String(
-              new Date(flight.departure).getHours()
-            ).padStart(2, "0")}:${String(new Date(flight.departure).getMinutes()).padStart(
-              2,
-              "0"
-            )}`}</span>
-            <Text style={{ color: "var(--color-brand-1)" }} size="sm" variant="heading">
-              {flight.fromAirportCode}
-            </Text>
-            <span>{flight.fromAirportName}</span>
+          <div className="flex flex-row flex-grow align-middle gap-md">
+            <div
+              className="flex flex-column gap-sm"
+              style={{ alignItems: "center", maxWidth: "160px" }}
+            >
+              <span>{`${new Date(flight.departure).toLocaleDateString()} - ${String(
+                new Date(flight.departure).getHours()
+              ).padStart(2, "0")}:${String(new Date(flight.departure).getMinutes()).padStart(
+                2,
+                "0"
+              )}`}</span>
+              <Text style={{ color: "var(--color-brand-1)" }} size="sm" variant="heading">
+                {flight.fromAirportCode}
+              </Text>
+              <span>{flight.fromAirportName}</span>
+            </div>
+            <Picture
+              style={{ alignContent: "center" }}
+              src="/assets/transportation/flight_yellow.svg"
+            />
+            <div
+              className="flex flex-column gap-sm"
+              style={{ alignItems: "center", maxWidth: "160px" }}
+            >
+              <span>{`${new Date(flight.arrival).toLocaleDateString()} - ${String(
+                new Date(flight.arrival).getHours()
+              ).padStart(2, "0")}:${String(new Date(flight.arrival).getMinutes()).padStart(
+                2,
+                "0"
+              )}`}</span>
+              <Text style={{ color: "var(--color-brand-1)" }} size="sm" variant="heading">
+                {flight.toAirportCode}
+              </Text>
+              <span>{flight.toAirportName}</span>
+            </div>
           </div>
-          <Picture src="/assets/transportation/flight_yellow.svg" />
-          <div className="flex flex-column gap-sm" style={{ alignItems: "center" }}>
-            <span>{`${new Date(flight.arrival).toLocaleDateString()} - ${String(
-              new Date(flight.arrival).getHours()
-            ).padStart(2, "0")}:${String(new Date(flight.arrival).getMinutes()).padStart(
-              2,
-              "0"
-            )}`}</span>
-            <Text style={{ color: "var(--color-brand-1)" }} size="sm" variant="heading">
-              {flight.toAirportCode}
-            </Text>
-            <span>{flight.toAirportName}</span>
-          </div>
+          <Divider id="second-divider" />
+
           <div className="flex flex-column gap-md align-end">
             <span>{flight.flightCode}</span>
             <span>{flight.luggageInfo}</span>
