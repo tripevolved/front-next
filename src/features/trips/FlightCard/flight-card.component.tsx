@@ -57,14 +57,75 @@ export function FlightCard({ flight }: FlightCardProps) {
               <span>{flight.toAirportName}</span>
             </div>
           </div>
-          <Divider id="second-divider" />
-
+          <Divider id="divider-mobile" />
+          <div>
+            <div className="flex flex-row gap-md align-center">
+              <div
+                style={{
+                  width: 16,
+                  height: 16,
+                  borderRadius: 8,
+                  border: "solid",
+                  borderWidth: 2,
+                  borderColor: "var(--color-brand-1)",
+                }}
+              />
+              <strong
+                style={{
+                  maxWidth: 180,
+                  flexWrap: "nowrap",
+                  textWrap: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >{`${String(new Date(flight.arrival).getHours()).padStart(2, "0")}:${String(
+                new Date(flight.departure).getMinutes()
+              ).padStart(2, "0")} - ${flight.fromAirportName}`}</strong>
+            </div>
+            <div
+              style={{
+                margin: "4px 0 4px 7px",
+                borderWidth: 2,
+                borderColor: "var(--color-brand-1)",
+                borderStyle: "dashed",
+                borderRight: "none",
+                borderTop: " none",
+                borderBottom: "none",
+              }}
+              className="py-md pl-lg"
+            >
+              <span>{`Tempo de viagem: ${flight.flightTime.split(":")[0]}h${
+                flight.flightTime.split(":")[1]
+              }`}</span>
+            </div>
+            <div className="flex flex-row gap-md align-center">
+              <div
+                style={{
+                  width: 16,
+                  height: 16,
+                  borderRadius: 8,
+                  border: "solid",
+                  borderWidth: 2,
+                  borderColor: "var(--color-brand-1)",
+                }}
+              />
+              <strong
+                style={{
+                  maxWidth: 180,
+                  flexWrap: "nowrap",
+                  textWrap: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >{`${String(new Date(flight.arrival).getHours()).padStart(2, "0")}:${String(
+                new Date(flight.arrival).getMinutes()
+              ).padStart(2, "0")} - ${flight.toAirportName}`}</strong>
+            </div>
+          </div>
+          <Divider id="divider-mobile" />
           <div className="flex flex-column gap-md align-end">
             <span>{flight.flightCode}</span>
             <span>{flight.luggageInfo}</span>
-            <span>{`Tempo de viagem ${flight.flightTime.split(":")[0]}h${
-              flight.flightTime.split(":")[1]
-            }`}</span>
           </div>
         </div>
       </div>

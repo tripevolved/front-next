@@ -4,7 +4,7 @@
     flex-direction: column;
   }
   @media (min-width: $breakpoint-md) {
-    #second-divider {
+    #divider-mobile {
       display: none;
     }
     #flight-card-main-content {
