@@ -1,11 +1,30 @@
 .flight-card {
   background-color: $color-gray-4;
-
+  #flight-card-main-content {
+    flex-direction: column;
+  }
+  @media (min-width: $breakpoint-md) {
+    #divider-mobile {
+      display: none;
+    }
+    #flight-card-main-content {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
   &__airline {
+    &__airline-logo-company {
+      margin: auto;
+    }
     &__airline-logo-company > img {
       height: 30px;
       background-color: $color-brand-6;
       border-radius: $border-radius-md;
+    }
+    @media (min-width: $breakpoint-md) {
+      &__airline-logo-company {
+        margin: unset;
+      }
     }
   }
   @media (min-width: $breakpoint-md) {
