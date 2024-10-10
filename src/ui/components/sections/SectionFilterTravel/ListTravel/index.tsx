@@ -50,7 +50,6 @@ export function ListTravel({ mainChoice, otherChoices }: ListTravelProps) {
           <div className="footer-item-travel primary">
             <span className="item-travel-list-title">{mainChoice.name}</span>
             <span className="item-travel-list-subtitle"></span>
-            <span className="item-travel-list-price">{mainChoice?.price}</span>
           </div>
         </div>
 
@@ -73,7 +72,6 @@ export function ListTravel({ mainChoice, otherChoices }: ListTravelProps) {
               </span>
               <div className="footer-item-travel second">
                 <span className="item-travel-list-title">{choice.name}</span>
-                <span className="item-travel-list-price">{choice?.price}</span>
               </div>
             </div>
           ))}
