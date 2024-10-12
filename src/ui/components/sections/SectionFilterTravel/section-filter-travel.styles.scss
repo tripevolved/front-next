@@ -236,7 +236,6 @@
   display: flex;
   flex-direction: column;
   align-items: self-start;
-  height: 85px;
   justify-content: space-between;
 }
 
@@ -281,6 +280,7 @@ button.btn-form-travel-primary {
   border-radius: 25px;
   border: none;
   color: white;
+  cursor: pointer;
 }
 
 button.btn-form-travel-second {
@@ -291,6 +291,15 @@ button.btn-form-travel-second {
   border-radius: 25px;
   border: 2px solid #0ab9ad;
   color: #0ab9ad;
+  cursor: pointer;
+}
+
+
+
+button.btn-form-travel-second:hover, button.btn-form-travel-primary:hover {
+  background-color: #00877a;
+  border-color:  #00877a;
+  color: white
 }
 
 span.item-travel-list-title {
@@ -308,7 +317,6 @@ span.item-travel-list-price {
 
 .footer-item-travel.second {
   justify-content: space-evenly;
-  height: 60px;
 }
 
 .footer-item-travel.second span.item-travel-list-title {
