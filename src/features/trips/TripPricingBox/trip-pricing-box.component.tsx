@@ -63,17 +63,19 @@ export const TripPricingBox = ({
   if (!data) return <TripPricingBoxErrorState title={destinationName} />;
 
   const people = numChildren
-    ? `Para ${(numAdults > 1 ? `${numAdults} adultos` : `${numAdults} adulto`)} e ${(numChildren > 1 ? `${numChildren} crianças` : `${numChildren} criança`)}`
-    : `Para ${(numAdults > 1 ? `${numAdults} adultos` : `${numAdults} adulto`)}`;
+    ? `Para ${numAdults > 1 ? `${numAdults} adultos` : `${numAdults} adulto`} e ${
+        numChildren > 1 ? `${numChildren} crianças` : `${numChildren} criança`
+      }`
+    : `Para ${numAdults > 1 ? `${numAdults} adultos` : `${numAdults} adulto`}`;
 
   return (
     <div className={makeCn("trip-pricing-box", { "trip-pricing-box--offset": hasPhotos })()}>
       <div className="trip-pricing-box-spacer" />
-      <TripPricingBoxToggle
+      {/* <TripPricingBoxToggle
         title={destinationName}
         total={data.amountWithDiscount ?? data.amount}
         isPurchaseAvailable={allowPurchase}
-      />
+      /> */}
       <Card className="trip-pricing-box__card" elevation={CardElevations.Low}>
         <TripPricingBoxContent
           tripId={idParam}
@@ -95,41 +97,42 @@ export const TripPricingBox = ({
   );
 };
 
-const TripPricingBoxToggle = ({
-  title,
-  total,
-  isPurchaseAvailable,
-}: Pick<TripPricingBoxContentProps, "title" | "total" | "isPurchaseAvailable">) => (
-  <Card
-    as="button"
-    elevation={CardElevations.Medium}
-    className="trip-pricing-box-toggle theme-dark"
-    onClick={() => {
-      document.body.dataset.pricingBox = "opened";
-    }}
-  >
-    <Grid>
-      <Grid columns={["1fr", "auto", "24px"]} className="align-items-start">
-        <Text heading as="h2" size="xs">
-          {title}
-        </Text>
-        <Text as="strong" heading size="xs">
-          {formatToCurrencyBR(total)}
-        </Text>
-        <Icon className="trip-pricing-box-toggle__icon" name="chevron-up" />
-      </Grid>
-      {isPurchaseAvailable ? (
-        <Button>Comprar viagem</Button>
-      ) : (
-        <HoverTooltipCard text="A compra ainda não está disponível online. Fale conosco e ajustamos tudo para você.">
-          <Button iconName="lock" disabled style={{ width: "100%" }}>
-            Comprar viagem
-          </Button>
-        </HoverTooltipCard>
-      )}
-    </Grid>
-  </Card>
-);
+// const TripPricingBoxToggle = ({
+//   title,
+//   total,
+//   isPurchaseAvailable,
+// }: Pick<TripPricingBoxContentProps, "title" | "total" | "isPurchaseAvailable">) => {
+//   return (
+//   <Card
+//     as="button"
+//     elevation={CardElevations.Medium}
+//     className="trip-pricing-box-toggle theme-dark"
+//     onClick={() => {
+//       document.body.dataset.pricingBox = "opened";
+//     }}
+//   >
+//     <Grid>
+//       <Grid columns={["1fr", "auto", "24px"]} className="align-items-start">
+//         <Text heading as="h2" size="xs">
+//           {title}
+//         </Text>
+//         <Text as="strong" heading size="xs">
+//           {formatToCurrencyBR(total)}
+//         </Text>
+//         <Icon className="trip-pricing-box-toggle__icon" name="chevron-up" />
+//       </Grid>
+//       {isPurchaseAvailable ? (
+//         <Button>Comprar viagem</Button>
+//       ) : (
+//         <HoverTooltipCard text="A compra ainda não está disponível online. Fale conosco e ajustamos tudo para você.">
+//           <Button iconName="lock" disabled style={{ width: "100%" }}>
+//             Comprar viagem
+//           </Button>
+//         </HoverTooltipCard>
+//       )}
+//     </Grid>
+//   </Card>
+// )};
 
 interface TripPricingBoxContentProps {
   title: string;
@@ -174,10 +177,18 @@ const TripPricingBoxContent = ({
     <Grid gap={8}>
       <Text heading as="h3" size="xs">
         <strong>
-          <small style={{color: 'rgba(26, 54, 93, 1)', fontFamily:'"Comfortaa", sans-serif', fontSize: 14}}>O que inclui</small>
+          <small
+            style={{
+              color: "rgba(26, 54, 93, 1)",
+              fontFamily: '"Comfortaa", sans-serif',
+              fontSize: 14,
+            }}
+          >
+            O que inclui
+          </small>
         </strong>
       </Text>
-      <Grid gap={8} className="px-md" style={{ padding: "20px 0"}}>
+      <Grid gap={8} className="px-md" style={{ padding: "20px 0" }}>
         {tripIncludes.map((item, key) => (
           <TripPricingBoxContentItem
             key={key}
@@ -217,8 +228,14 @@ const TripPricingBoxContentHeader = ({
     <Text heading as="h2">
       {title}
     </Text>
-    <Grid columns={["auto", "1fr"]} className="mb-md" style={{ color: 'rgba(26, 54, 93, 1)', fontFamily:'"Comfortaa", sans-serif'}}>
-      <Text style={{color: 'rgba(140, 142, 146, 1)', fontSize: 14, padding: '10px 0'}}>{people}</Text>
+    <Grid
+      columns={["auto", "1fr"]}
+      className="mb-md"
+      style={{ color: "rgba(26, 54, 93, 1)", fontFamily: '"Comfortaa", sans-serif' }}
+    >
+      <Text style={{ color: "rgba(140, 142, 146, 1)", fontSize: 14, padding: "10px 0" }}>
+        {people}
+      </Text>
     </Grid>
   </div>
 );
@@ -256,12 +273,16 @@ const TripPricingBoxContentCta = ({
 
   const BuyButton = ({ isPrimary = false, isPurchaseAvailable = true }) =>
     isPurchaseAvailable ? (
-      <div style={{ paddingTop: 20, display: 'flex', flexDirection: 'column'}}>
+      <div style={{ paddingTop: 20, display: "flex", flexDirection: "column" }}>
         <Button variant="tertiary" href={`/compra/${tripId}/`}>
           Comprar por {formatToCurrencyBR(total)}
         </Button>
-        <WhatsappButton message={`Quero conversar sobre minha viagem para ${messageProps.tripName}.`} variant="secondary" style={{ border: 'none', color: '#1A365D', fontSize: 14}}>
-        Quero alterar a viagem
+        <WhatsappButton
+          message={`Quero conversar sobre minha viagem para ${messageProps.tripName}.`}
+          variant="secondary"
+          style={{ border: "none", color: "#1A365D", fontSize: 14 }}
+        >
+          Quero alterar a viagem
         </WhatsappButton>
       </div>
     ) : (

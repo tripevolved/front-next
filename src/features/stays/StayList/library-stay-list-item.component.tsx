@@ -1,16 +1,27 @@
-import { Text, Picture } from "@/ui";
+import { Text, Picture, CardHighlight } from "@/ui";
 
-import { Card, Grid } from "mars-ds";
+import { Card, Divider, Grid } from "mars-ds";
 
 import { TripStayServiceItem } from "@/features";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { TripStayListItem } from "@/core/types";
 
 export function LibraryStayListItem({
-  stay
-}: { stay: TripStayListItem }) {
+  stay,
+  isRecommended = false,
+}: {
+  stay: TripStayListItem;
+  isRecommended?: boolean;
+}) {
+  const OutlineElement = ({ children }: React.PropsWithChildren) =>
+    isRecommended ? (
+      <CardHighlight>{children}</CardHighlight>
+    ) : (
+      <Card className="curated-stay-list-item">{children}</Card>
+    );
+
   return (
-    <Card className="curated-stay-list-item">
+    <OutlineElement>
       <Grid className="pl-lg">
         <Grid columns={{ sm: 1, md: ["180px", "auto"] }}>
           <Picture className="itinerary-item__content__image">
@@ -21,12 +32,12 @@ export function LibraryStayListItem({
               <Grid gap={4}>
                 <Text as="h3" size="xl">
                   <strong>{stay.name}</strong>
-                </Text>                  
+                </Text>
                 <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>{stay.tags}</Text>
                 {stay.services && (
                   <div className="trip-stay-details__content__service-list">
                     {stay.services.map((service, i) => {
-                      return <TripStayServiceItem {...service} key={i} />
+                      return <TripStayServiceItem {...service} key={i} />;
                     })}
                   </div>
                 )}
@@ -34,7 +45,8 @@ export function LibraryStayListItem({
             </div>
           </div>
         </Grid>
+        <Divider style={{ backgroundColor: "var(--color-brand-4)", borderWidth: 2 }} />
       </Grid>
-    </Card>
+    </OutlineElement>
   );
 }

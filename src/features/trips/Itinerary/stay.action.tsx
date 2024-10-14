@@ -1,12 +1,13 @@
 import { TripStaySimplified } from "@/core/types";
 import { Button, Icon, Modal } from "mars-ds";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CardHighlight, CircleProgressCustom, Picture } from "@/ui";
+import { CircleProgressCustom, FeatureIcon, Picture } from "@/ui";
 import { Text } from "@/ui";
 import { StayDetailsModal } from "@/features/stays/StayDetailsModal";
 import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
 import { StayNotMain } from "./stay.notMain.action";
+import { LibraryStayList } from "@/features/stays/StayList";
 
 interface Props {
   action: TripStaySimplified;
@@ -37,7 +38,7 @@ export const StayAction = ({ action, tripId }: Props) => {
       () => {
         return (
           <StayDetailsModal
-            allowEdit={false}
+            allowEdit={true}
             tripId={tripId}
             tripStay={data}
             router={router}
@@ -53,17 +54,28 @@ export const StayAction = ({ action, tripId }: Props) => {
     );
   }, [action.actionId, router, tripId]);
 
+  const handleEditStay = useCallback(() => {
+    Modal.open(
+      () => <LibraryStayList itineraryActionId={action.actionId} tripId={tripId} key={tripId} />,
+      { closable: true, size: "md" }
+    );
+  }, [action.actionId, tripId]);
+
   if (!action.isMain) {
     return <StayNotMain action={action} showDetails={handleSeeDetails} />;
   }
 
   return (
     <div className="flex flex-column gap-md py-lg ml-xl">
-      <div className="flex flex-row gap-xl  items-center">
+      <div className="flex flex-row gap-xl items-center">
         <Picture src={`/assets/destino/hospedagem.svg`} style={{ width: 40 }} />
         <Text as="h3" heading size="xs" className="my-auto">
           <strong>Hospedagem</strong>
         </Text>
+        <Button style={{ border: "none" }} size="sm" variant="neutral" onClick={handleEditStay}>
+          <FeatureIcon name="pencil" size={20} />
+          <label style={{ fontWeight: 700, paddingLeft: 8 }}>Editar</label>
+        </Button>
       </div>
       {action.isReady ? (
         <div className="flex flex-row gap-xl">
@@ -97,7 +109,6 @@ export const StayAction = ({ action, tripId }: Props) => {
               }}
               onClick={handleSeeDetails}
             >
-              {" "}
               Ver Detalhes
             </Button>
           </div>
