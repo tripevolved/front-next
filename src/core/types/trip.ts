@@ -132,8 +132,8 @@ export interface TripListView {
 }
 
 export interface AllTrips {
-  currentTrip: TripListView | null;
-  otherTrips: TripListView[];
+  currentTrip?: TripListView | null;
+  otherTrips?: TripListView[];
 }
 
 interface TripIncludes {
