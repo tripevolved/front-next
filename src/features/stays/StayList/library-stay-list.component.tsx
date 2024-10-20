@@ -7,49 +7,65 @@ import type { StayListProps } from "@/features";
 import { StaysApiService } from "@/services/api";
 import useSWR from "swr";
 import { LibraryStayListItem } from "./library-stay-list-item.component";
+import { useEffect, useState } from "react";
 
 export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
-  const fetcherLibrary = async () => StaysApiService.getLibraryStays(tripId, itineraryActionId);
-  const { data, isLoading, error } = useSWR(
-    `library-${tripId}-action-${itineraryActionId}`,
-    fetcherLibrary
-  );
-  const fetcherRecommended = async () =>
-    StaysApiService.getRecommendedStays(tripId, itineraryActionId);
+  const hotelsFetcher = async () => StaysApiService.getHotels(tripId, itineraryActionId);
   const {
-    data: dataRecommended,
-    isLoading: isLoadingRecommended,
-    error: errorRecommended,
-  } = useSWR(`recommended-${tripId}-action-${itineraryActionId}`, fetcherRecommended);
-
-  if (error) return <ErrorState />;
+    data: hotelsData,
+    isLoading: isLoadingHotels,
+    error: errorFetchingHotels,
+  } = useSWR(`recommended-${tripId}-action-${itineraryActionId}`, hotelsFetcher, {
+    revalidateOnFocus: false,
+  });
+  const [selectedStay, setSelectedStay] = useState<string>();
+  useEffect(() => {
+    const stay = hotelsData?.others
+      ?.concat(hotelsData.curated)
+      .find(({ isSelected }) => isSelected);
+    if (stay) {
+      setSelectedStay(stay.id);
+    }
+  }, [hotelsData]);
+  if (errorFetchingHotels) return <ErrorState />;
 
   return (
-    <Skeleton active={isLoading} height={170}>
+    <>
       <Text as="h2" size="lg" style={{ color: "var(--color-brand-1" }}>
         <strong>Listagem de hoteis</strong>
       </Text>
-      {(data !== undefined && data?.length > 0) ||
-      (dataRecommended !== undefined && dataRecommended.length > 0) ? (
-        <Grid>
-          {dataRecommended?.map((stay, index) => {
-            return (
-              <div key={index}>
-                <LibraryStayListItem stay={stay} isRecommended={true} />
-              </div>
-            );
-          })}
-          {data?.map((stay, index) => {
-            return (
-              <div key={index}>
-                <LibraryStayListItem stay={stay} />
-              </div>
-            );
-          })}
-        </Grid>
-      ) : (
-        <EmptyState />
-      )}
-    </Skeleton>
+      <Skeleton active={isLoadingHotels} height={170}>
+        {hotelsData !== undefined && hotelsData.curated.length > 0 ? (
+          <Grid>
+            {hotelsData.curated?.map((stay, index) => {
+              return (
+                <div key={index}>
+                  <LibraryStayListItem
+                    stay={stay}
+                    isRecommended={true}
+                    selected={stay.id === selectedStay}
+                    setSelected={() => setSelectedStay(stay.id)}
+                  />
+                </div>
+              );
+            })}
+            {hotelsData.others?.map((stay, index) => {
+              return (
+                <div key={index}>
+                  <LibraryStayListItem
+                    stay={stay}
+                    isRecommended={false}
+                    selected={stay.id === selectedStay}
+                    setSelected={() => setSelectedStay(stay.id)}
+                  />
+                </div>
+              );
+            })}
+          </Grid>
+        ) : (
+          <EmptyState />
+        )}
+      </Skeleton>
+    </>
   );
 }

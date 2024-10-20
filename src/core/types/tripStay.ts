@@ -1,7 +1,7 @@
 import { Photo } from "./photo";
 
 export interface TripStay {
-  id?: string; // AccommodationId
+  id: string; // AccommodationId
   code?: string;
   signature?: string;
   provider?: string;
