@@ -1,4 +1,4 @@
-import { TripTransportation } from "./trip";
+import { CompanyFlightView, TripTransportation } from "./trip";
 
 export interface CheckoutAccommodationDetails {
   id: string;
@@ -30,8 +30,7 @@ export interface CheckoutScript {
 export interface CheckoutTransportation {
   isSelected: boolean;
   notSelectedMessage: string;
-  flights: TripTransportation["flightView"][];
-  hasTerrestrialRoute: boolean;
+  flights: CheckoutFlight[] | null;
 }
 
 export interface Checkout {
@@ -39,4 +38,11 @@ export interface Checkout {
   accommodation: CheckoutAccommodation;
   script: CheckoutScript;
   transportation: CheckoutTransportation;
+}
+
+export interface CheckoutFlight {
+  description: string;
+  from: string;
+  to: string;
+  flightView: CompanyFlightView;
 }

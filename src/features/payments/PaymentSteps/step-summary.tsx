@@ -1,6 +1,6 @@
 import type { PaymentData, PaymentStepProps } from "./payment-steps.types";
 
-import { Accordion, CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
+import { Accordion, Box, CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
 import { Button, Card, CardElevations, Checkbox, Divider, Grid, Icon, Link, Skeleton } from "mars-ds";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
@@ -79,33 +79,37 @@ const StepSummaryConfiguration = ({
 };
 
 const StepSummaryTransportation = (props: CheckoutTransportation) => {
+  if (!props.isSelected) return <></>;
+
   return (
-    <PaymentStepSection image="/assets/transportation/flight.svg" title="Transporte">
-      {props.flights?.map((item, i) => (
-        <Grid gap={20} key={i}>
-          <Text heading size="xs" className="mt-lg">
-            Voo de Ida
-          </Text>
-          {item?.outboundFlight?.flightDetails.map((flight, i) => (
-            <FlightBox {...flight} key={i} hideTitle />
+    <>
+      {props.flights && props.flights.length > 0 && (
+        <PaymentStepSection image="/assets/transportation/flight.svg" title="Passagem aérea">
+          {props.flights?.map((item, i) => (
+            <Grid gap={20} key={i}>
+              <Text size="lg" className="mt-lg">
+                {item.description}
+              </Text>
+              <Box className="flight-checkout-view__box">
+                <Grid columns={["110px", "auto"]}>
+                  <Picture src={item.flightView.airlineCompanyLogoUrl} className="flight-checkout-view__logo" />
+                  <Box>
+                    <Text size="md" className="my-0 py-0">
+                      <strong>Partida de:</strong> {item.from}
+                    </Text>
+                    <Text size="md" className="my-0 py-0">
+                      <strong>Chegada em:</strong> {item.to}
+                    </Text>
+                  </Box>
+                </Grid>
+                <Divider className="color-primary" />
+                <Button variant="naked" className="flight-checkout-view__button" onClick={() => console.log("openModal")}>Ver detalhes</Button>
+              </Box>
+            </Grid>
           ))}
-          <Text heading size="xs" className="mt-lg">
-            Voo de Volta
-          </Text>
-          {item?.returnFlight?.flightDetails.map((flight, i) => (
-            <FlightBox {...flight} key={i} hideTitle />
-          ))}
-        </Grid>
-      ))}
-      {props.hasTerrestrialRoute ? (
-        <CardHighlight
-          className="my-md"
-          variant="info"
-          heading="Rota Terrestre"
-          text="Você possui rotas terrestres, mas estas não fazem parte da cobrança."
-        />
-      ) : null}
-    </PaymentStepSection>
+        </PaymentStepSection>
+      )}
+    </>
   );
 };
 
