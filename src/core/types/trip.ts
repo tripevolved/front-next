@@ -151,7 +151,7 @@ export interface TripPrice {
   pixPercentageDiscount: number | null;
   discountAmount: number | null;
   percentageDiscount: number | null;
-  isPaid: boolean;
+  status: "NOT_READY" | "READY" | "PAID";
   description: string | null;
   includes: TripIncludes[];
 }
