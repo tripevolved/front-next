@@ -48,7 +48,7 @@ const mock: TripTransportation = {
 };
 
 const makeSut = (props?: FlightDetailsPanelProps) =>
-  render(<FlightDetailsPanel {...props} transportationData={mock} />);
+  render(<FlightDetailsPanel {...props} flightView={mock.flightView} />);
 
 describe("<FlightDetailsPanel>", () => {
   it("should render component", () => {
