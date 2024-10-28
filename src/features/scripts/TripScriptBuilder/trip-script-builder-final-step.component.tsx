@@ -30,7 +30,7 @@ export function TripScriptBuilderFinalStep({ onNext }: StepComponentProps) {
         <Text className="trip-script-builder-step__item">
           Veja o seu roteiro completo clicando no botão abaixo. Você pode editar quando quiser.
         </Text>
-        {data?.isPaid ? (
+        {data?.status === "PAID" ? (
           <Button
             className="trip-script-builder-step__item"
             href={`/app/viagens/${idParam}/roteiro`}

@@ -173,8 +173,7 @@ const StepSummaryScript = (props: CheckoutScript) => {
       ) : (
         <CardHighlight
           variant="default"
-          heading="Seu roteiro será construído depois"
-          text="Sua viagem inclui um roteiro 100% personalizado, que será construído na sequência com a ajuda de nossos especialistas."
+          text="Sua viagem inclui um roteiro 100% personalizado, que será construído com a ajuda de nossos especialistas."
         />
       )}
     </PaymentStepSection>
