@@ -1,7 +1,7 @@
 import type { PaymentData, PaymentStepProps } from "./payment-steps.types";
 
 import { Accordion, Box, CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
-import { Button, Card, CardElevations, Checkbox, Divider, Grid, Icon, Link, Skeleton } from "mars-ds";
+import { Button, Card, CardElevations, Checkbox, Divider, Grid, Icon, Link, Modal, Skeleton } from "mars-ds";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { TripsApiService } from "@/services/api";
@@ -11,6 +11,7 @@ import { TripScriptFeatures } from "@/features/trips/TripDetailsPage/trip-script
 import { FlightBox } from "@/features/dashboard/ConfirmFlightModal";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { TripStayServiceItem } from "@/features/trips/TripStayServiceItem";
+import { FlightDetailsPainel } from "@/features/trips/FlightDetailsPainel";
 
 export const StepSummary = ({ trip, price, onNext, payload, setPayload }: PaymentStepProps) => {
   const fetcher = async () => TripsApiService.getCheckout(trip.id);
@@ -39,8 +40,8 @@ export const StepSummary = ({ trip, price, onNext, payload, setPayload }: Paymen
       <Divider />
       <StepSummaryPricing {...price} />
       <br />
-      <Card elevation={CardElevations.Low} style={{padding: "0 24px"}}>
-        <Accordion title={"Termos e condições"} className="color-secondary">
+      <Card style={{padding: "0 24px"}}>
+        <Accordion title={"Termos e condições"} className="color-secondary" defaultOpen>
           {/* TODO: add abstract of the terms and conditions */}
           <Link href={"https://www.tripevolved.com.br/termos-de-uso/"} target="_blank">Ver termo completo</Link>
         </Accordion>
@@ -103,7 +104,16 @@ const StepSummaryTransportation = (props: CheckoutTransportation) => {
                   </Box>
                 </Grid>
                 <Divider className="color-primary" />
-                <Button variant="naked" className="flight-checkout-view__button" onClick={() => console.log("openModal")}>Ver detalhes</Button>
+                <Button 
+                  variant="naked"
+                  className="flight-checkout-view__button"
+                  onClick={() => Modal.open(() => <FlightDetailsPainel flightView={item.flightView} isModalView />, {
+                    size: "md",
+                    closable: true,
+                  })}                  
+                >
+                  Ver detalhes
+                </Button>
               </Box>
             </Grid>
           ))}

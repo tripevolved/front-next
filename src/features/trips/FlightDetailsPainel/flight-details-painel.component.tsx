@@ -8,16 +8,16 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 export function FlightDetailsPainel({
   className,
   children,
-  transportationData,
+  flightView,
   isModalView,
   sx,
   ...props
 }: FlightDetailsPainelProps) {
   const cn = makeCn("flight-details-painel", className)(sx);
-  if (transportationData.flightView === null) {
+  if (flightView === null) {
     return <ErrorState />;
   }
-  const { outboundFlight, returnFlight } = transportationData.flightView;
+  const { outboundFlight, returnFlight } = flightView;
 
   return (
     <div className={`${cn} w-100 p-xl`} {...props}>

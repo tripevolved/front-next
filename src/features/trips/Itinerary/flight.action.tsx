@@ -16,7 +16,7 @@ export const FlightAction = ({
       tripId,
       action.actionId
     );
-    Modal.open(() => <FlightDetailsPainel transportationData={details} isModalView />, {
+    Modal.open(() => <FlightDetailsPainel flightView={details.flightView} isModalView />, {
       size: "md",
       closable: true,
     });

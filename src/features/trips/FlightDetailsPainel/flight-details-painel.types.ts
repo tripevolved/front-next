@@ -1,6 +1,6 @@
-import type { ComponentHTMLProps, TripTransportation } from "@/core/types";
+import type { CompanyFlightView, ComponentHTMLProps, TripTransportation } from "@/core/types";
 
 export interface FlightDetailsPainelProps extends ComponentHTMLProps {
-  transportationData: TripTransportation;
+  flightView: CompanyFlightView;
   isModalView?: boolean;
 }
