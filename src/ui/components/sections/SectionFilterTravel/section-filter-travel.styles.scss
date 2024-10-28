@@ -48,7 +48,7 @@
   background-size: 100% 100%;
   background-position: center;
   position: relative;
-  left: 310px;
+  left: 340px;
   bottom: 68px;
 }
 
@@ -168,6 +168,7 @@
 }
 
 .row-list-travel {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   width: 100%;
