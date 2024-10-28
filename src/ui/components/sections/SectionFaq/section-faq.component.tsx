@@ -1,6 +1,6 @@
 import type { SectionFaqProps } from "./section-faq.types";
 
-import { Accordion, Text } from "@/ui";
+import { FaqAccordion, Text } from "@/ui";
 import classNames from "classnames";
 import { SectionBase } from "mars-ds";
 
@@ -21,7 +21,7 @@ export function SectionFaq({
       {children}
       <div className="section-faq__content">
         {questions.map((question, key) => (
-          <Accordion key={question.id || key} {...question} />
+          <FaqAccordion key={question.id || key} {...question} />
         ))}
       </div>
     </SectionBase>

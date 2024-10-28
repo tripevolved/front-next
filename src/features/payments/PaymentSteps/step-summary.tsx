@@ -1,7 +1,7 @@
 import type { PaymentData, PaymentStepProps } from "./payment-steps.types";
 
-import { CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
-import { Button, Checkbox, Divider, Grid, Icon, Skeleton } from "mars-ds";
+import { Accordion, CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
+import { Button, Card, CardElevations, Checkbox, Divider, Grid, Icon, Link, Skeleton } from "mars-ds";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { TripsApiService } from "@/services/api";
@@ -39,6 +39,18 @@ export const StepSummary = ({ trip, price, onNext, payload, setPayload }: Paymen
       <Divider />
       <StepSummaryPricing {...price} />
       <br />
+      <Card elevation={CardElevations.Low} style={{padding: "0 24px"}}>
+        <Accordion question={"Termos e condições"}>
+          {/* TODO: add abstract of the terms and conditions */}
+          <div>
+            <Text heading size="xs"><strong>O que fazemos?</strong></Text>
+            <Text size="md">
+              A Trip Evolved é uma agência de viagens online. Organizamos e intermediamos todos os detalhes da sua viagem, como a reserva de hospedagens, passagens de empresas de transportes e compra de bilhetes de atrações.
+            </Text>
+          </div>
+          <Link href={"https://www.tripevolved.com.br/termos-de-uso/"} target="_blank">Ver termo completo</Link>
+        </Accordion>
+      </Card>
       <label className="py-md px-lg">
         <Checkbox
           defaultChecked={payload.acceptTerms}

@@ -17,6 +17,20 @@ export function Accordion({ question, answer, heading, children, ...props }: Acc
   );
 }
 
+export function FaqAccordion({ question, answer, heading, children, ...props }: AccordionProps) {
+  return (
+    <MarsAccordion
+      headerComponent={() => <HeaderAccordion heading={question} {...heading} />}
+      {...props}
+    >
+      <div className="color-text-secondary pb-xl">
+        {answer ? <Text size="lg">{answer}</Text> : null}
+        {children}
+      </div>
+    </MarsAccordion>
+  );
+}
+
 const HeaderAccordion = ({
   heading,
   className,
