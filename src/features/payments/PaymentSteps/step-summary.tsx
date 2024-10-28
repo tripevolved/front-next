@@ -11,7 +11,7 @@ import { TripScriptFeatures } from "@/features/trips/TripDetailsPage/trip-script
 import { FlightBox } from "@/features/dashboard/ConfirmFlightModal";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { TripStayServiceItem } from "@/features/trips/TripStayServiceItem";
-import { FlightDetailsPainel } from "@/features/trips/FlightDetailsPainel";
+import { FlightDetailsPanel } from "@/features/trips/FlightDetailsPanel";
 
 export const StepSummary = ({ trip, price, onNext, payload, setPayload }: PaymentStepProps) => {
   const fetcher = async () => TripsApiService.getCheckout(trip.id);
@@ -107,7 +107,7 @@ const StepSummaryTransportation = (props: CheckoutTransportation) => {
                 <Button 
                   variant="naked"
                   className="flight-checkout-view__button"
-                  onClick={() => Modal.open(() => <FlightDetailsPainel flightView={item.flightView} isModalView />, {
+                  onClick={() => Modal.open(() => <FlightDetailsPanel flightView={item.flightView} isModalView />, {
                     size: "md",
                     closable: true,
                   })}                  

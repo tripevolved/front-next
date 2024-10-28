@@ -77,7 +77,7 @@ export * from "./templates/PageBase";
 export * from "./templates/PrivacyBanner";
 export * from "./templates/TemplateStepsBuilder";
 export * from "./trips/FlightCard";
-export * from "./trips/FlightDetailsPainel";
+export * from "./trips/FlightDetailsPanel";
 export * from "./trips/Itinerary";
 export * from "./trips/NewItinerary";
 export * from "./trips/MatchedDestinationsPage";
