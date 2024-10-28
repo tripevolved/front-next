@@ -25,7 +25,7 @@ export interface TripStay {
 }
 
 export interface TripStaySimplified {
-  coverImage?: string;
+  coverImage: Photo | null;
   id: string;
   isReady: boolean;
   isSelected: boolean;

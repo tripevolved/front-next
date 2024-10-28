@@ -7,6 +7,7 @@ import { StayDetailsModal } from "@/features/stays/StayDetailsModal";
 import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
 import { StayNotMain } from "./stay.notMain.action";
+import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
 interface Props {
   action: TripStaySimplified;
@@ -71,10 +72,11 @@ export const StayAction = ({ action, tripId }: Props) => {
           <div className="flex flex-column justify-start">
             <div className="flex flex-row gap-xl">
               <Picture
-                src={action.coverImage ?? `/assets/destino/hotel-casa-grande.png`}
                 alt={action.name}
-                style={{ width: 50, height: 50 }}
-              />
+                style={{ width: 140, height: 140, borderRadius: 15 }}
+              >
+                {action.coverImage ? parsePhoto(action.coverImage) : undefined}
+              </Picture>
               <div>
                 <Text as="h1" size="xs" style={{ padding: 0 }}>
                   <strong>{action.name}</strong>
