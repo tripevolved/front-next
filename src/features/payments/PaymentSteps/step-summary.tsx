@@ -40,14 +40,8 @@ export const StepSummary = ({ trip, price, onNext, payload, setPayload }: Paymen
       <StepSummaryPricing {...price} />
       <br />
       <Card elevation={CardElevations.Low} style={{padding: "0 24px"}}>
-        <Accordion question={"Termos e condições"}>
+        <Accordion title={"Termos e condições"} className="color-secondary">
           {/* TODO: add abstract of the terms and conditions */}
-          <div>
-            <Text heading size="xs"><strong>O que fazemos?</strong></Text>
-            <Text size="md">
-              A Trip Evolved é uma agência de viagens online. Organizamos e intermediamos todos os detalhes da sua viagem, como a reserva de hospedagens, passagens de empresas de transportes e compra de bilhetes de atrações.
-            </Text>
-          </div>
           <Link href={"https://www.tripevolved.com.br/termos-de-uso/"} target="_blank">Ver termo completo</Link>
         </Accordion>
       </Card>
