@@ -1,4 +1,4 @@
-import { ErrorState, EmptyState } from "@/ui";
+import { ErrorState, EmptyState, Picture } from "@/ui";
 import { Text } from "@/ui";
 
 import { Grid, Skeleton } from "mars-ds";
@@ -18,15 +18,48 @@ export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
   } = useSWR(`recommended-${tripId}-action-${itineraryActionId}`, hotelsFetcher, {
     revalidateOnFocus: false,
   });
-  const [selectedStay, setSelectedStay] = useState<string>();
+  const [selectedStayId, setSelectedStayId] = useState<string>();
+  const [selectedRoomCode, setSelectedRoomCode] = useState<string>();
+
   useEffect(() => {
-    const stay = hotelsData?.others
-      ?.concat(hotelsData.curated)
+    if (hotelsData === undefined) {
+      setSelectedStayId(undefined);
+      return;
+    }
+    const stay = (hotelsData?.others ?? [])
+      ?.concat(hotelsData?.curated ?? [])
       .find(({ isSelected }) => isSelected);
     if (stay) {
-      setSelectedStay(stay.id);
+      setSelectedStayId(stay.id);
+    } else {
+      if (hotelsData.curated !== undefined && hotelsData.curated.length > 0) {
+        setSelectedStayId(hotelsData.curated[0].id);
+      } else if (hotelsData.others !== undefined && hotelsData.others.length > 0) {
+        setSelectedStayId(hotelsData.others[0].id);
+      } else {
+        setSelectedStayId(undefined);
+      }
     }
   }, [hotelsData]);
+
+  useEffect(() => {
+    if (selectedStayId === undefined) {
+      return;
+    }
+    const stay = [...(hotelsData?.curated ?? []), ...(hotelsData?.others ?? [])].find(
+      ({ id }) => id === selectedStayId
+    );
+    if (stay === undefined || stay.details.rooms.length === 0) {
+      return;
+    }
+    const selectedRoom = stay.details.rooms.find(({ isSelected }) => isSelected);
+    if (selectedRoom !== undefined) {
+      setSelectedRoomCode(selectedRoom.code);
+      return;
+    }
+    setSelectedRoomCode(stay.details.rooms[0].code);
+  }, [selectedStayId, hotelsData?.curated, hotelsData?.others]);
+
   if (errorFetchingHotels) return <ErrorState />;
 
   return (
@@ -34,29 +67,41 @@ export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
       <Text as="h2" size="lg" style={{ color: "var(--color-brand-1" }}>
         <strong>Listagem de hoteis</strong>
       </Text>
+      <Text as="h3" size="sm" className="flex flex-row gap-sm mb-md">
+        <Picture src="/assets/stays/stay_recommended.svg"></Picture>
+        <span>Com selo Trip Evolved</span>
+      </Text>
       <Skeleton active={isLoadingHotels} height={170}>
-        {hotelsData !== undefined && hotelsData.curated.length > 0 ? (
+        {hotelsData !== undefined && (hotelsData.curated ?? []).length > 0 ? (
           <Grid>
-            {hotelsData.curated?.map((stay, index) => {
+            {hotelsData.curated?.map((stay) => {
               return (
-                <div key={index}>
+                <div key={stay.id}>
                   <LibraryStayListItem
                     stay={stay}
                     isRecommended={true}
-                    selected={stay.id === selectedStay}
-                    setSelected={() => setSelectedStay(stay.id)}
+                    selected={selectedStayId === stay.id}
+                    selectedRoomCode={
+                      stay.details.rooms.find(({ code }) => code === selectedRoomCode)?.code
+                    }
+                    setSelectedRoom={setSelectedRoomCode}
+                    setSelected={() => setSelectedStayId(stay.id)}
                   />
                 </div>
               );
             })}
-            {hotelsData.others?.map((stay, index) => {
+            {hotelsData.others?.map((stay) => {
               return (
-                <div key={index}>
+                <div key={stay.id}>
                   <LibraryStayListItem
                     stay={stay}
                     isRecommended={false}
-                    selected={stay.id === selectedStay}
-                    setSelected={() => setSelectedStay(stay.id)}
+                    selectedRoomCode={
+                      stay.details.rooms.find(({ code }) => code === selectedRoomCode)?.code
+                    }
+                    setSelectedRoom={setSelectedRoomCode}
+                    selected={stay.id === selectedStayId}
+                    setSelected={() => setSelectedStayId(stay.id)}
                   />
                 </div>
               );

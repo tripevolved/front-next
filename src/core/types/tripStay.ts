@@ -59,9 +59,10 @@ export interface TripStayDetails {
   images: Photo[] | null;
   information: string;
   checkInHour: string | null;
+  numAdults: number;
+  numChildren: number;
+  numDays: number;
   address: string | null;
-  price: number;
-  currency: string;
   services: TripStayFeature[];
   rooms: TripStayRoom[];
 }
@@ -84,10 +85,10 @@ export interface TripStayRoom {
   subtitle: string | null;
   isSelected: boolean;
   price: number;
-  details: TripStayRoomDetails;
-  features: TripStayRoomFeature[];
-  boardChoice?: "RO" | "BB" | "AI";
   currency: string;
+  details: TripStayRoomDetails;
+  boardChoice?: "RO" | "BB" | "AI";
+  amenities: TripStayFeature[];
 }
 
 interface TripStayRoomDetails {
@@ -108,10 +109,24 @@ export interface TripStayReservation {
   fullAddress: string;
 }
 
+export type StayOption = Omit<
+  TripStay,
+  | "highlight"
+  | "isbuilding"
+  | "checkIn"
+  | "checkOut"
+  | "boardInfo"
+  | "isBuilding"
+  | "isReserved"
+  | "isRoomSelected"
+  | "message"
+  | "reservationMessage"
+  | "roomSelectionMessage"
+>;
 export interface TripHotelListTransaction {
   uniqueTransactionId: string;
-  curated: Omit<TripStay, "highlight">[];
-  others?: Omit<TripStay, "highlight">[];
+  curated?: StayOption[];
+  others?: StayOption[];
 }
 
 export interface TripStayListCuratedItem extends TripStayListItem {

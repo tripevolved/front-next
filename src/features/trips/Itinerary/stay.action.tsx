@@ -7,7 +7,6 @@ import { StayDetailsModal } from "@/features/stays/StayDetailsModal";
 import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
 import { StayNotMain } from "./stay.notMain.action";
-import { LibraryStayList } from "@/features/stays/StayList";
 
 interface Props {
   action: TripStaySimplified;
@@ -55,11 +54,9 @@ export const StayAction = ({ action, tripId }: Props) => {
   }, [action.actionId, router, tripId]);
 
   const handleEditStay = useCallback(() => {
-    Modal.open(
-      () => <LibraryStayList itineraryActionId={action.actionId} tripId={tripId} key={tripId} />,
-      { closable: true, size: "md" }
-    );
-  }, [action.actionId, tripId]);
+    const route = `/app/viagens/${tripId}/hospedagem/editar/${action.actionId}`;
+    router.push(route);
+  }, [router, action.actionId, tripId]);
 
   if (!action.isMain) {
     return <StayNotMain action={action} showDetails={handleSeeDetails} />;

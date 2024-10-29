@@ -102,20 +102,6 @@ export function NewItinerary({ tripId, title }: any) {
           cidade e vai até {title}, para que você só tenha o trabalho de curtir a sua viagem. Você
           pode alterar suas escolhas e estamos à disposição para atendê-lo da melhor forma.
         </Text>
-        <Button
-          variant="neutral"
-          href="#"
-          size="sm"
-          style={{
-            border: "none",
-            textDecoration: "underline",
-            padding: 0,
-            fontWeight: 500,
-            marginTop: 10,
-          }}
-        >
-          Ver itinerário completo
-        </Button>
       </div>
       <div className="itinerary">
         {groupedActions.map((group) => {

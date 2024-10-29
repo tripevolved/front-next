@@ -1,4 +1,4 @@
-import { PageApp, StayList } from "@/features";
+import { LibraryStayList, PageApp } from "@/features";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { useRouter } from "next/router";
 
@@ -10,7 +10,8 @@ export default function TripPendingRoute() {
   const actionId = typeof router.query.actionId === "string" ? router.query.actionId : "";
   return (
     <PageApp headerOptions={{ title, backUrl: `/app/viagens/${idParam}/detalhes` }} seo={{ title }}>
-      <StayList tripId={idParam} itineraryActionId={actionId} />
+      <LibraryStayList itineraryActionId={actionId} tripId={idParam} />
+      {/* <StayList tripId={idParam} itineraryActionId={actionId} /> */}
     </PageApp>
   );
 }

@@ -1,4 +1,11 @@
 .trip-stay-service-item {
   display: flex;
   gap: 6px;
+  color: $color-brand-4;
+  & svg {
+    stroke: $color-brand-4 !important;
+    & path {
+      stroke: $color-brand-4 !important;
+    }
+  }
 }
