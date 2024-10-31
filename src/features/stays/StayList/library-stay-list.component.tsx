@@ -78,6 +78,7 @@ export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
               return (
                 <div key={stay.id}>
                   <LibraryStayListItem
+                    tripId={tripId}
                     stay={stay}
                     isRecommended={true}
                     selected={selectedStayId === stay.id}
@@ -94,6 +95,7 @@ export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
               return (
                 <div key={stay.id}>
                   <LibraryStayListItem
+                    tripId={tripId}
                     stay={stay}
                     isRecommended={false}
                     selectedRoomCode={

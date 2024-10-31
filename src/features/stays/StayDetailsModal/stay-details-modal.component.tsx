@@ -59,7 +59,7 @@ export function StayDetailsModal({
             {tripStay.details.information || EMPTY_INFO_DETAILS}
           </Text>
 
-          {tripStay.details.services && (
+          {/* {tripStay.details.services && (
             <div className="trip-stay-details__content__service-list">
               {tripStay.boardInfo ? (
                 <TripStayServiceItem title={tripStay.boardInfo} type={"breakfast"} />
@@ -69,7 +69,7 @@ export function StayDetailsModal({
                 return <TripStayServiceItem {...service} key={i} />;
               })}
             </div>
-          )}
+          )} */}
           <Box className="trip-stay-details__content__check-in-address">
             <Divider />
             <div className="trip-stay-details__content__check-in-address__item">

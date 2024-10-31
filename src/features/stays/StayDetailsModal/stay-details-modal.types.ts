@@ -1,4 +1,4 @@
-import { TripStay } from "@/core/types";
+import { StayOption, TripStay } from "@/core/types";
 import { NextRouter } from "next/router";
 
 export interface StayDetailsModalProps {
@@ -6,6 +6,6 @@ export interface StayDetailsModalProps {
   itineraryActionId?: string;
   router: NextRouter;
   onCloseModal?: VoidFunction;
-  tripStay: TripStay;
+  tripStay: StayOption;
   allowEdit: Boolean;
 }

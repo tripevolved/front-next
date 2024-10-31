@@ -1,12 +1,13 @@
 import { Text, Picture } from "@/ui";
 
-import { Button, Card, Divider, Grid } from "mars-ds";
+import { Button, Card, Divider, Grid, Modal } from "mars-ds";
 
-import { TripStayServiceItem } from "@/features";
+import { StayDetailsModal, TripStayServiceItem } from "@/features";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { StayOption } from "@/core/types";
 import { Checkbox } from "@/ui/components/forms/Checkbox";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
+import { useRouter } from "next/router";
 
 export function LibraryStayListItem({
   stay,
@@ -15,6 +16,7 @@ export function LibraryStayListItem({
   setSelectedRoom,
   setSelected,
   isRecommended = false,
+  tripId,
 }: {
   stay: StayOption;
   selected: boolean;
@@ -22,7 +24,9 @@ export function LibraryStayListItem({
   setSelected: () => void;
   setSelectedRoom: (code: string) => void;
   isRecommended?: boolean;
+  tripId: string;
 }) {
+  const router = useRouter();
   const stars = useMemo(() => {
     const tagsMatches = /(\d.?\d?)/g.exec(stay.tags);
     if (tagsMatches !== null && tagsMatches?.length > 0) {
@@ -44,6 +48,34 @@ export function LibraryStayListItem({
     }
     return 0;
   }, [stay, selectedRoomCode]);
+
+  const handleDetails = useCallback(() => {
+    const modal = Modal.open(
+      () => (
+        <StayDetailsModal
+          allowEdit={true}
+          tripId={tripId}
+          tripStay={stay}
+          itineraryActionId={stay.id}
+          onCloseModal={() => {
+            modal.close();
+          }}
+          key={stay.id}
+          router={router}
+        />
+      ),
+      {
+        closable: true,
+        size: "sm",
+        onClose: () => {},
+      }
+    );
+  }, [stay, tripId]);
+
+  const handleSelect = useCallback(() => {
+    setSelected();
+    handleDetails();
+  }, [handleDetails, setSelected]);
 
   return (
     <Card
@@ -112,14 +144,16 @@ export function LibraryStayListItem({
           style={{ justifyContent: "space-between", alignItems: "center" }}
         >
           <Checkbox
-            onClick={setSelected}
+            onClick={handleSelect}
             checked={selected}
             label={selected ? "Selecionado" : "Selecionar este"}
           />
           <Button
             variant="naked"
             className="trip-stay-section__content__details-text"
-            onClick={() => {}}
+            onClick={() => {
+              handleDetails();
+            }}
           >
             Ver detalhes
           </Button>
