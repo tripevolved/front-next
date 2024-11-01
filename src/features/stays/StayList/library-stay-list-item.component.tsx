@@ -7,7 +7,6 @@ import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { StayOption } from "@/core/types";
 import { Checkbox } from "@/ui/components/forms/Checkbox";
 import { useCallback, useMemo } from "react";
-import { useRouter } from "next/router";
 
 export function LibraryStayListItem({
   stay,
@@ -26,7 +25,6 @@ export function LibraryStayListItem({
   isRecommended?: boolean;
   tripId: string;
 }) {
-  const router = useRouter();
   const stars = useMemo(() => {
     const tagsMatches = /(\d.?\d?)/g.exec(stay.tags);
     if (tagsMatches !== null && tagsMatches?.length > 0) {
@@ -50,18 +48,13 @@ export function LibraryStayListItem({
   }, [stay, selectedRoomCode]);
 
   const handleDetails = useCallback(() => {
-    const modal = Modal.open(
+    Modal.open(
       () => (
         <StayDetailsModal
-          allowEdit={true}
           tripId={tripId}
           tripStay={stay}
           itineraryActionId={stay.id}
-          onCloseModal={() => {
-            modal.close();
-          }}
           key={stay.id}
-          router={router}
         />
       ),
       {

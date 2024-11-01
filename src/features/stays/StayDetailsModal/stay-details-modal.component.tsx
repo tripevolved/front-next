@@ -1,27 +1,16 @@
-import { Box, Text, Picture, HoverTooltipCard, ThumbnailCarousel } from "@/ui";
+import { Box, Text, Picture, ThumbnailCarousel } from "@/ui";
 
-import { Button, Divider, Grid, Skeleton } from "mars-ds";
+import { Card, Divider, Grid, Skeleton } from "mars-ds";
 
 import type { StayDetailsModalProps } from "@/features";
 
-import { TripStayServiceItem } from "@/features";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
+import { Checkbox } from "@/ui/components/forms/Checkbox";
 
 const EMPTY_INFO_DETAILS = "-";
 
-export function StayDetailsModal({
-  tripId,
-  itineraryActionId,
-  router,
-  onCloseModal,
-  tripStay,
-  allowEdit,
-}: StayDetailsModalProps) {
-  const handleEditButton = () => {
-    if (onCloseModal) onCloseModal();
-    router.push(`/app/viagens/${tripId}/hospedagem/editar/${itineraryActionId}`);
-  };
-
+export function StayDetailsModal({ tripStay }: StayDetailsModalProps) {
+  console.log(tripStay);
   return (
     <>
       {/** @ts-ignore */}
@@ -58,18 +47,6 @@ export function StayDetailsModal({
           <Text className="trip-stay-details__content__description">
             {tripStay.details.information || EMPTY_INFO_DETAILS}
           </Text>
-
-          {/* {tripStay.details.services && (
-            <div className="trip-stay-details__content__service-list">
-              {tripStay.boardInfo ? (
-                <TripStayServiceItem title={tripStay.boardInfo} type={"breakfast"} />
-              ) : null}
-              {tripStay.details.services.map((service, i) => {
-                if (service.title == tripStay.boardInfo) return null;
-                return <TripStayServiceItem {...service} key={i} />;
-              })}
-            </div>
-          )} */}
           <Box className="trip-stay-details__content__check-in-address">
             <Divider />
             <div className="trip-stay-details__content__check-in-address__item">
@@ -92,25 +69,44 @@ export function StayDetailsModal({
             </>
           ) : null}
         </Box>
-        <Box className="flex justify-content-center px-md">
-          {allowEdit ? (
-            <Button className="w-100" style={{ maxWidth: 380 }} onClick={() => handleEditButton()}>
-              Editar
-            </Button>
-          ) : (
-            <HoverTooltipCard text="A escolha da sua hospedagem ainda não está disponível online.">
-              <Button
-                className="w-100"
-                style={{ maxWidth: 380 }}
-                variant="secondary"
-                size="sm"
-                iconName="lock"
-              >
-                Editar
-              </Button>
-            </HoverTooltipCard>
-          )}
-        </Box>
+        <div>
+          <ul className="flex-column gap-md" style={{ paddingLeft: 0 }}>
+            {tripStay.details.rooms.map((room) => {
+              return (
+                <Card
+                  style={{
+                    border: "1px solid var(--color-gray-3)",
+                    backgroundColor: "white",
+                  }}
+                  key={room.id}
+                >
+                  <Grid columns={["100px", "auto", "auto"]}>
+                    <Picture src={room.coverImageUrl ?? "/assets/blank-image.png"} />
+                    <Text style={{ color: "var(--color-brand-2)" }}>{room.title} </Text>
+                    <Text
+                      size="md"
+                      style={{ fontWeight: "bold", marginTop: 0, color: "var(--color-brand-2)" }}
+                    >{`R$${room.price}`}</Text>
+                  </Grid>
+                  <Divider
+                    style={{
+                      backgroundColor: "var(--color-gray-3)",
+                      borderWidth: 2,
+                    }}
+                  />
+                  <div className="flex-column pt-sm" style={{ alignItems: "center" }}>
+                    <Checkbox
+                      checked={false}
+                      label="Selecionar este"
+                      key={room.id}
+                      onClick={() => {}}
+                    />
+                  </div>
+                </Card>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </>
   );

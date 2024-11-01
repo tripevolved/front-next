@@ -14,7 +14,7 @@ export const Checkbox = ({ checked, label, onClick }: Props) => {
       onClick={onClick}
       aria-checked={checked}
       style={{
-        cursor: "hover",
+        cursor: "pointer",
         display: "flex",
         flexDirection: "row",
         gap: "12px",
