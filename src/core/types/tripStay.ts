@@ -39,6 +39,7 @@ export interface TripStaySimplified {
   fromLatitude: number;
   fromLongitude: number;
   isMain: boolean;
+  highlight?: TripStayHighlight;
 }
 
 export type TripStayHighlightFeature =

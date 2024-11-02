@@ -8,6 +8,7 @@ import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
 import { StayNotMain } from "./stay.notMain.action";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
+import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
 
 interface Props {
   action: TripStaySimplified;
@@ -73,7 +74,7 @@ export const StayAction = ({ action, tripId }: Props) => {
             <div className="flex flex-row gap-xl">
               <Picture
                 alt={action.name}
-                style={{ width: 140, height: 140, borderRadius: 15 }}
+                style={{ width: 140, maxHeight: 140, borderRadius: 15 }}
               >
                 {action.coverImage ? parsePhoto(action.coverImage) : undefined}
               </Picture>
@@ -81,7 +82,7 @@ export const StayAction = ({ action, tripId }: Props) => {
                 <Text as="h1" size="xs" style={{ padding: 0 }}>
                   <strong>{action.name}</strong>
                 </Text>
-                <Text as="p" size="xs">
+                <Text as="p" size="xs" style={{marginTop: 0}}>
                   <strong style={{ color: "var(--color-brand-4" }}>{action.tags}</strong>
                 </Text>
               </div>
@@ -102,6 +103,7 @@ export const StayAction = ({ action, tripId }: Props) => {
               {" "}
               Ver Detalhes
             </Button>
+            {action.highlight && (<TripStayHighlightSection highlight={action.highlight} />)}
           </div>
         </div>
       ) : (
