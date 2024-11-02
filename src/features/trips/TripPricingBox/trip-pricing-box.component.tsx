@@ -167,8 +167,6 @@ const TripPricingBoxContent = ({
   messageProps,
 }: TripPricingBoxContentProps) => 
   {
-    console.log(isReady);
-
     return (
       <div className="trip-pricing-box-content">
         <ToggleButton
