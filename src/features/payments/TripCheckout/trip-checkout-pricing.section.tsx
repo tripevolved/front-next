@@ -53,7 +53,7 @@ export const TripCheckoutPricingSection = ({ isEnabled }: { isEnabled: boolean }
         <span>{formatToCurrencyBR(data.serviceFee)}</span>
       </Text>
       {data?.description && <Text className="color-text-secondary">*{data?.description}</Text>}
-      {data.isPaid ? (
+      {data.status === "PAID" ? (
         <Tag>A viagem já está paga.</Tag>
       ) : (
         <>

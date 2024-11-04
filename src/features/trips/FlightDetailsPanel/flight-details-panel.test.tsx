@@ -1,6 +1,6 @@
-import type { FlightDetailsPainelProps } from "./flight-details-painel.types";
+import type { FlightDetailsPanelProps } from "./flight-details-panel.types";
 import { render } from "@testing-library/react";
-import { FlightDetailsPainel } from "./flight-details-painel.component";
+import { FlightDetailsPanel } from "./flight-details-panel.component";
 import type { TripTransportation } from "@/core/types";
 
 const mock: TripTransportation = {
@@ -47,10 +47,10 @@ const mock: TripTransportation = {
   message: "",
 };
 
-const makeSut = (props?: FlightDetailsPainelProps) =>
-  render(<FlightDetailsPainel {...props} transportationData={mock} />);
+const makeSut = (props?: FlightDetailsPanelProps) =>
+  render(<FlightDetailsPanel {...props} flightView={mock.flightView} />);
 
-describe("<FlightDetailsPainel>", () => {
+describe("<FlightDetailsPanel>", () => {
   it("should render component", () => {
     const wrapper = makeSut();
     expect(wrapper).toBeTruthy();

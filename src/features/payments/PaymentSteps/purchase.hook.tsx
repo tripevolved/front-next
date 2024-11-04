@@ -3,8 +3,12 @@ import useSWR from "swr";
 
 import { useAppStore } from "@/core/store";
 import { PaymentsApiService, TripsApiService } from "@/services/api";
-import { calcInstallmentsOptions } from "./trip-purchase.helpers";
 import { PaymentData } from "../PaymentSteps";
+import { clamp } from "@/utils/helpers/math.helpers";
+import { formatByDataType } from "@/utils/helpers/number.helpers";
+
+export const MIN_PAYMENT = 100;
+export const MAX_INSTALLMENTS = 12;
 
 const SWROptions = { revalidateOnFocus: false };
 
@@ -37,7 +41,7 @@ export const usePurchase = (tripId: string) => {
     const result: Omit<PurchaseData, "travelers"> = {
       tripId,
       price: {
-        isPaid: price.data.isPaid,
+        isPaid: price.data.status === "PAID",
         price: price.data.price,
         serviceFee: price.data.serviceFee,
         amount: price.data.amount,
@@ -74,4 +78,16 @@ export const usePurchase = (tripId: string) => {
   }, [price.data, payer.data]);
 
   return { isLoading, data, error };
+};
+
+export const calcInstallmentsOptions = (total: number) => {
+  const maxInstallments = clamp(Math.floor(total / MIN_PAYMENT), 0, MAX_INSTALLMENTS);
+  const options = [];
+  for (let i = 1; i <= maxInstallments; i++) {
+    options.push({
+      label: `${i}x de ${formatByDataType(total / i, "CURRENCY")}`,
+      value: i.toString(),
+    });
+  }
+  return options;
 };

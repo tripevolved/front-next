@@ -1,6 +1,6 @@
 import { Modal, Button } from "mars-ds";
 import { Text, CardHighlight, Picture } from "@/ui";
-import { FlightDetailsPainel } from "@/features";
+import { FlightDetailsPanel } from "@/features";
 import { TripTransportation } from "@/core/types";
 import { TransportationApiService } from "@/services/api";
 
@@ -16,7 +16,7 @@ export const FlightAction = ({
       tripId,
       action.actionId
     );
-    Modal.open(() => <FlightDetailsPainel transportationData={details} isModalView />, {
+    Modal.open(() => <FlightDetailsPanel flightView={details.flightView} isModalView />, {
       size: "md",
       closable: true,
     });

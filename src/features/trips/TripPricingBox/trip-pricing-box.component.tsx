@@ -8,6 +8,7 @@ import {
   Grid,
   Icon,
   ItemElement,
+  Loader,
   Skeleton,
   SkeletonVariants,
 } from "mars-ds";
@@ -83,7 +84,8 @@ export const TripPricingBox = ({
           price={data.price}
           serviceFee={data.serviceFee}
           total={data.amountWithDiscount ?? data.amount}
-          isPaid={data.isPaid}
+          isReady={data.status !== "NOT_READY"}
+          isPaid={data.status === "PAID"}
           isScriptBuilt={!!isScriptBuilt}
           isScriptAvailable={allowScriptBuilder}
           tripIncludes={data.includes}
@@ -138,6 +140,7 @@ interface TripPricingBoxContentProps {
   price: number;
   serviceFee: number;
   total: number;
+  isReady: boolean;
   isPaid: boolean;
   isScriptBuilt: boolean;
   isScriptAvailable: boolean;
@@ -155,59 +158,78 @@ const TripPricingBoxContent = ({
   price,
   serviceFee,
   total,
+  isReady,
   isPaid,
   isScriptBuilt,
   isScriptAvailable,
   isPurchaseAvailable,
   tripIncludes,
   messageProps,
-}: TripPricingBoxContentProps) => (
-  <div className="trip-pricing-box-content">
-    <ToggleButton
-      className="trip-pricing-box-content__close_button"
-      iconName="x"
-      onClick={() => {
-        document.body.dataset.pricingBox = "closed";
-      }}
-    />
-    <TripPricingBoxContentHeader title={title} people={people} />
-    <Grid gap={8}>
-      <Text heading as="h3" size="xs">
-        <strong>
-          <small style={{color: 'rgba(26, 54, 93, 1)', fontFamily:'"Comfortaa", sans-serif', fontSize: 14}}>O que inclui</small>
-        </strong>
-      </Text>
-      <Grid gap={8} className="px-md" style={{ padding: "20px 0"}}>
-        {tripIncludes.map((item, key) => (
-          <TripPricingBoxContentItem
-            key={key}
-            image={`/assets/destino/${item.slug}.svg`}
-            text={item.title}
-          />
-        ))}
-      </Grid>
-      <Divider />
-      <Grid className="px-md" gap={8}>
-        <TripPricingBoxContentPrice label="Total" value={price} />
-        <TripPricingBoxContentPrice label="Taxa" value={serviceFee} />
-      </Grid>
-      <TripPricingBoxContentCta
-        isScriptBuilt={isScriptBuilt}
-        isScriptAvailable={isScriptAvailable}
-        isPaid={isPaid}
-        total={total}
-        tripId={tripId}
-        isPurchaseAvailable={isPurchaseAvailable}
-        messageProps={messageProps}
-      />
-      {description ? (
-        <Text size="sm" className="color-text-secondary px-md">
-          *{description}
-        </Text>
-      ) : null}
-    </Grid>
-  </div>
-);
+}: TripPricingBoxContentProps) => 
+  {
+    return (
+      <div className="trip-pricing-box-content">
+        <ToggleButton
+          className="trip-pricing-box-content__close_button"
+          iconName="x"
+          onClick={() => {
+            document.body.dataset.pricingBox = "closed";
+          }}
+        />
+        <TripPricingBoxContentHeader title={title} people={people} />
+        <Grid gap={8}>
+          {isReady ? (
+            <>
+              <Text heading as="h3" size="xs">
+                <strong>
+                  <small style={{color: 'rgba(26, 54, 93, 1)', fontFamily:'"Comfortaa", sans-serif', fontSize: 14}}>O que inclui</small>
+                </strong>
+              </Text>
+              <Grid gap={8} className="px-md" style={{ padding: "20px 0"}}>
+                {tripIncludes.map((item, key) => (
+                  <TripPricingBoxContentItem
+                    key={key}
+                    image={`/assets/destino/${item.slug}.svg`}
+                    text={item.title}
+                  />
+                ))}
+              </Grid>
+              <Divider />
+              <Grid className="px-md" gap={8}>
+                <TripPricingBoxContentPrice label="Total" value={price} />
+                <TripPricingBoxContentPrice label="Taxa" value={serviceFee} />
+              </Grid>
+              <TripPricingBoxContentCta
+                isScriptBuilt={isScriptBuilt}
+                isScriptAvailable={isScriptAvailable}
+                isPaid={isPaid}
+                total={total}
+                tripId={tripId}
+                isPurchaseAvailable={isPurchaseAvailable}
+                messageProps={messageProps}
+              />
+              {description ? (
+                <Text size="sm" className="color-text-secondary px-md">
+                  *{description}
+                </Text>
+              ) : null}
+            </>
+          ) : (
+            <>
+              <Text heading as="h3" size="xs">
+                <strong>
+                  <small style={{color: 'rgba(26, 54, 93, 1)', fontFamily:'"Comfortaa", sans-serif', fontSize: 14}}>Sua viagem ainda está sendo construída...</small>
+                </strong>
+              </Text>
+              <div style={{padding: "32px 0"}}>
+                <Loader />
+              </div>
+            </>
+          )}
+        </Grid>
+      </div>
+    );
+}
 
 const TripPricingBoxContentHeader = ({
   title,

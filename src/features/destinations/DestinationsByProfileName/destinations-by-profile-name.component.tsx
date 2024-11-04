@@ -61,7 +61,7 @@ const ProfileLoadingState = () => (
 );
 
 const ProfileErrorState = () => (
-  <EmptyState text="Não foram encontrados destinos para esse perfil, devido à um erro :(" />
+  <EmptyState text="Não foram encontrados destinos para esse perfil devido a um erro :(" />
 );
 
 const DestinationItemSkeleton = () => (
