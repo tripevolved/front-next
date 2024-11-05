@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { StayNotMain } from "./stay.notMain.action";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
+import { TripStayServiceItem } from "../TripStayServiceItem";
 
 interface Props {
   action: TripStaySimplified;
@@ -85,6 +86,9 @@ export const StayAction = ({ action, tripId }: Props) => {
                 <Text as="p" size="xs" style={{marginTop: 0}}>
                   <strong style={{ color: "var(--color-brand-4" }}>{action.tags}</strong>
                 </Text>
+                {action.boardChoices.length === 1 && (
+                  <TripStayServiceItem title={action.boardChoices[0].boardChoice ?? ""} type={action.boardChoices[0].boardType === "BB" ? "breakfast" : null} />
+                )}
               </div>
             </div>
             <Button
