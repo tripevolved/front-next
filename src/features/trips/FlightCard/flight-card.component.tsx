@@ -1,11 +1,10 @@
-import { Card, ConsoleList, Divider } from "mars-ds";
+import { Card, Divider } from "mars-ds";
 
 import { Picture, Text } from "@/ui";
 
 import type { FlightCardProps } from "./flight-card.types";
 
 export function FlightCard({ flight }: FlightCardProps) {
-  console.log(flight);
   return (
     <Card className="flight-card w-100 flex-column" elevation="md">
       <div className="flex flex-column w-100">
@@ -21,7 +20,7 @@ export function FlightCard({ flight }: FlightCardProps) {
           className=" mt-sm flex flex-colun  gap-xl"
           style={{ alignItems: "center" }}
         >
-          <div className="flex flex-row flex-grow align-middle gap-md">
+          <div className="flex flex-row flex-grow align-middle gap-md" style={{textAlign: "center"}}>
             <div
               className="flex flex-column gap-sm"
               style={{ alignItems: "center", maxWidth: "160px" }}
@@ -36,6 +35,11 @@ export function FlightCard({ flight }: FlightCardProps) {
                 {flight.fromAirportCode}
               </Text>
               <span>{flight.fromAirportName}</span>
+              <Text size="xs">
+                {(flight.fromAirportServedStateProvinceCode 
+                  ? `${flight.fromAirportServedCity}, ${flight.fromAirportServedStateProvinceCode}, ${flight.fromAirportServedCountry}`
+                  : `${flight.fromAirportServedCity}, ${flight.fromAirportServedCountry}`)}
+              </Text>
             </div>
             <Picture
               style={{ alignContent: "center" }}
@@ -55,6 +59,11 @@ export function FlightCard({ flight }: FlightCardProps) {
                 {flight.toAirportCode}
               </Text>
               <span>{flight.toAirportName}</span>
+              <Text size="xs">
+                {(flight.toAirportServedStateProvinceCode 
+                  ? `${flight.toAirportServedCity}, ${flight.toAirportServedStateProvinceCode}, ${flight.toAirportServedCountry}`
+                  : `${flight.toAirportServedCity}, ${flight.toAirportServedCountry}`)}
+              </Text>
             </div>
           </div>
           <Divider id="divider-mobile" />
