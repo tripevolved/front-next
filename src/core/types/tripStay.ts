@@ -40,7 +40,16 @@ export interface TripStaySimplified {
   fromLongitude: number;
   isMain: boolean;
   highlight?: TripStayHighlight;
+  boardChoices: TripStayRoomBoardChoices[];
 }
+
+interface TripStayRoomBoardChoices {
+  roomName: string;
+  boardChoice: string | null;
+  boardType: BoardType | null;
+}
+
+type BoardType = "RO" | "AI" | "BB" | "HB" | "FB";
 
 export type TripStayHighlightFeature =
   | "luxury"
