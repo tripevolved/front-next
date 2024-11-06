@@ -19,10 +19,16 @@ export interface FlightDetails {
   fromAirportCode: string;
   fromAirportName: string;
   fromAirportAddress: string;
+  fromAirportServedCity: string;
+  fromAirportServedStateProvinceCode: string | null;
+  fromAirportServedCountry: string;
   luggageInfo: string;
   toAirportAddress: string;
   toAirportCode: string;
   toAirportName: string;
+  toAirportServedCity: string;
+  toAirportServedStateProvinceCode: string | null;
+  toAirportServedCountry: string;
   connections: number;
   classFamily?: string;
 }
