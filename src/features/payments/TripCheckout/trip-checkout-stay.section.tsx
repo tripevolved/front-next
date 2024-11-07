@@ -105,7 +105,7 @@ export const TripCheckoutStaySection = ({ tripId }: { tripId: string }) => {
                 <Text size="lg">{data.name}</Text>
                 <Box className="trip-stay-section__content__stay-desc__box__stars">{data.tags}</Box>
                 {data.boardInfo ? (
-                  <TripStayServiceItem title={data.boardInfo} type={"breakfast"} />
+                  <TripStayServiceItem title={data.boardInfo.boardChoice ?? ""} type={"breakfast"} />
                 ) : null}
               </Box>
             </Box>
