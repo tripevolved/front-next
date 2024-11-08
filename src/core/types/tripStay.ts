@@ -8,7 +8,7 @@ export interface TripStay {
   system: string;
   coverImage: Photo | null;
   cancellationInfo: string;
-  boardInfo: string;
+  boardInfo: TripStayRoomBoardChoice | null;
   checkIn: Date;
   checkOut: Date;
   name: string;
@@ -40,10 +40,10 @@ export interface TripStaySimplified {
   fromLongitude: number;
   isMain: boolean;
   highlight?: TripStayHighlight;
-  boardChoices: TripStayRoomBoardChoices[];
+  boardChoices: TripStayRoomBoardChoice[];
 }
 
-interface TripStayRoomBoardChoices {
+interface TripStayRoomBoardChoice {
   roomName: string;
   boardChoice: string | null;
   boardType: BoardType | null;

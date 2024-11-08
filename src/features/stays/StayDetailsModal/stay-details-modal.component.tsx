@@ -62,10 +62,10 @@ export function StayDetailsModal({
           {tripStay.details.services && (
             <div className="trip-stay-details__content__service-list">
               {tripStay.boardInfo ? (
-                <TripStayServiceItem title={tripStay.boardInfo} type={"breakfast"} />
+                <TripStayServiceItem title={tripStay.boardInfo.boardChoice ?? ""} type={tripStay.boardInfo.boardType === "BB" ? "breakfast" : null} />
               ) : null}
               {tripStay.details.services.map((service, i) => {
-                if (service.title == tripStay.boardInfo) return null;
+                if (service.title == tripStay.boardInfo?.boardChoice) return null;
                 return <TripStayServiceItem {...service} key={i} />;
               })}
             </div>
