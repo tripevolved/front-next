@@ -12,6 +12,7 @@ import { FlightBox } from "@/features/dashboard/ConfirmFlightModal";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { TripStayServiceItem } from "@/features/trips/TripStayServiceItem";
 import { FlightDetailsPanel } from "@/features/trips/FlightDetailsPanel";
+import { StayCheckoutModal } from "@/features/stays/StayCheckoutModal";
 
 export const StepSummary = ({ trip, price, onNext, payload, setPayload }: PaymentStepProps) => {
   const fetcher = async () => TripsApiService.getCheckout(trip.id);
@@ -124,53 +125,53 @@ const StepSummaryTransportation = (props: CheckoutTransportation) => {
 };
 
 const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
-  const tripId = useIdParam();
+  if (!props.isSelected) return <></>;
 
   return (
     <PaymentStepSection image="/assets/destino/hospedagem.svg" title="Hospedagem">
       <Grid>
-        {props.details?.length ? (
-          props.details?.map((accommodation, i) => (
-            <div className="flex-column gap-sm" key={i}>
-              <Grid columns={["28%", "auto"]}>
-                <Picture src={accommodation.coverImageUrl || "/assets/blank-image.png"} />
-                <div>
-                  <Text as="h3" size="lg">
-                    {accommodation.name}
-                  </Text>
-                  <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>
-                    {accommodation.tags}
-                  </Text>
-                  {accommodation.boardInfo ? (
-                    <TripStayServiceItem title={accommodation.boardInfo} type={"breakfast"} />
-                  ) : null}
-                </div>
-              </Grid>
-
-              <div className="w-100 flex-column itinerary-item__content__break">
-                <Text style={{ marginTop: 0, color: "var(--color-gray-2)" }}>
-                  {accommodation.fullAddress}
-                </Text>
+        <Box className="stay-checkout-view__box">
+          {props.details?.length ? (
+            props.details?.map((accommodation, i) => (
+              <div className="flex-column gap-sm" key={i}>
+                <Grid columns={["28%", "auto"]}>
+                  <Picture src={accommodation.coverImageUrl || "/assets/blank-image.png"} />
+                  <div>
+                    <Text as="h3" size="lg">
+                      {accommodation.name}
+                    </Text>
+                    <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>
+                      {accommodation.tags}
+                    </Text>
+                    {accommodation.boardInfo ? (
+                      <TripStayServiceItem title={accommodation.boardInfo.boardChoice ?? ""} type={accommodation.boardInfo.boardType === "BB" ? "breakfast" : null} />
+                    ) : null}
+                  </div>
+                </Grid>
+                {accommodation.cancellationInfo ? (
+                  <Text size="md">{accommodation.cancellationInfo}</Text>
+                ) : null}
               </div>
-              {!accommodation.isRoomSelected ? (
-                <Text size="sm">{accommodation.roomSelectionMessage}</Text>
-              ) : null}
-              {accommodation.cancellationInfo ? (
-                <CardHighlight
-                  variant="info"
-                  heading="Informação de Cancelamento"
-                  text={accommodation.cancellationInfo}
-                />
-              ) : null}
-            </div>
-          ))
-        ) : (
-          <CardHighlight
-            variant="warning"
-            heading="Ainda não escolhemos a acomodação para sua viagem"
-            text="Podemos escolher com você em um segundo momento e deixar tudo como deseja!"
-          />
-        )}
+            ))
+          ) : (
+            <CardHighlight
+              variant="warning"
+              heading="Ainda não escolhemos a acomodação para sua viagem"
+              text="Podemos escolher com você em um segundo momento e deixar tudo como deseja!"
+            />
+          )}
+          <Divider className="color-primary" />
+          <Button 
+            variant="naked"
+            className="flight-checkout-view__button"
+            onClick={() => Modal.open(() => <StayCheckoutModal details={props.details} />, {
+              size: "md",
+              closable: true,
+            })}                  
+          >
+            Ver detalhes
+          </Button>
+        </Box>
       </Grid>
     </PaymentStepSection>
   );

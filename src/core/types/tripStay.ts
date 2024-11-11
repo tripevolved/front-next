@@ -43,7 +43,7 @@ export interface TripStaySimplified {
   boardChoices: TripStayRoomBoardChoice[];
 }
 
-interface TripStayRoomBoardChoice {
+export interface TripStayRoomBoardChoice {
   roomName: string;
   boardChoice: string | null;
   boardType: BoardType | null;

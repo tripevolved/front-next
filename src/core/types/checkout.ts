@@ -1,19 +1,22 @@
-import { CompanyFlightView, TripTransportation } from "./trip";
+import { CompanyFlightView } from "./trip";
+import { TripStayRoomBoardChoice } from "./tripStay";
 
 export interface CheckoutAccommodationDetails {
   id: string;
-  checkIn: string;
-  checkOut: string;
+  checkIn: Date;
+  checkOut: Date;
   coverImageUrl: string;
   name: string;
   tags: string;
   cancellationInfo: string;
-  boardInfo: string;
+  boardInfo: TripStayRoomBoardChoice | null;
   isRoomSelected: boolean;
   roomSelectionMessage: string;
   fullAddress: string;
   latitude: number;
   longitude: number;
+  guests: number;
+  rules: string[];
 }
 
 export interface CheckoutAccommodation {
