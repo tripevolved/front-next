@@ -28,6 +28,7 @@
 @import "./lead/LeadList/lead-list.styles.scss";
 @import "./lead/LeadListForm/lead-list-form.styles.scss";
 @import "./lead/BudgetRequestForm/budget-request-list-form.styles.scss";
+@import "./payments/PaymentSteps/trip-summary.styles.scss";
 @import "./profile/ProfileBuilder/profile-builder.styles.scss";
 @import "./profile/ProfileQuestions/profile-questions.styles.scss";
 @import "./profile/ProfileSettingsModal/profile-settings-modal.styles.scss";
@@ -45,6 +46,7 @@
 @import "./scripts/TripScriptPreviewPanel/trip-script-preview-panel.styles.scss";
 @import "./scripts/UpdateAttractions/update-attractions.styles.scss";
 @import "./stays/StayList/stay-list.styles.scss";
+@import "./stays/StayCheckoutModal/stay-checkout-modal.styles.scss";
 @import "./templates/ChatFloatingButton/chat-floating-button.styles.scss";
 @import "./templates/Footer/footer.styles.scss";
 @import "./templates/Navbar/navbar.styles.scss";
