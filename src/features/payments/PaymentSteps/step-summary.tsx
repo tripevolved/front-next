@@ -142,7 +142,7 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
                     {accommodation.tags}
                   </Text>
                   {accommodation.boardInfo ? (
-                    <TripStayServiceItem title={accommodation.boardInfo} type={"breakfast"} />
+                    <TripStayServiceItem title={accommodation.boardInfo.boardChoice ?? ""} type={accommodation.boardInfo.boardType === "BB" ? "breakfast" : null} />
                   ) : null}
                 </div>
               </Grid>

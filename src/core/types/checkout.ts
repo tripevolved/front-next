@@ -1,4 +1,5 @@
-import { CompanyFlightView, TripTransportation } from "./trip";
+import { CompanyFlightView } from "./trip";
+import { TripStayRoomBoardChoice } from "./tripStay";
 
 export interface CheckoutAccommodationDetails {
   id: string;
@@ -8,7 +9,7 @@ export interface CheckoutAccommodationDetails {
   name: string;
   tags: string;
   cancellationInfo: string;
-  boardInfo: string;
+  boardInfo: TripStayRoomBoardChoice | null;
   isRoomSelected: boolean;
   roomSelectionMessage: string;
   fullAddress: string;
