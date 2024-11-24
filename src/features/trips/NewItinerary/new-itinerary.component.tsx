@@ -37,7 +37,7 @@ export function NewItinerary({ tripId, title }: any) {
     try {
       const firstAction = allActions.find((action) => action.previousActionId === null);
       if (firstAction === undefined) {
-        console.error("Error on getting actions. No first action.");
+        console.error("Error getting actions: no first action found.");
         return [];
       }
       actionsInOrder = [firstAction];
