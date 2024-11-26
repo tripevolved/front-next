@@ -165,7 +165,7 @@ const TripPricingBoxContent = ({
   isPurchaseAvailable,
   tripIncludes,
   messageProps,
-}: TripPricingBoxContentProps) => 
+}: TripPricingBoxContentProps) =>
   {
     return (
       <div className="trip-pricing-box-content">
@@ -189,7 +189,7 @@ const TripPricingBoxContent = ({
                 {tripIncludes.map((item, key) => (
                   <TripPricingBoxContentItem
                     key={key}
-                    image={`/assets/destino/${item.slug}.svg`}
+                    image={`/assets/destino/${item.slug}_green.svg`}
                     text={item.title}
                   />
                 ))}
