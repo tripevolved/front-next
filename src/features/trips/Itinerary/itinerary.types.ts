@@ -1,4 +1,4 @@
-import { ComponentHTMLProps, ItineraryActionType } from "@/core/types/";
+import { ComponentHTMLProps } from "@/core/types/";
 import { NextRouter } from "next/router";
 
 export interface ItineraryProps {
@@ -8,7 +8,6 @@ export interface ItineraryProps {
 
 export interface ItineraryItemProps extends ComponentHTMLProps {
   title: string;
-  actionType: ItineraryActionType;
 }
 
 export interface SeeMoreAccommodationProps {

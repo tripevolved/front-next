@@ -1,6 +1,6 @@
 import { Container } from "mars-ds";
 import type { DestinationProps } from "./destination-page.types";
-import { Accordion, SectionBase, Text } from "@/ui";
+import { FaqAccordion, SectionBase, Text } from "@/ui";
 
 interface DestinationFaqSectionProps extends Pick<DestinationProps, "faq" | "title"> {
   children?: React.ReactNode;
@@ -17,7 +17,7 @@ export const DestinationFaqSection = ({ faq = [], title, children }: Destination
       </Text>
       <Container container="md" className="py-2x section-faq__content text-left">
         {faq.map(({ answer, icon: image, question }, key) => (
-          <Accordion key={key} heading={{ image }} answer={answer} question={question} />
+          <FaqAccordion key={key} heading={{ image }} answer={answer} question={question} />
         ))}
       </Container>
       {children}

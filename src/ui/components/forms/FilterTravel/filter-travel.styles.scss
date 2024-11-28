@@ -1,0 +1,79 @@
+.box-filter-travel {
+  display: flex;
+  width: 100%;
+  height: 75px;
+  border: 1px solid #d4d4d4;
+  border-radius: 45px;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 15px 0 20px;
+  flex-wrap: wrap;
+  max-width: 995px;
+  margin: auto;
+
+  .select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border: transparent;
+      background-color: transparent;
+      padding: 10px 40px 10px 10px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #1a365d;
+      outline: none;
+    }
+
+    .custom-icon-filter-travel {
+      color: #0ab9ad;
+      width: 16px;
+    }
+
+    .custom-icon-chevron-down {
+      position: absolute;
+      right: 10px;
+      pointer-events: none;
+    }
+  }
+
+  button {
+    padding: 10px 40px;
+    border: none;
+    background-color: #00a99d;
+    color: white;
+    border-radius: 45px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #00877a;
+    }
+  }
+
+  @media (max-width: 900px) {
+    flex-direction: row;
+    height: auto;
+    padding: 25px 20px;
+
+    button {
+      width: 100%;
+      padding: 15px 0;
+    }
+
+    select {
+      width: 100%;
+    }
+
+    .select-wrapper {
+      width: 50%;
+      justify-content: space-between;
+      margin: 10px 0;
+    }
+  }
+}

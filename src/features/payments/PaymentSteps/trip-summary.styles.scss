@@ -1,0 +1,28 @@
+.flight-checkout-view {
+  &__logo {
+    margin: auto;
+    padding-right: 8px;
+  }
+
+  &__box {
+    border: solid var(--color-primary-500) 1px;
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  &__button {
+    width: 100%;
+  }
+}
+
+.stay-checkout-view {
+  &__box {
+    border: solid var(--color-primary-500) 1px;
+    border-radius: 8px;
+    padding: 12px;
+  }
+
+  &__button {
+    width: 100%;
+  }
+}

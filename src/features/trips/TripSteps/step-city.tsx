@@ -58,7 +58,7 @@ export function StepCity({ onSelectCity: onSubmit, title, isLoading, fetcher }: 
       await onSubmit(cityId);
     } catch (error) {
       setSubmitting(false);
-      Notification.error("Não foi possível prosseguir devido à um erro.");
+      Notification.error("Não foi possível prosseguir devido a um erro.");
     }
   };
 

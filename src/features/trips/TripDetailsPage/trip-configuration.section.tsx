@@ -1,4 +1,4 @@
-import { CardHighlight, Text } from "@/ui";
+import { CardHighlight, FeatureIcon, Text } from "@/ui";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { Icon, Button, Modal, Grid } from "mars-ds";
 import { TripEditConfiguration } from "../TripEditConfiguration";
@@ -26,19 +26,47 @@ export const TripConfigurationSection = (props: TripConfigurationSectionProps) =
     );
 
   return (
-    <CardHighlight variant="default" style={{ padding: 12 }}>
-      <Grid columns={["1fr", "auto"]}>
-        <div className="flex gap-lg justify-content-between flex-wrap">
-          <Feature iconName="calendar">{normalizeDateString(props.formattedDates)}</Feature>
-          <Feature iconName="clock">{props.period}</Feature>
-          <Feature iconName="dollar-sign">{formatToCurrencyBR(props.budget)}</Feature>
+    <CardHighlight
+      variant="default"
+      style={{ padding: 12, backgroundColor: "rgba(238, 251, 250, 1)" }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+          padding: "0 20px",
+        }}
+      >
+        <div
+          className="flex gap-lg justify-content-between flex-wrap"
+          style={{ alignItems: "center", flex: 2 }}
+        >
+          <div>
+            <FeatureIcon name="calendar-day" size={20} />
+            <label style={{ fontWeight: 700, paddingLeft: 8 }}>
+              {normalizeDateString(props.formattedDates)}
+            </label>{" "}
+          </div>
+          <div>
+            <FeatureIcon name="time" size={20} />
+            <label style={{ fontWeight: 700, paddingLeft: 8 }}>{props.period}</label>
+          </div>
+          <div>
+            <FeatureIcon name="cash" size={20} />
+            <label style={{ fontWeight: 700, paddingLeft: 8 }}>
+              {formatToCurrencyBR(props.budget)}
+            </label>
+          </div>
         </div>
-        <div className="text-right" style={{ minWidth: 100 }}>
-          <Button iconName="edit-2" size="sm" variant="neutral" onClick={openModalEdition}>
-            Editar
+        <div className="text-right" style={{ minWidth: 100, flex: 1 }}>
+          <Button style={{ border: "none" }} size="sm" variant="neutral" onClick={openModalEdition}>
+            <FeatureIcon name="pencil" size={20} />
+
+            <label style={{ fontWeight: 700, paddingLeft: 8 }}>Editar</label>
           </Button>
         </div>
-      </Grid>
+      </div>
     </CardHighlight>
   );
 };

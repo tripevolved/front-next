@@ -49,13 +49,13 @@ function MountTripTab({ tabType }: { tabType: "CURRENT" | "PAST" }) {
   const pastTrips = tabType === "PAST" ? true : false;
   const { isLoading, error, data } = useAllTrips(pastTrips);
 
-  const hasTrip = data && (data.currentTrip || data.otherTrips?.length > 0);
+  const hasTrip = data && (data.currentTrip || (data.otherTrips && data.otherTrips?.length > 0));
 
   if (error) return <ErrorState />;
 
   if (isLoading) return <LoadingSkeleton />;
 
-  if (!hasTrip) return <EmptyState />;
+  if (!hasTrip && pastTrips) return <EmptyState text="Não há viagens passadas." />;
 
   return <AllTrips {...data} disableDeletion={pastTrips} />;
 }
@@ -74,7 +74,7 @@ function AllTrips({
       ) : null}
       <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
         <CardTripNew title="Nova viagem" iconName="Plane" href="/app/viagens/descobrir" />
-        {otherTrips.map((trip) => (
+        {otherTrips && otherTrips.map((trip) => (
           <TripItem
             key={trip.id}
             {...trip}

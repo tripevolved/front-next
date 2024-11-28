@@ -15,6 +15,7 @@
 @import "./basic/Picture/picture.styles.scss";
 @import "./basic/Pricing/pricing.styles.scss";
 @import "./basic/Slide/slide.styles.scss";
+@import "./basic/SquareSlider/square-slider.styles.scss";
 @import "./basic/StepsProgressBar/steps-progress-bar.styles.scss";
 @import "./basic/Tag/tag.styles.scss";
 @import "./basic/ThumbnailCarousel/thumbnail-carousel.styles.scss";
@@ -22,6 +23,7 @@
 @import "./cards/CardDestination/card-destination.styles.scss";
 @import "./cards/CardHighlight/card-highlight.styles.scss";
 @import "./cards/CardNotification/card-notification.styles.scss";
+@import "./cards/CardQuote/card-quote.styles.scss";
 @import "./cards/CardTrip/card-trip.styles.scss";
 @import "./cards/CardTripNew/card-trip-new.styles.scss";
 @import "./cards/CardYoutube/card-youtube.styles.scss";
@@ -33,6 +35,7 @@
 @import "./forms/OptionField/option-field.styles.scss";
 @import "./forms/OptionsSelectField/options-select-field.styles.scss";
 @import "./forms/SelectFieldSimple/select-field-simple.styles.scss";
+@import "./forms/FilterTravel/filter-travel.styles.scss";
 @import "./loaders/GlobalLoader/global-loader.styles.scss";
 @import "./loaders/ProgressIndicator/progress-indicator.styles.scss";
 @import "./loaders/StepsLoader/steps-loader.styles.scss";
@@ -40,5 +43,6 @@
 @import "./notifications/NotificationResult/notification-result.styles.scss";
 @import "./sections/SectionBase/section-base.styles.scss";
 @import "./sections/SectionFaq/section-faq.styles.scss";
+@import "./sections/SectionFilterTravel/section-filter-travel.styles.scss";
 @import "./states/StateTemplate/state-template.styles.scss";
 @import "./user/UserAvatar/user-avatar.styles.scss";

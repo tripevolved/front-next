@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+It has all the front-end for Trip Evolved platform and website. Platform is in the /app path, while the public structure uses Prismic for content..
+
 ## Getting Started
 
 First, run the development server:

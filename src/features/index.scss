@@ -28,8 +28,7 @@
 @import "./lead/LeadList/lead-list.styles.scss";
 @import "./lead/LeadListForm/lead-list-form.styles.scss";
 @import "./lead/BudgetRequestForm/budget-request-list-form.styles.scss";
-@import "./payments/TripCheckout/trip-checkout.styles.scss";
-@import "./payments/TripPurchasePage/trip-purchase-page.styles.scss";
+@import "./payments/PaymentSteps/trip-summary.styles.scss";
 @import "./profile/ProfileBuilder/profile-builder.styles.scss";
 @import "./profile/ProfileQuestions/profile-questions.styles.scss";
 @import "./profile/ProfileSettingsModal/profile-settings-modal.styles.scss";
@@ -47,6 +46,7 @@
 @import "./scripts/TripScriptPreviewPanel/trip-script-preview-panel.styles.scss";
 @import "./scripts/UpdateAttractions/update-attractions.styles.scss";
 @import "./stays/StayList/stay-list.styles.scss";
+@import "./stays/StayCheckoutModal/stay-checkout-modal.styles.scss";
 @import "./templates/ChatFloatingButton/chat-floating-button.styles.scss";
 @import "./templates/Footer/footer.styles.scss";
 @import "./templates/Navbar/navbar.styles.scss";
@@ -57,8 +57,9 @@
 @import "./templates/PageBase/page-base.styles.scss";
 @import "./templates/PrivacyBanner/privacy-banner.styles.scss";
 @import "./trips/FlightCard/flight-card.styles.scss";
-@import "./trips/FlightDetailsPainel/flight-details-painel.styles.scss";
+@import "./trips/FlightDetailsPanel/flight-details-panel.styles.scss";
 @import "./trips/Itinerary/itinerary.styles.scss";
+@import "./trips/NewItinerary/new-itinerary.styles.scss";
 @import "./trips/MatchedDestinationsPage/matched-destinations-page.styles.scss";
 @import "./trips/PageTrip/page-trip.styles.scss";
 @import "./trips/ReservationsPanel/reservations-panel.styles.scss";

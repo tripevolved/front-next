@@ -1,0 +1,353 @@
+.box-container-filter {
+  display: flex;
+  flex-direction: column;
+  height: 460px;
+  overflow: hidden;
+}
+
+.box-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  width: 85%;
+  margin: auto;
+  max-width: 1200px;
+}
+
+.box-container-filter h1 {
+  line-height: 44.6px;
+  font-weight: 400;
+  color: #0ab9ad;
+  font-size: 40px;
+}
+
+.box-image-1 {
+  background: url("/assets/home-pos-lancamento/image-home-1.png");
+  width: 340px;
+  height: 225px;
+  background-size: 200px;
+  background-repeat: no-repeat;
+  background-position: 25px 17px;
+}
+
+.box-image-2 {
+  background: url("/assets/home-pos-lancamento/image-home-2.png");
+  width: 340px;
+  height: 225px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: 0px -22px;
+}
+
+.box-image-3 {
+  background: url("/assets/home-pos-lancamento/image-home-3.png");
+  background-repeat: no-repeat;
+  width: 890px;
+  height: 225px;
+  background-size: 100% 100%;
+  background-position: center;
+  position: relative;
+  left: 340px;
+  bottom: 68px;
+}
+
+.box-filter {
+  width: 70%;
+  margin: auto;
+  z-index: 999999999 !important;
+  max-width: 1200px;
+}
+
+.box-results-filter {
+  background-color: #eefbfa;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  height: inherit;
+  padding: 70px 0px 100px;
+}
+
+.box-results-filter p {
+  font-size: 16px;
+  color: #1a365d;
+  font-weight: 700;
+  position: relative;
+  top: 40px;
+}
+
+.loader {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader::before {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 1px solid rgba(10, 185, 173, 0.1);
+  border-top: 1px solid #0ab9ad;
+  border-radius: 50%;
+  animation: rotate 2s linear infinite;
+}
+
+.icon-search-container {
+  z-index: 10;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.box-list-travel {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.box-list-travel-title p {
+  font-size: 32px;
+  font-weight: 400;
+  margin-top: -15px;
+  position: relative;
+  top: 0;
+  margin-bottom: 15px;
+}
+
+.edit-filter-list-travel {
+  color: #102257;
+  display: flex;
+}
+
+.box-list-travel-title {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-pincel {
+  background: url("/assets/home-pos-lancamento/icon-pincel.png");
+  width: 18px;
+  height: 18px;
+  background-size: 100%;
+  margin-right: 10px;
+  position: relative;
+  bottom: 2px;
+}
+
+.icon-target {
+  background: url("/assets/home-pos-lancamento/icon-target-dart.png");
+  width: 18px;
+  height: 18px;
+  background-size: 100%;
+  margin-right: 5px;
+  position: relative;
+  bottom: 1px;
+  display: table;
+  float: left;
+  background-repeat: no-repeat;
+}
+
+.container-list-travel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.row-list-travel {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 15px auto;
+}
+
+.list-travel-image-1 {
+  width: 100%;
+  height: 414px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 25px 25px;
+  border-radius: 10px;
+}
+
+.list-travel-image-2 {
+  width: 96%;
+  height: 204px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 25px 25px;
+  border-radius: 10px;
+  margin-right: 2%;
+}
+
+.list-travel-image-3 {
+  width: 96%;
+  height: 204px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 25px 25px;
+  border-radius: 10px;
+}
+
+.list-travel-image-1,
+.list-travel-image-2,
+.list-travel-image-3 {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 25px 25px;
+  border-radius: 10px;
+}
+
+.footer-item-travel {
+  display: flex;
+  flex-direction: column;
+  align-items: self-start;
+  justify-content: space-between;
+}
+
+.box-form-travel {
+  background-color: #d3f4f1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.box-form-travel-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto;
+}
+
+.box-form-travel-container p {
+  color: #1a365d;
+  text-align: center;
+  font-size: 28px;
+  line-height: 29px;
+  font-weight: 500;
+}
+
+.box-buttons {
+  max-width: 720px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 15px;
+}
+
+button.btn-form-travel-primary {
+  width: 345px;
+  background: #0ab9ad;
+  font-size: 20px;
+  padding: 17px 30px;
+  border-radius: 25px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+button.btn-form-travel-second {
+  width: 345px;
+  background: transparent;
+  font-size: 20px;
+  padding: 17px 30px;
+  border-radius: 25px;
+  border: 2px solid #0ab9ad;
+  color: #0ab9ad;
+  cursor: pointer;
+}
+
+
+
+button.btn-form-travel-second:hover, button.btn-form-travel-primary:hover {
+  background-color: #00877a;
+  border-color:  #00877a;
+  color: white
+}
+
+span.item-travel-list-title {
+  font-size: 32px;
+}
+
+span.item-travel-list-subtitle {
+  font-size: 13px;
+}
+
+span.item-travel-list-price {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.footer-item-travel.second {
+  justify-content: space-evenly;
+}
+
+.footer-item-travel.second span.item-travel-list-title {
+  font-size: 28px;
+}
+
+.footer-item-travel.second span.item-travel-list-price {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+@media screen and (max-width: 800px) {
+  .box-image-1,
+  .box-image-2 {
+    display: none;
+  }
+
+  .container-list-travel {
+    width: 94%;
+    margin: auto;
+  }
+
+  .box-buttons {
+    flex-direction: column;
+    height: 110px;
+  }
+
+  .box-form-travel-container {
+    width: 90%;
+    flex-direction: column;
+    margin-bottom: 60px;
+  }
+}

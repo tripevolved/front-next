@@ -19,10 +19,16 @@ export interface FlightDetails {
   fromAirportCode: string;
   fromAirportName: string;
   fromAirportAddress: string;
+  fromAirportServedCity: string;
+  fromAirportServedStateProvinceCode: string | null;
+  fromAirportServedCountry: string;
   luggageInfo: string;
   toAirportAddress: string;
   toAirportCode: string;
   toAirportName: string;
+  toAirportServedCity: string;
+  toAirportServedStateProvinceCode: string | null;
+  toAirportServedCountry: string;
   connections: number;
   classFamily?: string;
 }
@@ -48,7 +54,9 @@ export interface CompanyFlightView {
 
 export interface TripTransportation {
   partnerLogoUrl?: string;
+  isReady: boolean;
   iconSlug: "car" | "flight" | "bus" | "train" | "rentalcar";
+  transportationType: "ROUTE" | "FLIGHT" | "TRANSFER";
   departure: string;
   estimatedArrival: string;
   description: string;
@@ -62,6 +70,13 @@ export interface TripTransportation {
   toAddress?: string;
   toName?: string;
   flightView: CompanyFlightView;
+  previousActionId: string | null;
+  nextActionId: string | null;
+  actionId: string;
+  from: string | null;
+  fromLatitude: number;
+  fromLongitude: number;
+  isMain: boolean;
 }
 
 export interface TripConfiguration {
@@ -123,8 +138,8 @@ export interface TripListView {
 }
 
 export interface AllTrips {
-  currentTrip: TripListView | null;
-  otherTrips: TripListView[];
+  currentTrip?: TripListView | null;
+  otherTrips?: TripListView[];
 }
 
 interface TripIncludes {
@@ -142,7 +157,7 @@ export interface TripPrice {
   pixPercentageDiscount: number | null;
   discountAmount: number | null;
   percentageDiscount: number | null;
-  isPaid: boolean;
+  status: "NOT_READY" | "READY" | "PAID";
   description: string | null;
   includes: TripIncludes[];
 }

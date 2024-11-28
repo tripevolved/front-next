@@ -1,5 +1,6 @@
-import { Box, Text, Picture, CardHighlight } from "@/ui";
+import { Box, Text, Picture } from "@/ui";
 import { TripStayHighlight, TripStayHighlightFeature } from "@/core/types";
+import { Card } from "mars-ds";
 
 const DESCRIPTION_MAP: Record<TripStayHighlightFeature, string> = {
   clean: "Essa hospedagem é recomendada por sua limpeza sempre impecável.",
@@ -11,11 +12,9 @@ const DESCRIPTION_MAP: Record<TripStayHighlightFeature, string> = {
 };
 
 export const TripStayHighlightSection = ({ highlight }: { highlight: TripStayHighlight }) => {
-  const description = highlight.type
-    ? DESCRIPTION_MAP[highlight.type]
-    : highlight.description || "";
+  const description = highlight.description || (highlight.type && DESCRIPTION_MAP[highlight.type]) || "";
   return (
-    <CardHighlight className="trip-stay-highlight-box">
+    <Card className="card-highlight trip-stay-highlight-box">
       <Box className="trip-stay-highlight-box__content">
         {highlight.type ? (
           <Picture
@@ -30,6 +29,6 @@ export const TripStayHighlightSection = ({ highlight }: { highlight: TripStayHig
           <Text>{description}</Text>
         </Box>
       </Box>
-    </CardHighlight>
+    </Card>
   );
 };

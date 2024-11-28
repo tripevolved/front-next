@@ -18,17 +18,15 @@ export function CardHighlight({
   const cn = makeCn("card-highlight", className, `card-highlight--${variant}`)(sx);
   return (
     <Card className={cn} {...props}>
-      {heading ? (
-        <Text as="h3" heading size="xs" className="mb-md">
-          <strong>{heading}</strong>
-        </Text>
-      ) : null}
-      {text ? <Text className="color-text-secondary mb-md">{text}</Text> : null}
-      {cta ? (
-        <div>
-          <Button variant="neutral" size="sm" {...cta} />
-        </div>
-      ) : null}
+      <div className="d-flex items-center">
+        {heading && (
+          <Text as="h3" heading size="xs">
+            <strong>{heading}</strong>
+          </Text>
+        )}
+        {text && <Text className="color-text-secondary mb-sm  ">{text}</Text>}
+        {cta && <Button variant="neutral" size="sm" {...cta} />}
+      </div>
       {children}
     </Card>
   );

@@ -1,40 +1,43 @@
-import type { ItineraryAction as ItineraryActionProps } from "@/core/types/itinerary";
+import { CardHighlight, Picture, Text } from "@/ui";
+import { TripTransportation } from "@/core/types";
 
-import { Card, Label, Skeleton } from "mars-ds";
-import { ErrorState, EmptyState, CardHighlight, Text } from "@/ui";
-import useSWR from "swr";
-import { TransportationApiService } from "@/services/api";
-import { CarDetailInfo } from "../TripDetailsPage/trip-transportation.section";
-
-export const RouteAction = (props: ItineraryActionProps & { tripId: string }) => {
-  const fetcher = async () =>
-    TransportationApiService.getTransportationActionItinerary(
-      props.tripId,
-      props.tripItineraryActionId
-    );
-  const { isLoading, data, error } = useSWR(
-    `get-itinerary-route-action-${props.tripItineraryActionId}`,
-    fetcher
-  );
-
-  if (error) return <ErrorState />;
-
+export const RouteAction = ({ action }: { action: TripTransportation }) => {
   return (
-    <Skeleton active={isLoading} height={230}>
-      {data ? (
-        <div className="pl-xl itinerary__item">
-          {props.type == "TRANSFER" ? (
-            <Card>
-              <Text size="xl">
-                Incluímos o transfer de <strong>{data.fromName}</strong> a <strong>{data.toName}</strong> para você.
-              </Text>
-            </Card>
-          ) : <></>}
-          <CarDetailInfo data={data} />
+    <div className="flex flex-column gap-md py-lg ml-xl">
+      <div className="flex flex-row gap-xl">
+        <Picture src={`/assets/destino/carro.svg`} style={{ width: 40 }} />
+        <Text as="h3" heading size="xs" className="my-auto">
+          <strong>Carro</strong>
+        </Text>
+      </div>
+      <div className="flex flex-row pl-20" style={{ left: 60 }}>
+        <div className="flex flex-row gap-xl">
+          <div style={{ width: 54 }} />
+          <div>
+            <Text as="p" size="xs" style={{ fontWeight: "normal" }}>
+              <p>
+                {`Trajeto de ${action.fromName} a ${action.toName}`}.<br />
+                {action.description}
+              </p>
+            </Text>
+          </div>
         </div>
-      ) : (
-        <EmptyState />
-      )}
-    </Skeleton>
+      </div>
+      <div>
+        {/*not implemented yet*/}
+        {/* <CardHighlight
+            variant="warning"
+            text="Preciso de um aluguel de carro"
+            onClick={() => {}}
+            style={{padding: 8}}
+            cta={{
+              label: "Ver detalhes",
+              isRtl: true,
+              className: "no-border",
+            }}
+          >
+          </CardHighlight> */}
+      </div>
+    </div>
   );
 };

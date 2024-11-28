@@ -17,6 +17,13 @@ export type MatchedDestinationReturn = {
   otherChoices: MatchedDestination[];
 };
 
+export type FormData = {
+  travelerProfile: string;
+  objectiveId: string;
+  days: string;
+  budget: string;
+};
+
 export const putMatchedDestinations = async ({ tripId }: { tripId: string }): Promise<any> => {
   const url = "trips/matches/" + tripId;
   const ok = await ApiRequest.put(url, null);
@@ -39,4 +46,19 @@ export const getMatchedDestinations = async ({
   }
 
   return match;
+};
+
+export const getMatches = async <T>({
+  travelerProfile,
+  objectiveId,
+  days,
+  budget,
+}: FormData): Promise<T> => {
+  const url = `/trips/matches?travelerProfile=${encodeURIComponent(
+    travelerProfile
+  )}&objectiveId=${encodeURIComponent(objectiveId)}&days=${encodeURIComponent(
+    days.toString()
+  )}&budget=${encodeURIComponent(budget.toString())}`;
+  const response = await ApiRequest.get<T>(url);
+  return response;
 };
