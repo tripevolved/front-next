@@ -25,7 +25,7 @@ export interface TripStay {
 }
 
 export interface TripStaySimplified {
-  coverImage?: string;
+  coverImage: Photo | null;
   id: string;
   isReady: boolean;
   isSelected: boolean;
@@ -34,6 +34,7 @@ export interface TripStaySimplified {
   tags: string;
   previousActionId: string | null;
   nextActionId: string | null;
+  accommodationId: string;
   actionId: string;
   from: string | null;
   fromLatitude: number;
@@ -120,6 +121,7 @@ export type StayOption = Omit<
   | "isReserved"
   | "isRoomSelected"
   | "message"
+  | "isSelected"
   | "reservationMessage"
   | "roomSelectionMessage"
 >;

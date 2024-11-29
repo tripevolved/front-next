@@ -1,14 +1,22 @@
 import { Box, Text, Picture, ThumbnailCarousel } from "@/ui";
 
-import { Divider } from "mars-ds";
+import { Button, Divider } from "mars-ds";
 
 import type { StayDetailsModalProps } from "@/features";
 
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
+import { StayDetailsItem } from "./stay-details-item.component";
+import { useState } from "react";
 
 const EMPTY_INFO_DETAILS = "-";
 
-export function StayDetailsModal({ tripStay }: Pick<StayDetailsModalProps, "tripStay">) {
+export function StayDetailsEditModal({
+  tripStay,
+  selectedRoom: initialSelectedRoom,
+  setSelectedRoom: updateSelectedRoom,
+}: StayDetailsModalProps) {
+  const [selectedRoom, setSelectedRoom] = useState(initialSelectedRoom);
+
   return (
     <div className="trip-stay-details">
       <Box className="trip-stay-details__initial-info">
@@ -65,6 +73,23 @@ export function StayDetailsModal({ tripStay }: Pick<StayDetailsModalProps, "trip
           </>
         ) : null}
       </Box>
+      <div>
+        <ul className="flex-column gap-md" style={{ paddingLeft: 0 }}>
+          {tripStay.details.rooms
+            .filter((room) => room.code != undefined)
+            .map((room) => (
+              <StayDetailsItem
+                key={room.id}
+                room={room}
+                selected={room.code === selectedRoom}
+                setSelected={() => {
+                  setSelectedRoom(room.code!);
+                }}
+              />
+            ))}
+        </ul>
+        <Button onClick={() => updateSelectedRoom(selectedRoom!)}>Salvar</Button>
+      </div>
     </div>
   );
 }

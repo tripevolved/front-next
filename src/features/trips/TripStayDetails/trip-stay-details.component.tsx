@@ -52,7 +52,6 @@ export function TripStayDetails({
   if (error) return <ErrorState />;
   if (isLoading || isValidating) return <StayDetailsLoadingState />;
   if (!hotelData) return <EmptyState />;
-
   return (
     <>
       {/** @ts-ignore */}
@@ -84,7 +83,7 @@ export function TripStayDetails({
         </Box>
         <Box className="trip-stay-details__content">
           <Text heading size="xs" className="trip-stay-details__content__title">
-            Informações
+            <h2 style={{ fontWeight: "bold", color: "var(--color-brand-2)" }}>Informações</h2>
           </Text>
           <Text className="trip-stay-details__content__description">
             {hotelData.details.information || EMPTY_INFO_DETAILS}

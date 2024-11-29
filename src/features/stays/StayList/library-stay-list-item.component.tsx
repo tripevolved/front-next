@@ -2,11 +2,12 @@ import { Text, Picture } from "@/ui";
 
 import { Button, Card, Divider, Grid, Modal } from "mars-ds";
 
-import { StayDetailsModal, TripStayServiceItem } from "@/features";
+import { TripStayServiceItem } from "@/features";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
-import { StayOption } from "@/core/types";
+import { StayOption, TripStayRoom } from "@/core/types";
 import { Checkbox } from "@/ui/components/forms/Checkbox";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { StayDetailsEditModal } from "../StayDetailsModal/stay-details-edit-modal.component";
 
 export function LibraryStayListItem({
   stay,
@@ -25,6 +26,7 @@ export function LibraryStayListItem({
   isRecommended?: boolean;
   tripId: string;
 }) {
+  const [localSelectedRoom, setLocalSelectedRoom] = useState<TripStayRoom | undefined>();
   const stars = useMemo(() => {
     const tagsMatches = /(\d.?\d?)/g.exec(stay.tags);
     if (tagsMatches !== null && tagsMatches?.length > 0) {
@@ -33,28 +35,30 @@ export function LibraryStayListItem({
     return 0;
   }, [stay]);
 
-  const price = useMemo(() => {
-    if (stay.details.rooms.length === 0) {
-      return 0;
-    }
-    if (selectedRoomCode === undefined) {
-      return stay.details.rooms[0].price;
-    }
+  useEffect(() => {
     const selectedRoom = stay.details.rooms.find(({ code }) => code === selectedRoomCode);
-    if (selectedRoom) {
-      return selectedRoom.price;
-    }
-    return 0;
-  }, [stay, selectedRoomCode]);
+    if (stay.details.rooms.length === 0) {
+      setLocalSelectedRoom(undefined);
+    } else if (selectedRoomCode === undefined) {
+      setLocalSelectedRoom(stay.details.rooms[0]);
+    } else if (selectedRoom) {
+      setLocalSelectedRoom(selectedRoom);
+    } else setLocalSelectedRoom(undefined);
+  }, [stay.details.rooms, selectedRoomCode]);
 
-  const handleDetails = useCallback(() => {
-    Modal.open(
+  const handleDetails = () => {
+    const modal = Modal.open(
       () => (
-        <StayDetailsModal
+        <StayDetailsEditModal
           tripId={tripId}
           tripStay={stay}
           itineraryActionId={stay.id}
           key={stay.id}
+          selectedRoom={localSelectedRoom?.code}
+          setSelectedRoom={(code) => {
+            setSelectedRoom(code);
+            modal.close();
+          }}
         />
       ),
       {
@@ -63,12 +67,12 @@ export function LibraryStayListItem({
         onClose: () => {},
       }
     );
-  }, [stay, tripId]);
+  };
 
-  const handleSelect = useCallback(() => {
+  const handleSelect = () => {
     setSelected();
     handleDetails();
-  }, [handleDetails, setSelected]);
+  };
 
   return (
     <Card
@@ -80,24 +84,24 @@ export function LibraryStayListItem({
     >
       <Grid className="pl-lg">
         <Grid columns={["100px", "auto"]}>
-          <Picture className="itinerary-item__content__image">
-            {stay.coverImage ? parsePhoto(stay.coverImage) : "/assets/blank-image.png"}
-          </Picture>
+          <div>
+            <Picture className="itinerary-item__content__image">
+              {stay.coverImage ? parsePhoto(stay.coverImage) : "/assets/blank-image.png"}
+            </Picture>
+          </div>
           <div className="w-100 itinerary-item__content__break">
             <Grid gap={4}>
-              <Text as="h3" size="xl">
-                <div
-                  className="flex gap-sm"
-                  style={{ color: "var(--color-brand-2)", fontWeight: "bold" }}
-                >
-                  <strong>{stay.name}</strong>
-                  {isRecommended ? (
-                    <Picture src="/assets/stays/stay_recommended.svg"></Picture>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-              </Text>
+              <div
+                className="flex gap-sm"
+                style={{ color: "var(--color-brand-2)", fontWeight: "bold" }}
+              >
+                <strong>{stay.name}</strong>
+                {isRecommended ? (
+                  <Picture src="/assets/stays/stay_recommended.svg"></Picture>
+                ) : (
+                  <></>
+                )}
+              </div>
               <div className="flex flex-row gap-xs">
                 {Array(stars)
                   .fill(0)
@@ -114,7 +118,7 @@ export function LibraryStayListItem({
                   marginTop: "16px",
                 }}
               >
-                <strong>{`R$${price}`}</strong>
+                <strong>{`R$${localSelectedRoom?.price ?? 0}`}</strong>
               </Text>
               {stay.details.services && (
                 <div className="trip-stay-details__content__service-list">
@@ -144,9 +148,7 @@ export function LibraryStayListItem({
           <Button
             variant="naked"
             className="trip-stay-section__content__details-text"
-            onClick={() => {
-              handleDetails();
-            }}
+            onClick={handleDetails}
           >
             Ver detalhes
           </Button>

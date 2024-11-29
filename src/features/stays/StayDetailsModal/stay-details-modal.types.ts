@@ -5,4 +5,6 @@ export interface StayDetailsModalProps {
   tripId: string;
   itineraryActionId?: string;
   tripStay: StayOption;
+  selectedRoom: string | undefined;
+  setSelectedRoom: (code: string) => void;
 }

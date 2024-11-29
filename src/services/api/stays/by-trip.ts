@@ -12,6 +12,28 @@ interface Accomodation {
   rooms: RoomAccomodation[];
 }
 
+export interface UpdateTripStay {
+  uniqueTransactionId: string;
+  accommodations: {
+    tripItineraryActionId: string;
+    accomodationId: string;
+    code: string;
+    signature: string;
+    provider: string;
+    system: string;
+    rooms: {
+      id: string;
+      code: string;
+      signature: string;
+      provider: string;
+      unitPrice: number;
+      totalPrice: number;
+      currency: string;
+      boardChoice: string;
+    }[];
+  }[];
+}
+
 export interface TripHotelDTO {
   uniqueTransactionId?: string;
   tripItineraryActionId?: string;
@@ -26,6 +48,16 @@ export const getStayByTripId = async (tripId: string, tripItineraryActionId: str
   const route = `stays/${tripId}/${tripItineraryActionId}`;
   const tripStay = await ApiRequest.get<TripStay>(route);
   return tripStay;
+};
+
+export const putTripStay = async (tripId: string, payload: UpdateTripStay) => {
+  const route = `stays/${tripId}/edit`;
+  const response = await ApiRequest.put<{
+    message: string;
+    messageCode: string;
+    statusCode: number;
+  }>(route, payload);
+  return response;
 };
 
 export const getAllReservedStaysByTripId = async (tripId: string) => {

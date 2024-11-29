@@ -9,13 +9,11 @@ import { FlightAction } from "../Itinerary/flight.action";
 import { RouteAction } from "../Itinerary/route.action";
 import { ItineraryEnd } from "../Itinerary/itinerary-end.action";
 import { DestinationDetails } from "./destination-details/destination-details.component";
-import { clear } from "console";
 
 export function NewItinerary({ tripId, title }: any) {
   const [data, setData] = useState<ItineraryListV2>();
   const [error, setError] = useState<string | undefined>();
   const token = useRef<NodeJS.Timeout>();
-
   useEffect(() => {
     TripsApiService.getItineraryV2(tripId).then(setData).catch(setError);
   }, [tripId]);
@@ -81,7 +79,6 @@ export function NewItinerary({ tripId, title }: any) {
         []
       );
     } catch {
-      console.error("here?");
       setError("Error sorting actions by city");
     } finally {
       return actions;
