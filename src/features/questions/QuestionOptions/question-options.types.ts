@@ -3,4 +3,6 @@ import type { OptionsFieldListProps } from "@/ui";
 
 export interface QuestionOptionsProps
   extends Question,
-    Pick<OptionsFieldListProps, "onCheck" | "defaultValue" | "disabled"> {}
+    Pick<OptionsFieldListProps, "onCheck" | "defaultValue" | "disabled"> {
+  notListed?: boolean;
+}

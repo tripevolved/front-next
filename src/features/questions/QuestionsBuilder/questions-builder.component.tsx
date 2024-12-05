@@ -68,6 +68,39 @@ export function QuestionsBuilder({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const questions = useMemo(() => data[currentIndex]?.questions || [], [data.length, currentIndex]);
 
+  const isNotListedChecked = useMemo(() => {
+    let filteredAnswers = {};
+    const question = questions.find((question) => question.id);
+    const questionId = question?.id;
+    const questionsArray = questions.flatMap((question) => question.possibleAnswers);
+    const isNotListedQuestion = questionsArray.find(
+      (question) => question.title === "Nenhum dos listados"
+    );
+
+    const isNotListedQuestionChecked =
+      (questionId &&
+        isNotListedQuestion &&
+        answers[questionId]?.includes(isNotListedQuestion.id)) ||
+      false;
+
+    if (isNotListedQuestionChecked && questionId) {
+      const answersQuestionIds = answers[questionId] as [];
+      const answersFiltered = answersQuestionIds.filter(
+        (answer) => answer === isNotListedQuestion?.id
+      );
+
+      filteredAnswers = {
+        [questionId]: answersFiltered,
+      };
+
+      if (JSON.stringify(answers) !== JSON.stringify(filteredAnswers)) {
+        setAnswers(filteredAnswers);
+      }
+    }
+
+    return !isNotListedQuestionChecked;
+  }, [answers, questions]);
+
   useEffect(() => {
     if (disableLocalSave) return;
     const initialLocalAnswers = toJson(localAnswers);
@@ -93,6 +126,7 @@ export function QuestionsBuilder({
         <div style={animation.style}>
           {questions.map((question: any) => (
             <QuestionOptions
+              disabled={isNotListedChecked}
               key={question.id}
               {...question}
               onCheck={handleCheck(question.id)}
@@ -109,6 +143,7 @@ export function QuestionsBuilder({
         isNextButtonDisabled={isNextButtonDisabled}
         submitting={submitting}
         nextButtonLabel={nextButtonLabel}
+        notListed={isNotListedChecked}
         finishButtonLabel={finishButtonLabel}
       />
     </Grid>
