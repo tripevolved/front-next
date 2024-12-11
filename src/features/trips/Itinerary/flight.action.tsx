@@ -12,11 +12,7 @@ export const FlightAction = ({
   tripId: string;
 }) => {
   const handleSeeDetails = async () => {
-    const details = await TransportationApiService.getTransportationActionItinerary(
-      tripId,
-      action.actionId
-    );
-    Modal.open(() => <FlightDetailsPanel flightView={details.flightView} isModalView />, {
+    Modal.open(() => <FlightDetailsPanel tripId={tripId} actionId={action.actionId} />, {
       size: "md",
       closable: true,
     });
