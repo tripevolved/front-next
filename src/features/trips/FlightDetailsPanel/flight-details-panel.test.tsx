@@ -44,11 +44,20 @@ const mock: TripTransportation = {
   },
   isBuilding: false,
   isSelected: true,
+  isReady: true,
+  transportationType: "FLIGHT",
+  from: "POA - Salgado Filho",
+  previousActionId: "29cee8c1-2ea9-481c-b8b0-adc859a85e4b",
+  nextActionId: "8a66d83e-8b93-4526-b2b9-5ec5bdbc947c",
+  actionId: "bd4257b0-5780-4346-b92f-a42f47477177",
+  fromLatitude: -29.994722,
+  fromLongitude: -51.171111,
+  isMain: true,
   message: "",
 };
 
 const makeSut = (props?: FlightDetailsPanelProps) =>
-  render(<FlightDetailsPanel {...props} flightView={mock.flightView} />);
+  render(<FlightDetailsPanel {...props} data={mock} />);
 
 describe("<FlightDetailsPanel>", () => {
   it("should render component", () => {

@@ -3,6 +3,7 @@ import { Text, CardHighlight, Picture } from "@/ui";
 import { FlightDetailsPanel } from "@/features";
 import { TripTransportation } from "@/core/types";
 import { TransportationApiService } from "@/services/api";
+import useSwr from "swr";
 
 export const FlightAction = ({
   action,
@@ -11,8 +12,21 @@ export const FlightAction = ({
   action: TripTransportation;
   tripId: string;
 }) => {
+  const fetcher = async () =>
+    TransportationApiService.getTransportationActionItinerary(tripId, action.actionId);
+
+  const { data: searchedFlightDetails } = useSwr<TripTransportation>(
+    "get-flight-details",
+    fetcher,
+    {
+      revalidateOnMount: false,
+      refreshInterval: 180000,
+      fallbackData: action,
+    }
+  );
+
   const handleSeeDetails = async () => {
-    Modal.open(() => <FlightDetailsPanel tripId={tripId} actionId={action.actionId} />, {
+    Modal.open(() => <FlightDetailsPanel data={searchedFlightDetails} />, {
       size: "md",
       closable: true,
     });

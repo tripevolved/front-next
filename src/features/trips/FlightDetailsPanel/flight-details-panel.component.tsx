@@ -1,30 +1,18 @@
 import type { FlightDetailsPanelProps } from "./flight-details-panel.types";
-import useSwr from "swr";
 
 import { Text, Box, ErrorState } from "@/ui";
 import { FlightCard } from "@/features";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { TransportationApiService } from "@/services/api";
-import { TripTransportation } from "@/core/types";
 import { Grid, Skeleton } from "mars-ds";
 
 export function FlightDetailsPanel({
   className,
   children,
   sx,
-  actionId,
-  tripId,
+  data,
   ...props
 }: FlightDetailsPanelProps) {
-  console.log(props);
-  const fetcher = async () =>
-    TransportationApiService.getTransportationActionItinerary(tripId, actionId);
-  const { data, error } = useSwr<TripTransportation>("get-flight-details", fetcher, {
-    revalidateOnMount: false,
-    refreshInterval: 120000,
-  });
-
   const LoadingSkeleton = () => (
     <Grid className="py-md flex flex-col gap-3" columns={{ sm: 2, md: 1 }}>
       <Skeleton height={50} active />
