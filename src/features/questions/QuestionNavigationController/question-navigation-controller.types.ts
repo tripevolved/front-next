@@ -6,7 +6,6 @@ export interface ProfileQuestionsNavigationProps {
   className?: string;
   style?: any;
   submitting?: boolean;
-  notListed?: boolean;
   nextButtonLabel?: string;
   finishButtonLabel?: string;
 }

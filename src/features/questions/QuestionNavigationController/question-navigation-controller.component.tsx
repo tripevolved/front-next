@@ -12,7 +12,6 @@ export const QuestionNavigationController = ({
   submitting,
   style,
   nextButtonLabel = "Próxima",
-  notListed,
   finishButtonLabel = "Concluir",
 }: ProfileQuestionsNavigationProps) => {
   const label = useMemo(
@@ -39,7 +38,7 @@ export const QuestionNavigationController = ({
         variant="tertiary"
         className="profile-questions-navigation__next"
         onClick={() => onNavigation(position + 1)}
-        disabled={position > total || (isNextButtonDisabled && notListed)}
+        disabled={position > total || isNextButtonDisabled}
         submitting={submitting}
       >
         {label}

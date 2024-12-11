@@ -10,7 +10,6 @@ export const QuestionOptions = ({
   onCheck,
   defaultValue,
   disabled,
-  notListed,
 }: QuestionOptionsProps) => {
   const options = useMemo(
     () =>
@@ -37,7 +36,7 @@ export const QuestionOptions = ({
       </div>
       <Grid gap={16} className="profile-questions-item__answers">
         <OptionsFieldList
-          disabled={disabled && notListed}
+          disabled={disabled}
           onCheck={onCheck}
           options={options}
           multiselect={multiselect}
