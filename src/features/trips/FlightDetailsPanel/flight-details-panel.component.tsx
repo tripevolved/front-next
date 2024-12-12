@@ -11,6 +11,7 @@ export function FlightDetailsPanel({
   children,
   sx,
   data,
+  flightView,
   ...props
 }: FlightDetailsPanelProps) {
   const LoadingSkeleton = () => (
@@ -22,12 +23,17 @@ export function FlightDetailsPanel({
     </Grid>
   );
 
+  const flightViewData = data?.flightView || flightView;
+
+  console.log("isReady ->", data?.isReady);
+  console.log("flightView", flightView);
+
   const cn = makeCn("flight-details-panel", className)(sx);
-  if (data?.flightView === null) {
+  if ((data || flightView) === null) {
     return <ErrorState />;
   }
 
-  if (!data?.isReady) {
+  if (!data?.isReady && !flightView) {
     return <LoadingSkeleton />;
   }
 
@@ -39,13 +45,13 @@ export function FlightDetailsPanel({
         </Text>
         <Text size="xl">Voo de ida</Text>
         <Box className="flight-details-panel__container__flight w-100 flex-column gap-md">
-          {data?.flightView.outboundFlight.flightDetails.map((flight, i) => (
+          {flightViewData?.outboundFlight.flightDetails.map((flight, i) => (
             <FlightCard flight={flight} key={i} />
           ))}
         </Box>
         <Text size="xl">Voo de volta</Text>
         <Box className="flight-details-panel__container__flight flex-column gap-md">
-          {data?.flightView.returnFlight.flightDetails.map((flight, i) => (
+          {flightViewData?.returnFlight.flightDetails.map((flight, i) => (
             <FlightCard flight={flight} key={i} />
           ))}
         </Box>

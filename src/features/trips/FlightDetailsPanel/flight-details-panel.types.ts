@@ -2,4 +2,5 @@ import type { CompanyFlightView, ComponentHTMLProps, TripTransportation } from "
 
 export interface FlightDetailsPanelProps extends ComponentHTMLProps {
   data?: TripTransportation;
+  flightView?: CompanyFlightView;
 }
