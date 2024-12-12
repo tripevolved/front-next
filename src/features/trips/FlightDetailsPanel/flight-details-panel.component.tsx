@@ -1,7 +1,7 @@
 import type { FlightDetailsPanelProps } from "./flight-details-panel.types";
 
 import { Text, Box, ErrorState } from "@/ui";
-import { FlightBox, FlightCard } from "@/features";
+import { FlightCard } from "@/features";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { Grid, Skeleton } from "mars-ds";
@@ -24,9 +24,6 @@ export function FlightDetailsPanel({
   );
 
   const flightViewData = data?.flightView || flightView;
-
-  console.log("isReady ->", data?.isReady);
-  console.log("flightView", flightView);
 
   const cn = makeCn("flight-details-panel", className)(sx);
   if ((data || flightView) === null) {
