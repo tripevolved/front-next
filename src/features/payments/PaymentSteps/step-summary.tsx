@@ -1,7 +1,18 @@
 import type { PaymentData, PaymentStepProps } from "./payment-steps.types";
 
 import { Accordion, Box, CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
-import { Button, Card, CardElevations, Checkbox, Divider, Grid, Icon, Link, Modal, Skeleton } from "mars-ds";
+import {
+  Button,
+  Card,
+  CardElevations,
+  Checkbox,
+  Divider,
+  Grid,
+  Icon,
+  Link,
+  Modal,
+  Skeleton,
+} from "mars-ds";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { TripsApiService } from "@/services/api";
@@ -41,10 +52,12 @@ export const StepSummary = ({ trip, price, onNext, payload, setPayload }: Paymen
       <Divider />
       <StepSummaryPricing {...price} />
       <br />
-      <Card style={{padding: "0 24px"}}>
+      <Card style={{ padding: "0 24px" }}>
         <Accordion title={"Termos e condições"} className="color-secondary" defaultOpen>
           {/* TODO: add abstract of the terms and conditions */}
-          <Link href={"https://www.tripevolved.com.br/termos-de-uso/"} target="_blank">Ver termo completo</Link>
+          <Link href={"https://www.tripevolved.com.br/termos-de-uso/"} target="_blank">
+            Ver termo completo
+          </Link>
         </Accordion>
       </Card>
       <label className="py-md px-lg">
@@ -94,7 +107,10 @@ const StepSummaryTransportation = (props: CheckoutTransportation) => {
               </Text>
               <Box className="flight-checkout-view__box">
                 <Grid columns={["110px", "auto"]}>
-                  <Picture src={item.flightView.airlineCompanyLogoUrl} className="flight-checkout-view__logo" />
+                  <Picture
+                    src={item.flightView.airlineCompanyLogoUrl}
+                    className="flight-checkout-view__logo"
+                  />
                   <Box>
                     <Text size="md" className="my-0 py-0">
                       <strong>Partida de:</strong> {item.from}
@@ -105,13 +121,18 @@ const StepSummaryTransportation = (props: CheckoutTransportation) => {
                   </Box>
                 </Grid>
                 <Divider className="color-primary" />
-                <Button 
+                <Button
                   variant="naked"
                   className="flight-checkout-view__button"
-                  onClick={() => Modal.open(() => <FlightDetailsPanel flightView={item.flightView} isModalView />, {
-                    size: "md",
-                    closable: true,
-                  })}                  
+                  onClick={() =>
+                    Modal.open(
+                      () => <FlightDetailsPanel flightView={item.flightView} isModalView />,
+                      {
+                        size: "md",
+                        closable: true,
+                      }
+                    )
+                  }
                 >
                   Ver detalhes
                 </Button>
@@ -128,7 +149,7 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
   if (!props.isSelected) return <></>;
 
   return (
-    <PaymentStepSection image="/assets/destino/hospedagem.svg" title="Hospedagem">
+    <PaymentStepSection image="/assets/destino/hospedagem_green.svg" title="Hospedagem">
       <Grid>
         <Box className="stay-checkout-view__box">
           {props.details?.length ? (
@@ -144,7 +165,10 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
                       {accommodation.tags}
                     </Text>
                     {accommodation.boardInfo ? (
-                      <TripStayServiceItem title={accommodation.boardInfo.boardChoice ?? ""} type={accommodation.boardInfo.boardType === "BB" ? "breakfast" : null} />
+                      <TripStayServiceItem
+                        title={accommodation.boardInfo.boardChoice ?? ""}
+                        type={accommodation.boardInfo.boardType === "BB" ? "breakfast" : null}
+                      />
                     ) : null}
                   </div>
                 </Grid>
@@ -161,13 +185,15 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
             />
           )}
           <Divider className="color-primary" />
-          <Button 
+          <Button
             variant="naked"
             className="flight-checkout-view__button"
-            onClick={() => Modal.open(() => <StayCheckoutModal details={props.details} />, {
-              size: "md",
-              closable: true,
-            })}                  
+            onClick={() =>
+              Modal.open(() => <StayCheckoutModal details={props.details} />, {
+                size: "md",
+                closable: true,
+              })
+            }
           >
             Ver detalhes
           </Button>
@@ -179,7 +205,7 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
 
 const StepSummaryScript = (props: CheckoutScript) => {
   return (
-    <PaymentStepSection image="/assets/destino/roteiro.svg" title="Roteiro">
+    <PaymentStepSection image="/assets/destino/roteiro_green.svg" title="Roteiro">
       {props.isFinished ? (
         <>
           <TripScriptFeatures paddingLeft={0} />
@@ -197,7 +223,7 @@ const StepSummaryScript = (props: CheckoutScript) => {
 
 const StepSummarySupport = () => {
   return (
-    <PaymentStepSection image="/assets/destino/suporte.svg" title="Suporte durante a viagem">
+    <PaymentStepSection image="/assets/destino/suporte_green.svg" title="Suporte durante a viagem">
       <Text className="color-text-secondary">
         Para uma experiência única e livre de estresse, oferecemos suporte do início ao fim da sua
         trip, em 360º. Com tudo organizado e planejado, sua preocupação é uma só: curtir a viagem
