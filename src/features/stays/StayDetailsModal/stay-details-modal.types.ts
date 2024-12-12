@@ -6,6 +6,6 @@ export interface StayDetailsModalProps {
   itineraryActionId?: string;
   router: NextRouter;
   onCloseModal?: VoidFunction;
-  tripStay: TripStay;
+  tripStay?: TripStay;
   allowEdit: Boolean;
 }
