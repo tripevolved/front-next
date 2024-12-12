@@ -36,6 +36,8 @@ export const StayAction = ({ action, tripId }: Props) => {
     };
   }, [action.isReady]);
 
+  console.log("action ->", action);
+
   const fetcher = async () => StaysApiService.getByTripId(tripId, action.actionId);
 
   const { data: searchedAccomodationDetails } = useSwr<TripStay>(
