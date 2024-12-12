@@ -1,7 +1,7 @@
 import type { FlightDetailsPanelProps } from "./flight-details-panel.types";
 
 import { Text, Box, ErrorState } from "@/ui";
-import { FlightCard } from "@/features";
+import { FlightBox, FlightCard } from "@/features";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { Grid, Skeleton } from "mars-ds";

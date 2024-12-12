@@ -146,7 +146,7 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
   if (!props.isSelected) return <></>;
 
   return (
-    <PaymentStepSection image="/assets/destino/hospedagem.svg" title="Hospedagem">
+    <PaymentStepSection image="/assets/destino/hospedagem_green.svg" title="Hospedagem">
       <Grid>
         <Box className="stay-checkout-view__box">
           {props.details?.length ? (
@@ -202,7 +202,7 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
 
 const StepSummaryScript = (props: CheckoutScript) => {
   return (
-    <PaymentStepSection image="/assets/destino/roteiro.svg" title="Roteiro">
+    <PaymentStepSection image="/assets/destino/roteiro_green.svg" title="Roteiro">
       {props.isFinished ? (
         <>
           <TripScriptFeatures paddingLeft={0} />
@@ -220,7 +220,7 @@ const StepSummaryScript = (props: CheckoutScript) => {
 
 const StepSummarySupport = () => {
   return (
-    <PaymentStepSection image="/assets/destino/suporte.svg" title="Suporte durante a viagem">
+    <PaymentStepSection image="/assets/destino/suporte_green.svg" title="Suporte durante a viagem">
       <Text className="color-text-secondary">
         Para uma experiência única e livre de estresse, oferecemos suporte do início ao fim da sua
         trip, em 360º. Com tudo organizado e planejado, sua preocupação é uma só: curtir a viagem
