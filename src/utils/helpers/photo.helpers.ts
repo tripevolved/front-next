@@ -1,13 +1,14 @@
 import type { Photo, PhotoSource } from "@/core/types";
 
 const parseType = (type: string) => {
+  const formattedType = type && type.toLowerCase();
   return (
     {
       sm: "md",
       md: "lg",
       lg: "xl",
       xl: "xxl",
-    }[type] || "md"
+    }[type || formattedType] || "md"
   );
 };
 

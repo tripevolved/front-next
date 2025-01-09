@@ -1,7 +1,7 @@
 import { ErrorState, EmptyState, Picture } from "@/ui";
 import { Text } from "@/ui";
 
-import { Button, Grid, Skeleton } from "mars-ds";
+import { Button, Grid, Loader, Notification, Skeleton } from "mars-ds";
 
 import type { StayListProps } from "@/features";
 import { StaysApiService } from "@/services/api";
@@ -26,7 +26,6 @@ export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
     isLoading: isLoadingStay,
     error: errorFetchingStay,
   } = useSWR(`stay-${tripId}-${itineraryActionId}`, stayFetcher, { revalidateOnFocus: false });
-  console.log("stayData ->", stayData);
   const [selectedStayId, setSelectedStayId] = useState<string>();
   const [selectedRoomCode, setSelectedRoomCode] = useState<string>();
   const [error, setError] = useState<string>();
@@ -103,8 +102,8 @@ export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
       await StaysApiService.putTripStay(tripId, payload);
       setIsLoading(false);
       router.back();
-    } catch (err) {
-      setError((err as Error).message);
+    } catch (err: any) {
+      Notification.error(err.message)
     }
   }, [
     tripId,
@@ -132,7 +131,7 @@ export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
         </div>
         <div>
           <Button disabled={isLoading || isLoadingHotels} onClick={handleSave}>
-            Salvar
+            {isLoading || isLoadingHotels ? <Loader /> : "Salvar"}
           </Button>
         </div>
       </div>

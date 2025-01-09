@@ -56,6 +56,8 @@ export function LibraryStayListItem({
           key={stay.id}
           selectedRoom={localSelectedRoom?.code}
           setSelectedRoom={(code) => {
+            const body = document.body
+            body.setAttribute("data-overlay", "false")
             setSelectedRoom(code);
             modal.close();
           }}
