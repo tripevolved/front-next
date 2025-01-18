@@ -26,6 +26,7 @@ export * from "./dashboard/TripDashboard";
 export * from "./dashboard/TripPendings";
 export * from "./dashboard/TripTips";
 export * from "./destinations/CustomProfileDestinations";
+export * from "./destinations/ConsultancyDestinations";
 export * from "./destinations/DestinationInfos";
 export * from "./destinations/DestinationPage";
 export * from "./destinations/DestinationRecommendedBy";
