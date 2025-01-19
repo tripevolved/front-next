@@ -30,7 +30,9 @@ export interface PublicDestinationResponse {
 export interface PublicDestinationsRequestParams {
   search?: string;
   uniqueName: string;
+  context?: "ALL" | "CONSULTANCY" | "PLATFORM" | "WEEKEND";
   page?: number;
+  limit?: number;
 }
 
 export interface DestinationSuggestionBody {
@@ -54,13 +56,17 @@ export const getDestinations = async (profileName: string) => {
 
 export const getPublicDestinations = async ({
   search = "",
+  context = "ALL",
   uniqueName,
   page = 1,
+  limit = 6,
 }: PublicDestinationsRequestParams) => {
   const params = new URLSearchParams({
     search,
+    context,
     profile: uniqueName == "all" ? "" : uniqueName,
     page: String(page),
+    limit: String(limit)
   });
   const route = `destinations/paginated?${params.toString()}`;
   return ApiRequest.get<PublicDestinationResponse>(route);

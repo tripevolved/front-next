@@ -18,10 +18,12 @@ export const ConsultancyDestinations = ({
   currentPage,
 }: ConsultancyDestinationProps) => {
   const fetcher = () =>
-    ProfileApiService.getPublicDestinations({ search: searchName, uniqueName, page: currentPage });
+    ProfileApiService.getPublicDestinations({ search: searchName, uniqueName, context: "CONSULTANCY", page: currentPage });
 
   const keyName = ["get-public-destinations", uniqueName, currentPage, searchName].join("-");
-  const { isLoading, isValidating, data, error } = useSWR(uniqueName ? keyName : null, fetcher);
+  const { isLoading, isValidating, data, error } = useSWR(uniqueName ? keyName : null, fetcher, {
+    revalidateOnFocus: false,
+  });
 
   if (error) return <ErrorState />;
 
