@@ -56,7 +56,7 @@ export const getDestinations = async (profileName: string) => {
 
 export const getPublicDestinations = async ({
   search = "",
-  context = "ALL",
+  context = "PLATFORM",
   uniqueName,
   page = 1,
   limit = 6,
