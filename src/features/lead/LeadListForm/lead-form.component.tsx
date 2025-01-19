@@ -9,6 +9,7 @@ import { DATA_LAYER_NAME } from "@/services/analytics/constants";
 import { Grid, SubmitButton, TextField } from "mars-ds";
 import { useState } from "react";
 import { useAppStore } from "@/core/store";
+import { useRouter } from "next/router";
 
 interface LeadFormProps extends GridProps {
   cta?: ButtonProps;
@@ -19,6 +20,7 @@ interface LeadFormProps extends GridProps {
 export const LeadForm = ({ cta, isConsultancy, onSubmitCallback, ...props }: LeadFormProps) => {
   const [submitting, setSubmitting] = useState(false);
   const { leadCreate, lead } = useAppStore();
+  const router = useRouter();
 
   const handleSubmit: SubmitHandler<LeadCreateDTO> = async (data) => {
     setSubmitting(true);
@@ -32,7 +34,13 @@ export const LeadForm = ({ cta, isConsultancy, onSubmitCallback, ...props }: Lea
         k: { send_to: "AW-11471805885/BUJnCN21-MEZEL27l94q" },
       });
 
-      onSubmitCallback?.(newLead);
+      if (onSubmitCallback) {
+        onSubmitCallback(newLead);
+      } else {
+        setSubmitting(false);
+        isConsultancy && alert("Obrigado! Entraremos em contato para começarmos a trabalhar na sua viagem dos sonhos em até 24h úteis.");
+        router.reload();
+      }
     } catch (error) {
       console.error(error);
       setSubmitting(false);
