@@ -12,10 +12,11 @@ import { useAppStore } from "@/core/store";
 
 interface LeadFormProps extends GridProps {
   cta?: ButtonProps;
+  isConsultancy?: Boolean;
   onSubmitCallback?: (lead: Lead) => void;
 }
 
-export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => {
+export const LeadForm = ({ cta, isConsultancy, onSubmitCallback, ...props }: LeadFormProps) => {
   const [submitting, setSubmitting] = useState(false);
   const { leadCreate, lead } = useAppStore();
 
@@ -54,6 +55,7 @@ export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => 
         <input type="hidden" name="inviterId" value={lead.invitedBy?.id} />
         <input type="hidden" name="inviterEmail" value={lead.invitedBy?.email} />
         <input type="hidden" name="affiliateId" value={lead.invitedBy?.affiliateId} />
+        {isConsultancy && <input type="hidden" name="sourceId" value={"consultoria"} />}
         <SubmitButton
           /* eslint-disable-next-line react/no-children-prop */
           children="Entrar na lista"
