@@ -50,7 +50,7 @@ export const ConsultancyDestinations = ({
             image={
               destination.coverImage ? parseImage(destination?.coverImage?.sources) : undefined
             }
-            href={`/destinos/${destination.uniqueName}`}
+            href={`/destinos/${destination.uniqueName}?source=consultoria`}
           >
             <Box className="theme-dark" sx={{ minWidth: 200 }}>
               <Button

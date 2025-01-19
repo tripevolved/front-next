@@ -13,11 +13,11 @@ import { useRouter } from "next/router";
 
 interface LeadFormProps extends GridProps {
   cta?: ButtonProps;
-  isConsultancy?: Boolean;
+  source?: string;
   onSubmitCallback?: (lead: Lead) => void;
 }
 
-export const LeadForm = ({ cta, isConsultancy, onSubmitCallback, ...props }: LeadFormProps) => {
+export const LeadForm = ({ cta, source, onSubmitCallback, ...props }: LeadFormProps) => {
   const [submitting, setSubmitting] = useState(false);
   const { leadCreate, lead } = useAppStore();
   const router = useRouter();
@@ -38,7 +38,7 @@ export const LeadForm = ({ cta, isConsultancy, onSubmitCallback, ...props }: Lea
         onSubmitCallback(newLead);
       } else {
         setSubmitting(false);
-        isConsultancy && alert("Obrigado! Entraremos em contato para começarmos a trabalhar na sua viagem dos sonhos em até 24h úteis.");
+        source && alert("Obrigado! Entraremos em contato para começarmos a trabalhar na sua viagem dos sonhos em até 24h úteis.");
         router.reload();
       }
     } catch (error) {
@@ -63,7 +63,7 @@ export const LeadForm = ({ cta, isConsultancy, onSubmitCallback, ...props }: Lea
         <input type="hidden" name="inviterId" value={lead.invitedBy?.id} />
         <input type="hidden" name="inviterEmail" value={lead.invitedBy?.email} />
         <input type="hidden" name="affiliateId" value={lead.invitedBy?.affiliateId} />
-        {isConsultancy && <input type="hidden" name="sourceId" value={"consultoria"} />}
+        {source && <input type="hidden" name="sourceId" value={source} />}
         <SubmitButton
           /* eslint-disable-next-line react/no-children-prop */
           children="Entrar na lista"

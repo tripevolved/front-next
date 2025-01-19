@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { FormLogicProps } from "./lead-list-form.types";
 import { LeadForm } from "./lead-form.component";
 
-export function FormLogic({ cta, isConsultancy }: FormLogicProps) {
+export function FormLogic({ cta, source }: FormLogicProps) {
   const router = useRouter();
 
   const toSubscribedPage = () => router.replace(`/inscrito`);
@@ -11,8 +11,8 @@ export function FormLogic({ cta, isConsultancy }: FormLogicProps) {
     <div className="theme-dark p-xl">
       <LeadForm
         columns={{ lg: [1, 1, 1, "220px"] }}
-        onSubmitCallback={isConsultancy ? undefined : toSubscribedPage}
-        isConsultancy={isConsultancy}
+        onSubmitCallback={source ? undefined : toSubscribedPage}
+        source={source}
         cta={cta}
       />
     </div>
