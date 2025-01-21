@@ -1,0 +1,15 @@
+.vertical-video {
+  margin: 2vh auto;
+
+  .vertical-video__container {
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 96vh;
+    aspect-ratio: 9/16;
+  }
+
+  .vertical-video__video {
+    height: 100%;
+    width: auto;
+    aspect-ratio: 9/16;
+  }
+}

@@ -1,6 +1,6 @@
-import Video from 'next-video';
 import testVideo from '/videos/test.mp4';
+import { VerticalVideo } from '@/ui';
 
 export default function VideoPageRoute() {
-  return <Video src={testVideo} />
+  return <VerticalVideo src={testVideo} />
 }

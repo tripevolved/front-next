@@ -54,6 +54,7 @@ export * from "./loaders/ProgressIndicator";
 export * from "./loaders/StepsLoader";
 export * from "./modals/ConfirmationModal";
 export * from "./modals/ModalContent";
+export * from "./multimedia/VerticalVideo";
 export * from "./notifications/NotificationResult";
 export * from "./sections/SectionBase";
 export * from "./sections/SectionFilterTravel";
