@@ -30,6 +30,7 @@ export function VerticalVideo({ src, className, children, sx, ...props }: Vertic
           controls={false}
           onClick={() => videoRef?.current?.paused ? playVideo() : pauseVideo()}
         >
+          {/* {(videoRef?.current?.paused && <img src={"playImage"}/>)} */}
           {children}
         </Video>
       </Box>
