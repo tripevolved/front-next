@@ -9,15 +9,18 @@ import { DATA_LAYER_NAME } from "@/services/analytics/constants";
 import { Grid, SubmitButton, TextField } from "mars-ds";
 import { useState } from "react";
 import { useAppStore } from "@/core/store";
+import { useRouter } from "next/router";
 
 interface LeadFormProps extends GridProps {
   cta?: ButtonProps;
+  source?: string;
   onSubmitCallback?: (lead: Lead) => void;
 }
 
-export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => {
+export const LeadForm = ({ cta, source, onSubmitCallback, ...props }: LeadFormProps) => {
   const [submitting, setSubmitting] = useState(false);
   const { leadCreate, lead } = useAppStore();
+  const router = useRouter();
 
   const handleSubmit: SubmitHandler<LeadCreateDTO> = async (data) => {
     setSubmitting(true);
@@ -31,7 +34,13 @@ export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => 
         k: { send_to: "AW-11471805885/BUJnCN21-MEZEL27l94q" },
       });
 
-      onSubmitCallback?.(newLead);
+      if (onSubmitCallback) {
+        onSubmitCallback(newLead);
+      } else {
+        setSubmitting(false);
+        source && alert("Obrigado! Entraremos em contato para começarmos a trabalhar na sua viagem dos sonhos em até 24h úteis.");
+        router.reload();
+      }
     } catch (error) {
       console.error(error);
       setSubmitting(false);
@@ -54,6 +63,7 @@ export const LeadForm = ({ cta, onSubmitCallback, ...props }: LeadFormProps) => 
         <input type="hidden" name="inviterId" value={lead.invitedBy?.id} />
         <input type="hidden" name="inviterEmail" value={lead.invitedBy?.email} />
         <input type="hidden" name="affiliateId" value={lead.invitedBy?.affiliateId} />
+        {source && <input type="hidden" name="sourceId" value={source} />}
         <SubmitButton
           /* eslint-disable-next-line react/no-children-prop */
           children="Entrar na lista"

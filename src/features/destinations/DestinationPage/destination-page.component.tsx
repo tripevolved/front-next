@@ -1,5 +1,5 @@
 import type { DestinationPageProps } from "./destination-page.types";
-import { PageBase } from "@/features";
+import { LeadListForm, PageBase } from "@/features";
 import { DestinationHeroSection } from "./destinations-hero.section";
 import { DestinationInfoSection } from "./destination-info.section";
 import { DestinationVideoSection } from "./destination-video.section";
@@ -7,10 +7,11 @@ import { DestinationTipsSection } from "./destination-tips.section";
 import { DestinationPostsSection } from "./destinations-posts.section";
 import { DestinationFaqSection } from "./destination-faq.section";
 import { DestinationProfileSection } from "./destination-profile.section";
-import { Button } from "mars-ds";
+import { Button, Container, Text } from "mars-ds";
 import { UserCredentials } from "@/services/user/credentials";
-import { WhatsappButton } from "@/ui";
+import { Box, SectionBase, WhatsappButton } from "@/ui";
 import { canSignUp } from "@/utils/helpers/environment.helpers";
+import { useRouter } from "next/router";
 
 const mock = {
   features: [
@@ -118,9 +119,10 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
         travelerProfiles={travelerProfiles}
         travelType={travelType}
       />
-      <DestinationInfoSection features={features} recommendedBy={recommendedBy}>
+      <DestinationInfoSection features={features} recommendedBy={recommendedBy} />
+      <Box style={{margin: 32}}>
         <Cta />
-      </DestinationInfoSection>
+      </Box>
       {videos.length ? <DestinationVideoSection title={title} videos={videos} /> : null}
       {tips.length ? <DestinationTipsSection tips={tips} /> : null}
       {posts.length ? <DestinationPostsSection posts={posts} /> : null}
@@ -138,11 +140,35 @@ interface DestinationCtaProps {
 
 const DestinationCta = ({ uniqueName, destinationTitle }: DestinationCtaProps) => {
   const userData = UserCredentials.get();
+  const router = useRouter();
+  const sourceParam = typeof router.query.source === "string" ? router.query.source : undefined;
+
+  if (sourceParam && sourceParam === "consultoria") {
+    return (
+      <Container className="text-center">
+        <LeadListForm
+          label={"Organize sua viagem com especialistas"}
+          heading={"Deixe suas informações e nossos especialistas vão entrar em contato"}
+          source={sourceParam ? `${sourceParam}-${uniqueName}` : undefined}
+          cta={{
+            children: "Quero agendar"
+          }}
+        >
+          <Text>
+            Vamos entrar em contato em até 24h úteis para te ajudar a organizar a viagem dos sonhos! Conte conosco!
+          </Text>
+          <Text size="xs">
+            Ao deixar suas informações, você confirma que leu e aceita nossa <a target='_blank' style={{color: "var(--color-brand-2)"}} href={"https://tripevolved.com.br/politica-de-privacidade/"} rel="noreferrer">Política de Privacidade</a>.
+          </Text>
+        </LeadListForm>
+      </Container>
+    );
+  }
+
   return (
     <div className="text-center">
       {userData?.idToken ? (
         <Button
-          className="mt-2x"
           style={{ width: 336 }}
           // @ts-ignore
           variant="tertiary"
@@ -152,7 +178,6 @@ const DestinationCta = ({ uniqueName, destinationTitle }: DestinationCtaProps) =
         </Button>
       ) : canSignUp() ? (
         <Button
-          className="mt-2x"
           style={{ width: 336 }}
           // @ts-ignore
           variant="tertiary"
@@ -164,7 +189,6 @@ const DestinationCta = ({ uniqueName, destinationTitle }: DestinationCtaProps) =
         </Button>
       ) : (
         <WhatsappButton
-          className="mt-2x"
           style={{ width: 336 }}
           // @ts-ignore
           variant="tertiary"

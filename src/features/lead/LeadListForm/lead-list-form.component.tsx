@@ -11,6 +11,7 @@ export function LeadListForm({
   sx,
   label = "SEJA PIONEIRO",
   heading = "Participe da lista de espera",
+  source,
   cta,
   ...props
 }: LeadListFormProps) {
@@ -26,7 +27,7 @@ export function LeadListForm({
         </Text>
         {children}
       </div>
-      <FormLogic cta={cta} />
+      <FormLogic cta={cta} source={source} />
     </Card>
   );
 }
