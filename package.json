@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "dev:ssl": "next dev --port 3005 & npx local-ssl-proxy --key local.tripevolved.com.br-key.pem --cert local.tripevolved.com.br.pem --source 443 --target 3005",
+    "dev": "next dev & npx next-video sync -w",
+    "dev:ssl": "next dev --port 3005 & npx local-ssl-proxy --key local.tripevolved.com.br-key.pem --cert local.tripevolved.com.br.pem --source 443 --target 3005 & npx next-video sync -w",
     "build": "next build",
     "start": "next start",
     "type:check": "tsc --project tsconfig.json --noEmit",
@@ -69,6 +69,7 @@
     "mars-ds": "2.0.0-alpha.5",
     "next": "^15.1.6",
     "next-seo": "^5.15.0",
+    "next-video": "^2.0.0",
     "qrcode.react": "^3.1.0",
     "react": "18.2.0",
     "react-date-range": "^1.4.0",
