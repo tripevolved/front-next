@@ -29,10 +29,10 @@ export function Discover({  }: DiscoverProps) {
     const height = containerComponent?.current?.clientHeight ?? 0;
 
     if (isDownSwipe) {
-      containerComponent?.current?.scrollTo(0, -height);
+      containerComponent?.current?.scrollTo({ top: -height, behavior: "smooth" });
     }
     if (isUpSwipe) {
-      containerComponent?.current?.scrollTo(0, height);
+      containerComponent?.current?.scrollTo({ top: height, behavior: "smooth" });
     }
   }
 
