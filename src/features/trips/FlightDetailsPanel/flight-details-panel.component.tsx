@@ -12,6 +12,8 @@ export function FlightDetailsPanel({
   sx,
   data,
   flightView,
+  handleEditFlight,
+  onClose,
   ...props
 }: FlightDetailsPanelProps) {
   const LoadingSkeleton = () => (
@@ -24,6 +26,8 @@ export function FlightDetailsPanel({
   );
 
   const flightViewData = data?.flightView || flightView;
+
+  console.log(flightViewData);
 
   const cn = makeCn("flight-details-panel", className)(sx);
   if ((data || flightView) === null) {
@@ -41,15 +45,26 @@ export function FlightDetailsPanel({
           Detalhes do voo
         </Text>
 
-        <div className="flex" style={{
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center"
-        }}>
+        <div
+          className="flex"
+          style={{
+            width: "100%",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Text size="xl">Voo de ida</Text>
-          <Button iconName="edit-2" variant="secondary" style={{
-            border: "none"
-          }}>
+          <Button
+            iconName="edit-2"
+            variant="secondary"
+            style={{
+              border: "none",
+            }}
+            onClick={() => {
+              onClose();
+              handleEditFlight();
+            }}
+          >
             <span>Mudar voo</span>
           </Button>
         </div>
@@ -58,15 +73,26 @@ export function FlightDetailsPanel({
             <FlightCard flight={flight} key={i} />
           ))}
         </Box>
-        <div className="flex" style={{
-          width: "100%",
-          justifyContent: "space-between",
-          alignItems: "center"
-        }}>
+        <div
+          className="flex"
+          style={{
+            width: "100%",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Text size="xl">Voo de volta</Text>
-          <Button iconName="edit-2" variant="secondary" style={{
-            border: "none"
-          }}>
+          <Button
+            iconName="edit-2"
+            variant="secondary"
+            style={{
+              border: "none",
+            }}
+            onClick={() => {
+              onClose();
+              handleEditFlight();
+            }}
+          >
             <span>Mudar voo</span>
           </Button>
         </div>

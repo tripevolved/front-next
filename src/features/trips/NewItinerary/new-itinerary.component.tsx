@@ -79,6 +79,7 @@ export function NewItinerary({ tripId, title }: any) {
     } catch {
       setError("Error sorting actions by city");
     } finally {
+      console.log("actions ->", actions)
       return actions;
     }
   }, [itinerary]);
