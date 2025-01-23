@@ -1,0 +1,1 @@
+export * from "./fligh-edit-card.component";
