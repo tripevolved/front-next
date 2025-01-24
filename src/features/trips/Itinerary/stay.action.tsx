@@ -1,4 +1,4 @@
-import { TripStaySimplified } from "@/core/types";
+import { TripStay, TripStaySimplified } from "@/core/types";
 import { Button, Icon, Modal } from "mars-ds";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CardHighlight, CircleProgressCustom, Picture } from "@/ui";
@@ -10,6 +10,7 @@ import { StayNotMain } from "./stay.notMain.action";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
 import { TripStayServiceItem } from "../TripStayServiceItem";
+import useSwr from "swr";
 
 interface Props {
   action: TripStaySimplified;
@@ -34,15 +35,27 @@ export const StayAction = ({ action, tripId }: Props) => {
       timerRef.current = undefined;
     };
   }, [action.isReady]);
-  const handleSeeDetails = useCallback(async () => {
-    const data = await StaysApiService.getByTripId(tripId, action.actionId);
+
+  console.log("action ->", action);
+
+  const fetcher = async () => StaysApiService.getByTripId(tripId, action.actionId);
+
+  const { data: searchedAccomodationDetails } = useSwr<TripStay>(
+    "get-accomodation-details",
+    fetcher,
+    {
+      revalidateOnMount: true,
+    }
+  );
+
+  const handleSeeDetails = async () => {
     const modal = Modal.open(
       () => {
         return (
           <StayDetailsModal
             allowEdit={false}
             tripId={tripId}
-            tripStay={data}
+            tripStay={searchedAccomodationDetails}
             router={router}
             itineraryActionId={action.actionId}
             onCloseModal={() => modal.close()}
@@ -54,7 +67,7 @@ export const StayAction = ({ action, tripId }: Props) => {
         size: "md",
       }
     );
-  }, [action.actionId, router, tripId]);
+  };
 
   if (!action.isMain) {
     return <StayNotMain action={action} showDetails={handleSeeDetails} />;
@@ -73,21 +86,21 @@ export const StayAction = ({ action, tripId }: Props) => {
           <div style={{ width: 40 }} />
           <div className="flex flex-column justify-start">
             <div className="flex flex-row gap-xl">
-              <Picture
-                alt={action.name}
-                style={{ width: 140, maxHeight: 140, borderRadius: 15 }}
-              >
+              <Picture alt={action.name} style={{ width: 140, maxHeight: 140, borderRadius: 15 }}>
                 {action.coverImage ? parsePhoto(action.coverImage) : undefined}
               </Picture>
               <div>
                 <Text as="h1" size="xs" style={{ padding: 0 }}>
                   <strong>{action.name}</strong>
                 </Text>
-                <Text as="p" size="xs" style={{marginTop: 0}}>
+                <Text as="p" size="xs" style={{ marginTop: 0 }}>
                   <strong style={{ color: "var(--color-brand-4" }}>{action.tags}</strong>
                 </Text>
                 {action.boardChoices.length === 1 && (
-                  <TripStayServiceItem title={action.boardChoices[0].boardChoice ?? ""} type={action.boardChoices[0].boardType === "BB" ? "breakfast" : null} />
+                  <TripStayServiceItem
+                    title={action.boardChoices[0].boardChoice ?? ""}
+                    type={action.boardChoices[0].boardType === "BB" ? "breakfast" : null}
+                  />
                 )}
               </div>
             </div>
@@ -104,10 +117,9 @@ export const StayAction = ({ action, tripId }: Props) => {
               }}
               onClick={handleSeeDetails}
             >
-              {" "}
               Ver Detalhes
             </Button>
-            {action.highlight && (<TripStayHighlightSection highlight={action.highlight} />)}
+            {action.highlight && <TripStayHighlightSection highlight={action.highlight} />}
           </div>
         </div>
       ) : (

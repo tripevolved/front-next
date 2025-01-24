@@ -22,6 +22,9 @@ export function StayDetailsModal({
     router.push(`/app/viagens/${tripId}/hospedagem/editar/${itineraryActionId}`);
   };
 
+  if (!tripStay?.isReady) {
+    return <StayDetailsLoadingState />;
+  }
   return (
     <>
       {/** @ts-ignore */}
@@ -29,15 +32,15 @@ export function StayDetailsModal({
         <Box className="trip-stay-details__initial-info">
           <div className="trip-stay-details__initial-info__header">
             <Text size="sm" heading className="trip-stay-details__initial-info__header__title">
-              {tripStay.name}
+              {tripStay?.name}
             </Text>
-            <Text>{tripStay.tags}</Text>
+            <Text>{tripStay?.tags}</Text>
           </div>
-          {tripStay.details.images?.length ? (
+          {tripStay?.details.images?.length ? (
             <ThumbnailCarousel options={{}} slides={tripStay.details.images} />
-          ) : tripStay.coverImage ? (
-            <Picture className="trip-stay-details__initial-info__image" alt={tripStay.name}>
-              {parsePhoto(tripStay.coverImage)}
+          ) : tripStay?.coverImage ? (
+            <Picture className="trip-stay-details__initial-info__image" alt={tripStay?.name}>
+              {parsePhoto(tripStay?.coverImage)}
             </Picture>
           ) : (
             <Picture
@@ -56,13 +59,16 @@ export function StayDetailsModal({
             Informações
           </Text>
           <Text className="trip-stay-details__content__description">
-            {tripStay.details.information || EMPTY_INFO_DETAILS}
+            {tripStay?.details.information || EMPTY_INFO_DETAILS}
           </Text>
 
-          {tripStay.details.services && (
+          {tripStay?.details.services && (
             <div className="trip-stay-details__content__service-list">
               {tripStay.boardInfo ? (
-                <TripStayServiceItem title={tripStay.boardInfo.boardChoice ?? ""} type={tripStay.boardInfo.boardType === "BB" ? "breakfast" : null} />
+                <TripStayServiceItem
+                  title={tripStay.boardInfo.boardChoice ?? ""}
+                  type={tripStay.boardInfo.boardType === "BB" ? "breakfast" : null}
+                />
               ) : null}
               {tripStay.details.services.map((service, i) => {
                 if (service.title == tripStay.boardInfo?.boardChoice) return null;
@@ -74,14 +80,14 @@ export function StayDetailsModal({
             <Divider />
             <div className="trip-stay-details__content__check-in-address__item">
               <Picture src="/assets/stays/time.png" />
-              <Text>Check-in às {tripStay.details.checkInHour || EMPTY_INFO_DETAILS}</Text>
+              <Text>Check-in às {tripStay?.details.checkInHour || EMPTY_INFO_DETAILS}</Text>
             </div>
             <div className="trip-stay-details__content__check-in-address__item">
               <Picture src="/assets/stays/pin.png" />
-              <Text>{tripStay.details.address}</Text>
+              <Text>{tripStay?.details.address}</Text>
             </div>
           </Box>
-          {tripStay.cancellationInfo ? (
+          {tripStay?.cancellationInfo ? (
             <>
               <Text heading size="xs" className="trip-stay-details__content__title">
                 Informações de cancelamento
