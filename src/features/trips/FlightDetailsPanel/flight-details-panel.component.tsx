@@ -73,29 +73,9 @@ export function FlightDetailsPanel({
             <FlightCard flight={flight} key={i} />
           ))}
         </Box>
-        <div
-          className="flex"
-          style={{
-            width: "100%",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Text size="xl">Voo de volta</Text>
-          <Button
-            iconName="edit-2"
-            variant="secondary"
-            style={{
-              border: "none",
-            }}
-            onClick={() => {
-              onClose();
-              handleEditFlight();
-            }}
-          >
-            <span>Mudar voo</span>
-          </Button>
-        </div>
+
+        <Text size="xl">Voo de volta</Text>
+
         <Box className="flight-details-panel__container__flight flex-column gap-md">
           {flightViewData?.returnFlight.flightDetails.map((flight, i) => (
             <FlightCard flight={flight} key={i} />

@@ -37,11 +37,7 @@ export function ChangeFlight() {
           <Text as="h2" size="xxl" style={{ color: "var(--color-brand-1" }}>
             <strong>Mudar o voo de ida</strong>
           </Text>
-          <Button
-          variant="custom"
-          size="md"
-          onClick={() => console.log("close")}
-          >
+          <Button variant="custom" size="md" onClick={() => console.log("close")}>
             X
           </Button>
         </div>
@@ -56,15 +52,26 @@ export function ChangeFlight() {
           Voo de ida
         </Text>
       </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "1rem",
+          padding: "1rem",
+        }}
+      >
+        {mock.map((flight, i) => (
+          <FlightEditCard
+            flight={flight}
+            key={i}
+            handleSelectedFlight={handleSelectedFlight}
+            selectedFlight={selectedFlight}
+          />
+        ))}
+      </div>
 
-      {mock.map((flight, i) => (
-        <FlightEditCard
-          flight={flight}
-          key={i}
-          handleSelectedFlight={handleSelectedFlight}
-          selectedFlight={selectedFlight}
-        />
-      ))}
       <Button
         variant="tertiary"
         style={{

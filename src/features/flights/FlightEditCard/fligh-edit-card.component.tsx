@@ -21,13 +21,14 @@ export function FlightEditCard({ flight, selectedFlight, handleSelectedFlight }:
     <>
       <Card
         onClick={() => handleSelectedFlight(flight.id)}
-        className="flight-card w-100 flex-column"
+        className="flight-card flex-column"
         elevation="md"
         style={{
           border:
             selectedFlight === flight.id
               ? "1px solid var(--color-brand-1)"
               : "1px solid var(--color-gray-3)",
+          width: "80%",
         }}
       >
         <div className="flex flex-column w-100">
@@ -85,7 +86,11 @@ export function FlightEditCard({ flight, selectedFlight, handleSelectedFlight }:
             className=" mt-sm flex flex-column  gap-md"
             style={{ alignItems: "start" }}
           >
-            <div>
+            <div
+              style={{
+                width: "100%",
+              }}
+            >
               <div className="flex flex-row gap-md align-center">
                 <div
                   style={{
@@ -139,11 +144,15 @@ export function FlightEditCard({ flight, selectedFlight, handleSelectedFlight }:
                 >
                   14:30 - Aeroporto de Confins
                 </strong>
-                
               </div>
             </div>
-           
-            <div className="flex flex-column align-end">
+
+            <div
+              className="flex flex-column align-end"
+              style={{
+                width: "100%",
+              }}
+            >
               <Text as="span" size="sm">
                 LATAM - Econômica - AD 8084
               </Text>
@@ -154,7 +163,7 @@ export function FlightEditCard({ flight, selectedFlight, handleSelectedFlight }:
                 Wi-Fi disponível, cobrado à parte
               </Text>
             </div>
-   
+
             <div
               className="w-100"
               style={{
@@ -165,10 +174,8 @@ export function FlightEditCard({ flight, selectedFlight, handleSelectedFlight }:
                 color: "var(--color-brand-1)",
               }}
             >
-              
               {selectedFlight === flight.id && (
                 <>
-                
                   <Text as="span" size="xxl">
                     Selecionado
                   </Text>{" "}
