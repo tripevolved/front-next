@@ -104,7 +104,7 @@ export const StayAction = ({ action, tripId }: Props) => {
                 )}
               </div>
             </div>
-            <Button
+            {(action.isSelected) ? <Button
               variant="neutral"
               size="sm"
               style={{
@@ -118,7 +118,7 @@ export const StayAction = ({ action, tripId }: Props) => {
               onClick={handleSeeDetails}
             >
               Ver Detalhes
-            </Button>
+            </Button> : <Text as="p" size="xs" style={{ marginTop: 0 }}>Não encontrado</Text>}
             {action.highlight && <TripStayHighlightSection highlight={action.highlight} />}
           </div>
         </div>
