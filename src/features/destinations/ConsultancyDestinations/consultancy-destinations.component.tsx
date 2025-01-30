@@ -51,23 +51,7 @@ export const ConsultancyDestinations = ({
               destination.coverImage ? parseImage(destination?.coverImage?.sources) : undefined
             }
             href={`/destinos/${destination.uniqueName}?source=consultoria`}
-          >
-            <Box className="theme-dark" sx={{ minWidth: 200 }}>
-              <Button
-                size="sm"
-                variant="neutral"
-                iconName="arrow-right"
-                isRtl
-                href={
-                  UserService.isAuth() || canSignUp()
-                    ? `/destinos/${destination.uniqueName}`
-                    : getWhatsappLink(`Quero ir para ${destination.name}`)
-                }
-              >
-                Quero ir
-              </Button>
-            </Box>
-          </CardTrip>
+          />
         ))}
       </Grid>
     </>
