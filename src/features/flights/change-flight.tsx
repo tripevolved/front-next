@@ -60,6 +60,7 @@ export function ChangeFlight() {
           justifyContent: "center",
           gap: "1rem",
           padding: "1rem",
+          marginBottom: "30px",
         }}
       >
         {mock.map((flight, i) => (
@@ -76,7 +77,7 @@ export function ChangeFlight() {
         variant="tertiary"
         style={{
           position: "fixed",
-          bottom: "125px",
+          bottom: "15px",
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 1000,

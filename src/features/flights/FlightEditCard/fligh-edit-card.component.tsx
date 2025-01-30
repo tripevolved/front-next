@@ -28,7 +28,6 @@ export function FlightEditCard({ flight, selectedFlight, handleSelectedFlight }:
             selectedFlight === flight.id
               ? "1px solid var(--color-brand-1)"
               : "1px solid var(--color-gray-3)",
-          width: "80%",
         }}
       >
         <div className="flex flex-column w-100">
@@ -164,16 +163,7 @@ export function FlightEditCard({ flight, selectedFlight, handleSelectedFlight }:
               </Text>
             </div>
 
-            <div
-              className="w-100"
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "10px",
-                color: "var(--color-brand-1)",
-              }}
-            >
+            <div className="w-100 selectedMarker">
               {selectedFlight === flight.id && (
                 <>
                   <Text as="span" size="xxl">
