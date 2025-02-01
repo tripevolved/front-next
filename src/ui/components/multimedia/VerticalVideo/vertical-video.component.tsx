@@ -29,7 +29,6 @@ export function VerticalVideo({ src, className, autoPlay, children, sx, ...props
           autoPlay={autoPlay ?? false}
           muted
           controls={false}
-          blurDataURL="/assets/videos/play.svg"
           onClick={playPause}
           onPlay={() => setShowPlayImg(false)}
           onPause={() => setShowPlayImg(true)}
