@@ -5,7 +5,7 @@ import { VerticalVideoProps } from "./vertical-video.types";
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { useRef } from 'react';
 
-export function VerticalVideo({ src, className, children, sx, ...props }: VerticalVideoProps) {
+export function VerticalVideo({ src, className, autoPlay, children, sx, ...props }: VerticalVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const playVideo = () => {
@@ -24,8 +24,7 @@ export function VerticalVideo({ src, className, children, sx, ...props }: Vertic
           ref={videoRef}
           className="vertical-video__video"
           src={src}
-          autoPlay
-          loop
+          autoPlay={autoPlay ?? false}
           muted
           controls={false}
           onClick={() => videoRef?.current?.paused ? playVideo() : pauseVideo()}
