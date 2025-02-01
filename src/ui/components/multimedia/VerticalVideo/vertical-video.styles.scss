@@ -18,6 +18,13 @@
       left: 50%;
       transform: translate(-50%,-50%);
     }
+
+    &__sound-control {
+      position: absolute;
+      bottom: 3%;
+      left: 3%;
+      transform: translate(-2%,-2%);
+    }
   }
 
   &__video {

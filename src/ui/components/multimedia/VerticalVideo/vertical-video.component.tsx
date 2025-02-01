@@ -6,9 +6,10 @@ import { makeCn } from "@/utils/helpers/css.helpers";
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 
-export function VerticalVideo({ src, className, autoPlay, children, sx, ...props }: VerticalVideoProps) {
+export function VerticalVideo({ src, className, autoPlay, isMuted, children, sx, ...props }: VerticalVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showPlayImg, setShowPlayImg] = useState<Boolean>(false);
+  const [muted, setMuted] = useState<boolean>(isMuted ?? false);
 
   const playPause = () => {
     if (videoRef?.current?.paused) {
@@ -17,6 +18,27 @@ export function VerticalVideo({ src, className, autoPlay, children, sx, ...props
       videoRef?.current?.pause();
     }
   }
+
+  const muteUnmute = () => {
+    if (muted) {
+      setMuted(false);
+      setMutedUnmuted(false);
+    } else {
+      setMuted(true);
+      setMutedUnmuted(true);
+    }
+  }
+
+  const setMutedUnmuted = (status: boolean) => {
+    if (!videoRef.current) {
+      return;
+    }
+
+    videoRef.current.defaultMuted = status;
+    videoRef.current.muted = status;
+  }
+
+  setMutedUnmuted(muted);
 
   const cn = makeCn("vertical-video", className)(sx);
   return (
@@ -27,7 +49,6 @@ export function VerticalVideo({ src, className, autoPlay, children, sx, ...props
           className="vertical-video__video"
           src={src}
           autoPlay={autoPlay ?? false}
-          muted
           controls={false}
           onClick={playPause}
           onPlay={() => setShowPlayImg(false)}
@@ -36,6 +57,7 @@ export function VerticalVideo({ src, className, autoPlay, children, sx, ...props
           {children}
         </Video>
         {showPlayImg && <PlayImage onClick={playPause} />}
+        {muted ? <SoundImage onClick={muteUnmute} /> : <NoSoundImage onClick={muteUnmute} />}
       </Box>
     </Box>
   );
@@ -44,5 +66,17 @@ export function VerticalVideo({ src, className, autoPlay, children, sx, ...props
 function PlayImage({ onClick }: { onClick: () => void }) {
   return (
     <Image className="vertical-video__container__play" alt="play" width={64} height={64} src={"/assets/videos/play.svg"} onClick={onClick} />
+  );
+}
+
+function NoSoundImage({ onClick }: { onClick: () => void }) {
+  return (
+    <Image className="vertical-video__container__sound-control" alt="sound" width={32} height={32} src={"/assets/videos/mute.svg"} onClick={onClick} />
+  );
+}
+
+function SoundImage({ onClick }: { onClick: () => void }) {
+  return (
+    <Image className="vertical-video__container__sound-control" alt="sound" width={32} height={32} src={"/assets/videos/unmute.svg"} onClick={onClick} />
   );
 }

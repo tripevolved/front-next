@@ -7,5 +7,6 @@ export interface VerticalVideoProps extends ComponentHTMLProps {
   className?: string;
   defaultOpen?: boolean;
   autoPlay?: boolean;
+  isMuted?: boolean;
   children?: any;
 }
