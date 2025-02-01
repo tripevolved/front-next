@@ -79,6 +79,7 @@
     "react-youtube": "9.0.3",
     "ribof": "0.0.0-alpha.2",
     "slick-carousel": "^1.8.1",
+    "swiper": "^11.2.2",
     "swr": "^2.1.5",
     "zustand": "^4.3.8"
   },
