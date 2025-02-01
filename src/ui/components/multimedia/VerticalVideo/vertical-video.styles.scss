@@ -1,7 +1,8 @@
 .vertical-video {
   margin: 2vh auto;  
 
-  .vertical-video__container {
+  &__container {
+    position: relative;
     background-color: rgba(0, 0, 0, 0.2);
     height: 96vh;
     aspect-ratio: 9/16;
@@ -10,9 +11,16 @@
       width: 100%;
       height: fit-content;
     }
+
+    &__play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
   }
 
-  .vertical-video__video {
+  &__video {
     height: 100%;
     width: auto;
     aspect-ratio: 9/16;
