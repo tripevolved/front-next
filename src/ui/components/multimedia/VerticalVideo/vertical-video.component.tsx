@@ -3,10 +3,10 @@ import Video from 'next-video';
 import { Box } from "@/ui";
 import { VerticalVideoProps } from "./vertical-video.types";
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 
-export function VerticalVideo({ src, className, autoPlay, isMuted, children, sx, ...props }: VerticalVideoProps) {
+export function VerticalVideo({ src, playbackId, className, autoPlay, isMuted, children, sx, ...props }: VerticalVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showPlayImg, setShowPlayImg] = useState<Boolean>(false);
   const [muted, setMuted] = useState<boolean>(isMuted ?? false);
@@ -48,6 +48,7 @@ export function VerticalVideo({ src, className, autoPlay, isMuted, children, sx,
           ref={videoRef}
           className="vertical-video__video"
           src={src}
+          playbackId={playbackId}
           autoPlay={autoPlay ?? false}
           controls={false}
           onClick={playPause}

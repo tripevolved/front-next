@@ -4,6 +4,7 @@ import { RefObject } from "react";
 
 export interface VerticalVideoProps extends ComponentHTMLProps {
   src?: Asset | string;
+  playbackId?: string;
   className?: string;
   defaultOpen?: boolean;
   autoPlay?: boolean;

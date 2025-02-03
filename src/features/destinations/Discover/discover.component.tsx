@@ -35,7 +35,10 @@ export function Discover({  }: DiscoverProps) {
       onActiveIndexChange={changeFocus}
     >
       <SwiperSlide id={`discover__item__${0}`} className="discover__item">
-        <VerticalVideo src={testVideo} autoPlay />
+        <VerticalVideo playbackId={"pQjehivqSivjyr02SLmyxp7x02dNjKax2ssCbKJHy7ggg"} autoPlay />
+      </SwiperSlide>
+      <SwiperSlide id={`discover__item__${0}`} className="discover__item">
+        <VerticalVideo src={testVideo} />
       </SwiperSlide>
       <SwiperSlide id={`discover__item__${1}`} className="discover__item">
         <VerticalVideo src={testHorizontal} />
