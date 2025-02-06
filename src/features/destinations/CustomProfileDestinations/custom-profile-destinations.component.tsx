@@ -15,6 +15,7 @@ export function CustomProfileDestinations({
   children,
   profileName: name,
   sx,
+  destinationsCta = "Agendar conversa com especialista",
   ...props
 }: CustomProfileDestinationsProps) {
   const cn = makeCn("custom-profile-destinations", className)(sx);
@@ -23,7 +24,7 @@ export function CustomProfileDestinations({
   const profileName = useMemo(() => name || asPath.replace(/.*\/(.*)\/$/, "$1"), [asPath, name]);
 
   const message = useMemo(() => {
-    return `Olá, eu já sei para onde quero ir! O meu perfil viajante é: ${profileName}`;
+    return `Olá, quero agendar uma conversa com um especialista de viagens! O meu perfil viajante é: ${profileName}`;
   }, [profileName]);
 
   return (
@@ -35,7 +36,7 @@ export function CustomProfileDestinations({
         <DestinationsByProfileName profileName={profileName} />
         <div>
           <WhatsappButton message={message} variant="secondary">
-            Já sei para onde ir
+            {destinationsCta}
           </WhatsappButton>
         </div>
       </Grid>
