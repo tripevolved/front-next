@@ -16,7 +16,7 @@ export interface UpdateTripStay {
   uniqueTransactionId: string;
   accommodations: {
     tripItineraryActionId: string;
-    accomodationId: string;
+    accommodationId: string;
     code: string;
     signature: string;
     provider: string;

@@ -1,7 +1,7 @@
 import { ErrorState, EmptyState, Picture } from "@/ui";
 import { Text } from "@/ui";
 
-import { Button, Grid, Loader, Notification, Skeleton } from "mars-ds";
+import { Button, Grid, Icon, Loader, Notification, Skeleton } from "mars-ds";
 
 import type { StayListProps } from "@/features";
 import { StaysApiService } from "@/services/api";
@@ -30,8 +30,22 @@ export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
   const [selectedRoomCode, setSelectedRoomCode] = useState<string>();
   const [error, setError] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showBackToTopButton, setShowBackToTopButton] = useState(false);
 
   const router = useRouter();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 800) {
+        setShowBackToTopButton(true);
+      } else {
+        setShowBackToTopButton(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  });
 
   useEffect(() => {
     if (stayData === undefined) {
@@ -78,7 +92,7 @@ export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
         uniqueTransactionId: hotelsData.uniqueTransactionId,
         accommodations: [
           {
-            accomodationId: stay.id,
+            accommodationId: stay.id,
             code: stay.code!,
             provider: stay.provider!,
             signature: stay.signature!,
@@ -112,11 +126,18 @@ export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
     selectedStayId,
     hotelsData,
     setIsLoading,
-    setError,
     router,
   ]);
 
   if (errorFetchingHotels) return <ErrorState />;
+
+  const backToTop = () => {
+    window.scrollTo({
+      behavior: "smooth",
+      top: 0,
+    });
+  };
+
   return (
     <>
       <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
@@ -130,8 +151,8 @@ export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
           </Text>
         </div>
         <div>
-          <Button disabled={isLoading || isLoadingHotels} onClick={handleSave}>
-            {isLoading || isLoadingHotels ? <Loader /> : "Salvar"}
+          <Button disabled={isLoadingHotels || isLoading} onClick={handleSave}>
+            {isLoading ? <Loader /> : "Salvar"}
           </Button>
         </div>
       </div>
@@ -172,6 +193,26 @@ export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
           <EmptyState />
         )}
       </Skeleton>
+      {showBackToTopButton && (
+        <div className={`back-to-top-button ${showBackToTopButton ? "visible" : "hidden"}`}>
+          <Button
+            onClick={backToTop}
+            style={{
+              padding: "0 10px",
+            }}
+            color="primary"
+          >
+            <Icon
+              name="arrow-up"
+              size="md"
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            />
+          </Button>
+        </div>
+      )}
     </>
   );
 }

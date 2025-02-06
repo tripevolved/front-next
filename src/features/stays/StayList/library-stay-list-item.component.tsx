@@ -35,6 +35,10 @@ export function LibraryStayListItem({
     return 0;
   }, [stay]);
 
+  const formattedPrice = (price?: number) => {
+    return price && (price < 1000 ? price.toFixed(0) : (price / 1000).toFixed(3));
+  };
+
   useEffect(() => {
     const selectedRoom = stay.details.rooms.find(({ code }) => code === selectedRoomCode);
     if (stay.details.rooms.length === 0) {
@@ -56,8 +60,8 @@ export function LibraryStayListItem({
           key={stay.id}
           selectedRoom={localSelectedRoom?.code}
           setSelectedRoom={(code) => {
-            const body = document.body
-            body.setAttribute("data-overlay", "false")
+            const body = document.body;
+            body.setAttribute("data-overlay", "false");
             setSelectedRoom(code);
             modal.close();
           }}
@@ -99,7 +103,13 @@ export function LibraryStayListItem({
               >
                 <strong>{stay.name}</strong>
                 {isRecommended ? (
-                  <Picture src="/assets/stays/stay_recommended.svg"></Picture>
+                  <Picture
+                    src="/assets/stays/stay_recommended.svg"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                    }}
+                  ></Picture>
                 ) : (
                   <></>
                 )}
@@ -120,7 +130,7 @@ export function LibraryStayListItem({
                   marginTop: "16px",
                 }}
               >
-                <strong>{`R$${localSelectedRoom?.price ?? 0}`}</strong>
+                <strong>{`R$${formattedPrice(localSelectedRoom?.price) ?? 0}`}</strong>
               </Text>
               {stay.details.services && (
                 <div className="trip-stay-details__content__service-list">

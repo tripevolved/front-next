@@ -24,7 +24,7 @@ export const StayDetailsItem = ({ room, selected, setSelected }: StayDetailsItem
       <Text
         size="md"
         style={{ fontWeight: "bold", marginTop: 0, color: "var(--color-brand-2)" }}
-      >{`R$${room.price}`}</Text>
+      >{`R$${(room.price / 1000).toFixed(3)}`}</Text>
     </Grid>
     <Divider
       style={{
