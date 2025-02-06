@@ -192,9 +192,9 @@ const DestinationCta = ({ uniqueName, destinationTitle }: DestinationCtaProps) =
           style={{ width: 336 }}
           // @ts-ignore
           variant="tertiary"
-          message={`Olá! Quero ir para ${destinationTitle}!`}
+          message={`Olá! Quero agendar uma conversa e saber mais sobre ${destinationTitle}!`}
         >
-          Quero ir
+          Agendar conversa com especialista
         </WhatsappButton>
       )}
     </div>
