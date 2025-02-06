@@ -1,0 +1,78 @@
+.flight-card {
+  width: 100%;
+  background-color: $color-gray-4;
+  #flight-card-main-content {
+    flex-direction: column;
+  }
+  @media (min-width: $breakpoint-md) {
+    width: 80%;
+    #divider-mobile {
+      display: none;
+    }
+    #flight-card-main-content {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  &__airline {
+    &__airline-logo-company {
+      margin: auto;
+    }
+    &__airline-logo-company > img {
+      height: 30px;
+      background-color: $color-brand-6;
+      border-radius: $border-radius-md;
+    }
+    @media (min-width: $breakpoint-md) {
+      &__airline-logo-company {
+        margin: unset;
+      }
+    }
+  }
+  @media (min-width: $breakpoint-md) {
+    flex-direction: row;
+
+    &__divider {
+      display: none;
+    }
+  }
+}
+
+.selectedMarker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-brand-1);
+
+  @media (min-width: $breakpoint-md) {
+    height: 100%;
+    justify-content: flex-end;
+  }
+}
+
+.flight__infos__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.flight__time__text {
+  margin: 7px 0 7px 7px;
+  border-width: 1px;
+  border-color: var(--color-brand-1);
+  border-style: dashed;
+  border-right: none;
+  border-top: none;
+  border-bottom: none;
+}
+
+.return__flight__wrapper {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  border: solid;
+  border-width: 1px;
+  border-color: var(--color-brand-1);
+}

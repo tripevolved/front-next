@@ -3,7 +3,6 @@ import { Card, Divider, Icon, Button } from "mars-ds";
 import { Picture, Text } from "@/ui";
 
 import type { FlightCardProps } from "./flight-edit-card.types";
-import { useState } from "react";
 
 export function FlightEditCard({ flight, selectedFlight, handleSelectedFlight }: FlightCardProps) {
   const getHourOfFlight = (departure: string) => {
@@ -31,14 +30,7 @@ export function FlightEditCard({ flight, selectedFlight, handleSelectedFlight }:
         }}
       >
         <div className="flex flex-column w-100">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              flexDirection: "row",
-            }}
-          >
+          <div className="flight__infos__wrapper">
             <Picture
               className="flight-card__airline__airline-logo-company"
               style={{
@@ -109,33 +101,13 @@ export function FlightEditCard({ flight, selectedFlight, handleSelectedFlight }:
                   new Date(flight.departure).getMinutes()
                 ).padStart(2, "0")} - ${flight.fromAirportName}`}</strong>
               </div>
-              <div
-                style={{
-                  margin: "7px 0 7px 7px",
-                  borderWidth: 1,
-                  borderColor: "var(--color-brand-1)",
-                  borderStyle: "dashed",
-                  borderRight: "none",
-                  borderTop: " none",
-                  borderBottom: "none",
-                }}
-                className="py-md pl-lg"
-              >
+              <div className="flight__time__text py-md pl-lg">
                 <Text as="span" size="sm">{`Tempo de viagem: ${flight.flightTime.split(":")[0]}h${
                   flight.flightTime.split(":")[1]
                 }`}</Text>
               </div>
               <div className="flex flex-row gap-md align-center">
-                <div
-                  style={{
-                    width: 16,
-                    height: 16,
-                    borderRadius: 8,
-                    border: "solid",
-                    borderWidth: 1,
-                    borderColor: "var(--color-brand-1)",
-                  }}
-                />
+                <div className="return__flight__wrapper" />
                 <strong
                   style={{
                     maxWidth: 250,
