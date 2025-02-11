@@ -88,7 +88,7 @@ export function StayDetailsEditModal({
               />
             ))}
         </ul>
-        <Button onClick={() => updateSelectedRoom(selectedRoom!)}>Salvar</Button>
+        <Button onClick={() => updateSelectedRoom(selectedRoom!)} disabled={!!selectedRoom}>Salvar</Button>
       </div>
     </div>
   );
