@@ -1,0 +1,40 @@
+.vertical-video {
+  margin: 2vh auto;  
+
+  &__container {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 96vh;
+    width: 51vh;
+    aspect-ratio: 9/16;
+
+    @media (max-width: $breakpoint-sm) {
+      width: 100%;
+      height: fit-content;
+    }
+
+    &__play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+    }
+
+    &__sound-control {
+      position: absolute;
+      bottom: 3%;
+      left: 3%;
+      transform: translate(-3%,-3%);
+    }
+  }
+
+  &__video {
+    height: 100%;
+    width: auto;
+    aspect-ratio: 9/16;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    margin: auto;
+  }
+}
