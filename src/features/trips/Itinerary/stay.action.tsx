@@ -88,7 +88,7 @@ export const StayAction = ({ action, tripId }: Props) => {
             </div>
 
             <Text as="p" size="xs" style={{ marginTop: 0 }}>
-               Infelizmente não encontramos sua hospedagem ideal nesse momento, mas você pode a sua
+               Infelizmente não encontramos sua hospedagem ideal nesse momento, mas você pode editar a sua
               <Button
                 variant="neutral"
                 size="sm"
