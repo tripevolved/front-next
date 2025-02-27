@@ -87,8 +87,7 @@ export const StayAction = ({ action, tripId }: Props) => {
               </div>
             </div>
 
-            <Text as="p" size="xs" style={{ marginTop: 0 }}>
-               Infelizmente não encontramos sua hospedagem ideal nesse momento, mas você pode editar a sua
+            {(action.isSelected) ?
               <Button
                 variant="neutral"
                 size="sm"
@@ -100,11 +99,29 @@ export const StayAction = ({ action, tripId }: Props) => {
                   fontWeight: 500,
                   marginTop: 10,
                 }}
-                onClick={handleEditStay}
+                onClick={handleSeeDetails}
               >
-                 aqui
-              </Button>
-            </Text>
+                Ver Detalhes
+              </Button> :
+              <Text as="p" size="xs" style={{ marginTop: 0 }}>
+                Infelizmente não encontramos sua hospedagem ideal nesse momento, mas você pode editar a sua
+                <Button
+                  variant="neutral"
+                  size="sm"
+                  style={{
+                    border: "none",
+                    textDecoration: "underline",
+                    alignSelf: "flex-start",
+                    padding: 0,
+                    fontWeight: 500,
+                    marginTop: 10,
+                  }}
+                  onClick={handleEditStay}
+                >
+                  aqui
+                </Button>
+              </Text>
+            }
           </div>
         </div>
       ) : (
