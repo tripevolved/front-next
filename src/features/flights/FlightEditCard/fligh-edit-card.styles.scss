@@ -1,11 +1,10 @@
-.flight-card {
+.flight-edit-card {
   width: 100%;
   background-color: $color-gray-4;
   #flight-card-main-content {
     flex-direction: column;
   }
   @media (min-width: $breakpoint-md) {
-    width: 80%;
     #divider-mobile {
       display: none;
     }
@@ -14,6 +13,7 @@
       justify-content: space-between;
     }
   }
+
   &__airline {
     &__airline-logo-company {
       margin: auto;
@@ -48,6 +48,16 @@
   @media (min-width: $breakpoint-md) {
     height: 100%;
     justify-content: flex-end;
+  }
+}
+
+.container__flight_edit_card {
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+  flex-direction: column;
+  @media (min-width: $breakpoint-md) {
+    flex-direction: row;
   }
 }
 

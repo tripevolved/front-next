@@ -29,16 +29,23 @@ export const FlightAction = ({
   );
 
   const handleEditFlight = useCallback(() => {
-    const route = `/app/viagens/${tripId}/voos/editar/${action.actionId}`;
+    const route = `/app/viagens/${tripId}/voos/editar/`;
     router.push(route);
   }, [router, action.actionId, tripId]);
 
   const handleSeeDetails = async () => {
     const modal = Modal.open(
-      () => <FlightDetailsPanel data={searchedFlightDetails} handleEditFlight={handleEditFlight} onClose={() => {
-        const body = document.body
-        body.setAttribute("data-overlay", "false")
-        modal.close()}}/>,
+      () => (
+        <FlightDetailsPanel
+          data={searchedFlightDetails}
+          handleEditFlight={handleEditFlight}
+          onClose={() => {
+            const body = document.body;
+            body.setAttribute("data-overlay", "false");
+            modal.close();
+          }}
+        />
+      ),
       {
         size: "md",
         closable: true,

@@ -3,13 +3,22 @@ import { FlightEditCard } from "./FlightEditCard";
 import { mock } from "./mock";
 import { Button } from "mars-ds";
 import { useState } from "react";
+import { FlightsService } from "@/services/api";
+import useSWR from "swr";
 
-export function ChangeFlight() {
+export function ChangeFlight({ tripId }: { tripId: string }) {
   const handleSave = () => {
     console.log("Salvo com sucesso");
   };
 
+  const flightsFetcher = async () => FlightsService.getFlightOptions(tripId);
+
+  const { data: flightOptionsData, isLoading, error } = useSWR(`flights-${tripId}`, flightsFetcher, {
+    revalidateOnFocus: false,
+  });
+
   const [selectedFlight, setSelectedFlight] = useState<number | null>(null);
+
   const handleSelectedFlight = (flightId: number) => {
     if (selectedFlight === flightId) {
       setSelectedFlight(null);
@@ -17,6 +26,7 @@ export function ChangeFlight() {
     }
     setSelectedFlight(flightId);
   };
+
   return (
     <div
       style={{
@@ -63,12 +73,15 @@ export function ChangeFlight() {
           marginBottom: "30px",
         }}
       >
-        {mock.map((flight, i) => (
+        {flightOptionsData?.map((flight: any, i: number) => (
           <FlightEditCard
             flight={flight}
+            destination={flight.destination}
+            origin={flight.origin}
             key={i}
             handleSelectedFlight={handleSelectedFlight}
             selectedFlight={selectedFlight}
+            flightPrice={flight.totalPrice}
           />
         ))}
       </div>
@@ -80,7 +93,7 @@ export function ChangeFlight() {
           bottom: "15px",
           left: "50%",
           transform: "translateX(-50%)",
-          zIndex: 1000,
+          zIndex: 1,
           width: "90%",
           maxWidth: "400px",
           padding: "1rem",
