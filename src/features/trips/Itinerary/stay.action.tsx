@@ -104,7 +104,7 @@ export const StayAction = ({ action, tripId }: Props) => {
                 Ver Detalhes
               </Button> :
               <Text as="p" size="xs" style={{ marginTop: 0 }}>
-                Infelizmente não encontramos sua hospedagem ideal nesse momento, mas você pode editar a sua
+                Infelizmente não encontramos sua hospedagem ideal nesse momento, mas você pode
                 <Button
                   variant="neutral"
                   size="sm"
@@ -118,7 +118,7 @@ export const StayAction = ({ action, tripId }: Props) => {
                   }}
                   onClick={handleEditStay}
                 >
-                  aqui
+                  &nbsp;editar a sua aqui
                 </Button>
               </Text>
             }
