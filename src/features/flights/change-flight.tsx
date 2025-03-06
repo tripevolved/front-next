@@ -13,7 +13,11 @@ export function ChangeFlight({ tripId }: { tripId: string }) {
 
   const flightsFetcher = async () => FlightsService.getFlightOptions(tripId);
 
-  const { data: flightOptionsData, isLoading, error } = useSWR(`flights-${tripId}`, flightsFetcher, {
+  const {
+    data: flightOptionsData,
+    isLoading,
+    error,
+  } = useSWR(`flights-${tripId}`, flightsFetcher, {
     revalidateOnFocus: false,
   });
 
@@ -33,7 +37,6 @@ export function ChangeFlight({ tripId }: { tripId: string }) {
         display: "flex",
         flexDirection: "column",
         gap: "1rem",
-        padding: "1rem",
       }}
     >
       <div
@@ -45,22 +48,12 @@ export function ChangeFlight({ tripId }: { tripId: string }) {
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Text as="h2" size="xxl" style={{ color: "var(--color-brand-1" }}>
-            <strong>Mudar o voo de ida</strong>
+            <strong>Mudar o voo </strong>
           </Text>
           <Button variant="custom" size="md" onClick={() => console.log("close")}>
             X
           </Button>
         </div>
-
-        <Text
-          as="h3"
-          size="xl"
-          style={{
-            fontWeight: 400,
-          }}
-        >
-          Voo de ida
-        </Text>
       </div>
       <div
         style={{
@@ -69,7 +62,6 @@ export function ChangeFlight({ tripId }: { tripId: string }) {
           alignItems: "center",
           justifyContent: "center",
           gap: "1rem",
-          padding: "1rem",
           marginBottom: "30px",
         }}
       >
