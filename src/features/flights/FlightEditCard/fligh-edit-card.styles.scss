@@ -86,3 +86,35 @@
   border-width: 1px;
   border-color: var(--color-brand-1);
 }
+
+.flight__info__marker {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  border: solid;
+  border-width: 2px;
+  border-color: var(--color-brand-1);
+}
+
+.flight__info__dashed__line {
+  margin: 4px 0 4px 7px;
+  border-width: 2px;
+  border-color: var(--color-brand-1);
+  border-style: dashed;
+  border-right: none;
+  border-top: none;
+  border-bottom: none;
+}
+
+.flight__details__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-brand-1);
+  margin-top: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  text-decoration-color: var(--color-brand-1);
+  text-decoration-line: underline;
+}

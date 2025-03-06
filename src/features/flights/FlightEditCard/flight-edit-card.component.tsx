@@ -151,17 +151,7 @@ export function FlightEditCard({
                 {flight.flights.slice(0, 2).map((flight: any, index: number, array: any) => (
                   <>
                     <div className="flex flex-row gap-md align-center" key={flight.id}>
-                      <div
-                        key={flight.id}
-                        style={{
-                          width: 16,
-                          height: 16,
-                          borderRadius: 8,
-                          border: "solid",
-                          borderWidth: 2,
-                          borderColor: "var(--color-brand-1)",
-                        }}
-                      />
+                      <div key={flight.id} className="flight__info__marker" />
                       <strong
                         style={{
                           maxWidth: 400,
@@ -172,18 +162,7 @@ export function FlightEditCard({
                       )} - ${flight.mandatoryAirline.iataCode}${flight.number}`}</strong>
                     </div>
                     {index !== array.length - 1 && (
-                      <div
-                        style={{
-                          margin: "4px 0 4px 7px",
-                          borderWidth: 2,
-                          borderColor: "var(--color-brand-1)",
-                          borderStyle: "dashed",
-                          borderRight: "none",
-                          borderTop: " none",
-                          borderBottom: "none",
-                        }}
-                        className="py-md pl-lg"
-                      >
+                      <div className="py-md pl-lg flight__info__dashed__line">
                         <span>{`Tempo de viagem: ${flight.duration.split(":")[0]}h${
                           flight.duration.split(":")[1]
                         }`}</span>
@@ -191,23 +170,7 @@ export function FlightEditCard({
                     )}
                   </>
                 ))}
-                <Button
-                  variant="naked"
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-
-                    alignItems: "center",
-                    gap: "10px",
-                    marginTop: "10px",
-                    color: "var(--color-brand-1)",
-                    textDecoration: "none",
-                    fontWeight: 700,
-                    textDecorationColor: "var(--color-brand-1)",
-                    textDecorationLine: "underline",
-                  }}
-                  onClick={handleDetails}
-                >
+                <Button variant="naked" className="flight__details__button" onClick={handleDetails}>
                   Exibir Detalhes do voo
                 </Button>
               </div>
