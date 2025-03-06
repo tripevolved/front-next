@@ -1,7 +1,7 @@
 import { Flight } from "@/core/types/flight-options";
 import { Picture } from "@/ui";
 import { Caption, Heading, Icon, Text } from "mars-ds";
-import { formatDate } from "../flight-edit.helpers";
+import { extractCityName, formatDate, getHourOfFlight } from "../flight-edit.helpers";
 
 interface FlightDetails {
   flight: Flight;
@@ -18,6 +18,7 @@ export function FlightDetails({
   departureOrigin,
   arrivalDestination,
 }: any) {
+    
   const outboundFlights = flight.flights.filter(
     (f: Flight) =>
       f.origin.iataCode !== destination.iataCode && f.destination.iataCode !== origin.iataCode
@@ -26,17 +27,6 @@ export function FlightDetails({
     (f: Flight) =>
       f.origin.iataCode === destination.iataCode || f.destination.iataCode === origin.iataCode
   );
-
-  const extractCityName = (location: string) => {
-    const parts = location.split(" - ");
-    return parts.length > 1 ? parts[1] : parts[0];
-  };
-
-  const getHourOfFlight = (flightTime: string) => {
-    const flightTimeRemovedSeconds = flightTime.slice(0, -3);
-
-    return flightTimeRemovedSeconds;
-  };
 
   const FlightCard = ({ flight }: any) => {
     return (
