@@ -1,27 +1,22 @@
-import { Text } from "@/ui";
+import { EmptyState, ErrorState, Text } from "@/ui";
 import { FlightEditCard } from "./FlightEditCard";
-import { mock } from "./mock";
-import { Button } from "mars-ds";
+import { Button, Grid, Skeleton } from "mars-ds";
 import { useState } from "react";
 import { FlightsService } from "@/services/api";
 import useSWR from "swr";
 
 export function ChangeFlight({ tripId }: { tripId: string }) {
-  const handleSave = () => {
-    console.log("Salvo com sucesso");
-  };
+  const [selectedFlight, setSelectedFlight] = useState<number | null>(null);
 
   const flightsFetcher = async () => FlightsService.getFlightOptions(tripId);
 
   const {
     data: flightOptionsData,
-    isLoading,
-    error,
+    isLoading: isLoadingFlightsOptions,
+    error: errorFetchingFlightOptions,
   } = useSWR(`flights-${tripId}`, flightsFetcher, {
     revalidateOnFocus: false,
   });
-
-  const [selectedFlight, setSelectedFlight] = useState<number | null>(null);
 
   const handleSelectedFlight = (flightId: number) => {
     if (selectedFlight === flightId) {
@@ -31,22 +26,16 @@ export function ChangeFlight({ tripId }: { tripId: string }) {
     setSelectedFlight(flightId);
   };
 
+  const handleSave = () => {
+    console.log("Salvo com sucesso");
+  };
+
+  if (errorFetchingFlightOptions) return <ErrorState />;
+
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "10px",
-        }}
-      >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <div className="change__flight_wrapper">
+      <div className="container">
+        <div className="text__wrapper">
           <Text as="h2" size="xxl" style={{ color: "var(--color-brand-1" }}>
             <strong>Mudar o voo </strong>
           </Text>
@@ -55,44 +44,36 @@ export function ChangeFlight({ tripId }: { tripId: string }) {
           </Button>
         </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "1rem",
-          marginBottom: "30px",
-        }}
-      >
-        {flightOptionsData?.map((flight: any, i: number) => (
-          <FlightEditCard
-            flight={flight}
-            destination={flight.destination}
-            origin={flight.origin}
-            key={i}
-            handleSelectedFlight={handleSelectedFlight}
-            selectedFlight={selectedFlight}
-            flightPrice={flight.totalPrice}
-          />
-        ))}
-      </div>
+
+      <Skeleton active={isLoadingFlightsOptions} height={250}>
+        {flightOptionsData !== undefined ? (
+          <Grid
+            style={{
+              width: "100%",
+            }}
+          >
+            {flightOptionsData?.map((flight: any, i: number) => (
+              <FlightEditCard
+                flight={flight}
+                destination={flight.destination}
+                origin={flight.origin}
+                key={i}
+                handleSelectedFlight={handleSelectedFlight}
+                selectedFlight={selectedFlight}
+                flightPrice={flight.totalPrice}
+              />
+            ))}
+          </Grid>
+        ) : (
+          <EmptyState />
+        )}
+      </Skeleton>
 
       <Button
         variant="tertiary"
-        style={{
-          position: "fixed",
-          bottom: "15px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: 1,
-          width: "90%",
-          maxWidth: "400px",
-          padding: "1rem",
-          opacity: "100%",
-        }}
+        className="save__button"
         onClick={handleSave}
-        disabled={!selectedFlight}
+        disabled={!selectedFlight || isLoadingFlightsOptions}
       >
         Salvar
       </Button>

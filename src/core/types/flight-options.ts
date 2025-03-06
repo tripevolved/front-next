@@ -1,4 +1,4 @@
-type Flights = {
+export type Flight = {
   number: string;
   id: number;
   cabin: string;
@@ -87,5 +87,5 @@ export type FlightOptions = {
   pricePerAdult: number;
   pricePerChild: number | null;
   pricePerBaby: number | null;
-  flights: Flights;
+  flights: Flight[];
 };

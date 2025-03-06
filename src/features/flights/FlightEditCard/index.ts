@@ -1,1 +1,1 @@
-export * from "./fligh-edit-card.component";
+export * from "./flight-edit-card.component";
