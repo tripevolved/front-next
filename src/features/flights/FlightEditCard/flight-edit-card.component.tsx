@@ -1,10 +1,17 @@
-import { Card, Button, Modal, Heading, Caption, Icon, Divider } from "mars-ds";
+import { Card, Button, Modal, Divider } from "mars-ds";
 
 import { Picture, Text } from "@/ui";
 
 import type { FlightCardProps } from "./flight-edit-card.types";
 import React from "react";
 import { FlightDetails } from "./components/flight-details";
+import {
+  capitalizeFirstLetter,
+  extractCityName,
+  extractDayFromDate,
+  formatPrice,
+  getHourOfFlight,
+} from "./flight-edit.helpers";
 
 export function FlightEditCard({
   flight,
@@ -14,19 +21,6 @@ export function FlightEditCard({
   origin,
   flightPrice,
 }: FlightCardProps) {
-  const getHourOfFlight = (flightTime: string) => {
-    const flightTimeRemovedSeconds = flightTime.slice(0, -3);
-
-    return flightTimeRemovedSeconds;
-  };
-
-  const capitalizeFirstLetter = (string: string) => {
-    return string
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-  };
-
   const arrivalDestination = flight.flights.find(
     (flight: { destination: { description: any } }) =>
       flight.destination.description === destination.description
@@ -37,21 +31,6 @@ export function FlightEditCard({
   );
 
   const iconFlight = flight.flights.find((flight: { iconUrl: string }) => flight.iconUrl)?.iconUrl;
-
-  const formattedPrice = (price?: number) => {
-    return price && (price < 1000 ? price.toFixed(0) : (price / 1000).toFixed(3));
-  };
-
-  const extractDayFromDate = (date: string) => {
-    const day = new Date(date).getDate();
-
-    return day;
-  };
-
-  const extractCityName = (location: string) => {
-    const parts = location.split(" - ");
-    return parts.length > 1 ? parts[1] : parts[0];
-  };
 
   const handleDetails = () => {
     const modal = Modal.open(
@@ -74,7 +53,6 @@ export function FlightEditCard({
       }
     );
   };
-  
 
   return (
     <>
@@ -89,7 +67,7 @@ export function FlightEditCard({
               : "1px solid var(--color-gray-3)",
         }}
       >
-        <div className="flex flex-column w-100" style={{}}>
+        <div className="flex flex-column w-100">
           <div
             style={{
               display: "flex",
@@ -112,7 +90,7 @@ export function FlightEditCard({
             />
             <div>
               <Text as="span" size="xl" style={{ color: "var(--color-brand-1)" }}>
-                R${formattedPrice(flightPrice)}
+                R${formatPrice(flightPrice)}
               </Text>
             </div>
           </div>
@@ -249,8 +227,7 @@ export function FlightEditCard({
                   Sua viagem terá duração de{" "}
                   {extractDayFromDate(arrivalDestination.arrivalDate) -
                     extractDayFromDate(departureOrigin.departureDate) +
-                    1}
-                  {" "}
+                    1}{" "}
                   dia
                   {extractDayFromDate(arrivalDestination.arrivalDate) -
                     extractDayFromDate(departureOrigin.departureDate) +

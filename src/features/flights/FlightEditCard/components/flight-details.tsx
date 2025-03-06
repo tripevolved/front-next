@@ -1,6 +1,7 @@
 import { Flight } from "@/core/types/flight-options";
 import { Picture } from "@/ui";
 import { Caption, Heading, Icon, Text } from "mars-ds";
+import { formatDate } from "../flight-edit.helpers";
 
 interface FlightDetails {
   flight: Flight;
@@ -18,11 +19,11 @@ export function FlightDetails({
   arrivalDestination,
 }: any) {
   const outboundFlights = flight.flights.filter(
-    (f: any) =>
+    (f: Flight) =>
       f.origin.iataCode !== destination.iataCode && f.destination.iataCode !== origin.iataCode
   );
   const returnFlights = flight.flights.filter(
-    (f: any) =>
+    (f: Flight) =>
       f.origin.iataCode === destination.iataCode || f.destination.iataCode === origin.iataCode
   );
 
@@ -40,178 +41,61 @@ export function FlightDetails({
   const FlightCard = ({ flight }: any) => {
     return (
       <div key={flight.number}>
-        <div
-          style={{
-            borderRadius: "1rem",
-            border: "1px solid var(--color-gray-3)",
-            boxShadow: "var(--shadow-elevation-300)",
-            backgroundColor: "white",
-            padding: "1rem",
-            marginBottom: "1rem",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              borderBottom: "1px solid rgba(10, 185, 173, 0.3)",
-              paddingBottom: "1rem",
-              marginBottom: "1rem",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <div
-                style={{
-                  width: "2.5rem",
-                  height: "2.5rem",
-                  borderRadius: "0.5rem",
-                  backgroundColor: "rgba(10, 185, 173, 0.1)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
+        <div className="flight__details">
+          <div className="__wrapper">
+            <div className="flight__informations">
+              <div className="flight__company__logo">
                 <Picture
                   src={flight.iconUrl ? flight.iconUrl : "/assets/blank-image.png"}
                   alt={flight.mandatoryAirline.name}
                   style={{ height: "1.5rem", width: "1.5rem" }}
                 />
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
+              <div className="airplane__details__wrapper">
                 <p style={{ fontSize: "0.875rem", color: "#0AB9AD", fontWeight: 500 }}>
                   {flight.mandatoryAirline.description}
                 </p>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontSize: "1rem",
-                      color: "gray",
-                      display: "flex",
-                      gap: "0.2rem",
-                      marginTop: "0",
-                    }}
-                  >
+                <div className="airplane__number">
+                  <p>
                     Voo
-                    <span
-                      style={{
-                        color: "#0AB9AD",
-                        fontWeight: 700,
-                      }}
-                    >
+                    <span id="flight__number">
                       {flight.mandatoryAirline.iataCode}
                       {flight.number}
                     </span>
                   </p>
-                  <span
-                    style={{
-                      fontWeight: 700,
-                      color: "#0AB9AD",
-                      fontSize: "1.25rem",
-                    }}
-                  >
-                    -
-                  </span>
-                  <span
-                    style={{
-                      marginTop: "0",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {flight.cabin}
-                  </span>
+                  <span id="separator">-</span>
+                  <span id="flight__cabin">{flight.cabin}</span>
                 </div>
               </div>
             </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                fontSize: "0.875rem",
-              }}
-            >
+            <div className="flight__date__wrapper">
               <Icon name="calendar" style={{ width: "1rem", height: "1rem", color: "#0AB9AD" }} />
-              <span style={{ fontWeight: 500 }}>{formatDate(departureOrigin.departureDate)}</span>
+              <span style={{ fontWeight: 500 }}>{formatDate(flight.departureDate)}</span>
             </div>
           </div>
 
-          <div style={{ display: "grid", gap: "2rem" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "1.5rem",
-              }}
-            >
+          <div className="flight__schedule__container">
+            <div className="flight__schedule__wrapper">
               <div style={{ flex: 1 }}>
-                <h3 style={{ fontSize: "1.5rem", fontWeight: 600, color: "#0AB9AD" }}>
-                  {extractCityName(flight.origin.description)}
-                </h3>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                    marginTop: "0.5rem",
-                  }}
-                >
-                  <span style={{ fontSize: "0.875rem", fontWeight: 500, color: "#0AB9AD" }}>
-                    {flight.origin.iataCode}
-                  </span>
+                <h3 className="flight__airport">{extractCityName(flight.origin.description)}</h3>
+                <div className="flight__iata__code__wrapper">
+                  <span>{flight.origin.iataCode}</span>
                 </div>
-                <p style={{ fontSize: "0.875rem", fontWeight: 700, marginTop: "0.5rem" }}>
-                  {getHourOfFlight(flight.departureTime)}
-                </p>
+                <p className="flight__hour">{getHourOfFlight(flight.departureTime)}</p>
               </div>
 
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.75rem",
-                    width: "8rem",
-                  }}
-                >
-                  <div style={{ height: "2px", flex: 1, backgroundColor: "#0AB9AD" }} />
+              <div className="flight__schedule__separator__container">
+                <div className="flight__schedule__separator__wrapper">
+                  <div className="flight__schedule__separator" />
                   <Picture
                     style={{
                       color: "#0AB9AD",
                     }}
                     src="/assets/transportation/flight_yellow.svg"
                   />
-                  <div style={{ height: "2px", flex: 1, backgroundColor: "#0AB9AD" }} />
+                  <div className="flight__schedule__separator" />
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.375rem",
-                    fontSize: "0.875rem",
-                    color: "#0AB9AD",
-                    fontWeight: 500,
-                  }}
-                >
+                <div className="flight__duration__container">
                   <Icon name="clock" style={{ width: "1rem", height: "1rem" }} />
                   <span>
                     {parseInt(flight.duration.split(":")[0], 10)}h
@@ -221,57 +105,19 @@ export function FlightDetails({
               </div>
 
               <div style={{ flex: 1, textAlign: "right" }}>
-                <h3 style={{ fontSize: "1.5rem", fontWeight: 600, color: "#0AB9AD" }}>
+                <h3 className="flight__airport">
                   {extractCityName(flight.destination.description)}
                 </h3>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-end",
-                    gap: "0.5rem",
-                    marginTop: "0.5rem",
-                  }}
-                >
-                  <span style={{ fontSize: "0.875rem", fontWeight: 500, color: "#0AB9AD" }}>
-                    {flight.destination.iataCode}
-                  </span>
+                <div id="destination" className="flight__iata__code__wrapper">
+                  <span>{flight.destination.iataCode}</span>
                 </div>
-                <p style={{ fontSize: "0.875rem", fontWeight: 700, marginTop: "0.5rem" }}>
-                  {getHourOfFlight(flight.arrivalTime)}
-                </p>
+                <p className="flight__hour">{getHourOfFlight(flight.arrivalTime)}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
     );
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const daysOfWeek = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
-    const months = [
-      "Janeiro",
-      "Fevereiro",
-      "Março",
-      "Abril",
-      "Maio",
-      "Junho",
-      "Julho",
-      "Agosto",
-      "Setembro",
-      "Outubro",
-      "Novembro",
-      "Dezembro",
-    ];
-
-    const dayOfWeek = daysOfWeek[date.getDay()];
-    const day = date.getDate();
-    const month = months[date.getMonth()];
-    const year = date.getFullYear();
-
-    return `${dayOfWeek}, ${day} de ${month} de ${year}`;
   };
 
   return (
