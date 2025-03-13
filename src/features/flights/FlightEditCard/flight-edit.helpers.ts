@@ -59,3 +59,11 @@ export const convertDate = (dateString: string): string => {
 
   return format(parsedDate, "dd/MM/yyyy");
 };
+
+export const subtractOriginDestinationDates = (originDate: string, destinationDate: string) => {
+  const originDateDay = extractDayFromDate(originDate);
+  const destinationDateDay = extractDayFromDate(destinationDate);
+  const subtractedDate = destinationDateDay - originDateDay + 1;
+
+  return subtractedDate;
+};

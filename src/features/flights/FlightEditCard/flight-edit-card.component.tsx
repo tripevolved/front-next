@@ -7,9 +7,9 @@ import {
   capitalizeFirstLetter,
   convertDate,
   extractCityName,
-  extractDayFromDate,
   formatPrice,
   getHourOfFlight,
+  subtractOriginDestinationDates,
 } from "./flight-edit.helpers";
 import { Plane } from "@/ui/icons/plane";
 import { Flight } from "@/core/types/flight-options";
@@ -23,11 +23,12 @@ export function FlightEditCard({
   flightPrice,
 }: FlightCardProps) {
   const originFlight = flight.flights.find(
-    (flight: { origin: { description: any } }) => flight.origin.description === origin.description
+    (flight: { origin: { description: string } }) =>
+      flight.origin.description === origin.description
   );
 
   const destinationFlight = flight.flights.find(
-    (flight: { destination: { description: any } }) =>
+    (flight: { destination: { description: string } }) =>
       flight.destination.description === destination.description
   );
 
@@ -55,16 +56,6 @@ export function FlightEditCard({
     total.minutes = total.minutes % 60;
 
     return `${total.hours}h${total.minutes > 0 ? total.minutes : ""}`;
-  };
-
-  const subtractOriginDestinationDates = (originDate: string, destinationDate: string) => {
-    const originDateDay = extractDayFromDate(originDate);
-    const destinationDateDay = extractDayFromDate(destinationDate);
-    const subtractedDate = destinationDateDay - originDateDay + 1;
-
-    console.log(`subtracting ${destinationDateDay} - ${originDateDay} + 1 = ${subtractedDate}`);
-
-    return subtractedDate;
   };
 
   const handleDetails = () => {
@@ -102,33 +93,11 @@ export function FlightEditCard({
               : "1px solid var(--color-gray-3)",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-            padding: "20px",
-          }}
-        >
+        <div className="container">
           <div className="flex flex-column w-100">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                flexDirection: "row",
-                width: "100%",
-              }}
-            >
+            <div className="header">
               <Picture
-                className="flight-card__airline__airline-logo-company"
-                style={{
-                  margin: "initial",
-                  display: "flex",
-                  justifyContent: "center",
-                  marginBottom: "1rem",
-                  alignItems: "center",
-                }}
+                className="airline-icon"
                 src={airlineIcon ? airlineIcon : "/assets/blank-image.png"}
               />
               <div>
@@ -142,34 +111,15 @@ export function FlightEditCard({
               </div>
             </div>
             <Divider />
-            <div className="container__flight_edit_card">
-              <div
-                className="mt-sm flex gap-xl flight__edit__card__wrapper"
-                style={{
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div
-                  className="flex flex-row flex-grow align-middle gap-md"
-                  style={{
-                    textAlign: "center",
-                    alignItems: "center",
-                    width: "20rem",
-                    justifyContent: "space-between",
-                  }}
-                >
+            <div className="flight__edit__card__main__content">
+              <div className="mt-sm flex gap-xl flight__details__container">
+                <div className="flex flex-row flex-grow align-middle gap-md wrapper">
                   <div
                     className="flex flex-column gap-sm"
                     style={{ alignItems: "flex-start", maxWidth: "250px" }}
                   >
                     <span>{convertDate(originFlight.departureDate)}</span>
-                    <span
-                      style={{
-                        fontWeight: 700,
-                        fontSize: "1.5rem",
-                      }}
-                    >
+                    <span className="flight__edit__card__flight__hour">
                       {getHourOfFlight(originFlight.departureTime)}
                     </span>
                     <Text
@@ -182,23 +132,8 @@ export function FlightEditCard({
                     </Text>
                     <span>{capitalizeFirstLetter(extractCityName(origin.description))}</span>
                   </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "10px",
-                      marginTop: "0",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: "10px",
-                        marginTop: "0",
-                      }}
-                    >
+                  <div className="flight__trip__resumee__wrapper">
+                    <div className="plane__icon__wraper">
                       <Plane className="plane__icon" />
                     </div>
                     <div
@@ -206,12 +141,7 @@ export function FlightEditCard({
                       style={{ alignItems: "flex-start", maxWidth: "250px" }}
                     >
                       <span>{convertDate(destinationFlight.arrivalDate)}</span>
-                      <span
-                        style={{
-                          fontWeight: 700,
-                          fontSize: "1.5rem",
-                        }}
-                      >
+                      <span className="flight__edit__card__flight__hour">
                         {getHourOfFlight(destinationFlight.arrivalTime)}
                       </span>
                       <Text style={{ color: "var(--color-brand-1)" }} size="sm" variant="heading">
@@ -235,50 +165,24 @@ export function FlightEditCard({
                             alignItems: "center",
                           }}
                         >
-                          <div
-                            style={{
-                              width: 10,
-                              height: 10,
-                              borderRadius: "50%",
-                              backgroundColor: "var(--color-brand-1)",
-                              marginRight: 10,
-                            }}
-                          />
-                          <strong
-                            style={{
-                              maxWidth: 400,
-                              fontWeight: 600,
-                              fontSize: "15px",
-                            }}
-                          >{`${flight.mandatoryAirline.iataCode}${
-                            flight.number
-                          } - ${extractCityName(flight.origin.description)}`}</strong>
+                          <div className="flight__edit__card__marker" />
+                          <strong className="flight__edit__card__flight__info">{`${
+                            flight.mandatoryAirline.iataCode
+                          }${flight.number} - ${extractCityName(
+                            flight.origin.description
+                          )}`}</strong>
                         </div>
                       </React.Fragment>
                     ))}
                   </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "10px",
-                      marginTop: "0",
-                    }}
-                  >
+                  <div className="flight__details__button__wrapper">
                     <span>Tempo de viagem: {addDurations()}</span>
                     <button className="flight__details__button" onClick={handleDetails}>
                       Exibir detalhes do voo
                     </button>
                   </div>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "10px",
-                    marginTop: "0",
-                  }}
-                >
+                <div className="flight__additional__informations__container">
                   {
                     <Text as="span" size="lg" style={{ color: "var(--color-brand-1)" }}>
                       Sua viagem terá duração de{" "}

@@ -1,72 +1,65 @@
 .flight-edit-card {
   width: 100%;
   background-color: $color-gray-4;
-  #flight-card-main-content {
+
+  .container {
+    display: flex;
     flex-direction: column;
+    gap: 20px;
+    padding: 20px;
   }
 
-  .flight__edit__card__wrapper {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .flight__details__container {
     flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    .wrapper {
+      text-align: center;
+      align-items: center;
+      width: 20rem;
+      justify-content: space-between;
+    }
   }
   @media (min-width: $breakpoint-md) {
-    .flight__edit__card__wrapper {
+    .flight__details__container {
       flex-direction: row;
     }
     #divider-mobile {
       display: none;
     }
-    #flight-card-main-content {
-      flex-direction: row;
-      justify-content: space-between;
-    }
 
     width: 80%;
   }
-
-  &__airline {
-    &__airline-logo-company {
-      margin: auto;
-    }
-    &__airline-logo-company > img {
-      height: 30px;
-      background-color: $color-brand-6;
-      border-radius: $border-radius-md;
-    }
-    @media (min-width: $breakpoint-md) {
-      &__airline-logo-company {
-        margin: unset;
-      }
-    }
-  }
-  @media (min-width: $breakpoint-md) {
-    flex-direction: row;
-
-    &__divider {
-      display: none;
-    }
-  }
 }
 
-.selectedMarker {
+.airline-icon {
+  margin: initial;
   display: flex;
   justify-content: center;
+  margin-bottom: 1rem;
   align-items: center;
-  gap: 10px;
-  color: var(--color-brand-1);
-
-  @media (min-width: $breakpoint-md) {
-    height: 100%;
-    justify-content: flex-end;
-  }
 }
 
-.container__flight_edit_card {
+.airline-icon > img {
+  height: 30px;
+  background-color: $color-brand-6;
+  border-radius: $border-radius-md;
+}
+
+.flight-edit-card__main__content {
   display: flex;
   gap: 10px;
   justify-content: space-around;
   flex-direction: column;
-  @media (min-width: $breakpoint-md) {
-  }
 }
 
 .flight__infos__wrapper {
@@ -76,42 +69,19 @@
   flex-direction: row;
 }
 
-.flight__time__text {
-  margin: 7px 0 7px 7px;
-  border-width: 1px;
-  border-color: var(--color-brand-1);
-  border-style: dashed;
-  border-right: none;
-  border-top: none;
-  border-bottom: none;
+.flight__edit__card__marker {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-brand-1);
+  margin-right: 10px;
 }
 
-.return__flight__wrapper {
-  width: 16px;
-  height: 16px;
-  border-radius: 8px;
-  border: solid;
-  border-width: 1px;
-  border-color: var(--color-brand-1);
-}
-
-.flight__info__marker {
-  width: 16px;
-  height: 16px;
-  border-radius: 8px;
-  border: solid;
-  border-width: 2px;
-  border-color: var(--color-brand-1);
-}
-
-.flight__info__dashed__line {
-  margin: 4px 0 4px 7px;
-  border-width: 2px;
-  border-color: var(--color-brand-1);
-  border-style: dashed;
-  border-right: none;
-  border-top: none;
-  border-bottom: none;
+.flight__details__button__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 0;
 }
 
 .flight__details__button {
@@ -130,10 +100,6 @@
   font-weight: 700;
 }
 
-.flight__details__button:hover {
-  text-decoration: underline var(--color-brand-1);
-}
-
 .flight__resumee {
   @media (min-width: $breakpoint-md) {
     display: flex;
@@ -143,4 +109,37 @@
     border-left: 1px solid var(--color-gray-3);
     padding-left: 20px;
   }
+}
+
+.flight__edit__card__flight__hour {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.flight__edit__card__flight__info {
+  max-width: 400px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.flight__additional__informations__container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 0;
+}
+
+.plane__icon__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 0;
+}
+
+.flight__trip__resumee__wrapper {
+  display: flex;
+  gap: 10px;
+  margin-top: 0;
 }
