@@ -4,6 +4,7 @@ import { Button, Grid, Skeleton } from "mars-ds";
 import { useState } from "react";
 import { FlightsService } from "@/services/api";
 import useSWR from "swr";
+import { Flight, FlightOptions } from "@/core/types/flight-options";
 
 export function ChangeFlight({ tripId }: { tripId: string }) {
   const [selectedFlight, setSelectedFlight] = useState<number | null>(null);
@@ -52,7 +53,7 @@ export function ChangeFlight({ tripId }: { tripId: string }) {
               width: "100%",
             }}
           >
-            {flightOptionsData?.map((flight: any, i: number) => (
+            {flightOptionsData?.map((flight: FlightOptions, i: number) => (
               <FlightEditCard
                 flight={flight}
                 destination={flight.destination}
@@ -61,6 +62,7 @@ export function ChangeFlight({ tripId }: { tripId: string }) {
                 handleSelectedFlight={handleSelectedFlight}
                 selectedFlight={selectedFlight}
                 flightPrice={flight.totalPrice}
+                durationTime={flight.durationTime}
               />
             ))}
           </Grid>

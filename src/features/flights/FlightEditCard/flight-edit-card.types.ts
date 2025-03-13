@@ -5,4 +5,5 @@ export interface FlightCardProps {
   destination: any;
   origin: any;
   flightPrice: number;
+  durationTime: string;
 }

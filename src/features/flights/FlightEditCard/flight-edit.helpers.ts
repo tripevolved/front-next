@@ -1,20 +1,22 @@
+import { format, parseISO } from "date-fns";
+
 export const formatPrice = (price?: number) => {
   return price && (price < 1000 ? price.toFixed(0) : (price / 1000).toFixed(3));
 };
 
-export const extractDayFromDate = (date: string) => {
+export const extractDayFromDate = (date: string): number => {
   const day = new Date(date).getDate();
 
-  return day;
+  return Number(day) || 0;
 };
 
-export const extractCityName = (location: string) => {
-  const parts = location.split(" - ");
-  return parts.length > 1 ? parts[1] : parts[0];
+export const extractCityName = (location?: string) => {
+  const parts = location && location.split(" - ");
+  return parts && parts.length > 1 ? parts[1] : parts?.[0] ?? "";
 };
 
-export const getHourOfFlight = (flightTime: string) => {
-  const flightTimeRemovedSeconds = flightTime.slice(0, -3);
+export const getHourOfFlight = (flightTime?: string) => {
+  const flightTimeRemovedSeconds = flightTime && flightTime.slice(0, -3);
 
   return flightTimeRemovedSeconds;
 };
@@ -50,4 +52,10 @@ export const formatDate = (dateString: string) => {
   const year = date.getFullYear();
 
   return `${dayOfWeek}, ${day} de ${month} de ${year}`;
+};
+
+export const convertDate = (dateString: string): string => {
+  const parsedDate = parseISO(dateString);
+
+  return format(parsedDate, "dd/MM/yyyy");
 };
