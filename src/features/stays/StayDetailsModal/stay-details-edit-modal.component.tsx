@@ -15,7 +15,9 @@ export function StayDetailsEditModal({
   selectedRoom: initialSelectedRoom,
   setSelectedRoom: updateSelectedRoom,
 }: StayDetailsModalProps) {
-  const [selectedRoom, setSelectedRoom] = useState(initialSelectedRoom);
+  const [selectedRoomInit, setSelectedRoom] = useState(initialSelectedRoom);
+
+  console.log(Boolean(selectedRoomInit));
 
   return (
     <div className="trip-stay-details">
@@ -81,14 +83,16 @@ export function StayDetailsEditModal({
               <StayDetailsItem
                 key={room.id}
                 room={room}
-                selected={room.code === selectedRoom}
+                selected={room.code === selectedRoomInit}
                 setSelected={() => {
                   setSelectedRoom(room.code!);
                 }}
               />
             ))}
         </ul>
-        <Button onClick={() => updateSelectedRoom(selectedRoom!)} disabled={!!selectedRoom}>Salvar</Button>
+        <Button onClick={() => updateSelectedRoom(selectedRoomInit!)} disabled={!selectedRoomInit}>
+          Salvar
+        </Button>
       </div>
     </div>
   );
