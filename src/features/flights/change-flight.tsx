@@ -4,12 +4,17 @@ import { Button, Grid, Skeleton } from "mars-ds";
 import { useState } from "react";
 import { FlightsService } from "@/services/api";
 import useSWR from "swr";
-import { Flight, FlightOptions } from "@/core/types/flight-options";
+import { FlightOptions } from "@/core/types/flight-options";
+import { useRouter } from "next/router";
 
 export function ChangeFlight({ tripId }: { tripId: string }) {
-  const [selectedFlight, setSelectedFlight] = useState<number | null>(null);
+  const router = useRouter()
+
+  const [selectedFlight, setSelectedFlight] = useState<FlightOptions | null>(null);
 
   const flightsFetcher = async () => FlightsService.getFlightOptions(tripId);
+  const saveFlightFetcher = async (tripId: string, data: any) => 
+    FlightsService.saveSelectFlightTransportations(tripId, data);
 
   const {
     data: flightOptionsData,
@@ -20,15 +25,18 @@ export function ChangeFlight({ tripId }: { tripId: string }) {
   });
 
   const handleSelectedFlight = (flightId: number) => {
-    if (selectedFlight === flightId) {
-      setSelectedFlight(null);
-      return;
-    }
-    setSelectedFlight(flightId);
+    const flight = flightOptionsData?.find((f: FlightOptions) => f.id === flightId) || null;
+    setSelectedFlight(flight);
   };
 
-  const handleSave = () => {
-    console.log("Salvo com sucesso");
+  const handleSave = async () => {
+    if (!selectedFlight) return;
+    try {
+      await saveFlightFetcher(tripId, selectedFlight);
+      router.back();
+    } catch (error) {
+      console.error("Erro ao salvar voo", error);
+    }
   };
 
   if (errorFetchingFlightOptions) return <ErrorState />;
@@ -60,7 +68,7 @@ export function ChangeFlight({ tripId }: { tripId: string }) {
                 origin={flight.origin}
                 key={i}
                 handleSelectedFlight={handleSelectedFlight}
-                selectedFlight={selectedFlight}
+                selectedFlight={selectedFlight?.id === flight.id ? selectedFlight : null}
                 flightPrice={flight.totalPrice}
                 durationTime={flight.durationTime}
               />

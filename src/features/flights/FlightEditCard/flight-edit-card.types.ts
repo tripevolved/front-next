@@ -1,6 +1,8 @@
+import { FlightOptions } from "@/core/types/flight-options";
+
 export interface FlightCardProps {
   flight: any;
-  selectedFlight: number | null;
+  selectedFlight: FlightOptions | null;
   handleSelectedFlight: (flightId: number) => void;
   destination: any;
   origin: any;
