@@ -17,8 +17,6 @@ export function StayDetailsEditModal({
 }: StayDetailsModalProps) {
   const [selectedRoomInit, setSelectedRoom] = useState(initialSelectedRoom);
 
-  console.log(Boolean(selectedRoomInit));
-
   return (
     <div className="trip-stay-details">
       <Box className="trip-stay-details__initial-info">
