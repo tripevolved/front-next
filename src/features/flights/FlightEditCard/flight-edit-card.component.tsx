@@ -88,7 +88,7 @@ export function FlightEditCard({
         elevation="md"
         style={{
           border:
-            selectedFlight === flight.id
+            selectedFlight?.id === flight.id
               ? "1px solid var(--color-brand-1)"
               : "1px solid var(--color-gray-3)",
         }}
