@@ -18,7 +18,7 @@ export type Flight = {
     description: string;
   };
   class: string;
-  company: any;
+  company: string;
   isConnection: boolean;
   arrivalDate: string;
   arrivalTime: string;
@@ -26,12 +26,12 @@ export type Flight = {
   departureTime: string;
   duration: string;
   equipment: string;
-  stopovers: any;
+  stopovers: number;
   family: string;
   familyCode: string;
   segmentGroup: number;
   iconUrl: string;
-  companyLocatorId: any;
+  companyLocatorId: string;
   destination: {
     id: number;
     iataCode: string;

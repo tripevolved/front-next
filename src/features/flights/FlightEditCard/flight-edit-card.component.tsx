@@ -44,7 +44,7 @@ export function FlightEditCard({
     });
 
     const total = flightDurations.reduce(
-      (acc: { hours: any; minutes: any }, time: { hours: any; minutes: any }) => {
+      (acc: { hours: number; minutes: number }, time: { hours: number; minutes: number }) => {
         acc.hours += time.hours;
         acc.minutes += time.minutes;
         return acc;
@@ -65,8 +65,8 @@ export function FlightEditCard({
           flight={flight}
           destination={destination}
           origin={origin}
-          departureOrigin={destinationFlight}
-          arrivalDestination={originFlight}
+          departureOrigin={originFlight}
+          arrivalDestination={destinationFlight}
         />
       ),
       {
@@ -118,9 +118,9 @@ export function FlightEditCard({
                     className="flex flex-column gap-sm"
                     style={{ alignItems: "flex-start", maxWidth: "250px" }}
                   >
-                    <span>{convertDate(originFlight.departureDate)}</span>
+                    <span>{convertDate(originFlight?.departureDate)}</span>
                     <span className="flight__edit__card__flight__hour">
-                      {getHourOfFlight(originFlight.departureTime)}
+                      {getHourOfFlight(originFlight?.departureTime)}
                     </span>
                     <Text
                       style={{ color: "var(--color-brand-1)", fontWeight: "bold" }}
@@ -140,9 +140,9 @@ export function FlightEditCard({
                       className="flex flex-column gap-sm"
                       style={{ alignItems: "flex-start", maxWidth: "250px" }}
                     >
-                      <span>{convertDate(destinationFlight.arrivalDate)}</span>
+                      <span>{convertDate(destinationFlight?.arrivalDate)}</span>
                       <span className="flight__edit__card__flight__hour">
-                        {getHourOfFlight(destinationFlight.arrivalTime)}
+                        {getHourOfFlight(destinationFlight?.arrivalTime)}
                       </span>
                       <Text style={{ color: "var(--color-brand-1)" }} size="sm" variant="heading">
                         {destination.iataCode}
@@ -187,13 +187,13 @@ export function FlightEditCard({
                     <Text as="span" size="lg" style={{ color: "var(--color-brand-1)" }}>
                       Sua viagem terá duração de{" "}
                       {subtractOriginDestinationDates(
-                        originFlight.departureDate,
-                        destinationFlight.arrivalDate
+                        originFlight?.departureDate,
+                        destinationFlight?.arrivalDate
                       )}{" "}
                       dia
                       {subtractOriginDestinationDates(
-                        originFlight.departureDate,
-                        destinationFlight.arrivalDate
+                        originFlight?.departureDate,
+                        destinationFlight?.arrivalDate
                       ) > 1 && "s"}
                     </Text>
                   }

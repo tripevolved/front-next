@@ -27,7 +27,6 @@ export function FlightDetailsPanel({
 
   const flightViewData = data?.flightView || flightView;
 
-  console.log(flightViewData);
 
   const cn = makeCn("flight-details-panel", className)(sx);
   if ((data || flightView) === null) {

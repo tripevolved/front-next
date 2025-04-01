@@ -1,14 +1,14 @@
-import { Flight } from "@/core/types/flight-options";
+import { Flight, FlightOptions } from "@/core/types/flight-options";
 import { Picture } from "@/ui";
 import { Caption, Heading, Icon, Text } from "mars-ds";
 import { extractCityName, formatDate, getHourOfFlight } from "../flight-edit.helpers";
 
 interface FlightDetails {
-  flight: Flight;
+  flight: FlightOptions;
   destination: { iataCode: string; description: string };
   origin: { iataCode: string; description: string };
-  departureOrigin: { departureDate: string; origin: { description: string } };
-  arrivalDestination: { destination: { description: string } };
+  departureOrigin?: Flight;
+  arrivalDestination?: Flight;
 }
 
 export function FlightDetails({
@@ -17,18 +17,16 @@ export function FlightDetails({
   origin,
   departureOrigin,
   arrivalDestination,
-}: any) {
-    
-  const outboundFlights = flight.flights.filter(
-    (f: Flight) =>
-      f.origin.iataCode !== destination.iataCode && f.destination.iataCode !== origin.iataCode
-  );
-  const returnFlights = flight.flights.filter(
-    (f: Flight) =>
-      f.origin.iataCode === destination.iataCode || f.destination.iataCode === origin.iataCode
+}: FlightDetails) {
+  const destinationArrivalIndex = flight.flights.findIndex(
+    (f: Flight) => f.destination.iataCode === destination.iataCode
   );
 
-  const FlightCard = ({ flight }: any) => {
+  const outboundFlights = flight.flights.slice(0, destinationArrivalIndex + 1);
+
+  const returnFlights = flight.flights.slice(destinationArrivalIndex + 1);
+
+  const FlightCard = ({ flight }: { flight: Flight }) => {
     return (
       <div key={flight.number}>
         <div className="flight__details">
@@ -37,7 +35,7 @@ export function FlightDetails({
               <div className="flight__company__logo">
                 <Picture
                   src={flight.iconUrl ? flight.iconUrl : "/assets/blank-image.png"}
-                  alt={flight.mandatoryAirline.name}
+                  alt={flight.mandatoryAirline.description}
                   style={{ height: "1.5rem", width: "1.5rem" }}
                 />
               </div>
@@ -132,7 +130,7 @@ export function FlightDetails({
                 fontWeight: 700,
               }}
             >
-              {departureOrigin.origin.description}
+              {departureOrigin?.origin.description}
             </span>{" "}
             <Icon name="arrow-right" />{" "}
             <span
@@ -141,7 +139,7 @@ export function FlightDetails({
                 fontWeight: 700,
               }}
             >
-              {arrivalDestination.destination.description}
+              {arrivalDestination?.destination.description}
             </span>
           </Caption>
 
@@ -152,14 +150,14 @@ export function FlightDetails({
           <Heading size="sm" style={{ marginBottom: "1rem" }}>
             Ida
           </Heading>
-          {outboundFlights.map((flight: any) => (
-            <FlightCard flight={flight} key={flight.number} />
+          {outboundFlights.map((flight: Flight) => (
+            <FlightCard key={flight.number} flight={flight} />
           ))}
 
           <Heading size="sm" style={{ marginBottom: "1rem" }}>
             Volta
           </Heading>
-          {returnFlights.map((flight: any, index: number) => (
+          {returnFlights.map((flight: Flight) => (
             <FlightCard flight={flight} key={flight.number} />
           ))}
         </div>

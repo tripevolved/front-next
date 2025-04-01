@@ -54,15 +54,15 @@ export const formatDate = (dateString: string) => {
   return `${dayOfWeek}, ${day} de ${month} de ${year}`;
 };
 
-export const convertDate = (dateString: string): string => {
-  const parsedDate = parseISO(dateString);
+export const convertDate = (dateString?: string): string => {
+  const parsedDate = parseISO(dateString ?? "");
 
   return format(parsedDate, "dd/MM/yyyy");
 };
 
-export const subtractOriginDestinationDates = (originDate: string, destinationDate: string) => {
-  const originDateDay = extractDayFromDate(originDate);
-  const destinationDateDay = extractDayFromDate(destinationDate);
+export const subtractOriginDestinationDates = (originDate?: string, destinationDate?: string) => {
+  const originDateDay = extractDayFromDate(originDate ?? "");
+  const destinationDateDay = extractDayFromDate(destinationDate ?? "");
   const subtractedDate = destinationDateDay - originDateDay + 1;
 
   return subtractedDate;

@@ -8,12 +8,12 @@ import { FlightOptions } from "@/core/types/flight-options";
 import { useRouter } from "next/router";
 
 export function ChangeFlight({ tripId }: { tripId: string }) {
-  const router = useRouter()
+  const router = useRouter();
 
   const [selectedFlight, setSelectedFlight] = useState<FlightOptions | null>(null);
 
   const flightsFetcher = async () => FlightsService.getFlightOptions(tripId);
-  const saveFlightFetcher = async (tripId: string, data: any) => 
+  const saveFlightFetcher = async (tripId: string, data: FlightOptions) =>
     FlightsService.saveSelectFlightTransportations(tripId, data);
 
   const {

@@ -8,10 +8,10 @@ export const getFlightOptions = async (tripId: string) => {
   return flightsOptions;
 };
 
-export const saveSelectFlightTransportations = async (tripId: string, body: any) => {
+export const saveSelectFlightTransportations = async (tripId: string, body: FlightOptions) => {
   let route = `transportations/${tripId}/flight-transportations`;
 
-  const normalizeFlight = (flight: any) => {
+  const normalizeFlight = (flight: FlightOptions) => {
     const originFlight = flight.flights.find(
       (flight2: { origin: { description: string } }) =>
         flight2.origin.description === flight.origin?.description
@@ -31,8 +31,8 @@ export const saveSelectFlightTransportations = async (tripId: string, body: any)
       companyTrackerId: flight?.externalId,
       initialDestinationAirportIataCode: flight?.origin?.iataCode,
       finalDestinationAirportIataCode: flight?.destination?.iataCode,
-      departure: originFlight.departureDate,
-      expectedArrival: destinationFlight.arrivalDate,
+      departure: originFlight?.departureDate,
+      expectedArrival: destinationFlight?.arrivalDate,
       flights: flight?.flights?.map((f: any) => ({
         ...f,
         companyIataCode: flight?.company?.iataCode,
