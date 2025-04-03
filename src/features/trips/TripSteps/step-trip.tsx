@@ -11,6 +11,7 @@ import { useAppStore } from "@/core/store";
 import { useAnimation } from "@/utils/hooks/animation.hook";
 import { useRouter } from "next/router";
 import { StepRoomChoice } from "./step-room-choice";
+import { addMonths } from "date-fns";
 
 const TRIP_STEPS = [
   {
@@ -21,7 +22,13 @@ const TRIP_STEPS = [
   {
     title: "",
     name: "configuration",
-    component: StepConfiguration,
+    component: (props: StepComponentProps) => (
+      <StepConfiguration
+        {...props}
+        startDate={String(addMonths(new Date(), 3))}
+        endDate={String(addMonths(new Date(), 3))}
+      />
+    ),
   },
   {
     title: "",
@@ -37,7 +44,7 @@ const TRIP_STEPS = [
     title: "Quartos",
     name: "rooms",
     component: StepRoomChoice,
-  },  
+  },
 ];
 
 const TWELVE_SECONDS_IN_MS = 12 * 1000;
