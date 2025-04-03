@@ -6,17 +6,11 @@ import { useState } from "react";
 import { differenceInDays } from "date-fns";
 
 interface StepConfigurationProps extends StepComponentProps {
-  budget?: number;
   endDate?: string;
   startDate?: string;
 }
 
-export function StepConfiguration({
-  onNext,
-  budget = 4000,
-  endDate,
-  startDate,
-}: StepConfigurationProps) {
+export function StepConfiguration({ onNext, endDate, startDate }: StepConfigurationProps) {
   const defaultDates = [
     startDate ? new Date(startDate) : undefined,
     endDate ? new Date(endDate) : undefined,
