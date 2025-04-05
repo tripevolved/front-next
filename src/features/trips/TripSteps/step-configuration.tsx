@@ -43,9 +43,6 @@ export function StepConfiguration({ onNext, endDate, startDate }: StepConfigurat
           setDays(daysAmount);
         }}
       />
-      <Text heading size="xs" className="mt-md">
-        Até quanto pode gastar ao total?
-      </Text>
       <div
         style={{
           display: "flex",
@@ -62,7 +59,7 @@ export function StepConfiguration({ onNext, endDate, startDate }: StepConfigurat
             fontWeight: 600,
           }}
         >
-          Valor da trip de R$500 a R$10.000
+          Vamos encontrar a melhor opção para o seu orçamento de viagem
         </Text>
       </div>
       <SubmitButton
