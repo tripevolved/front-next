@@ -2,7 +2,7 @@ import { QuestionsBuilder, type StepComponentProps } from "@/features";
 import { TripsApiService } from "@/services/api";
 import { AnswersDto } from "@/services/api/profile/answers";
 
-export function StepTripGoal({ onNext }: StepComponentProps) {
+export function StepTripGoal({ onNext, onPrevious }: StepComponentProps) {
   const handleSubmit = async (tripBehavior: AnswersDto) => {
     onNext({ tripBehavior });
   };
@@ -15,6 +15,8 @@ export function StepTripGoal({ onNext }: StepComponentProps) {
       finishButtonLabel="Continuar"
       disableLocalSave
       hideStepper
+      showPreviousButton={true}
+      onPrevious={onPrevious}
     />
   );
 }

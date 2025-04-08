@@ -2,19 +2,30 @@ import { useState } from "react";
 
 import type { StepComponentProps } from "@/features";
 import { IncrementField, Text } from "@/ui";
-import { Grid, SubmitButton } from "mars-ds";
+import { Button, Grid, SubmitButton } from "mars-ds";
 
 import { formatToPlural } from "@/utils/helpers/number.helpers";
 
-export function StepRoomChoice({ onNext, travelersIntermediate, rooms }: StepComponentProps) {
+export function StepRoomChoice({
+  onNext,
+  onPrevious,
+  travelersIntermediate,
+  rooms,
+}: StepComponentProps) {
   const [submitting, setSubmitting] = useState(false);
-  const [roomsInfo, setRoomsInfo] = useState(([ { adults: travelersIntermediate.adults, children: travelersIntermediate.children, childrenAges: [] } ]));
+  const [roomsInfo, setRoomsInfo] = useState([
+    {
+      adults: travelersIntermediate.adults,
+      children: travelersIntermediate.children,
+      childrenAges: [],
+    },
+  ]);
   const childrenAgeInfo = travelersIntermediate.childrenAges as number[];
 
   const handleSubmit = () => {
     setSubmitting(true);
     let childrenCount = 0;
-    const roomsToSend = roomsInfo.map((r, i) => { 
+    const roomsToSend = roomsInfo.map((r, i) => {
       let roomChildrenAges = [] as number[];
       if (r.children > 0) {
         roomChildrenAges = childrenAgeInfo.slice(childrenCount, r.children);
@@ -22,7 +33,12 @@ export function StepRoomChoice({ onNext, travelersIntermediate, rooms }: StepCom
       }
       return { adults: r.adults, children: r.children, childrenAges: roomChildrenAges };
     });
-    const travelersFinal = { adults: travelersIntermediate.adults, children: travelersIntermediate.children, childrenAges: travelersIntermediate.childrenAges, rooms: roomsToSend };
+    const travelersFinal = {
+      adults: travelersIntermediate.adults,
+      children: travelersIntermediate.children,
+      childrenAges: travelersIntermediate.childrenAges,
+      rooms: roomsToSend,
+    };
     onNext({ travelers: travelersFinal });
   };
 
@@ -30,11 +46,8 @@ export function StepRoomChoice({ onNext, travelersIntermediate, rooms }: StepCom
     if (value < roomsInfo.length) {
       setRoomsInfo(roomsInfo.slice(0, value));
     } else if (value > roomsInfo.length) {
-      setRoomsInfo([
-        ...roomsInfo,
-        { adults: 1, children: 0, childrenAges: [] }
-      ]);
-    }    
+      setRoomsInfo([...roomsInfo, { adults: 1, children: 0, childrenAges: [] }]);
+    }
   };
 
   const setRoomAdults = (value: number, index: number) => {
@@ -62,19 +75,25 @@ export function StepRoomChoice({ onNext, travelersIntermediate, rooms }: StepCom
   };
 
   const validateRoomsInfo = () => {
-    let totalAdults = 0, totalChildren = 0;
+    let totalAdults = 0,
+      totalChildren = 0;
     roomsInfo.forEach((r, i) => {
       totalAdults += r.adults;
       totalChildren += r.children;
     });
 
-    return totalAdults !== travelersIntermediate.adults || totalChildren !== travelersIntermediate.children;
-  }
+    return (
+      totalAdults !== travelersIntermediate.adults ||
+      totalChildren !== travelersIntermediate.children
+    );
+  };
 
   return (
     <Grid gap={24}>
       <div>
-        <Text heading size="xs" className="mt-md">Quantos quartos vocês vão precisar?</Text>
+        <Text heading size="xs" className="mt-md">
+          Quantos quartos vocês vão precisar?
+        </Text>
         <Text className="color-text-secondary mt-sm" size="md">
           Precisamos entender a organização de quartos para escolher a melhor hospedagem para vocês
         </Text>
@@ -90,12 +109,12 @@ export function StepRoomChoice({ onNext, travelersIntermediate, rooms }: StepCom
         step={1}
         disabled={submitting}
       />
-      <Grid columns={{"sm": 1, "md": [1, 3]}}>
+      <Grid columns={{ sm: 1, md: [1, 3] }}>
         {roomsInfo.map((room, index) => {
           return (
             <>
               <Text size="md">Quarto {index + 1}</Text>
-              <Grid columns={{"sm": 1, "md": 2}}>
+              <Grid columns={{ sm: 1, md: 2 }}>
                 <IncrementField
                   className="slider--with-steps"
                   name={`room-${index}-adults`}
@@ -123,15 +142,21 @@ export function StepRoomChoice({ onNext, travelersIntermediate, rooms }: StepCom
           );
         })}
       </Grid>
-      <SubmitButton
-        className="mt-md"
-        variant="tertiary"
-        disabled={submitting || validateRoomsInfo()}
-        submitting={submitting}
-        onClick={handleSubmit}
-      >
-        Receber minha recomendação
-      </SubmitButton>
+
+      <Grid gap={8} columns={[1, 3]} className="mt-md">
+        <Button onClick={onPrevious} iconName="chevron-left" variant="neutral">
+          Anterior
+        </Button>
+
+        <SubmitButton
+          variant="tertiary"
+          disabled={submitting || validateRoomsInfo()}
+          submitting={submitting}
+          onClick={handleSubmit}
+        >
+          Receber minha recomendação
+        </SubmitButton>
+      </Grid>
     </Grid>
   );
 }

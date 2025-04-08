@@ -1,16 +1,23 @@
 import type { StepComponentProps } from "@/features";
 import { DatePicker, Text } from "@/ui";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
-import { Grid, Slider, SubmitButton, TextField } from "mars-ds";
+import { Button, Grid, Slider, SubmitButton, TextField } from "mars-ds";
 import { useState } from "react";
 import { differenceInDays } from "date-fns";
 
 interface StepConfigurationProps extends StepComponentProps {
   endDate?: string;
   startDate?: string;
+  showPrevious?: boolean;
 }
 
-export function StepConfiguration({ onNext, endDate, startDate }: StepConfigurationProps) {
+export function StepConfiguration({
+  onNext,
+  onPrevious,
+  endDate,
+  startDate,
+  showPrevious,
+}: StepConfigurationProps) {
   const defaultDates = [
     startDate ? new Date(startDate) : undefined,
     endDate ? new Date(endDate) : undefined,
@@ -62,14 +69,28 @@ export function StepConfiguration({ onNext, endDate, startDate }: StepConfigurat
           Vamos encontrar a melhor opção para o seu orçamento de viagem
         </Text>
       </div>
-      <SubmitButton
-        className="mt-md"
-        variant="tertiary"
-        disabled={isDisabled}
-        onClick={handleSubmit}
-      >
-        Continuar
-      </SubmitButton>
+
+      <div className="mt-md profile-questions-navigation">
+        {showPrevious && (
+          <Button
+            onClick={onPrevious}
+            iconName="chevron-left"
+            variant="neutral"
+            className="profile-questions-navigation__previous"
+          >
+            Anterior
+          </Button>
+        )}
+
+        <SubmitButton
+          variant="tertiary"
+          disabled={isDisabled}
+          onClick={handleSubmit}
+          className="profile-questions-navigation__next"
+        >
+          Continuar
+        </SubmitButton>
+      </div>
     </Grid>
   );
 }
