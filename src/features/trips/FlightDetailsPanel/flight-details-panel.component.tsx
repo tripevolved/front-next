@@ -27,7 +27,6 @@ export function FlightDetailsPanel({
 
   const flightViewData = data?.flightView || flightView;
 
-
   const cn = makeCn("flight-details-panel", className)(sx);
   if ((data || flightView) === null) {
     return <ErrorState />;
@@ -53,19 +52,21 @@ export function FlightDetailsPanel({
           }}
         >
           <Text size="xl">Voo de ida</Text>
-          <Button
-            iconName="edit-2"
-            variant="secondary"
-            style={{
-              border: "none",
-            }}
-            onClick={() => {
-              onClose();
-              handleEditFlight();
-            }}
-          >
-            <span>Mudar voo</span>
-          </Button>
+          {handleEditFlight && onClose && (
+            <Button
+              iconName="edit-2"
+              variant="secondary"
+              style={{
+                border: "none",
+              }}
+              onClick={() => {
+                onClose();
+                handleEditFlight();
+              }}
+            >
+              <span>Mudar voo</span>
+            </Button>
+          )}
         </div>
         <Box className="flight-details-panel__container__flight w-100 flex-column gap-md">
           {flightViewData?.outboundFlight.flightDetails.map((flight, i) => (

@@ -3,6 +3,6 @@ import type { CompanyFlightView, ComponentHTMLProps, TripTransportation } from "
 export interface FlightDetailsPanelProps extends ComponentHTMLProps {
   data?: TripTransportation;
   flightView?: CompanyFlightView;
-  handleEditFlight: () => void;
-  onClose: () => void;
+  handleEditFlight?: () => void;
+  onClose?: () => void;
 }
