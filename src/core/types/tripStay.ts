@@ -73,6 +73,7 @@ export interface TripStayDetails {
   checkInHour: string | null;
   numAdults: number;
   numChildren: number;
+  price: number;
   numDays: number;
   address: string | null;
   services: TripStayFeature[];
