@@ -1,22 +1,16 @@
 import type { StepComponentProps } from "@/features";
 import { DatePicker, Text } from "@/ui";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
-import { Grid, Slider, SubmitButton } from "mars-ds";
+import { Grid, Slider, SubmitButton, TextField } from "mars-ds";
 import { useState } from "react";
 import { differenceInDays } from "date-fns";
 
 interface StepConfigurationProps extends StepComponentProps {
-  budget?: number;
   endDate?: string;
   startDate?: string;
 }
 
-export function StepConfiguration({
-  onNext,
-  budget = 4000,
-  endDate,
-  startDate,
-}: StepConfigurationProps) {
+export function StepConfiguration({ onNext, endDate, startDate }: StepConfigurationProps) {
   const defaultDates = [
     startDate ? new Date(startDate) : undefined,
     endDate ? new Date(endDate) : undefined,
@@ -26,12 +20,11 @@ export function StepConfiguration({
     startDate && endDate ? differenceInDays(new Date(endDate), new Date(startDate)) : 1;
 
   const [dates, setDates] = useState<(Date | undefined)[]>(defaultDates);
-  const [maxBudget, setMaxBudget] = useState(budget);
   const [days, setDays] = useState(defaultDays);
 
   const isDisabled = !dates[0] || !dates[1] || days < 2;
 
-  const handleSubmit = async () => onNext({ dates, days, maxBudget });
+  const handleSubmit = async () => onNext({ dates, days });
 
   return (
     <Grid gap={24}>
@@ -50,18 +43,25 @@ export function StepConfiguration({
           setDays(daysAmount);
         }}
       />
-      <Text heading size="xs" className="mt-md">
-        Até quanto pode gastar ao total?
-      </Text>
-      <Slider
-        name="maxBudget"
-        formatter={formatToCurrencyBR}
-        min={500}
-        max={50000}
-        defaultValue={maxBudget}
-        onSelect={setMaxBudget}
-        step={500}
-      />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "30px",
+        }}
+      >
+        <Text
+          size="xl"
+          variant="default"
+          style={{
+            color: "var(--color-brand-1)",
+            fontWeight: 600,
+          }}
+        >
+          Vamos encontrar a melhor opção para o seu orçamento de viagem
+        </Text>
+      </div>
       <SubmitButton
         className="mt-md"
         variant="tertiary"
