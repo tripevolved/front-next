@@ -13,20 +13,21 @@ export const QuestionNavigationController = ({
   style,
   nextButtonLabel = "Próxima",
   finishButtonLabel = "Concluir",
+  showPreviousButton,
 }: ProfileQuestionsNavigationProps) => {
   const label = useMemo(
     () => (position === total ? finishButtonLabel : nextButtonLabel),
     [finishButtonLabel, nextButtonLabel, position, total]
   );
   const cn = makeCn("profile-questions-navigation", className)();
-  const showPreviousButton = total > 1;
+  const previousButton = showPreviousButton || total > 1;
   return (
     <div className={cn} style={style}>
-      {showPreviousButton ? (
+      {previousButton ? (
         <Button
           variant="neutral"
           className="profile-questions-navigation__previous"
-          disabled={position < 1}
+          disabled={showPreviousButton ? false : position < 1}
           iconName="chevron-left"
           onClick={() => onNavigation(position - 1)}
         >

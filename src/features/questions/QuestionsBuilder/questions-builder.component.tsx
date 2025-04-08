@@ -18,6 +18,8 @@ const swrOptions = { revalidateOnFocus: false };
 
 export function QuestionsBuilder({
   onSubmit,
+  onPrevious,
+  showPreviousButton,
   hideStepper,
   nextButtonLabel,
   finishButtonLabel,
@@ -47,12 +49,14 @@ export function QuestionsBuilder({
     .find((answer) => answer.title === "Nenhum dos listados")?.id;
 
   const handleSteps = (newIndex: number) => {
+    console.log("newIndex", newIndex);
     let submittedAnswers = answers;
     if (!Object.values(answers).flat().length) {
       submittedAnswers = {
         [data[currentIndex].questions[0].id]: noneOfTheListedQuestionId as string,
       };
     }
+    if (newIndex < 0 && onPrevious) return onPrevious();
     if (newIndex < 0) return;
     if (total >= newIndex) setCurrentIndexAnimation(newIndex);
     else onSubmit(submittedAnswers);
@@ -138,6 +142,7 @@ export function QuestionsBuilder({
         submitting={submitting}
         nextButtonLabel={nextButtonLabel}
         finishButtonLabel={buttonLabel}
+        showPreviousButton={showPreviousButton}
       />
     </Grid>
   );

@@ -27,6 +27,7 @@ const TRIP_STEPS = [
         {...props}
         startDate={String(addMonths(new Date(), 3))}
         endDate={String(addMonths(new Date(), 3))}
+        showPrevious={true}
       />
     ),
   },

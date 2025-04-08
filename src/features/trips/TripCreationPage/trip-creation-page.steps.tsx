@@ -26,6 +26,7 @@ export const GROUP_STEPS: TemplateStepsBuilderProps["steps"] = [
         {...props}
         startDate={String(addMonths(new Date(), 3))}
         endDate={String(addMonths(new Date(), 3))}
+        showPrevious={true}
       />
     ),
   },
