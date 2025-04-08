@@ -1,0 +1,153 @@
+.flight__details {
+  border-radius: 1rem;
+  border: 1px solid var(--color-gray-3);
+  background-color: white;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: $shadow-elevation-300;
+
+  .__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(10, 185, 173, 0.3);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.flight__informations {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  .flight__company__logo {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    background-color: rgba(10, 185, 173, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .airplane__details__wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .airplane__number {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      p {
+        font-size: 1rem;
+        color: gray;
+        display: flex;
+        gap: 0.2rem;
+        margin-top: 0;
+      }
+
+      span#flight__number {
+        font-weight: 700;
+        color: #0ab9ad;
+      }
+
+      span#separator {
+        font-weight: 700;
+        color: #0ab9ad;
+        font-size: 1.25rem;
+      }
+
+      span#flight__cabin {
+        margin-top: 0;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.flight__date__wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.flight__schedule__container {
+  display: grid;
+  gap: 2rem;
+
+  .flight__schedule__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+}
+
+.flight__airport {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #0ab9ad;
+}
+
+.flight__iata__code__wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+
+  &#destination {
+    justify-content: flex-end;
+  }
+
+  span {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #0ab9ad;
+  }
+}
+
+.flight__hour {
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+.flight__schedule__separator__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+
+  .flight__schedule__separator__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 8rem;
+  }
+
+  .flight__schedule__separator {
+    height: 2px;
+    flex: 1;
+    background-color: #0ab9ad;
+  }
+
+  .flight__duration__container {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    color: #0ab9ad;
+    font-weight: 500;
+  }
+
+  .flight__destination {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+}

@@ -3,10 +3,12 @@ import type { StepComponentProps } from "@/features";
 import { RegisterApiService } from "@/services/api";
 import { StepCity } from "./step-city";
 
-export function StepCityRegistration({ onNext }: StepComponentProps) {
+export function StepCityRegistration({ onNext, onPrevious }: StepComponentProps) {
   const { id: travelerId, hasValidAddress } = useAppStore((state) => state.travelerState);
 
-  if (hasValidAddress) { onNext(); }
+  if (hasValidAddress) {
+    onNext();
+  }
 
   const onSubmit = async (cityId: string) => {
     await RegisterApiService.putRegisterCity({

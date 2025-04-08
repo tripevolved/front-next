@@ -4,7 +4,7 @@ import { Text, Box, ErrorState } from "@/ui";
 import { FlightCard } from "@/features";
 
 import { makeCn } from "@/utils/helpers/css.helpers";
-import { Grid, Skeleton } from "mars-ds";
+import { Button, Grid, Icon, Skeleton } from "mars-ds";
 
 export function FlightDetailsPanel({
   className,
@@ -12,6 +12,8 @@ export function FlightDetailsPanel({
   sx,
   data,
   flightView,
+  handleEditFlight,
+  onClose,
   ...props
 }: FlightDetailsPanelProps) {
   const LoadingSkeleton = () => (
@@ -40,13 +42,40 @@ export function FlightDetailsPanel({
         <Text heading style={{ color: "var(--color-brand-1)" }}>
           Detalhes do voo
         </Text>
-        <Text size="xl">Voo de ida</Text>
+
+        <div
+          className="flex"
+          style={{
+            width: "100%",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text size="xl">Voo de ida</Text>
+          {handleEditFlight && onClose && (
+            <Button
+              iconName="edit-2"
+              variant="secondary"
+              style={{
+                border: "none",
+              }}
+              onClick={() => {
+                onClose();
+                handleEditFlight();
+              }}
+            >
+              <span>Mudar voo</span>
+            </Button>
+          )}
+        </div>
         <Box className="flight-details-panel__container__flight w-100 flex-column gap-md">
           {flightViewData?.outboundFlight.flightDetails.map((flight, i) => (
             <FlightCard flight={flight} key={i} />
           ))}
         </Box>
+
         <Text size="xl">Voo de volta</Text>
+
         <Box className="flight-details-panel__container__flight flex-column gap-md">
           {flightViewData?.returnFlight.flightDetails.map((flight, i) => (
             <FlightCard flight={flight} key={i} />
