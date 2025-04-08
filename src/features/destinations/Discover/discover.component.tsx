@@ -2,7 +2,7 @@ import type { DiscoverProps } from "./discover.types";
 import { VerticalVideo } from "@/ui/components/multimedia/VerticalVideo";
 // import testVideo from '/videos/test.mp4';
 // import testHorizontal from "/videos/test_horizontal.mp4";
-// import testMov from "/videos/test2.mov";
+// import testMov from "/videos/test2.mov"; 
 
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { Mousewheel, Keyboard } from 'swiper/modules';
