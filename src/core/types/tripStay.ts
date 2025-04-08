@@ -78,6 +78,7 @@ export interface TripStayDetails {
   address: string | null;
   services: TripStayFeature[];
   rooms: TripStayRoom[];
+  currency: string;
 }
 
 type TripStayFeatureType = "ac" | "wifi" | "breakfast" | "bed" | "close_to_attractions";
@@ -101,7 +102,7 @@ export interface TripStayRoom {
   currency: string;
   details: TripStayRoomDetails;
   boardChoice?: "RO" | "BB" | "AI";
-  amenities: TripStayFeature[];
+  features?: TripStayFeature[];
 }
 
 interface TripStayRoomDetails {
