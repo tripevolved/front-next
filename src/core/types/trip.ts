@@ -11,6 +11,7 @@ export interface TripDetails {
 }
 
 export interface FlightDetails {
+  id?: number;
   airlineCompanyLogoUrl: string;
   flightTime: string;
   flightCode: string;

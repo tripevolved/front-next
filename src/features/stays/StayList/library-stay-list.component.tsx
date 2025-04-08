@@ -7,10 +7,7 @@ import { StaysApiService } from "@/services/api";
 import useSWR from "swr";
 import { LibraryStayListItem } from "./library-stay-list-item.component";
 
-export function LibraryStayList({
-  tripId,
-  itineraryActionId
-}: StayListProps) {
+export function LibraryStayList({ tripId, itineraryActionId }: StayListProps) {
   const fetcher = async () => StaysApiService.getLibraryStays(tripId, itineraryActionId);
   const { data, isLoading, error } = useSWR(
     `library-${tripId}-action-${itineraryActionId}`,
@@ -24,9 +21,11 @@ export function LibraryStayList({
       {data ? (
         <Grid>
           {data.map((stay, index) => {
-            return (<div key={index}>
-              <LibraryStayListItem stay={stay} />
-            </div>);
+            return (
+              <div key={index}>
+                <LibraryStayListItem stay={stay} />
+              </div>
+            );
           })}
         </Grid>
       ) : (

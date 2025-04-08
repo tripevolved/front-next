@@ -1,5 +1,17 @@
-export const Plane = ({ size = 24 }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 23 23" fill="none">
+interface PlaneProps {
+  size?: number;
+  className?: string;
+}
+
+export const Plane = ({ size = 24, className }: PlaneProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 23 23"
+    fill="none"
+    className={className}
+  >
     <path
       d="M15.3332 9.58333H19.1665C19.6748 9.58333 20.1623 9.78527 20.5218 10.1447C20.8812 10.5042 21.0832 10.9917 21.0832 11.5C21.0832 12.0083 20.8812 12.4958 20.5218 12.8553C20.1623 13.2147 19.6748 13.4167 19.1665 13.4167H15.3332L11.4998 20.125H8.62484L10.5415 13.4167H6.70817L4.7915 15.3333H1.9165L3.83317 11.5L1.9165 7.66667H4.7915L6.70817 9.58333H10.5415L8.62484 2.875H11.4998L15.3332 9.58333Z"
       stroke="currentColor"
