@@ -1,4 +1,4 @@
-import { TripStaySimplified } from "@/core/types";
+import { TripStay, TripStaySimplified } from "@/core/types";
 import { Button, Icon, Modal } from "mars-ds";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CircleProgressCustom, FeatureIcon, Picture } from "@/ui";
@@ -8,6 +8,7 @@ import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
 import { StayNotMain } from "./stay.notMain.action";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
+import { TripStayServiceItem } from "../TripStayServiceItem";
 
 interface Props {
   action: TripStaySimplified;
@@ -81,13 +82,19 @@ export const StayAction = ({ action, tripId }: Props) => {
                 <Text as="h1" size="xs" style={{ padding: 0 }}>
                   <strong>{action.name}</strong>
                 </Text>
-                <Text as="p" size="xs">
+                <Text as="p" size="xs" style={{ marginTop: 0 }}>
                   <strong style={{ color: "var(--color-brand-4" }}>{action.tags}</strong>
                 </Text>
+                {action.boardChoices.length === 1 && (
+                  <TripStayServiceItem
+                    title={action.boardChoices[0].boardChoice ?? ""}
+                    type={action.boardChoices[0].boardType === "BB" ? "breakfast" : null}
+                  />
+                )}
               </div>
             </div>
 
-            {(action.isSelected) ?
+            {action.isSelected ? (
               <Button
                 variant="neutral"
                 size="sm"
@@ -102,7 +109,8 @@ export const StayAction = ({ action, tripId }: Props) => {
                 onClick={handleSeeDetails}
               >
                 Ver Detalhes
-              </Button> :
+              </Button>
+            ) : (
               <Text as="p" size="xs" style={{ marginTop: 0 }}>
                 Infelizmente não encontramos sua hospedagem ideal nesse momento, mas você pode
                 <Button
@@ -121,7 +129,7 @@ export const StayAction = ({ action, tripId }: Props) => {
                   &nbsp;editar a sua aqui
                 </Button>
               </Text>
-            }
+            )}
           </div>
         </div>
       ) : (

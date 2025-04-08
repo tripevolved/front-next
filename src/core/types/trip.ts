@@ -19,10 +19,16 @@ export interface FlightDetails {
   fromAirportCode: string;
   fromAirportName: string;
   fromAirportAddress: string;
+  fromAirportServedCity: string;
+  fromAirportServedStateProvinceCode: string | null;
+  fromAirportServedCountry: string;
   luggageInfo: string;
   toAirportAddress: string;
   toAirportCode: string;
   toAirportName: string;
+  toAirportServedCity: string;
+  toAirportServedStateProvinceCode: string | null;
+  toAirportServedCountry: string;
   connections: number;
   classFamily?: string;
 }
@@ -132,8 +138,8 @@ export interface TripListView {
 }
 
 export interface AllTrips {
-  currentTrip: TripListView | null;
-  otherTrips: TripListView[];
+  currentTrip?: TripListView | null;
+  otherTrips?: TripListView[];
 }
 
 interface TripIncludes {
@@ -151,7 +157,7 @@ export interface TripPrice {
   pixPercentageDiscount: number | null;
   discountAmount: number | null;
   percentageDiscount: number | null;
-  isPaid: boolean;
+  status: "NOT_READY" | "READY" | "PAID";
   description: string | null;
   includes: TripIncludes[];
 }

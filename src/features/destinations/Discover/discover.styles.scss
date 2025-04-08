@@ -1,0 +1,9 @@
+.discover {  
+  height: 100vh;
+  overflow: hidden;
+
+  &__item {
+    display: flex;
+    height: 100%;
+  }
+}

@@ -12,6 +12,7 @@ export interface LeadCreateDTO {
   inviterId?: string;
   inviterName?: string;
   inviterEmail?: string;
+  source?: string;
 }
 
 export interface Lead {
@@ -25,6 +26,7 @@ export interface Lead {
   launchList?: null | LaunchList;
   invitedBy?: null | Inviter;
   profile?: null | Profile;
+  source?: string;
 
   // TODO: remove this in the future
   uid?: string;

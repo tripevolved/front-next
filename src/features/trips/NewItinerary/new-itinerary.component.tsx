@@ -9,6 +9,7 @@ import { FlightAction } from "../Itinerary/flight.action";
 import { RouteAction } from "../Itinerary/route.action";
 import { ItineraryEnd } from "../Itinerary/itinerary-end.action";
 import { DestinationDetails } from "./destination-details/destination-details.component";
+import { TripDetailsPageLoading } from "../TripDetailsPage/trip-details-page.loading";
 
 export function NewItinerary({ tripId, title }: any) {
   const [data, setData] = useState<ItineraryListV2>();
@@ -39,7 +40,7 @@ export function NewItinerary({ tripId, title }: any) {
     try {
       const firstAction = allActions.find((action) => action.previousActionId === null);
       if (firstAction === undefined) {
-        console.error("Error on getting actions. No first action.");
+        console.error("Error getting actions: no first action found.");
         return [];
       }
       actionsInOrder = [firstAction];
@@ -86,7 +87,8 @@ export function NewItinerary({ tripId, title }: any) {
   }, [itinerary]);
 
   if (error) return <ErrorState />;
-  if (!data) return <EmptyState />;
+  if (!data?.isReady) return <TripDetailsPageLoading />;
+  if (data.isReady && !data) return <EmptyState />;
 
   return (
     <div className="new-itinerary">

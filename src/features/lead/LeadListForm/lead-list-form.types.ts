@@ -9,4 +9,5 @@ export interface LeadListFormProps extends ComponentHTMLProps, FormLogicProps {
 
 export interface FormLogicProps {
   cta?: ButtonProps;
+  source?: string;
 }

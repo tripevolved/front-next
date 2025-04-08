@@ -1,7 +1,18 @@
 import type { PaymentData, PaymentStepProps } from "./payment-steps.types";
 
-import { CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
-import { Button, Checkbox, Divider, Grid, Icon, Skeleton } from "mars-ds";
+import { Accordion, Box, CardHighlight, EmptyState, ErrorState, Picture, Text } from "@/ui";
+import {
+  Button,
+  Card,
+  CardElevations,
+  Checkbox,
+  Divider,
+  Grid,
+  Icon,
+  Link,
+  Modal,
+  Skeleton,
+} from "mars-ds";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { TripsApiService } from "@/services/api";
@@ -11,6 +22,8 @@ import { TripScriptFeatures } from "@/features/trips/TripDetailsPage/trip-script
 import { FlightBox } from "@/features/dashboard/ConfirmFlightModal";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { TripStayServiceItem } from "@/features/trips/TripStayServiceItem";
+import { FlightDetailsPanel } from "@/features/trips/FlightDetailsPanel";
+import { StayCheckoutModal } from "@/features/stays/StayCheckoutModal";
 
 export const StepSummary = ({ trip, price, onNext, payload, setPayload }: PaymentStepProps) => {
   const fetcher = async () => TripsApiService.getCheckout(trip.id);
@@ -39,6 +52,14 @@ export const StepSummary = ({ trip, price, onNext, payload, setPayload }: Paymen
       <Divider />
       <StepSummaryPricing {...price} />
       <br />
+      <Card style={{ padding: "0 24px" }}>
+        <Accordion title={"Termos e condições"} className="color-secondary" defaultOpen>
+          {/* TODO: add abstract of the terms and conditions */}
+          <Link href={"https://www.tripevolved.com.br/termos-de-uso/"} target="_blank">
+            Ver termo completo
+          </Link>
+        </Accordion>
+      </Card>
       <label className="py-md px-lg">
         <Checkbox
           defaultChecked={payload.acceptTerms}
@@ -73,84 +94,107 @@ const StepSummaryConfiguration = ({
 };
 
 const StepSummaryTransportation = (props: CheckoutTransportation) => {
+  if (!props.isSelected) return <></>;
+
   return (
-    <PaymentStepSection image="/assets/transportation/flight.svg" title="Transporte">
-      {props.flights?.map((item, i) => (
-        <Grid gap={20} key={i}>
-          <Text heading size="xs" className="mt-lg">
-            Voo de Ida
-          </Text>
-          {item?.outboundFlight?.flightDetails.map((flight, i) => (
-            <FlightBox {...flight} key={i} hideTitle />
+    <>
+      {props.flights && props.flights.length > 0 && (
+        <PaymentStepSection image="/assets/transportation/flight.svg" title="Passagem aérea">
+          {props.flights?.map((item, i) => (
+            <Grid gap={20} key={i}>
+              <Text size="lg" className="mt-lg">
+                {item.description}
+              </Text>
+              <Box className="flight-checkout-view__box">
+                <Grid columns={["110px", "auto"]}>
+                  <Picture
+                    src={item.flightView.airlineCompanyLogoUrl}
+                    className="flight-checkout-view__logo"
+                  />
+                  <Box>
+                    <Text size="md" className="my-0 py-0">
+                      <strong>Partida de:</strong> {item.from}
+                    </Text>
+                    <Text size="md" className="my-0 py-0">
+                      <strong>Chegada em:</strong> {item.to}
+                    </Text>
+                  </Box>
+                </Grid>
+                <Divider className="color-primary" />
+                <Button
+                  variant="naked"
+                  className="flight-checkout-view__button"
+                  onClick={() =>
+                    Modal.open(() => <FlightDetailsPanel flightView={item.flightView} />, {
+                      size: "md",
+                      closable: true,
+                    })
+                  }
+                >
+                  Ver detalhes
+                </Button>
+              </Box>
+            </Grid>
           ))}
-          <Text heading size="xs" className="mt-lg">
-            Voo de Volta
-          </Text>
-          {item?.returnFlight?.flightDetails.map((flight, i) => (
-            <FlightBox {...flight} key={i} hideTitle />
-          ))}
-        </Grid>
-      ))}
-      {props.hasTerrestrialRoute ? (
-        <CardHighlight
-          className="my-md"
-          variant="info"
-          heading="Rota Terrestre"
-          text="Você possui rotas terrestres, mas estas não fazem parte da cobrança."
-        />
-      ) : null}
-    </PaymentStepSection>
+        </PaymentStepSection>
+      )}
+    </>
   );
 };
 
 const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
-  const tripId = useIdParam();
+  if (!props.isSelected) return <></>;
 
   return (
-    <PaymentStepSection image="/assets/destino/hospedagem.svg" title="Hospedagem">
+    <PaymentStepSection image="/assets/destino/hospedagem_green.svg" title="Hospedagem">
       <Grid>
-        {props.details?.length ? (
-          props.details?.map((accommodation, i) => (
-            <div className="flex-column gap-sm" key={i}>
-              <Grid columns={["28%", "auto"]}>
-                <Picture src={accommodation.coverImageUrl || "/assets/blank-image.png"} />
-                <div>
-                  <Text as="h3" size="lg">
-                    {accommodation.name}
-                  </Text>
-                  <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>
-                    {accommodation.tags}
-                  </Text>
-                  {accommodation.boardInfo ? (
-                    <TripStayServiceItem title={accommodation.boardInfo} type={"breakfast"} />
-                  ) : null}
-                </div>
-              </Grid>
-
-              <div className="w-100 flex-column itinerary-item__content__break">
-                <Text style={{ marginTop: 0, color: "var(--color-gray-2)" }}>
-                  {accommodation.fullAddress}
-                </Text>
+        <Box className="stay-checkout-view__box">
+          {props.details?.length ? (
+            props.details?.map((accommodation, i) => (
+              <div className="flex-column gap-sm" key={i}>
+                <Grid columns={["28%", "auto"]}>
+                  <Picture src={accommodation.coverImageUrl || "/assets/blank-image.png"} />
+                  <div>
+                    <Text as="h3" size="lg">
+                      {accommodation.name}
+                    </Text>
+                    <Text style={{ marginTop: 0, color: "var(--color-brand-4)" }}>
+                      {accommodation.tags}
+                    </Text>
+                    {accommodation.boardInfo ? (
+                      <TripStayServiceItem
+                        title={accommodation.boardInfo.boardChoice ?? ""}
+                        type={accommodation.boardInfo.boardType === "BB" ? "breakfast" : null}
+                      />
+                    ) : null}
+                  </div>
+                </Grid>
+                {accommodation.cancellationInfo ? (
+                  <Text size="md">{accommodation.cancellationInfo}</Text>
+                ) : null}
               </div>
-              {!accommodation.isRoomSelected ? (
-                <Text size="sm">{accommodation.roomSelectionMessage}</Text>
-              ) : null}
-              {accommodation.cancellationInfo ? (
-                <CardHighlight
-                  variant="info"
-                  heading="Informação de Cancelamento"
-                  text={accommodation.cancellationInfo}
-                />
-              ) : null}
-            </div>
-          ))
-        ) : (
-          <CardHighlight
-            variant="warning"
-            heading="Ainda não escolhemos a acomodação para sua viagem"
-            text="Podemos escolher com você em um segundo momento e deixar tudo como deseja!"
-          />
-        )}
+            ))
+          ) : (
+            <CardHighlight
+              variant="warning"
+              heading="Ainda não escolhemos a acomodação para sua viagem"
+              text="Podemos escolher com você em um segundo momento e deixar tudo como deseja!"
+            />
+          )}
+          <Divider className="color-primary" />
+          <Button
+            variant="naked"
+            className="flight-checkout-view__button"
+            onClick={() =>
+              Modal.open(() => <StayCheckoutModal details={props.details} />, {
+                size: "md",
+                closable: true,
+              })
+            }
+          >
+            Ver detalhes
+          </Button>
+        </Box>
       </Grid>
     </PaymentStepSection>
   );
@@ -158,7 +202,7 @@ const StepSummaryAccommodation = (props: CheckoutAccommodation) => {
 
 const StepSummaryScript = (props: CheckoutScript) => {
   return (
-    <PaymentStepSection image="/assets/destino/roteiro.svg" title="Roteiro">
+    <PaymentStepSection image="/assets/destino/roteiro_green.svg" title="Roteiro">
       {props.isFinished ? (
         <>
           <TripScriptFeatures paddingLeft={0} />
@@ -167,8 +211,7 @@ const StepSummaryScript = (props: CheckoutScript) => {
       ) : (
         <CardHighlight
           variant="default"
-          heading="Seu roteiro será construído depois"
-          text="Sua viagem inclui um roteiro 100% personalizado, que será construído na sequência com a ajuda de nossos especialistas."
+          text="Sua viagem inclui um roteiro 100% personalizado, que será construído com a ajuda de nossos especialistas."
         />
       )}
     </PaymentStepSection>
@@ -177,7 +220,7 @@ const StepSummaryScript = (props: CheckoutScript) => {
 
 const StepSummarySupport = () => {
   return (
-    <PaymentStepSection image="/assets/destino/suporte.svg" title="Suporte durante a viagem">
+    <PaymentStepSection image="/assets/destino/suporte_green.svg" title="Suporte durante a viagem">
       <Text className="color-text-secondary">
         Para uma experiência única e livre de estresse, oferecemos suporte do início ao fim da sua
         trip, em 360º. Com tudo organizado e planejado, sua preocupação é uma só: curtir a viagem

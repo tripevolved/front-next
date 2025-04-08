@@ -7,7 +7,7 @@ import { DEFAULT_PAYLOAD_VALUES, STEPS, STEP_NAMES } from "./payment-steps.const
 import { useTripDetails } from "@/features/trips/TripDetailsPage/trip-details.hook";
 import { delay } from "@/utils/helpers/async.helpers";
 import { useIdParam } from "@/utils/hooks/param.hook";
-import { usePurchase } from "../TripPurchasePage/trip-purchase-page.hook";
+import { usePurchase } from "./purchase.hook";
 import { scrollToTop } from "@/utils/helpers/dom.helpers";
 import { TravelerApiService } from "@/services/api/traveler";
 import { ErrorState, GlobalLoader } from "@/ui";

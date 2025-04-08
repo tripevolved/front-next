@@ -1,8 +1,9 @@
 import { Modal, Button } from "mars-ds";
 import { Text, CardHighlight, Picture } from "@/ui";
-import { FlightDetailsPainel } from "@/features";
+import { FlightDetailsPanel } from "@/features";
 import { TripTransportation } from "@/core/types";
 import { TransportationApiService } from "@/services/api";
+import useSwr from "swr";
 
 export const FlightAction = ({
   action,
@@ -11,12 +12,21 @@ export const FlightAction = ({
   action: TripTransportation;
   tripId: string;
 }) => {
+  const fetcher = async () =>
+    TransportationApiService.getTransportationActionItinerary(tripId, action.actionId);
+
+  const { data: searchedFlightDetails } = useSwr<TripTransportation>(
+    "get-flight-details",
+    fetcher,
+    {
+      revalidateOnMount: false,
+      refreshInterval: 180000,
+      fallbackData: action,
+    }
+  );
+
   const handleSeeDetails = async () => {
-    const details = await TransportationApiService.getTransportationActionItinerary(
-      tripId,
-      action.actionId
-    );
-    Modal.open(() => <FlightDetailsPainel transportationData={details} isModalView />, {
+    Modal.open(() => <FlightDetailsPanel data={searchedFlightDetails} />, {
       size: "md",
       closable: true,
     });

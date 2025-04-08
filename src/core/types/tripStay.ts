@@ -8,7 +8,7 @@ export interface TripStay {
   system: string;
   coverImage: Photo | null;
   cancellationInfo: string;
-  boardInfo: string;
+  boardInfo: TripStayRoomBoardChoice | null;
   checkIn: Date;
   checkOut: Date;
   name: string;
@@ -16,6 +16,7 @@ export interface TripStay {
   highlight?: TripStayHighlight;
   details: TripStayDetails;
   isSelected: boolean;
+  isReady: boolean;
   isBuilding: boolean;
   isReserved: boolean;
   isRoomSelected: boolean;
@@ -40,7 +41,17 @@ export interface TripStaySimplified {
   fromLatitude: number;
   fromLongitude: number;
   isMain: boolean;
+  highlight?: TripStayHighlight;
+  boardChoices: TripStayRoomBoardChoice[];
 }
+
+export interface TripStayRoomBoardChoice {
+  roomName: string;
+  boardChoice: string | null;
+  boardType: BoardType | null;
+}
+
+type BoardType = "RO" | "AI" | "BB" | "HB" | "FB";
 
 export type TripStayHighlightFeature =
   | "luxury"

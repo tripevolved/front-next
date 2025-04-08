@@ -41,10 +41,21 @@ export function QuestionsBuilder({
     animation.trigger(currentIndex < index, () => setCurrentIndex(index));
   };
 
+  const noneOfTheListedQuestionId = data
+    .flatMap((questions) => questions.questions)
+    .flatMap((question) => question.possibleAnswers)
+    .find((answer) => answer.title === "Nenhum dos listados")?.id;
+
   const handleSteps = (newIndex: number) => {
+    let submittedAnswers = answers;
+    if (!Object.values(answers).flat().length) {
+      submittedAnswers = {
+        [data[currentIndex].questions[0].id]: noneOfTheListedQuestionId as string,
+      };
+    }
     if (newIndex < 0) return;
     if (total >= newIndex) setCurrentIndexAnimation(newIndex);
-    else onSubmit(answers);
+    else onSubmit(submittedAnswers);
   };
 
   const handleCheck = (id: string) => (value: string | string[]) => {
@@ -66,7 +77,19 @@ export function QuestionsBuilder({
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const questions = useMemo(() => data[currentIndex]?.questions || [], [data.length, currentIndex]);
+  const questions = useMemo(
+    () =>
+      data[currentIndex]?.questions.map((item) => {
+        const filteredAnswers = item.possibleAnswers.filter(
+          (answer) => answer.id !== noneOfTheListedQuestionId
+        );
+        return {
+          ...item,
+          possibleAnswers: filteredAnswers,
+        };
+      }) || [],
+    [data, currentIndex]
+  );
 
   useEffect(() => {
     if (disableLocalSave) return;
@@ -78,6 +101,11 @@ export function QuestionsBuilder({
   if (error) return <ErrorState retry />;
 
   if (isLoading) return <LoadingState />;
+
+  const buttonLabel =
+    noneOfTheListedQuestionId && !Object.values(answers).some((array) => array?.length > 0)
+      ? "Não viajei para nenhum destino"
+      : finishButtonLabel;
 
   return (
     <Grid gap={48} className="questions-builder">
@@ -106,10 +134,10 @@ export function QuestionsBuilder({
         position={currentIndex}
         total={total}
         onNavigation={handleSteps}
-        isNextButtonDisabled={isNextButtonDisabled}
+        isNextButtonDisabled={noneOfTheListedQuestionId ? false : isNextButtonDisabled}
         submitting={submitting}
         nextButtonLabel={nextButtonLabel}
-        finishButtonLabel={finishButtonLabel}
+        finishButtonLabel={buttonLabel}
       />
     </Grid>
   );
