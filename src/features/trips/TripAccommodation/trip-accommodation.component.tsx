@@ -20,7 +20,7 @@ export function TripAccommodation() {
 
   const accommodationData = useMemo(() => {
     if (!data) return undefined;
-    const result = data.curated.find((hotel) => hotel.name === accommodation.name);
+    const result = data.curated?.find((hotel) => hotel.name === accommodation.name);
     if (!result && data.others) {
       return data.others?.find((hotel) => hotel.name === accommodation.name);
     } else {
