@@ -4,6 +4,7 @@ import {
   getTripHotelsToEditByTripId,
   setTripHotelToStay,
   getHotelDetails,
+  putTripStay,
 } from "./by-trip";
 import { getRecommendedStays } from "./recommended";
 import { getLibraryStays } from "./library";
@@ -15,5 +16,6 @@ export const StaysApiService = {
   setStay: setTripHotelToStay,
   getHotelDetails,
   getRecommendedStays,
-  getLibraryStays
+  getLibraryStays,
+  putTripStay,
 };

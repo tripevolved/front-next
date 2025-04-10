@@ -20,9 +20,9 @@ describe("<Picture>", () => {
   });
 
   describe("when there are images", () => {
-    const mdSourceResult = `<source data-testid="${PICTURE_TESTID.SOURCE}" media="(min-width: ${PICTURE_MEDIA_SIZES.MD}px)" srcset="${mdSrc}">`;
-    const lgSourceResult = `<source data-testid="${PICTURE_TESTID.SOURCE}" media="(min-width: ${PICTURE_MEDIA_SIZES.LG}px)" srcset="${lgSrc}">`;
-    const xlSourceResult = `<source data-testid="${PICTURE_TESTID.SOURCE}" media="(min-width: ${PICTURE_MEDIA_SIZES.XL}px)" srcset="${xlSrc}">`;
+    const mdSourceResult = `<source data-testid="${PICTURE_TESTID.SOURCE}" media="(min-width: ${PICTURE_MEDIA_SIZES.MD}px)" srcset="${mdSrc}" width="${PICTURE_MEDIA_SIZES.MD}">`;
+    const lgSourceResult = `<source data-testid="${PICTURE_TESTID.SOURCE}" media="(min-width: ${PICTURE_MEDIA_SIZES.LG}px)" srcset="${lgSrc}" width="${PICTURE_MEDIA_SIZES.LG}">`;
+    const xlSourceResult = `<source data-testid="${PICTURE_TESTID.SOURCE}" media="(min-width: ${PICTURE_MEDIA_SIZES.XL}px)" srcset="${xlSrc}" width="${PICTURE_MEDIA_SIZES.XL}">`;
     const imageResult = `<img data-testid="${PICTURE_TESTID.IMAGE}" src="${src}">`;
 
     it("render picture tag with ONE image", () => {
@@ -68,7 +68,7 @@ describe("<Picture>", () => {
         xl: { src: xlSrc },
       });
       const snapshot =
-        '<picture data-testid="picture" class="picture"><source data-testid="source" media="(min-width: 600px)" srcset="any_md_source" height="2" width="2" style="max-height: 2px;"><source data-testid="source" media="(min-width: 800px)" srcset="any_lg_source"><source data-testid="source" media="(min-width: 1400px)" srcset="any_xl_source"><img height="1" width="1" data-testid="image" src="any_source"></picture>';
+        '<picture data-testid="picture" class="picture"><source data-testid="source" media="(min-width: 600px)" srcset="any_md_source" height="2" width="2" style="max-height: 2px;"><source data-testid="source" media="(min-width: 800px)" srcset="any_lg_source" width="800"><source data-testid="source" media="(min-width: 1400px)" srcset="any_xl_source" width="1400"><img height="1" width="1" data-testid="image" src="any_source"></picture>';
       expectDOMToBe(wrapper, snapshot);
     });
   });

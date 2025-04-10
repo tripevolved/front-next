@@ -12,6 +12,28 @@ interface Accomodation {
   rooms: RoomAccomodation[];
 }
 
+export interface UpdateTripStay {
+  uniqueTransactionId: string;
+  accommodations: {
+    tripItineraryActionId: string;
+    accommodationId: string;
+    code: string;
+    signature: string;
+    provider: string;
+    system: string;
+    rooms: {
+      id: string;
+      code: string;
+      signature: string;
+      provider: string;
+      unitPrice: number;
+      totalPrice: number;
+      currency: string;
+      boardChoice: string;
+    }[];
+  }[];
+}
+
 export interface TripHotelDTO {
   uniqueTransactionId?: string;
   tripItineraryActionId?: string;
@@ -28,6 +50,16 @@ export const getStayByTripId = async (tripId: string, tripItineraryActionId: str
   return tripStay;
 };
 
+export const putTripStay = async (tripId: string, payload: UpdateTripStay) => {
+  const route = `stays/${tripId}/edit`;
+  const response = await ApiRequest.put<{
+    message: string;
+    messageCode: string;
+    statusCode: number;
+  }>(route, payload);
+  return response;
+};
+
 export const getAllReservedStaysByTripId = async (tripId: string) => {
   const route = `stays/${tripId}/reservations`;
   const tripStays = await ApiRequest.get<TripStayReservation[]>(route);
@@ -40,6 +72,161 @@ export const getTripHotelsToEditByTripId = async (
 ) => {
   const route = `stays/${tripId}/options?accommodationActionId=${tripItineraryActionId}`;
   const tripHotels = await ApiRequest.post<TripHotelListTransaction>(route, {});
+  // const tripHotels: TripHotelListTransaction = {
+  //   uniqueTransactionId: 'some-random-id',
+  //   curated: [{
+  //     id: "1",
+  //     code: 'code-01',
+  //     signature: 'sign01',
+  //     provider: 'provider01',
+  //     system: 'system01',
+  //     coverImage: {
+  //       title:'cover-img-title-01',
+  //       alt: 'alt-img-01',
+  //       sources: [{
+  //         url: '',
+  //         type: 'md',
+  //         width: 400,
+  //         height: 400
+  //     }]
+  //     },
+  //     name: 'curated 01',
+  //     tags: "clean",
+  //     cancellationInfo: 'no cancellation',
+  //     isSelected: true,
+  //     details: {
+  //       images: [
+  //         {
+  //           title: "details img",
+  //           alt: "string",
+  //           sources: [
+  //             {
+  //               "url": "/",
+  //               "type": 'md',
+  //               "width": 0,
+  //               "height": 0
+  //             }
+  //           ]
+  //         }
+  //       ],
+  //       information: "information string",
+  //       checkInHour: "14:00",
+  //       address: "string",
+  //       "numAdults": 2,
+  //       "numChildren": 0,
+  //       "numDays": 3,
+  //       "services": [
+  //         {
+  //           "title": "cama",
+  //           "type": 'bed'
+  //         }
+  //       ],
+  //       "rooms": [
+  //         {
+  //           "id": "string",
+  //           "code": "string",
+  //           "signature": "string",
+  //           "provider": "string",
+  //           "coverImageUrl": "string",
+  //           "title": "string",
+  //           "subtitle": "string",
+  //           "isSelected": true,
+  //           "price": 0,
+  //           "currency": "string",
+  //           "boardChoice": 'AI',
+  //           "details": {
+  //             "information": "string",
+  //             "amenities": [
+  //               "string"
+  //             ]
+  //           },
+  //           "amenities": [
+  //             {
+  //               "title": "caf'e da manha",
+  //               "type": 'breakfast'
+  //             }
+  //           ]
+  //         }
+  //       ]
+  //     }
+  //   }, {
+  //     id: "2",
+  //     code: 'code-01',
+  //     signature: 'sign01',
+  //     provider: 'provider01',
+  //     system: 'system01',
+  //     coverImage: {
+  //       title:'cover-img-title-01',
+  //       alt: 'alt-img-01',
+  //       sources: [{
+  //         url: '',
+  //         type: 'md',
+  //         width: 400,
+  //         height: 400
+  //     }]
+  //     },
+  //     name: 'curated 02',
+  //     tags: "clean, cheap",
+  //     cancellationInfo: 'no cancellation',
+  //     isSelected: false,
+  //     details: {
+  //       images: [
+  //         {
+  //           title: "details img",
+  //           alt: "string",
+  //           sources: [
+  //             {
+  //               "url": "/",
+  //               "type": 'md',
+  //               "width": 0,
+  //               "height": 0
+  //             }
+  //           ]
+  //         }
+  //       ],
+  //       information: "information string",
+  //       checkInHour: "14:00",
+  //       address: "string",
+  //       "numAdults": 2,
+  //       "numChildren": 0,
+  //       "numDays": 3,
+  //       "services": [
+  //         {
+  //           "title": "cama",
+  //           "type": 'bed'
+  //         }
+  //       ],
+  //       "rooms": [
+  //         {
+  //           "id": "string",
+  //           "code": "string",
+  //           "signature": "string",
+  //           "provider": "string",
+  //           "coverImageUrl": "string",
+  //           "title": "string",
+  //           "subtitle": "string",
+  //           "isSelected": true,
+  //           "price": 0,
+  //           "currency": "string",
+  //           "boardChoice": 'AI',
+  //           "details": {
+  //             "information": "string",
+  //             "amenities": [
+  //               "string"
+  //             ]
+  //           },
+  //           "amenities": [
+  //             {
+  //               "title": "caf'e da manha",
+  //               "type": 'breakfast'
+  //             }
+  //           ]
+  //         }
+  //       ]
+  //     }}
+  //   ],
+  //   others: []
+  // };
   return tripHotels;
 };
 

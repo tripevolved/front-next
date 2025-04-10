@@ -67,7 +67,7 @@ const PictureChildren = ({
 
 const ImageSource = ({ src, height, width, media, mediaSize }: ImageSourceProps) => {
   const m = media || `(min-width: ${mediaSize}px)`;
-  const style = { maxHeight: height };
-  const commonProps = { height, width, style };
+  const style = { maxHeight: height};
+  const commonProps = { height, width: width || mediaSize, style };
   return <source data-testid={PICTURE_TESTID.SOURCE} media={m} srcSet={src} {...commonProps} />;
 };
