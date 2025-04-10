@@ -38,7 +38,7 @@ export function TripDetailsPage() {
     );
   };
 
-  if (isLoading) {
+  if (isLoading || !data) {
     return (
       <Template>
         <TripDetailsPageLoading />
@@ -46,7 +46,11 @@ export function TripDetailsPage() {
     );
   }
 
-  if (error || !data) {
+  if (!data) {
+    return <></>;
+  }
+
+  if (error) {
     return (
       <Template>
         <ErrorState
