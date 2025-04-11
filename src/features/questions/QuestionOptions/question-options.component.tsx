@@ -41,6 +41,7 @@ export const QuestionOptions = ({
           options={options}
           multiselect={multiselect}
           defaultValue={defaultValue}
+          title={title}
         />
       </Grid>
     </Grid>
