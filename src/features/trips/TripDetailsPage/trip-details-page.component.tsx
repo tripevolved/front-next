@@ -64,7 +64,7 @@ export function TripDetailsPage() {
   }
 
   const { destination, configuration, hasScript, isBuilding } = data;
-  const { photos = DEFAULT_PHOTOS, title } = destination;
+  const { photos = DEFAULT_PHOTOS, title, description } = destination;
 
   return (
     <>
@@ -96,7 +96,7 @@ export function TripDetailsPage() {
                     isBuilding={isBuilding}
                   />
                 ) : null}
-                <NewItinerary tripId={data.id} title={title} />
+                <NewItinerary tripId={data.id} title={title} description={description} />
               </Grid>
               <TripPricingBox
                 hasPhotos={photos.length > 0}
