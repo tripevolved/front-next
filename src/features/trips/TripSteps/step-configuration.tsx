@@ -1,11 +1,12 @@
 import type { StepComponentProps } from "@/features";
 import { DatePicker, Text } from "@/ui";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
-import { Button, Grid, Slider, SubmitButton, TextField } from "mars-ds";
+import { Button, Grid, Slider, SubmitButton } from "mars-ds";
 import { useState } from "react";
 import { differenceInDays } from "date-fns";
 
 interface StepConfigurationProps extends StepComponentProps {
+  budget?: number;
   endDate?: string;
   startDate?: string;
   showPrevious?: boolean;
@@ -15,6 +16,7 @@ export function StepConfiguration({
   onNext,
   onPrevious,
   endDate,
+  budget = 4000,
   startDate,
   showPrevious,
 }: StepConfigurationProps) {
@@ -27,11 +29,12 @@ export function StepConfiguration({
     startDate && endDate ? differenceInDays(new Date(endDate), new Date(startDate)) : 1;
 
   const [dates, setDates] = useState<(Date | undefined)[]>(defaultDates);
+  const [maxBudget, setMaxBudget] = useState(budget);
   const [days, setDays] = useState(defaultDays);
 
   const isDisabled = !dates[0] || !dates[1] || days < 2;
 
-  const handleSubmit = async () => onNext({ dates, days });
+  const handleSubmit = async () => onNext({ dates, days, maxBudget });
 
   return (
     <Grid gap={24}>
@@ -50,25 +53,18 @@ export function StepConfiguration({
           setDays(daysAmount);
         }}
       />
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "30px",
-        }}
-      >
-        <Text
-          size="xl"
-          variant="default"
-          style={{
-            color: "var(--color-brand-1)",
-            fontWeight: 600,
-          }}
-        >
-          Vamos encontrar a melhor opção para o seu orçamento de viagem
-        </Text>
-      </div>
+      <Text heading size="xs" className="mt-md">
+        Até quanto pode gastar ao total?
+      </Text>
+      <Slider
+        name="maxBudget"
+        formatter={formatToCurrencyBR}
+        min={500}
+        max={50000}
+        defaultValue={maxBudget}
+        onSelect={setMaxBudget}
+        step={500}
+      />
 
       <div className="mt-md profile-questions-navigation">
         {showPrevious && (
