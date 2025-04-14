@@ -10,4 +10,5 @@ export interface OptionsFieldListProps extends ComponentHTMLProps {
   disabled?: boolean;
   onCheck?: OnCheck;
   defaultValue?: Value;
+  title?: string;
 }
