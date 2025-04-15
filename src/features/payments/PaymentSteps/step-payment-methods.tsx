@@ -103,7 +103,11 @@ export const StepPaymentMethods = ({ price, payload, tripId }: PaymentStepProps)
           <Text>
             <strong>Pix</strong> (Total de {formattedPixPrice})
           </Text>
-          {price.pixPercentageDiscount && <Label>{(price.pixPercentageDiscount).toLocaleString(undefined, { style: 'percent' })} OFF</Label>}
+          {price.pixPercentageDiscount && (
+            <Label>
+              {price.pixPercentageDiscount.toLocaleString(undefined, { style: "percent" })} OFF
+            </Label>
+          )}
         </div>
         <Button variant="tertiary" onClick={payWithPix}>
           Pagar no Pix
@@ -162,6 +166,10 @@ export const StepPaymentMethods = ({ price, payload, tripId }: PaymentStepProps)
           <Button type="submit" variant="tertiary">
             Pagar no Cartão
           </Button>
+          <Text className="text-center color-text-secondary mt-sm">
+            Para pagamentos realizados em formato de Pix, ou para cartão, ambos serão realizados
+            para a ValePay, nossa parceira.
+          </Text>
         </Grid>
       </form>
     </Grid>
