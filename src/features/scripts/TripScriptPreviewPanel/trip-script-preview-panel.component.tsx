@@ -7,11 +7,12 @@ import { TripScriptActionOrSuggestion } from "../TripScriptPanel";
 import { TripScriptFreeDay } from "../TripScriptPanel/trip-script-free-day.component";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { Icon } from "mars-ds";
+import { useSearchParams } from "next/navigation";
 
 export function TripScriptPreviewPanel() {
   const idParam = useIdParam();
 
-  const queryParams = new URLSearchParams(window.location.search);
+  const queryParams = useSearchParams();
   const isPreviewMode = queryParams.get("preview") === "limited";
 
   const fetcherKey = `trip-script-preview-${idParam}`;
