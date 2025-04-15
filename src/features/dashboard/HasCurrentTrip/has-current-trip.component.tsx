@@ -4,8 +4,18 @@ import { TripsApiService } from "@/services/api";
 
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
-import { Divider, Grid, Icon, Label, LabelVariants, Skeleton, Tabs, ToggleButton } from "mars-ds";
-import { CardTrip, EmptyState, ErrorState, Text, CardTripNew, confirmModal } from "@/ui";
+import {
+  Button,
+  Divider,
+  Grid,
+  Icon,
+  Label,
+  LabelVariants,
+  Skeleton,
+  Tabs,
+  ToggleButton,
+} from "mars-ds";
+import { CardTrip, EmptyState, ErrorState, Text, CardTripNew, confirmModal, Box } from "@/ui";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { useAllTrips } from "./has-current-trip.hook";
 import { useAppStore } from "@/core/store";
@@ -37,7 +47,10 @@ export function HasCurrentTrip() {
         <>
           <Divider />
           <div className="w-100">
-            <ProfileDestinationsSuggestion travelerProfile={travelerProfile} title="Outros destinos que você pode gostar:" />
+            <ProfileDestinationsSuggestion
+              travelerProfile={travelerProfile}
+              title="Outros destinos que você pode gostar:"
+            />
           </div>
         </>
       ) : null}
@@ -74,17 +87,18 @@ function AllTrips({
       ) : null}
       <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
         <CardTripNew title="Nova viagem" iconName="Plane" href="/app/viagens/descobrir" />
-        {otherTrips && otherTrips.map((trip) => (
-          <TripItem
-            key={trip.id}
-            {...trip}
-            enableDeletion={
-              !disableDeletion &&
-              trip.status !== "Só falta viajar!" &&
-              trip.status !== "Pena que já passou :("
-            }
-          />
-        ))}
+        {otherTrips &&
+          otherTrips.map((trip) => (
+            <TripItem
+              key={trip.id}
+              {...trip}
+              enableDeletion={
+                !disableDeletion &&
+                trip.status !== "Só falta viajar!" &&
+                trip.status !== "Pena que já passou :("
+              }
+            />
+          ))}
       </Grid>
     </Grid>
   );
@@ -159,7 +173,7 @@ export const LoadingSkeleton = () => (
 
 export const ProfileDestinationsSuggestion = ({
   travelerProfile,
-  title = "Destinos que você pode gostar:"
+  title = "Destinos que você pode gostar:",
 }: {
   travelerProfile: string | null;
   title?: string;
@@ -169,5 +183,11 @@ export const ProfileDestinationsSuggestion = ({
       {title}
     </Text>
     <DestinationsByProfileName profileName={travelerProfile || "relax"} />
+
+    <Box className="text-center mt-xl">
+      <Button href={`/destinos?profileId=${travelerProfile}`} variant="secondary">
+        Não gostei, quero ver mais destinos!
+      </Button>
+    </Box>
   </>
 );
