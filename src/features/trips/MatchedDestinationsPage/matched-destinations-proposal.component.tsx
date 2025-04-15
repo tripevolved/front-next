@@ -1,8 +1,9 @@
 import type { MatchedDestination } from "@/services/api/trip/matches";
 
-import { Grid, Skeleton } from "mars-ds";
-import { AutoScrollCards, Text } from "@/ui";
+import { Button, Grid, Icon, Skeleton } from "mars-ds";
+import { AutoScrollCards, Box, CardTripNew, IconCustom, Text } from "@/ui";
 import { MatchedDestinationCard } from "./matched-destination-card.component";
+import { useAppStore } from "@/core/store";
 
 export interface MatchedDestinationsProposalProps {
   mainChoice?: MatchedDestination | null;
@@ -16,6 +17,9 @@ export const MatchedDestinationsProposal = ({
   setDestinationById,
 }: MatchedDestinationsProposalProps) => {
   const hasChoices = Array.isArray(otherChoices) && otherChoices.length > 0;
+
+  const { travelerProfile } = useAppStore((state) => state.travelerState);
+
   return (
     <Grid>
       <Text heading>Escolha o seu destino</Text>
@@ -46,9 +50,24 @@ export const MatchedDestinationsProposal = ({
                 onClick={() => setDestinationById(choice.destinationId)}
               />
             ))}
+            <Box className="card-trip matched-see-more-card">
+              <Icon name="" color="#008383" size="lg" />
+              <Button
+                href={`/destinos?profileId=${travelerProfile}`}
+                variant="custom"
+                color="#008383"
+              >
+                Não gostei, quero ver mais destinos!
+              </Button>
+            </Box>
           </AutoScrollCards>
         </>
       ) : null}
+      {/* <Box className="text-center mt-xl">
+        <Button href={`/destinos?profileId=${travelerProfile}`} variant="secondary">
+          Não gostei, quero ver mais destinos!
+        </Button>
+      </Box> */}
     </Grid>
   );
 };
