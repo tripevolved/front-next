@@ -46,10 +46,6 @@ export function TripDetailsPage() {
     );
   }
 
-  if (!data) {
-    return <></>;
-  }
-
   if (error) {
     return (
       <Template>
