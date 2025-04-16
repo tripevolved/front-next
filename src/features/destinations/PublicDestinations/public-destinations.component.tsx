@@ -11,7 +11,7 @@ import { useSearchParams } from "next/navigation";
 export function PublicDestinations() {
   const searchParams = useSearchParams();
 
-  const profileId = searchParams.get("profileId");
+  const profileId = searchParams?.get("profileId");
 
   const [searchName, setSearchName] = useState("");
   const [currentUniqueName, setCurrentUniqueName] = useState<string>(
