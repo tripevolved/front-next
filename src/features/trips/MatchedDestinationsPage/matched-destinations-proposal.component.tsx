@@ -1,7 +1,7 @@
 import type { MatchedDestination } from "@/services/api/trip/matches";
 
-import { Button, Grid, Icon, Skeleton } from "mars-ds";
-import { AutoScrollCards, Box, CardTripNew, IconCustom, Text } from "@/ui";
+import { Button, Grid, Icon, Link, Skeleton } from "mars-ds";
+import { AutoScrollCards, Box, Text } from "@/ui";
 import { MatchedDestinationCard } from "./matched-destination-card.component";
 import { useAppStore } from "@/core/store";
 
@@ -19,6 +19,8 @@ export const MatchedDestinationsProposal = ({
   const hasChoices = Array.isArray(otherChoices) && otherChoices.length > 0;
 
   const { travelerProfile } = useAppStore((state) => state.travelerState);
+
+  const href = `/destinos?profileId=${travelerProfile}`;
 
   return (
     <Grid>
@@ -50,24 +52,15 @@ export const MatchedDestinationsProposal = ({
                 onClick={() => setDestinationById(choice.destinationId)}
               />
             ))}
-            <Box className="card-trip matched-see-more-card">
-              <Icon name="" color="#008383" size="lg" />
-              <Button
-                href={`/destinos?profileId=${travelerProfile}`}
-                variant="custom"
-                color="#008383"
-              >
-                Não gostei, quero ver mais destinos!
+            <Link href={href} className="card-trip matched-see-more-card">
+              <Icon name="plus" color="#008383" size="lg" />
+              <Button href={href} variant="custom" color="#008383">
+                Quero ver mais destinos!
               </Button>
-            </Box>
+            </Link>
           </AutoScrollCards>
         </>
       ) : null}
-      {/* <Box className="text-center mt-xl">
-        <Button href={`/destinos?profileId=${travelerProfile}`} variant="secondary">
-          Não gostei, quero ver mais destinos!
-        </Button>
-      </Box> */}
     </Grid>
   );
 };
