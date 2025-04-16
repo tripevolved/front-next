@@ -38,12 +38,16 @@ export function TripDetailsPage() {
     );
   };
 
-  if (isLoading || !data) {
+  if (isLoading) {
     return (
       <Template>
         <TripDetailsPageLoading />
       </Template>
     );
+  }
+
+  if (!data) {
+    return null;
   }
 
   if (error) {
