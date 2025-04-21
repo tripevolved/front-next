@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { LeadsApiService } from '@/clients/leads'
 
 interface ContactExpertModalProps {
@@ -9,7 +10,28 @@ interface ContactExpertModalProps {
   phoneNumber: string
 }
 
+interface UtmParams {
+  source?: string
+  campaign?: string
+  term?: string
+  medium?: string
+  content?: string
+}
+
+const getUtmParams = (searchParams: URLSearchParams | null): UtmParams => {
+  if (!searchParams) return {}
+  
+  return {
+    source: searchParams.get('utm_source') || undefined,
+    campaign: searchParams.get('utm_campaign') || undefined,
+    term: searchParams.get('utm_term') || undefined,
+    medium: searchParams.get('utm_medium') || undefined,
+    content: searchParams.get('utm_content') || undefined,
+  }
+}
+
 export default function ContactExpertModal({ isOpen, onClose, phoneNumber }: ContactExpertModalProps) {
+  const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -54,17 +76,29 @@ export default function ContactExpertModal({ isOpen, onClose, phoneNumber }: Con
     setError(null)
     
     try {
-      // Send lead data to the backend
+      const utmParams = getUtmParams(searchParams)
+      const metadata = Object.entries(utmParams)
+        .filter(([_, value]) => value !== undefined)
+        .map(([key, value]) => ({
+          key: `utm_${key}`,
+          value: value!,
+          keyDescription: `UTM ${key.charAt(0).toUpperCase() + key.slice(1)}`
+        }))
+
+      // Add Brazilian country code (+55) to the phone number
+      const phoneWithCountryCode = `+55${formData.phone.replace(/\D/g, '')}`
+
       await LeadsApiService.createLead({
         name: formData.name,
         email: formData.email,
-        phone: formData.phone.replace(/\D/g, '') // Remove non-numeric characters for the API
+        phone: phoneWithCountryCode,
+        metadata
       })
       
       setSuccess(true)
       
       // Format the message for WhatsApp
-      const message = `Olá! Me chamo ${formData.name}. Gostaria de falar com um especialista sobre a minha viagem.`
+      const message = `Olá! Me chamo ${formData.name} e gostaria de saber mais sobre os destinos.`
       
       // Create WhatsApp URL with the message
       const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`
