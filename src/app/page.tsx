@@ -5,33 +5,15 @@ import QuotesCarousel from '@/components/QuotesCarousel'
 import FAQ from '@/components/FAQ'
 import DestinationsSection from '@/components/DestinationsSection'
 import ContactCard from '@/components/ContactCard'
+import type { Metadata } from 'next'
 
-const destinations = [
-  {
-    title: "Bali, Indonésia",
-    image: "/assets/destinations/bali.jpg",
-    profile: "Aventureiro Cultural",
-    link: "/destinos/bali"
+export const metadata: Metadata = {
+  title: 'Viagens Personalizadas | Trip Evolved',
+  description: 'Crie sua viagem perfeita com a Trip Evolved. Destinos exclusivos, experiências autênticas e roteiros personalizados para seu estilo de viajante.',
+  alternates: {
+    canonical: 'https://tripevolved.com.br',
   },
-  {
-    title: "Santorini, Grécia",
-    image: "/assets/destinations/santorini.jpg",
-    profile: "Romântico",
-    link: "/destinos/santorini"
-  },
-  {
-    title: "Machu Picchu, Peru",
-    image: "/assets/destinations/machu-picchu.jpg",
-    profile: "Explorador",
-    link: "/destinos/machu-picchu"
-  },
-  {
-    title: "Maldivas",
-    image: "/assets/destinations/maldives.jpg",
-    profile: "Relaxado",
-    link: "/destinos/maldives"
-  }
-]
+}
 
 const faqQuestions = [
   {
@@ -69,10 +51,12 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <Image
             src="/assets/hero-bg.jpg"
-            alt="Beautiful travel destination"
+            alt="Destino de viagem exclusivo da Trip Evolved"
             fill
             className="object-cover"
             priority
+            sizes="100vw"
+            quality={90}
           />
           <div className="absolute inset-0 bg-black/40" />
         </div>
@@ -86,15 +70,18 @@ export default function Home() {
             <p className="font-comfortaa text-xl md:text-2xl mb-8 text-white/90">
               Jornadas sob medida, pensadas para seu estilo. Porque <span className="font-bold">exclusividade</span> começa com personalização.
             </p>
-            <button className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all">
+            <Link 
+              href="#contact"
+              className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+            >
               Descobrir minha viagem
-            </button>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Second Section */}
-      <section className="py-24">
+      <section className="py-24 bg-secondary-50">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             {/* Content Column */}
@@ -105,9 +92,12 @@ export default function Home() {
               <p className="font-comfortaa text-xl text-gray-600 mb-8">
                 Roteiros exclusivos e personalizados para você viver experiências autênticas que combinam com seu estilo de viajante.
               </p>
-              <button className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all">
+              <Link 
+                href="#contact"
+                className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+              >
                 Descobrir minha viagem
-              </button>
+              </Link>
             </div>
 
             {/* Images Column */}
@@ -115,17 +105,21 @@ export default function Home() {
               <div className="absolute right-0 top-0 w-4/5 h-72 rounded-lg overflow-hidden shadow-xl">
                 <Image
                   src="/assets/scenery1.jpg"
-                  alt="Beautiful travel destination"
+                  alt="Destino de viagem exclusivo - Paisagem natural"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 30vw"
+                  quality={85}
                 />
               </div>
               <div className="absolute right-8 top-48 w-4/5 h-72 rounded-lg overflow-hidden shadow-xl">
                 <Image
                   src="/assets/scenery2.jpg"
-                  alt="Amazing landscape"
+                  alt="Destino de viagem exclusivo - Experiência única"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 30vw"
+                  quality={85}
                 />
               </div>
             </div>

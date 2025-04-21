@@ -1616,6 +1616,13 @@
   resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-15.3.0.tgz"
   integrity sha512-vHUQS4YVGJPmpjn7r5lEZuMhK5UQBNBRSB+iGDvJjaNk649pTIcRluDWNb9siunyLLiu/LDPHfvxBtNamyuLTw==
 
+"@next/third-parties@^15.3.1":
+  version "15.3.1"
+  resolved "https://registry.npmjs.org/@next/third-parties/-/third-parties-15.3.1.tgz"
+  integrity sha512-8v1pAtRjcaCbs80qcYLLCrSsECgeSb0WMU0J3pMBYNavG3Y3yQOgFog18nVgiNrNB20HkyrScquWsy8gcdiGRA==
+  dependencies:
+    third-party-capital "1.0.20"
+
 "@noble/hashes@^1.1.5":
   version "1.7.2"
   resolved "https://registry.npmjs.org/@noble/hashes/-/hashes-1.7.2.tgz"
@@ -8855,7 +8862,7 @@ next-video@^2.0.0:
     undici "^5.28.4"
     yargs "^17.7.2"
 
-"next@^13.4.5 || ^14 || ^15.0.0-rc.0", next@^15.3.0, "next@^8.1.1-canary.54 || >=9.0.0", next@>=12.0.0:
+"next@^13.0.0 || ^14.0.0 || ^15.0.0", "next@^13.4.5 || ^14 || ^15.0.0-rc.0", next@^15.3.0, "next@^8.1.1-canary.54 || >=9.0.0", next@>=12.0.0:
   version "15.3.0"
   resolved "https://registry.npmjs.org/next/-/next-15.3.0.tgz"
   integrity sha512-k0MgP6BsK8cZ73wRjMazl2y2UcXj49ZXLDEgx6BikWuby/CN+nh81qFFI16edgd7xYpe/jj2OZEIwCoqnzz0bQ==
@@ -11265,6 +11272,11 @@ thenify-all@^1.0.0:
   integrity sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==
   dependencies:
     any-promise "^1.0.0"
+
+third-party-capital@1.0.20:
+  version "1.0.20"
+  resolved "https://registry.npmjs.org/third-party-capital/-/third-party-capital-1.0.20.tgz"
+  integrity sha512-oB7yIimd8SuGptespDAZnNkzIz+NWaJCu2RMsbs4Wmp9zSDUM8Nhi3s2OOcqYuv3mN4hitXc8DVx+LyUmbUDiA==
 
 throttleit@^2.1.0:
   version "2.1.0"

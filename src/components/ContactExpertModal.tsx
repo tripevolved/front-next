@@ -58,7 +58,7 @@ export default function ContactExpertModal({ isOpen, onClose, phoneNumber }: Con
       await LeadsApiService.createLead({
         name: formData.name,
         email: formData.email,
-        phone: "+55" + formData.phone.replace(/\D/g, '') // Remove non-numeric characters for the API
+        phone: formData.phone.replace(/\D/g, '') // Remove non-numeric characters for the API
       })
       
       setSuccess(true)
