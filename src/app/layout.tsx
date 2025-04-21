@@ -5,8 +5,7 @@ import TopMenu from '@/components/TopMenu'
 import Footer from '@/components/Footer'
 import WhatsAppBubble from '@/components/WhatsAppBubble'
 import PrivacyBanner from '@/components/PrivacyBanner'
-import FacebookPixel from '@/components/FacebookPixel'
-import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google"
+import AnalyticsProvider from '@/components/basic/AnalyticsProvider'
 
 const comfortaa = Comfortaa({ 
   subsets: ['latin'],
@@ -79,9 +78,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <GoogleTagManager gtmId="GTM-53C7GFCC" />
-      <GoogleAnalytics gaId="G-4W2CG7W3GC" />
-      <FacebookPixel />
+      <AnalyticsProvider />
       <body className={`${comfortaa.variable} ${baloo.variable} font-comfortaa antialiased bg-white text-gray-900`}>
         <TopMenu />
         <main className="min-h-screen flex flex-col pt-16">
