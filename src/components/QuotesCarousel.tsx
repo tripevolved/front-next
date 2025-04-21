@@ -58,9 +58,26 @@ const quotes: Quote[] = [
 
 export default function QuotesCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const itemsPerPage = typeof window !== 'undefined' && window.innerWidth >= 1024 ? 3 : 1
+  const [itemsPerPage, setItemsPerPage] = useState(1)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+    const updateItemsPerPage = () => {
+      setItemsPerPage(window.innerWidth >= 1024 ? 3 : 1)
+    }
+
+    // Initial update
+    updateItemsPerPage()
+
+    // Update on resize
+    window.addEventListener('resize', updateItemsPerPage)
+    return () => window.removeEventListener('resize', updateItemsPerPage)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) => {
         const nextIndex = prevIndex + itemsPerPage
@@ -69,7 +86,12 @@ export default function QuotesCarousel() {
     }, 8000)
 
     return () => clearInterval(timer)
-  }, [itemsPerPage])
+  }, [itemsPerPage, mounted])
+
+  // Don't render anything until after hydration
+  if (!mounted) {
+    return null
+  }
 
   return (
     <div className="relative w-full">

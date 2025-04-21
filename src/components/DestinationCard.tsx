@@ -4,7 +4,7 @@ import Link from 'next/link'
 interface DestinationCardProps {
   title: string
   image: string
-  profile: string
+  profile?: string | null
   link: string
 }
 
@@ -23,9 +23,11 @@ export default function DestinationCard({ title, image, profile, link }: Destina
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
       
       {/* Profile Label */}
-      <div className="absolute top-4 left-4 bg-accent-500/90 backdrop-blur-sm text-white px-4 py-1 rounded-full text-sm font-baloo">
-        {profile}
-      </div>
+      {profile && (
+        <div className="absolute top-4 left-4 bg-accent-500/90 backdrop-blur-sm text-white px-4 py-1 rounded-full text-sm font-baloo">
+          {profile}
+        </div>
+      )}
       
       {/* Title */}
       <div className="absolute bottom-4 right-4 text-white">

@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import ExperienceCarousel from '@/components/ExperienceCarousel'
-import DestinationCard from '@/components/DestinationCard'
 import Link from 'next/link'
 import QuotesCarousel from '@/components/QuotesCarousel'
 import FAQ from '@/components/FAQ'
+import DestinationsSection from '@/components/DestinationsSection'
 
 const destinations = [
   {
@@ -93,7 +93,7 @@ export default function Home() {
       </section>
 
       {/* Second Section */}
-      <section className="py-24 bg-gray-100">
+      <section className="py-24">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             {/* Content Column */}
@@ -133,36 +133,7 @@ export default function Home() {
       </section>
 
       {/* Third Section - Destinations */}
-      <section className="py-24 bg-white">
-        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-          <div className="text-center mb-12">
-            <h2 className="font-baloo text-4xl md:text-5xl font-bold mb-4 text-secondary-500">
-              Descubra lugares feitos para o seu jeito de viajar
-            </h2>
-            <p className="font-comfortaa text-xl text-gray-600">
-              Experiências únicas em destinos selecionados por nossos especialistas
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            {destinations.map((destination, index) => (
-              <DestinationCard
-                key={index}
-                {...destination}
-              />
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Link 
-              href="/destinos"
-              className="inline-block font-baloo text-primary-600 hover:text-primary-700 text-lg font-semibold transition-colors"
-            >
-              Ver todos os destinos →
-            </Link>
-          </div>
-        </div>
-      </section>
+      <DestinationsSection />
 
       {/* Fourth Section - Experiences Carousel */}
       <section className="py-24 bg-secondary-500">
