@@ -3,6 +3,7 @@ import ExperienceCarousel from '@/components/ExperienceCarousel'
 import DestinationCard from '@/components/DestinationCard'
 import Link from 'next/link'
 import QuotesCarousel from '@/components/QuotesCarousel'
+import FAQ from '@/components/FAQ'
 
 const destinations = [
   {
@@ -28,6 +29,33 @@ const destinations = [
     image: "/assets/destinations/maldives.jpg",
     profile: "Relaxado",
     link: "/destinos/maldives"
+  }
+]
+
+const faqQuestions = [
+  {
+    question: "O que é a Trip Evolved?",
+    answer: {
+      html: "Somos uma agência de viagens dedicada a construir viagens especiais, personalizadas, que ficam gravadas na memória de nossos clientes, sem fugir do seu orçamento. Nossos especialistas realizam a curadoria de cada destino que oferecemos, em detalhes, e nosso processo é preparado para entender o seu perfil de viajante e objetivo de viagem, usando essas informações para criar experiências inesquecíveis.<br/> Estamos registrados no <a href=\"https://cadastur.turismo.gov.br/hotsite/\">Cadastur</a> (Ministério do Turismo) sob o número 47.875.077/0001-79."
+    }
+  },
+  {
+    question: "A Trip Evolved atende de maneira virtual ou presencial?",
+    answer: "Somos 100% digitais para te proporcionar atendimento em qualquer lugar do mundo. Porém, acreditamos na união entre a tecnologia e a humanização, e você será atendido por uma equipe de especialistas disposta a te dar todo o suporte necessário antes, durante e depois da sua viagem."
+  },
+  {
+    question: "Preciso reservar minhas passagens aéreas e hotéis separadamente?",
+    answer: "Não. Como uma agência de viagens, temos parcerias com diversos fornecedores de hospedagem, companhias aéreas e todos os demais itens da sua viagem. O seu pagamento e relacionamento é todo com a Trip Evolved: vamos cuidar de cada detalhe para você, para que sua única preocupação seja curtir a viagem."
+  },
+  {
+    question: "Existe um custo pela assessoria e personalização dos roteiros?",
+    answer: {
+      html: "A assessoria e personalização dos roteiros está inclusa quando você fecha uma viagem conosco. Cobramos uma taxa de serviço sobre o valor total da sua viagem."
+    }
+  },
+  {
+    question: "E se ocorrerem imprevistos na viagem?",
+    answer: "Estaremos à sua disposição para resolvê-los da melhor forma possível, como parte de nossa assessoria 360°."
   }
 ]
 
@@ -149,45 +177,55 @@ export default function Home() {
       {/* Features Section */}
       <section className="py-20 bg-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-          <h2 className="font-baloo text-3xl md:text-4xl font-bold text-center mb-12 text-primary-900">
-            Por Que Nos Escolher
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Experiências Personalizadas',
-                description: 'Planos de viagem adaptados aos seus gostos e estilo'
-              },
-              {
-                title: 'Orientação Especializada',
-                description: 'Especialistas em viagens para guiá-lo em cada etapa'
-              },
-              {
-                title: 'Planejamento Simplificado',
-                description: 'Organização de viagem sem complicações do início ao fim'
-              }
-            ].map((feature, index) => (
-              <div key={index} className="p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow bg-white border border-primary-100">
-                <h3 className="font-baloo text-xl font-semibold mb-4 text-primary-700">{feature.title}</h3>
-                <p className="font-comfortaa text-gray-600">{feature.description}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Profile Card */}
+            <div className="bg-secondary-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="mb-6">
+                <svg className="w-12 h-12 text-accent-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <h3 className="text-2xl font-baloo font-bold text-secondary-900 mb-2">
+                  Descobrir meu perfil de viajante
+                </h3>
+                <p className="text-secondary-600 font-comfortaa">
+                  Aqui, a viagem começa com seu perfil de viajante. Se descubra.
+                </p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+              <Link 
+                href="/perfil"
+                className="inline-flex items-center gap-2 bg-accent-500 text-white px-6 py-3 rounded-full font-baloo font-semibold hover:bg-accent-600 transition-colors"
+              >
+                Fazer o teste
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-primary-50">
-        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 text-center">
-          <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-primary-900">
-            Pronto para Começar Sua Aventura?
-          </h2>
-          <p className="font-comfortaa text-xl text-primary-700 mb-8">
-            Deixe-nos ajudar a criar memórias inesquecíveis
-          </p>
-          <button className="font-baloo bg-primary-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-700 transition-all">
-            Começar Agora
-          </button>
+            {/* Contact Card */}
+            <div className="bg-primary-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
+              <div className="mb-6">
+                <svg className="w-12 h-12 text-primary-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                <h3 className="text-2xl font-baloo font-bold text-primary-900 mb-2">
+                  Entrar em contato conosco
+                </h3>
+                <p className="text-primary-600 font-comfortaa">
+                  Nossos especialistas estão sempre presentes para te guiar a uma viagem transformadora.
+                </p>
+              </div>
+              <Link 
+                href="/contato"
+                className="inline-flex items-center gap-2 bg-primary-500 text-white px-6 py-3 rounded-full font-baloo font-semibold hover:bg-primary-600 transition-colors"
+              >
+                Falar com especialista
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -203,6 +241,33 @@ export default function Home() {
             </p>
           </div>
           <QuotesCarousel />
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 bg-white">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-baloo font-bold text-secondary-900 mb-4">
+              O que é a Trip Evolved?
+            </h2>
+            <p className="text-lg text-secondary-600 font-comfortaa max-w-2xl mx-auto">
+              Tire suas dúvidas sobre nossa agência e como trabalhamos
+            </p>
+          </div>
+          <FAQ questions={faqQuestions} />
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 bg-primary-50">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 text-center">
+          <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-primary-900">
+            Vamos começar sua jornada?
+          </h2>
+          <button className="font-baloo bg-primary-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-700 transition-all">
+            Descobrir minha viagem
+          </button>
         </div>
       </section>
     </div>
