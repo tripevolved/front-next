@@ -61,7 +61,7 @@ export default function TopMenu() {
               Destinos
             </Link>
             <Link 
-              href="/sobre" 
+              href="/beneficios" 
               className="font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
             >
               Benefícios
