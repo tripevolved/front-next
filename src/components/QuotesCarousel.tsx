@@ -66,12 +66,10 @@ export default function QuotesCarousel() {
         const nextIndex = prevIndex + itemsPerPage
         return nextIndex >= quotes.length ? 0 : nextIndex
       })
-    }, 5000)
+    }, 8000)
 
     return () => clearInterval(timer)
   }, [itemsPerPage])
-
-  const visibleQuotes = quotes.slice(currentIndex, currentIndex + itemsPerPage)
 
   return (
     <div className="relative w-full">
