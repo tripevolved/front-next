@@ -3,6 +3,7 @@ import { Comfortaa, Baloo_2 } from 'next/font/google'
 import '@/main.css'
 import TopMenu from '@/components/TopMenu'
 import Footer from '@/components/Footer'
+import WhatsAppBubble from '@/components/WhatsAppBubble'
 
 const comfortaa = Comfortaa({ 
   subsets: ['latin'],
@@ -32,6 +33,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <WhatsAppBubble phoneNumber="5511999999999" />
       </body>
     </html>
   )
