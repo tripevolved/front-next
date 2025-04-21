@@ -4,6 +4,7 @@ import '@/main.css'
 import TopMenu from '@/components/TopMenu'
 import Footer from '@/components/Footer'
 import WhatsAppBubble from '@/components/WhatsAppBubble'
+import PrivacyBanner from '@/components/PrivacyBanner'
 
 const comfortaa = Comfortaa({ 
   subsets: ['latin'],
@@ -34,6 +35,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <WhatsAppBubble phoneNumber="5511999999999" />
+        <PrivacyBanner />
       </body>
     </html>
   )
