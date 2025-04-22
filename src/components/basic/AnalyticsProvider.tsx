@@ -1,9 +1,9 @@
 'use client'
 
 import { GoogleAnalytics, GoogleTagManager, sendGTMEvent, sendGAEvent } from "@next/third-parties/google"
-import FacebookPixel from '@/components/FacebookPixel'
+import FacebookPixel from '@/components/basic/FacebookPixel'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 
 export default function AnalyticsProvider() {
   const pathname = usePathname()
@@ -33,10 +33,10 @@ export default function AnalyticsProvider() {
   }, [pathname, searchParams])
 
   return (
-    <>
+    <Suspense fallback={null}>
       <GoogleTagManager gtmId="GTM-53C7GFCC" />
       <GoogleAnalytics gaId="G-4W2CG7W3GC" />
       <FacebookPixel />
-    </>
+    </Suspense>
   )
 } 
