@@ -6,10 +6,17 @@ import { SubmitHandler, handleFormSubmit } from "@/utils/helpers/form.helpers";
 import { TABS, TIME_FOR_REQUEST_IN_MILISECONDS } from "./public-destinations.constants";
 import { PublicDestinationsTab } from "./public-destinations-tab";
 import ToggleButton from "@/ui/components/buttons/ToggleButton/toggle-button.component";
+import { useSearchParams } from "next/navigation";
 
 export function PublicDestinations() {
+  const searchParams = useSearchParams();
+
+  const profileId = searchParams?.get("profileId");
+
   const [searchName, setSearchName] = useState("");
-  const [currentUniqueName, setCurrentUniqueName] = useState<string>(TABS[0].uniqueName);
+  const [currentUniqueName, setCurrentUniqueName] = useState<string>(
+    profileId || TABS[0].uniqueName
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [errorMsg, setErrorMsg] = useState("");
 
