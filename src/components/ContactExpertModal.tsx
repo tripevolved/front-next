@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { LeadsApiService } from '@/clients/leads'
 
@@ -8,6 +8,10 @@ interface ContactExpertModalProps {
   isOpen: boolean
   onClose: () => void
   phoneNumber: string
+}
+
+interface ExpertModalFormProps extends ContactExpertModalProps {
+  setSuccess: (success: boolean) => void
 }
 
 interface UtmParams {
@@ -31,6 +35,56 @@ const getUtmParams = (searchParams: URLSearchParams | null): UtmParams => {
 }
 
 export default function ContactExpertModal({ isOpen, onClose, phoneNumber }: ContactExpertModalProps) {
+  const [success, setSuccess] = useState(false)
+
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-xl max-w-md w-full p-6 relative">
+        {/* Close button */}
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+          aria-label="Fechar modal"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+        {/* Modal content */}
+        <div className="text-center mb-6">
+          <h2 className="font-baloo text-2xl font-bold text-secondary-900 mb-2">
+            Falar com especialista
+          </h2>
+          <p className="text-gray-600 font-comfortaa">
+            Preencha os campos abaixo para ser direcionado aos nossos especialistas no WhatsApp
+          </p>
+        </div>
+
+        {success ? (
+          <div className="text-center py-4">
+            <div className="text-green-500 mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <p className="text-lg font-medium text-gray-900">Dados enviados com sucesso!</p>
+            <p className="text-gray-600">Você será redirecionado para o WhatsApp em instantes.</p>
+          </div>
+        ) : (
+          <Suspense fallback={null}>
+            <ExpertModalForm isOpen={isOpen} onClose={onClose} phoneNumber={phoneNumber} setSuccess={setSuccess} />
+          </Suspense>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function ExpertModalForm({ isOpen, onClose, phoneNumber, setSuccess }: ExpertModalFormProps) {
   const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
     name: '',
@@ -39,7 +93,6 @@ export default function ContactExpertModal({ isOpen, onClose, phoneNumber }: Con
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -120,110 +173,70 @@ export default function ContactExpertModal({ isOpen, onClose, phoneNumber }: Con
     }
   }
 
-  if (!isOpen) return null
-
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl max-w-md w-full p-6 relative">
-        {/* Close button */}
-        <button 
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-          aria-label="Fechar modal"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-
-        {/* Modal content */}
-        <div className="text-center mb-6">
-          <h2 className="font-baloo text-2xl font-bold text-secondary-900 mb-2">
-            Falar com especialista
-          </h2>
-          <p className="text-gray-600 font-comfortaa">
-            Preencha os campos abaixo para ser direcionado aos nossos especialistas no WhatsApp
-          </p>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {error && (
+        <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm">
+          {error}
         </div>
-
-        {success ? (
-          <div className="text-center py-4">
-            <div className="text-green-500 mb-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-            <p className="text-lg font-medium text-gray-900">Dados enviados com sucesso!</p>
-            <p className="text-gray-600">Você será redirecionado para o WhatsApp em instantes.</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm">
-                {error}
-              </div>
-            )}
-            
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                Nome completo
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="Seu nome"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                E-mail
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="seu@email.com"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                Telefone
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="(00) 00000-0000"
-                maxLength={15}
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-primary-600 text-white font-baloo py-3 px-6 rounded-full text-lg font-semibold hover:bg-primary-700 transition-colors disabled:opacity-70"
-            >
-              {isSubmitting ? 'Enviando...' : 'Iniciar atendimento'}
-            </button>
-          </form>
-        )}
+      )}
+      
+      <div>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+          Nome completo
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          required
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+          placeholder="Seu nome"
+        />
       </div>
-    </div>
+
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          E-mail
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          required
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+          placeholder="seu@email.com"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+          Telefone
+        </label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          value={formData.phone}
+          onChange={handleInputChange}
+          required
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+          placeholder="(00) 00000-0000"
+          maxLength={15}
+        />
+      </div>
+
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="w-full bg-primary-600 text-white font-baloo py-3 px-6 rounded-full text-lg font-semibold hover:bg-primary-700 transition-colors disabled:opacity-70"
+      >
+        {isSubmitting ? 'Enviando...' : 'Iniciar atendimento'}
+      </button>
+    </form>
   )
-} 
+}

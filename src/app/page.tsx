@@ -65,7 +65,7 @@ export default function Home() {
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 relative z-10">
           <div className="max-w-2xl">
             <h1 className="font-baloo text-5xl md:text-7xl font-bold mb-6 text-white">
-              A viagem perfeita não se encontra. Ela se cria
+              A viagem perfeita não se encontra. Ela é criada.
             </h1>
             <p className="font-comfortaa text-xl md:text-2xl mb-8 text-white/90">
               Jornadas sob medida, pensadas para seu estilo. Porque <span className="font-bold">exclusividade</span> começa com personalização.

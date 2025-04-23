@@ -5,7 +5,7 @@ import FacebookPixel from '@/components/basic/FacebookPixel'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Suspense, useEffect } from 'react'
 
-export default function AnalyticsProvider() {
+function Analytics() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -33,10 +33,18 @@ export default function AnalyticsProvider() {
   }, [pathname, searchParams])
 
   return (
-    <Suspense fallback={null}>
+    <>
       <GoogleTagManager gtmId="GTM-53C7GFCC" />
       <GoogleAnalytics gaId="G-4W2CG7W3GC" />
       <FacebookPixel />
+    </>
+  )
+}
+
+export default function AnalyticsProvider() {
+  return (
+    <Suspense fallback={null}>
+      <Analytics />
     </Suspense>
   )
-} 
+}
