@@ -46,7 +46,11 @@ export function TripDetailsPage() {
     );
   }
 
-  if (error || !data) {
+  if (!data) {
+    return null;
+  }
+
+  if (error) {
     return (
       <Template>
         <ErrorState
