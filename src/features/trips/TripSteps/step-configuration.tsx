@@ -1,7 +1,7 @@
 import type { StepComponentProps } from "@/features";
 import { DatePicker, Text } from "@/ui";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
-import { Grid, Slider, SubmitButton, TextField } from "mars-ds";
+import { Grid, SubmitButton } from "mars-ds";
 import { useState } from "react";
 import { differenceInDays } from "date-fns";
 
