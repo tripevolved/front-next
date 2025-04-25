@@ -1,15 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { LeadsApiService } from '@/clients/leads'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 import DateRangePicker from './DateRangePicker'
+import LeadForm from './LeadForm'
 
 // Types for the wizard
 interface TripDates {
-  startDate: string
-  endDate: string
+  startDate: string | null
+  endDate: string | null
+  month: number | null
 }
 
 interface TripGoals {
@@ -34,13 +36,40 @@ interface UserInfo {
 const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => void, onBack?: () => void }) => {
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null])
   const [startDate, endDate] = dateRange
+  const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
+  const [selectionMode, setSelectionMode] = useState<'month' | 'range'>('month')
+
+  const months = [
+    { value: '01', label: 'Janeiro' },
+    { value: '02', label: 'Fevereiro' },
+    { value: '03', label: 'Março' },
+    { value: '04', label: 'Abril' },
+    { value: '05', label: 'Maio' },
+    { value: '06', label: 'Junho' },
+    { value: '07', label: 'Julho' },
+    { value: '08', label: 'Agosto' },
+    { value: '09', label: 'Setembro' },
+    { value: '10', label: 'Outubro' },
+    { value: '11', label: 'Novembro' },
+    { value: '12', label: 'Dezembro' }
+  ]
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (startDate && endDate) {
+    
+    if (selectionMode === 'month' && selectedMonth) {
+      // For month selection, only populate the month field
+      onNext({
+        startDate: null,
+        endDate: null,
+        month: parseInt(selectedMonth)
+      })
+    } else if (selectionMode === 'range' && startDate && endDate) {
+      // For date range selection, only populate the startDate and endDate fields
       onNext({
         startDate: format(startDate, 'yyyy-MM-dd'),
-        endDate: format(endDate, 'yyyy-MM-dd')
+        endDate: format(endDate, 'yyyy-MM-dd'),
+        month: null
       })
     }
   }
@@ -51,27 +80,81 @@ const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => void, onB
       <p className="text-gray-600 mb-6">Selecione as datas da sua viagem para encontrarmos os melhores destinos para você.</p>
       
       <form onSubmit={handleSubmit} className="space-y-4">
-        <DateRangePicker
-          startDate={startDate}
-          endDate={endDate}
-          onChange={(update) => setDateRange(update)}
-          minDate={new Date()}
-        />
+        {/* Toggle button for selection mode */}
+        <div className="flex justify-center mb-6">
+          <div className="inline-flex rounded-lg border border-gray-300 p-1 bg-gray-50">
+            <button
+              type="button"
+              onClick={() => setSelectionMode('month')}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                selectionMode === 'month'
+                  ? 'bg-primary-600 text-white'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              Selecionar Mês
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectionMode('range')}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                selectionMode === 'range'
+                  ? 'bg-primary-600 text-white'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              Selecionar Datas
+            </button>
+          </div>
+        </div>
+
+        {/* Month selection */}
+        {selectionMode === 'month' && (
+          <div className="grid grid-cols-3 gap-2 mb-4">
+            {months.map((month) => (
+              <button
+                key={month.value}
+                type="button"
+                onClick={() => setSelectedMonth(month.value)}
+                className={`p-3 border rounded-lg text-center transition-all ${
+                  selectedMonth === month.value
+                    ? 'border-primary-500 bg-primary-50 text-primary-700'
+                    : 'border-gray-300 hover:border-primary-300'
+                }`}
+              >
+                {month.label}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Date range selection */}
+        {selectionMode === 'range' && (
+          <DateRangePicker
+            startDate={startDate}
+            endDate={endDate}
+            onChange={(update) => setDateRange(update)}
+            minDate={new Date()}
+          />
+        )}
 
         <div className="flex justify-between pt-4">
           {onBack && (
             <button
               type="button"
               onClick={onBack}
-              className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="px-4 py-2 text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50"
             >
               Voltar
             </button>
           )}
           <button
             type="submit"
-            disabled={!startDate || !endDate}
-            className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={
+              (selectionMode === 'month' && !selectedMonth) || 
+              (selectionMode === 'range' && (!startDate || !endDate))
+            }
+            className="px-6 py-2 bg-primary-600 text-white rounded-full hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Próximo
           </button>
@@ -131,14 +214,14 @@ const StepGoals = ({ onNext, onBack }: { onNext: (goals: TripGoals) => void, onB
           <button
             type="button"
             onClick={onBack}
-            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50"
           >
             Voltar
           </button>
           <button
             type="submit"
             disabled={selectedGoals.length === 0}
-            className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-primary-600 text-white rounded-full hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Próximo
           </button>
@@ -193,14 +276,14 @@ const StepProfile = ({ onNext, onBack }: { onNext: (profile: TripProfile) => voi
           <button
             type="button"
             onClick={onBack}
-            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50"
           >
             Voltar
           </button>
           <button
             type="submit"
             disabled={!profile}
-            className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-primary-600 text-white rounded-full hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Próximo
           </button>
@@ -210,7 +293,7 @@ const StepProfile = ({ onNext, onBack }: { onNext: (profile: TripProfile) => voi
   )
 }
 
-const StepType = ({ onNext, onBack }: { onNext: (type: TripType) => void, onBack: () => void }) => {
+const StepType = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (type: TripType) => void, onBack: () => void, buttonText?: string }) => {
   const [type, setType] = useState('')
 
   const types = [
@@ -259,16 +342,16 @@ const StepType = ({ onNext, onBack }: { onNext: (type: TripType) => void, onBack
           <button
             type="button"
             onClick={onBack}
-            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50"
           >
             Voltar
           </button>
           <button
             type="submit"
             disabled={!type}
-            className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-primary-600 text-white rounded-full hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Próximo
+            {buttonText}
           </button>
         </div>
       </form>
@@ -276,140 +359,85 @@ const StepType = ({ onNext, onBack }: { onNext: (type: TripType) => void, onBack
   )
 }
 
-const StepUserInfo = ({ onNext, onBack }: { onNext: (userInfo: UserInfo) => void, onBack: () => void }) => {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+function StepContact({ onNext, onBack, formData }: { onNext: () => void, onBack: () => void, formData: any }) {
+  const [isSuccess, setIsSuccess] = useState(false)
 
-  const maskPhoneNumber = (value: string) => {
-    // Remove all non-numeric characters
-    const numbers = value.replace(/\D/g, '')
-    
-    // Apply mask based on length
-    if (numbers.length <= 2) {
-      return numbers
-    } else if (numbers.length <= 7) {
-      return `(${numbers.substring(0, 2)}) ${numbers.substring(2)}`
-    } else if (numbers.length <= 11) {
-      return `(${numbers.substring(0, 2)}) ${numbers.substring(2, 7)}-${numbers.substring(7)}`
-    } else {
-      return `(${numbers.substring(0, 2)}) ${numbers.substring(2, 7)}-${numbers.substring(7, 11)}`
+  const handleSuccess = () => {
+    setIsSuccess(true)
+    // Close the wizard after a short delay
+    setTimeout(() => {
+      onNext()
+    }, 2000)
+  }
+
+  // Create metadata array with null checks and ensure all values are strings
+  const metadata = [
+    {
+      key: 'trip_type',
+      value: formData?.tripType || '',
+      keyDescription: 'Tipo de viagem'
+    },
+    {
+      key: 'travelers',
+      value: formData?.travelers?.toString() || '',
+      keyDescription: 'Número de viajantes'
+    },
+    {
+      key: 'budget',
+      value: formData?.budget || '',
+      keyDescription: 'Orçamento'
+    },
+    {
+      key: 'destinations',
+      value: formData?.destinations?.join(',') || '',
+      keyDescription: 'Destinos selecionados'
+    },
+    {
+      key: 'start_date',
+      value: formData?.startDate?.toISOString() || '',
+      keyDescription: 'Data de início'
+    },
+    {
+      key: 'end_date',
+      value: formData?.endDate?.toISOString() || '',
+      keyDescription: 'Data de término'
+    },
+    {
+      key: 'month',
+      value: formData?.month?.toString() || '',
+      keyDescription: 'Mês selecionado'
     }
-  }
-
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const maskedValue = maskPhoneNumber(e.target.value)
-    setPhone(maskedValue)
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setError(null)
-    
-    try {
-      // Add Brazilian country code (+55) to the phone number
-      const phoneWithCountryCode = `+55${phone.replace(/\D/g, '')}`
-
-      await LeadsApiService.createLead({
-        name,
-        email,
-        phone: phoneWithCountryCode,
-        metadata: [
-          {
-            key: 'trip_discovery',
-            value: 'true',
-            keyDescription: 'Trip Discovery'
-          }
-        ]
-      })
-      
-      onNext({ name, email, phone })
-    } catch (err) {
-      console.error('Error creating lead:', err)
-      setError('Ocorreu um erro ao enviar seus dados. Por favor, tente novamente.')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
+  ]
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-baloo font-bold text-secondary-900 mb-4">Quase lá!</h2>
-      <p className="text-gray-600 mb-6">Preencha seus dados para recebermos suas sugestões de destinos personalizadas.</p>
-      
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {error && (
-          <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm">
-            {error}
-          </div>
-        )}
-        
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-            Nome completo
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-            placeholder="Seu nome"
-          />
-        </div>
+    <div className="p-6 space-y-6">
+      <div className="text-center">
+        <h3 className="text-2xl font-baloo font-bold text-primary-600 mb-2">
+          Quase lá!
+        </h3>
+        <p className="text-gray-600">
+          Preencha seus dados para receber sugestões personalizadas de viagem.
+        </p>
+      </div>
 
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-            E-mail
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-            placeholder="seu@email.com"
-          />
+      {isSuccess ? (
+        <div className="text-center py-8">
+          <h3 className="text-2xl font-baloo font-bold text-primary-600 mb-4">
+            Obrigado pelo seu interesse!
+          </h3>
+          <p className="text-gray-600 mb-6">
+            Um de nossos especialistas entrará em contato em breve para ajudar você a planejar sua próxima viagem.
+          </p>
         </div>
-
-        <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-            Telefone
-          </label>
-          <input
-            type="tel"
-            id="phone"
-            value={phone}
-            onChange={handlePhoneChange}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-            placeholder="(00) 00000-0000"
-            maxLength={15}
-          />
-        </div>
-
-        <div className="flex justify-between pt-4">
-          <button
-            type="button"
-            onClick={onBack}
-            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
-          >
-            Voltar
-          </button>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50"
-          >
-            {isSubmitting ? 'Enviando...' : 'Concluir'}
-          </button>
-        </div>
-      </form>
+      ) : (
+        <LeadForm 
+          onSuccess={handleSuccess}
+          submitButtonText="Enviar"
+          additionalMetadata={metadata}
+          showBackButton={true}
+          onBack={onBack}
+        />
+      )}
     </div>
   )
 }
@@ -423,6 +451,26 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
   const [tripProfile, setTripProfile] = useState<TripProfile | null>(null)
   const [tripType, setTripType] = useState<TripType | null>(null)
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
+  const [hasLeadId, setHasLeadId] = useState(false)
+
+  // Check if traveler data exists in local storage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const travelerData = localStorage.getItem('traveler')
+      setHasLeadId(!!travelerData)
+    }
+  }, [])
+
+  // Create a combined form data object
+  const formData = {
+    tripType: tripType?.type || '',
+    travelers: tripProfile?.profile === 'familia' ? 4 : 2,
+    budget: tripGoals?.goals.includes('Econômico') ? 'econômico' : 'padrão',
+    destinations: tripGoals?.goals || [],
+    startDate: tripDates?.startDate ? new Date(tripDates.startDate) : null,
+    endDate: tripDates?.endDate ? new Date(tripDates.endDate) : null,
+    month: tripDates?.month || null
+  }
 
   const handleDatesNext = (dates: TripDates) => {
     setTripDates(dates)
@@ -454,6 +502,17 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
     setStep(step - 1)
   }
 
+  // Function to handle final step based on whether user has already submitted lead
+  const handleFinalStep = () => {
+    if (hasLeadId) {
+      // If user already has a lead ID, redirect to results
+      router.push('/resultados')
+    } else {
+      // Otherwise, proceed to contact form
+      setStep(5)
+    }
+  }
+
   if (!isOpen) return null
 
   return (
@@ -475,7 +534,7 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
         <div className="h-1.5 bg-gray-200 rounded-t-lg overflow-hidden">
           <div 
             className="h-full bg-primary-600 transition-all duration-300"
-            style={{ width: `${(step / 5) * 100}%` }}
+            style={{ width: `${(step / (hasLeadId ? 4 : 5)) * 100}%` }}
           ></div>
         </div>
 
@@ -483,8 +542,14 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
         {step === 1 && <StepDates onNext={handleDatesNext} />}
         {step === 2 && <StepGoals onNext={handleGoalsNext} onBack={handleBack} />}
         {step === 3 && <StepProfile onNext={handleProfileNext} onBack={handleBack} />}
-        {step === 4 && <StepType onNext={handleTypeNext} onBack={handleBack} />}
-        {step === 5 && <StepUserInfo onNext={handleUserInfoNext} onBack={handleBack} />}
+        {step === 4 && (
+          <StepType 
+            onNext={hasLeadId ? handleFinalStep : handleTypeNext} 
+            onBack={handleBack} 
+            buttonText={hasLeadId ? "Ver resultados" : "Próximo"}
+          />
+        )}
+        {step === 5 && <StepContact onNext={() => handleUserInfoNext({ name: '', email: '', phone: '' })} onBack={handleBack} formData={formData} />}
       </div>
     </div>
   )
