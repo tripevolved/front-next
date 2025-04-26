@@ -115,6 +115,8 @@ export interface TripMatchedDestination {
   price: number;
   name: string;
   uniqueName: string;
+  features?: string[];
+  description?: string;
 }
 
 export interface TripProposal {

@@ -7,21 +7,28 @@ const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 
 type ApiRequestMethod = "get" | "post" | "put" | "delete" | "patch";
 
-const makeInstance = (method: ApiRequestMethod) => {
+interface RequestOptions {
+  headers?: Record<string, string>;
+}
+
+const makeInstance = (method: ApiRequestMethod, options: RequestOptions = {}) => {
   const baseURL = `${API_URL}/api`;
-  const headers = { "X-API-Key": API_KEY };
+  const headers = { 
+    "X-API-Key": API_KEY,
+    ...options.headers 
+  };
   const instance = axios.create({ baseURL, headers });
   return instance[method];
 };
 
 // TODO: add exception handler
 export const ApiRequest = {
-  get: <ResponseData = any>(route = "/") =>
-    makeInstance("get")<ResponseData>(route).then(({ data }) => data),
-  post: <ResponseData = any>(route = "/", body: any) =>
-    makeInstance("post")<ResponseData>(route, body).then(({ data }) => data),
-  put: <ResponseData = any>(route = "/", body: any) =>
-    makeInstance("put")<ResponseData>(route, body).then(({ data }) => data),
-  delete: <ResponseData = any>(route = "/") =>
-    makeInstance("delete")<ResponseData>(route).then(({ data }) => data),
+  get: <ResponseData = any>(route = "/", options: RequestOptions = {}) =>
+    makeInstance("get", options)<ResponseData>(route).then(({ data }) => data),
+  post: <ResponseData = any>(route = "/", body: any, options: RequestOptions = {}) =>
+    makeInstance("post", options)<ResponseData>(route, body).then(({ data }) => data),
+  put: <ResponseData = any>(route = "/", body: any, options: RequestOptions = {}) =>
+    makeInstance("put", options)<ResponseData>(route, body).then(({ data }) => data),
+  delete: <ResponseData = any>(route = "/", options: RequestOptions = {}) =>
+    makeInstance("delete", options)<ResponseData>(route).then(({ data }) => data),
 };

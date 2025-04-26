@@ -39,7 +39,7 @@ export function DestinationExpert({ destination }: DestinationExpertProps) {
           </div>
         </div>
       </div>
-      <p className="text-gray-600 italic">"{destination.recommendedBy.recommendationText}"</p>
+      <p className="text-gray-600 italic">&ldquo;{destination.recommendedBy.recommendationText}&rdquo;</p>
     </div>
   )
 } 

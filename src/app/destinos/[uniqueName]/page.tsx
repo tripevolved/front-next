@@ -1,10 +1,8 @@
 import { DestinationsApiService } from '@/clients/destinations'
 import { DestinationDetail } from '@/components/destinations/DestinationDetail'
 
-interface PageProps {
-  params: {
-    uniqueName: string
-  }
+type PageProps = {
+  params: Promise<{ uniqueName: string }>
 }
 
 async function getDestination(uniqueName: string) {
@@ -16,7 +14,8 @@ async function getDestination(uniqueName: string) {
 }
 
 export default async function DestinationPage({ params }: PageProps) {
-  const destination = await getDestination(params.uniqueName)
+  const { uniqueName } = await params
+  const destination = await getDestination(uniqueName)
 
   return <DestinationDetail destination={destination} />
 }
