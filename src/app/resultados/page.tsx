@@ -5,12 +5,41 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import ContactExpertModal from '@/components/ContactExpertModal'
+import { WhatsAppDirectButton } from '@/components/WhatsAppDirectButton'
+import { LocalStorageService } from '@/clients/local'
+import TripPlanningDecisionModal from '@/components/TripPlanningDecisionModal'
 
 // Mock data for destinations
 const destinations = [
   {
     id: 1,
+    name: 'Fernando de Noronha, Brasil',
+    uniqueName: 'fernando-de-noronha',
+    image: '/assets/blank-image.png',
+    description: 'Um arquipélago paradisíaco com praias de areia branca, águas cristalinas e uma rica vida marinha.',
+    aspects: [
+      {
+        title: 'Natureza',
+        description: 'Praias deslumbrantes, trilhas ecológicas e uma biodiversidade única.',
+        icon: '🌴'
+      },
+      {
+        title: 'Aventura',
+        description: 'Mergulho, snorkeling, passeios de barco e observação de golfinhos.',
+        icon: '🏊'
+      },
+      {
+        title: 'Relaxamento',
+        description: 'Ambiente tranquilo e isolado, perfeito para descanso e conexão com a natureza.',
+        icon: '😌'
+      }
+    ],
+    price: 'A partir de R$ 4.990'
+  },
+  {
+    id: 2,
     name: 'Bali, Indonésia',
+    uniqueName: 'bali',
     image: '/assets/blank-image.png',
     description: 'Um paraíso tropical com praias deslumbrantes, templos antigos e uma rica cultura.',
     aspects: [
@@ -33,8 +62,9 @@ const destinations = [
     price: 'A partir de R$ 5.990'
   },
   {
-    id: 2,
+    id: 3,
     name: 'Santorini, Grécia',
+    uniqueName: 'santorini',
     image: '/assets/blank-image.png',
     description: 'Ilha grega famosa por suas casas brancas com telhados azuis e vistas deslumbrantes do Mediterrâneo.',
     aspects: [
@@ -55,30 +85,6 @@ const destinations = [
       }
     ],
     price: 'A partir de R$ 7.290'
-  },
-  {
-    id: 3,
-    name: 'Tóquio, Japão',
-    image: '/assets/blank-image.png',
-    description: 'Uma metrópole futurista que combina tecnologia de ponta com tradições milenares.',
-    aspects: [
-      {
-        title: 'Tecnologia',
-        description: 'Distritos eletrônicos, robôs, realidade virtual e inovações tecnológicas de ponta.',
-        icon: '🤖'
-      },
-      {
-        title: 'Tradição',
-        description: 'Templos budistas, jardins zen, cerimônia do chá e festivais tradicionais.',
-        icon: '⛩️'
-      },
-      {
-        title: 'Gastronomia',
-        description: 'Sushi de alta qualidade, ramen, tempura e uma variedade de pratos locais.',
-        icon: '🍱'
-      }
-    ],
-    price: 'A partir de R$ 8.990'
   }
 ]
 
@@ -190,25 +196,28 @@ export default function ResultsPage() {
   const router = useRouter()
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
   const [isWantToGoModalOpen, setIsWantToGoModalOpen] = useState(false)
-  const [selectedDestination, setSelectedDestination] = useState<number | null>(null)
+  const [selectedDestination, setSelectedDestination] = useState<string | null>(null)
+  const hasTraveler = LocalStorageService.hasTraveler()
 
   const handleContactExpert = () => {
-    // Get the lead ID from local storage
-    const leadId = localStorage.getItem('trip_evolved_lead_id')
-    
-    // Direct to WhatsApp with the lead ID
-    const whatsappUrl = `https://wa.me/5511999999999?text=Olá! Sou o lead ${leadId} e gostaria de falar sobre minha viagem.`
-    window.open(whatsappUrl, '_blank')
+    if (!hasTraveler) {
+      setIsContactModalOpen(true)
+    }
   }
 
   const handleWantToGo = (destinationId: number) => {
-    setSelectedDestination(destinationId)
-    setIsWantToGoModalOpen(true)
+    // Find the destination by ID
+    const destination = destinations.find(d => d.id === destinationId);
+    // Use the uniqueName if available, otherwise generate a fallback
+    setSelectedDestination(destination?.uniqueName || `destination-${destinationId}`);
+    setIsWantToGoModalOpen(true);
   }
 
   // Get the main destination (first one) and other destinations
   const mainDestination = destinations[0]
   const otherDestinations = destinations.slice(1)
+
+  const message = "Olá! Gostaria de falar sobre os resultados da minha pesquisa de destinos."
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -267,15 +276,25 @@ export default function ResultsPage() {
             Não encontrou o destino ideal? Nossos especialistas podem ajudar a encontrar a viagem perfeita para você.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button
-              onClick={handleContactExpert}
-              className="bg-secondary-600 text-white px-8 py-3 rounded-full font-medium hover:bg-secondary-700 transition-colors flex items-center justify-center"
-            >
-              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-              Falar com especialista
-            </button>
+            {hasTraveler ? (
+              <WhatsAppDirectButton
+                message={message}
+                variant="secondary"
+                className="w-full sm:w-auto"
+              >
+                Falar com especialista
+              </WhatsAppDirectButton>
+            ) : (
+              <button
+                onClick={handleContactExpert}
+                className="bg-secondary-600 text-white px-8 py-3 rounded-full font-medium hover:bg-secondary-700 transition-colors flex items-center justify-center"
+              >
+                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Falar com especialista
+              </button>
+            )}
             <Link
               href="/destinos"
               className="bg-white text-secondary-600 border border-secondary-600 px-8 py-3 rounded-full font-medium hover:bg-secondary-50 transition-colors"
@@ -290,51 +309,15 @@ export default function ResultsPage() {
       <ContactExpertModal 
         isOpen={isContactModalOpen} 
         onClose={() => setIsContactModalOpen(false)}
-        phoneNumber="5511999999999"
       />
       
-      {/* Want to Go Modal */}
-      {isWantToGoModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-md w-full p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-baloo font-bold text-secondary-900">
-                Escolha uma opção
-              </h2>
-              <button 
-                onClick={() => setIsWantToGoModalOpen(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
-            </div>
-            
-            <div className="space-y-4">
-              <Link 
-                href={`/destinos/${selectedDestination}`}
-                className="block w-full bg-primary-600 text-white text-center py-3 rounded-full font-medium hover:bg-primary-700 transition-colors"
-              >
-                Planejar minha viagem
-              </Link>
-              <button
-                onClick={() => {
-                  setIsWantToGoModalOpen(false);
-                  handleContactExpert();
-                }}
-                className="w-full bg-white text-primary-600 border border-primary-600 py-3 rounded-full font-medium hover:bg-primary-50 transition-colors flex items-center justify-center"
-              >
-                <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                </svg>
-                Falar com especialista
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Trip Planning Decision Modal */}
+      <TripPlanningDecisionModal
+        isOpen={isWantToGoModalOpen}
+        onClose={() => setIsWantToGoModalOpen(false)}
+        selectedDestination={selectedDestination}
+        onContactExpert={handleContactExpert}
+      />
     </div>
   )
 } 
