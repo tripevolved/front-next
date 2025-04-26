@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { LocalStorageService } from '@/clients/local';
-import { WhatsAppDirectButton } from './WhatsAppDirectButton';
-import ContactExpertModal from './ContactExpertModal';
+import { WhatsAppDirectButton } from '@/components/WhatsAppDirectButton';
+import ContactExpertModal from '@/components/ContactExpertModal';
 
 interface DestinationCTAProps {
   destinationTitle: string;

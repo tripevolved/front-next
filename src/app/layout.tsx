@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 import { Comfortaa, Baloo_2 } from 'next/font/google'
 import '@/main.css'
-import TopMenu from '@/components/TopMenu'
-import Footer from '@/components/Footer'
+import TopMenu from '@/components/common/TopMenu'
+import Footer from '@/components/common/Footer'
 import WhatsAppBubble from '@/components/WhatsAppBubble'
-import PrivacyBanner from '@/components/PrivacyBanner'
+import PrivacyBanner from '@/components/common/PrivacyBanner'
 import AnalyticsProvider from '@/components/basic/AnalyticsProvider'
 
 const comfortaa = Comfortaa({ 

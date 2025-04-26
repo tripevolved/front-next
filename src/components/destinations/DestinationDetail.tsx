@@ -4,7 +4,7 @@ import { DestinationTips } from './DestinationTips'
 import { DestinationFeatures } from './DestinationFeatures'
 import { DestinationVideos } from './DestinationVideos'
 import { DestinationExpert } from './DestinationExpert'
-import { DestinationCTA } from '@/components/DestinationCTA'
+import { DestinationCTA } from './DestinationCTA'
 
 interface DestinationDetailProps {
   destination: PublicDestination
