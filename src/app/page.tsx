@@ -1,10 +1,3 @@
-import Image from 'next/image'
-import ExperienceCarousel from '@/components/ExperienceCarousel'
-import Link from 'next/link'
-import QuotesCarousel from '@/components/QuotesCarousel'
-import FAQ from '@/components/FAQ'
-import DestinationsSection from '@/components/DestinationsSection'
-import ContactCard from '@/components/ContactCard'
 import HomeContent from '@/components/HomeContent'
 import { Metadata } from 'next'
 

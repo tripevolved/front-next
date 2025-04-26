@@ -6,10 +6,10 @@ import LeadForm from './LeadForm'
 interface ContactExpertModalProps {
   isOpen: boolean
   onClose: () => void
-  phoneNumber: string
+  phoneNumber?: string
 }
 
-export default function ContactExpertModal({ isOpen, onClose, phoneNumber }: ContactExpertModalProps) {
+export default function ContactExpertModal({ isOpen, onClose, phoneNumber = '5512991694499' }: ContactExpertModalProps) {
   const [isSuccess, setIsSuccess] = useState(false)
 
   if (!isOpen) return null
