@@ -181,3 +181,21 @@ export interface TripTip {
   restaurantId: string | null;
   attractionId: string | null;
 }
+
+export interface TripDates {
+  startDate: string | null;
+  endDate: string | null;
+  month: string | null;
+}
+
+export interface TripTravelers {
+  type: 'COUPLE' | 'INDIVIDUAL';
+}
+
+export interface CreateTripRequest {
+  travelerId: string;
+  goals: string[];
+  travelerProfile: string;
+  dates: TripDates;
+  travelers: TripTravelers;
+}

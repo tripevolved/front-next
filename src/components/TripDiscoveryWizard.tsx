@@ -1,11 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { LeadsApiService } from '@/clients/leads'
+import { useState, useEffect, useRef } from 'react'
+import { TripsApiService } from '@/clients/trips'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 import DateRangePicker from './DateRangePicker'
 import LeadForm from './LeadForm'
+import { CreateTripRequest, TripTravelers } from '@/core/types/trip'
+import { LocalStorageService } from '@/clients/local'
 
 // Types for the wizard
 interface TripDates {
@@ -166,12 +168,27 @@ const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => void, onB
 
 const StepGoals = ({ onNext, onBack }: { onNext: (goals: TripGoals) => void, onBack: () => void }) => {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([])
+  const [availableGoals, setAvailableGoals] = useState<string[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   
-  const tripGoals = [
-    'Aventura', 'Relax', 'Cultura', 'Gastronomia', 'Natureza', 'Praia', 'Montanha', 
-    'Cidade', 'História', 'Arte', 'Música', 'Esporte', 'Luxo', 'Econômico', 
-    'Romântico', 'Familiar', 'Solo', 'Grupo', 'Fotografia', 'Vida noturna'
-  ]
+  useEffect(() => {
+    const fetchGoals = async () => {
+      try {
+        setIsLoading(true)
+        setError(null)
+        const goals = await TripsApiService.getGoals()
+        setAvailableGoals(goals)
+      } catch (err) {
+        console.error('Error fetching goals:', err)
+        setError('Não foi possível carregar os objetivos. Por favor, tente novamente.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchGoals()
+  }, [])
 
   const handleGoalClick = (goal: string) => {
     if (selectedGoals.includes(goal)) {
@@ -186,31 +203,58 @@ const StepGoals = ({ onNext, onBack }: { onNext: (goals: TripGoals) => void, onB
     onNext({ goals: selectedGoals })
   }
 
+  if (isLoading) {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="text-center py-8">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className="text-primary-600 font-medium">Carregando objetivos...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="text-center py-8">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-primary-600 text-white rounded-full hover:bg-primary-700"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="p-6">
+    <div className="p-6 flex flex-col h-full">
       <h2 className="text-2xl font-baloo font-bold text-secondary-900 mb-4">Defina sua viagem</h2>
       <p className="text-gray-600 mb-6">Selecione até 5 palavras que melhor definem a viagem dos seus sonhos.</p>
       
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-          {tripGoals.map((goal) => (
+      <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
+        <div className="bg-gray-100 sm:bg-white px-1 py-2 rounded-lg grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 sm:gap-3 overflow-y-auto max-h-[50vh] pr-2">
+          {availableGoals.map((goal) => (
             <button
               key={goal}
               type="button"
               onClick={() => handleGoalClick(goal)}
               disabled={!selectedGoals.includes(goal) && selectedGoals.length >= 5}
-              className={`px-3 py-1.5 border rounded-full text-center text-sm transition-all whitespace-nowrap overflow-hidden text-ellipsis ${
+              className={`py-1.5 px-1.5 sm:p-3 border rounded-full text-center transition-all min-h-[30px] sm:min-h-[56px] flex items-center justify-center ${
                 selectedGoals.includes(goal)
                   ? 'border-primary-500 bg-primary-50 text-primary-700'
                   : 'border-gray-300 hover:border-primary-300 disabled:opacity-50 disabled:cursor-not-allowed'
               }`}
             >
-              {goal}
+              <span className="text-sm leading-tight">{goal}</span>
             </button>
           ))}
         </div>
 
-        <div className="flex justify-between pt-4">
+        <div className="flex justify-between pt-4 mt-4">
           <button
             type="button"
             onClick={onBack}
@@ -360,16 +404,6 @@ const StepType = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (type: 
 }
 
 function StepContact({ onNext, onBack, formData }: { onNext: () => void, onBack: () => void, formData: any }) {
-  const [isSuccess, setIsSuccess] = useState(false)
-
-  const handleSuccess = () => {
-    setIsSuccess(true)
-    // Close the wizard after a short delay
-    setTimeout(() => {
-      onNext()
-    }, 2000)
-  }
-
   // Create metadata array with null checks and ensure all values are strings
   const metadata = [
     {
@@ -419,27 +453,35 @@ function StepContact({ onNext, onBack, formData }: { onNext: () => void, onBack:
           Preencha seus dados para receber sugestões personalizadas de viagem.
         </p>
       </div>
-
-      {isSuccess ? (
-        <div className="text-center py-8">
-          <h3 className="text-2xl font-baloo font-bold text-primary-600 mb-4">
-            Obrigado pelo seu interesse!
-          </h3>
-          <p className="text-gray-600 mb-6">
-            Um de nossos especialistas entrará em contato em breve para ajudar você a planejar sua próxima viagem.
-          </p>
-        </div>
-      ) : (
-        <LeadForm 
-          onSuccess={handleSuccess}
-          submitButtonText="Enviar"
-          additionalMetadata={metadata}
-          showBackButton={true}
-          onBack={onBack}
-        />
-      )}
+      <LeadForm 
+        onSuccess={onNext}
+        submitButtonText="Enviar"
+        additionalMetadata={metadata}
+        showBackButton={true}
+        onBack={onBack}
+      />
     </div>
   )
+}
+
+function StepCreateTrip({ onNext }: { onNext: () => void }) {
+  const hasCalledRef = useRef(false);
+
+  useEffect(() => {
+    if (!hasCalledRef.current) {
+      hasCalledRef.current = true;
+      onNext();
+    }
+  }, [onNext]);
+  
+  return (
+    <div className="p-6 space-y-6">
+      <div className="inset-0 bg-white bg-opacity-80 flex flex-col items-center justify-center z-10">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600 mb-4"></div>
+        <p className="text-primary-600 font-medium">Estamos encontrando as melhores recomendações para sua viagem...</p>
+      </div>
+    </div>
+  );
 }
 
 // Main component
@@ -452,12 +494,13 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
   const [tripType, setTripType] = useState<TripType | null>(null)
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
   const [hasLeadId, setHasLeadId] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   // Check if traveler data exists in local storage
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const travelerData = localStorage.getItem('traveler')
-      setHasLeadId(!!travelerData)
+      const hasTraveler = LocalStorageService.hasTraveler()
+      setHasLeadId(hasTraveler)
     }
   }, [])
 
@@ -494,8 +537,7 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
 
   const handleUserInfoNext = (info: UserInfo) => {
     setUserInfo(info)
-    // Redirect to results page
-    router.push('/resultados')
+    setStep(6)
   }
 
   const handleBack = () => {
@@ -503,13 +545,54 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
   }
 
   // Function to handle final step based on whether user has already submitted lead
-  const handleFinalStep = () => {
+  const handleFinalStep = (type: TripType) => {
+    setTripType(type)
     if (hasLeadId) {
-      // If user already has a lead ID, redirect to results
-      router.push('/resultados')
+      // If user already has a lead ID, create trip and redirect to results
+      setStep(6)
     } else {
       // Otherwise, proceed to contact form
       setStep(5)
+    }
+  }
+
+  // Function to create a trip using the TripsApiService
+  const handleCreateTrip = async () => {
+    try {
+      setError(null)
+
+      // Get traveler data from LocalStorageService
+      const traveler = LocalStorageService.getTraveler()
+      if (!traveler) {
+        throw new Error('Traveler data not found')
+      }
+
+      // Create trip request
+      const tripRequest: CreateTripRequest = {
+        travelerId: traveler.id,
+        goals: tripGoals?.goals || [],
+        travelerProfile: tripProfile?.profile || '',
+        dates: {
+          startDate: tripDates?.startDate || null,
+          endDate: tripDates?.endDate || null,
+          month: tripDates?.month?.toString() || null
+        },
+        travelers: {
+          type: tripType?.type === 'casal' ? 'COUPLE' : 'INDIVIDUAL'
+        } as TripTravelers
+      }
+
+      console.log(tripRequest)
+      console.log(tripType);
+
+      // Call the API to create the trip
+      const tripId = await TripsApiService.createTrip(tripRequest)
+      
+      // Redirect to the results page with the trip ID
+      router.push(`/resultados/${tripId}`)
+    } catch (err) {
+      console.error('Error creating trip:', err)
+      router.push(`/resultados/?message=${"Houve um erro ao criar a viagem. Por favor, tente novamente."}`)
     }
   }
 
@@ -517,7 +600,7 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg max-w-md w-full relative">
+      <div className="bg-white rounded-lg max-w-2xl w-full relative">
         {/* Close button */}
         <button 
           onClick={onClose}
@@ -538,6 +621,13 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
           ></div>
         </div>
 
+        {/* Error message */}
+        {error && (
+          <div className="bg-red-50 text-red-600 p-4 m-4 rounded-md">
+            {error}
+          </div>
+        )}
+
         {/* Step content */}
         {step === 1 && <StepDates onNext={handleDatesNext} />}
         {step === 2 && <StepGoals onNext={handleGoalsNext} onBack={handleBack} />}
@@ -550,6 +640,7 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
           />
         )}
         {step === 5 && <StepContact onNext={() => handleUserInfoNext({ name: '', email: '', phone: '' })} onBack={handleBack} formData={formData} />}
+        {step === 6 && <StepCreateTrip onNext={handleCreateTrip} />}
       </div>
     </div>
   )
