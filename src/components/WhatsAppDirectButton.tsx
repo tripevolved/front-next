@@ -1,3 +1,5 @@
+'use client'
+
 import { AnchorHTMLAttributes } from 'react'
 
 interface WhatsAppDirectButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {

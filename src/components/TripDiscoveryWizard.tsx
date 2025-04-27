@@ -586,10 +586,10 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
       console.log(tripType);
 
       // Call the API to create the trip
-      const tripId = await TripsApiService.createTrip(tripRequest)
+      const { id } = await TripsApiService.createTrip(tripRequest)
       
       // Redirect to the results page with the trip ID
-      router.push(`/resultados/${tripId}`)
+      router.push(`/resultados/${id}`)
     } catch (err) {
       console.error('Error creating trip:', err)
       router.push(`/resultados/?message=${"Houve um erro ao criar a viagem. Por favor, tente novamente."}`)
