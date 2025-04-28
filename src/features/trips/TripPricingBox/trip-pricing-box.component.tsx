@@ -59,7 +59,7 @@ export const TripPricingBox = ({
   const fetcher = async () => TripsApiService.getPriceById(idParam);
   const { isLoading, data, error } = useSWR(fetcherKey, fetcher);
 
-  if (error) return <TripPricingBoxErrorState title={destinationName} />;
+  if (error) return <TripPricingBoxErrorState title={destinationName} error={error} />;
   if (isLoading) return <TripPricingBoxLoadingState />;
   if (!data) return <TripPricingBoxErrorState title={destinationName} />;
 
@@ -168,71 +168,86 @@ const TripPricingBoxContent = ({
   isPurchaseAvailable,
   tripIncludes,
   messageProps,
-}: TripPricingBoxContentProps) =>
-  {
-    return (
-      <div className="trip-pricing-box-content">
-        <ToggleButton
-          className="trip-pricing-box-content__close_button"
-          iconName="x"
-          onClick={() => {
-            document.body.dataset.pricingBox = "closed";
-          }}
-        />
-        <TripPricingBoxContentHeader title={title} people={people} />
-        <Grid gap={8}>
-          {isReady ? (
-            <>
-              <Text heading as="h3" size="xs">
-                <strong>
-                  <small style={{color: 'rgba(26, 54, 93, 1)', fontFamily:'"Comfortaa", sans-serif', fontSize: 14}}>O que inclui</small>
-                </strong>
+}: TripPricingBoxContentProps) => {
+  return (
+    <div className="trip-pricing-box-content">
+      <ToggleButton
+        className="trip-pricing-box-content__close_button"
+        iconName="x"
+        onClick={() => {
+          document.body.dataset.pricingBox = "closed";
+        }}
+      />
+      <TripPricingBoxContentHeader title={title} people={people} />
+      <Grid gap={8}>
+        {isReady ? (
+          <>
+            <Text heading as="h3" size="xs">
+              <strong>
+                <small
+                  style={{
+                    color: "rgba(26, 54, 93, 1)",
+                    fontFamily: '"Comfortaa", sans-serif',
+                    fontSize: 14,
+                  }}
+                >
+                  O que inclui
+                </small>
+              </strong>
+            </Text>
+            <Grid gap={8} className="px-md" style={{ padding: "20px 0" }}>
+              {tripIncludes.map((item, key) => (
+                <TripPricingBoxContentItem
+                  key={key}
+                  image={`/assets/destino/${item.slug}_green.svg`}
+                  text={item.title}
+                />
+              ))}
+            </Grid>
+            <Divider />
+            <Grid className="px-md" gap={8}>
+              <TripPricingBoxContentPrice label="Total" value={price} />
+              <TripPricingBoxContentPrice label="Taxa" value={serviceFee} />
+            </Grid>
+            <TripPricingBoxContentCta
+              isScriptBuilt={isScriptBuilt}
+              isScriptAvailable={isScriptAvailable}
+              isPaid={isPaid}
+              total={total}
+              tripId={tripId}
+              isPurchaseAvailable={isPurchaseAvailable}
+              messageProps={messageProps}
+            />
+            {description ? (
+              <Text size="sm" className="color-text-secondary px-md">
+                *{description}
               </Text>
-              <Grid gap={8} className="px-md" style={{ padding: "20px 0"}}>
-                {tripIncludes.map((item, key) => (
-                  <TripPricingBoxContentItem
-                    key={key}
-                    image={`/assets/destino/${item.slug}_green.svg`}
-                    text={item.title}
-                  />
-                ))}
-              </Grid>
-              <Divider />
-              <Grid className="px-md" gap={8}>
-                <TripPricingBoxContentPrice label="Total" value={price} />
-                <TripPricingBoxContentPrice label="Taxa" value={serviceFee} />
-              </Grid>
-              <TripPricingBoxContentCta
-                isScriptBuilt={isScriptBuilt}
-                isScriptAvailable={isScriptAvailable}
-                isPaid={isPaid}
-                total={total}
-                tripId={tripId}
-                isPurchaseAvailable={isPurchaseAvailable}
-                messageProps={messageProps}
-              />
-              {description ? (
-                <Text size="sm" className="color-text-secondary px-md">
-                  *{description}
-                </Text>
-              ) : null}
-            </>
-          ) : (
-            <>
-              <Text heading as="h3" size="xs">
-                <strong>
-                  <small style={{color: 'rgba(26, 54, 93, 1)', fontFamily:'"Comfortaa", sans-serif', fontSize: 14}}>Sua viagem ainda está sendo construída...</small>
-                </strong>
-              </Text>
-              <div style={{padding: "32px 0"}}>
-                <Loader />
-              </div>
-            </>
-          )}
-        </Grid>
-      </div>
-    );
-}
+            ) : null}
+          </>
+        ) : (
+          <>
+            <Text heading as="h3" size="xs">
+              <strong>
+                <small
+                  style={{
+                    color: "rgba(26, 54, 93, 1)",
+                    fontFamily: '"Comfortaa", sans-serif',
+                    fontSize: 14,
+                  }}
+                >
+                  Sua viagem ainda está sendo construída...
+                </small>
+              </strong>
+            </Text>
+            <div style={{ padding: "32px 0" }}>
+              <Loader />
+            </div>
+          </>
+        )}
+      </Grid>
+    </div>
+  );
+};
 
 const TripPricingBoxContentHeader = ({
   title,
@@ -364,16 +379,28 @@ const TripPricingBoxLoadingState = () => (
   </Card>
 );
 
-const TripPricingBoxErrorState = ({ title }: Pick<TripPricingBoxContentProps, "title">) => (
+interface TripPricingBoxErrorProps {
+  title: string;
+  error?: any;
+}
+
+const TripPricingBoxErrorState = ({ title, error }: TripPricingBoxErrorProps) => (
   <Card elevation={CardElevations.Medium}>
     <Grid>
       <Text heading as="h2">
         {title}
       </Text>
       <Text>Devido à um erro não foi possível mostrar os preços</Text>
-      <Button iconName="refresh-ccw" variant="neutral" onClick={location.reload}>
-        Tentar novamente
-      </Button>
+      {error.messageCode === "price_expired" ? (
+        <Button iconName="refresh-cw" variant="neutral" onClick={location.reload}>
+          Refazer viagem
+        </Button>
+      ) : (
+        <Button iconName="refresh-ccw" variant="neutral" onClick={location.reload}>
+          Tentar novamente
+        </Button>
+      )}
+
       <WhatsappButton message={`Quero conversar sobre minha viagem para ${title}.`}>
         Quero alterar a viagem
       </WhatsappButton>
