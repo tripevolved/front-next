@@ -2,7 +2,7 @@ import HomeContent from '@/components/HomeContent'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Trip Evolved - Viagens Exclusivas e Personalizadas',
+  title: 'Trip Evolved - Viagens Personalizadas',
   description: 'Descubra viagens únicas e personalizadas com a Trip Evolved. Roteiros exclusivos, experiências autênticas e atendimento premium para sua próxima aventura.',
   alternates: {
     canonical: 'https://tripevolved.com.br',

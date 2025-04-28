@@ -27,8 +27,8 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/hero-bg.jpg"
-            alt="Destino de viagem exclusivo da Trip Evolved"
+            src="/assets/home/hero-praia.jpg"
+            alt="Praias paradisíacas é com a Trip Evolved"
             fill
             className="object-cover"
             priority
@@ -81,8 +81,8 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
             <div className="relative w-full lg:w-[30%] h-[400px]">
               <div className="absolute right-0 top-0 w-4/5 h-72 rounded-lg overflow-hidden shadow-xl">
                 <Image
-                  src="/assets/scenery1.jpg"
-                  alt="Destino de viagem exclusivo - Paisagem natural"
+                  src="/assets/home/yosemite-valley.jpg"
+                  alt="Yosemite Valley"
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 30vw"
@@ -91,8 +91,8 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
               </div>
               <div className="absolute right-8 top-48 w-4/5 h-72 rounded-lg overflow-hidden shadow-xl">
                 <Image
-                  src="/assets/scenery2.jpg"
-                  alt="Destino de viagem exclusivo - Experiência única"
+                  src="/assets/home/sancho-praia.jpg"
+                  alt="Praia do Sancho"
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 30vw"

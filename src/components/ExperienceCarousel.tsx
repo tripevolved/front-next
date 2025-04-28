@@ -3,45 +3,14 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-
-interface Experience {
-  id: number
-  title: string
-  description: string
-  image: string
-  link: string
-}
-
-const experiences: Experience[] = [
-  {
-    id: 1,
-    title: "Onde o Deserto Encontra o Mar",
-    description: "Uma jornada única pelo Atacama, onde cada amanhecer conta uma história diferente e cada dunas esconde segredos milenares.",
-    image: "/assets/experiences/atacama.jpg",
-    link: "/experiencias/atacama"
-  },
-  {
-    id: 2,
-    title: "Entre Montanhas e Vinhedos",
-    description: "Descubra a magia dos Andes argentinos, onde a natureza esculpiu paisagens que parecem saídas de um sonho.",
-    image: "/assets/experiences/mendoza.jpg",
-    link: "/experiencias/mendoza"
-  },
-  {
-    id: 3,
-    title: "O Ritmo do Caribe Colombiano",
-    description: "De Cartagena a Tayrona, uma viagem que dança ao som do mar e respira a alegria caribenha em cada esquina.",
-    image: "/assets/experiences/caribe.jpg",
-    link: "/experiencias/caribe"
-  }
-]
+import { Experience, mockExperiences } from '@/core/types/experiences'
 
 export default function ExperienceCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % experiences.length)
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % mockExperiences.length)
     }, 5000)
 
     return () => clearInterval(timer)
@@ -55,9 +24,9 @@ export default function ExperienceCarousel() {
           className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
-          {experiences.map((experience) => (
+          {mockExperiences.map((experience) => (
             <div 
-              key={experience.id}
+              key={experience.name}
               className="w-full flex-shrink-0"
             >
               <div className="flex flex-col lg:flex-row items-center gap-8 p-8">
@@ -70,7 +39,7 @@ export default function ExperienceCarousel() {
                     {experience.description}
                   </p>
                   <Link 
-                    href={experience.link}
+                    href={`/experiencias/${experience.name}`}
                     className="inline-block font-baloo text-white border-2 border-white px-6 py-2 rounded-full hover:bg-white hover:text-secondary-500 transition-all"
                   >
                     Conhecer esta experiência
@@ -80,7 +49,7 @@ export default function ExperienceCarousel() {
                 {/* Image */}
                 <div className="w-full lg:w-1/2 h-[300px] lg:h-[400px] relative rounded-lg overflow-hidden shadow-xl">
                   <Image
-                    src={experience.image}
+                    src={experience.images[0]}
                     alt={experience.title}
                     fill
                     className="object-cover"
@@ -94,7 +63,7 @@ export default function ExperienceCarousel() {
 
       {/* Indicators */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-        {experiences.map((_, index) => (
+        {mockExperiences.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}

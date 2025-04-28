@@ -4,55 +4,31 @@ import { useState, useEffect } from 'react'
 import QuoteCard from './QuoteCard'
 
 interface Quote {
-  id: number
-  quote: string
-  name: string
-  avatar: string
-  destination: string
+  text: string
+  footer: string
+  footerSub: string
 }
 
 const quotes: Quote[] = [
   {
-    id: 1,
-    quote: "Uma experiência única que superou todas as expectativas. Cada detalhe foi cuidadosamente planejado para proporcionar momentos inesquecíveis.",
-    name: "Ana Silva",
-    avatar: "/assets/avatars/ana.jpg",
-    destination: "Bali"
+    text: "Foi tudo perfeito, amamos tudo e já pretendemos voltar ano que vem. Transfer, voo, estadia, passeios, tudo maravilhoso. Minha esposa ficou apaixonada por tudo naquele lugar. Agradeço pela atenção e cuidado que tiveram com nosso momento especial.",
+    footer: "Leandro M",
+    footerSub: "Viajou para Porto de Galinhas, PE"
   },
   {
-    id: 2,
-    quote: "A personalização do roteiro foi perfeita. Conseguiram captar exatamente o que eu queria viver naquela viagem.",
-    name: "Carlos Mendes",
-    avatar: "/assets/avatars/carlos.jpg",
-    destination: "Santorini"
+    text: "Gostaria de elogiar o excelente serviço prestado, suprindo além do esperado as necessidades em viagem, hospedagem e locação de veículos. Auxílio que superou qualquer atendimento de outras agências. Só gratidão.",
+    footer: "Alexandra A",
+    footerSub: "Viajou para Roma, Itália"
   },
   {
-    id: 3,
-    quote: "Cada momento foi uma surpresa agradável. A atenção aos detalhes fez toda a diferença na experiência.",
-    name: "Mariana Costa",
-    avatar: "/assets/avatars/mariana.jpg",
-    destination: "Machu Picchu"
+    text: "Foi perfeito, tudo perfeito. Obrigadaaaa",
+    footer: "Cassiane O",
+    footerSub: "Viajou para Dubai, Emirados Árabes Unidos"
   },
   {
-    id: 4,
-    quote: "Uma viagem que transcendeu o turismo comum. Vivi experiências autênticas que me conectaram com a cultura local.",
-    name: "Ricardo Santos",
-    avatar: "/assets/avatars/ricardo.jpg",
-    destination: "Maldivas"
-  },
-  {
-    id: 5,
-    quote: "O suporte durante toda a viagem foi excepcional. Me senti seguro e bem cuidado em cada etapa.",
-    name: "Patrícia Lima",
-    avatar: "/assets/avatars/patricia.jpg",
-    destination: "Bali"
-  },
-  {
-    id: 6,
-    quote: "Uma jornada que mudou minha perspectiva sobre viagens. Agora entendo o verdadeiro significado de experiências personalizadas.",
-    name: "Lucas Oliveira",
-    avatar: "/assets/avatars/lucas.jpg",
-    destination: "Santorini"
+    text: "Passando para agradecer pela viagem, estava tudo maravilhoso e muito bem pensado. Vocês entenderam bem nosso perfil e o que a gente gosta. Desde passagem aérea, locação de carro, hotéis... os hotéis estavam maravilhosos!",
+    footer: "Suzimara G",
+    footerSub: "Viajou para El Calafate e Ushuaia, Argentina"
   }
 ]
 
@@ -102,9 +78,9 @@ export default function QuotesCarousel() {
             transform: `translateX(calc(-${currentIndex * (100 / itemsPerPage)}% - ${currentIndex * 2}rem))` 
           }}
         >
-          {quotes.map((quote) => (
+          {quotes.map((quote, index) => (
             <div 
-              key={quote.id}
+              key={index}
               className="w-full lg:w-1/3 flex-shrink-0 px-2"
             >
               <QuoteCard {...quote} />
