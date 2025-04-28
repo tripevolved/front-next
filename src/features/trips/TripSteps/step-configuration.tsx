@@ -47,8 +47,8 @@ export function StepConfiguration({ onNext, endDate, startDate }: StepConfigurat
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
-          gap: "30px",
+          justifyContent: "center",
+          gap: "5px",
         }}
       >
         <Text
@@ -59,7 +59,17 @@ export function StepConfiguration({ onNext, endDate, startDate }: StepConfigurat
             fontWeight: 600,
           }}
         >
-          Vamos encontrar a melhor opção para o seu orçamento de viagem
+          Valor médio pela experiência :
+        </Text>
+        <Text
+          size="xl"
+          variant="default"
+          style={{
+            color: "var(--color-brand-2)",
+            fontWeight: 600,
+          }}
+        >
+          R$ 4000
         </Text>
       </div>
       <SubmitButton
