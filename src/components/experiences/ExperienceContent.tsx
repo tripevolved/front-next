@@ -299,29 +299,114 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
           className="py-16 bg-gray-50 scroll-mt-20"
         >
           <div className="max-w-[80%] mx-auto">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-16 h-16 rounded-full bg-primary-100 flex flex-col items-center justify-center">
-                <span className="text-xs text-primary-600 font-comfortaa">
-                  dia
-                </span>
-                <span className="text-xl font-baloo font-bold text-primary-600">
-                  {String(day.day).padStart(2, '0')}
-                </span>
-              </div>
-              <div>
-                <h2 className="text-3xl font-baloo font-bold text-secondary-900">
-                  {day.activity}
-                </h2>
-                <p className="text-lg text-secondary-600">
-                  {day.date}
-                </p>
+            {/* Day Background Image - Full Width of Container */}
+            <div className="relative h-[500px] mb-16 rounded-2xl overflow-hidden">
+              <Image
+                src={day.image}
+                alt={`Dia ${day.day} - ${day.activity}`}
+                fill
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+              
+              {/* Day Title and Date */}
+              <div className="absolute bottom-0 left-0 p-6 text-white w-full">
+                <div className="flex items-center gap-4 mb-2">
+                  <div className="w-16 h-16 rounded-full bg-primary-100 flex flex-col items-center justify-center">
+                    <span className="text-xs text-primary-600 font-comfortaa">
+                      dia
+                    </span>
+                    <span className="text-xl font-baloo font-bold text-primary-600">
+                      {String(day.day).padStart(2, '0')}
+                    </span>
+                  </div>
+                  <div>
+                    <h2 className="text-3xl font-baloo font-bold">
+                      {day.activity}
+                    </h2>
+                    <p className="text-lg">
+                      {day.date}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
             
-            <div className="bg-white rounded-xl p-8 shadow-sm">
+            {/* Day Description Box - Smaller and Overlapping */}
+            <div className="bg-white rounded-xl p-6 shadow-sm mb-8 relative z-1 -mt-24 mx-auto max-w-3xl">
               <p className="text-secondary-700">
-                Detalhes do dia {day.day} serão exibidos aqui.
+                {day.description}
               </p>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              {/* Left Column - Hotel Information */}
+              <div className="bg-white rounded-xl p-8 shadow-sm">
+                <h3 className="text-2xl font-baloo font-bold text-secondary-900 mb-6">
+                  Hospedagem
+                </h3>
+                <div className="flex flex-col md:flex-row gap-6">
+                  <div className="md:w-2/3">
+                    <h4 className="text-xl font-baloo font-semibold text-primary-600 mb-2">
+                      {day.hotel}
+                    </h4>
+                    <p className="text-secondary-700">
+                      Um lugar incrível para descansar e recarregar as energias após um dia de aventuras.
+                    </p>
+                  </div>
+                  <div className="md:w-1/3 relative h-40 rounded-lg overflow-hidden">
+                    <Image
+                      src="/assets/hotels/placeholder-hotel.jpg"
+                      alt={day.hotel}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Right Column - Highlights */}
+              <div className="bg-white rounded-xl p-8 shadow-sm">
+                <h3 className="text-2xl font-baloo font-bold text-secondary-900 mb-6">
+                  Destaques do dia
+                </h3>
+                <p className="text-secondary-700 mb-8">
+                  {day.highlights.description}
+                </p>
+                
+                {/* Videos Grid */}
+                <div className="grid grid-cols-3 gap-4">
+                  {day.highlights.videos.map((video, index) => (
+                    <div 
+                      key={index} 
+                      className="aspect-video bg-gray-200 rounded-lg overflow-hidden relative"
+                    >
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <svg 
+                          className="w-12 h-12 text-gray-400" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24" 
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth={2} 
+                            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" 
+                          />
+                          <path 
+                            strokeLinecap="round" 
+                            strokeLinejoin="round" 
+                            strokeWidth={2} 
+                            d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
