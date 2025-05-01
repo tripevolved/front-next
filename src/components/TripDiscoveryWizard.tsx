@@ -580,6 +580,7 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
       
       // Redirect to the results page with the trip ID
       router.push(`/resultados/${id}`)
+      onClose();
     } catch (err) {
       console.error('Error creating trip:', err)
       router.push(`/resultados/?message=${"Houve um erro ao criar a viagem. Por favor, tente novamente."}`)

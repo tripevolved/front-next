@@ -24,7 +24,7 @@ function ExperienceNotFound() {
   )
 }
 
-export default async function ExperiencePage({
+export default function ExperiencePage({
   params,
 }: {
   params: Promise<{ name: string }>

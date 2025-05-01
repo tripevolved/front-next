@@ -66,7 +66,7 @@ export default function TopMenu() {
               href="/beneficios" 
               className="font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
             >
-              Benefícios
+              Por que a Trip Evolved?
             </Link>
           </nav>
 
