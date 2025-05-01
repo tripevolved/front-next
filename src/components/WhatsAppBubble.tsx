@@ -15,7 +15,7 @@ export default function WhatsAppBubble({ phoneNumber = '5512991694499' }: WhatsA
       {/* WhatsApp Bubble Button */}
       <button
         onClick={() => setIsModalOpen(true)}
-        className="fixed bottom-12 sm:bottom-6 right-2 sm:right-6 z-50 bg-[#25D366] text-white rounded-full p-2 shadow-lg hover:bg-[#128C7E] transition-colors duration-300 flex items-center justify-center w-16 h-16"
+        className="fixed bottom-12 sm:bottom-6 right-2 sm:right-6 z-49 bg-[#25D366] text-white rounded-full p-2 shadow-lg hover:bg-[#128C7E] transition-colors duration-300 flex items-center justify-center w-16 h-16"
         aria-label="Falar com especialista no WhatsApp"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
