@@ -1,6 +1,7 @@
 import { ExperienceContent } from '@/components/experiences/ExperienceContent'
-import { Experience, mockExperiences, getExperienceByName } from '@/core/types/experiences'
+import { getExperienceByName } from '@/core/types/experiences'
 import Link from 'next/link'
+import { use } from 'react'
 
 function ExperienceNotFound() {
   return (
@@ -23,12 +24,13 @@ function ExperienceNotFound() {
   )
 }
 
-export default function ExperiencePage({
+export default async function ExperiencePage({
   params,
 }: {
-  params: { name: string }
+  params: Promise<{ name: string }>
 }) {
-  const experience = getExperienceByName(params.name)
+  const { name } = use(params)
+  const experience = getExperienceByName(name)
 
   if (!experience) {
     return <ExperienceNotFound />
