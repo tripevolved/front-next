@@ -21,6 +21,7 @@ import { useAllTrips } from "./has-current-trip.hook";
 import { useAppStore } from "@/core/store";
 import { DestinationsByProfileName } from "@/features/";
 import { useRouter } from "next/router";
+import { parse } from "date-fns";
 
 export function HasCurrentTrip() {
   const router = useRouter();
@@ -129,9 +130,25 @@ function TripItem({
     });
   };
 
+  const hasTripExpired = (period: string) => {
+    const match = period?.match(/a\s+(\d+)\s+(\w+)[./]*(\d+)?$/i);
+    if (!match) return false;
+    const [_, dayStr, monthStr, yearStr] = match;
+    const day = parseInt(dayStr, 10);
+    const year = 2000 + parseInt(yearStr, 10);
+    const dateStr = `${day} ${monthStr} ${year}`;
+    const endDate = parse(dateStr, "d MMM yyyy", new Date());
+    return endDate < new Date();
+  };
+
   const Header = () => (
     <div className="trip-item__header">
-      <Label variant={LabelVariants.Warning}>{status}</Label>
+      {hasTripExpired(period) ? (
+        <Label variant={LabelVariants.Error}>Expirada</Label>
+      ) : (
+        <Label variant={LabelVariants.Warning}>{status}</Label>
+      )}
+
       {enableDeletion ? (
         <ToggleButton
           iconName="trash-2"
@@ -152,6 +169,7 @@ function TripItem({
       header={<Header />}
       href={`/app/viagens/${id}`}
       className="trip-item"
+      isTripExpired={hasTripExpired(period)}
     >
       {typeof period === "string" ? (
         <div className="trip-item__period">

@@ -2,12 +2,20 @@ import { TripConfigurationSection } from "./trip-configuration.section";
 import { ErrorState, Text, WhatsappButton } from "@/ui";
 
 import { useTripDetails } from "./trip-details.hook";
-import { DestinationTipItem, NewItinerary, PageApp, PageAppHero, TripPricingBox } from "@/features";
-import { Card, CardElevations, Grid, ToggleButton } from "mars-ds";
+import {
+  DestinationTipItem,
+  NewItinerary,
+  PageApp,
+  PageAppHero,
+  TripEditConfiguration,
+  TripPricingBox,
+} from "@/features";
+import { Card, CardElevations, Grid, Modal, Notification, ToggleButton } from "mars-ds";
 import type { Photo, PublicDestinationTip } from "@/core/types";
 import { DEFAULT_CARD_IMAGE_URL } from "@/core/constants";
 import { TripDetailsPageLoading } from "./trip-details-page.loading";
 import { useAppStore } from "@/core/store";
+import { useEffect } from "react";
 
 interface TemplateProps {
   children: React.ReactNode;
@@ -25,6 +33,21 @@ const DEFAULT_PHOTOS: Photo[] = [
 export function TripDetailsPage() {
   const { username, email } = useAppStore((state) => state.user);
   const { data, isLoading, error } = useTripDetails();
+
+  useEffect(() => {
+    if (data?.configuration.endDate && new Date(data.configuration.endDate) < new Date()) {
+      Modal.open(
+        () => (
+          <TripEditConfiguration
+            {...data.configuration}
+            tripId={data.id}
+            isTripExpired={new Date(data.configuration.endDate) < new Date()}
+          />
+        ),
+        { closable: true }
+      );
+    }
+  }, [data?.configuration.endDate]);
 
   const Template = ({ children, title = "Sua viagem", hideHeader }: TemplateProps) => {
     return (
