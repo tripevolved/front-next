@@ -139,7 +139,6 @@ export function TripDetailsPage() {
                   username,
                   email,
                 }}
-                configuration={configuration}
               />
             </Grid>
           </div>
