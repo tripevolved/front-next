@@ -1,14 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import TripDiscoveryWizard from '@/components/TripDiscoveryWizard'
+import { useWizard } from '@/contexts/WizardContext'
 
 export default function ResultsPage() {
-  const [isTripWizardOpen, setIsTripWizardOpen] = useState(false)
   const searchParams = useSearchParams()
   const message = searchParams?.get('message') || null
+  const { openWizard } = useWizard()
   
   return (
     <div className="min-h-screen bg-gray-50 py-12">
@@ -23,7 +23,7 @@ export default function ResultsPage() {
           
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
             <button
-              onClick={() => setIsTripWizardOpen(true)}
+              onClick={openWizard}
               className="bg-primary-600 text-white px-8 py-3 rounded-full font-medium hover:bg-primary-700 transition-colors"
             >
               Começar agora
@@ -72,11 +72,6 @@ export default function ResultsPage() {
           </div>
         </div>
       </div>
-      
-      <TripDiscoveryWizard
-        isOpen={isTripWizardOpen}
-        onClose={() => setIsTripWizardOpen(false)}
-      />
     </div>
   )
 } 

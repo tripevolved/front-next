@@ -10,7 +10,6 @@ import { LocalStorageService } from '@/clients/local'
 import TripPlanningDecisionModal from '@/components/TripPlanningDecisionModal'
 import { TripsApiService } from '@/clients/trips'
 import { TripProposal, TripMatchedDestination } from '@/core/types/trip'
-import TripDiscoveryWizard from '@/components/TripDiscoveryWizard'
 
 // Profile mapping for feature icons
 const profileIcons: Record<string, string> = {
