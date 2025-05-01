@@ -38,7 +38,6 @@ interface TripPricingBoxProps {
   isScriptBuilt?: boolean;
   hasPhotos?: boolean;
   messageProps: MessageProps;
-  configuration: any;
 }
 
 export const TripPricingBox = ({
@@ -48,7 +47,6 @@ export const TripPricingBox = ({
   isScriptBuilt,
   hasPhotos,
   messageProps,
-  configuration,
 }: TripPricingBoxProps) => {
   const { availableFeatures } = useAppStore((state) => state.travelerState);
   const simpleItinerary = useAppStore((state) => state.simpleItinerary);
@@ -61,16 +59,7 @@ export const TripPricingBox = ({
   const fetcher = async () => TripsApiService.getPriceById(idParam);
   const { isLoading, data, error } = useSWR(fetcherKey, fetcher);
 
-  const isTripExpired = new Date() > new Date(configuration.endDate);
-
-  if (error)
-    return (
-      <TripPricingBoxErrorState
-        title={destinationName}
-        error={error}
-        isTripExpired={isTripExpired}
-      />
-    );
+  if (error) return <TripPricingBoxErrorState title={destinationName} />;
   if (isLoading) return <TripPricingBoxLoadingState />;
   if (!data) return <TripPricingBoxErrorState title={destinationName} />;
 
@@ -390,29 +379,16 @@ const TripPricingBoxLoadingState = () => (
   </Card>
 );
 
-interface TripPricingBoxErrorProps {
-  title: string;
-  error?: any;
-  isTripExpired?: boolean;
-}
-
-const TripPricingBoxErrorState = ({ title, error, isTripExpired }: TripPricingBoxErrorProps) => (
+const TripPricingBoxErrorState = ({ title }: Pick<TripPricingBoxContentProps, "title">) => (
   <Card elevation={CardElevations.Medium}>
     <Grid>
       <Text heading as="h2">
         {title}
       </Text>
       <Text>Devido à um erro não foi possível mostrar os preços</Text>
-      {isTripExpired ? (
-        <Button iconName="refresh-cw" variant="neutral" onClick={location.reload}>
-          Refazer viagem
-        </Button>
-      ) : (
-        <Button iconName="refresh-ccw" variant="neutral" onClick={location.reload}>
-          Tentar novamente
-        </Button>
-      )}
-
+      <Button iconName="refresh-ccw" variant="neutral" onClick={location.reload}>
+        Tentar novamente
+      </Button>
       <WhatsappButton message={`Quero conversar sobre minha viagem para ${title}.`}>
         Quero alterar a viagem
       </WhatsappButton>
