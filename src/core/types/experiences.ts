@@ -25,7 +25,7 @@ export const mockExperiences: Experience[] = [
     title: 'Curaçao tem tudo que você imagina',
     dates: '11 a 20 de Março, 2025',
     travelers: 'por Henrique Gasparotto',
-    description: 'Uma jornada incrível pela ilha de Curaçao, com relaxamento, cultura e praias maravilhosas! Além de uma passadinha rápida pelos encantos da Cidade do Panamá.',
+    description: 'Uma jornada incrível por Curaçao, uma ilha que é muito mais que só praias e resorts! Além de uma passadinha rápida pelos encantos da Cidade do Panamá.',
     images: [
       '/assets/experiences/wine-route-1.jpg',
       '/assets/experiences/wine-route-2.jpg',
@@ -37,10 +37,10 @@ export const mockExperiences: Experience[] = [
         date: '11 de março',
         activity: 'Canal do Panamá e um pouquinho do Casco Viejo',
         image: '/assets/experiences/panama-canal.jpg',
-        description: 'Primeiro dia na Cidade do Panamá, com visita ao impressionante Canal do Panamá e exploração do histórico bairro de Casco Viejo.',
-        hotel: 'W Panama',
+        description: 'O dia começou cedo, com a visita ao impressionante Canal do Panamá ainda pela manhã. À tarde, exploramos um pouco (ou muito) do Casco Viejo.',
+        hotel: 'Baluarte Boutique Hotel',
         highlights: {
-          description: 'Conheça o Canal do Panamá, uma das obras de engenharia mais impressionantes do mundo, e explore o charmoso bairro colonial de Casco Viejo.',
+          description: 'O Canal do Panamá é sensacional e surpreendeu, mas o charme do Casco Viejo nos conquistou.',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -51,12 +51,12 @@ export const mockExperiences: Experience[] = [
       {
         day: 2,
         date: '12 de março',
-        activity: 'A corrida da manhã pela Costanera e centro financeiro',
+        activity: 'Uma corridinha matinal pela Costanera e partiu centro!',
         image: '/assets/experiences/panama-city.jpg',
-        description: 'Uma corrida matinal pela Costanera, seguida de um tour pelo moderno centro financeiro da cidade.',
-        hotel: 'W Panama',
+        description: 'A experiência de correr pela Costanera foi muito legal! Tirando o cheiro em torno do mercado de peixes, é claro.',
+        hotel: 'AC Hotel by Marriott Panama City',
         highlights: {
-          description: 'Exercite-se com vista para o mar na Costanera e descubra os arranha-céus do centro financeiro de Panamá.',
+          description: 'A estrutura da Costanera é incrível. Um lugar perfeito para um bom exercício matinal.',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -69,10 +69,10 @@ export const mockExperiences: Experience[] = [
         date: '13 de março',
         activity: 'Oi, Curaçao!',
         image: '/assets/experiences/curacao-arrival.jpg',
-        description: 'Chegada em Curaçao e primeiro contato com a ilha caribenha.',
-        hotel: 'Sandals Royal Curaçao',
+        description: 'O primeiro contato com Curaçao foi quase um susto. Muita natureza e um mar espetacular!',
+        hotel: 'Coral Estate Luxury Resort',
         highlights: {
-          description: 'Chegue à ilha de Curaçao e comece a explorar suas praias e cultura única.',
+          description: 'A chegada no Coral Estate. O resort está aninhado em um morro à beira-mar, o que proporciona uma vista espetacular.',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -85,10 +85,10 @@ export const mockExperiences: Experience[] = [
         date: '14 de março',
         activity: 'Cas Abao, Porto Marie e um pôr do sol a dois',
         image: '/assets/experiences/cas-abaou.jpg',
-        description: 'Visita às praias de Cas Abao e Porto Marie, seguidas de um romântico pôr do sol.',
-        hotel: 'Sandals Royal Curaçao',
+        description: 'O norte de Curaçao tem ilhas que são espetáculos e Cas Abao e Porto Marie não poderiam ser deixadas de fora.',
+        hotel: 'Coral Estate Luxury Resort',
         highlights: {
-          description: 'Explore as praias de Cas Abao e Porto Marie, conhecidas por suas águas cristalinas e vida marinha abundante.',
+          description: 'O jantar ao pôr do sol, no Karakter, foi uma experiência incrível. A comida e o atendimento, impecáveis, mas a paisagem é o que faz toda a diferença.',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -101,10 +101,10 @@ export const mockExperiences: Experience[] = [
         date: '15 de março',
         activity: 'Oi, Kenepas! Oi, Playa Lagun!',
         image: '/assets/experiences/kenepa-beach.jpg',
-        description: 'Visita às praias de Kenepa e Playa Lagun, algumas das mais bonitas de Curaçao.',
-        hotel: 'Sandals Royal Curaçao',
+        description: 'A Playa Lagun foi a maior surpresa da viagem. Que lugar: água mais profunda, perfeita para mergulhos, mas com um mar tranquilo demais!',
+        hotel: 'Lagun Blou Resort',
         highlights: {
-          description: 'Descubra as praias de Kenepa e Playa Lagun, com suas águas azuis e paisagens deslumbrantes.',
+          description: 'E a vista do Lagun Blou Resort foi uma surpresa muito positiva. Que lugar!',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -117,10 +117,10 @@ export const mockExperiences: Experience[] = [
         date: '16 de março',
         activity: 'Partiu Pietermaai',
         image: '/assets/experiences/pietermaai.jpg',
-        description: 'Exploração do bairro histórico de Pietermaai, com suas casas coloridas e restaurantes.',
-        hotel: 'Sandals Royal Curaçao',
+        description: 'Desde o começo, sabíamos que queríamos conhecer Willemstad, viver a cultura. E já começamos bem, ficando muito bem localizado em Pietermaai.',
+        hotel: 'Pietermaai Boutique Hotel',
         highlights: {
-          description: 'Conheça o bairro histórico de Pietermaai, com sua arquitetura colonial e vibrante vida noturna.',
+          description: 'O bairro histórico de Pietermaai é muito vibrante e tem tudo pertinho.',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -133,10 +133,10 @@ export const mockExperiences: Experience[] = [
         date: '17 de março',
         activity: 'Punda, Otrobanda e uma cultura única!',
         image: '/assets/experiences/punda-otrobanda.jpg',
-        description: 'Tour pelos bairros históricos de Punda e Otrobanda, o coração de Willemstad.',
-        hotel: 'Sandals Royal Curaçao',
+        description: 'Punda e Otrobanda, o coração de Willemstad. Atravessar a ponte Rainha Emma é uma experiência incrível. Dá até pra ver o pessoal correndo quando o sino toca!',
+        hotel: 'Pietermaai Boutique Hotel',
         highlights: {
-          description: 'Explore os bairros históricos de Punda e Otrobanda, separados pela famosa Ponte da Rainha Emma.',
+          description: 'Otrobanda tem alguns lugares incríveis, como a Kura Hulanda Village, que tem um centro comercial muito charmoso e com restaurantes ótimos.',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -149,10 +149,10 @@ export const mockExperiences: Experience[] = [
         date: '18 de março',
         activity: 'Klein Curaçao: que paraíso!',
         image: '/assets/experiences/klein-curacao.jpg',
-        description: 'Excursão à ilha deserta de Klein Curaçao, um verdadeiro paraíso tropical.',
-        hotel: 'Sandals Royal Curaçao',
+        description: 'Imperdível: Klein Curaçao merece cada segundo da visita. É natureza quase intocada.',
+        hotel: 'Pietermaai Boutique Hotel',
         highlights: {
-          description: 'Visite a ilha deserta de Klein Curaçao, com suas praias intocadas e farol histórico.',
+          description: 'O ponto alto tem que ser Klein Curaçao, certo?',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -165,152 +165,10 @@ export const mockExperiences: Experience[] = [
         date: '19 de março',
         activity: 'Últimos passeios e curtir o hotel',
         image: '/assets/experiences/sandals-royal.jpg',
-        description: 'Dia de relaxamento no resort, aproveitando as últimas horas em Curaçao.',
-        hotel: 'Sandals Royal Curaçao',
+        description: 'O dia de passear pela manhã, comprar as últimas lembrancinhas e, claro, relaxamento no hotel, aproveitando as últimas horas em Curaçao.',
+        hotel: 'Pietermaai Boutique Hotel',
         highlights: {
-          description: 'Aproveite as instalações do resort Sandals Royal Curaçao e faça seus últimos passeios pela ilha.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-    ],
-  },
-  {
-    name: 'praias-nordeste',
-    title: 'Praias do Nordeste',
-    dates: '10 a 17 de Abril, 2024',
-    travelers: 'Carlos e Maria Oliveira',
-    description: 'Do Recife a Maceió, descubra as águas cristalinas e praias paradisíacas do litoral nordestino.',
-    images: [
-      '/assets/experiences/northeast-1.jpg',
-      '/assets/experiences/northeast-2.jpg',
-      '/assets/experiences/northeast-3.jpg',
-    ],
-    itinerary: [
-      {
-        day: 1,
-        date: '10/04',
-        activity: 'Chegada em Recife e transfer para Maceió',
-        image: '/assets/experiences/recife-arrival.jpg',
-        description: 'Chegada em Recife, recepção no aeroporto e transfer para Maceió, onde começaremos nossa jornada pelo litoral nordestino.',
-        hotel: 'Hotel Ponta Verde',
-        highlights: {
-          description: 'Conheça o centro histórico de Maceió e aproveite o pôr do sol na Praia de Ponta Verde.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 2,
-        date: '11/04',
-        activity: 'Passeio de jangada em Maragogi',
-        image: '/assets/experiences/maragogi-jangada.jpg',
-        description: 'Visita às piscinas naturais de Maragogi, conhecidas como Galés, com passeio de jangada e snorkeling.',
-        hotel: 'Hotel Ponta Verde',
-        highlights: {
-          description: 'Explore as piscinas naturais de Maragogi, com suas águas cristalinas e vida marinha colorida.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 3,
-        date: '12/04',
-        activity: 'Visita às piscinas naturais de São Miguel dos Campos',
-        image: '/assets/experiences/sao-miguel-piscinas.jpg',
-        description: 'Tour pelas piscinas naturais de São Miguel dos Campos, com parada para banho e almoço regional.',
-        hotel: 'Hotel Ponta Verde',
-        highlights: {
-          description: 'Descubra as piscinas naturais de São Miguel dos Campos, um paraíso escondido no litoral alagoano.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 4,
-        date: '13/04',
-        activity: 'Tour de buggy nas dunas de Maranhão',
-        image: '/assets/experiences/dunas-buggy.jpg',
-        description: 'Aventura de buggy pelas dunas de Maranhão, com paradas para banho nas lagoas e pôr do sol inesquecível.',
-        hotel: 'Hotel Ponta Verde',
-        highlights: {
-          description: 'Explore as dunas de Maranhão de buggy, com suas lagoas cristalinas e paisagens deslumbrantes.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 5,
-        date: '14/04',
-        activity: 'Passeio de catamarã em Porto de Galinhas',
-        image: '/assets/experiences/porto-galinhas.jpg',
-        description: 'Navegação de catamarã em Porto de Galinhas, com parada para snorkeling nas piscinas naturais.',
-        hotel: 'Hotel Ponta Verde',
-        highlights: {
-          description: 'Navegue de catamarã em Porto de Galinhas, conhecida por suas piscinas naturais e águas cristalinas.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 6,
-        date: '15/04',
-        activity: 'Visita ao centro histórico de Olinda',
-        image: '/assets/experiences/olinda-historic.jpg',
-        description: 'Tour pelo centro histórico de Olinda, com suas igrejas barrocas, casas coloridas e vista panorâmica do Recife.',
-        hotel: 'Hotel Ponta Verde',
-        highlights: {
-          description: 'Explore o centro histórico de Olinda, Patrimônio Cultural da Humanidade pela UNESCO, com sua arquitetura colonial e cultura rica.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 7,
-        date: '16/04',
-        activity: 'Dia livre para relaxamento na praia',
-        image: '/assets/experiences/beach-relax.jpg',
-        description: 'Dia livre para relaxar na praia, aproveitar o sol e as águas quentes do Nordeste.',
-        hotel: 'Hotel Ponta Verde',
-        highlights: {
-          description: 'Aproveite um dia de relaxamento nas praias paradisíacas do Nordeste, com suas águas quentes e areias brancas.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 8,
-        date: '17/04',
-        activity: 'Retorno para Recife e voo de volta',
-        image: '/assets/experiences/recife-departure.jpg',
-        description: 'Transfer para o aeroporto de Recife e voo de retorno, levando na bagagem memórias inesquecíveis do Nordeste.',
-        hotel: 'Hotel Ponta Verde',
-        highlights: {
-          description: 'Últimas compras de artesanato local e despedida do Nordeste, com suas praias paradisíacas e cultura rica.',
+          description: 'Curtir a piscina do hotel!',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -322,8 +180,8 @@ export const mockExperiences: Experience[] = [
   },
   {
     name: 'california-b',
-    title: 'O lado B da Califórnia',
-    dates: '24 de maio a 1º de junho, 2024',
+    title: 'A Califórnia que poucos falam',
+    dates: '24 a 31 de maio, 2024',
     travelers: 'por Henrique Gasparotto',
     description: 'A road trip para curtir o melhor das paisagens californianas, saindo de Los Angeles e chegando em San Francisco - mas de um jeito diferente.',
     images: [
@@ -335,12 +193,12 @@ export const mockExperiences: Experience[] = [
       {
         day: 1,
         date: '24 de maio',
-        activity: 'Los Angeles - A cidade dos sonhos',
+        activity: 'LA só de passagem',
         image: '/assets/experiences/la-skyline.jpg',
-        description: 'Chegada em Los Angeles e primeiro contato com a cidade dos sonhos.',
-        hotel: 'The Hollywood Roosevelt',
+        description: 'O dia em Los Angeles foi só de passagem, mas com uma chegada no Observatório Griffith antes de partir rumo a Morro Bay.',
+        hotel: 'Holland Inn & Suites',
         highlights: {
-          description: 'Explore os pontos turísticos de Los Angeles, incluindo Hollywood, Beverly Hills e Santa Monica.',
+          description: 'A viagem era o atrativo do dia: o Observatório Griffith para começar. Depois, Highway 1, Topanga State Park e paisagens incríveis pela Los Padres National Forest.',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -351,12 +209,12 @@ export const mockExperiences: Experience[] = [
       {
         day: 2,
         date: '25 de maio',
-        activity: 'Santa Barbara e o caminho do vinho',
+        activity: 'Uma manhã única em Morro Bay e partiu rumo Fresno',
         image: '/assets/experiences/santa-barbara.jpg',
-        description: 'Visita à charmosa Santa Barbara e às vinícolas da região.',
-        hotel: 'The Ritz-Carlton Bacara',
+        description: 'A manhã em Morro Bay foi incrível. A cidadezinha é muito tranquila, com a vista para a Morro Rock sendo um show à parte.',
+        hotel: 'Hotel Picadilly',
         highlights: {
-          description: 'Conheça Santa Barbara, conhecida como a Riviera Americana, e suas vinícolas.',
+          description: 'Morro Bay. Uma parada um tanto aleatória na nossa viagem, mas foi muito legal conhecer um pouco mais do estilo por lá. Completamente diferente de tudo que vemos nos filmes, que normalmente se passam em LA ou San Francisco.',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -367,12 +225,12 @@ export const mockExperiences: Experience[] = [
       {
         day: 3,
         date: '26 de maio',
-        activity: 'Big Sur - A costa mais bonita dos EUA',
+        activity: 'Sequoia & Kings Canyon - Que lugar! E para fechar, Yosemite no fim da tarde',
         image: '/assets/experiences/big-sur.jpg',
-        description: 'Dirigindo pela espetacular Highway 1, passando por Big Sur.',
-        hotel: 'Post Ranch Inn',
+        description: 'Fresno é a porta de entrada para alguns dos parques nacionais mais impressionantes dos EUA: Sequoia & Kings Canyon e o mundialmente famoso Yosemite National Park. Os lugares valem cada segundo da visita.',
+        hotel: 'Fairfield Inn & Suites Oakhurst Yosemite',
         highlights: {
-          description: 'Explore a deslumbrante costa de Big Sur, com suas falésias e pontes icônicas.',
+          description: 'A manhã começou por visitar as Sequoias e elas fazem você se sentir pequeno. Natureza pura! Mas o ponto alto do alto foi a vista de El Capitan no fim do dia, já em Yosemite. Sensacional!',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -383,12 +241,12 @@ export const mockExperiences: Experience[] = [
       {
         day: 4,
         date: '27 de maio',
-        activity: 'Monterey e Carmel-by-the-Sea',
+        activity: 'Yosemite e ponto final',
         image: '/assets/experiences/monterey.jpg',
-        description: 'Visita ao Aquário de Monterey e à charmosa Carmel-by-the-Sea.',
-        hotel: 'The Lodge at Pebble Beach',
+        description: 'Sabíamos que Yosemite merecia mais do que uma visita rápida de fim de dia e não nos decepcionamos. É um espetáculo atrás do outro.',
+        hotel: 'Fairfield Inn & Suites Oakhurst Yosemite',
         highlights: {
-          description: 'Explore o famoso Aquário de Monterey e a encantadora cidade de Carmel-by-the-Sea.',
+          description: 'Queríamos uma trilha tranquila - mas erramos a curva e não foi tão tranquilo. A compensação foi chegarmos ao topo da Vernal Fall e ao Clark Point: são realmente espetaculares. Depois, descobrimos que pegamos a John Muir Trail.',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -399,12 +257,12 @@ export const mockExperiences: Experience[] = [
       {
         day: 5,
         date: '28 de maio',
-        activity: 'Napa Valley - O paraíso dos vinhos',
+        activity: 'Lake Tahoe - (quase) ainda na Califórnia!',
         image: '/assets/experiences/napa-valley.jpg',
-        description: 'Tour pelas vinícolas de Napa Valley, uma das regiões vinícolas mais famosas do mundo.',
-        hotel: 'Auberge du Soleil',
+        description: 'Um pouco mais ao norte, Lake Tahoe é uma das maravilhas naturais da Califórnia. Partimos cedo de Oakhurst, passamos pela Eldorado National Forest e chegamos em South Lake Tahoe, nossa base para conhecer esse lugar lindo.',
+        hotel: 'Station House Inn',
         highlights: {
-          description: 'Deguste os melhores vinhos de Napa Valley e explore suas paisagens deslumbrantes.',
+          description: 'Passar ao lado de Nevada e achar um cantinho lindo, cheio de pedras, para só curtir a vista do lago.',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -415,12 +273,12 @@ export const mockExperiences: Experience[] = [
       {
         day: 6,
         date: '29 de maio',
-        activity: 'Sonoma - A irmã mais tranquila de Napa',
+        activity: 'Dia de praia em Tahoe!',
         image: '/assets/experiences/sonoma.jpg',
-        description: 'Exploração da região de Sonoma, conhecida por seus vinhos e paisagens bucólicas.',
-        hotel: 'Farmhouse Inn',
+        description: 'Num cantinho pertinho de Kings Beach, descobrimos uma praia tranquila para relaxar e curtir o dia. O que dizer da água: gelada, muito gelada! Mas tínhamos que mergulhar um pouco, certo?',
+        hotel: 'Station House Inn',
         highlights: {
-          description: 'Descubra a região de Sonoma, com suas vinícolas menos turísticas e paisagens rurais.',
+          description: 'Ponto alto também para Emerald Bay, um cantinho do lago com uma vista espetacular para uma ilhota, que cria um cenário lindo.',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -433,10 +291,10 @@ export const mockExperiences: Experience[] = [
         date: '30 de maio',
         activity: 'São Francisco - A cidade da baía',
         image: '/assets/experiences/san-francisco.jpg',
-        description: 'Chegada em São Francisco e primeiro contato com a cidade da baía.',
-        hotel: 'The St. Regis San Francisco',
+        description: 'A chegada em São Francisco tinha que ser pela Golden Gate Bridge, certo? Fizemos questão que nosso caminho nos trouxesse por lá.',
+        hotel: 'The Donatello',
         highlights: {
-          description: 'Explore os pontos turísticos de São Francisco, incluindo a Golden Gate Bridge e Alcatraz.',
+          description: 'Estávamos muito bem localizados, pertinho de Union Square e dos principais pontos. O Ferry Building foi o ponto alto do dia, com direito a empanada argentina!',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
@@ -447,170 +305,12 @@ export const mockExperiences: Experience[] = [
       {
         day: 8,
         date: '31 de maio',
-        activity: 'São Francisco - Explorando a cidade',
+        activity: 'Piers, muitos piers. E, claro, Alcatraz!',
         image: '/assets/experiences/sf-streets.jpg',
-        description: 'Tour completo por São Francisco, incluindo seus bairros mais famosos.',
-        hotel: 'The St. Regis San Francisco',
+        description: 'São Francisco oferece muitas vistas da Baía, e tínhamos que aproveitar. Coit Tower, Palace of Fine Arts... Mas, principalmente, os piers em torno do Fisherman\'s Wharf.',
+        hotel: 'The Donatello',
         highlights: {
-          description: 'Conheça os bairros de São Francisco, como Chinatown, Fisherman\'s Wharf e Haight-Ashbury.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 9,
-        date: '1º de junho',
-        activity: 'Últimos passeios e despedida',
-        image: '/assets/experiences/sf-golden-gate.jpg',
-        description: 'Último dia em São Francisco, com passeios finais e despedida da Califórnia.',
-        hotel: 'The St. Regis San Francisco',
-        highlights: {
-          description: 'Aproveite seus últimos momentos em São Francisco antes de partir.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-    ],
-  },
-  {
-    name: 'nordeste-praias',
-    title: 'Paraíso Nordestino: Recife, Carneiros, São Miguel e Maragogi',
-    dates: '15 a 22 de Agosto, 2024',
-    travelers: 'por Ana Beatriz Silva',
-    description: 'Uma jornada pelas praias mais deslumbrantes do Nordeste brasileiro, começando e terminando em Recife, com paradas em Praia dos Carneiros, São Miguel dos Milagres e Maragogi.',
-    images: [
-      '/assets/experiences/northeast-beach-1.jpg',
-      '/assets/experiences/northeast-beach-2.jpg',
-      '/assets/experiences/northeast-beach-3.jpg',
-    ],
-    itinerary: [
-      {
-        day: 1,
-        date: '15 de agosto',
-        activity: 'Chegada em Recife e transfer para Praia dos Carneiros',
-        image: '/assets/experiences/recife-arrival.jpg',
-        description: 'Chegada em Recife, recepção no aeroporto e transfer para Praia dos Carneiros, uma das praias mais bonitas do Brasil.',
-        hotel: 'Pousada dos Carneiros',
-        highlights: {
-          description: 'Aproveite o pôr do sol na Praia dos Carneiros e conheça o famoso Farol de Carneiros, um dos cartões-postais da região.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 2,
-        date: '16 de agosto',
-        activity: 'Passeio de jangada e piscinas naturais em Carneiros',
-        image: '/assets/experiences/carneiros-jangada.jpg',
-        description: 'Passeio de jangada pelas piscinas naturais de Carneiros, com parada para snorkeling e almoço regional.',
-        hotel: 'Pousada dos Carneiros',
-        highlights: {
-          description: 'Explore as piscinas naturais de Carneiros, com suas águas cristalinas e vida marinha colorida.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 3,
-        date: '17 de agosto',
-        activity: 'Transfer para São Miguel dos Milagres',
-        image: '/assets/experiences/sao-miguel-transfer.jpg',
-        description: 'Transfer para São Miguel dos Milagres, conhecido por suas praias intocadas e águas cristalinas.',
-        hotel: 'Pousada São Miguel',
-        highlights: {
-          description: 'Chegue a São Miguel dos Milagres e aproveite o restante do dia para relaxar na praia e conhecer a vila.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 4,
-        date: '18 de agosto',
-        activity: 'Passeio de buggy pelas praias de São Miguel',
-        image: '/assets/experiences/sao-miguel-buggy.jpg',
-        description: 'Tour de buggy pelas praias de São Miguel dos Milagres, incluindo Praia do Toque, Praia do Riacho e Praia do Patacho.',
-        hotel: 'Pousada São Miguel',
-        highlights: {
-          description: 'Explore as praias intocadas de São Miguel dos Milagres de buggy, com paradas para banho e fotos.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 5,
-        date: '19 de agosto',
-        activity: 'Visita às piscinas naturais de São Miguel',
-        image: '/assets/experiences/sao-miguel-piscinas.jpg',
-        description: 'Visita às piscinas naturais de São Miguel dos Milagres, com passeio de jangada e snorkeling.',
-        hotel: 'Pousada São Miguel',
-        highlights: {
-          description: 'Descubra as piscinas naturais de São Miguel dos Milagres, um paraíso escondido no litoral alagoano.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 6,
-        date: '20 de agosto',
-        activity: 'Transfer para Maragogi',
-        image: '/assets/experiences/maragogi-transfer.jpg',
-        description: 'Transfer para Maragogi, conhecido por suas piscinas naturais, as Galés, e suas águas cristalinas.',
-        hotel: 'Hotel Maragogi',
-        highlights: {
-          description: 'Chegue a Maragogi e aproveite o restante do dia para relaxar na praia e conhecer a cidade.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 7,
-        date: '21 de agosto',
-        activity: 'Passeio de jangada nas Galés de Maragogi',
-        image: '/assets/experiences/maragogi-galés.jpg',
-        description: 'Passeio de jangada nas Galés de Maragogi, com parada para snorkeling e almoço regional.',
-        hotel: 'Hotel Maragogi',
-        highlights: {
-          description: 'Explore as Galés de Maragogi, piscinas naturais formadas por recifes de corais, com águas cristalinas e vida marinha colorida.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
-        }
-      },
-      {
-        day: 8,
-        date: '22 de agosto',
-        activity: 'Retorno para Recife e voo de volta',
-        image: '/assets/experiences/recife-departure.jpg',
-        description: 'Transfer para o aeroporto de Recife e voo de retorno, levando na bagagem memórias inesquecíveis do Nordeste.',
-        hotel: 'Hotel Maragogi',
-        highlights: {
-          description: 'Últimas compras de artesanato local e despedida do Nordeste, com suas praias paradisíacas e cultura rica.',
+          description: 'A viagem para Alcatraz foi uma das mais legais de toda a viagem. A experiência toda, com as histórias contadas lá dentro, vale muito a pena. E as vistas do trajeto de barco...',
           videos: [
             '/assets/videos/placeholder-1.mp4',
             '/assets/videos/placeholder-2.mp4',
