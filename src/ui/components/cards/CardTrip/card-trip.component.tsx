@@ -15,13 +15,16 @@ export function CardTrip({
   href,
   image = DEFAULT_CARD_IMAGE_URL,
   sx,
+  isTripExpired,
   ...props
 }: CardTripProps) {
   const cn = makeCn("card-trip", { "card-trip--is-link": !!href }, className)(sx);
   const Component = href ? Link : "div";
   return (
     <Component href={href} className={cn} {...props}>
-      <Picture className="card-trip__image">{image}</Picture>
+      <Picture className={`card-trip__image ${isTripExpired && "card-trip__grayscale"}`}>
+        {image}
+      </Picture>
       {header ? <div className="card-trip__header">{header}</div> : null}
       <div className="card-trip__content">
         {title ? (

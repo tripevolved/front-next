@@ -38,6 +38,7 @@ interface TripPricingBoxProps {
   isScriptBuilt?: boolean;
   hasPhotos?: boolean;
   messageProps: MessageProps;
+  configuration: any;
 }
 
 export const TripPricingBox = ({
@@ -47,6 +48,7 @@ export const TripPricingBox = ({
   isScriptBuilt,
   hasPhotos,
   messageProps,
+  configuration,
 }: TripPricingBoxProps) => {
   const { availableFeatures } = useAppStore((state) => state.travelerState);
   const simpleItinerary = useAppStore((state) => state.simpleItinerary);
@@ -59,7 +61,16 @@ export const TripPricingBox = ({
   const fetcher = async () => TripsApiService.getPriceById(idParam);
   const { isLoading, data, error } = useSWR(fetcherKey, fetcher);
 
-  if (error) return <TripPricingBoxErrorState title={destinationName} error={error} />;
+  const isTripExpired = new Date() > new Date(configuration.endDate);
+
+  if (error)
+    return (
+      <TripPricingBoxErrorState
+        title={destinationName}
+        error={error}
+        isTripExpired={isTripExpired}
+      />
+    );
   if (isLoading) return <TripPricingBoxLoadingState />;
   if (!data) return <TripPricingBoxErrorState title={destinationName} />;
 
@@ -382,16 +393,17 @@ const TripPricingBoxLoadingState = () => (
 interface TripPricingBoxErrorProps {
   title: string;
   error?: any;
+  isTripExpired?: boolean;
 }
 
-const TripPricingBoxErrorState = ({ title, error }: TripPricingBoxErrorProps) => (
+const TripPricingBoxErrorState = ({ title, error, isTripExpired }: TripPricingBoxErrorProps) => (
   <Card elevation={CardElevations.Medium}>
     <Grid>
       <Text heading as="h2">
         {title}
       </Text>
       <Text>Devido à um erro não foi possível mostrar os preços</Text>
-      {error.messageCode === "price_expired" ? (
+      {isTripExpired ? (
         <Button iconName="refresh-cw" variant="neutral" onClick={location.reload}>
           Refazer viagem
         </Button>
