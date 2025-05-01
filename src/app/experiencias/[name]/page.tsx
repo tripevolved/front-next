@@ -1,7 +1,39 @@
+import { Metadata } from 'next'
 import { ExperienceContent } from '@/components/experiences/ExperienceContent'
 import { getExperienceByName } from '@/core/types/experiences'
 import Link from 'next/link'
 import { use } from 'react'
+
+type Props = {
+  params: { name: string }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const experience = getExperienceByName(params.name)
+  
+  if (!experience) {
+    return {
+      title: 'Experiência não encontrada',
+      description: 'A experiência que você está procurando não existe.',
+    }
+  }
+
+  return {
+    title: `${experience.title} | Trip Evolved Viagens Personalizadas`,
+    description: experience.description,
+    openGraph: {
+      title: `${experience.title} | Trip Evolved Viagens Personalizadas`,
+      description: experience.description,
+      images: experience.images?.[0] ? [experience.images[0]] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${experience.title} | Trip Evolved Viagens Personalizadas`,
+      description: experience.description,
+      images: experience.images?.[0] ? [experience.images[0]] : undefined,
+    },
+  }
+}
 
 function ExperienceNotFound() {
   return (

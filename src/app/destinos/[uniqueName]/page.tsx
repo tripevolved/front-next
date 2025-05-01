@@ -1,8 +1,9 @@
+import { Metadata } from 'next'
 import { DestinationsApiService } from '@/clients/destinations'
 import { DestinationDetail } from '@/components/destinations/DestinationDetail'
 
-type PageProps = {
-  params: Promise<{ uniqueName: string }>
+type Props = {
+  params: { uniqueName: string }
 }
 
 async function getDestination(uniqueName: string) {
@@ -13,9 +14,42 @@ async function getDestination(uniqueName: string) {
   }
 }
 
-export default async function DestinationPage({ params }: PageProps) {
-  const { uniqueName } = await params
-  const destination = await getDestination(uniqueName)
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  try {
+    const destination = await getDestination(params.uniqueName)
+    
+    if (!destination) {
+      return {
+        title: 'Destino não encontrado',
+        description: 'O destino que você está procurando não existe.',
+      }
+    }
+
+    return {
+      title: `${destination.title} | Trip Evolved Viagens Personalizadas`,
+      description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
+      openGraph: {
+        title: `${destination.title} | Trip Evolved Viagens Personalizadas`,
+        description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
+        images: destination.photos?.[0]?.sources?.[0]?.url ? [destination.photos[0].sources[0].url] : undefined,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${destination.title} | Trip Evolved Viagens Personalizadas`,
+        description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
+        images: destination.photos?.[0]?.sources?.[0]?.url ? [destination.photos[0].sources[0].url] : undefined,
+      },
+    }
+  } catch (error) {
+    return {
+      title: 'Destino não encontrado',
+      description: 'O destino que você está procurando não existe.',
+    }
+  }
+}
+
+export default async function DestinationPage({ params }: Props) {
+  const destination = await getDestination(params.uniqueName)
 
   return <DestinationDetail destination={destination} />
 }
