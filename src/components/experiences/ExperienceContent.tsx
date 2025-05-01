@@ -259,9 +259,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
               <a
                 href={`#day-${day.day}`}
                 onClick={(e) => scrollToSection(e, `day-${day.day}`)}
-                className={`flex items-center justify-center transition-all duration-300 ${
-                  activeDay === day.day ? 'opacity-100' : 'opacity-40 hover:opacity-70'
-                }`}
+                className={`flex items-center justify-center transition-all duration-300`}
               >
                 {/* Day Circle */}
                 <div className={`flex-shrink-0 w-12 h-12 rounded-full flex flex-col items-center justify-center transition-colors ${
@@ -341,23 +339,17 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Left Column - Hotel Information */}
-              <div className="bg-white rounded-xl p-8 shadow-sm">
-                <h3 className="text-2xl font-baloo font-bold text-secondary-900 mb-6">
-                  Hospedagem
-                </h3>
+              <div className="bg-white rounded-lg shadow-lg p-6">
+                <h3 className="text-xl font-semibold text-primary mb-4">Hospedagem</h3>
                 <div className="flex flex-col md:flex-row gap-6">
-                  <div className="md:w-2/3">
-                    <h4 className="text-xl font-baloo font-semibold text-primary-600 mb-2">
-                      {day.hotel}
-                    </h4>
-                    <p className="text-secondary-700">
-                      Um lugar incrível para descansar e recarregar as energias após um dia de aventuras.
-                    </p>
+                  <div className="flex-1">
+                    <h4 className="text-lg font-medium text-gray-900 mb-2">{day.hotel.name}</h4>
+                    <p className="text-gray-600">{day.hotel.description}</p>
                   </div>
-                  <div className="md:w-1/3 relative h-40 rounded-lg overflow-hidden">
+                  <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
                     <Image
-                      src="/assets/hotels/placeholder-hotel.jpg"
-                      alt={day.hotel}
+                      src={day.hotel.image}
+                      alt={day.hotel.name}
                       fill
                       className="object-cover"
                     />
