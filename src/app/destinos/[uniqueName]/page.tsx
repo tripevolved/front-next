@@ -3,7 +3,7 @@ import { DestinationsApiService } from '@/clients/destinations'
 import { DestinationDetail } from '@/components/destinations/DestinationDetail'
 
 type Props = {
-  params: { uniqueName: string }
+  params: Promise<{ uniqueName: string }>
 }
 
 async function getDestination(uniqueName: string) {
@@ -16,7 +16,7 @@ async function getDestination(uniqueName: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
-    const destination = await getDestination(params.uniqueName)
+    const destination = await getDestination((await params).uniqueName)
     
     if (!destination) {
       return {
@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function DestinationPage({ params }: Props) {
-  const destination = await getDestination(params.uniqueName)
+  const destination = await getDestination((await params).uniqueName)
 
   return <DestinationDetail destination={destination} />
 }

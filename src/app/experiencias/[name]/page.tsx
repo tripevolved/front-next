@@ -5,11 +5,11 @@ import Link from 'next/link'
 import { use } from 'react'
 
 type Props = {
-  params: { name: string }
+  params: Promise<{ name: string }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const experience = getExperienceByName(params.name)
+  const experience = getExperienceByName((await params).name)
   
   if (!experience) {
     return {
@@ -58,9 +58,7 @@ function ExperienceNotFound() {
 
 export default function ExperiencePage({
   params,
-}: {
-  params: Promise<{ name: string }>
-}) {
+}: Props) {
   const { name } = use(params)
   const experience = getExperienceByName(name)
 
