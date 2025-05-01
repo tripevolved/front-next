@@ -3,9 +3,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useWizard } from '@/contexts/WizardContext'
 
 export default function TopMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { openWizard } = useWizard()
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-primary-100">
@@ -70,7 +72,10 @@ export default function TopMenu() {
 
           {/* CTA Button */}
           <div className="hidden md:block flex-shrink-0">
-            <button className="font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors">
+            <button 
+              onClick={openWizard}
+              className="font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors"
+            >
               Descobrir minha viagem
             </button>
           </div>
@@ -93,7 +98,13 @@ export default function TopMenu() {
                 >
                   Benefícios
                 </Link>
-                <button className="w-full font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors">
+                <button 
+                  onClick={() => {
+                    openWizard()
+                    setIsMenuOpen(false)
+                  }}
+                  className="w-full font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors"
+                >
                   Descobrir minha viagem
                 </button>
               </div>

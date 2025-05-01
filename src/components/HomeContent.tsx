@@ -7,8 +7,7 @@ import QuotesCarousel from '@/components/QuotesCarousel'
 import FAQ from '@/components/FAQ'
 import DestinationsSection from '@/components/DestinationsSection'
 import ContactCard from '@/components/ContactCard'
-import TripDiscoveryWizard from '@/components/TripDiscoveryWizard'
-import { useState } from 'react'
+import { useWizard } from '@/contexts/WizardContext'
 
 interface HomeContentProps {
   faqQuestions: Array<{
@@ -18,7 +17,7 @@ interface HomeContentProps {
 }
 
 export default function HomeContent({ faqQuestions }: HomeContentProps) {
-  const [isWizardOpen, setIsWizardOpen] = useState(false)
+  const { openWizard } = useWizard()
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -48,7 +47,7 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
               Jornadas sob medida, pensadas para seu estilo. Porque <span className="font-bold">exclusividade</span> começa com personalização.
             </p>
             <button 
-              onClick={() => setIsWizardOpen(true)}
+              onClick={openWizard}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
               Descobrir minha viagem
@@ -70,7 +69,7 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
                 Roteiros exclusivos e personalizados para você viver experiências autênticas que combinam com seu estilo de viajante.
               </p>
               <button 
-                onClick={() => setIsWizardOpen(true)}
+                onClick={openWizard}
                 className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
               >
                 Descobrir minha viagem
@@ -188,19 +187,13 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
             Vamos começar sua jornada?
           </h2>
           <button 
-            onClick={() => setIsWizardOpen(true)}
+            onClick={openWizard}
             className="font-baloo bg-primary-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-700 transition-all"
           >
             Descobrir minha viagem
           </button>
         </div>
       </section>
-
-      {/* Trip Discovery Wizard */}
-      <TripDiscoveryWizard 
-        isOpen={isWizardOpen} 
-        onClose={() => setIsWizardOpen(false)} 
-      />
     </div>
   )
 } 

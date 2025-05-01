@@ -6,6 +6,7 @@ import Footer from '@/components/common/Footer'
 import WhatsAppBubble from '@/components/WhatsAppBubble'
 import PrivacyBanner from '@/components/common/PrivacyBanner'
 import AnalyticsProvider from '@/components/basic/AnalyticsProvider'
+import { WizardProvider } from '@/contexts/WizardContext'
 
 const comfortaa = Comfortaa({ 
   subsets: ['latin'],
@@ -80,13 +81,15 @@ export default function RootLayout({
     <html lang="pt-BR">
       <AnalyticsProvider />
       <body className={`${comfortaa.variable} ${baloo.variable} font-comfortaa antialiased bg-white text-gray-900`}>
-        <TopMenu />
-        <main className="min-h-screen flex flex-col pt-16">
-          {children}
-        </main>
-        <Footer />
-        <WhatsAppBubble phoneNumber="5512991694499" />
-        <PrivacyBanner />
+        <WizardProvider>
+          <TopMenu />
+          <main className="min-h-screen flex flex-col pt-16">
+            {children}
+          </main>
+          <Footer />
+          <WhatsAppBubble phoneNumber="5512991694499" />
+          <PrivacyBanner />
+        </WizardProvider>
       </body>
     </html>
   )

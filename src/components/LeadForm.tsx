@@ -3,6 +3,7 @@
 import { Suspense, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { LeadsApiService } from '@/clients/leads'
+import { LocalStorageService } from '@/clients/local'
 
 interface LeadFormProps {
   onSuccess?: () => void
@@ -17,7 +18,6 @@ interface LeadFormProps {
   }>
   showBackButton?: boolean
   onBack?: () => void
-  storageKey?: string
 }
 
 interface UtmParams {
@@ -65,8 +65,7 @@ function LeadFormContent({
   phoneNumber = '',
   additionalMetadata = [],
   showBackButton = false,
-  onBack,
-  storageKey = 'traveler'
+  onBack
 }: LeadFormProps) {
   const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
@@ -117,9 +116,12 @@ function LeadFormContent({
         metadata
       })
       
-      // Save the entire lead object to local storage
+      // Save only the name to local storage using LocalStorageService
       if (response) {
-        localStorage.setItem(storageKey, JSON.stringify(response))
+        LocalStorageService.setTraveler({
+          id: response.id,
+          name: formData.name
+        })
       }
       
       if (redirectToWhatsApp && phoneNumber) {

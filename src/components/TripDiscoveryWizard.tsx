@@ -404,7 +404,7 @@ const StepType = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (type: 
 }
 
 function StepContact({ onNext, onBack, formData }: { onNext: () => void, onBack: () => void, formData: any }) {
-  // Create metadata array with null checks and ensure all values are strings
+  // Create metadata array with only the requested fields
   const metadata = [
     {
       key: 'trip_type',
@@ -412,34 +412,28 @@ function StepContact({ onNext, onBack, formData }: { onNext: () => void, onBack:
       keyDescription: 'Tipo de viagem'
     },
     {
-      key: 'travelers',
-      value: formData?.travelers?.toString() || '',
-      keyDescription: 'Número de viajantes'
+      key: 'trip_goals',
+      value: formData?.tripGoals?.join(',') || '',
+      keyDescription: 'Objetivos da viagem'
     },
     {
-      key: 'budget',
-      value: formData?.budget || '',
-      keyDescription: 'Orçamento'
+      key: 'trip_profile',
+      value: formData?.tripProfile || '',
+      keyDescription: 'Perfil da viagem'
     },
     {
-      key: 'destinations',
-      value: formData?.destinations?.join(',') || '',
-      keyDescription: 'Destinos selecionados'
+      key: 'trip_dates',
+      value: formData?.startDate && formData?.endDate 
+        ? `${formData.startDate} - ${formData.endDate}`
+        : formData?.month 
+          ? `Mês ${formData.month}`
+          : '',
+      keyDescription: 'Datas da viagem'
     },
     {
-      key: 'start_date',
-      value: formData?.startDate?.toISOString() || '',
-      keyDescription: 'Data de início'
-    },
-    {
-      key: 'end_date',
-      value: formData?.endDate?.toISOString() || '',
-      keyDescription: 'Data de término'
-    },
-    {
-      key: 'month',
-      value: formData?.month?.toString() || '',
-      keyDescription: 'Mês selecionado'
+      key: 'source',
+      value: 'discovery-wizard',
+      keyDescription: 'Fonte do lead'
     }
   ]
 
@@ -507,11 +501,10 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
   // Create a combined form data object
   const formData = {
     tripType: tripType?.type || '',
-    travelers: tripProfile?.profile === 'familia' ? 4 : 2,
-    budget: tripGoals?.goals.includes('Econômico') ? 'econômico' : 'padrão',
-    destinations: tripGoals?.goals || [],
-    startDate: tripDates?.startDate ? new Date(tripDates.startDate) : null,
-    endDate: tripDates?.endDate ? new Date(tripDates.endDate) : null,
+    tripGoals: tripGoals?.goals || [],
+    tripProfile: tripProfile?.profile || '',
+    startDate: tripDates?.startDate || null,
+    endDate: tripDates?.endDate || null,
     month: tripDates?.month || null
   }
 
@@ -581,9 +574,6 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
           type: tripType?.type === 'casal' ? 'COUPLE' : 'INDIVIDUAL'
         } as TripTravelers
       }
-
-      console.log(tripRequest)
-      console.log(tripType);
 
       // Call the API to create the trip
       const { id } = await TripsApiService.createTrip(tripRequest)
