@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { WhatsAppDirectButton } from '@/components/WhatsAppDirectButton'
 import { ShareModal } from '@/components/ShareModal'
 import ContactExpertModal from '@/components/ContactExpertModal'
 import { LocalStorageService } from '@/clients/local'
@@ -129,7 +128,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
 
   const handleVideoChange = (dayIndex: number, videoIndex: number) => {
     const day = experience.itinerary[dayIndex]
-    if (day && day.highlights.videos[videoIndex]) {
+    if (day && day.highlights.videos && day.highlights.videos[videoIndex]) {
       setSelectedVideo({
         playbackId: day.highlights.videos[videoIndex],
         title: `Destaque ${videoIndex + 1}`,
@@ -142,7 +141,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
   const getCurrentVideos = () => {
     if (!selectedVideo) return []
     const day = experience.itinerary[selectedVideo.dayIndex]
-    return day.highlights.videos.map((playbackId, index) => ({
+    return day.highlights.videos?.map((playbackId, index) => ({
       playbackId,
       title: `Destaque ${index + 1}`
     }))
@@ -263,13 +262,14 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
             {/* Right Column - Map */}
             <div className="relative">
               <div className="relative h-[600px] rounded-xl overflow-hidden">
-                <Image
-                  src="/assets/maps/wine-route-map.jpg"
-                  alt="Mapa da Rota do Vinho"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent" />
+                {experience.mapImage && (
+                  <Image
+                    src={experience.mapImage}
+                    alt="Mapa do itinerário"
+                    fill
+                    className="object-cover"
+                  />)}
+                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/30 to-transparent" />
               </div>
             </div>
           </div>
@@ -380,7 +380,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
                       <h4 className="text-lg font-medium text-gray-900 mb-2">{day.hotel.name}</h4>
                       <p className="text-gray-600">{day.hotel.description}</p>
                     </div>
-                    <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
+                    <div className="w-full md:w-48 h-48 relative rounded-full overflow-hidden">
                       <Image
                         src={day.hotel.image}
                         alt={day.hotel.name}
@@ -397,7 +397,8 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
                 <div className="relative">
                   <div className="overflow-x-auto pb-4 -mx-4 px-4">
                     <div className="grid grid-flow-col auto-cols-[minmax(280px,1fr)] gap-4">
-                      {day.highlights.videos.map((video, videoIndex) => (
+                      {(day.highlights.videos && day.highlights.videos.length > 0) 
+                        ? day.highlights.videos.map((video, videoIndex) => (
                         <div
                           key={videoIndex}
                           className="relative cursor-pointer group"
@@ -422,7 +423,11 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
                           </div>
                           <p className="mt-2 text-sm font-medium text-gray-700">Destaque {videoIndex + 1}</p>
                         </div>
-                      ))}
+                      )) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <p className="text-gray-500">Nenhum vídeo disponível</p>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -485,7 +490,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
           playbackId={selectedVideo.playbackId}
           title={selectedVideo.title}
           onClose={() => setSelectedVideo(null)}
-          videos={getCurrentVideos()}
+          videos={getCurrentVideos() || []}
           currentIndex={selectedVideo.videoIndex}
           onVideoChange={(newIndex) => handleVideoChange(selectedVideo.dayIndex, newIndex)}
         />

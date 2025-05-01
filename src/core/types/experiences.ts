@@ -5,6 +5,7 @@ export interface Experience {
   travelers: string
   description: string
   images: string[]
+  mapImage?: string
   itinerary: {
     day: number
     date: string
@@ -18,7 +19,7 @@ export interface Experience {
     }
     highlights: {
       description: string
-      videos: string[]
+      videos?: string[]
     }
   }[]
 }
@@ -30,190 +31,155 @@ export const mockExperiences: Experience[] = [
     dates: '11 a 20 de Março, 2025',
     travelers: 'por Henrique Gasparotto',
     description: 'Uma jornada incrível por Curaçao, uma ilha que é muito mais que só praias e resorts! Além de uma passadinha rápida pelos encantos da Cidade do Panamá.',
+    mapImage: '/assets/experiences/curacao/curacao-mapa.png',
     images: [
-      '/assets/experiences/wine-route-1.jpg',
-      '/assets/experiences/wine-route-2.jpg',
-      '/assets/experiences/wine-route-3.jpg',
+      '/assets/experiences/curacao/klein-curacao.png',
+      '/assets/experiences/curacao/curacao-punda.png',
+      '/assets/experiences/curacao/kenepa-grandi.png',
     ],
     itinerary: [
       {
         day: 1,
         date: '11 de março',
         activity: 'Canal do Panamá e um pouquinho do Casco Viejo',
-        image: '/assets/experiences/panama-canal.jpg',
+        image: '/assets/experiences/curacao/casco-viejo.png',
         description: 'O dia começou cedo, com a visita ao impressionante Canal do Panamá ainda pela manhã. À tarde, exploramos um pouco (ou muito) do Casco Viejo.',
         hotel: {
           name: 'Baluarte Boutique Hotel',
           description: 'Um hotel boutique simples e charmoso localizado no coração do Casco Viejo.',
-          image: '/assets/hotels/baluarte.jpg'
+          image: '/assets/experiences/curacao/hotel-baluarte.jpg'
         },
         highlights: {
           description: 'O Canal do Panamá é sensacional e surpreendeu, mas o charme do Casco Viejo nos conquistou.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
         day: 2,
         date: '12 de março',
         activity: 'Uma corridinha matinal pela Costanera e partiu centro!',
-        image: '/assets/experiences/panama-city.jpg',
+        image: '/assets/experiences/curacao/costanera.png',
         description: 'A experiência de correr pela Costanera foi muito legal! Tirando o cheiro em torno do mercado de peixes, é claro.',
         hotel: {
           name: 'AC Hotel by Marriott Panama City',
           description: 'Um hotel moderno com vista panorâmica da cidade, localizado no centro financeiro da Cidade do Panamá.',
-          image: '/assets/hotels/ac-marriott.jpg'
+          image: '/assets/experiences/curacao/ac-hotel-panama.jpg'
         },
         highlights: {
           description: 'A estrutura da Costanera é incrível. Um lugar perfeito para um bom exercício matinal.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
         day: 3,
         date: '13 de março',
         activity: 'Oi, Curaçao!',
-        image: '/assets/experiences/curacao-arrival.jpg',
+        image: '/assets/experiences/curacao/oi-curacao.png',
         description: 'O primeiro contato com Curaçao foi quase um susto. Muita natureza e um mar espetacular!',
         hotel: {
           name: 'Coral Estate Luxury Resort',
           description: 'Um resort exclusivo à beira-mar, com uma vista privilegiada e acesso direto a uma praia paradisíaca e super tranquila.',
-          image: '/assets/hotels/coral-estate.jpg'
+          image: '/assets/experiences/curacao/coral-estate.png'
         },
         highlights: {
           description: 'A chegada no Coral Estate. O resort está aninhado em um morro à beira-mar, o que proporciona uma vista espetacular.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
         day: 4,
         date: '14 de março',
         activity: 'Cas Abao, Porto Marie e um pôr do sol a dois',
-        image: '/assets/experiences/cas-abaou.jpg',
+        image: '/assets/experiences/curacao/cas-abao.png',
         description: 'O norte de Curaçao tem ilhas que são espetáculos e Cas Abao e Porto Marie não poderiam ser deixadas de fora.',
         hotel: {
           name: 'Coral Estate Luxury Resort',
           description: 'Um resort exclusivo à beira-mar, com uma vista privilegiada e acesso direto a uma praia paradisíaca e super tranquila.',
-          image: '/assets/hotels/coral-estate.jpg'
+          image: '/assets/experiences/curacao/coral-estate.png'
         },
         highlights: {
           description: 'O jantar ao pôr do sol, no Karakter, foi uma experiência incrível. A comida e o atendimento, impecáveis, mas a paisagem é o que faz toda a diferença.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
         day: 5,
         date: '15 de março',
         activity: 'Oi, Kenepas! Oi, Playa Lagun!',
-        image: '/assets/experiences/kenepa-beach.jpg',
+        image: '/assets/experiences/curacao/kenepa-grandi.png',
         description: 'A Playa Lagun foi a maior surpresa da viagem. Que lugar: água mais profunda, perfeita para mergulhos, mas com um mar tranquilo demais!',
         hotel: {
           name: 'Lagun Blou Resort',
           description: 'Um resort boutique com vista deslumbrante para a Playa Lagun, em um ambiente tranquilo e perfeito para mergulhar e relaxar.',
-          image: '/assets/hotels/lagun-blou.jpg'
+          image: '/assets/experiences/curacao/lagun-blou.png'
         },
         highlights: {
           description: 'E a vista do Lagun Blou Resort foi uma surpresa muito positiva. Que lugar!',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
         day: 6,
         date: '16 de março',
         activity: 'Partiu Pietermaai',
-        image: '/assets/experiences/pietermaai.jpg',
-        description: 'Desde o começo, sabíamos que queríamos conhecer Willemstad, viver a cultura. E já começamos bem, ficando muito bem localizado em Pietermaai.',
+        image: '/assets/experiences/curacao/pietermaai-culture.png',
+        description: 'Desde o começo, sabíamos que queríamos conhecer Willemstad, viver a cultura. E já começamos bem, ficando muito bem localizados em Pietermaai.',
         hotel: {
           name: 'Pietermaai Boutique Hotel',
           description: 'Um hotel boutique histórico no coração do bairro mais charmoso de Willemstad. As casas antigas, reformadas e conectadas para formar o hotel, são o ponto alto.',
-          image: '/assets/hotels/pietermaai.jpg'
+          image: '/assets/experiences/curacao/pietermaai-boutique.png'
         },
         highlights: {
           description: 'O bairro histórico de Pietermaai é muito vibrante e tem tudo pertinho.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
         day: 7,
         date: '17 de março',
         activity: 'Punda, Otrobanda e uma cultura única!',
-        image: '/assets/experiences/punda-otrobanda.jpg',
+        image: '/assets/experiences/curacao/punda-fort.png',
         description: 'Punda e Otrobanda, o coração de Willemstad. Atravessar a ponte Rainha Emma é uma experiência incrível. Dá até pra ver o pessoal correndo quando o sino toca!',
         hotel: {
           name: 'Pietermaai Boutique Hotel',
           description: 'Um hotel boutique histórico no coração do bairro mais charmoso de Willemstad. As casas antigas, reformadas e conectadas para formar o hotel, são o ponto alto.',
-          image: '/assets/hotels/pietermaai.jpg'
+          image: '/assets/experiences/curacao/pietermaai-boutique.png'
         },
         highlights: {
           description: 'Otrobanda tem alguns lugares incríveis, como a Kura Hulanda Village, que tem um centro comercial muito charmoso e com restaurantes ótimos.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
         day: 8,
         date: '18 de março',
         activity: 'Klein Curaçao: que paraíso!',
-        image: '/assets/experiences/klein-curacao.jpg',
+        image: '/assets/experiences/curacao/klein-curacao-2.png',
         description: 'Imperdível: Klein Curaçao merece cada segundo da visita. É natureza quase intocada.',
         hotel: {
           name: 'Pietermaai Boutique Hotel',
           description: 'Um hotel boutique histórico no coração do bairro mais charmoso de Willemstad. As casas antigas, reformadas e conectadas para formar o hotel, são o ponto alto.',
-          image: '/assets/hotels/pietermaai.jpg'
+          image: '/assets/experiences/curacao/pietermaai-boutique.png'
         },
         highlights: {
           description: 'O ponto alto tem que ser Klein Curaçao, certo?',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
         day: 9,
         date: '19 de março',
         activity: 'Últimos passeios e curtir o hotel',
-        image: '/assets/experiences/sandals-royal.jpg',
+        image: '/assets/experiences/curacao/curacao.png',
         description: 'O dia de passear pela manhã, comprar as últimas lembrancinhas e, claro, relaxamento no hotel, aproveitando as últimas horas em Curaçao.',
         hotel: {
           name: 'Pietermaai Boutique Hotel',
           description: 'Um hotel boutique histórico no coração do bairro mais charmoso de Willemstad. As casas antigas, reformadas e conectadas para formar o hotel, são o ponto alto.',
-          image: '/assets/hotels/pietermaai.jpg'
+          image: '/assets/experiences/curacao/pietermaai-boutique.png'
         },
         highlights: {
           description: 'Curtir a piscina do hotel!',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
     ],
@@ -243,11 +209,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description: 'A viagem era o atrativo do dia: o Observatório Griffith para começar. Depois, Highway 1, Topanga State Park e paisagens incríveis pela Los Padres National Forest.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
@@ -263,11 +225,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description: 'Morro Bay. Uma parada um tanto aleatória na nossa viagem, mas foi muito legal conhecer um pouco mais do estilo por lá. Completamente diferente de tudo que vemos nos filmes, que normalmente se passam em LA ou San Francisco.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
@@ -283,11 +241,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description: 'A manhã começou por visitar as Sequoias e elas fazem você se sentir pequeno. Natureza pura! Mas o ponto alto do alto foi a vista de El Capitan no fim do dia, já em Yosemite. Sensacional!',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
@@ -303,11 +257,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description: 'Queríamos uma trilha tranquila - mas erramos a curva e não foi tão tranquilo. A compensação foi chegarmos ao topo da Vernal Fall e ao Clark Point: são realmente espetaculares. Depois, descobrimos que pegamos a John Muir Trail.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
@@ -323,11 +273,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description: 'Passar ao lado de Nevada e achar um cantinho lindo, cheio de pedras, para só curtir a vista do lago.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
@@ -343,11 +289,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description: 'Ponto alto também para Emerald Bay, um cantinho do lago com uma vista espetacular para uma ilhota, que cria um cenário lindo.',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
@@ -363,11 +305,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description: 'Estávamos muito bem localizados, pertinho de Union Square e dos principais pontos. O Ferry Building foi o ponto alto do dia, com direito a empanada argentina!',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
       {
@@ -383,11 +321,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description: 'A viagem para Alcatraz foi uma das mais legais de toda a viagem. A experiência toda, com as histórias contadas lá dentro, vale muito a pena. E as vistas do trajeto de barco...',
-          videos: [
-            '/assets/videos/placeholder-1.mp4',
-            '/assets/videos/placeholder-2.mp4',
-            '/assets/videos/placeholder-3.mp4'
-          ]
+          videos: undefined
         }
       },
     ],
