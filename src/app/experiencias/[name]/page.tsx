@@ -19,16 +19,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${experience.title} | Trip Evolved Viagens Personalizadas`,
+    title: `${experience.title}`,
     description: experience.description,
     openGraph: {
-      title: `${experience.title} | Trip Evolved Viagens Personalizadas`,
+      title: `${experience.title}`,
       description: experience.description,
       images: experience.images?.[0] ? [experience.images[0]] : undefined,
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${experience.title} | Trip Evolved Viagens Personalizadas`,
+      title: `${experience.title}`,
       description: experience.description,
       images: experience.images?.[0] ? [experience.images[0]] : undefined,
     },

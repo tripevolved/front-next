@@ -26,16 +26,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 
     return {
-      title: `${destination.title} | Trip Evolved Viagens Personalizadas`,
+      title: `${destination.title}`,
       description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
       openGraph: {
-        title: `${destination.title} | Trip Evolved Viagens Personalizadas`,
+        title: `${destination.title}`,
         description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
         images: destination.photos?.[0]?.sources?.[0]?.url ? [destination.photos[0].sources[0].url] : undefined,
       },
       twitter: {
         card: 'summary_large_image',
-        title: `${destination.title} | Trip Evolved Viagens Personalizadas`,
+        title: `${destination.title}`,
         description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
         images: destination.photos?.[0]?.sources?.[0]?.url ? [destination.photos[0].sources[0].url] : undefined,
       },

@@ -21,8 +21,8 @@ const baloo = Baloo_2({
 export const metadata: Metadata = {
   metadataBase: new URL('https://tripevolved.com.br'),
   title: {
-    default: 'Trip Evolved - Sua Agência de Viagens Personalizada',
-    template: '%s | Trip Evolved'
+    default: 'Trip Evolved - Sua Agência de Viagens Personalizadas',
+    template: '%s | Trip Evolved Viagens Personalizadas'
   },
   description: 'Descubra experiências de viagem personalizadas feitas especialmente para você. De destinos exóticos a estadias de luxo, criamos sua jornada perfeita.',
   keywords: ['agência de viagens', 'viagens personalizadas', 'destinos exóticos', 'estadias de luxo', 'roteiros exclusivos', 'viagens sob medida'],
