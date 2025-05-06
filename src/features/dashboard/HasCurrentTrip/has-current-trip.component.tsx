@@ -150,7 +150,7 @@ function TripItem({
       image={image}
       title={title}
       header={<Header />}
-      href={`/app/viagens/${id}`}
+      href={`/app/viagens/${id}/detalhes`}
       className="trip-item"
     >
       {typeof period === "string" ? (
