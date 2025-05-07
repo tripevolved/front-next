@@ -4,37 +4,42 @@ import { useRouter, useParams } from "next/navigation";
 import ContactExpertModal from "@/components/ContactExpertModal";
 import { WhatsAppDirectButton } from "@/components/WhatsAppDirectButton";
 import { LocalStorageService } from "@/clients/local";
-import { TripsApiClient } from "@/clients/trips";
-import { TripsApiService } from "@/services/api";
+import { TripsApiService } from "@/clients/trips";
 import { TripProposal, TripMatchedDestination } from "@/core/types/trip";
 import { ResultsDestinationCard } from "@/components/results/ResultsDestinationCard";
-import useSWR from "swr";
-import { MatchedDestinationReturn } from "@/services/api/trip/matches";
 
 export function ResultsTrip() {
   const router = useRouter();
   const params = useParams();
   const tripId = params?.tripId as string;
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isWantToGoModalOpen, setIsWantToGoModalOpen] = useState(false);
+  const [selectedDestination, setSelectedDestination] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
   const hasTraveler = LocalStorageService.hasTraveler();
   const [tripProposal, setTripProposal] = useState<TripProposal | null>(null);
-
-  const fetcherKey = `matched-destination-${tripId}`;
-  const fetcher = async () => TripsApiService.getMatchedDestinations({ tripId: tripId });
-  const { isLoading, data, error } = useSWR<MatchedDestinationReturn>(fetcherKey, fetcher);
 
   useEffect(() => {
     const fetchTripProposal = async () => {
       if (!tripId) {
+        setIsLoading(false);
+        setError(true);
         return;
       }
       try {
-        const proposal = await TripsApiClient.getTripMatches(tripId);
+        const proposal = await TripsApiService.getTripMatches(tripId);
+
         if (proposal && proposal.mainChoice) {
           setTripProposal(proposal);
+        } else {
+          setError(true);
         }
       } catch (error) {
         console.error("Failed to fetch trip proposal:", error);
+        setError(true);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -59,19 +64,9 @@ export function ResultsTrip() {
       }
     }
 
-    setDestinationById(destinationId);
-  };
-
-  const setDestinationById = async (destinationId: string) => {
-    try {
-      await TripsApiService.setDestinationId({
-        tripId: tripId,
-        tripDestination: { destinationId },
-      });
-      router.push(`/app/viagens/${tripId}/detalhes`);
-    } catch (error) {
-      console.error("Failed to fetch trip proposal:", error);
-    }
+    // Use the uniqueName if available, otherwise generate a fallback
+    setSelectedDestination(destination?.uniqueName || `destination-${destinationId}`);
+    setIsWantToGoModalOpen(true);
   };
 
   // If there's an error or the trip doesn't exist, redirect to the resultados page
@@ -187,6 +182,14 @@ export function ResultsTrip() {
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
       />
+
+      {/* Trip Planning Decision Modal */}
+      {/* <TripPlanningDecisionModal
+        isOpen={isWantToGoModalOpen}
+        onClose={() => setIsWantToGoModalOpen(false)}
+        selectedDestination={selectedDestination}
+        onContactExpert={handleContactExpert}
+      /> */}
     </div>
   );
 }
