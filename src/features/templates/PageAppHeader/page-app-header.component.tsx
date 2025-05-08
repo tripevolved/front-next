@@ -4,6 +4,7 @@ import { Avatar, Button, Container, Divider, Grid, Modal, ToggleButton } from "m
 import { makeCn } from "@/utils/helpers/css.helpers";
 import { NotificationButton } from "@/features";
 import { useRouter } from "next/router";
+import { getWhatsappLink } from "@/utils/helpers/whatsapp.helpers";
 
 export interface PageAppHeaderProps {
   image?: string;
@@ -97,8 +98,12 @@ const MENU = [
         href: "/app/viagens/descobrir",
       },
       {
-        label: "Contratar suporte",
-        disabled: true,
+        label: "Falar com especialista",
+        disabled: false,
+        iconName: "whatsapp",
+        onClick: () => {
+          window.open(getWhatsappLink("Olá, eu gostaria de planejar a minha próxima viagem!"));
+        },
       },
       {
         label: "Sair da conta",
