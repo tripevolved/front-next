@@ -11,13 +11,15 @@ import { TripsApiService } from "@/services/api";
 import { useAppStore } from "@/core/store";
 
 type ResultTripProps = {
+  tripId?: string;
   isPublic?: boolean;
+  fallback: () => void;
 };
 
-export function ResultsTrip({ isPublic = false }: ResultTripProps) {
+export function ResultsTrip({ tripId, isPublic = false, fallback }: ResultTripProps) {
   const router = useRouter();
-  const params = useParams();
-  const tripId = params?.tripId as string;
+
+  console.log(tripId);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   // const [isWantToGoModalOpen, setIsWantToGoModalOpen] = useState(false);
   // const [selectedDestination, setSelectedDestination] = useState<string>("");
@@ -37,7 +39,6 @@ export function ResultsTrip({ isPublic = false }: ResultTripProps) {
       }
       try {
         const proposal = await TripApiClient.getTripMatches(tripId);
-
         if (proposal && proposal.mainChoice) {
           setTripProposal(proposal);
         } else {
@@ -89,10 +90,8 @@ export function ResultsTrip({ isPublic = false }: ResultTripProps) {
 
   // If there's an error or the trip doesn't exist, redirect to the resultados page
   if (error && !isLoading) {
-    router.push(
-      "/resultados?message=Infelizmente%2C%20n%C3%A3o%20encontramos%20sua%20viagem%2C%20mas%20voc%C3%AA%20pode%20descobrir%20seu%20destino%20ideal."
-    );
-    return null;
+    fallback();
+    return <>erro</>;
   }
 
   const message = "Olá! Gostaria de falar sobre os resultados da minha pesquisa de destinos.";

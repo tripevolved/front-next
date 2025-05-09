@@ -8,27 +8,28 @@ import { TripsApiService } from "@/services/api";
 import { MatchedDestinationsProposal } from "./matched-destinations-proposal.component";
 import { MatchedDestinationReturn } from "@/services/api/trip/matches";
 import { useIdParam } from "@/utils/hooks/param.hook";
+import { ResultsTrip } from "@/components/results/ResultsTrip";
 
 export const MatchedDestinationsPage = () => {
   const router = useRouter();
   const idParam = useIdParam();
 
-  const fetcherKey = `matched-destination-${idParam}`;
-  const fetcher = async () => TripsApiService.getMatchedDestinations({ tripId: idParam });
-  const { isLoading, data, error } = useSWR<MatchedDestinationReturn>(fetcherKey, fetcher);
+  // const fetcherKey = `matched-destination-${idParam}`;
+  // const fetcher = async () => TripsApiService.getMatchedDestinations({ tripId: idParam });
+  // const { isLoading, data, error } = useSWR<MatchedDestinationReturn>(fetcherKey, fetcher);
 
   const [submitting, setSubmitting] = useState(false);
 
-  if (error) return <ErrorState />;
-  if (isLoading) return <MatchedDestinationsProposal.Skeleton />;
-  if (!data)
-    return (
-      <EmptyState
-        heading="Viagem não encontrada :("
-        text="Tente mais tarde novamente, caso o problema persista, entre em contato com o nosso suporte."
-        retry
-      />
-    );
+  // if (error) return <ErrorState />;
+  // if (isLoading) return <MatchedDestinationsProposal.Skeleton />;
+  // if (!data)
+  //   return (
+  //     <EmptyState
+  //       heading="Viagem não encontrada :("
+  //       text="Tente mais tarde novamente, caso o problema persista, entre em contato com o nosso suporte."
+  //       retry
+  //     />
+  //   );
 
   const setDestinationById = async (destinationId: string) => {
     try {
@@ -48,11 +49,12 @@ export const MatchedDestinationsPage = () => {
   return (
     <>
       {submitting && <GlobalLoader />}
-      <MatchedDestinationsProposal
+      {/* <MatchedDestinationsProposal
         mainChoice={data.mainChoice}
         otherChoices={data.otherChoices}
         setDestinationById={setDestinationById}
-      />
+      /> */}
+      <ResultsTrip tripId={idParam} fallback={() => {}} />
     </>
   );
 };
