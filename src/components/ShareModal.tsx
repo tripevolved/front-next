@@ -1,6 +1,5 @@
 "use client";
 
-import { AreaField } from "mars-ds";
 import { useState } from "react";
 
 interface ShareModalProps {
