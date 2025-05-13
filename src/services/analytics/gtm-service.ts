@@ -3,7 +3,7 @@ import type { DataLayer, EventServiceDataLayer } from "./types";
 
 declare global {
   interface Window {
-    dataLayer: DataLayer;
+    [DATA_LAYER_NAME]: DataLayer;
   }
 }
 

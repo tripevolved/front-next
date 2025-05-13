@@ -13,7 +13,7 @@ export function TripScriptPreviewPanel() {
   const idParam = useIdParam();
 
   const queryParams = useSearchParams();
-  const isPreviewMode = queryParams.get("preview") === "limited";
+  const isPreviewMode = queryParams?.get("preview") === "limited";
 
   const fetcherKey = `trip-script-preview-${idParam}`;
   const fetcher = () => TripScriptsApiService.getPreview(idParam!);

@@ -1,0 +1,4 @@
+/* Hide WhatsApp bubble when video overlay is active */
+body.video-overlay-active button[aria-label="Falar com especialista no WhatsApp"] {
+  display: none !important;
+} 
