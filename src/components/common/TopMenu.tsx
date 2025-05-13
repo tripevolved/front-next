@@ -9,6 +9,12 @@ export default function TopMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { openWizard } = useWizard();
 
+  const navLinks = [
+    { href: "/destinos", label: "Destinos" },
+    { href: "/sobre", label: "Por que a Trip Evolved?" },
+    { href: "/app/entrar", label: "Minhas viagens" },
+  ];
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-primary-100">
       <div className="container mx-auto px-4">
@@ -51,24 +57,15 @@ export default function TopMenu() {
 
           {/* Navigation - Desktop */}
           <nav className="hidden md:flex items-center space-x-12 mr-8">
-            <Link
-              href="/destinos"
-              className="font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
-            >
-              Destinos
-            </Link>
-            <Link
-              href="/beneficios"
-              className="font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
-            >
-              Por que a Trip Evolved?
-            </Link>
-            <Link
-              href="/app/entrar"
-              className="font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
-            >
-              Minhas viagens
-            </Link>
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
 
           {/* CTA Button */}
@@ -85,20 +82,16 @@ export default function TopMenu() {
           {isMenuOpen && (
             <div className="absolute top-16 left-0 right-0 bg-white border-b border-primary-100 md:hidden">
               <div className="container mx-auto px-4 py-4 space-y-4">
-                <Link
-                  href="/destinos"
-                  className="block font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Destinos
-                </Link>
-                <Link
-                  href="/sobre"
-                  className="block font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Benefícios
-                </Link>
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="block font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
                 <button
                   onClick={() => {
                     openWizard();
