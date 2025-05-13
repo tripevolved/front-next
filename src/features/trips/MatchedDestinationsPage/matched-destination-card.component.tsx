@@ -30,24 +30,32 @@ export function MatchedDestinationCard({
       </Grid>
     );
   };
-
   return (
     <CardTrip
       image={cover}
       title={name}
       subtitle={subtitle}
       header={<Header />}
-      href={href}
       onClick={onClick}
       className="matched-destinations-card"
     >
-      {seeMore ? (
+      {seeMore && (
         <div className="theme-dark">
-          <Button as="span" variant="neutral" size="sm" isRtl iconName="arrow-right">
-            Ver detalhes
+          <Button
+            as="a"
+            href={href}
+            variant="neutral"
+            size="sm"
+            isRtl
+            iconName="arrow-right"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ver mais
           </Button>
         </div>
-      ) : null}
+      )}
     </CardTrip>
+
   );
 }
