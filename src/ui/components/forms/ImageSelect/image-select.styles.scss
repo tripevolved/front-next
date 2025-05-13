@@ -1,0 +1,23 @@
+.image__select__component__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.image__select__component__destination__image {
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.image__select__checkbox__container {
+  position: absolute !important;
+  top: 5px;
+  right: 5px;
+}
+
+.image__select__checkbox {
+  width: 16px;
+  height: 16px;
+  background: none;
+}
