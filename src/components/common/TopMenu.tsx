@@ -6,8 +6,8 @@ import { useState } from 'react'
 import { useWizard } from '@/contexts/WizardContext'
 
 export default function TopMenu() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const { openWizard } = useWizard()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { openWizard } = useWizard();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-sm border-b border-primary-100">
@@ -26,28 +26,23 @@ export default function TopMenu() {
           </Link>
 
           {/* Mobile Menu Button */}
-          <button 
+          <button
             className="md:hidden p-2 text-secondary-500 hover:text-primary-500"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <svg 
-              className="w-6 h-6" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isMenuOpen ? (
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
                   d="M6 18L18 6M6 6l12 12"
                 />
               ) : (
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
                   d="M4 6h16M4 12h16M4 18h16"
                 />
               )}
@@ -56,23 +51,29 @@ export default function TopMenu() {
 
           {/* Navigation - Desktop */}
           <nav className="hidden md:flex items-center space-x-12 mr-8">
-            <Link 
-              href="/destinos" 
+            <Link
+              href="/destinos"
               className="font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
             >
               Destinos
             </Link>
-            <Link 
-              href="/beneficios" 
+            <Link
+              href="/beneficios"
               className="font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
             >
               Por que a Trip Evolved?
+            </Link>
+            <Link
+              href="/app/entrar"
+              className="font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
+            >
+              Minhas viagens
             </Link>
           </nav>
 
           {/* CTA Button */}
           <div className="hidden md:block flex-shrink-0">
-            <button 
+            <button
               onClick={openWizard}
               className="font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors"
             >
@@ -84,24 +85,24 @@ export default function TopMenu() {
           {isMenuOpen && (
             <div className="absolute top-16 left-0 right-0 bg-white border-b border-primary-100 md:hidden">
               <div className="container mx-auto px-4 py-4 space-y-4">
-                <Link 
-                  href="/destinos" 
+                <Link
+                  href="/destinos"
                   className="block font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Destinos
                 </Link>
-                <Link 
-                  href="/sobre" 
+                <Link
+                  href="/sobre"
                   className="block font-baloo text-secondary-500 hover:text-primary-500 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   Benefícios
                 </Link>
-                <button 
+                <button
                   onClick={() => {
-                    openWizard()
-                    setIsMenuOpen(false)
+                    openWizard();
+                    setIsMenuOpen(false);
                   }}
                   className="w-full font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors"
                 >
@@ -113,5 +114,5 @@ export default function TopMenu() {
         </div>
       </div>
     </header>
-  )
-} 
+  );
+}
