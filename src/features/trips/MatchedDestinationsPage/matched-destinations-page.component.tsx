@@ -60,8 +60,7 @@ export const MatchedDestinationsPage = () => {
   };
 
   if (error) return <ErrorState />;
-  if (isLoading) return <MatchedDestinationsProposal.Skeleton />;
-  if (!tripProposal)
+  if (!tripProposal && !isLoading)
     return (
       <EmptyState
         heading="Viagem não encontrada :("
@@ -77,7 +76,6 @@ export const MatchedDestinationsPage = () => {
         error={error}
         isLoading={isLoading}
         tripProposal={tripProposal}
-        fallback={() => {}}
         setDestinationById={setDestinationById}
       />
     </>
