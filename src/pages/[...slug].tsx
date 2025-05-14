@@ -2,7 +2,7 @@ import { pageConfig } from "@/core/configs/page.config";
 import { CMSService } from "@/services/cms/cms-service";
 import type { GetStaticPaths, GetStaticProps } from "next";
 
-export { default } from ".";
+export { default } from "./index.old";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { slugs } = await CMSService.getAllPageSlugs();
