@@ -16,40 +16,51 @@ async function getDestination(uniqueName: string) {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
-    const destination = await getDestination((await params).uniqueName)
-    
+    const destination = await getDestination((await params).uniqueName);
+
     if (!destination) {
       return {
-        title: 'Destino não encontrado',
-        description: 'O destino que você está procurando não existe.',
-      }
+        title: "Destino não encontrado",
+        description: "O destino que você está procurando não existe.",
+      };
     }
 
     return {
       title: `${destination.title}`,
-      description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
+      description:
+        destination.recommendedBy.recommendationText ||
+        `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
       openGraph: {
         title: `${destination.title}`,
-        description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
-        images: destination.photos?.[0]?.sources?.[0]?.url ? [destination.photos[0].sources[0].url] : undefined,
+        description:
+          destination.recommendedBy.recommendationText ||
+          `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
+        images: destination.photos?.[0]?.sources?.[0]?.url
+          ? [destination.photos[0].sources[0].url]
+          : undefined,
       },
       twitter: {
-        card: 'summary_large_image',
+        card: "summary_large_image",
         title: `${destination.title}`,
-        description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
-        images: destination.photos?.[0]?.sources?.[0]?.url ? [destination.photos[0].sources[0].url] : undefined,
+        description:
+          destination.recommendedBy.recommendationText ||
+          `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
+        images: destination.photos?.[0]?.sources?.[0]?.url
+          ? [destination.photos[0].sources[0].url]
+          : undefined,
       },
-    }
+    };
   } catch (error) {
     return {
-      title: 'Destino não encontrado',
-      description: 'O destino que você está procurando não existe.',
-    }
+      title: "Destino não encontrado",
+      description: "O destino que você está procurando não existe.",
+    };
   }
 }
 
 export default async function DestinationPage({ params }: Props) {
-  const destination = await getDestination((await params).uniqueName)
+  const { uniqueName } = await params;
+  const destination = await getDestination(uniqueName);
 
-  return <DestinationDetail destination={destination} />
+  return <DestinationDetail destination={destination} uniqueName={uniqueName} />;
 }
