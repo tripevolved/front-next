@@ -120,9 +120,6 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
           ? newTripRoute
           : `/app/cadastro?redirectTo=${encodeURIComponent(newTripRoute)}`
       );
-      // If traveler exists, direct to WhatsApp
-      // const message = `Olá! Gostaria de planejar uma viagem similar à experiência ${experience.title}.`
-      // window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank')
     } else {
       // If no traveler, open contact modal
       setIsContactModalOpen(true);
