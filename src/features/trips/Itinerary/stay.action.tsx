@@ -1,16 +1,14 @@
 import { TripStay, TripStaySimplified } from "@/core/types";
 import { Button, Icon, Modal } from "mars-ds";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CardHighlight, CircleProgressCustom, Picture } from "@/ui";
+import { CircleProgressCustom, FeatureIcon, Picture } from "@/ui";
 import { Text } from "@/ui";
 import { StayDetailsModal } from "@/features/stays/StayDetailsModal";
 import { StaysApiService } from "@/services/api";
 import { useRouter } from "next/router";
 import { StayNotMain } from "./stay.notMain.action";
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
-import { TripStayHighlightSection } from "../TripDetailsPage/trip-stay-highlight.section";
 import { TripStayServiceItem } from "../TripStayServiceItem";
-import useSwr from "swr";
 
 interface Props {
   action: TripStaySimplified;
@@ -20,7 +18,6 @@ export const StayAction = ({ action, tripId }: Props) => {
   const router = useRouter();
   const [loadingStayValue, setLoadingStayValue] = useState(0);
   const timerRef = useRef<NodeJS.Timer | undefined>();
-
   useEffect(() => {
     if (!action.isReady) {
       timerRef.current = setInterval(() => {
@@ -35,39 +32,18 @@ export const StayAction = ({ action, tripId }: Props) => {
       timerRef.current = undefined;
     };
   }, [action.isReady]);
+  const handleSeeDetails = useCallback(async () => {
+    const data = await StaysApiService.getByTripId(tripId, action.actionId);
+    Modal.open(() => <StayDetailsModal tripStay={data} />, {
+      closable: true,
+      size: "md",
+    });
+  }, [action.actionId, tripId]);
 
-  console.log("action ->", action);
-
-  const fetcher = async () => StaysApiService.getByTripId(tripId, action.actionId);
-
-  const { data: searchedAccomodationDetails } = useSwr<TripStay>(
-    "get-accomodation-details",
-    fetcher,
-    {
-      revalidateOnMount: true,
-    }
-  );
-
-  const handleSeeDetails = async () => {
-    const modal = Modal.open(
-      () => {
-        return (
-          <StayDetailsModal
-            allowEdit={false}
-            tripId={tripId}
-            tripStay={searchedAccomodationDetails}
-            router={router}
-            itineraryActionId={action.actionId}
-            onCloseModal={() => modal.close()}
-          />
-        );
-      },
-      {
-        closable: true,
-        size: "md",
-      }
-    );
-  };
+  const handleEditStay = useCallback(() => {
+    const route = `/app/viagens/${tripId}/hospedagem/editar/${action.actionId}`;
+    router.push(route);
+  }, [router, action.actionId, tripId]);
 
   if (!action.isMain) {
     return <StayNotMain action={action} showDetails={handleSeeDetails} />;
@@ -75,20 +51,33 @@ export const StayAction = ({ action, tripId }: Props) => {
 
   return (
     <div className="flex flex-column gap-md py-lg ml-xl">
-      <div className="flex flex-row gap-xl  items-center">
+      <div className="flex flex-row gap-xl items-center">
         <Picture src={`/assets/destino/hospedagem.svg`} style={{ width: 40 }} />
         <Text as="h3" heading size="xs" className="my-auto">
           <strong>Hospedagem</strong>
         </Text>
+        <Button style={{ border: "none" }} size="sm" variant="neutral" onClick={handleEditStay}>
+          <FeatureIcon name="pencil" size={20} />
+          <label style={{ fontWeight: 700, paddingLeft: 8 }}>Editar</label>
+        </Button>
       </div>
       {action.isReady ? (
         <div className="flex flex-row gap-xl">
           <div style={{ width: 40 }} />
           <div className="flex flex-column justify-start">
             <div className="flex flex-row gap-xl">
-              <Picture alt={action.name} style={{ width: 140, maxHeight: 140, borderRadius: 15 }}>
-                {action.coverImage ? parsePhoto(action.coverImage) : undefined}
-              </Picture>
+              {action.coverImage === null || action.coverImage === undefined ? (
+                <Picture
+                  src="/assets/destino/hotel-casa-grande.png"
+                  alt={action.name}
+                  style={{ width: 50, height: 50 }}
+                />
+              ) : (
+                <Picture alt={action.name} style={{ width: 50, height: 50 }}>
+                  {parsePhoto(action.coverImage)}
+                </Picture>
+              )}
+
               <div>
                 <Text as="h1" size="xs" style={{ padding: 0 }}>
                   <strong>{action.name}</strong>
@@ -104,22 +93,43 @@ export const StayAction = ({ action, tripId }: Props) => {
                 )}
               </div>
             </div>
-            <Button
-              variant="neutral"
-              size="sm"
-              style={{
-                border: "none",
-                textDecoration: "underline",
-                alignSelf: "flex-start",
-                padding: 0,
-                fontWeight: 500,
-                marginTop: 10,
-              }}
-              onClick={handleSeeDetails}
-            >
-              Ver Detalhes
-            </Button>
-            {action.highlight && <TripStayHighlightSection highlight={action.highlight} />}
+
+            {action.isSelected ? (
+              <Button
+                variant="neutral"
+                size="sm"
+                style={{
+                  border: "none",
+                  textDecoration: "underline",
+                  alignSelf: "flex-start",
+                  padding: 0,
+                  fontWeight: 500,
+                  marginTop: 10,
+                }}
+                onClick={handleSeeDetails}
+              >
+                Ver Detalhes
+              </Button>
+            ) : (
+              <Text as="p" size="xs" style={{ marginTop: 0 }}>
+                Infelizmente não encontramos sua hospedagem ideal nesse momento, mas você pode
+                <Button
+                  variant="neutral"
+                  size="sm"
+                  style={{
+                    border: "none",
+                    textDecoration: "underline",
+                    alignSelf: "flex-start",
+                    padding: 0,
+                    fontWeight: 500,
+                    marginTop: 10,
+                  }}
+                  onClick={handleEditStay}
+                >
+                  &nbsp;editar a sua aqui
+                </Button>
+              </Text>
+            )}
           </div>
         </div>
       ) : (

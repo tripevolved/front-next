@@ -4,6 +4,8 @@ import { FlightDetailsPanel } from "@/features";
 import { TripTransportation } from "@/core/types";
 import { TransportationApiService } from "@/services/api";
 import useSwr from "swr";
+import { useCallback } from "react";
+import { useRouter } from "next/router";
 
 export const FlightAction = ({
   action,
@@ -12,6 +14,7 @@ export const FlightAction = ({
   action: TripTransportation;
   tripId: string;
 }) => {
+  const router = useRouter();
   const fetcher = async () =>
     TransportationApiService.getTransportationActionItinerary(tripId, action.actionId);
 
@@ -25,11 +28,29 @@ export const FlightAction = ({
     }
   );
 
+  const handleEditFlight = useCallback(() => {
+    const route = `/app/viagens/${tripId}/voos/editar/`;
+    router.push(route);
+  }, [router, action.actionId, tripId]);
+
   const handleSeeDetails = async () => {
-    Modal.open(() => <FlightDetailsPanel data={searchedFlightDetails} />, {
-      size: "md",
-      closable: true,
-    });
+    const modal = Modal.open(
+      () => (
+        <FlightDetailsPanel
+          data={searchedFlightDetails}
+          handleEditFlight={handleEditFlight}
+          onClose={() => {
+            const body = document.body;
+            body.setAttribute("data-overlay", "false");
+            modal.close();
+          }}
+        />
+      ),
+      {
+        size: "md",
+        closable: true,
+      }
+    );
   };
 
   // if (error) return <ErrorState />;

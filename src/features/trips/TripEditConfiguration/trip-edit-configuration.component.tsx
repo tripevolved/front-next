@@ -24,7 +24,7 @@ const CONFIG_STEPS = [
     title: "Quartos",
     name: "rooms",
     component: StepRoomChoice,
-  }
+  },
 ];
 const NINE_SECONDS_IN_MS = 9 * 1000;
 const MILLISECONDS = NINE_SECONDS_IN_MS;
@@ -53,11 +53,20 @@ export function TripEditConfiguration({
   rooms,
   endDate,
   startDate,
+  isTripExpired,
 }: TripEditConfigurationProps) {
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
   const [submitting, setSubmitting] = useState(false);
 
-  const data = useRef<Record<string, any>>({ budget, numAdults, numChildren, childrenAgeInfo: childrenAges, rooms, endDate, startDate });
+  const data = useRef<Record<string, any>>({
+    budget,
+    numAdults,
+    numChildren,
+    childrenAgeInfo: childrenAges,
+    rooms,
+    endDate,
+    startDate,
+  });
 
   const animation = useAnimation();
 
@@ -102,7 +111,10 @@ export function TripEditConfiguration({
   }
 
   return (
-    <ModalContent heading="Configurações da Viagem" className="mt-lg">
+    <ModalContent
+      heading={isTripExpired ? "Retomar sua Viagem" : "Configurações da Viagem"}
+      className="mt-lg"
+    >
       <div className="mt-lg" style={animation.style}>
         <Component
           onNext={handleNext}

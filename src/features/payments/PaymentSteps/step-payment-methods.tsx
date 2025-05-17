@@ -18,6 +18,7 @@ import {
   GlobalLoader,
   Logo,
   ModalContent,
+  Picture,
   SelectFieldSimple,
   Text,
   WhatsappButton,
@@ -103,7 +104,11 @@ export const StepPaymentMethods = ({ price, payload, tripId }: PaymentStepProps)
           <Text>
             <strong>Pix</strong> (Total de {formattedPixPrice})
           </Text>
-          {price.pixPercentageDiscount && <Label>{(price.pixPercentageDiscount).toLocaleString(undefined, { style: 'percent' })} OFF</Label>}
+          {price.pixPercentageDiscount && (
+            <Label>
+              {price.pixPercentageDiscount.toLocaleString(undefined, { style: "percent" })} OFF
+            </Label>
+          )}
         </div>
         <Button variant="tertiary" onClick={payWithPix}>
           Pagar no Pix
@@ -162,6 +167,12 @@ export const StepPaymentMethods = ({ price, payload, tripId }: PaymentStepProps)
           <Button type="submit" variant="tertiary">
             Pagar no Cartão
           </Button>
+          <div className="payment__disclaimer__container">
+            <Text className="text-center color-text-secondary">
+              Pagamentos processados através da
+            </Text>
+            <Picture src={"/assets/vale-pay/valepay.svg"} style={{ width: 100 }} />
+          </div>
         </Grid>
       </form>
     </Grid>

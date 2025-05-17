@@ -2,14 +2,20 @@ import { useState } from "react";
 
 import type { StepComponentProps } from "@/features";
 import { IncrementField, Text } from "@/ui";
-import { Grid, SubmitButton } from "mars-ds";
+import { Button, Grid, SubmitButton } from "mars-ds";
 
 import { formatToPlural } from "@/utils/helpers/number.helpers";
 
 const DEFAULT_ADULTS = 2;
 const BASE_CHILDREN_AGE = 6;
 
-export function StepTravelersCount({ onNext, numAdults = DEFAULT_ADULTS, numChildren, childrenAgeInfo }: StepComponentProps) {
+export function StepTravelersCount({
+  onNext,
+  onPrevious,
+  numAdults = DEFAULT_ADULTS,
+  numChildren,
+  childrenAgeInfo,
+}: StepComponentProps) {
   const [submitting, setSubmitting] = useState(false);
   const [adults, setAdults] = useState(numAdults);
   const [children, setChildrenInternal] = useState(numChildren ?? 0);
@@ -25,12 +31,7 @@ export function StepTravelersCount({ onNext, numAdults = DEFAULT_ADULTS, numChil
     if (value <= 0) {
       setChildrenAges([]);
     } else if (value > children) {
-      setChildrenAges(
-        [
-          ...childrenAges,
-          BASE_CHILDREN_AGE
-        ]
-      )
+      setChildrenAges([...childrenAges, BASE_CHILDREN_AGE]);
     } else {
       setChildrenAges(childrenAges.slice(0, value));
     }
@@ -81,13 +82,16 @@ export function StepTravelersCount({ onNext, numAdults = DEFAULT_ADULTS, numChil
       {children > 0 ? (
         <>
           <div>
-            <Text heading size="xs" className="mt-md">Qual a idade {(children === 1 ? "da criança" : "das crianças")}?</Text>
+            <Text heading size="xs" className="mt-md">
+              Qual a idade {children === 1 ? "da criança" : "das crianças"}?
+            </Text>
             <Text className="color-text-secondary mt-sm" size="md">
-              Para encontrar a melhor hospedagem para vocês, precisamos saber a idade das crianças no momento do checkout
+              Para encontrar a melhor hospedagem para vocês, precisamos saber a idade das crianças
+              no momento do checkout
             </Text>
           </div>
-          <Grid columns={{"sm": 1, "md": 2}}>
-            {childrenAges?.map((childrenAge, index) => 
+          <Grid columns={{ sm: 1, md: 2 }}>
+            {childrenAges?.map((childrenAge, index) => (
               <IncrementField
                 key={index}
                 className="slider--with-steps"
@@ -100,19 +104,27 @@ export function StepTravelersCount({ onNext, numAdults = DEFAULT_ADULTS, numChil
                 step={1}
                 disabled={submitting}
               />
-            )}
+            ))}
           </Grid>
-        </>) 
-        : <></>}
-      <SubmitButton
-        className="mt-md"
-        variant="tertiary"
-        disabled={submitting}
-        submitting={submitting}
-        onClick={handleSubmit}
-      >
-        Continuar
-      </SubmitButton>
+        </>
+      ) : (
+        <></>
+      )}
+
+      <Grid gap={8} columns={[1, 3]} className="mt-md">
+        <Button onClick={onPrevious} iconName="chevron-left" variant="neutral">
+          Anterior
+        </Button>
+
+        <SubmitButton
+          variant="tertiary"
+          disabled={submitting}
+          submitting={submitting}
+          onClick={handleSubmit}
+        >
+          Continuar
+        </SubmitButton>
+      </Grid>
     </Grid>
   );
 }

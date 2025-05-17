@@ -8,4 +8,5 @@ export interface ProfileQuestionsNavigationProps {
   submitting?: boolean;
   nextButtonLabel?: string;
   finishButtonLabel?: string;
+  showPreviousButton?: boolean;
 }

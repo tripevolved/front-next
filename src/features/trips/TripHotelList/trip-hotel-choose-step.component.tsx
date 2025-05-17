@@ -23,12 +23,12 @@ export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepPr
     <>
       <MarsAccordion title="Com selo Trip Evolved" defaultOpen>
         <div className="trip-hotel-list__list gap-md">
-          {hotelLists.curated.map((hotel, i) => (
+          {hotelLists?.curated?.map((hotel, i) => (
             <TripHotelCard
               uniqueTransactionId={hotelLists.uniqueTransactionId}
               tripId={tripId}
-              onSelect={() => setSelectedHotel(hotel)}
-              tripStayData={hotel}
+              onSelect={() => setSelectedHotel(hotel as any)}
+              tripStayData={hotel as any}
               isSelected={selectedHotel?.name === hotel.name}
               router={router}
               isCurated
@@ -44,8 +44,8 @@ export const TripHotelChoose = ({ onNext, hotelLists, setFunction }: HotelStepPr
               <TripHotelCard
                 uniqueTransactionId={hotelLists.uniqueTransactionId}
                 tripId={tripId}
-                onSelect={() => setSelectedHotel(hotel)}
-                tripStayData={hotel}
+                onSelect={() => setSelectedHotel(hotel as any)}
+                tripStayData={hotel as any}
                 isSelected={selectedHotel?.name === hotel.name}
                 router={router}
                 key={i}

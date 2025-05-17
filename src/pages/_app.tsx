@@ -5,13 +5,14 @@ import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import NextLink from "next/link";
 import { NoSSR, ProgressIndicator } from "@/ui";
-
 import "@/ui/styles/index.scss";
 import { LeadProvider } from "@/features";
 import { Environment } from "@/utils/helpers/environment.helpers";
 import { AppAuthProvider } from "@/core/app-auth";
 import { useAnalytics } from "@/services/analytics";
 import Head from "next/head";
+
+import "@/main.css";
 
 const scrollTo = (id: string, event: React.MouseEvent<HTMLAnchorElement>) => {
   const el = document.querySelector(id);

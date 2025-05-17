@@ -11,6 +11,7 @@ export interface TripDetails {
 }
 
 export interface FlightDetails {
+  id?: number;
   airlineCompanyLogoUrl: string;
   flightTime: string;
   flightCode: string;
@@ -114,6 +115,8 @@ export interface TripMatchedDestination {
   price: number;
   name: string;
   uniqueName: string;
+  features?: string[];
+  description?: string;
 }
 
 export interface TripProposal {
@@ -177,4 +180,22 @@ export interface TripTip {
   details: string;
   restaurantId: string | null;
   attractionId: string | null;
+}
+
+export interface TripDates {
+  startDate: string | null;
+  endDate: string | null;
+  month: string | null;
+}
+
+export interface TripTravelers {
+  type: 'COUPLE' | 'INDIVIDUAL';
+}
+
+export interface CreateTripRequest {
+  travelerId: string;
+  goals: string[];
+  travelerProfile: string;
+  dates: TripDates;
+  travelers: TripTravelers;
 }

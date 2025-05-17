@@ -35,7 +35,7 @@ const LOADING_STEPS = [
 const DEFAULT_INITIAL_INDEX = 0;
 
 const StepBuilder = ({ steps }: TemplateStepsBuilderProps) => {
-  const { id: travelerId } = useAppStore((state) => state.travelerState);
+  const { id: travelerId, hasValidAddress } = useAppStore((state) => state.travelerState);
 
   const [currentIndex, setCurrentIndex] = useState(DEFAULT_INITIAL_INDEX);
   const [submitting, setSubmitting] = useState(false);
@@ -75,6 +75,11 @@ const StepBuilder = ({ steps }: TemplateStepsBuilderProps) => {
     router.replace(`/app/viagens/${tripId.current}/detalhes`);
   };
 
+  const handlePrevious = () => {
+    const steps = currentIndex === 2 && hasValidAddress ? 2 : 1;
+    return setCurrentIndex((state) => state - steps);
+  };
+
   const { component: Component } = steps[currentIndex];
 
   if (submitting) {
@@ -94,7 +99,7 @@ const StepBuilder = ({ steps }: TemplateStepsBuilderProps) => {
       <div style={slider.style}>
         <Component
           onNext={handleNext}
-          onPrevious={() => setCurrentIndex((state) => state - 1)}
+          onPrevious={handlePrevious}
           goToStepName={() => {}}
           {...data.current}
         />

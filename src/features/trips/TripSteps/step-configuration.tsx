@@ -1,7 +1,7 @@
 import type { StepComponentProps } from "@/features";
 import { DatePicker, Text } from "@/ui";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
-import { Grid, Slider, SubmitButton } from "mars-ds";
+import { Button, Grid, Slider, SubmitButton } from "mars-ds";
 import { useState } from "react";
 import { differenceInDays } from "date-fns";
 
@@ -9,13 +9,16 @@ interface StepConfigurationProps extends StepComponentProps {
   budget?: number;
   endDate?: string;
   startDate?: string;
+  showPrevious?: boolean;
 }
 
 export function StepConfiguration({
   onNext,
-  budget = 4000,
+  onPrevious,
   endDate,
+  budget = 4000,
   startDate,
+  showPrevious,
 }: StepConfigurationProps) {
   const defaultDates = [
     startDate ? new Date(startDate) : undefined,
@@ -62,14 +65,28 @@ export function StepConfiguration({
         onSelect={setMaxBudget}
         step={500}
       />
-      <SubmitButton
-        className="mt-md"
-        variant="tertiary"
-        disabled={isDisabled}
-        onClick={handleSubmit}
-      >
-        Continuar
-      </SubmitButton>
+
+      <div className="mt-md profile-questions-navigation">
+        {showPrevious && (
+          <Button
+            onClick={onPrevious}
+            iconName="chevron-left"
+            variant="neutral"
+            className="profile-questions-navigation__previous"
+          >
+            Anterior
+          </Button>
+        )}
+
+        <SubmitButton
+          variant="tertiary"
+          disabled={isDisabled}
+          onClick={handleSubmit}
+          className="profile-questions-navigation__next"
+        >
+          Continuar
+        </SubmitButton>
+      </div>
     </Grid>
   );
 }

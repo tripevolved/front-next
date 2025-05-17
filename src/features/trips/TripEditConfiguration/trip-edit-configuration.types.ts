@@ -9,4 +9,5 @@ export interface TripEditConfigurationProps {
   rooms: TripConfigurationRoom[] | null;
   endDate: string;
   startDate: string;
+  isTripExpired?: boolean;
 }

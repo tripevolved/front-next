@@ -1,10 +1,11 @@
-import type { TemplateStepsBuilderProps } from "@/features";
+import type { StepComponentProps, TemplateStepsBuilderProps } from "@/features";
 import { StepConfiguration } from "../TripSteps/step-configuration";
 import { StepTripGoal } from "../TripSteps/step-trip-goal";
 import { StepTravelersCount } from "../TripSteps/step-travelers-count";
 import { StepCityDestination } from "../TripSteps/step-city-destination";
 import { StepCityRegistration } from "../TripSteps/step-city-registration";
 import { StepRoomChoice } from "../TripSteps/step-room-choice";
+import { addMonths } from "date-fns";
 
 export const GROUP_STEPS: TemplateStepsBuilderProps["steps"] = [
   {
@@ -20,7 +21,14 @@ export const GROUP_STEPS: TemplateStepsBuilderProps["steps"] = [
   {
     title: "Configuração da Viagem",
     name: "configuration",
-    component: StepConfiguration,
+    component: (props: StepComponentProps) => (
+      <StepConfiguration
+        {...props}
+        startDate={String(addMonths(new Date(), 3))}
+        endDate={String(addMonths(new Date(), 3))}
+        showPrevious={true}
+      />
+    ),
   },
   {
     title: "Objetivos da viagem",
