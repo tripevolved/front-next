@@ -40,7 +40,7 @@ export default function BeneficiosPage() {
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
               <div className="text-accent-500 mb-4">
                 <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                 </svg>
               </div>
               <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4">
@@ -51,18 +51,18 @@ export default function BeneficiosPage() {
               </p>
             </div>
 
-            {/* Upgrades e Cortesias */}
+            {/* Organização */}
             <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
               <div className="text-accent-500 mb-4">
                 <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                 </svg>
               </div>
               <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4">
-                Upgrades e Cortesias
+                Organização
               </h3>
               <p className="text-secondary-600 font-comfortaa">
-                Parcerias exclusivas com hotéis e companhias aéreas que nos permitem oferecer upgrades, early check-in, late check-out e outras cortesias.
+                Cuidamos de toda a burocracia da sua viagem, desde documentos necessários como vistos até comprovantes de vacinas, garantindo que você viaje com tranquilidade e segurança.
               </p>
             </div>
 
