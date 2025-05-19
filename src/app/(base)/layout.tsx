@@ -24,8 +24,8 @@ export const metadata: Metadata = {
     default: 'Trip Evolved - Sua Agência de Viagens Personalizadas',
     template: '%s | Trip Evolved Viagens Personalizadas'
   },
-  description: 'Descubra experiências de viagem personalizadas feitas especialmente para você. De destinos exóticos a estadias de luxo, criamos sua jornada perfeita.',
-  keywords: ['agência de viagens', 'viagens personalizadas', 'destinos exóticos', 'estadias de luxo', 'roteiros exclusivos', 'viagens sob medida'],
+  description: 'Descubra experiências de viagem personalizadas feitas especialmente para você. De destinos incríveis a estadias exclusivas, criamos sua jornada perfeita.',
+  keywords: ['agência de viagens', 'viagens personalizadas', 'destinos exclusivos', 'hospedagens únicas', 'hospedagens exclusivas', 'roteiros exclusivos', 'viagens sob medida'],
   authors: [{ name: 'Trip Evolved' }],
   creator: 'Trip Evolved',
   publisher: 'Trip Evolved',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     url: 'https://tripevolved.com.br',
     siteName: 'Trip Evolved',
     title: 'Trip Evolved - Sua Agência de Viagens Personalizada',
-    description: 'Descubra experiências de viagem personalizadas feitas especialmente para você. De destinos exóticos a estadias de luxo, criamos sua jornada perfeita.',
+    description: 'Descubra experiências de viagem personalizadas feitas especialmente para você. De destinos incríveis a estadias exclusivas, criamos sua jornada perfeita.',
     images: [
       {
         url: '/assets/og-image.jpg',
