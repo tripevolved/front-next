@@ -70,9 +70,12 @@ export default function ConsultoriaPage() {
       {/* Para casais que Section */}
       <section className="py-24 bg-secondary-500">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-          <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-12 text-white">
-            Para casais que sonham com <span className="text-accent-500">a viagem perfeita</span>, mas se veem presos entre excesso de informações e roteiros genéricos
+          <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-4 text-white">
+            <span className="text-accent-500">Não é pacote</span>. A data vocês escolhem, no hotel que vocês preferirem, com experiências inesquecíveis!
           </h2>
+          <h3 className="font-baloo text-xl md:text-2xl font-semibold mb-8 text-white">
+            Você não precisa se preocupar com nada. Deixe que a gente cuide dos detalhes
+          </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {/* Card 1 */}
             <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl hover:bg-white/20 transition-all">
