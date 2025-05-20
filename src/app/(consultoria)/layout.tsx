@@ -82,11 +82,11 @@ export default function ConsultoriaLayout({
       <body className={`${comfortaa.variable} ${baloo.variable} font-comfortaa antialiased bg-white text-gray-900`}>
         <WizardProvider>
           {/* Simple Top Menu */}
-          <header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+          <header className="bg-white shadow-sm">
             <div className="w-full md:w-[80%] mx-auto px-4 h-16 flex items-center justify-center">
-              <Link href="/" className="relative w-40 h-8">
+              <Link href="/" className="relative w-60 h-12">
                 <Image
-                  src="/assets/logo.png"
+                  src="/brand/logo-horizontal.svg"
                   alt="Trip Evolved"
                   fill
                   className="object-contain"
@@ -95,45 +95,48 @@ export default function ConsultoriaLayout({
             </div>
           </header>
 
-          <main className="min-h-screen flex flex-col pt-16">
+          <main className="min-h-screen flex flex-col">
             {children}
           </main>
 
           {/* Simple Footer */}
-          <footer className="bg-secondary-900 text-white py-12">
+          <footer className="bg-secondary-500 text-white py-12">
             <div className="w-full md:w-[80%] mx-auto px-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <div className="relative w-40 h-8 mb-6">
-                    <Image
-                      src="/assets/logo-white.png"
-                      alt="Trip Evolved"
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                  <div className="relative w-32 h-8 mb-6">
-                    <Image
-                      src="/assets/cadastur.png"
-                      alt="CADASTUR"
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                  <p className="text-white/80 text-sm">
-                    Copyright © 2025 Trip Evolved. Todos os direitos reservados.
-                  </p>
+                <div className="relative w-80 h-8 mb-6">
+                  <Image
+                    src="/brand/logo-horizontal.svg"
+                    alt="Trip Evolved"
+                    fill
+                    className="object-contain"
+                  />
                 </div>
-                <div className="flex flex-col gap-4">
-                  <Link href="/termos" className="text-white/80 hover:text-white transition-colors">
+                <div className="flex gap-12">
+                  <Link href="/termos-de-uso" className="text-white/80 hover:text-white transition-colors">
                     Termos de uso
                   </Link>
-                  <Link href="/privacidade" className="text-white/80 hover:text-white transition-colors">
-                    Política de privacidade
+                  <Link href="/politica-de-privacidade" className="text-white/80 hover:text-white transition-colors">
+                    Políticas de privacidade
                   </Link>
-                  <Link href="/cookies" className="text-white/80 hover:text-white transition-colors">
+                  <Link href="/politica-de-cookies" className="text-white/80 hover:text-white transition-colors">
                     Política de cookies
                   </Link>
+                </div>
+              </div>
+              {/* Bottom Footer */}
+              <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <div className="flex items-center mb-4 md:mb-0">
+                  <span className="text-white/80 mr-2 text-sm">Registrados no</span>
+                  <Image
+                    src="/assets/cadastur.png"
+                    alt="Cadastur"
+                    width={120}
+                    height={40}
+                    className="h-6 w-auto"
+                  />
+                </div>
+                <div className="text-white/60 text-xs">
+                  Copyright © 2025 Trip Evolved. Todos os direitos reservados.
                 </div>
               </div>
             </div>
