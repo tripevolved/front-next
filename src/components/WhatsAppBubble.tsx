@@ -27,7 +27,6 @@ export default function WhatsAppBubble({ phoneNumber = '5512991694499' }: WhatsA
       <ContactExpertModal 
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        phoneNumber={phoneNumber}
       />
     </>
   )

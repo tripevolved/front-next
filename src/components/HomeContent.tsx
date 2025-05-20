@@ -121,7 +121,7 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
                 Descubra sua viagem
               </h3>
               <p className="text-secondary-600 font-comfortaa">
-                Clique em <span className="font-bold">"descobrir sua viagem"</span>, preencha o questionário e fale com um dos nossos especialistas. Vamos agendar uma reunião para entender suas expectativas e ideias para essa viagem. Essa reunião é gratuita e você não tem nenhuma obrigação de continuar conosco.
+                Clique em <span className="font-bold">&quot;descobrir minha viagem&quot;</span>, preencha o questionário e fale com um dos nossos especialistas. Vamos agendar uma reunião para entender suas expectativas e ideias para essa viagem. Essa reunião é gratuita e você não tem nenhuma obrigação de continuar conosco.
               </p>
             </div>
 
