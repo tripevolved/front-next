@@ -39,7 +39,6 @@ export default function ContactCard({ phoneNumber = '5512991694499' }: ContactCa
       <ContactExpertModal 
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        phoneNumber={phoneNumber}
       />
     </>
   )

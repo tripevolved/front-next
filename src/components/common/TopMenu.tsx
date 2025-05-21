@@ -11,7 +11,7 @@ export default function TopMenu() {
 
   const navLinks = [
     { href: "/destinos", label: "Destinos" },
-    { href: "/sobre", label: "Por que a Trip Evolved?" },
+    { href: "/beneficios", label: "Por que a Trip Evolved?" },
     { href: "/app/entrar", label: "Minhas viagens" },
   ];
 
