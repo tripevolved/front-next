@@ -547,7 +547,7 @@ export default function ConsultoriaPage() {
               additionalMetadata={[
                 {
                   key: 'source',
-                  value: 'newsletter',
+                  value: 'Newsletter CTA - Consultoria',
                   keyDescription: 'Fonte do lead'
                 }
               ]}
@@ -560,6 +560,13 @@ export default function ConsultoriaPage() {
       <ContactExpertModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
+        additionalMetadata={[
+          {
+            key: 'source',
+            value: 'Consultoria',
+            keyDescription: 'Fonte do lead'
+          }
+        ]}
       />
     </div>
   )
