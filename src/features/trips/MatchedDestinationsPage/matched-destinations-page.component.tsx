@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { EmptyState, ErrorState, GlobalLoader } from "@/ui";
 import { Notification } from "mars-ds";
 import { TripsApiService } from "@/services/api";
-import { MatchedDestinationsProposal } from "./matched-destinations-proposal.component";
 import { useIdParam } from "@/utils/hooks/param.hook";
 import { ResultsTrip } from "@/components/results/ResultsTrip";
 import { TripProposal } from "@/core/types";
