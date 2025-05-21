@@ -3,12 +3,15 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import FAQ from '@/components/FAQ'
-import LeadForm from '@/components/LeadForm'
 import ContactExpertModal from '@/components/ContactExpertModal'
+import NewsletterModal from '@/components/NewsletterModal'
+import { useRouter } from 'next/navigation'
 
 export default function ConsultoriaPage() {
   const [isNewsletterModalOpen, setIsNewsletterModalOpen] = useState(false)
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
+
+  const router = useRouter()
 
   const faqQuestions = [
     {
@@ -522,39 +525,17 @@ export default function ConsultoriaPage() {
       </section>
 
       {/* Newsletter Modal */}
-      {isNewsletterModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full relative">
-            <button
-              onClick={() => setIsNewsletterModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-
-            <h2 className="text-2xl font-baloo font-bold text-primary-600 mb-2">
-              Assine nossa newsletter
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Preencha seus dados para receber conteúdos exclusivos sobre viagens.
-            </p>
-            <LeadForm 
-              onSuccess={() => setIsNewsletterModalOpen(false)}
-              submitButtonText="Assinar"
-              additionalMetadata={[
-                {
-                  key: 'source',
-                  value: 'Newsletter CTA - Consultoria',
-                  keyDescription: 'Fonte do lead'
-                }
-              ]}
-            />
-          </div>
-        </div>
-      )}
+      <NewsletterModal
+        isOpen={isNewsletterModalOpen}
+        onClose={() => setIsNewsletterModalOpen(false)}
+        additionalMetadata={[
+          {
+            key: 'source',
+            value: 'Newsletter CTA - Consultoria',
+            keyDescription: 'Fonte do lead'
+          }
+        ]}
+      />
 
       {/* Contact Expert Modal */}
       <ContactExpertModal
