@@ -1,12 +1,9 @@
 import type { StepComponentProps } from "@/features";
 import { DatePicker, Text } from "@/ui";
-import { Grid, Slider, SubmitButton } from "mars-ds";
 import { useState } from "react";
 import { differenceInDays, max } from "date-fns";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { Button, Grid, Slider, SubmitButton } from "mars-ds";
-import { useState } from "react";
-import { differenceInDays } from "date-fns";
 
 interface StepConfigurationProps extends StepComponentProps {
   budget?: number;
@@ -19,19 +16,13 @@ interface StepConfigurationProps extends StepComponentProps {
 
 export function StepConfiguration({
   onNext,
-  onPrevious,
-  endDate,
-  budget = 4000,
-  startDate,
-  showPrevious,
-}: StepConfigurationProps) {
-export function StepConfiguration({
-  onNext,
   endDate,
   startDate,
   minExpectedDailyCost,
   maxExpectedDailyCost,
   budget = 4000,
+  showPrevious,
+  onPrevious,
 }: StepConfigurationProps) {
   const defaultDates = [
     startDate ? new Date(startDate) : undefined,
@@ -44,7 +35,6 @@ export function StepConfiguration({
   const [dates, setDates] = useState<(Date | undefined)[]>(defaultDates);
   const [maxBudget, setMaxBudget] = useState(budget);
   const [days, setDays] = useState(defaultDays);
-  const [maxBudget, setMaxBudget] = useState(budget);
 
   const isDisabled = !dates[0] || !dates[1] || days < 2;
 
@@ -117,14 +107,26 @@ export function StepConfiguration({
         </>
       )}
 
-      <SubmitButton
-        className="mt-md"
-        variant="tertiary"
-        disabled={isDisabled}
-        onClick={handleSubmit}
-      >
-        Continuar
-      </SubmitButton>
+      <div className="mt-md profile-questions-navigation">
+        {showPrevious && (
+          <Button
+            onClick={onPrevious}
+            iconName="chevron-left"
+            variant="neutral"
+            className="profile-questions-navigation__previous"
+          >
+            Anterior
+          </Button>
+        )}
+        <SubmitButton
+          className="profile-questions-navigation__next"
+          variant="tertiary"
+          disabled={isDisabled}
+          onClick={handleSubmit}
+        >
+          Continuar
+        </SubmitButton>
+      </div>
     </Grid>
   );
 }
