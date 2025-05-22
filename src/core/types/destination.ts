@@ -71,7 +71,7 @@ export interface PublicDestinationExpert {
   name: string;
   photo: string;
   recommendationText: string;
-  social: Social[];
+  socialMediaInformation: Social[];
 }
 
 interface Social {

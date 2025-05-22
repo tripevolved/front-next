@@ -4,13 +4,24 @@ import { TripsApiService } from "@/services/api";
 
 import { parsePhoto } from "@/utils/helpers/photo.helpers";
 
-import { Divider, Grid, Icon, Label, LabelVariants, Skeleton, Tabs, ToggleButton } from "mars-ds";
-import { CardTrip, EmptyState, ErrorState, Text, CardTripNew, confirmModal } from "@/ui";
+import {
+  Button,
+  Divider,
+  Grid,
+  Icon,
+  Label,
+  LabelVariants,
+  Skeleton,
+  Tabs,
+  ToggleButton,
+} from "mars-ds";
+import { CardTrip, EmptyState, ErrorState, Text, CardTripNew, confirmModal, Box } from "@/ui";
 import { normalizeDateString } from "@/utils/helpers/dates.helpers";
 import { useAllTrips } from "./has-current-trip.hook";
 import { useAppStore } from "@/core/store";
 import { DestinationsByProfileName } from "@/features/";
 import { useRouter } from "next/router";
+import { parse } from "date-fns";
 
 export function HasCurrentTrip() {
   const router = useRouter();
@@ -37,7 +48,10 @@ export function HasCurrentTrip() {
         <>
           <Divider />
           <div className="w-100">
-            <ProfileDestinationsSuggestion travelerProfile={travelerProfile} title="Outros destinos que você pode gostar:" />
+            <ProfileDestinationsSuggestion
+              travelerProfile={travelerProfile}
+              title="Outros destinos que você pode gostar:"
+            />
           </div>
         </>
       ) : null}
@@ -74,17 +88,18 @@ function AllTrips({
       ) : null}
       <Grid columns={{ sm: 2, md: 3 }} className="all-trips__others">
         <CardTripNew title="Nova viagem" iconName="Plane" href="/app/viagens/descobrir" />
-        {otherTrips && otherTrips.map((trip) => (
-          <TripItem
-            key={trip.id}
-            {...trip}
-            enableDeletion={
-              !disableDeletion &&
-              trip.status !== "Só falta viajar!" &&
-              trip.status !== "Pena que já passou :("
-            }
-          />
-        ))}
+        {otherTrips &&
+          otherTrips.map((trip) => (
+            <TripItem
+              key={trip.id}
+              {...trip}
+              enableDeletion={
+                !disableDeletion &&
+                trip.status !== "Só falta viajar!" &&
+                trip.status !== "Pena que já passou :("
+              }
+            />
+          ))}
       </Grid>
     </Grid>
   );
@@ -115,9 +130,25 @@ function TripItem({
     });
   };
 
+  const hasTripExpired = (period: string) => {
+    const match = period?.match(/a\s+(\d+)\s+(\w+)[./]*(\d+)?$/i);
+    if (!match) return false;
+    const [_, dayStr, monthStr, yearStr] = match;
+    const day = parseInt(dayStr, 10);
+    const year = 2000 + parseInt(yearStr, 10);
+    const dateStr = `${day} ${monthStr} ${year}`;
+    const endDate = parse(dateStr, "d MMM yyyy", new Date());
+    return endDate < new Date();
+  };
+
   const Header = () => (
     <div className="trip-item__header">
-      <Label variant={LabelVariants.Warning}>{status}</Label>
+      {hasTripExpired(period) ? (
+        <Label variant={LabelVariants.Error}>Expirada</Label>
+      ) : (
+        <Label variant={LabelVariants.Warning}>{status}</Label>
+      )}
+
       {enableDeletion ? (
         <ToggleButton
           iconName="trash-2"
@@ -138,6 +169,7 @@ function TripItem({
       header={<Header />}
       href={`/app/viagens/${id}`}
       className="trip-item"
+      isTripExpired={hasTripExpired(period)}
     >
       {typeof period === "string" ? (
         <div className="trip-item__period">
@@ -159,7 +191,7 @@ export const LoadingSkeleton = () => (
 
 export const ProfileDestinationsSuggestion = ({
   travelerProfile,
-  title = "Destinos que você pode gostar:"
+  title = "Destinos que você pode gostar:",
 }: {
   travelerProfile: string | null;
   title?: string;
@@ -169,5 +201,11 @@ export const ProfileDestinationsSuggestion = ({
       {title}
     </Text>
     <DestinationsByProfileName profileName={travelerProfile || "relax"} />
+
+    <Box className="text-center mt-xl">
+      <Button href={`/destinos?profileId=${travelerProfile}`} variant="secondary">
+        Não gostei, quero ver mais destinos!
+      </Button>
+    </Box>
   </>
 );

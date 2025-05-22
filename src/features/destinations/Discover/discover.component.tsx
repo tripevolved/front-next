@@ -1,8 +1,8 @@
 import type { DiscoverProps } from "./discover.types";
 import { VerticalVideo } from "@/ui/components/multimedia/VerticalVideo";
-import testVideo from '/videos/test.mp4';
-import testHorizontal from "/videos/test_horizontal.mp4";
-import testMov from "/videos/test2.mov";
+// import testVideo from '/videos/test.mp4';
+// import testHorizontal from "/videos/test_horizontal.mp4";
+// import testMov from "/videos/test2.mov"; 
 
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { Mousewheel, Keyboard } from 'swiper/modules';
@@ -37,7 +37,7 @@ export function Discover({  }: DiscoverProps) {
       <SwiperSlide id={`discover__item__${0}`} className="discover__item">
         <VerticalVideo playbackId={"pQjehivqSivjyr02SLmyxp7x02dNjKax2ssCbKJHy7ggg"} autoPlay />
       </SwiperSlide>
-      <SwiperSlide id={`discover__item__${0}`} className="discover__item">
+      {/* <SwiperSlide id={`discover__item__${0}`} className="discover__item">
         <VerticalVideo src={testVideo} />
       </SwiperSlide>
       <SwiperSlide id={`discover__item__${1}`} className="discover__item">
@@ -45,7 +45,7 @@ export function Discover({  }: DiscoverProps) {
       </SwiperSlide>
       <SwiperSlide id={`discover__item__${2}`} className="discover__item">
         <VerticalVideo src={testMov} />
-      </SwiperSlide>
+      </SwiperSlide> */}
     </Swiper>
   );
 }

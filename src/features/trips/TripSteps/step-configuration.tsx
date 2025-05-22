@@ -4,15 +4,27 @@ import { Grid, Slider, SubmitButton } from "mars-ds";
 import { useState } from "react";
 import { differenceInDays, max } from "date-fns";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
-import { format } from "path";
+import { Button, Grid, Slider, SubmitButton } from "mars-ds";
+import { useState } from "react";
+import { differenceInDays } from "date-fns";
 
 interface StepConfigurationProps extends StepComponentProps {
+  budget?: number;
   endDate?: string;
   startDate?: string;
   minExpectedDailyCost?: number;
   maxExpectedDailyCost?: number;
+  showPrevious?: boolean;
 }
 
+export function StepConfiguration({
+  onNext,
+  onPrevious,
+  endDate,
+  budget = 4000,
+  startDate,
+  showPrevious,
+}: StepConfigurationProps) {
 export function StepConfiguration({
   onNext,
   endDate,
@@ -30,6 +42,7 @@ export function StepConfiguration({
     startDate && endDate ? differenceInDays(new Date(endDate), new Date(startDate)) : 1;
 
   const [dates, setDates] = useState<(Date | undefined)[]>(defaultDates);
+  const [maxBudget, setMaxBudget] = useState(budget);
   const [days, setDays] = useState(defaultDays);
   const [maxBudget, setMaxBudget] = useState(budget);
 

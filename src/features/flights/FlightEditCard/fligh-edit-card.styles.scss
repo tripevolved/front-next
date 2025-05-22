@@ -1,0 +1,145 @@
+.flight-edit-card {
+  width: 100%;
+  background-color: $color-gray-4;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .flight__details__container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    .wrapper {
+      text-align: center;
+      align-items: center;
+      width: 20rem;
+      justify-content: space-between;
+    }
+  }
+  @media (min-width: $breakpoint-md) {
+    .flight__details__container {
+      flex-direction: row;
+    }
+    #divider-mobile {
+      display: none;
+    }
+
+    width: 80%;
+  }
+}
+
+.airline-icon {
+  margin: initial;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.airline-icon > img {
+  height: 30px;
+  background-color: $color-brand-6;
+  border-radius: $border-radius-md;
+}
+
+.flight-edit-card__main__content {
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.flight__infos__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.flight__edit__card__marker {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-brand-1);
+  margin-right: 10px;
+}
+
+.flight__details__button__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 0;
+}
+
+.flight__details__button {
+  color: var(--color-brand-1);
+  border: none;
+  cursor: pointer;
+  margin-top: 2px;
+  text-align: start;
+  padding: 0;
+  background: none;
+}
+
+.plane__icon {
+  color: oklch(0.769 0.188 70.08);
+  rotate: 50deg;
+  font-weight: 700;
+}
+
+.flight__resumee {
+  @media (min-width: $breakpoint-md) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 0;
+    border-left: 1px solid var(--color-gray-3);
+    padding-left: 20px;
+  }
+}
+
+.flight__edit__card__flight__hour {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.flight__edit__card__flight__info {
+  max-width: 400px;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.flight__additional__informations__container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 0;
+}
+
+.plane__icon__wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 0;
+}
+
+.flight__trip__resumee__wrapper {
+  display: flex;
+  gap: 10px;
+  margin-top: 0;
+}

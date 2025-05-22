@@ -9,4 +9,5 @@ export interface CardTripProps extends ComponentHTMLProps {
   subtitle?: string;
   href?: string;
   image?: string | PictureProps;
+  isTripExpired?: boolean;
 }

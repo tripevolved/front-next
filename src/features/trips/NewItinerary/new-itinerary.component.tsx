@@ -1,7 +1,7 @@
 import { EmptyState, ErrorState, Text } from "@/ui";
 import { Button } from "mars-ds";
 import { TripsApiService } from "@/services/api";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Action, IsStayAction, IsTransportationAction, ItineraryListV2 } from "@/core/types";
 import { ItineraryItem } from "../Itinerary/itinerary-item.wrapper";
 import { StayAction } from "../Itinerary/stay.action";
@@ -10,26 +10,35 @@ import { RouteAction } from "../Itinerary/route.action";
 import { ItineraryEnd } from "../Itinerary/itinerary-end.action";
 import { DestinationDetails } from "./destination-details/destination-details.component";
 import { TripDetailsPageLoading } from "../TripDetailsPage/trip-details-page.loading";
+import { useRouter } from "next/router";
 
-export function NewItinerary({ tripId, title }: any) {
+export function NewItinerary({ tripId, title, description }: any) {
   const [data, setData] = useState<ItineraryListV2>();
+  const router = useRouter();
   const [error, setError] = useState<string | undefined>();
-
+  const token = useRef<NodeJS.Timeout>();
   useEffect(() => {
     TripsApiService.getItineraryV2(tripId).then(setData).catch(setError);
   }, [tripId]);
 
   useEffect(() => {
-    let token: NodeJS.Timeout;
     if (data?.isReady === false) {
-      token = setTimeout(() => {
+      token.current = setTimeout(() => {
         TripsApiService.getItineraryV2(tripId).then(setData).catch(setError);
       }, 5000);
     }
+    if (data?.isReady) {
+      clearTimeout(token.current);
+    }
     return () => {
-      clearTimeout(token);
+      clearTimeout(token.current);
     };
   }, [data, tripId]);
+
+  const handlePreviewScript = useCallback(() => {
+    const route = `/app/viagens/${tripId}/roteiro/previa?preview=limited`;
+    router.push(route);
+  }, [tripId, router]);
 
   const itinerary = useMemo(() => {
     if (!data) return [];
@@ -43,6 +52,7 @@ export function NewItinerary({ tripId, title }: any) {
       }
       actionsInOrder = [firstAction];
       for (let index = 0; index < allActions.length; index++) {
+        console.log(allActions.length, actionsInOrder.length, index);
         const next = allActions.find(
           (nextAction) => nextAction.actionId === actionsInOrder[index].nextActionId
         );
@@ -50,7 +60,7 @@ export function NewItinerary({ tripId, title }: any) {
           actionsInOrder = [...actionsInOrder, next];
         }
       }
-    } catch {
+    } catch (err) {
       setError("Error on sorting actions");
     } finally {
       return actionsInOrder;
@@ -130,7 +140,7 @@ export function NewItinerary({ tripId, title }: any) {
           );
         })}
         <ItineraryItem title="Aproveitar!" key="enjoy">
-          <ItineraryEnd />
+          <ItineraryEnd tripDescription={description} handlePreviewScript={handlePreviewScript} />
         </ItineraryItem>
       </div>
       <DestinationDetails />

@@ -100,7 +100,7 @@ export function TripStayRoomsList({ tripId }: TripStayRoomsListProps) {
   if (isLoading) return <GlobalLoader />;
   if (!hotelList?.uniqueTransactionId) return <EmptyState />;
 
-  let accommodationData = hotelList.curated.find((hotel) => hotel.name === currentHotelData.name);
+  let accommodationData = hotelList?.curated?.find((hotel) => hotel.name === currentHotelData.name);
   if (!accommodationData && hotelList.others) {
     accommodationData = hotelList.others?.find((hotel) => hotel.name === currentHotelData.name);
   }

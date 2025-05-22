@@ -1,7 +1,7 @@
 import { Photo } from "./photo";
 
 export interface TripStay {
-  id?: string; // AccommodationId
+  id: string; // AccommodationId
   code?: string;
   signature?: string;
   provider?: string;
@@ -35,6 +35,7 @@ export interface TripStaySimplified {
   tags: string;
   previousActionId: string | null;
   nextActionId: string | null;
+  accommodationId: string;
   actionId: string;
   from: string | null;
   fromLatitude: number;
@@ -70,11 +71,14 @@ export interface TripStayDetails {
   images: Photo[] | null;
   information: string;
   checkInHour: string | null;
-  address: string | null;
+  numAdults: number;
+  numChildren: number;
   price: number;
-  currency: string;
+  numDays: number;
+  address: string | null;
   services: TripStayFeature[];
   rooms: TripStayRoom[];
+  currency: string;
 }
 
 type TripStayFeatureType = "ac" | "wifi" | "breakfast" | "bed" | "close_to_attractions";
@@ -95,10 +99,10 @@ export interface TripStayRoom {
   subtitle: string | null;
   isSelected: boolean;
   price: number;
-  details: TripStayRoomDetails;
-  features: TripStayRoomFeature[];
-  boardChoice?: "RO" | "BB" | "AI";
   currency: string;
+  details: TripStayRoomDetails;
+  boardChoice?: "RO" | "BB" | "AI";
+  features?: TripStayFeature[];
 }
 
 interface TripStayRoomDetails {
@@ -119,10 +123,25 @@ export interface TripStayReservation {
   fullAddress: string;
 }
 
+export type StayOption = Omit<
+  TripStay,
+  | "highlight"
+  | "isbuilding"
+  | "checkIn"
+  | "checkOut"
+  | "boardInfo"
+  | "isBuilding"
+  | "isReserved"
+  | "isRoomSelected"
+  | "message"
+  | "isSelected"
+  | "reservationMessage"
+  | "roomSelectionMessage"
+>;
 export interface TripHotelListTransaction {
   uniqueTransactionId: string;
-  curated: Omit<TripStay, "highlight">[];
-  others?: Omit<TripStay, "highlight">[];
+  curated?: StayOption[];
+  others?: StayOption[];
 }
 
 export interface TripStayListCuratedItem extends TripStayListItem {

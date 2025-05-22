@@ -10,3 +10,4 @@ export * from "./transportation";
 export * from "./trip";
 export * from "./tripScripts";
 export * from "./notifications";
+export * from "./flights";

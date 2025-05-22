@@ -28,11 +28,15 @@ export const QuestionOptions = ({
         <Text heading size="xs">
           {title}
         </Text>
-        {multiselect ? (
+        {multiselect && !title.includes("objetivo") ? (
           <Text className="profile-questions-item__header__caption" size="sm">
             Você pode selecionar mais de uma resposta.
           </Text>
-        ) : null}
+        ) : (
+          <Text className="profile-questions-item__header__caption" size="sm">
+            Selecione até 5 respostas
+          </Text>
+        )}
       </div>
       <Grid gap={16} className="profile-questions-item__answers">
         <OptionsFieldList
@@ -41,6 +45,7 @@ export const QuestionOptions = ({
           options={options}
           multiselect={multiselect}
           defaultValue={defaultValue}
+          title={title}
         />
       </Grid>
     </Grid>
