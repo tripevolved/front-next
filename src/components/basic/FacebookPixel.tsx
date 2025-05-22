@@ -5,6 +5,8 @@ import Script from "next/script";
 import { useEffect, useState } from "react";
 import * as pixel from "@/utils/libs/fpixel";
 
+export type EventType = "pageview" | "pre_agendar" | "agendar" | "pre_assinar_newsletter" | "assinar_newsletter" | "pre_descobrir_viagem" | "descobrir_viagem";
+
 const FacebookPixel = () => {
   const [loaded, setLoaded] = useState(false);
   const pathname = usePathname();

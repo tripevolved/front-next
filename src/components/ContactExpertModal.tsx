@@ -39,10 +39,14 @@ export default function ContactExpertModal({
         <p className="text-gray-600 mb-6">
           Preencha os campos abaixo para que nossos especialistas possam entrar em contato com você.
         </p>
-        <LeadForm 
+        <LeadForm
           onSuccess={() => router.push('/obrigado')}
           submitButtonText="Falar com especialista"
           additionalMetadata={additionalMetadata}
+          event="agendar"
+          eventOptions={{
+            source: additionalMetadata.find(item => item.key === 'source')?.value || 'Contact Expert Modal'
+          }}
         />
       </div>
     </div>

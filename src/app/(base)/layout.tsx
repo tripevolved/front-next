@@ -87,7 +87,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
-          <WhatsAppBubble phoneNumber="5512991694499" />
+          <WhatsAppBubble />
           <PrivacyBanner />
         </WizardProvider>
       </body>

@@ -5,13 +5,12 @@ import { useState } from 'react'
 import FAQ from '@/components/FAQ'
 import ContactExpertModal from '@/components/ContactExpertModal'
 import NewsletterModal from '@/components/NewsletterModal'
-import { useRouter } from 'next/navigation'
+import * as fpixel from "@/utils/libs/fpixel";
+import Button from '@/components/common/Button'
 
 export default function ConsultoriaPage() {
   const [isNewsletterModalOpen, setIsNewsletterModalOpen] = useState(false)
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
-
-  const router = useRouter()
 
   const faqQuestions = [
     {
@@ -60,12 +59,16 @@ export default function ConsultoriaPage() {
             <h1 className="font-baloo text-4xl md:text-6xl font-bold mb-6 text-white">
               Sua viagem a dois. Com experiências que vocês não conseguem encontrar sozinhos.
             </h1>
-            <button 
+            <Button 
               onClick={() => setIsContactModalOpen(true)}
+              event="pre_agendar"
+              eventOptions={{
+                source: 'Hero Section - Consultoria'
+              }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
               Quero agendar uma reunião
-            </button>
+            </Button>
           </div>
         </div>
       </section>
@@ -171,12 +174,16 @@ export default function ConsultoriaPage() {
             </div>
           </div>
           <div className="text-center">
-            <button 
+            <Button 
               onClick={() => setIsContactModalOpen(true)}
+              event="pre_agendar"
+              eventOptions={{
+                source: 'Para casais que Section - Consultoria'
+              }}
               className="inline-block font-baloo bg-primary-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-600 transition-all"
             >
               Quero agendar minha reunião
-            </button>
+            </Button>
           </div>
         </div>
       </section>
@@ -285,12 +292,16 @@ export default function ConsultoriaPage() {
             </div>
           </div>
           <div className="text-center mt-12">
-            <button 
+            <Button 
               onClick={() => setIsContactModalOpen(true)}
+              event="pre_agendar"
+              eventOptions={{
+                source: 'Momentos únicos Section - Consultoria'
+              }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
               Quero agendar minha reunião
-            </button>
+            </Button>
           </div>
         </div>
       </section>
@@ -406,12 +417,16 @@ export default function ConsultoriaPage() {
 
           {/* CTA Section */}
           <div className="text-center">
-            <button 
+            <Button 
               onClick={() => setIsContactModalOpen(true)}
+              event="pre_agendar"
+              eventOptions={{
+                source: 'Como funciona Section - Consultoria'
+              }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
               Quero agendar minha reunião
-            </button>
+            </Button>
           </div>
         </div>
       </section>
@@ -441,12 +456,16 @@ export default function ConsultoriaPage() {
             </div>
           </div>
           <div className="text-center">
-            <button 
+            <Button 
               onClick={() => setIsContactModalOpen(true)}
+              event="pre_agendar"
+              eventOptions={{
+                source: 'Por que agendar agora Section - Consultoria'
+              }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
               Quero agendar minha reunião
-            </button>
+            </Button>
           </div>
         </div>
       </section>
@@ -497,12 +516,16 @@ export default function ConsultoriaPage() {
           <p className="text-white/90 font-comfortaa text-lg mb-8 max-w-2xl mx-auto">
             Agende uma reunião com nossos especialistas e comece a planejar a viagem dos seus sonhos hoje mesmo.
           </p>
-          <button
+          <Button
             onClick={() => setIsContactModalOpen(true)}
+            event="pre_agendar"
+            eventOptions={{
+              source: 'Final CTA Section - Consultoria'
+            }}
             className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
           >
             Quero agendar minha reunião
-          </button>
+          </Button>
         </div>
       </section>
 
@@ -515,12 +538,16 @@ export default function ConsultoriaPage() {
           <p className="text-secondary-600 font-comfortaa text-lg mb-8 max-w-2xl mx-auto">
             Assine nossa newsletter para os melhores conteúdos para sua viagem.
           </p>
-          <button
+          <Button
             onClick={() => setIsNewsletterModalOpen(true)}
+            event="pre_assinar_newsletter"
+            eventOptions={{
+              source: 'Newsletter Section - Consultoria'
+            }}
             className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
           >
             Assinar newsletter
-          </button>
+          </Button>
         </div>
       </section>
 

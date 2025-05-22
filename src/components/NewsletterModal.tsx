@@ -41,10 +41,14 @@ export default function NewsletterModal({
             <p className="text-gray-600 mb-6">
               Preencha seus dados para receber conteúdos exclusivos sobre viagens.
             </p>
-            <LeadForm 
+            <LeadForm
               onSuccess={() => setIsSuccess(true)}
-              submitButtonText="Assinar"
+              submitButtonText="Assinar newsletter"
               additionalMetadata={additionalMetadata}
+              event="assinar_newsletter"
+              eventOptions={{
+                source: additionalMetadata.find(item => item.key === 'source')?.value || 'Newsletter Modal'
+              }}
             />
           </>
         ) : (
