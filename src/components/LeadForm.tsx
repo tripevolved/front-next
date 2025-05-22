@@ -4,6 +4,8 @@ import { Suspense, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { LeadsApiService } from '@/clients/leads'
 import { LocalStorageService } from '@/clients/local'
+import { EventType } from '@/components/basic/FacebookPixel'
+import Button from './common/Button'
 
 interface LeadFormProps {
   onSuccess?: () => void
@@ -18,6 +20,8 @@ interface LeadFormProps {
   }>
   showBackButton?: boolean
   onBack?: () => void
+  event?: EventType
+  eventOptions?: Record<string, any>
 }
 
 interface UtmParams {
@@ -65,7 +69,9 @@ function LeadFormContent({
   phoneNumber = '',
   additionalMetadata = [],
   showBackButton = false,
-  onBack
+  onBack,
+  event,
+  eventOptions
 }: LeadFormProps) {
   const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
@@ -223,13 +229,15 @@ function LeadFormContent({
             Voltar
           </button>
         )}
-        <button
+        <Button
           type="submit"
           disabled={isSubmitting}
+          event={event}
+          eventOptions={eventOptions}
           className={`${showBackButton ? 'flex-1' : 'w-full'} bg-primary-600 text-white font-baloo py-3 px-6 rounded-full text-lg font-semibold hover:bg-primary-700 transition-colors disabled:opacity-70`}
         >
           {isSubmitting ? 'Enviando...' : submitButtonText}
-        </button>
+        </Button>
       </div>
     </form>
   )

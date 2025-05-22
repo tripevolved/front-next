@@ -8,6 +8,7 @@ import DateRangePicker from './DateRangePicker'
 import LeadForm from './LeadForm'
 import { CreateTripRequest, TripTravelers } from '@/core/types/trip'
 import { LocalStorageService } from '@/clients/local'
+import * as fpixel from '@/utils/libs/fpixel'
 
 // Types for the wizard
 interface TripDates {
@@ -432,7 +433,7 @@ function StepContact({ onNext, onBack, formData }: { onNext: () => void, onBack:
     },
     {
       key: 'source',
-      value: 'discovery-wizard',
+      value: 'Trip Discovery Wizard',
       keyDescription: 'Fonte do lead'
     }
   ]
@@ -450,6 +451,10 @@ function StepContact({ onNext, onBack, formData }: { onNext: () => void, onBack:
       <LeadForm 
         onSuccess={onNext}
         submitButtonText="Enviar"
+        event='descobrir_viagem'
+        eventOptions={{
+          source: metadata.find(item => item.key === 'source')?.value || 'Trip Discovery Wizard'
+        }}
         additionalMetadata={metadata}
         showBackButton={true}
         onBack={onBack}
@@ -541,7 +546,10 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
   const handleFinalStep = (type: TripType) => {
     setTripType(type)
     if (hasLeadId) {
-      // If user already has a lead ID, create trip and redirect to results
+      // If user already has a lead ID, create trip and redirect to results, sending facebook event
+      fpixel.event('descobrir_viagem', {
+        source: 'Trip Discovery Wizard'
+      })
       setStep(6)
     } else {
       // Otherwise, proceed to contact form

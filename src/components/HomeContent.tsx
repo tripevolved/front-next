@@ -2,12 +2,13 @@
 
 import Image from 'next/image'
 import ExperienceCarousel from '@/components/ExperienceCarousel'
-import Link from 'next/link'
 import QuotesCarousel from '@/components/QuotesCarousel'
 import FAQ from '@/components/FAQ'
 import DestinationsSection from '@/components/DestinationsSection'
 import ContactCard from '@/components/ContactCard'
 import { useWizard } from '@/contexts/WizardContext'
+import Button from '@/components/common/Button'
+import Link from 'next/link'
 
 interface HomeContentProps {
   faqQuestions: Array<{
@@ -46,18 +47,22 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
             <p className="font-comfortaa text-xl md:text-2xl mb-8 text-white/90">
               Jornadas sob medida, pensadas para seu estilo. Porque <span className="font-bold">exclusividade</span> começa com personalização.
             </p>
-            <button 
+            <Button 
               onClick={openWizard}
+              event="pre_descobrir_viagem"
+              eventOptions={{
+                source: 'Hero Section - Home'
+              }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
               Descobrir minha viagem
-            </button>
+            </Button>
           </div>
         </div>
       </section>
 
       {/* Second Section */}
-      <section className="py-24 bg-secondary-50">
+      <section className="py-24 bg-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             {/* Content Column */}
@@ -68,16 +73,20 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
               <p className="font-comfortaa text-xl text-gray-600 mb-8">
                 Roteiros exclusivos e personalizados para você viver experiências autênticas que combinam com seu estilo de viajante. Sempre respeitando seu orçamento.
               </p>
-              <button 
+              <Button 
                 onClick={openWizard}
+                event="pre_descobrir_viagem"
+                eventOptions={{
+                  source: 'Second Section - Home'
+                }}
                 className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
               >
                 Descobrir minha viagem
-              </button>
+              </Button>
             </div>
 
             {/* Images Column */}
-            <div className="relative w-full lg:w-[30%] h-[400px]">
+            <div className="relative w-full lg:w-[30%] h-[450px]">
               <div className="absolute right-0 top-0 w-4/5 h-72 rounded-lg overflow-hidden shadow-xl">
                 <Image
                   src="/assets/home/yosemite-valley.jpg"
@@ -156,12 +165,16 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
             </div>
           </div>
           <div className="text-center">
-            <button 
+            <Button 
               onClick={openWizard}
+              event="pre_descobrir_viagem"
+              eventOptions={{
+                source: 'Como funciona Section - Home'
+              }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
               Descobrir minha viagem
-            </button>
+            </Button>
           </div>
         </div>
       </section>
@@ -180,7 +193,7 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Profile Card */}
@@ -249,12 +262,16 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
           <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-primary-900">
             Vamos começar sua jornada?
           </h2>
-          <button 
+          <Button 
             onClick={openWizard}
+            event="pre_descobrir_viagem"
+            eventOptions={{
+              source: 'Final CTA Section - Home'
+            }}
             className="font-baloo bg-primary-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-700 transition-all"
           >
             Descobrir minha viagem
-          </button>
+          </Button>
         </div>
       </section>
     </div>
