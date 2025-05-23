@@ -7,7 +7,7 @@ import NewsletterSection from '@/components/consultancy/NewsletterSection'
 import FAQSection from '@/components/consultancy/FAQSection'
 import Button from '@/components/common/Button'
 
-export default function ViagensCenicasPage() {
+export default function ParaRelaxarPage() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
 
   return (
@@ -17,8 +17,8 @@ export default function ViagensCenicasPage() {
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/consultoria/viagens-cenicas/casal-yosemite.jpg"
-            alt="Vista panorâmica do Vale do Yosemite"
+            src="/assets/consultoria/para-relaxar/hero.jpg"
+            alt="Casal relaxando com vista"
             fill
             className="object-cover"
             priority
@@ -32,13 +32,13 @@ export default function ViagensCenicasPage() {
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 relative z-10">
           <div className="max-w-2xl">
             <h1 className="font-baloo text-4xl md:text-6xl font-bold mb-6 text-white">
-              Viagens que transformam paisagens em memórias inesquecíveis a dois.
+              Sua viagem a dois. Um momento para relaxar e se reconectar.
             </h1>
             <Button 
               onClick={() => setIsContactModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
-                source: 'Hero Section - Viagens Cênicas'
+                source: 'Hero Section - Para Relaxar'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
@@ -63,14 +63,13 @@ export default function ViagensCenicasPage() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="text-primary-500">
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-white">Visuais icônicos</h3>
+                <h3 className="font-baloo text-xl font-bold text-white">Bem-estar</h3>
               </div>
               <p className="text-white/90 font-comfortaa text-lg">
-                Buscam paisagens que parecem saídas de um sonho e querem capturar cada momento especial.
+                Buscam momentos de relaxamento e cuidados com o corpo e a mente.
               </p>
             </div>
 
@@ -82,10 +81,10 @@ export default function ViagensCenicasPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-white">Alma Aventureira</h3>
+                <h3 className="font-baloo text-xl font-bold text-white">Qualidade de Vida</h3>
               </div>
               <p className="text-white/90 font-comfortaa text-lg">
-                Têm espírito explorador, mas querem segurança e conforto em cada experiência.
+                Valorizam conforto e luxo em cada detalhe da experiência.
               </p>
             </div>
 
@@ -94,13 +93,13 @@ export default function ViagensCenicasPage() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="text-primary-500">
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-white">Tranquilidade</h3>
+                <h3 className="font-baloo text-xl font-bold text-white">Tempo de Qualidade</h3>
               </div>
               <p className="text-white/90 font-comfortaa text-lg">
-                Buscam paz e conexão com a natureza, longe da correria do dia a dia.
+                Querem aproveitar cada momento juntos, sem pressões ou compromissos.
               </p>
             </div>
 
@@ -112,10 +111,10 @@ export default function ViagensCenicasPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-white">Segurança</h3>
+                <h3 className="font-baloo text-xl font-bold text-white">Tranquilidade</h3>
               </div>
               <p className="text-white/90 font-comfortaa text-lg">
-                Preocupam-se com a logística e segurança em destinos mais remotos e naturais.
+                Buscam destinos que ofereçam paz e sossego, longe do estresse.
               </p>
             </div>
 
@@ -124,13 +123,13 @@ export default function ViagensCenicasPage() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="text-primary-500">
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-white">Tempo Limitado</h3>
+                <h3 className="font-baloo text-xl font-bold text-white">Experiências Exclusivas</h3>
               </div>
               <p className="text-white/90 font-comfortaa text-lg">
-                Querem aproveitar cada minuto, sem perder tempo com planejamento e organização.
+                Desejam momentos únicos, como jantares românticos e spas privativos.
               </p>
             </div>
 
@@ -139,13 +138,13 @@ export default function ViagensCenicasPage() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="text-primary-500">
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-white">Experiências Autênticas</h3>
+                <h3 className="font-baloo text-xl font-bold text-white">Facilidade</h3>
               </div>
               <p className="text-white/90 font-comfortaa text-lg">
-                Buscam lugares fora do comum, mas temem cair em armadilhas turísticas.
+                Preferem que tudo seja organizado, para poderem apenas relaxar.
               </p>
             </div>
           </div>
@@ -154,7 +153,7 @@ export default function ViagensCenicasPage() {
               onClick={() => setIsContactModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
-                source: 'Para casais que Section - Viagens Cênicas'
+                source: 'Para casais que Section - Para Relaxar'
               }}
               className="inline-block font-baloo bg-primary-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-600 transition-all"
             >
@@ -172,16 +171,16 @@ export default function ViagensCenicasPage() {
             <div className="relative h-[600px]">
               <div className="absolute top-0 left-0 w-[65%] h-[65%] z-10">
                 <Image
-                  src="/assets/consultoria/viagens-cenicas/pacific-coast-highway.jpg"
-                  alt="Pacific Coast Highway"
+                  src="/assets/consultoria/para-relaxar/relax-paisagem.jpg"
+                  alt="Praia para relaxar"
                   fill
                   className="object-cover rounded-2xl shadow-xl"
                 />
               </div>
               <div className="absolute bottom-0 right-0 w-[65%] h-[65%]">
                 <Image
-                  src="/assets/consultoria/dolomitas-picnic.jpg"
-                  alt="Vista das Dolomitas"
+                  src="/assets/consultoria/para-relaxar/four-seasons-bahamas.jpg"
+                  alt="Resort nas Bahamas"
                   fill
                   className="object-cover rounded-2xl shadow-xl"
                 />
@@ -191,17 +190,17 @@ export default function ViagensCenicasPage() {
             {/* Content */}
             <div className="text-right">
               <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
-                Cada viagem é uma oportunidade de viver momentos que parecem impossíveis
+                Viajar é sobre buscar momentos de relaxamento únicos a dois
               </h2>
               <h3 className="font-baloo text-xl md:text-2xl font-semibold mb-8 text-primary-500">
                 A gente entende o que vocês querem viver
               </h3>
               <div className="space-y-6 text-secondary-600 font-comfortaa text-lg">
                 <p>
-                  Vocês têm uma alma aventureira e um olhar sensível para a beleza natural. Entendemos que cada vista tem seu momento ideal para ser vivida, cada trilha tem seu nível de dificuldade, e cada experiência merece ser vivida com segurança e conforto. É por isso que, antes de sugerir qualquer destino, ouvimos. Descobrimos juntos o que inspira, o que emociona, o que faz cada segundo valer a pena.
+                  Vocês têm uma rotina intensa e merecem momentos de verdadeiro descanso. Entendemos que cada casal tem sua forma de relaxar, seja em um spa de luxo, em uma praia paradisíaca ou em um resort exclusivo. É por isso que, antes de sugerir qualquer destino, ouvimos. Descobrimos juntos o que traz paz, o que renova as energias, o que faz cada momento valer a pena.
                 </p>
                 <p>
-                  Com esse entendimento, construímos uma viagem que equilibra aventura e conforto. Tudo até as experiências mais significativas — como aquele café da manhã com vista para as montanhas ou um piquenique ao pôr do sol — tudo é pensado para que vocês possam se conectar com a natureza e um com o outro, sem preocupações.
+                  Com esse entendimento, construímos uma viagem que prioriza o bem-estar. Desde a escolha do resort perfeito até as experiências mais relaxantes — como aquele jantar à beira-mar ou um tratamento de spa a dois — tudo é pensado para que vocês possam se desconectar do mundo e reconectar um com o outro, sem preocupações.
                 </p>
               </div>
             </div>
@@ -220,14 +219,14 @@ export default function ViagensCenicasPage() {
             <div className="group relative overflow-hidden rounded-xl shadow-lg">
               <div className="relative h-[400px]">
                 <Image
-                  src="/assets/consultoria/viagens-cenicas/torres-del-paine-lago-grey.jpg"
-                  alt="Torres del Paine"
+                  src="/assets/consultoria/para-relaxar/velassaru-maldivas.jpg"
+                  alt="Bangalô sobre as águas nas Maldivas"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent duration-300 flex flex-col justify-end p-6">
                   <p className="text-white font-comfortaa text-lg">
-                    Trekking nas Torres del Paine, Chile
+                    Bangalô sobre as águas nas Maldivas
                   </p>
                 </div>
               </div>
@@ -237,14 +236,14 @@ export default function ViagensCenicasPage() {
             <div className="group relative overflow-hidden rounded-xl shadow-lg">
               <div className="relative h-[400px]">
                 <Image
-                  src="/assets/consultoria/viagens-cenicas/casal-sicilia.jpg"
-                  alt="Pôr do sol em Taormina, na Sicília"
+                  src="/assets/consultoria/para-relaxar/aruba-jantar.jpg"
+                  alt="Pôr do sol em Aruba"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent duration-300 flex flex-col justify-end p-6">
                   <p className="text-white font-comfortaa text-lg">
-                    Pôr do sol em Taormina, na Sicília
+                    Jantar romântico ao pôr do sol em Aruba
                   </p>
                 </div>
               </div>
@@ -254,14 +253,14 @@ export default function ViagensCenicasPage() {
             <div className="group relative overflow-hidden rounded-xl shadow-lg">
               <div className="relative h-[400px]">
                 <Image
-                  src="/assets/consultoria/viagens-cenicas/ushuaia-arakur.jpg"
-                  alt="Ushuaia"
+                  src="/assets/consultoria/para-relaxar/redlane-spa.jpg"
+                  alt="Spa nas Bahamas"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent duration-300 flex flex-col justify-end p-6">
                   <p className="text-white font-comfortaa text-lg">
-                    Passeio de barco pelo Canal de Beagle, Ushuaia
+                    Tratamento de spa nas Bahamas
                   </p>
                 </div>
               </div>
@@ -272,7 +271,7 @@ export default function ViagensCenicasPage() {
               onClick={() => setIsContactModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
-                source: 'Momentos únicos Section - Viagens Cênicas'
+                source: 'Momentos únicos Section - Para Relaxar'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
@@ -287,10 +286,10 @@ export default function ViagensCenicasPage() {
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="text-center mb-16">
             <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
-              Do primeiro contato à última vista icônica da viagem, tudo pensado <span className="text-accent-500">com carinho e estratégia</span>
+              Do primeiro contato à última massagem no spa, tudo pensado <span className="text-accent-500">com carinho e estratégia</span>
             </h2>
             <h3 className="font-baloo text-xl md:text-2xl font-semibold text-primary-500">
-              Um processo sob medida para criar a viagem mais especial da vida de vocês
+              Um processo sob medida para criar a viagem mais relaxante da vida de vocês
             </h3>
           </div>
 
@@ -308,7 +307,7 @@ export default function ViagensCenicasPage() {
                     Reunião inicial com nossos especialistas
                   </h3>
                   <p className="text-secondary-600 font-comfortaa text-lg">
-                    Tudo começa com uma conversa leve e acolhedora. Nela, entendemos o estilo de vocês, o que esperam viver juntos e como gostam de viajar. Explicamos com clareza o nosso serviço e o que será entregue em cada etapa. Essa reunião é gratuita e feita para vocês se sentirem à vontade — sem nenhuma obrigação de seguir.
+                    Tudo começa com uma conversa leve e acolhedora. Nela, entendemos o estilo de vocês, o que esperam viver juntos e como gostam de relaxar. Explicamos com clareza o nosso serviço e o que será entregue em cada etapa. Essa reunião é gratuita e feita para vocês se sentirem à vontade — sem nenhuma obrigação de seguir.
                   </p>
                 </div>
               </div>
@@ -327,7 +326,7 @@ export default function ViagensCenicasPage() {
                     Confirmação do projeto e proposta personalizada
                   </h3>
                   <p className="text-secondary-600 font-comfortaa text-lg">
-                    Com o pagamento de R$500, damos início à criação de uma proposta sob medida. Ela inclui recomendações de destinos, voos ideais, hospedagens certeiras e um roteiro desenhado com equilíbrio, exclusividade e experiências marcantes. O valor investido é totalmente abatido no fechamento da viagem.
+                    Com o pagamento de R$500, damos início à criação de uma proposta sob medida. Ela inclui recomendações de destinos, voos ideais, resorts exclusivos e um roteiro desenhado com equilíbrio, exclusividade e momentos relaxantes. O valor investido é totalmente abatido no fechamento da viagem.
                   </p>
                 </div>
               </div>
@@ -397,7 +396,7 @@ export default function ViagensCenicasPage() {
               onClick={() => setIsContactModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
-                source: 'Como funciona Section - Viagens Cênicas'
+                source: 'Como funciona Section - Para Relaxar'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
@@ -436,7 +435,7 @@ export default function ViagensCenicasPage() {
               onClick={() => setIsContactModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
-                source: 'Por que agendar agora Section - Viagens Cênicas'
+                source: 'Por que agendar agora Section - Para Relaxar'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
@@ -474,7 +473,7 @@ export default function ViagensCenicasPage() {
       </section>
 
       {/* FAQ Section */}
-      <FAQSection source="Viagens Cênicas" />
+      <FAQSection source="Para Relaxar" />
 
       {/* Final CTA Section */}
       <section className="py-24 bg-secondary-900 text-white">
@@ -489,7 +488,7 @@ export default function ViagensCenicasPage() {
             onClick={() => setIsContactModalOpen(true)}
             event="pre_agendar"
             eventOptions={{
-              source: 'Final CTA Section - Viagens Cênicas'
+              source: 'Final CTA Section - Para Relaxar'
             }}
             className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
           >
@@ -499,7 +498,7 @@ export default function ViagensCenicasPage() {
       </section>
 
       {/* Newsletter Section */}
-      <NewsletterSection source="Viagens Cênicas" />
+      <NewsletterSection source="Para Relaxar" />
 
       {/* Contact Expert Modal */}
       <ContactExpertModal
@@ -508,7 +507,7 @@ export default function ViagensCenicasPage() {
         additionalMetadata={[
           {
             key: 'source',
-            value: 'Viagens Cênicas',
+            value: 'Para Relaxar',
             keyDescription: 'Fonte do lead'
           }
         ]}
