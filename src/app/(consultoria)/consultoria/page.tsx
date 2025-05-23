@@ -40,7 +40,7 @@ export default function ConsultoriaPage() {
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/consultoria/hero-casal.png"
+            src="/assets/consultoria/hero-casal.jpg"
             alt="Casal em viagem romântica"
             fill
             className="object-cover"
