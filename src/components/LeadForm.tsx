@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { LeadsApiService } from '@/clients/leads'
 import { LocalStorageService } from '@/clients/local'
 import { EventType } from '@/components/basic/FacebookPixel'
-import Button from './common/Button'
+import * as fpixel from '@/utils/libs/fpixel'
 
 interface LeadFormProps {
   onSuccess?: () => void
@@ -148,6 +148,11 @@ function LeadFormContent({
       
       // Reset form
       setFormData({ name: '', email: '', phone: '' })
+
+      // Send event
+      if (event) {
+        fpixel.event(event, eventOptions)
+      }
     } catch (err) {
       console.error('Error creating lead:', err)
       const errorMessage = 'Ocorreu um erro ao enviar seus dados. Por favor, tente novamente.'
@@ -229,15 +234,13 @@ function LeadFormContent({
             Voltar
           </button>
         )}
-        <Button
+        <button
           type="submit"
           disabled={isSubmitting}
-          event={event}
-          eventOptions={eventOptions}
           className={`${showBackButton ? 'flex-1' : 'w-full'} bg-primary-600 text-white font-baloo py-3 px-6 rounded-full text-lg font-semibold hover:bg-primary-700 transition-colors disabled:opacity-70`}
         >
           {isSubmitting ? 'Enviando...' : submitButtonText}
-        </Button>
+        </button>
       </div>
     </form>
   )
