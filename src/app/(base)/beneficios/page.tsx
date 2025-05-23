@@ -136,7 +136,7 @@ export default function BeneficiosPage() {
             {/* Why We Exist */}
             <div>
               <h2 className="text-3xl md:text-4xl font-baloo font-bold text-secondary-900 mb-6">
-                Porque <span className="text-primary-500">existimos</span>
+                Por que <span className="text-primary-500">existimos</span>
               </h2>
               <div className="text-secondary-600 space-y-4">
                 <p className="text-lg">

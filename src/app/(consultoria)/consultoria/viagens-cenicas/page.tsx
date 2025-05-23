@@ -7,7 +7,7 @@ import NewsletterSection from '@/components/consultancy/NewsletterSection'
 import FAQSection from '@/components/consultancy/FAQSection'
 import Button from '@/components/common/Button'
 
-export default function ConsultoriaPage() {
+export default function ViagensCenicasPage() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
 
   return (
@@ -17,8 +17,8 @@ export default function ConsultoriaPage() {
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/consultoria/hero-casal.jpg"
-            alt="Casal em viagem romântica"
+            src="/assets/consultoria/viagens-cenicas/casal-yosemite.jpg"
+            alt="Vista panorâmica do Vale do Yosemite"
             fill
             className="object-cover"
             priority
@@ -32,13 +32,13 @@ export default function ConsultoriaPage() {
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 relative z-10">
           <div className="max-w-2xl">
             <h1 className="font-baloo text-4xl md:text-6xl font-bold mb-6 text-white">
-              Sua viagem a dois. Com experiências que vocês não conseguem encontrar sozinhos.
+              Viagens que transformam paisagens em memórias inesquecíveis a dois.
             </h1>
             <Button 
               onClick={() => setIsContactModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
-                source: 'Hero Section - Consultoria'
+                source: 'Hero Section - Viagens Cênicas'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
@@ -52,10 +52,10 @@ export default function ConsultoriaPage() {
       <section className="py-24 bg-secondary-500">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-4 text-white">
-            <span className="text-accent-500">Não é pacote</span>. A data vocês escolhem, no hotel que vocês preferirem, com experiências inesquecíveis!
+            <span className="text-accent-500">Não é pacote</span>. Tudo começa por vocês e o que desejam viver.
           </h2>
           <h3 className="font-baloo text-xl md:text-2xl font-semibold mb-8 text-white">
-            Você não precisa se preocupar com nada. Deixe que a gente cuide dos detalhes
+            Para casais que...
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {/* Card 1 */}
@@ -63,13 +63,14 @@ export default function ConsultoriaPage() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="text-primary-500">
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-white">Personalização Total</h3>
+                <h3 className="font-baloo text-xl font-bold text-white">Visuais icônicos</h3>
               </div>
               <p className="text-white/90 font-comfortaa text-lg">
-                Vocês não querem um pacote pronto nem viver o mesmo roteiro que todo mundo.
+                Buscam paisagens que parecem saídas de um sonho e querem capturar cada momento especial.
               </p>
             </div>
 
@@ -78,13 +79,13 @@ export default function ConsultoriaPage() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="text-primary-500">
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-white">Reconexão</h3>
+                <h3 className="font-baloo text-xl font-bold text-white">Alma Aventureira</h3>
               </div>
               <p className="text-white/90 font-comfortaa text-lg">
-                Vivem uma rotina corrida e querem reencontrar a conexão do casal
+                Têm espírito explorador, mas querem segurança e conforto em cada experiência.
               </p>
             </div>
 
@@ -93,13 +94,13 @@ export default function ConsultoriaPage() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="text-primary-500">
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-white">Momentos únicos</h3>
+                <h3 className="font-baloo text-xl font-bold text-white">Tranquilidade</h3>
               </div>
               <p className="text-white/90 font-comfortaa text-lg">
-                Valorizam experiências autênticas, mas tem medo de ciladas turísticas
+                Buscam paz e conexão com a natureza, longe da correria do dia a dia.
               </p>
             </div>
 
@@ -108,13 +109,13 @@ export default function ConsultoriaPage() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="text-primary-500">
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-white">Conhecimento especializado</h3>
+                <h3 className="font-baloo text-xl font-bold text-white">Segurança</h3>
               </div>
               <p className="text-white/90 font-comfortaa text-lg">
-                Pesquisam muito, mas sentem que falta algo com todo o conteúdo online
+                Preocupam-se com a logística e segurança em destinos mais remotos e naturais.
               </p>
             </div>
 
@@ -123,13 +124,13 @@ export default function ConsultoriaPage() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="text-primary-500">
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-white">Tranquilidade</h3>
+                <h3 className="font-baloo text-xl font-bold text-white">Tempo Limitado</h3>
               </div>
               <p className="text-white/90 font-comfortaa text-lg">
-                Querem facilidade e segurança na organização, para poderem apenas aproveitar
+                Querem aproveitar cada minuto, sem perder tempo com planejamento e organização.
               </p>
             </div>
 
@@ -138,13 +139,13 @@ export default function ConsultoriaPage() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="text-primary-500">
                   <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-white">Correria do dia a dia</h3>
+                <h3 className="font-baloo text-xl font-bold text-white">Experiências Autênticas</h3>
               </div>
               <p className="text-white/90 font-comfortaa text-lg">
-                Falta tempo para encontrar a experiência certa e sobrecarrega uma pessoa do casal
+                Buscam lugares fora do comum, mas temem cair em armadilhas turísticas.
               </p>
             </div>
           </div>
@@ -153,7 +154,7 @@ export default function ConsultoriaPage() {
               onClick={() => setIsContactModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
-                source: 'Para casais que Section - Consultoria'
+                source: 'Para casais que Section - Viagens Cênicas'
               }}
               className="inline-block font-baloo bg-primary-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-600 transition-all"
             >
@@ -171,16 +172,16 @@ export default function ConsultoriaPage() {
             <div className="relative h-[600px]">
               <div className="absolute top-0 left-0 w-[65%] h-[65%] z-10">
                 <Image
-                  src="/assets/consultoria/casal-praia.png"
-                  alt="Casal na praia"
+                  src="/assets/consultoria/viagens-cenicas/pacific-coast-highway.jpg"
+                  alt="Pacific Coast Highway"
                   fill
                   className="object-cover rounded-2xl shadow-xl"
                 />
               </div>
               <div className="absolute bottom-0 right-0 w-[65%] h-[65%]">
                 <Image
-                  src="/assets/consultoria/casal-jantar.png"
-                  alt="Casal em jantar romântico"
+                  src="/assets/consultoria/dolomitas-picnic.jpg"
+                  alt="Vista das Dolomitas"
                   fill
                   className="object-cover rounded-2xl shadow-xl"
                 />
@@ -190,17 +191,17 @@ export default function ConsultoriaPage() {
             {/* Content */}
             <div className="text-right">
               <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
-                Cada viagem é pensada com vocês no centro de tudo
+                Cada viagem é uma oportunidade de viver momentos que parecem impossíveis
               </h2>
               <h3 className="font-baloo text-xl md:text-2xl font-semibold mb-8 text-primary-500">
                 A gente entende o que vocês querem viver
               </h3>
               <div className="space-y-6 text-secondary-600 font-comfortaa text-lg">
                 <p>
-                  Vocês têm uma rotina intensa, pouco tempo a dois e um desejo comum: viver momentos que realmente façam sentido. Nós entendemos isso. É por isso que, antes de sugerir qualquer destino, ouvimos. Descobrimos juntos o que inspira, o que emociona, o que faz cada segundo valer a pena.
+                  Vocês têm uma alma aventureira e um olhar sensível para a beleza natural. Entendemos que cada vista tem seu momento ideal para ser vivida, cada trilha tem seu nível de dificuldade, e cada experiência merece ser vivida com segurança e conforto. É por isso que, antes de sugerir qualquer destino, ouvimos. Descobrimos juntos o que inspira, o que emociona, o que faz cada segundo valer a pena.
                 </p>
                 <p>
-                  Com esse entendimento, construímos uma viagem com propósito. Desde a escolha da hospedagem perfeita até as experiências mais significativas — como aquele jantar especial ou um passeio inesperado — tudo ganha um ritmo que acompanha o casal. Assim, a viagem se torna uma história criada a partir de quem vocês são.
+                  Com esse entendimento, construímos uma viagem que equilibra aventura e conforto. Tudo até as experiências mais significativas — como aquele café da manhã com vista para as montanhas ou um piquenique ao pôr do sol — tudo é pensado para que vocês possam se conectar com a natureza e um com o outro, sem preocupações.
                 </p>
               </div>
             </div>
@@ -219,14 +220,14 @@ export default function ConsultoriaPage() {
             <div className="group relative overflow-hidden rounded-xl shadow-lg">
               <div className="relative h-[400px]">
                 <Image
-                  src="/assets/consultoria/curacao-sunset.png"
-                  alt="Jantar à beira-mar em Curaçao"
+                  src="/assets/consultoria/viagens-cenicas/torres-del-paine-lago-grey.jpg"
+                  alt="Torres del Paine"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent duration-300 flex flex-col justify-end p-6">
                   <p className="text-white font-comfortaa text-lg">
-                    Jantar à beira-mar com pôr-do-sol em Curaçao
+                    Trekking nas Torres del Paine, Chile
                   </p>
                 </div>
               </div>
@@ -236,14 +237,14 @@ export default function ConsultoriaPage() {
             <div className="group relative overflow-hidden rounded-xl shadow-lg">
               <div className="relative h-[400px]">
                 <Image
-                  src="/assets/consultoria/dolomitas-picnic.jpg"
-                  alt="Piquenique nas Dolomitas"
+                  src="/assets/consultoria/viagens-cenicas/casal-sicilia.jpg"
+                  alt="Pôr do sol em Taormina, na Sicília"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent duration-300 flex flex-col justify-end p-6">
                   <p className="text-white font-comfortaa text-lg">
-                    Piquenique a dois no verão nas Dolomitas, Itália
+                    Pôr do sol em Taormina, na Sicília
                   </p>
                 </div>
               </div>
@@ -253,14 +254,14 @@ export default function ConsultoriaPage() {
             <div className="group relative overflow-hidden rounded-xl shadow-lg">
               <div className="relative h-[400px]">
                 <Image
-                  src="/assets/consultoria/yosemite-trail.png"
-                  alt="Trilha em Yosemite"
+                  src="/assets/consultoria/viagens-cenicas/ushuaia-arakur.jpg"
+                  alt="Ushuaia"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent duration-300 flex flex-col justify-end p-6">
                   <p className="text-white font-comfortaa text-lg">
-                    Um trilha leve e paisagens incríveis em Yosemite, na Califórnia
+                    Passeio de barco pelo Canal de Beagle, Ushuaia
                   </p>
                 </div>
               </div>
@@ -271,7 +272,7 @@ export default function ConsultoriaPage() {
               onClick={() => setIsContactModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
-                source: 'Momentos únicos Section - Consultoria'
+                source: 'Momentos únicos Section - Viagens Cênicas'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
@@ -286,7 +287,7 @@ export default function ConsultoriaPage() {
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="text-center mb-16">
             <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
-              Do primeiro contato ao último brinde da viagem, tudo pensado <span className="text-accent-500">com carinho e estratégia</span>
+              Do primeiro contato à última vista icônica da viagem, tudo pensado <span className="text-accent-500">com carinho e estratégia</span>
             </h2>
             <h3 className="font-baloo text-xl md:text-2xl font-semibold text-primary-500">
               Um processo sob medida para criar a viagem mais especial da vida de vocês
@@ -396,7 +397,7 @@ export default function ConsultoriaPage() {
               onClick={() => setIsContactModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
-                source: 'Como funciona Section - Consultoria'
+                source: 'Como funciona Section - Viagens Cênicas'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
@@ -435,7 +436,7 @@ export default function ConsultoriaPage() {
               onClick={() => setIsContactModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
-                source: 'Por que agendar agora Section - Consultoria'
+                source: 'Por que agendar agora Section - Viagens Cênicas'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
@@ -473,7 +474,7 @@ export default function ConsultoriaPage() {
       </section>
 
       {/* FAQ Section */}
-      <FAQSection source="Consultoria" />
+      <FAQSection source="Viagens Cênicas" />
 
       {/* Final CTA Section */}
       <section className="py-24 bg-secondary-900 text-white">
@@ -488,7 +489,7 @@ export default function ConsultoriaPage() {
             onClick={() => setIsContactModalOpen(true)}
             event="pre_agendar"
             eventOptions={{
-              source: 'Final CTA Section - Consultoria'
+              source: 'Final CTA Section - Viagens Cênicas'
             }}
             className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
           >
@@ -498,7 +499,7 @@ export default function ConsultoriaPage() {
       </section>
 
       {/* Newsletter Section */}
-      <NewsletterSection source="Consultoria" />
+      <NewsletterSection source="Viagens Cênicas" />
 
       {/* Contact Expert Modal */}
       <ContactExpertModal
@@ -507,7 +508,7 @@ export default function ConsultoriaPage() {
         additionalMetadata={[
           {
             key: 'source',
-            value: 'Consultoria',
+            value: 'Viagens Cênicas',
             keyDescription: 'Fonte do lead'
           }
         ]}
