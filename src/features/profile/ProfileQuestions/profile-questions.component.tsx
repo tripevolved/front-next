@@ -70,7 +70,7 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
       await delay(2000);
       handleFinish(attempts - 1);
     } else {
-      await router.replace(`/perfil/${profileSlug.current}`);
+      await router.replace(`/tipo-perfil/${profileSlug.current}`);
       leadUpdate({ profile: { slug: profileSlug.current } });
     }
   };
