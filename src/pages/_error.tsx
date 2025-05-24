@@ -1,24 +1,13 @@
-import type { GetStaticProps } from "next";
-import type { PageProps } from "@/core/types";
-import { NextSeo } from "next-seo";
-import { pageConfig } from "@/core/configs/page.config";
-import { AppRibo } from "@/core/app-ribo";
-import { CMSService } from "@/services/cms/cms-service";
+import { PageApp } from "@/features";
+import { EmptyState } from "@/ui";
 
-export default function PageError({ seo, ...children }: PageProps) {
+export default function ErrorPage() {
   return (
-    <>
-      <NextSeo {...seo} />
-      <AppRibo>{children}</AppRibo>
-    </>
+    <PageApp
+      headerOptions={{ backUrl: "/", title: "Voltar" }}
+      seo={{ title: "Página não encontrada" }}
+    >
+      <EmptyState />
+    </PageApp>
   );
 }
-
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const props = await CMSService.getPageError();
-    return { props, ...pageConfig.staticProps };
-  } catch (error) {
-    return { props: {}, ...pageConfig.staticProps };
-  }
-};

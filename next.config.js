@@ -4,9 +4,6 @@ const { withNextVideo } = require('next-video/process');
 const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
-  experimental: {
-    appDir: false,
-  },
   sassOptions: {
     includePaths: ['./src'],
   },
@@ -18,7 +15,7 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-  },
+  }
 };
 
 module.exports = withNextVideo(nextConfig);
