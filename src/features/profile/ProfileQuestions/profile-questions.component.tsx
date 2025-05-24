@@ -10,7 +10,7 @@ import { Picture, SectionBase, StepsLoader } from "@/ui";
 import { ProfileQuestionsForm } from "./profile-questions-form";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/async.helpers";
-import { LeadForm } from "@/features";
+import LeadForm from "@/components/LeadForm";
 import { useAppStore } from "@/core/store";
 import { Text } from "@/ui";
 
@@ -75,6 +75,13 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
     }
   };
 
+  const handleLeadSuccess = () => {
+    const email = lead.email;
+    if (email) {
+      sendAnswers(email);
+    }
+  };
+
   return (
     <SectionBase className="profile-questions" container={"xs" as any} {...props}>
       <Picture
@@ -97,9 +104,20 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
               </Text>
             </div>
             <LeadForm
-              gap={16}
-              onSubmitCallback={({ email }) => sendAnswers(email)}
-              cta={{ children: "Descobrir meu perfil" }}
+              submitButtonText="Descobrir meu perfil"
+              onSuccess={handleLeadSuccess}
+              additionalMetadata={[
+                {
+                  key: "source",
+                  value: "perfil_viajante",
+                  keyDescription: "Origem do Lead"
+                },
+                {
+                  key: "answers",
+                  value: JSON.stringify(answers.current),
+                  keyDescription: "Respostas do Perfil"
+                }
+              ]}
             />
           </Card>
         ) : (

@@ -1,9 +1,8 @@
-@import "~mars-ds/dist/tokens/scss/variables.scss";
-@import "~mars-ds/dist/tokens/scss/breakpoints.scss";
+@use "~mars-ds/dist/tokens/scss/variables.scss" as *;
+@use "~mars-ds/dist/tokens/scss/breakpoints.scss" as *;
+@use "./theme.scss" as *;
+@use "./global.scss" as *;
 @import "~mars-ds/dist/index.css";
-
-@import "./theme.scss";
-@import "./global.scss";
 
 @import "../components/index.scss";
 @import "../../features/index.scss";
