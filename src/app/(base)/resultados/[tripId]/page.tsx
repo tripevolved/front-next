@@ -27,7 +27,7 @@ export default function TripResultsPage() {
         if (proposal && proposal.mainChoice) {
           setTripProposal(proposal);
         } else {
-          setError(true);
+          setError(true); 
         }
       } catch (error) {
         console.error("Failed to fetch trip proposal:", error);
@@ -49,7 +49,7 @@ export default function TripResultsPage() {
         isPublic
         fallback={() =>
           router.push(
-            "/resultados?message=Infelizmente%2C%20n%C3%A3o%20encontramos%20sua%20viagem%2C%20mas%20voc%C3%AA%20pode%20descobrir%20seu%20destino%20ideal."
+            "/resultados?message=Infelizmente%2C%20n%C3%A3o%20encontramos%20o%20destino%20ideal%20para%20sua%20viagem%2C%20mas%20voc%C3%AA%20pode%20rever%20seus%20objetivos%20e%20tentar%20novamente."
           )
         }
         setDestinationById={async (tripId) => {

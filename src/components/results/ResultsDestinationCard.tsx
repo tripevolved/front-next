@@ -5,6 +5,7 @@ export interface ResultsDestinationCardProps {
   destination: TripMatchedDestination;
   onWantToGo: (id: string) => void;
   isLarge?: boolean;
+  isMainChoice?: boolean;
 }
 
 // Profile mapping for feature icons
@@ -20,11 +21,12 @@ const profileIcons: Record<string, string> = {
 export function ResultsDestinationCard({
   destination,
   onWantToGo,
+  isMainChoice = false,
   isLarge = false,
 }: ResultsDestinationCardProps) {
   // Get match level based on the match score
   const getMatchLevel = () => {
-    if (destination.matchScore >= 90) return "muito-alto";
+    if (isMainChoice || destination.matchScore >= 90) return "muito-alto";
     if (destination.matchScore >= 85) return "alto";
     return "bom";
   };
@@ -36,27 +38,21 @@ export function ResultsDestinationCard({
     switch (matchLevel) {
       case "muito-alto":
         return {
-          text: "Match muito alto",
+          text: "Ideal para sua viagem",
           icon: "🎯",
-          color: "bg-secondary-600",
+          color: "bg-accent-600",
         };
       case "alto":
         return {
-          text: "Match alto",
+          text: "Ótima opção",
           icon: "🎯",
-          color: "bg-secondary-500",
-        };
-      case "bom":
-        return {
-          text: "Match bom",
-          icon: "🎯",
-          color: "bg-secondary-400",
+          color: "bg-secondary-600",
         };
       default:
         return {
-          text: "Match",
+          text: "Boa opção",
           icon: "🎯",
-          color: "bg-gray-400",
+          color: "bg-secondary-400",
         };
     }
   };
@@ -119,20 +115,11 @@ export function ResultsDestinationCard({
         </div>
 
         {/* Title and description at bottom */}
-        <div className="absolute bottom-16 left-4 right-4 text-white">
+        <div className="absolute bottom-8 left-4 right-4 text-white">
           <h2 className="text-xl font-baloo font-bold mb-1">{destination.name}</h2>
           <p className="text-white/90 text-sm line-clamp-2">
-            {destination.description || "Destino personalizado para você."}
+            {destination.details || "Destino selecionado para você, esperando uma viagem incrível."}
           </p>
-        </div>
-
-        {/* Price at bottom right */}
-        <div className="absolute bottom-4 right-4">
-          <div className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-lg shadow-md">
-            <div className="text-accent-600 font-bold text-sm">
-              A partir de R$ {destination.price.toLocaleString("pt-BR")}
-            </div>
-          </div>
         </div>
       </div>
     </div>
