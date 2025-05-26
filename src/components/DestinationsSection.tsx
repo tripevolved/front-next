@@ -72,7 +72,7 @@ export default function DestinationsSection() {
             <DestinationCard
               key={destination.destinationId}
               title={destination.name}
-              image={destination.coverImage?.sources.find(source => source.type === 'md')?.url || ''}
+              image={destination.coverImage?.sources.find(source => source.type === 'md')?.url || '/assets/destino/no-image-background.jpg'}
               profile={destination.travelerProfile}
               link={`/destinos/${destination.uniqueName}`}
             />
