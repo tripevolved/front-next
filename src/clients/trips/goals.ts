@@ -8,4 +8,4 @@ export interface TripGoal {
 export const getGoals = async (tripType: string): Promise<TripGoal[]> => {
   const response = await ApiRequest.get<TripGoal[]>(`/trips/goals?travelerType=${tripType}`)
   return response
-} 
+}

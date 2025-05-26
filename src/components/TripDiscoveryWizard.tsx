@@ -514,6 +514,16 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
     month: tripDates?.month || null
   }
 
+  const handleOnClose = () => {
+    onClose()
+    setStep(1)
+    setTripDates(null)
+    setTripGoals(null)
+    setTripProfile(null)
+    setTripType(null)
+    setUserInfo(null)
+  }
+
   const handleDatesNext = (dates: TripDates) => {
     setTripDates(dates)
     setStep(2)
@@ -589,10 +599,11 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
       
       // Redirect to the results page with the trip ID
       router.push(`/resultados/${id}`)
-      onClose();
+      handleOnClose();
     } catch (err) {
       console.error('Error creating trip:', err)
       router.push(`/resultados/?message=${"Houve um erro ao criar a viagem. Por favor, tente novamente."}`)
+      handleOnClose();
     }
   }
 
@@ -603,7 +614,7 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
       <div className="bg-white rounded-lg max-w-2xl w-full relative">
         {/* Close button */}
         <button 
-          onClick={onClose}
+          onClick={handleOnClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
           aria-label="Fechar modal"
         >
