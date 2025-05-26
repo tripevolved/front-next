@@ -63,6 +63,7 @@ export function ResultsTrip({
                 destination={tripProposal.mainChoice}
                 isLarge={true}
                 onWantToGo={setDestinationById}
+                isMainChoice={true}
               />
             </div>
           )}
