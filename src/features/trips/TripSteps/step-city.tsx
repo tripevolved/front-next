@@ -14,16 +14,22 @@ import { useRef, useState } from "react";
 
 type StepCityProps = {
   title: string;
-  onSelectCity?: (cityData: {
-    destinationId: string;
-    minExpectedDailyCost: number;
-    maxExpectedDailyCost: number;
-  }) => void;
+  onSelectCity?: (
+    value:
+      | {
+          destinationId: string;
+          minExpectedDailyCost: number;
+          maxExpectedDailyCost: number;
+        }
+      | string
+  ) => Promise<void>;
   isLoading?: boolean;
-  fetcher: (
-    search: string
-  ) => Promise<
-    { id: string; name: string; minExpectedDailyCost: number; maxExpectedDailyCost: number }[]
+  fetcher: (search: string) => Promise<
+    | { id: string; name: string; minExpectedDailyCost: number; maxExpectedDailyCost: number }[]
+    | {
+        id: string;
+        name: string;
+      }[]
   >;
 };
 
@@ -62,10 +68,25 @@ export function StepCity({ onSelectCity: onSubmit, title, isLoading, fetcher }: 
     try {
       setLoading(true);
       const cities = await fetcher(search);
-      const newOptions = cities.map(({ name, id, maxExpectedDailyCost, minExpectedDailyCost }) => ({
-        label: name,
-        value: `id-${id}-min-cost${minExpectedDailyCost}-maxcost-${maxExpectedDailyCost}`,
-      }));
+      const newOptions = cities.map(
+        (city: {
+          id: string;
+          name: string;
+          minExpectedDailyCost?: number;
+          maxExpectedDailyCost?: number;
+        }) => {
+          const { name, id } = city;
+          const minExpectedDailyCost = city.minExpectedDailyCost;
+          const maxExpectedDailyCost = city.maxExpectedDailyCost;
+          return {
+            label: name,
+            value:
+              minExpectedDailyCost && maxExpectedDailyCost
+                ? `id-${id}-min-cost${minExpectedDailyCost}-maxcost-${maxExpectedDailyCost}`
+                : id,
+          };
+        }
+      );
       setOptions(newOptions);
       setEmpty(newOptions.length === 0);
     } catch (error) {

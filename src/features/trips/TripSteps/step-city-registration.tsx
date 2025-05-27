@@ -10,7 +10,7 @@ export function StepCityRegistration({ onNext, onPrevious }: StepComponentProps)
     onNext();
   }
 
-  const onSubmit = async (cityId: string) => {
+  const onSubmit = async (cityId: any) => {
     await RegisterApiService.putRegisterCity({
       cityId,
       travelerId,
