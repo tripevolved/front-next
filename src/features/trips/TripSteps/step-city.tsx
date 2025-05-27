@@ -36,8 +36,8 @@ type StepCityProps = {
 export function StepCity({ onSelectCity: onSubmit, title, isLoading, fetcher }: StepCityProps) {
   const [cityData, setCityData] = useState<{
     cityId: string;
-    minExpectedDailyCost: number;
-    maxExpectedDailyCost: number;
+    minExpectedDailyCost?: number;
+    maxExpectedDailyCost?: number;
   } | null>(null);
   const [options, setOptions] = useState<RadioOption[]>([]);
 
@@ -49,8 +49,9 @@ export function StepCity({ onSelectCity: onSubmit, title, isLoading, fetcher }: 
   const debounce = useRef(0);
 
   function parseCityValue(value?: string) {
-    const match = value?.match(/\id-(.+)-min-cost(\d+)-maxcost-(\d+)/);
-    if (!match) return null;
+    if (!value) return null;
+    const match = value.match(/^id-(.+)-min-cost-(\d+)-maxcost-(\d+)$/);
+    if (!match) return { cityId: value };
     return {
       cityId: match[1],
       minExpectedDailyCost: Number(match[2]),
@@ -82,7 +83,7 @@ export function StepCity({ onSelectCity: onSubmit, title, isLoading, fetcher }: 
             label: name,
             value:
               minExpectedDailyCost && maxExpectedDailyCost
-                ? `id-${id}-min-cost${minExpectedDailyCost}-maxcost-${maxExpectedDailyCost}`
+                ? `id-${id}-min-cost-${minExpectedDailyCost}-maxcost-${maxExpectedDailyCost}`
                 : id,
           };
         }
