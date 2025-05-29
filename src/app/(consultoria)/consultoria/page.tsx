@@ -259,7 +259,7 @@ export default function ConsultoriaPage() {
                 </div>
                 <div>
                   <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Sessão "onde ir"
+                    Sessão &quot;onde ir&quot;
                   </h3>
                   <p className="text-secondary-600 font-comfortaa text-lg">
                     Tudo começa com uma conversa leve e acolhedora. Nela, entendemos o estilo de vocês, o que esperam viver juntos e como gostam de viajar. Essa reunião é gratuita e feita para vocês se sentirem à vontade — sem nenhuma obrigação de seguir.
