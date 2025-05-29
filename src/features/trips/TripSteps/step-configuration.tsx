@@ -1,24 +1,28 @@
 import type { StepComponentProps } from "@/features";
 import { DatePicker, Text } from "@/ui";
+import { useState } from "react";
+import { differenceInDays, max } from "date-fns";
 import { formatToCurrencyBR } from "@/utils/helpers/number.helpers";
 import { Button, Grid, Slider, SubmitButton } from "mars-ds";
-import { useState } from "react";
-import { differenceInDays } from "date-fns";
 
 interface StepConfigurationProps extends StepComponentProps {
   budget?: number;
   endDate?: string;
   startDate?: string;
+  minExpectedDailyCost?: number;
+  maxExpectedDailyCost?: number;
   showPrevious?: boolean;
 }
 
 export function StepConfiguration({
   onNext,
-  onPrevious,
   endDate,
-  budget = 4000,
   startDate,
+  minExpectedDailyCost,
+  maxExpectedDailyCost,
+  budget = 4000,
   showPrevious,
+  onPrevious,
 }: StepConfigurationProps) {
   const defaultDates = [
     startDate ? new Date(startDate) : undefined,
@@ -34,7 +38,8 @@ export function StepConfiguration({
 
   const isDisabled = !dates[0] || !dates[1] || days < 2;
 
-  const handleSubmit = async () => onNext({ dates, days, maxBudget });
+  const handleSubmit = async () =>
+    onNext({ dates, days, maxBudget, minExpectedDailyCost, maxExpectedDailyCost });
 
   return (
     <Grid gap={24}>
@@ -53,18 +58,54 @@ export function StepConfiguration({
           setDays(daysAmount);
         }}
       />
-      <Text heading size="xs" className="mt-md">
-        Até quanto pode gastar ao total?
-      </Text>
-      <Slider
-        name="maxBudget"
-        formatter={formatToCurrencyBR}
-        min={500}
-        max={50000}
-        defaultValue={maxBudget}
-        onSelect={setMaxBudget}
-        step={500}
-      />
+
+      {minExpectedDailyCost && maxExpectedDailyCost ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "5px",
+          }}
+        >
+          <Text
+            size="xl"
+            variant="default"
+            style={{
+              color: "var(--color-brand-1)",
+              fontWeight: 600,
+            }}
+          >
+            Valor médio pela experiência :
+          </Text>
+          <Text
+            size="xl"
+            variant="default"
+            style={{
+              margin: 0,
+              color: "var(--color-brand-2)",
+              fontWeight: 600,
+            }}
+          >
+            {formatToCurrencyBR((maxExpectedDailyCost + minExpectedDailyCost) / 2)}
+          </Text>
+        </div>
+      ) : (
+        <>
+          <Text heading size="xs" className="mt-md">
+            Até quanto pode gastar ao total?
+          </Text>
+          <Slider
+            name="maxBudget"
+            formatter={formatToCurrencyBR}
+            min={500}
+            max={50000}
+            defaultValue={maxBudget}
+            onSelect={setMaxBudget}
+            step={500}
+          />
+        </>
+      )}
 
       <div className="mt-md profile-questions-navigation">
         {showPrevious && (
@@ -77,12 +118,11 @@ export function StepConfiguration({
             Anterior
           </Button>
         )}
-
         <SubmitButton
+          className="profile-questions-navigation__next"
           variant="tertiary"
           disabled={isDisabled}
           onClick={handleSubmit}
-          className="profile-questions-navigation__next"
         >
           Continuar
         </SubmitButton>
