@@ -143,6 +143,99 @@ export default function ParaOndeIrPage() {
         </div>
       </section>
 
+      {/* Guide Preview Section */}
+      <section className="py-24 bg-secondary-50">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+            {/* Images Grid */}
+            <div className="lg:col-span-2 relative">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Image 1 */}
+                <div className="relative h-[400px] transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+                  <Image
+                    src="/assets/consultoria/para-onde-ir/guide_1.jpg"
+                    alt="Preview do guia de destinos"
+                    fill
+                    className="object-cover rounded-xl shadow-xl"
+                  />
+                </div>
+                {/* Image 2 */}
+                <div className="relative h-[400px] transform rotate-3 hover:rotate-0 transition-transform duration-300">
+                  <Image
+                    src="/assets/consultoria/para-onde-ir/guide_2.jpg"
+                    alt="Preview do guia de destinos"
+                    fill
+                    className="object-cover rounded-xl shadow-xl"
+                  />
+                </div>
+                {/* Image 3 */}
+                <div className="relative h-[400px] transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+                  <Image
+                    src="/assets/consultoria/para-onde-ir/guide_3.jpg"
+                    alt="Preview do guia de destinos"
+                    fill
+                    className="object-cover rounded-xl shadow-xl"
+                  />
+                </div>
+                {/* Image 4 */}
+                <div className="relative h-[400px] transform rotate-3 hover:rotate-0 transition-transform duration-300">
+                  <Image
+                    src="/assets/consultoria/para-onde-ir/guide_4.jpg"
+                    alt="Preview do guia de destinos"
+                    fill
+                    className="object-cover rounded-xl shadow-xl"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div>
+              <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
+                Um guia completo e <span className="text-accent-500">personalizado</span>
+              </h2>
+              <p className="text-secondary-600 font-comfortaa text-lg mb-6">
+                Receba um guia detalhado com 3 destinos cuidadosamente selecionados para vocês. Cada destino inclui:
+              </p>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center text-white font-bold">
+                    ✓
+                  </div>
+                  <p className="text-secondary-600 font-comfortaa text-lg">
+                    3 lugares imperdíveis para conhecer
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center text-white font-bold">
+                    ✓
+                  </div>
+                  <p className="text-secondary-600 font-comfortaa text-lg">
+                    Recomendação de hotel ideal para o seu perfil
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center text-white font-bold">
+                    ✓
+                  </div>
+                  <p className="text-secondary-600 font-comfortaa text-lg">
+                    Informações práticas sobre cada destino
+                  </p>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center text-white font-bold">
+                    ✓
+                  </div>
+                  <p className="text-secondary-600 font-comfortaa text-lg">
+                    Dicas exclusivas para aproveitar ao máximo
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Trip Evolved Section */}
       <TripEvolvedSection />
 
