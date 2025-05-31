@@ -5,9 +5,11 @@ import { useState } from 'react'
 import ContactExpertModal from '@/components/ContactExpertModal'
 import TripEvolvedSection from '@/components/consultancy/TripEvolvedSection'
 import Button from '@/components/common/Button'
+import DestinoPerfeitoWizard from '@/components/consultancy/DestinoPerfeitoWizard'
 
 export default function ParaOndeIrPage() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
+  const [isWizardOpen, setIsWizardOpen] = useState(false)
 
   return (
     <div className="flex flex-col">
@@ -16,7 +18,7 @@ export default function ParaOndeIrPage() {
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/consultoria/para-onde-ir/hero-casal.jpg"
+            src="/assets/consultoria/para-onde-ir/miamihero.jpg"
             alt="Casal em viagem romântica"
             fill
             className="object-cover"
@@ -37,7 +39,7 @@ export default function ParaOndeIrPage() {
               Um guia personalizado com 3 destinos ideais para sua próxima viagem, baseado no seu perfil, objetivos e sonhos.
             </p>
             <Button 
-              onClick={() => setIsContactModalOpen(true)}
+              onClick={() => setIsWizardOpen(true)}
               event="pre_agendar"
               eventOptions={{
                 source: 'Hero Section - Destino Perfeito'
@@ -118,19 +120,46 @@ export default function ParaOndeIrPage() {
           {/* Bonus Section */}
           <div className="bg-primary-50 p-8 rounded-xl mb-16">
             <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-8 text-center">
-              Bônus exclusivo: Sessão de orientação
+              Bônus exclusivos para sua experiência ser ainda mais especial
             </h3>
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <p className="text-secondary-600 font-comfortaa text-lg text-center">
-                30 minutos com um de nossos especialistas para revisar seu guia e explicar cada decisão tomada, garantindo que você entenda perfeitamente por que cada destino foi escolhido para vocês. É a nossa experiência a seu favor para tomar a melhor decisão para a viagem.
-              </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-white p-6 rounded-xl shadow-md">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="text-accent-500">
+                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                    </svg>
+                  </div>
+                  <h4 className="font-baloo text-xl font-bold text-secondary-900">
+                    Sessão de orientação
+                  </h4>
+                </div>
+                <p className="text-secondary-600 font-comfortaa text-lg">
+                  30 minutos com um de nossos especialistas para revisar seu guia e explicar cada decisão tomada, garantindo que você entenda perfeitamente por que cada destino foi escolhido para vocês. É a nossa experiência a seu favor para tomar a melhor decisão para a viagem.
+                </p>
+              </div>
+              <div className="bg-white p-6 rounded-xl shadow-md">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="text-accent-500">
+                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                  </div>
+                  <h4 className="font-baloo text-xl font-bold text-secondary-900">
+                    Dicas gastronômicas exclusivas
+                  </h4>
+                </div>
+                <p className="text-secondary-600 font-comfortaa text-lg">
+                  3 dicas gastronômicas, com restaurantes e experiências locais para você explorar. Descubra os sabores autênticos de cada destino e viva experiências únicas na gastronomia local.
+                </p>
+              </div>
             </div>
           </div>
 
           {/* CTA Section */}
           <div className="text-center">
             <Button 
-              onClick={() => setIsContactModalOpen(true)}
+              onClick={() => setIsWizardOpen(true)}
               event="pre_agendar"
               eventOptions={{
                 source: 'Como funciona Section - Destino Perfeito'
@@ -203,7 +232,7 @@ export default function ParaOndeIrPage() {
                     ✓
                   </div>
                   <p className="text-secondary-600 font-comfortaa text-lg">
-                    3 lugares imperdíveis para conhecer
+                    3 experiências únicas que combinam com você
                   </p>
                 </li>
                 <li className="flex items-start gap-3">
@@ -230,6 +259,14 @@ export default function ParaOndeIrPage() {
                     Dicas exclusivas para aproveitar ao máximo
                   </p>
                 </li>
+                <li className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center text-white font-bold">
+                    ✓
+                  </div>
+                  <p className="text-secondary-600 font-comfortaa text-lg">
+                    3 dicas gastronômicas, com restaurantes e experiências locais para você explorar
+                  </p>
+                </li>
               </ul>
             </div>
           </div>
@@ -249,7 +286,7 @@ export default function ParaOndeIrPage() {
             Agende uma reunião com nossos especialistas e comece a planejar sua próxima aventura hoje mesmo.
           </p>
           <Button
-            onClick={() => setIsContactModalOpen(true)}
+            onClick={() => setIsWizardOpen(true)}
             event="pre_agendar"
             eventOptions={{
               source: 'Final CTA Section - Destino Perfeito'
@@ -272,6 +309,12 @@ export default function ParaOndeIrPage() {
             keyDescription: 'Fonte do lead'
           }
         ]}
+      />
+
+      {/* Destino Perfeito Wizard */}
+      <DestinoPerfeitoWizard
+        isOpen={isWizardOpen}
+        onClose={() => setIsWizardOpen(false)}
       />
     </div>
   )
