@@ -1,16 +1,22 @@
-'use client'
-
-import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import LeadForm from './LeadForm'
 
 interface ContactExpertModalProps {
   isOpen: boolean
   onClose: () => void
-  phoneNumber?: string
+  additionalMetadata?: Array<{
+    key: string
+    value: string
+    keyDescription: string
+  }>
 }
 
-export default function ContactExpertModal({ isOpen, onClose, phoneNumber = '5512991694499' }: ContactExpertModalProps) {
-  const [isSuccess, setIsSuccess] = useState(false)
+export default function ContactExpertModal({ 
+  isOpen, 
+  onClose,
+  additionalMetadata = []
+}: ContactExpertModalProps) {
+  const router = useRouter()
 
   if (!isOpen) return null
 
@@ -27,37 +33,21 @@ export default function ContactExpertModal({ isOpen, onClose, phoneNumber = '551
           </svg>
         </button>
 
-        {isSuccess ? (
-          <div className="text-center py-8">
-            <h3 className="text-2xl font-baloo font-bold text-primary-600 mb-4">
-              Obrigado pelo seu interesse!
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Um de nossos especialistas entrará em contato em breve para ajudar você a planejar sua próxima viagem.
-            </p>
-            <button
-              onClick={onClose}
-              className="bg-primary-600 text-white font-baloo py-2 px-6 rounded-full hover:bg-primary-700 transition-colors"
-            >
-              Fechar
-            </button>
-          </div>
-        ) : (
-          <>
-            <h2 className="text-2xl font-baloo font-bold text-primary-600 mb-2">
-              Falar com especialista
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Preencha os campos abaixo para ser direcionado para um de nossos especialistas no WhatsApp.
-            </p>
-            <LeadForm 
-              onSuccess={() => setIsSuccess(true)}
-              submitButtonText="Iniciar atendimento"
-              redirectToWhatsApp={true}
-              phoneNumber={phoneNumber}
-            />
-          </>
-        )}
+        <h2 className="text-2xl font-baloo font-bold text-primary-600 mb-2">
+          Falar com especialista
+        </h2>
+        <p className="text-gray-600 mb-6">
+          Preencha os campos abaixo para que nossos especialistas possam entrar em contato com você.
+        </p>
+        <LeadForm
+          onSuccess={() => router.push('/obrigado')}
+          submitButtonText="Falar com especialista"
+          additionalMetadata={additionalMetadata}
+          event="agendar"
+          eventOptions={{
+            source: additionalMetadata.find(item => item.key === 'source')?.value || 'Contact Expert Modal'
+          }}
+        />
       </div>
     </div>
   )

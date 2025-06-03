@@ -4,6 +4,8 @@ import { Suspense, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { LeadsApiService } from '@/clients/leads'
 import { LocalStorageService } from '@/clients/local'
+import { EventType } from '@/components/basic/FacebookPixel'
+import * as fpixel from '@/utils/libs/fpixel'
 
 interface LeadFormProps {
   onSuccess?: () => void
@@ -18,6 +20,8 @@ interface LeadFormProps {
   }>
   showBackButton?: boolean
   onBack?: () => void
+  event?: EventType
+  eventOptions?: Record<string, any>
 }
 
 interface UtmParams {
@@ -65,7 +69,9 @@ function LeadFormContent({
   phoneNumber = '',
   additionalMetadata = [],
   showBackButton = false,
-  onBack
+  onBack,
+  event,
+  eventOptions
 }: LeadFormProps) {
   const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
@@ -142,6 +148,11 @@ function LeadFormContent({
       
       // Reset form
       setFormData({ name: '', email: '', phone: '' })
+
+      // Send event
+      if (event) {
+        fpixel.event(event, eventOptions)
+      }
     } catch (err) {
       console.error('Error creating lead:', err)
       const errorMessage = 'Ocorreu um erro ao enviar seus dados. Por favor, tente novamente.'

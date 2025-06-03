@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useWizard } from '@/contexts/WizardContext'
+import Button from '@/components/common/Button'
 
 export default function TopMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,7 +12,7 @@ export default function TopMenu() {
 
   const navLinks = [
     { href: "/destinos", label: "Destinos" },
-    { href: "/sobre", label: "Por que a Trip Evolved?" },
+    { href: "/beneficios", label: "Por que a Trip Evolved?" },
     { href: "/app/entrar", label: "Minhas viagens" },
   ];
 
@@ -70,12 +71,16 @@ export default function TopMenu() {
 
           {/* CTA Button */}
           <div className="hidden md:block flex-shrink-0">
-            <button
+            <Button
               onClick={openWizard}
+              event="pre_descobrir_viagem"
+              eventOptions={{
+                source: 'Top Menu'
+              }}
               className="font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors"
             >
               Descobrir minha viagem
-            </button>
+            </Button>
           </div>
 
           {/* Mobile Menu */}
@@ -92,15 +97,19 @@ export default function TopMenu() {
                     {link.label}
                   </Link>
                 ))}
-                <button
+                <Button
                   onClick={() => {
                     openWizard();
                     setIsMenuOpen(false);
                   }}
+                  event="pre_descobrir_viagem"
+                  eventOptions={{
+                    source: 'Top Menu'
+                  }}
                   className="w-full font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors"
                 >
                   Descobrir minha viagem
-                </button>
+                </Button>
               </div>
             </div>
           )}

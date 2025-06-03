@@ -71,7 +71,6 @@ export function DestinationCTA({ destinationTitle, destinationUniqueName }: Dest
       <ContactExpertModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        phoneNumber="5512991694499"
       />
     </div>
   );

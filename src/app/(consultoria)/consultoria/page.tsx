@@ -1,0 +1,555 @@
+'use client'
+
+import Image from 'next/image'
+import { useState } from 'react'
+import ContactExpertModal from '@/components/ContactExpertModal'
+import NewsletterSection from '@/components/consultancy/NewsletterSection'
+import FAQSection from '@/components/consultancy/FAQSection'
+import TripEvolvedSection from '@/components/consultancy/TripEvolvedSection'
+import Button from '@/components/common/Button'
+
+export default function ConsultoriaPage() {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false)
+  const [isExplanationModalOpen, setIsExplanationModalOpen] = useState(false)
+
+  return (
+    <div className="flex flex-col">
+      {/* Hero Section */}
+      <section className="relative h-screen flex items-center">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/assets/consultoria/hero-casal.jpg"
+            alt="Casal em viagem romântica"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+            quality={90}
+          />
+          <div className="absolute inset-0 bg-black/40" />
+        </div>
+
+        {/* Content */}
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 relative z-10">
+          <div className="max-w-2xl">
+            <h1 className="font-baloo text-4xl md:text-6xl font-bold mb-6 text-white">
+              Sua viagem a dois. Com experiências que vocês não conseguem encontrar sozinhos.
+            </h1>
+            <Button 
+              onClick={() => setIsContactModalOpen(true)}
+              event="pre_agendar"
+              eventOptions={{
+                source: 'Hero Section - Consultoria'
+              }}
+              className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+            >
+              Quero agendar minha sessão
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Momentos únicos Section */}
+      <section className="py-24 bg-secondary-50">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-12 text-secondary-900">
+            Vamos encontrar para vocês <span className="text-accent-500">momentos únicos</span> como...
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {/* Card 1 */}
+            <div className="group relative overflow-hidden rounded-xl shadow-lg">
+              <div className="relative h-[400px]">
+                <Image
+                  src="/assets/consultoria/curacao-sunset.png"
+                  alt="Jantar à beira-mar em Curaçao"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent duration-300 flex flex-col justify-end p-6">
+                  <p className="text-white font-comfortaa text-lg">
+                    Jantar à beira-mar com pôr-do-sol em Curaçao
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 2 */}
+            <div className="group relative overflow-hidden rounded-xl shadow-lg">
+              <div className="relative h-[400px]">
+                <Image
+                  src="/assets/consultoria/dolomitas-picnic.jpg"
+                  alt="Piquenique nas Dolomitas"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent duration-300 flex flex-col justify-end p-6">
+                  <p className="text-white font-comfortaa text-lg">
+                    Piquenique a dois no verão nas Dolomitas, Itália
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="group relative overflow-hidden rounded-xl shadow-lg">
+              <div className="relative h-[400px]">
+                <Image
+                  src="/assets/consultoria/yosemite-trail.png"
+                  alt="Trilha em Yosemite"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent duration-300 flex flex-col justify-end p-6">
+                  <p className="text-white font-comfortaa text-lg">
+                    Um trilha leve e paisagens incríveis em Yosemite, na Califórnia
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="text-center mt-12">
+            <Button 
+              onClick={() => setIsContactModalOpen(true)}
+              event="pre_agendar"
+              eventOptions={{
+                source: 'Momentos únicos Section - Consultoria'
+              }}
+              className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+            >
+              Quero agendar minha sessão
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Para casais que Section */}
+      <section className="py-24 bg-secondary-500">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-4 text-white">
+            <span className="text-accent-500">Não é pacote</span>. A data vocês escolhem, no hotel que vocês preferirem, com experiências inesquecíveis!
+          </h2>
+          <h3 className="font-baloo text-xl md:text-2xl font-semibold mb-8 text-white">
+            Você não precisa se preocupar com nada. Deixe que a gente cuide dos detalhes
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {/* Card 1 */}
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl hover:bg-white/20 transition-all">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="text-primary-500">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                  </svg>
+                </div>
+                <h3 className="font-baloo text-xl font-bold text-white">Personalização Total</h3>
+              </div>
+              <p className="text-white/90 font-comfortaa text-lg">
+                Vocês não querem um pacote pronto nem viver o mesmo roteiro que todo mundo.
+              </p>
+            </div>
+
+            {/* Card 2 */}
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl hover:bg-white/20 transition-all">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="text-primary-500">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                </div>
+                <h3 className="font-baloo text-xl font-bold text-white">Reconexão</h3>
+              </div>
+              <p className="text-white/90 font-comfortaa text-lg">
+                Vivem uma rotina corrida e querem reencontrar a conexão do casal
+              </p>
+            </div>
+
+            {/* Card 3 */}
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl hover:bg-white/20 transition-all">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="text-primary-500">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                  </svg>
+                </div>
+                <h3 className="font-baloo text-xl font-bold text-white">Momentos únicos</h3>
+              </div>
+              <p className="text-white/90 font-comfortaa text-lg">
+                Valorizam experiências autênticas, mas tem medo de ciladas turísticas
+              </p>
+            </div>
+
+            {/* Card 4 */}
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl hover:bg-white/20 transition-all">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="text-primary-500">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <h3 className="font-baloo text-xl font-bold text-white">Conhecimento especializado</h3>
+              </div>
+              <p className="text-white/90 font-comfortaa text-lg">
+                Pesquisam muito, mas sentem que falta algo com todo o conteúdo online
+              </p>
+            </div>
+
+            {/* Card 5 */}
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl hover:bg-white/20 transition-all">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="text-primary-500">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <h3 className="font-baloo text-xl font-bold text-white">Tranquilidade</h3>
+              </div>
+              <p className="text-white/90 font-comfortaa text-lg">
+                Querem facilidade e segurança na organização, para poderem apenas aproveitar
+              </p>
+            </div>
+
+            {/* Card 6 */}
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl hover:bg-white/20 transition-all">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="text-primary-500">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="font-baloo text-xl font-bold text-white">Correria do dia a dia</h3>
+              </div>
+              <p className="text-white/90 font-comfortaa text-lg">
+                Falta tempo para encontrar a experiência certa e sobrecarrega uma pessoa do casal
+              </p>
+            </div>
+          </div>
+          <div className="text-center">
+            <Button 
+              onClick={() => setIsContactModalOpen(true)}
+              event="pre_agendar"
+              eventOptions={{
+                source: 'Para casais que Section - Consultoria'
+              }}
+              className="inline-block font-baloo bg-primary-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-600 transition-all"
+            >
+              Quero agendar minha sessão
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Como funciona Section */}
+      <section className="py-24 bg-white">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <div className="text-center mb-16">
+            <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
+              Do primeiro contato ao último brinde da viagem, tudo pensado <span className="text-accent-500">com carinho e estratégia</span>
+            </h2>
+            <h3 className="font-baloo text-xl md:text-2xl font-semibold text-primary-500">
+              Um processo sob medida para criar a viagem mais especial da vida de vocês
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+            {/* Step 1 */}
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+              <div className="flex flex-col items-start gap-4 mb-4">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
+                  1
+                </div>
+                <div>
+                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
+                    Sessão &quot;onde ir&quot;
+                  </h3>
+                  <p className="text-secondary-600 font-comfortaa text-lg">
+                    Tudo começa com uma conversa leve e acolhedora. Nela, entendemos o estilo de vocês, o que esperam viver juntos e como gostam de viajar. Essa reunião é gratuita e feita para vocês se sentirem à vontade — sem nenhuma obrigação de seguir.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+              <div className="flex flex-col items-start gap-4 mb-4">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
+                  2
+                </div>
+                <div>
+                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
+                    Confirmação da jornada
+                  </h3>
+                  <p className="text-secondary-600 font-comfortaa text-lg">
+                    Com o pagamento de R$500,00, damos início à criação de uma proposta sob medida. O valor investido é totalmente abatido no fechamento da viagem.{' '}
+                    <button
+                      onClick={() => setIsExplanationModalOpen(true)}
+                      className="text-accent-500 hover:text-accent-600 font-semibold underline"
+                    >
+                      Por que cobramos a proposta?
+                    </button>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+              <div className="flex flex-col items-start gap-4 mb-4">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
+                  3
+                </div>
+                <div>
+                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
+                    Proposta personalizada para a jornada
+                  </h3>
+                  <p className="text-secondary-600 font-comfortaa text-lg">
+                    A sua proposta inclui todos os detalhes que você precisa saber a respeito do itinerário, voos, sugestão de hotéis e experiências marcantes. A ideia é que, aqui, já se imaginem no destino, curtindo os momentos que pensamos para vocês.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 4 */}
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+              <div className="flex flex-col items-start gap-4 mb-4">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
+                  4
+                </div>
+                <div>
+                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
+                    Ajustes da proposta
+                  </h3>
+                  <p className="text-secondary-600 font-comfortaa text-lg">
+                    A proposta pode ser ajustada quantas vezes for necessário. O objetivo é garantir que cada detalhe reflita perfeitamente o que vocês desejam e imaginam.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 5 */}
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+              <div className="flex flex-col items-start gap-4 mb-4">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
+                  5
+                </div>
+                <div>
+                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
+                    Documentação completa
+                  </h3>
+                  <p className="text-secondary-600 font-comfortaa text-lg">
+                    Garantimos que toda a documentação necessária, como vistos, vacinas, receitas médicas, passaportes etc., esteja completa e em dia, para que vocês viajem com tranquilidade.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Step 6 */}
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+              <div className="flex flex-col items-start gap-4 mb-4">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
+                  6
+                </div>
+                <div>
+                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
+                    Preparativos completos
+                  </h3>
+                  <p className="text-secondary-600 font-comfortaa text-lg">
+                    Cuidamos de check-ins, horários de traslados e todos os pequenos detalhes que fazem a diferença. Vocês vão embarcar tranquilos e animados para a jornada que virá!
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Bonus Section */}
+          <div className="bg-primary-50 p-8 rounded-xl mb-16">
+            <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-8 text-center">
+              E mais detalhes exclusivos para sua viagem ser ainda mais especial
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-white p-6 rounded-xl shadow-md">
+                <h4 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
+                  Concierge pessoal para cuidar de vocês
+                </h4>
+                <p className="text-secondary-600 font-comfortaa text-lg">
+                  Com reservas de restaurantes, ingressos, lembretes e, o mais importante: alguém para ajudar vocês a navegar o destino com tranquilidade, no WhatsApp.
+                </p>
+              </div>
+              <div className="bg-white p-6 rounded-xl shadow-md">
+                <h4 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
+                  Dossiê da Viagem
+                </h4>
+                <p className="text-secondary-600 font-comfortaa text-lg">
+                  Que vocês recebem em casa, com tudo que precisam saber, como a burocracia necessária, o que levar na mala, lugares que vocês não podem perder e o que mais for necessário.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA Section */}
+          <div className="text-center">
+            <Button 
+              onClick={() => setIsContactModalOpen(true)}
+              event="pre_agendar"
+              eventOptions={{
+                source: 'Como funciona Section - Consultoria'
+              }}
+              className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+            >
+              Quero agendar minha sessão
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Por que agendar agora Section */}
+      <section className="py-24 bg-secondary-500 text-white">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-12 text-center">
+            Por que agendar sua reunião agora?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl hover:bg-white/20 transition-all">
+              <h3 className="text-2xl font-baloo font-bold mb-4 text-accent-500">
+                Vagas Limitadas
+              </h3>
+              <p className="text-white/90 font-comfortaa text-lg">
+                Temos apenas <span className="text-accent-500 font-bold text-2xl">6 vagas</span> por mês para garantir atenção máxima a vocês. Não perca a oportunidade de garantir sua vaga.
+              </p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl hover:bg-white/20 transition-all">
+              <h3 className="text-2xl font-baloo font-bold mb-4 text-accent-500">
+                Planejamento Antecipado
+              </h3>
+              <p className="text-white/90 font-comfortaa text-lg">
+                Quanto antes começarmos a planejar sua viagem, <span className="text-accent-500 font-bold text-2xl">melhores opções</span> teremos disponíveis. Garanta as melhores experiências.
+              </p>
+            </div>
+          </div>
+          <div className="text-center">
+            <Button 
+              onClick={() => setIsContactModalOpen(true)}
+              event="pre_agendar"
+              eventOptions={{
+                source: 'Por que agendar agora Section - Consultoria'
+              }}
+              className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+            >
+              Quero agendar minha sessão
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Viagem Personalizada Section */}
+      <section className="py-24 bg-white">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Images */}
+            <div className="relative h-[600px]">
+              <div className="absolute top-0 left-0 w-[65%] h-[65%] z-10">
+                <Image
+                  src="/assets/consultoria/casal-praia.png"
+                  alt="Casal na praia"
+                  fill
+                  className="object-cover rounded-2xl shadow-xl"
+                />
+              </div>
+              <div className="absolute bottom-0 right-0 w-[65%] h-[65%]">
+                <Image
+                  src="/assets/consultoria/casal-jantar.png"
+                  alt="Casal em jantar romântico"
+                  fill
+                  className="object-cover rounded-2xl shadow-xl"
+                />
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="text-right">
+              <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
+                Cada viagem é pensada com vocês no centro de tudo
+              </h2>
+              <h3 className="font-baloo text-xl md:text-2xl font-semibold mb-8 text-primary-500">
+                A gente entende o que vocês querem viver
+              </h3>
+              <div className="space-y-6 text-secondary-600 font-comfortaa text-lg">
+                <p>
+                  Vocês têm uma rotina intensa, pouco tempo a dois e um desejo comum: viver momentos que realmente façam sentido. Nós entendemos isso. É por isso que, antes de sugerir qualquer destino, ouvimos. Descobrimos juntos o que inspira, o que emociona, o que faz cada segundo valer a pena.
+                </p>
+                <p>
+                  Com esse entendimento, construímos uma viagem com propósito. Desde a escolha da hospedagem perfeita até as experiências mais significativas — como aquele jantar especial ou um passeio inesperado — tudo ganha um ritmo que acompanha o casal. Assim, a viagem se torna uma história criada a partir de quem vocês são.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Trip Evolved Section */}
+      <TripEvolvedSection />
+
+      {/* FAQ Section */}
+      <FAQSection source="Consultoria" />
+
+      {/* Final CTA Section */}
+      <section className="py-24 bg-secondary-900 text-white">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 text-center">
+          <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6">
+            Vamos transformar sua viagem em uma <span className="text-accent-500">experiência única?</span>
+          </h2>
+          <p className="text-white/90 font-comfortaa text-lg mb-8 max-w-2xl mx-auto">
+            Agende uma reunião com nossos especialistas e comece a planejar a viagem dos seus sonhos hoje mesmo.
+          </p>
+          <Button
+            onClick={() => setIsContactModalOpen(true)}
+            event="pre_agendar"
+            eventOptions={{
+              source: 'Final CTA Section - Consultoria'
+            }}
+            className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+          >
+            Quero agendar minha sessão
+          </Button>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <NewsletterSection source="Consultoria" />
+
+      {/* Contact Expert Modal */}
+      <ContactExpertModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+        additionalMetadata={[
+          {
+            key: 'source',
+            value: 'Consultoria',
+            keyDescription: 'Fonte do lead'
+          }
+        ]}
+      />
+
+      {/* Explanation Modal */}
+      {isExplanationModalOpen && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl p-8 max-w-2xl w-full relative">
+            <button
+              onClick={() => setIsExplanationModalOpen(false)}
+              className="absolute top-4 right-4 text-secondary-400 hover:text-secondary-600"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-4">
+              Por que cobramos a proposta?
+            </h3>
+            <p className="text-secondary-600 font-comfortaa text-lg">
+              Não trabalhamos com pacotes prontos. Cada viagem que construímos é unica e merece um planejamento especial. O valor de R$500,00 é um investimento que garante essa proposta detalhada e personalizada, fruto de horas de pesquisa e planejamento. Este valor é totalmente abatido no fechamento da viagem, demonstrando nosso compromisso com a qualidade do serviço.
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+} 

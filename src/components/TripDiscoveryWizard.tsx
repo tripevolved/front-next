@@ -8,6 +8,8 @@ import DateRangePicker from './DateRangePicker'
 import LeadForm from './LeadForm'
 import { CreateTripRequest, TripTravelers } from '@/core/types/trip'
 import { LocalStorageService } from '@/clients/local'
+import * as fpixel from '@/utils/libs/fpixel'
+import { TripGoal } from '@/clients/trips/goals'
 
 // Types for the wizard
 interface TripDates {
@@ -166,9 +168,9 @@ const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => void, onB
   )
 }
 
-const StepGoals = ({ onNext, onBack }: { onNext: (goals: TripGoals) => void, onBack: () => void }) => {
+const StepGoals = ({ onNext, onBack, tripType }: { onNext: (goals: TripGoals) => void, onBack: () => void, tripType?: string }) => {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([])
-  const [availableGoals, setAvailableGoals] = useState<string[]>([])
+  const [availableGoals, setAvailableGoals] = useState<TripGoal[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   
@@ -177,7 +179,7 @@ const StepGoals = ({ onNext, onBack }: { onNext: (goals: TripGoals) => void, onB
       try {
         setIsLoading(true)
         setError(null)
-        const goals = await TripsApiService.getGoals()
+        const goals = await TripsApiService.getGoals(tripType === 'casal' ? 'COUPLE' : 'INDIVIDUAL')
         setAvailableGoals(goals)
       } catch (err) {
         console.error('Error fetching goals:', err)
@@ -239,17 +241,17 @@ const StepGoals = ({ onNext, onBack }: { onNext: (goals: TripGoals) => void, onB
         <div className="bg-gray-100 sm:bg-white px-1 py-2 rounded-lg grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 sm:gap-3 overflow-y-auto max-h-[50vh] pr-2">
           {availableGoals.map((goal) => (
             <button
-              key={goal}
+              key={goal.uniqueName}
               type="button"
-              onClick={() => handleGoalClick(goal)}
-              disabled={!selectedGoals.includes(goal) && selectedGoals.length >= 5}
+              onClick={() => handleGoalClick(goal.uniqueName)}
+              disabled={!selectedGoals.includes(goal.uniqueName) && selectedGoals.length >= 5}
               className={`py-1.5 px-1.5 sm:p-3 border rounded-full text-center transition-all min-h-[30px] sm:min-h-[56px] flex items-center justify-center ${
-                selectedGoals.includes(goal)
+                selectedGoals.includes(goal.uniqueName)
                   ? 'border-primary-500 bg-primary-50 text-primary-700'
                   : 'border-gray-300 hover:border-primary-300 disabled:opacity-50 disabled:cursor-not-allowed'
               }`}
             >
-              <span className="text-sm leading-tight">{goal}</span>
+              <span className="text-sm leading-tight">{goal.name}</span>
             </button>
           ))}
         </div>
@@ -275,7 +277,7 @@ const StepGoals = ({ onNext, onBack }: { onNext: (goals: TripGoals) => void, onB
   )
 }
 
-const StepProfile = ({ onNext, onBack }: { onNext: (profile: TripProfile) => void, onBack: () => void }) => {
+const StepProfile = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (profile: TripProfile) => void, onBack: () => void, buttonText?: string }) => {
   const [profile, setProfile] = useState('')
 
   const profiles = [
@@ -329,7 +331,7 @@ const StepProfile = ({ onNext, onBack }: { onNext: (profile: TripProfile) => voi
             disabled={!profile}
             className="px-6 py-2 bg-primary-600 text-white rounded-full hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Próximo
+            {buttonText}
           </button>
         </div>
       </form>
@@ -432,7 +434,7 @@ function StepContact({ onNext, onBack, formData }: { onNext: () => void, onBack:
     },
     {
       key: 'source',
-      value: 'discovery-wizard',
+      value: 'Trip Discovery Wizard',
       keyDescription: 'Fonte do lead'
     }
   ]
@@ -450,6 +452,10 @@ function StepContact({ onNext, onBack, formData }: { onNext: () => void, onBack:
       <LeadForm 
         onSuccess={onNext}
         submitButtonText="Enviar"
+        event='descobrir_viagem'
+        eventOptions={{
+          source: metadata.find(item => item.key === 'source')?.value || 'Trip Discovery Wizard'
+        }}
         additionalMetadata={metadata}
         showBackButton={true}
         onBack={onBack}
@@ -508,23 +514,33 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
     month: tripDates?.month || null
   }
 
+  const handleOnClose = () => {
+    onClose()
+    setStep(1)
+    setTripDates(null)
+    setTripGoals(null)
+    setTripProfile(null)
+    setTripType(null)
+    setUserInfo(null)
+  }
+
   const handleDatesNext = (dates: TripDates) => {
     setTripDates(dates)
     setStep(2)
   }
 
+  const handleTypeNext = (type: TripType) => {
+    setTripType(type)
+    setStep(3)
+  }
+
   const handleGoalsNext = (goals: TripGoals) => {
     setTripGoals(goals)
-    setStep(3)
+    setStep(4)
   }
 
   const handleProfileNext = (profile: TripProfile) => {
     setTripProfile(profile)
-    setStep(4)
-  }
-
-  const handleTypeNext = (type: TripType) => {
-    setTripType(type)
     setStep(5)
   }
 
@@ -538,10 +554,13 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
   }
 
   // Function to handle final step based on whether user has already submitted lead
-  const handleFinalStep = (type: TripType) => {
-    setTripType(type)
+  const handleFinalStep = (profile: TripProfile) => {
+    setTripProfile(profile)
     if (hasLeadId) {
-      // If user already has a lead ID, create trip and redirect to results
+      // If user already has a lead ID, create trip and redirect to results, sending facebook event
+      fpixel.event('descobrir_viagem', {
+        source: 'Trip Discovery Wizard'
+      })
       setStep(6)
     } else {
       // Otherwise, proceed to contact form
@@ -580,10 +599,11 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
       
       // Redirect to the results page with the trip ID
       router.push(`/resultados/${id}`)
-      onClose();
+      handleOnClose();
     } catch (err) {
       console.error('Error creating trip:', err)
       router.push(`/resultados/?message=${"Houve um erro ao criar a viagem. Por favor, tente novamente."}`)
+      handleOnClose();
     }
   }
 
@@ -594,7 +614,7 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
       <div className="bg-white rounded-lg max-w-2xl w-full relative">
         {/* Close button */}
         <button 
-          onClick={onClose}
+          onClick={handleOnClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
           aria-label="Fechar modal"
         >
@@ -621,11 +641,11 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
 
         {/* Step content */}
         {step === 1 && <StepDates onNext={handleDatesNext} />}
-        {step === 2 && <StepGoals onNext={handleGoalsNext} onBack={handleBack} />}
-        {step === 3 && <StepProfile onNext={handleProfileNext} onBack={handleBack} />}
+        {step === 2 && <StepType onNext={handleTypeNext} onBack={handleBack} />}
+        {step === 3 && <StepGoals onNext={handleGoalsNext} onBack={handleBack} tripType={tripType?.type} />}
         {step === 4 && (
-          <StepType 
-            onNext={hasLeadId ? handleFinalStep : handleTypeNext} 
+          <StepProfile 
+            onNext={hasLeadId ? handleFinalStep : handleProfileNext} 
             onBack={handleBack} 
             buttonText={hasLeadId ? "Ver resultados" : "Próximo"}
           />

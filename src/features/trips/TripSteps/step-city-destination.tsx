@@ -31,7 +31,11 @@ export function StepCityDestination({ onNext }: StepComponentProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
-  const onSubmit = async (destinationId: string) => onNext({ destinationId });
+  const onSubmit = async (value: any) => {
+    const { destinationId, minExpectedDailyCost, maxExpectedDailyCost } = value;
+
+    onNext({ destinationId, minExpectedDailyCost, maxExpectedDailyCost });
+  };
 
   return (
     <StepCity

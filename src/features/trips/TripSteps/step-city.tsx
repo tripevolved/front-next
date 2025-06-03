@@ -14,13 +14,31 @@ import { useRef, useState } from "react";
 
 type StepCityProps = {
   title: string;
-  onSelectCity?: (cityId: string) => void;
+  onSelectCity?: (
+    value:
+      | {
+          destinationId: string;
+          minExpectedDailyCost: number;
+          maxExpectedDailyCost: number;
+        }
+      | string
+  ) => Promise<void>;
   isLoading?: boolean;
-  fetcher: (search: string) => Promise<{ id: string; name: string }[]>;
+  fetcher: (search: string) => Promise<
+    | { id: string; name: string; minExpectedDailyCost: number; maxExpectedDailyCost: number }[]
+    | {
+        id: string;
+        name: string;
+      }[]
+  >;
 };
 
 export function StepCity({ onSelectCity: onSubmit, title, isLoading, fetcher }: StepCityProps) {
-  const [cityId, setCityId] = useState("");
+  const [cityData, setCityData] = useState<{
+    cityId: string;
+    minExpectedDailyCost?: number;
+    maxExpectedDailyCost?: number;
+  } | null>(null);
   const [options, setOptions] = useState<RadioOption[]>([]);
 
   const [loading, setLoading] = useState(false);
@@ -29,6 +47,17 @@ export function StepCity({ onSelectCity: onSubmit, title, isLoading, fetcher }: 
   const [submitting, setSubmitting] = useState(false);
 
   const debounce = useRef(0);
+
+  function parseCityValue(value?: string) {
+    if (!value) return null;
+    const match = value.match(/^id-(.+)-min-cost-(\d+)-maxcost-(\d+)$/);
+    if (!match) return { cityId: value };
+    return {
+      cityId: match[1],
+      minExpectedDailyCost: Number(match[2]),
+      maxExpectedDailyCost: Number(match[3]),
+    };
+  }
 
   const onSearchChange: React.FormEventHandler<HTMLInputElement> = async (event) => {
     const search = (event.target as HTMLInputElement).value;
@@ -40,14 +69,32 @@ export function StepCity({ onSelectCity: onSubmit, title, isLoading, fetcher }: 
     try {
       setLoading(true);
       const cities = await fetcher(search);
-      const newOptions = cities.map(({ name, id }) => ({ label: name, value: id }));
+      const newOptions = cities.map(
+        (city: {
+          id: string;
+          name: string;
+          minExpectedDailyCost?: number;
+          maxExpectedDailyCost?: number;
+        }) => {
+          const { name, id } = city;
+          const minExpectedDailyCost = city.minExpectedDailyCost;
+          const maxExpectedDailyCost = city.maxExpectedDailyCost;
+          return {
+            label: name,
+            value:
+              minExpectedDailyCost && maxExpectedDailyCost
+                ? `id-${id}-min-cost-${minExpectedDailyCost}-maxcost-${maxExpectedDailyCost}`
+                : id,
+          };
+        }
+      );
       setOptions(newOptions);
       setEmpty(newOptions.length === 0);
     } catch (error) {
       setError(true);
     } finally {
       setLoading(false);
-      setCityId("");
+      setCityData(null);
     }
   };
 
@@ -55,7 +102,11 @@ export function StepCity({ onSelectCity: onSubmit, title, isLoading, fetcher }: 
     if (typeof onSubmit !== "function") return;
     try {
       setSubmitting(true);
-      await onSubmit(cityId);
+      await onSubmit({
+        destinationId: cityData?.cityId || "",
+        minExpectedDailyCost: cityData?.minExpectedDailyCost || 0,
+        maxExpectedDailyCost: cityData?.maxExpectedDailyCost || 0,
+      });
     } catch (error) {
       setSubmitting(false);
       Notification.error("Não foi possível prosseguir devido a um erro.");
@@ -88,7 +139,10 @@ export function StepCity({ onSelectCity: onSubmit, title, isLoading, fetcher }: 
             <LoadingState />
           ) : (
             <RadioFields
-              onSelect={({ value }) => setCityId(value as string)}
+              onSelect={({ value }) => {
+                const parsedValue = parseCityValue(String(value));
+                setCityData(parsedValue);
+              }}
               name="city"
               options={options}
             />
@@ -99,7 +153,7 @@ export function StepCity({ onSelectCity: onSubmit, title, isLoading, fetcher }: 
             submitting={submitting}
             // @ts-ignore
             variant="tertiary"
-            disabled={!cityId}
+            disabled={cityData === null}
             onClick={handleSubmit}
           >
             Continuar
