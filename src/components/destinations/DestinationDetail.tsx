@@ -7,10 +7,11 @@ import { DestinationExpert } from './DestinationExpert'
 import { DestinationCTA } from './DestinationCTA'
 
 interface DestinationDetailProps {
-  destination: PublicDestination
+  destination: PublicDestination;
+  uniqueName: string;
 }
 
-export function DestinationDetail({ destination }: DestinationDetailProps) {
+export function DestinationDetail({ destination, uniqueName }: DestinationDetailProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero section with main photo */}
@@ -21,7 +22,7 @@ export function DestinationDetail({ destination }: DestinationDetailProps) {
         <div className="w-full md:w-4/5 mx-auto">
           {/* Tips Section */}
           <DestinationTips destination={destination} />
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* Left column - Main content */}
             <div className="md:col-span-2">
@@ -38,14 +39,14 @@ export function DestinationDetail({ destination }: DestinationDetailProps) {
               <DestinationExpert destination={destination} />
 
               {/* CTA */}
-              <DestinationCTA 
-                destinationTitle={destination.title} 
-                destinationUniqueName={destination.uniqueName} 
+              <DestinationCTA
+                destinationTitle={destination.title}
+                destinationUniqueName={uniqueName}
               />
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
-} 
+  );
+}
