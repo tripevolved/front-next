@@ -61,17 +61,26 @@ export function DestinationCTA({ destinationTitle, destinationUniqueName }: Dest
                   : `/app/cadastro?redirectTo=${encodeURIComponent(newTripRoute)}`
               )
             }
-            className="w-full bg-secondary-600 hover:bg-secondary-500 text-gray-300 py-3 rounded-full font-medium flex items-center justify-center"
+            disabled={!userData?.idToken}
+            className="w-full bg-secondary-600 hover:bg-secondary-500 text-gray-300 py-3 rounded-full font-medium disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
           >
             <span>Planejar minha viagem</span>
+            {!userData?.idToken && (
+              <>
+                <span className="bg-secondary-500 text-accent-500 text-xs px-2 py-1 rounded-full">
+                  Em breve
+                </span>
+                <div className="absolute bottom-full left-0 right-0 mb-2 p-4 bg-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm text-gray-600 pointer-events-none">
+                  Em breve você poderá planejar sua viagem completa através da nossa plataforma,
+                  contando com a curadoria de nossos especialistas
+                </div>
+              </>
+            )}
           </button>
         </div>
       </div>
 
-      <ContactExpertModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      <ContactExpertModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }

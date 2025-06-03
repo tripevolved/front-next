@@ -127,10 +127,22 @@ export default function TripPlanningDecisionModal({
                       : `/app/cadastro?redirectTo=${encodeURIComponent(newTripRoute)}`
                   )
                 }
-                className="w-full bg-primary-600 hover:bg-primary-500 text-white py-2 rounded-full font-medium flex items-center justify-center border border-primary-700 shadow-sm"
+                disabled={!userData?.idToken}
+                className="w-full bg-primary-600 hover:bg-primary-500 text-white py-2 rounded-full font-medium disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center border border-primary-700 shadow-sm"
               >
                 <span>Planejar minha viagem</span>
+                {!userData?.idToken && (
+                  <span className="ml-2 bg-accent-500 text-white text-xs px-2 py-0.5 rounded">
+                    Em breve
+                  </span>
+                )}
               </button>
+              {!userData?.idToken && (
+                <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-white text-gray-800 text-xs px-4 py-3 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-80 text-center border border-gray-200">
+                  Em breve você poderá planejar sua viagem completa através da nossa plataforma,
+                  contando com a curadoria de nossos especialistas
+                </div>
+              )}
             </div>
 
             {hasTraveler ? (

@@ -16,7 +16,6 @@ interface ExperienceContentProps {
 }
 
 export function ExperienceContent({ experience }: ExperienceContentProps) {
-  console.log("ExperienceContent", experience);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -112,14 +111,18 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
   // Function to handle planning a trip
   const handlePlanTrip = () => {
     if (hasTraveler) {
-      // If traveler exists, redirect to new trip page
-      const newTripRoute = `/app/viagens/nova?para=${experience.name}`;
+      // If traveler exists, direct to WhatsApp
+      const message = `Olá! Gostaria de planejar uma viagem similar à experiência ${experience.title}.`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank");
 
-      router.push(
-        userData?.idToken
-          ? newTripRoute
-          : `/app/cadastro?redirectTo=${encodeURIComponent(newTripRoute)}`
-      );
+      // // If traveler exists, redirect to new trip page
+      // const newTripRoute = `/app/viagens/nova?para=${experience.name}`;
+
+      // router.push(
+      //   userData?.idToken
+      //     ? newTripRoute
+      //     : `/app/cadastro?redirectTo=${encodeURIComponent(newTripRoute)}`
+      // );
     } else {
       // If no traveler, open contact modal
       setIsContactModalOpen(true);
