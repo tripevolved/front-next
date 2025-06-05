@@ -8,6 +8,7 @@ import { LocalStorageService } from "@/clients/local";
 import type { Experience } from "@/core/types/experiences";
 import { MuxVideoPlayer } from "@/components/MuxVideoPlayer";
 import { VideoOverlay } from "./VideoOverlay";
+import { mockItinerary } from "./mock";
 import { VideoSlider } from "../VideoSlider";
 
 interface ExperienceContentProps {
@@ -23,12 +24,18 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
   const [showDayNav, setShowDayNav] = useState(false);
   const dayRefs = useRef<(HTMLElement | null)[]>([]);
   const dayOneRef = useRef<HTMLElement | null>(null);
+  const currentVideo = useRef<HTMLVideoElement | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<{
     playbackId: string;
     title: string;
     dayIndex: number;
     videoIndex: number;
   } | null>(null);
+
+  const newExperience = {
+    ...experience,
+    itinerary: mockItinerary,
+  };
 
   // Check if traveler exists in localStorage
   useEffect(() => {
@@ -145,6 +152,21 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
       title: `Destaque ${index + 1}`,
     }));
   };
+
+  const videos = [
+    {
+      playbackId: "LC00LtUVGHHhu1Hy00LwWvbykZbyuFS2adlomOrS02ERf4",
+      title: "Video Title 1",
+    },
+    {
+      playbackId: "LC00LtUVGHHhu1Hy00LwWvbykZbyuFS2adlomOrS02ERf4",
+      title: "Video Title 2",
+    },
+    {
+      playbackId: "LC00LtUVGHHhu1Hy00LwWvbykZbyuFS2adlomOrS02ERf4",
+      title: "Video Title 3",
+    },
+  ];
 
   return (
     <div className="min-h-screen">
@@ -311,10 +333,10 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
       </div>
 
       {/* Day Sections */}
-      {experience.itinerary.map((day, dayIndex) => (
-        <section 
-          key={dayIndex} 
-          id={`day-${day.day}`} 
+      {newExperience.itinerary.map((day, dayIndex) => (
+        <section
+          key={dayIndex}
+          id={`day-${day.day}`}
           ref={(el) => {
             dayRefs.current[dayIndex] = el;
             if (day.day === 1) dayOneRef.current = el;
@@ -393,7 +415,9 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
                             <>
                               <div className="flex gap-5 items-center justify-evenly">
                                 <div className="flex flex-col gap-4">
-                                  <VideoSlider videos={day.highlights.videos} />
+                                  <div>
+                                    <VideoSlider videos={day.highlights.videos} />
+                                  </div>
                                 </div>
                               </div>
                             </>
@@ -416,11 +440,11 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
       ))}
 
       {/* Fixed Bottom Menu */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg py-4 px-6">
+      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg py-4 px-6 z-[11]">
         <div className="mx-auto flex sm:justify-center sm:items-center gap-6">
           <button
             onClick={handlePlanTrip}
-            className="bg-primary-600 text-white px-6 py-3 rounded-full font-baloo font-semibold hover:bg-primary-700 transition-colors"
+            className="bg-primary-600 text-white px-6 py-3 rounded-full font-baloo font-semibold hover:bg-primary-700 transition-colors z-[11]"
           >
             {hasTraveler ? "Planejar minha viagem" : "Falar com um especialista"}
           </button>
