@@ -9,53 +9,44 @@ interface MuxVideoPlayerProps {
 }
 
 export function MuxVideoPlayer({ playbackId, title }: MuxVideoPlayerProps) {
-  const [isPlaying, setIsPlaying] = useState(true)
-  const [isMuted, setIsMuted] = useState(true)
-  const [showControls, setShowControls] = useState(true)
-  const videoRef = useRef<any>(null)
-  const controlsTimeoutRef = useRef<NodeJS.Timeout>()
-
-  useEffect(() => {
-    // Hide controls after 3 seconds of inactivity
-    const handleMouseMove = () => {
-      setShowControls(true)
-      if (controlsTimeoutRef.current) {
-        clearTimeout(controlsTimeoutRef.current)
-      }
-      controlsTimeoutRef.current = setTimeout(() => {
-        setShowControls(false)
-      }, 3000)
-    }
-
-    document.addEventListener('mousemove', handleMouseMove)
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove)
-      if (controlsTimeoutRef.current) {
-        clearTimeout(controlsTimeoutRef.current)
-      }
-    }
-  }, [])
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const [showControls, setShowControls] = useState(true);
+  const videoRef = useRef<any>(null);
+  const timeoutRef = useRef<any>(null);
 
   const togglePlay = () => {
     if (videoRef.current) {
       if (isPlaying) {
-        videoRef.current.pause()
+        videoRef.current.pause();
       } else {
-        videoRef.current.play()
+        videoRef.current.play();
       }
-      setIsPlaying(!isPlaying)
+      setIsPlaying(!isPlaying);
     }
-  }
+  };
 
   const toggleMute = () => {
     if (videoRef.current) {
-      videoRef.current.muted = !isMuted
-      setIsMuted(!isMuted)
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
     }
-  }
+  };
+
+  const handleMouseActivity = () => {
+    setShowControls(true);
+    clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setShowControls(false);
+    }, 3000);
+  };
 
   return (
-    <div className="relative w-full max-w-[400px] mx-auto aspect-[9/16] bg-black rounded-lg overflow-hidden">
+    <div
+      className="relative w-full mx-auto bg-black rounded-lg overflow-hidden object-cover"
+      onMouseMove={handleMouseActivity}
+      onMouseEnter={handleMouseActivity}
+    >
       <MuxPlayer
         ref={videoRef}
         streamType="on-demand"
@@ -67,38 +58,20 @@ export function MuxVideoPlayer({ playbackId, title }: MuxVideoPlayerProps) {
         className="w-full h-full object-cover"
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
+        accentColor="#0ab9ad"
       />
 
       {/* Overlay Controls */}
-      <div 
-        className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
-          showControls ? 'opacity-100' : 'opacity-0'
+      <div
+        className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 pointer-events-none ${
+          showControls ? "opacity-100" : "opacity-0"
         }`}
       >
-        {/* Play/Pause Button */}
-        <button
-          onClick={togglePlay}
-          className="absolute inset-0 w-full h-full flex items-center justify-center"
-          aria-label={isPlaying ? 'Pause' : 'Play'}
-        >
-          {!isPlaying && (
-            <div className="w-16 h-16 rounded-full bg-black/50 flex items-center justify-center">
-              <svg
-                className="w-8 h-8 text-white"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-          )}
-        </button>
-
         {/* Mute Button */}
         <button
           onClick={toggleMute}
-          className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-black/50 flex items-center justify-center"
-          aria-label={isMuted ? 'Unmute' : 'Mute'}
+          className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-black/50 flex items-center justify-center pointer-events-auto"
+          aria-label={isMuted ? "Unmute" : "Mute"}
         >
           {isMuted ? (
             <svg
@@ -147,5 +120,5 @@ export function MuxVideoPlayer({ playbackId, title }: MuxVideoPlayerProps) {
         )}
       </div>
     </div>
-  )
-} 
+  );
+}
