@@ -1,7 +1,5 @@
 import { useRef, useState } from "react";
 import { MuxVideoPlayer } from "./MuxVideoPlayer";
-import NextSVG from "public/assets/videos/next.svg";
-import PrevSVG from "public/assets/videos/prev.svg";
 
 interface VideoSliderProps {
   videos: string[];
@@ -12,12 +10,6 @@ interface VideoSliderProps {
 export function VideoSlider({ videos, className, autoplay = true }: VideoSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const styles = {
-    button:
-      "rounded-full bg-primary-500 hover:bg-primary-700 transition-colors h-14 w-14 p-4 flex items-center justify-center disabled:bg-gray-300 disabled:cursor-default",
-    svg: "h-6 w-6 text-white",
-  };
 
   const goToSlide = (index: number) => {
     if (index >= 0 && index < videos.length) {
@@ -51,8 +43,24 @@ export function VideoSlider({ videos, className, autoplay = true }: VideoSliderP
 
   return (
     <div className="flex items-center justify-evenly gap-5 w-[600px]">
-      <button className={styles.button} onClick={goPrev} disabled={isPrevDisabled}>
-        <PrevSVG className={styles.svg} />
+      <button
+        className="rounded-full bg-primary-500 hover:bg-primary-700 transition-colors h-14 w-14 p-4 flex items-center justify-center disabled:bg-gray-300 disabled:cursor-default"
+        onClick={goPrev}
+        disabled={isPrevDisabled}
+      >
+        <svg
+          className="h-28 w-28"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
       </button>
       <div className="overflow-hidden flex-1 flex flex-col gap-5">
         <div
@@ -82,8 +90,25 @@ export function VideoSlider({ videos, className, autoplay = true }: VideoSliderP
           ))}
         </div>
       </div>
-      <button className={styles.button} onClick={goNext} disabled={isNextDisabled}>
-        <NextSVG className={styles.svg} />
+      <button
+        className="rounded-full bg-primary-500 hover:bg-primary-700 transition-colors h-14 w-14 p-4 flex items-center justify-center disabled:bg-gray-300 disabled:cursor-default"
+        onClick={goNext}
+        disabled={isNextDisabled}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
       </button>
     </div>
   );
