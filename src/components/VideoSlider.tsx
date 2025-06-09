@@ -42,7 +42,7 @@ export function VideoSlider({ videos, className, autoplay = true }: VideoSliderP
   const isNextDisabled = currentIndex === videos.length - 1;
 
   return (
-    <div className="flex items-center justify-evenly gap-5 lg:w-[600px] h-[400px]">
+    <div className="flex items-center justify-evenly gap-5 lg:max-w-[600px]">
       <button
         className="rounded-full bg-primary-500 hover:bg-primary-700 transition-colors h-14 w-14 p-4 flex items-center justify-center disabled:bg-gray-300 disabled:cursor-default"
         onClick={goPrev}
