@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import ContactExpertModal from "@/components/ContactExpertModal";
 import { WhatsAppDirectButton } from "@/components/WhatsAppDirectButton";
@@ -6,6 +6,7 @@ import { LocalStorageService } from "@/clients/local";
 import { TripProposal } from "@/core/types/trip";
 import { ResultsDestinationCard } from "@/components/results/ResultsDestinationCard";
 import { useAppStore } from "@/core/store";
+import TripPlanningDecisionModal from "../TripPlanningDecisionModal";
 
 type ResultTripProps = {
   isPublic?: boolean;
@@ -25,6 +26,8 @@ export function ResultsTrip({
   tripProposal,
 }: ResultTripProps) {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isWantToGoModalOpen, setIsWantToGoModalOpen] = useState(false);
+  const selectedDestination = useRef<string>("");
   const hasTraveler = LocalStorageService.hasTraveler();
 
   const { travelerProfile } = useAppStore((state) => state.travelerState);
@@ -64,6 +67,8 @@ export function ResultsTrip({
                 isLarge={true}
                 onWantToGo={setDestinationById}
                 isMainChoice={true}
+                onPlanningTripToGo={setIsWantToGoModalOpen}
+                setSelectedDestination={selectedDestination}
               />
             </div>
           )}
@@ -82,6 +87,8 @@ export function ResultsTrip({
                       key={destination.destinationId}
                       destination={destination}
                       onWantToGo={setDestinationById}
+                      onPlanningTripToGo={setIsWantToGoModalOpen}
+                      setSelectedDestination={selectedDestination}
                     />
                   ))}
                 </div>
@@ -95,6 +102,8 @@ export function ResultsTrip({
                       key={destination.destinationId}
                       destination={destination}
                       onWantToGo={setDestinationById}
+                      onPlanningTripToGo={setIsWantToGoModalOpen}
+                      setSelectedDestination={selectedDestination}
                     />
                   ))}
                 </div>
@@ -149,6 +158,16 @@ export function ResultsTrip({
           )}
         </div>
       </div>
+      {/* Trip Planning Decision Modal */}
+      <TripPlanningDecisionModal
+        isOpen={isWantToGoModalOpen}
+        onClose={() => {
+          selectedDestination.current = "";
+          setIsWantToGoModalOpen(false);
+        }}
+        selectedDestination={selectedDestination.current}
+        onContactExpert={handleContactExpert}
+      />
 
       {/* Contact Expert Modal */}
       <ContactExpertModal
