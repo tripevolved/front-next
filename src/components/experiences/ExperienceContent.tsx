@@ -6,7 +6,6 @@ import { ShareModal } from "@/components/ShareModal";
 import ContactExpertModal from "@/components/ContactExpertModal";
 import { LocalStorageService } from "@/clients/local";
 import type { Experience } from "@/core/types/experiences";
-import { MuxVideoPlayer } from "@/components/MuxVideoPlayer";
 import { VideoOverlay } from "./VideoOverlay";
 import { mockItinerary } from "./mock";
 import { VideoSlider } from "../VideoSlider";
@@ -409,7 +408,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
                         key="1"
                         className="relative group over overflow-hidden bg-white shadow-lg p-6 pb-12"
                       >
-                        <div className="relative w-full rounded-lg h-full flex flex-col gap-3 ">
+                        <div className="relative w-full rounded-lg h-full flex gap-3 flex-col">
                           <p className="text-lg font-medium text-gray-700">Destaque {1 + 1}</p>
                           {day.highlights.videos && day.highlights.videos.length > 0 ? (
                             <>
