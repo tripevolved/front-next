@@ -65,7 +65,6 @@ export function ResultsTrip({
               <ResultsDestinationCard
                 destination={tripProposal.mainChoice}
                 isLarge={true}
-                onWantToGo={setDestinationById}
                 isMainChoice={true}
                 onPlanningTripToGo={setIsWantToGoModalOpen}
                 setSelectedDestination={selectedDestination}
@@ -86,7 +85,6 @@ export function ResultsTrip({
                     <ResultsDestinationCard
                       key={destination.destinationId}
                       destination={destination}
-                      onWantToGo={setDestinationById}
                       onPlanningTripToGo={setIsWantToGoModalOpen}
                       setSelectedDestination={selectedDestination}
                     />
@@ -101,7 +99,6 @@ export function ResultsTrip({
                     <ResultsDestinationCard
                       key={destination.destinationId}
                       destination={destination}
-                      onWantToGo={setDestinationById}
                       onPlanningTripToGo={setIsWantToGoModalOpen}
                       setSelectedDestination={selectedDestination}
                     />
@@ -167,6 +164,8 @@ export function ResultsTrip({
         }}
         selectedDestination={selectedDestination.current}
         onContactExpert={handleContactExpert}
+        onWantToGo={setDestinationById}
+        isPublic={isPublic}
       />
 
       {/* Contact Expert Modal */}

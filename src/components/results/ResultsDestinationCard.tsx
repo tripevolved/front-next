@@ -5,7 +5,6 @@ import setSeconds from "date-fns/esm/setSeconds/index.js";
 
 export interface ResultsDestinationCardProps {
   destination: TripMatchedDestination;
-  onWantToGo: (id: string) => void;
   isLarge?: boolean;
   isMainChoice?: boolean;
   onPlanningTripToGo: Dispatch<SetStateAction<boolean>>;
@@ -24,7 +23,6 @@ const profileIcons: Record<string, string> = {
 
 export function ResultsDestinationCard({
   destination,
-  onWantToGo,
   isMainChoice = false,
   isLarge = false,
   onPlanningTripToGo,
@@ -68,7 +66,6 @@ export function ResultsDestinationCard({
 
   const onClick = (destination: TripMatchedDestination) => {
     onPlanningTripToGo(true);
-    onWantToGo(destination.destinationId);
     setSelectedDestination.current = destination.uniqueName;
   };
 

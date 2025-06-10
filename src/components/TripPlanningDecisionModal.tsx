@@ -14,6 +14,8 @@ interface TripPlanningDecisionModalProps {
   onClose: () => void;
   selectedDestination: string | null;
   onContactExpert: () => void;
+  onWantToGo: (destinationId: string) => Promise<void>;
+  isPublic: boolean;
 }
 
 export default function TripPlanningDecisionModal({
@@ -21,6 +23,8 @@ export default function TripPlanningDecisionModal({
   onClose,
   selectedDestination,
   onContactExpert,
+  onWantToGo,
+  isPublic,
 }: TripPlanningDecisionModalProps) {
   const [destination, setDestination] = useState<PublicDestination | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -117,19 +121,32 @@ export default function TripPlanningDecisionModal({
         <div className="sticky bottom-0 bg-white border-t border-gray-200 p-6 z-10">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative group flex-1">
-              <button
-                className="w-full bg-primary-600 text-white py-2 rounded-full font-medium opacity-70 cursor-not-allowed flex items-center justify-center border border-primary-700 shadow-sm"
-                disabled
-              >
-                <span>Planejar minha viagem</span>
-                <span className="ml-2 bg-accent-500 text-white text-xs px-2 py-0.5 rounded">
-                  Em breve
-                </span>
-              </button>
-              <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-white text-gray-800 text-xs px-4 py-3 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-80 text-center border border-gray-200">
-                Em breve você poderá planejar sua viagem completa através da nossa plataforma,
-                contando com a curadoria de nossos especialistas
-              </div>
+              {!isPublic ? (
+                <div className="relative group flex-1">
+                  <button
+                    className="w-full bg-primary-600 text-white py-2 rounded-full font-medium opacity-70 flex items-center justify-center border border-primary-700 shadow-sm hover:bg-primary-700 transition-colors"
+                    onClick={() => onWantToGo(destination?.id as string)}
+                  >
+                    <span>Planejar minha viagem</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="relative group flex-1">
+                  <button
+                    className="w-full bg-primary-600 text-white py-2 rounded-full font-medium opacity-70 cursor-not-allowed flex items-center justify-center border border-primary-700 shadow-sm"
+                    disabled
+                  >
+                    <span>Planejar minha viagem</span>
+                    <span className="ml-2 bg-accent-500 text-white text-xs px-2 py-0.5 rounded">
+                      Em breve
+                    </span>
+                  </button>
+                  <div className="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-white text-gray-800 text-xs px-4 py-3 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 w-80 text-center border border-gray-200">
+                    Em breve você poderá planejar sua viagem completa através da nossa plataforma,
+                    contando com a curadoria de nossos especialistas
+                  </div>
+                </div>
+              )}
             </div>
 
             {hasTraveler ? (
