@@ -7,7 +7,6 @@ import ContactExpertModal from "@/components/ContactExpertModal";
 import { LocalStorageService } from "@/clients/local";
 import type { Experience } from "@/core/types/experiences";
 import { VideoOverlay } from "./VideoOverlay";
-import { mockItinerary } from "./mock";
 import { VideoSlider } from "../VideoSlider";
 
 interface ExperienceContentProps {
@@ -23,18 +22,12 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
   const [showDayNav, setShowDayNav] = useState(false);
   const dayRefs = useRef<(HTMLElement | null)[]>([]);
   const dayOneRef = useRef<HTMLElement | null>(null);
-  const currentVideo = useRef<HTMLVideoElement | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<{
     playbackId: string;
     title: string;
     dayIndex: number;
     videoIndex: number;
   } | null>(null);
-
-  const newExperience = {
-    ...experience,
-    itinerary: mockItinerary,
-  };
 
   // Check if traveler exists in localStorage
   useEffect(() => {
@@ -132,7 +125,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
   };
 
   const handleVideoChange = (dayIndex: number, videoIndex: number) => {
-    const day = newExperience.itinerary[dayIndex];
+    const day = experience.itinerary[dayIndex];
     if (day && day.highlights.videos && day.highlights.videos[videoIndex]) {
       setSelectedVideo({
         playbackId: day.highlights.videos[videoIndex],
@@ -332,7 +325,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
       </div>
 
       {/* Day Sections */}
-      {newExperience.itinerary.map((day, dayIndex) => (
+      {experience.itinerary.map((day, dayIndex) => (
         <section
           key={dayIndex}
           id={`day-${day.day}`}
