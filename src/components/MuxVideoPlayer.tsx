@@ -6,9 +6,11 @@ import MuxPlayer from '@mux/mux-player-react'
 interface MuxVideoPlayerProps {
   playbackId: string
   title?: string
+  autoplay?: boolean
+  loop?: boolean
 }
 
-export function MuxVideoPlayer({ playbackId, title }: MuxVideoPlayerProps) {
+export function MuxVideoPlayer({ playbackId, title, autoplay = true, loop = true }: MuxVideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [showControls, setShowControls] = useState(true);
@@ -51,8 +53,8 @@ export function MuxVideoPlayer({ playbackId, title }: MuxVideoPlayerProps) {
         ref={videoRef}
         streamType="on-demand"
         playbackId={playbackId}
-        autoPlay
-        loop
+        autoPlay={autoplay}
+        loop={loop}
         muted={isMuted}
         playsInline
         className="w-full h-full object-cover"
