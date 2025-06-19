@@ -7,6 +7,7 @@ import Button from '@/components/common/Button'
 import NewsletterSection from '@/components/consultancy/NewsletterSection'
 import TripEvolvedSection from '@/components/consultancy/TripEvolvedSection'
 import FAQSection from '@/components/consultancy/FAQSection'
+import CruiseFlowModal from '@/components/consultancy/CruiseFlowModal'
 import Image from 'next/image'
 
 const cruiseFAQs = [
@@ -34,6 +35,7 @@ const cruiseFAQs = [
 
 export default function CruzeirosUnicosPage() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
+  const [isCruiseFlowModalOpen, setIsCruiseFlowModalOpen] = useState(false)
 
   return (
     <div className="flex flex-col">
@@ -72,10 +74,10 @@ export default function CruzeirosUnicosPage() {
                 Cruzeiros únicos para <span className="text-accent-500">momentos inesquecíveis</span>
               </h1>
               <p className="text-white/90 font-comfortaa text-xl mb-8">
-                Descubra experiências exclusivas a bordo dos navios mais luxuosos do mundo, com roteiros personalizados que vão além do comum.
+                Descubra experiências exclusivas a bordo dos navios mais luxuosos do mundo, com roteiros que vão além do comum.
               </p>
               <Button 
-                onClick={() => setIsContactModalOpen(true)}
+                onClick={() => setIsCruiseFlowModalOpen(true)}
                 event="pre_agendar"
                 eventOptions={{
                   source: 'Hero Section - Cruzeiros Únicos'
@@ -94,7 +96,7 @@ export default function CruzeirosUnicosPage() {
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="text-center mb-16">
             <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
-              Conheça alguns dos navios e suas <span className="text-accent-500">experiências exclusivas</span>
+              Conheça algumas das <span className="text-accent-500">experiências exclusivas</span>
             </h2>
           </div>
 
@@ -160,7 +162,7 @@ export default function CruzeirosUnicosPage() {
           {/* CTA Section */}
           <div className="text-center mt-16">
             <Button 
-              onClick={() => setIsContactModalOpen(true)}
+              onClick={() => setIsCruiseFlowModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
                 source: 'Videos Section - Cruzeiros Únicos'
@@ -317,7 +319,7 @@ export default function CruzeirosUnicosPage() {
           {/* CTA Section */}
           <div className="text-center">
             <Button 
-              onClick={() => setIsContactModalOpen(true)}
+              onClick={() => setIsCruiseFlowModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
                 source: 'Como funciona Section - Cruzeiros Únicos'
@@ -346,7 +348,7 @@ export default function CruzeirosUnicosPage() {
             Agende uma reunião com nossos especialistas e comece a planejar a viagem dos seus sonhos hoje mesmo.
           </p>
           <Button
-            onClick={() => setIsContactModalOpen(true)}
+            onClick={() => setIsCruiseFlowModalOpen(true)}
             event="pre_agendar"
             eventOptions={{
               source: 'Final CTA Section - Consultoria'
@@ -372,6 +374,12 @@ export default function CruzeirosUnicosPage() {
             keyDescription: 'Fonte do lead'
           }
         ]}
+      />
+
+      {/* Cruise Flow Modal */}
+      <CruiseFlowModal
+        isOpen={isCruiseFlowModalOpen}
+        onClose={() => setIsCruiseFlowModalOpen(false)}
       />
     </div>
   )
