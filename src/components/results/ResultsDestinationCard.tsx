@@ -1,11 +1,14 @@
 import Image from "next/image";
 import type { TripMatchedDestination } from "@/core/types";
+import { Dispatch, MutableRefObject, SetStateAction } from "react";
+import setSeconds from "date-fns/esm/setSeconds/index.js";
 
 export interface ResultsDestinationCardProps {
   destination: TripMatchedDestination;
-  onWantToGo: (id: string) => void;
   isLarge?: boolean;
   isMainChoice?: boolean;
+  onPlanningTripToGo: Dispatch<SetStateAction<boolean>>;
+  setSelectedDestination: MutableRefObject<string>;
 }
 
 // Profile mapping for feature icons
@@ -20,9 +23,10 @@ const profileIcons: Record<string, string> = {
 
 export function ResultsDestinationCard({
   destination,
-  onWantToGo,
   isMainChoice = false,
   isLarge = false,
+  onPlanningTripToGo,
+  setSelectedDestination,
 }: ResultsDestinationCardProps) {
   // Get match level based on the match score
   const getMatchLevel = () => {
@@ -60,6 +64,11 @@ export function ResultsDestinationCard({
   const matchInfo = getMatchInfo();
   const imageUrl = destination.images[0]?.sources?.[0]?.url || "/assets/blank-image.png";
 
+  const onClick = (destination: TripMatchedDestination) => {
+    onPlanningTripToGo(true);
+    setSelectedDestination.current = destination.uniqueName;
+  };
+
   // Get icon for a feature based on profile mapping
   const getFeatureIcon = (feature: string): string => {
     // Convert feature to lowercase for case-insensitive matching
@@ -69,6 +78,7 @@ export function ResultsDestinationCard({
     for (const [profile, icon] of Object.entries(profileIcons)) {
       if (lowerFeature.includes(profile)) {
         return icon;
+        ("");
       }
     }
 
@@ -81,7 +91,7 @@ export function ResultsDestinationCard({
       className={`bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:scale-105 ${
         isLarge ? "w-full md:w-3/5 mx-auto" : "w-[70%] md:w-full flex-shrink-0"
       } cursor-pointer`}
-      onClick={() => onWantToGo(destination.destinationId)}
+      onClick={() => onClick(destination)}
     >
       <div className={`relative ${isLarge ? "h-[500px]" : "h-[300px]"}`}>
         <Image src={imageUrl} alt={destination.name} fill className="object-cover" />
@@ -124,4 +134,4 @@ export function ResultsDestinationCard({
       </div>
     </div>
   );
-};
+}
