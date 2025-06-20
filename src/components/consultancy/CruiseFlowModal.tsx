@@ -278,6 +278,10 @@ export default function CruiseFlowModal({ isOpen, onClose }: CruiseFlowModalProp
             <LeadForm
               onSuccess={handleFormSuccess}
               submitButtonText="Enviar e agendar reunião"
+              event="agendar"
+              eventOptions={{
+                source: 'Cruzeiros Únicos - Flow'
+              }}
               additionalMetadata={[
                 {
                   key: 'source',
