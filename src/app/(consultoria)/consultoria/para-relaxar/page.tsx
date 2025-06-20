@@ -10,6 +10,15 @@ import Button from '@/components/common/Button'
 export default function ParaRelaxarPage() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
 
+  const handleContactSuccess = () => {
+    // Open Google Calendar in a new tab
+    const calendarUrl = 'https://calendar.app.google/zSrzwmgCKFKajYMN6'
+    window.open(calendarUrl, '_blank')
+    
+    // Redirect current page to /obrigado
+    window.location.href = '/obrigado'
+  }
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -307,7 +316,7 @@ export default function ParaRelaxarPage() {
                     Reunião inicial com nossos especialistas
                   </h3>
                   <p className="text-secondary-600 font-comfortaa text-lg">
-                    Tudo começa com uma conversa leve e acolhedora. Nela, entendemos o estilo de vocês, o que esperam viver juntos e como gostam de relaxar. Explicamos com clareza o nosso serviço e o que será entregue em cada etapa. Essa reunião é gratuita e feita para vocês se sentirem à vontade — sem nenhuma obrigação de seguir.
+                    Sessão de uma hora com nossos especialistas para entender suas preferências, necessidades e orçamento para essa viagem.
                   </p>
                 </div>
               </div>
@@ -323,10 +332,10 @@ export default function ParaRelaxarPage() {
                 </div>
                 <div>
                   <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Confirmação do projeto e proposta personalizada
+                    Proposta personalizada
                   </h3>
                   <p className="text-secondary-600 font-comfortaa text-lg">
-                    Com o pagamento de R$500, damos início à criação de uma proposta sob medida. Ela inclui recomendações de destinos, voos ideais, resorts exclusivos e um roteiro desenhado com equilíbrio, exclusividade e momentos relaxantes. O valor investido é totalmente abatido no fechamento da viagem.
+                    Com o pagamento da nossa taxa de consultoria, de R$1.200,00, criamos sua proposta sob medida. Você recebe um documento detalhado com itinerário sugerido, incluindo opções de destinos, atividades, voos, acomodações e transporte.
                   </p>
                 </div>
               </div>
@@ -342,10 +351,10 @@ export default function ParaRelaxarPage() {
                 </div>
                 <div>
                   <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Ajustes finos e aprovação da viagem
+                    Reserva e coordenação
                   </h3>
                   <p className="text-secondary-600 font-comfortaa text-lg">
-                    A proposta pode ser ajustada quantas vezes for necessário. O objetivo é garantir que cada detalhe reflita perfeitamente o que vocês imaginam. Quando tudo estiver como sonhado, seguimos com as reservas e toda a parte operacional da viagem.
+                    Com a viagem confirmada, cuidamos de tudo. Reservamos voos, acomodações, passeios e outras atividades, garantindo as melhores opções disponíveis.
                   </p>
                 </div>
               </div>
@@ -361,10 +370,10 @@ export default function ParaRelaxarPage() {
                 </div>
                 <div>
                   <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Preparativos completos antes do embarque
+                    Kit viagem personalizado
                   </h3>
                   <p className="text-secondary-600 font-comfortaa text-lg">
-                    Vocês recebem orientações claras sobre vistos, vacinas e documentos essenciais. Também cuidamos de check-ins, horários de traslados e todos os pequenos detalhes que fazem a diferença. A ideia é que vocês embarquem tranquilos e animados.
+                    Vocês recebem um kit viagem personalizado com guia, mapa, recomendações locais... Tudo personalizado e pensando nos momentos únicos que vocês vão viver.
                   </p>
                 </div>
               </div>
@@ -384,7 +393,7 @@ export default function ParaRelaxarPage() {
                   Suporte completo durante toda a viagem
                 </h3>
                 <p className="text-secondary-600 font-comfortaa text-lg">
-                  Vocês terão acesso a um concierge dedicado e atendimento 24/7 para qualquer necessidade, desde reservas de restaurantes até dicas exclusivas no destino. E mesmo depois da volta, continuamos por perto para ouvir como foi — e começar a sonhar juntos com a próxima.
+                  Vocês terão suporte e atendimento 24/7 para qualquer necessidade. E mesmo depois da volta, continuamos por perto para ouvir como foi — e começar a sonhar juntos com a próxima.
                 </p>
               </div>
             </div>
@@ -412,21 +421,10 @@ export default function ParaRelaxarPage() {
           <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-12 text-center">
             Por que agendar sua reunião agora?
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+          <div className="grid gap-12 mb-12">
             <div>
-              <h3 className="text-2xl font-baloo font-bold mb-4">
-                Vagas Limitadas
-              </h3>
               <p className="text-white/90 font-comfortaa text-lg">
-                Temos apenas <span className="text-accent-500 font-bold">6 vagas</span> por mês para garantir atenção máxima a vocês. Não perca a oportunidade de garantir sua vaga.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-2xl font-baloo font-bold mb-4">
-                Planejamento Antecipado
-              </h3>
-              <p className="text-white/90 font-comfortaa text-lg">
-                Quanto antes começarmos a planejar sua viagem, <span className="text-accent-500 font-bold">melhores opções</span> teremos disponíveis. Garanta as melhores experiências.
+                Quanto antes começarmos a planejar sua viagem, <span className="text-accent-500 font-bold">melhores opções</span> teremos disponíveis. Agende sua reunião agora e garanta as melhores experiências.
               </p>
             </div>
           </div>
@@ -504,6 +502,7 @@ export default function ParaRelaxarPage() {
       <ContactExpertModal
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
+        onSuccess={handleContactSuccess}
         additionalMetadata={[
           {
             key: 'source',
