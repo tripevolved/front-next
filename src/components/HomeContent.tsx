@@ -145,7 +145,7 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
                 Construímos sua viagem
               </h3>
               <p className="text-secondary-600 font-comfortaa">
-                Você receberá uma proposta que vai muito além da hospedagem e voo: você terá um itinerário completo, atrações, restaurantes... momentos únicos e jóias escondidas do seu destino que você <span className="font-bold">não conseguiria encontrar sozinho</span>. Essa proposta custa R$500,00 e esse valor será descontado do valor final da sua viagem.
+                Você receberá uma proposta que vai muito além da hospedagem e voo: você terá um itinerário completo, atrações, restaurantes... momentos únicos e jóias escondidas do seu destino que você <span className="font-bold">não conseguiria encontrar sozinho</span>. Essa proposta custa R$1.200,00, valor referente à nossa taxa de consultoria.
               </p>
             </div>
 
