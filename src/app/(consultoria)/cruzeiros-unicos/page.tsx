@@ -62,8 +62,10 @@ export default function CruzeirosUnicosPage() {
             <div className="order-2 lg:order-1">
               <div className="rounded-xl overflow-hidden shadow-2xl">
                 <MuxVideoPlayer 
-                  playbackId="YOUR_HERO_VIDEO_PLAYBACK_ID"
+                  playbackId="y6nLWJI02JXoMaZVl5UntssnJRgP88SW81yCX6k00y8I00"
                   title="Cruzeiros Únicos"
+                  isMuted={false}
+                  loop={false}
                 />
               </div>
             </div>
@@ -105,9 +107,10 @@ export default function CruzeirosUnicosPage() {
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
               <div className="aspect-video">
                 <MuxVideoPlayer 
-                  playbackId="uJZI1AGknXpXWng8000157cUFHuyziX6JNurpoBQ3NEqA"
+                  playbackId="JLu00uslnWyxCbQVR3WYDfqWTF100T014dvZ4EXBWPLt9Y"
                   autoplay={false}
                   loop={false}
+                  isMuted={false}
                 />
               </div>
               <div className="p-6">
@@ -124,17 +127,18 @@ export default function CruzeirosUnicosPage() {
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
               <div className="aspect-video">
                 <MuxVideoPlayer 
-                  playbackId="XS9UP7x5XDFCkX778aYqW1bZ9fYY9SQcajaY7ACz9bQ"
+                  playbackId="hP8NEdV7Lv952AMPLPFX5Pd8C3QKchqbLv7pHC5AC02Y"
                   autoplay={false}
                   loop={false}
+                  isMuted={false}
                 />
               </div>
               <div className="p-6">
                 <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-2">
-                  Ocean Penthouse
+                  Casas no mar
                 </h3>
                 <p className="text-secondary-600 font-comfortaa text-lg">
-                  Para o conforto em alto-mar que você merece, nada melhor que a Ocean Penthouse.
+                  Para o conforto em alto-mar que você merece, nada melhor do que a sua própria casa no mar.
                 </p>
               </div>
             </div>
@@ -143,9 +147,10 @@ export default function CruzeirosUnicosPage() {
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
               <div className="aspect-video">
                 <MuxVideoPlayer 
-                  playbackId="DA1Zq5xS3TYKS6QgI4C01xBTdjoIabIiolcUwospdxgE"
+                  playbackId="402mYYYzRmKX2rn014MLa7jaNVSfPTcGnMOESfwvLosQI"
                   autoplay={false}
                   loop={false}
+                  isMuted={false}
                 />
               </div>
               <div className="p-6">
