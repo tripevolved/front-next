@@ -4,6 +4,7 @@ import LeadForm from './LeadForm'
 interface ContactExpertModalProps {
   isOpen: boolean
   onClose: () => void
+  onSuccess?: () => void
   additionalMetadata?: Array<{
     key: string
     value: string
@@ -14,9 +15,18 @@ interface ContactExpertModalProps {
 export default function ContactExpertModal({ 
   isOpen, 
   onClose,
+  onSuccess,
   additionalMetadata = []
 }: ContactExpertModalProps) {
   const router = useRouter()
+
+  const handleSuccess = () => {
+    if (onSuccess) {
+      onSuccess()
+    } else {
+      router.push('/obrigado')
+    }
+  }
 
   if (!isOpen) return null
 
@@ -40,7 +50,7 @@ export default function ContactExpertModal({
           Preencha os campos abaixo para que nossos especialistas possam entrar em contato com você.
         </p>
         <LeadForm
-          onSuccess={() => router.push('/obrigado')}
+          onSuccess={handleSuccess}
           submitButtonText="Falar com especialista"
           additionalMetadata={additionalMetadata}
           event="agendar"

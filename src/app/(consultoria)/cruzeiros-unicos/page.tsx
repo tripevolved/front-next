@@ -356,7 +356,7 @@ export default function CruzeirosUnicosPage() {
             onClick={() => setIsCruiseFlowModalOpen(true)}
             event="pre_agendar"
             eventOptions={{
-              source: 'Final CTA Section - Consultoria'
+              source: 'Final CTA Section - Cruzeiros Únicos'
             }}
             className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
           >
@@ -366,7 +366,7 @@ export default function CruzeirosUnicosPage() {
       </section>
 
       {/* Newsletter Section */}
-      <NewsletterSection source="Consultoria" />
+      <NewsletterSection source="Cruzeiros Únicos" />
 
       {/* Contact Expert Modal */}
       <ContactExpertModal
