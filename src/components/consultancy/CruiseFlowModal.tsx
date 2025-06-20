@@ -57,7 +57,7 @@ export default function CruiseFlowModal({ isOpen, onClose }: CruiseFlowModalProp
 
   const handleFormSuccess = () => {
     // Open Google Calendar in a new tab
-    const calendarUrl = 'https://calendar.google.com/calendar/u/0/r'
+    const calendarUrl = 'https://calendar.app.google/zSrzwmgCKFKajYMN6'
     window.open(calendarUrl, '_blank')
     
     // Redirect current page to /obrigado
