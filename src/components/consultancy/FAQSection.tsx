@@ -1,11 +1,17 @@
 import FAQ from '@/components/FAQ'
 
-interface FAQSectionProps {
-  source: string
+interface FAQQuestion {
+  question: string
+  answer: string
 }
 
-export default function FAQSection({ source }: FAQSectionProps) {
-  const faqQuestions = [
+interface FAQSectionProps {
+  source: string
+  questions?: FAQQuestion[]
+}
+
+export default function FAQSection({ source, questions }: FAQSectionProps) {
+  const defaultQuestions = [
     {
       question: "Por que vocês só fazem 6 viagens por mês?",
       answer: "Limitamos nosso número de viagens para garantir que cada casal receba atenção personalizada e dedicada. Isso nos permite criar experiências verdadeiramente únicas e cuidar de cada detalhe com o carinho que merecem."
@@ -27,6 +33,8 @@ export default function FAQSection({ source }: FAQSectionProps) {
       answer: "Não trabalhamos com pacotes prontos. Cada viagem que construímos é unica e merece um planejamento especial. O valor de R$500,00 é um investimento que garante essa proposta detalhada e personalizada, fruto de horas de pesquisa e planejamento. Este valor é totalmente abatido no fechamento da viagem, demonstrando nosso compromisso com a qualidade do serviço."
     }
   ]
+
+  const faqQuestions = questions || defaultQuestions
 
   return (
     <section className="py-24 bg-secondary-50">
