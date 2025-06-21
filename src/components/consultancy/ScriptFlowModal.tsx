@@ -387,17 +387,17 @@ export default function ScriptFlowModal({ isOpen, onClose }: ScriptFlowModalProp
         <div className="mb-6 flex-shrink-0">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium text-secondary-600">
-              {currentStep === 7 ? 'Passo 3 de 3 (Finalização)' : `Passo ${currentStep + 1} de 7`}
+              Passo {currentStep + 1} de 8
             </span>
             <span className="text-sm font-medium text-secondary-600">
-              {currentStep === 7 ? '100%' : `${Math.round(((currentStep + 1) / 7) * 100)}%`}
+              {Math.round(((currentStep + 1) / 8) * 100)}%
             </span>
           </div>
           <div className="w-full bg-secondary-200 rounded-full h-2">
             <div 
               className="bg-accent-500 h-2 rounded-full transition-all duration-300"
               style={{ 
-                width: currentStep === 7 ? '100%' : `${((currentStep + 1) / 7) * 100}%`
+                width: `${((currentStep + 1) / 8) * 100}%`
               }}
             />
           </div>
