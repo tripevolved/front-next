@@ -10,6 +10,11 @@ import { CreateTripRequest, TripTravelers } from '@/core/types/trip'
 import { LocalStorageService } from '@/clients/local'
 import * as fpixel from '@/utils/libs/fpixel'
 import { TripGoal } from '@/clients/trips/goals'
+import MonthSelector from './common/MonthSelector'
+import DateRangeSelector from './common/DateRangeSelector'
+import TripTypeSelector from './common/TripTypeSelector'
+import TripProfileSelector from './common/TripProfileSelector'
+import TripGoalsSelector from './common/TripGoalsSelector'
 
 // Types for the wizard
 interface TripDates {
@@ -42,21 +47,6 @@ const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => void, onB
   const [startDate, endDate] = dateRange
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
   const [selectionMode, setSelectionMode] = useState<'month' | 'range'>('month')
-
-  const months = [
-    { value: '01', label: 'Janeiro' },
-    { value: '02', label: 'Fevereiro' },
-    { value: '03', label: 'Março' },
-    { value: '04', label: 'Abril' },
-    { value: '05', label: 'Maio' },
-    { value: '06', label: 'Junho' },
-    { value: '07', label: 'Julho' },
-    { value: '08', label: 'Agosto' },
-    { value: '09', label: 'Setembro' },
-    { value: '10', label: 'Outubro' },
-    { value: '11', label: 'Novembro' },
-    { value: '12', label: 'Dezembro' }
-  ]
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -114,30 +104,19 @@ const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => void, onB
 
         {/* Month selection */}
         {selectionMode === 'month' && (
-          <div className="grid grid-cols-3 gap-2 mb-4">
-            {months.map((month) => (
-              <button
-                key={month.value}
-                type="button"
-                onClick={() => setSelectedMonth(month.value)}
-                className={`p-3 border rounded-lg text-center transition-all ${
-                  selectedMonth === month.value
-                    ? 'border-primary-500 bg-primary-50 text-primary-700'
-                    : 'border-gray-300 hover:border-primary-300'
-                }`}
-              >
-                {month.label}
-              </button>
-            ))}
-          </div>
+          <MonthSelector
+            selectedMonth={selectedMonth}
+            onMonthSelect={setSelectedMonth}
+            className="mb-4"
+          />
         )}
 
         {/* Date range selection */}
         {selectionMode === 'range' && (
-          <DateRangePicker
+          <DateRangeSelector
             startDate={startDate}
             endDate={endDate}
-            onChange={(update) => setDateRange(update)}
+            onDateRangeChange={(update) => setDateRange(update)}
             minDate={new Date()}
           />
         )}
@@ -170,66 +149,10 @@ const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => void, onB
 
 const StepGoals = ({ onNext, onBack, tripType }: { onNext: (goals: TripGoals) => void, onBack: () => void, tripType?: string }) => {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([])
-  const [availableGoals, setAvailableGoals] = useState<TripGoal[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  
-  useEffect(() => {
-    const fetchGoals = async () => {
-      try {
-        setIsLoading(true)
-        setError(null)
-        const goals = await TripsApiService.getGoals(tripType === 'casal' ? 'COUPLE' : 'INDIVIDUAL')
-        setAvailableGoals(goals)
-      } catch (err) {
-        console.error('Error fetching goals:', err)
-        setError('Não foi possível carregar os objetivos. Por favor, tente novamente.')
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchGoals()
-  }, [])
-
-  const handleGoalClick = (goal: string) => {
-    if (selectedGoals.includes(goal)) {
-      setSelectedGoals(selectedGoals.filter(g => g !== goal))
-    } else if (selectedGoals.length < 5) {
-      setSelectedGoals([...selectedGoals, goal])
-    }
-  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onNext({ goals: selectedGoals })
-  }
-
-  if (isLoading) {
-    return (
-      <div className="p-6 space-y-6">
-        <div className="text-center py-8">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600 mx-auto mb-4"></div>
-          <p className="text-primary-600 font-medium">Carregando objetivos...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="p-6 space-y-6">
-        <div className="text-center py-8">
-          <p className="text-red-600 mb-4">{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-primary-600 text-white rounded-full hover:bg-primary-700"
-          >
-            Tentar novamente
-          </button>
-        </div>
-      </div>
-    )
   }
 
   return (
@@ -238,23 +161,13 @@ const StepGoals = ({ onNext, onBack, tripType }: { onNext: (goals: TripGoals) =>
       <p className="text-gray-600 mb-6">Selecione até 5 palavras que melhor definem a viagem dos seus sonhos.</p>
       
       <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
-        <div className="bg-gray-100 sm:bg-white px-1 py-2 rounded-lg grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5 sm:gap-3 overflow-y-auto max-h-[50vh] pr-2">
-          {availableGoals.map((goal) => (
-            <button
-              key={goal.uniqueName}
-              type="button"
-              onClick={() => handleGoalClick(goal.uniqueName)}
-              disabled={!selectedGoals.includes(goal.uniqueName) && selectedGoals.length >= 5}
-              className={`py-1.5 px-1.5 sm:p-3 border rounded-full text-center transition-all min-h-[30px] sm:min-h-[56px] flex items-center justify-center ${
-                selectedGoals.includes(goal.uniqueName)
-                  ? 'border-primary-500 bg-primary-50 text-primary-700'
-                  : 'border-gray-300 hover:border-primary-300 disabled:opacity-50 disabled:cursor-not-allowed'
-              }`}
-            >
-              <span className="text-sm leading-tight">{goal.name}</span>
-            </button>
-          ))}
-        </div>
+        <TripGoalsSelector
+          selectedGoals={selectedGoals}
+          onGoalsChange={setSelectedGoals}
+          tripType={tripType}
+          maxSelections={5}
+          className="flex-grow"
+        />
 
         <div className="flex justify-between pt-4 mt-4">
           <button
@@ -280,15 +193,6 @@ const StepGoals = ({ onNext, onBack, tripType }: { onNext: (goals: TripGoals) =>
 const StepProfile = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (profile: TripProfile) => void, onBack: () => void, buttonText?: string }) => {
   const [profile, setProfile] = useState('')
 
-  const profiles = [
-    { id: 'relax', name: 'Relax', icon: '🌴' },
-    { id: 'alternativo', name: 'Alternativo', icon: '🎨' },
-    { id: 'aventureiro', name: 'Aventureiro', icon: '🏃' },
-    { id: 'gastronomico', name: 'Gastronômico', icon: '🍽️' },
-    { id: 'garantido', name: 'Garantido', icon: '✅' },
-    { id: 'intelectual', name: 'Intelectual', icon: '📚' }
-  ]
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onNext({ profile })
@@ -300,23 +204,10 @@ const StepProfile = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (pro
       <p className="text-gray-600 mb-6">Escolha o perfil que melhor combina com seu estilo de viagem.</p>
       
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-2 gap-4">
-          {profiles.map((p) => (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => setProfile(p.id)}
-              className={`p-4 border rounded-lg text-center flex flex-col items-center gap-2 ${
-                profile === p.id
-                  ? 'border-primary-500 bg-primary-50 text-primary-700'
-                  : 'border-gray-300 hover:border-primary-300'
-              }`}
-            >
-              <span className="text-2xl">{p.icon}</span>
-              <span>{p.name}</span>
-            </button>
-          ))}
-        </div>
+        <TripProfileSelector
+          selectedProfile={profile}
+          onProfileSelect={setProfile}
+        />
 
         <div className="flex justify-between pt-4">
           <button
@@ -342,13 +233,6 @@ const StepProfile = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (pro
 const StepType = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (type: TripType) => void, onBack: () => void, buttonText?: string }) => {
   const [type, setType] = useState('')
 
-  const types = [
-    { id: 'casal', name: 'Casal', icon: '❤️', available: true },
-    { id: 'individual', name: 'Individual', icon: '👤', available: true },
-    { id: 'familia', name: 'Família', icon: '👨‍👩‍👧‍👦', available: false },
-    { id: 'amigos', name: 'Amigos', icon: '👥', available: false }
-  ]
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onNext({ type })
@@ -360,29 +244,10 @@ const StepType = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (type: 
       <p className="text-gray-600 mb-6">Selecione o tipo de viagem que melhor se adequa ao seu grupo.</p>
       
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-2 gap-4">
-          {types.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              onClick={() => t.available && setType(t.id)}
-              disabled={!t.available}
-              className={`p-4 border rounded-lg text-center flex flex-col items-center gap-2 relative ${
-                type === t.id
-                  ? 'border-primary-500 bg-primary-50 text-primary-700'
-                  : 'border-gray-300 hover:border-primary-300'
-              } ${!t.available && 'opacity-50 cursor-not-allowed'}`}
-            >
-              <span className="text-2xl">{t.icon}</span>
-              <span>{t.name}</span>
-              {!t.available && (
-                <span className="absolute top-2 right-2 text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
-                  Em breve
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
+        <TripTypeSelector
+          selectedType={type}
+          onTypeSelect={setType}
+        />
 
         <div className="flex justify-between pt-4">
           <button
