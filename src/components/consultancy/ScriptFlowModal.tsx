@@ -74,7 +74,7 @@ export default function ScriptFlowModal({ isOpen, onClose }: ScriptFlowModalProp
 
   const handleLeadFormSuccess = () => {
     // Redirect to registration page where the next steps will happen
-    window.location.href = '/app/cadastro'
+    window.location.href = '/obrigado'
   }
 
   const renderStep = () => {
@@ -237,7 +237,7 @@ export default function ScriptFlowModal({ isOpen, onClose }: ScriptFlowModalProp
               </div>
             </div>
 
-            {/* 3-Step Process Information */}
+            {/* New Process Information */}
             <div className="space-y-3">
               <h3 className="font-baloo text-xl font-bold text-secondary-900">
                 Próximos passos
@@ -259,29 +259,44 @@ export default function ScriptFlowModal({ isOpen, onClose }: ScriptFlowModalProp
                   </div>
                 </div>
 
-                {/* Step 2: Password Creation */}
+                {/* Step 2: Preview Creation */}
                 <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold text-sm">
+                  <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
                     2
                   </div>
                   <div>
-                    <h4 className="font-baloo text-base font-bold text-gray-600">
-                      Crie sua senha
+                    <h4 className="font-baloo text-base font-bold text-green-600">
+                      Pré-roteiro gratuito criado
                     </h4>
-                    <p className="text-gray-500 font-comfortaa text-xs">
-                      Defina uma senha para sua conta
+                    <p className="text-green-500 font-comfortaa text-xs">
+                      Roteiro prévio com momentos únicos e um dia da sua viagem
                     </p>
                   </div>
                 </div>
 
-                {/* Step 3: Checkout */}
+                {/* Step 3: Meeting */}
                 <div className="flex items-center gap-3">
                   <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold text-sm">
                     3
                   </div>
                   <div>
                     <h4 className="font-baloo text-base font-bold text-gray-600">
-                      Finalizar pagamento
+                      Reunião com especialistas
+                    </h4>
+                    <p className="text-gray-500 font-comfortaa text-xs">
+                      Apresentação do preview e metodologia
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 4: Payment */}
+                <div className="flex items-center gap-3">
+                  <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold text-sm">
+                    4
+                  </div>
+                  <div>
+                    <h4 className="font-baloo text-base font-bold text-gray-600">
+                      Pagamento e roteiro completo
                     </h4>
                     <p className="text-gray-500 font-comfortaa text-xs">
                       R$ {tripPrice.toLocaleString('pt-BR')} - {flowData.startDate && flowData.endDate 
@@ -295,7 +310,7 @@ export default function ScriptFlowModal({ isOpen, onClose }: ScriptFlowModalProp
 
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
                 <p className="text-blue-800 font-comfortaa text-xs">
-                  <strong>Importante:</strong> Após enviar seus dados, você será direcionado para completar o cadastro e pagamento.
+                  <strong>Próximo passo:</strong> Após enviar seus dados, criaremos o pré-roteiro e agendaremos uma reunião para apresentá-lo.
                 </p>
               </div>
             </div>
@@ -307,7 +322,7 @@ export default function ScriptFlowModal({ isOpen, onClose }: ScriptFlowModalProp
               </h4>
               <LeadForm
                 onSuccess={handleLeadFormSuccess}
-                submitButtonText="Enviar e continuar"
+                submitButtonText="Enviar e criar preview"
                 event="pre_agendar"
                 eventOptions={{
                   source: 'ScriptFlowModal - Roteiros Sob Medida'

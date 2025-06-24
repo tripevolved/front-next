@@ -13,23 +13,27 @@ import Image from 'next/image'
 const scriptFAQs = [
   {
     question: "Como funciona o processo de criação do roteiro?",
-    answer: "Após você nos informar o destino, responder algumas perguntas sobre seus objetivos e datas, calculamos o preço (R$300 por dia) e, após o pagamento, criamos um roteiro exclusivo em até 48 horas úteis."
+    answer: "Primeiro você nos conta sobre sua viagem, depois criamos um preview gratuito do roteiro. Em seguida, agendamos uma reunião para apresentar o preview e, se você gostar, criamos o roteiro completo com pagamento. Após a entrega, fazemos ajustes conforme necessário."
   },
   {
-    question: "O que está incluído no roteiro?",
-    answer: "O roteiro inclui sugestão de hotéis, experiências autênticas, horários organizados, reservas indicadas, mapas, links úteis e alertas para evitar problemas. Tudo pensado para criar momentos únicos."
+    question: "O que está incluído no preview gratuito?",
+    answer: "O preview inclui uma amostra do roteiro com sugestões de hotéis, experiências principais e estrutura dos dias. É uma versão resumida para você conhecer nosso trabalho antes de decidir pelo roteiro completo."
+  },
+  {
+    question: "O que está incluído no roteiro completo?",
+    answer: "O roteiro completo inclui sugestão detalhada de hotéis, experiências autênticas, horários organizados, reservas indicadas, mapas, links úteis e alertas para evitar problemas. Tudo pensado para criar momentos únicos."
   },
   {
     question: "Posso fazer alterações no roteiro?",
-    answer: "Sim! Após a entrega, você pode solicitar ajustes e refinamentos para garantir que o roteiro atenda perfeitamente às suas expectativas."
+    answer: "Sim! Após a entrega do roteiro completo, você pode solicitar ajustes e refinamentos para garantir que atenda perfeitamente às suas expectativas."
   },
   {
     question: "O roteiro inclui reservas de hotéis e restaurantes?",
     answer: "Incluímos sugestões detalhadas com links diretos para reservas, mas as reservas em si são feitas por você para maior flexibilidade e controle."
   },
   {
-    question: "E se eu não gostar do roteiro?",
-    answer: "Nosso compromisso é criar um roteiro que você ame. Se não estiver satisfeito, trabalhamos com você para fazer os ajustes necessários até ficar perfeito."
+    question: "E se eu não gostar do preview?",
+    answer: "Não há compromisso! O preview é totalmente gratuito. Se você não gostar, não há cobrança. Só pagamos pelo roteiro completo se você decidir prosseguir após a reunião."
   }
 ]
 
@@ -131,10 +135,10 @@ export default function RoteirosSobMedidaPage() {
                 </div>
                 <div>
                   <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Preço transparente
+                    Pré-roteiro gratuito
                   </h3>
                   <p className="text-secondary-600 font-comfortaa text-lg">
-                    Com base nisso, vamos te passar o preço desse roteiro. A cobrança é muito simples: R$300,00 para cada dia da sua viagem, com todos os detalhes e, claro, um pensamento orientado a criar momentos únicos para vocês.
+                    Criamos uma prévia completa do seu roteiro com momentos únicos e um dia da sua viagem. Tudo isso de forma totalmente gratuita para você conhecer nosso trabalho.
                   </p>
                 </div>
               </div>
@@ -148,10 +152,10 @@ export default function RoteirosSobMedidaPage() {
                 </div>
                 <div>
                   <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Pagamento seguro
+                    Reunião com nossos especialistas
                   </h3>
                   <p className="text-secondary-600 font-comfortaa text-lg">
-                    A partir disso, você será redirecionado para o nosso pagamento seguro. Depois do pagamento, vamos entrar em contato com você para organizar a entrega do roteiro e tirar eventuais dúvidas.
+                    Agendamos uma reunião para apresentar o pré-roteiro, tirar suas dúvidas e mostrar como será o roteiro completo. É o momento de você conhecer nossa metodologia.
                   </p>
                 </div>
               </div>
@@ -165,10 +169,10 @@ export default function RoteirosSobMedidaPage() {
                 </div>
                 <div>
                   <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Criação do roteiro
+                    Pagamento e criação do roteiro completo
                   </h3>
                   <p className="text-secondary-600 font-comfortaa text-lg">
-                    Com tudo isso em mãos, criamos um roteiro exclusivo em até 48 horas úteis, com sugestão de hotéis, experiências autênticas, tempo para pausas e equilíbrio entre o que fazer e o que sentir.
+                    Se você gostar da prévia, criamos o roteiro completo com todos os detalhes. O valor é R$300 por dia da viagem, com pagamento seguro e transparente.
                   </p>
                 </div>
               </div>
@@ -182,37 +186,29 @@ export default function RoteirosSobMedidaPage() {
                 </div>
                 <div>
                   <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Entrega completa
+                    Apresentação do roteiro completo
                   </h3>
                   <p className="text-secondary-600 font-comfortaa text-lg">
-                    Você recebe um material completo, claro e bonito, com todos os dias organizados, sugestões de horários, reservas indicadas, mapas, links úteis e alertas para evitar problemas.
+                    Agendamos uma nova reunião para apresentar o roteiro completo, explicar todos os detalhes e garantir que está tudo perfeito para sua viagem.
                   </p>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Bonus Section */}
-          <div className="bg-primary-50 p-8 rounded-xl mb-16">
-            <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-8 text-center">
-              E você também tem:
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h4 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                  Suporte durante a viagem
-                </h4>
-                <p className="text-secondary-600 font-comfortaa text-lg">
-                  Estamos disponíveis para tirar dúvidas e fazer ajustes durante sua viagem, garantindo que tudo saia conforme planejado.
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h4 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                  Roteiro digital e impresso
-                </h4>
-                <p className="text-secondary-600 font-comfortaa text-lg">
-                  Você recebe o roteiro em formato digital para usar no celular e também uma versão impressa para levar na viagem.
-                </p>
+            {/* Step 6 */}
+            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
+              <div className="flex flex-col items-start gap-4 mb-4">
+                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
+                  6
+                </div>
+                <div>
+                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
+                    Entrega final com ajustes
+                  </h3>
+                  <p className="text-secondary-600 font-comfortaa text-lg">
+                    Você recebe o roteiro final com todos os ajustes solicitados. Material completo, claro e bonito, com sugestões de horários, reservas indicadas, mapas e links úteis.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
