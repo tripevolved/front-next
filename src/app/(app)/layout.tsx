@@ -1,9 +1,8 @@
-import AnalyticsProvider from '@/components/basic/AnalyticsProvider'
-import TopMenu from '@/components/common/TopMenu'
-import { WizardProvider } from '@/contexts/WizardContext'
-import { Footer, PrivacyBanner } from '@/features'
 import type { Metadata } from 'next'
-import { Baloo_2, Comfortaa } from 'next/font/google'
+import { Comfortaa, Baloo_2 } from 'next/font/google'
+import '@/main.css'
+import { AppAuthProvider } from '@/components/app/AppAuthProvider'
+import { AppLayoutContent } from '@/components/app/AppLayoutContent'
 
 const comfortaa = Comfortaa({ 
   subsets: ['latin'],
@@ -16,8 +15,8 @@ const baloo = Baloo_2({
 })
 
 export const metadata: Metadata = {
-  title: 'Trip Evolved - Plataforma',
-  description: 'Plataforma de viagens personalizadas.',
+  title: 'Trip Evolved',
+  description: 'Viagens personalizadas.',
 }
 
 export default function AppLayout({
@@ -27,16 +26,12 @@ export default function AppLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <AnalyticsProvider />
       <body className={`${comfortaa.variable} ${baloo.variable} font-comfortaa antialiased bg-white text-gray-900`}>
-        <WizardProvider>
-          <TopMenu /> {/* TODO: Replace with AppMenu */}
-          <main className="min-h-screen flex flex-col pt-16">
+        <AppAuthProvider>
+          <AppLayoutContent>
             {children}
-          </main>
-          <Footer /> {/* TODO: Replace with AppFooter */}
-          <PrivacyBanner />
-        </WizardProvider>
+          </AppLayoutContent>
+        </AppAuthProvider>
       </body>
     </html>
   )
