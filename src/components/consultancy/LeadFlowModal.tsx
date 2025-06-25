@@ -84,7 +84,7 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
             </p>
             <div className="bg-accent-50 border border-accent-200 rounded-lg p-4">
               <p className="text-accent-800 font-comfortaa text-sm">
-                <strong>Próximos passos:</strong> Após preencher suas informações, nossos especialistas entrarão em contato para agendar uma reunião e criar sua proposta personalizada.
+                <strong>Próximos passos:</strong> Após preencher suas informações, nossos especialistas entrarão em contato para agendar uma reunião inicial.
               </p>
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
                   type="text"
                   value={flowData.destination}
                   onChange={(e) => setFlowData(prev => ({ ...prev, destination: e.target.value }))}
-                  placeholder="Ex: Paris, França"
+                  placeholder="Ex: Jamaica"
                   className="w-full p-3 rounded-lg border border-secondary-200 focus:border-accent-500 focus:ring-1 focus:ring-accent-500 font-comfortaa text-sm"
                 />
               </div>
