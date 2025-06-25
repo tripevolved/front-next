@@ -17,14 +17,10 @@ export default function CaribePage() {
   const caribbeanDestinations = [
     'Aruba',
     'Bahamas',
-    'Barbados',
+    'Anguilla',
     'Cancún',
     'Curaçao',
-    'Jamaica',
-    'Maldivas',
-    'México',
-    'Punta Cana',
-    'Saint Lucia'
+    'Punta Cana'
   ]
 
   return (
@@ -91,7 +87,7 @@ export default function CaribePage() {
             <div className="relative h-[600px]">
               <Image
                 src="/assets/consultoria/caribe/planning-challenges.jpg"
-                alt="Pessoa confusa com muitas opções de viagem"
+                alt="Resort em Aruba"
                 fill
                 className="object-cover rounded-2xl shadow-xl"
               />
@@ -169,7 +165,7 @@ export default function CaribePage() {
                     Aventura e Exploração
                   </h3>
                   <p className="text-white/90 font-comfortaa text-lg">
-                    Mergulho com tubarões, snorkeling em recifes de coral e exploração de ilhas desertas.
+                    Mergulho em águas cristalinas, snorkeling em recifes de coral e exploração de ilhas desertas.
                   </p>
                 </div>
               </div>
