@@ -3,6 +3,10 @@ const { withNextVideo } = require('next-video/process');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
+  sassOptions: {
+    includePaths: ['./src'],
+  },
   trailingSlash: true,
   env: {
     NEXT_PUBLIC_API_URL: process.env.API_URL,
@@ -11,7 +15,7 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-  },
+  }
 };
 
 module.exports = withNextVideo(nextConfig);

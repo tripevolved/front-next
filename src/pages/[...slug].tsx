@@ -4,9 +4,12 @@ import type { GetStaticPaths, GetStaticProps } from "next";
 
 export { default } from "./index.old";
 
+const EXCLUDED_PATHS = ['/perfil/perguntas'];
+
 export const getStaticPaths: GetStaticPaths = async () => {
   const { slugs } = await CMSService.getAllPageSlugs();
-  return { paths: slugs, fallback: "blocking" };
+  const filteredSlugs = slugs.filter(slug => !EXCLUDED_PATHS.includes(slug));
+  return { paths: filteredSlugs, fallback: "blocking" };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
