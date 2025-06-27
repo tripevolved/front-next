@@ -323,7 +323,7 @@ export default function ScriptFlowModal({ isOpen, onClose }: ScriptFlowModalProp
               <LeadForm
                 onSuccess={handleLeadFormSuccess}
                 submitButtonText="Enviar e criar preview"
-                event="pre_agendar"
+                event="agendar"
                 eventOptions={{
                   source: 'ScriptFlowModal - Roteiros Sob Medida'
                 }}
