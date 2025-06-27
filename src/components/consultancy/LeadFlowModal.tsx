@@ -294,7 +294,7 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
               <LeadForm
                 onSuccess={handleLeadFormSuccess}
                 submitButtonText="Enviar e aguardar contato"
-                event="pre_agendar"
+                event="agendar"
                 eventOptions={{
                   source: `LeadFlowModal - ${source}`
                 }}
