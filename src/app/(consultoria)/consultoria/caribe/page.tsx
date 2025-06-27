@@ -48,8 +48,7 @@ export default function CaribePage() {
             <div className="order-2 lg:order-1">
               <div className="rounded-xl overflow-hidden shadow-2xl">
                 <MuxVideoPlayer 
-                  playbackId="y6nLWJI02JXoMaZVl5UntssnJRgP88SW81yCX6k00y8I00"
-                  title="Caribe - Paraíso Tropical"
+                  playbackId="7GDhDvzbZUG3q8zbY2H8ELexkA00JCzekMnqr9y1jWX8"
                   isMuted={false}
                   loop={false}
                 />
@@ -96,14 +95,14 @@ export default function CaribePage() {
             {/* Content */}
             <div>
               <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
-                Planejar uma viagem para o Caribe pode ser <span className="text-accent-500">desafiador</span>
+                Se sentindo <span className="text-accent-500">sobrecarregada</span> tentando planejar sua viagem ao Caribe?
               </h2>
               <div className="space-y-6 text-secondary-600 font-comfortaa text-lg mb-8">
                 <p>
-                  Com tantas ilhas paradisíacas, resorts de luxo e experiências únicas, é fácil se sentir sobrecarregado. Qual destino escolher? Qual resort oferece a melhor experiência? Como organizar os traslados entre ilhas?
+                  Com tantas ilhas paradisíacas, resorts de luxo e experiências únicas, o planejamento não é tarefa fácil. Qual destino escolher? Qual resort oferece a melhor experiência? Como organizar os traslados entre ilhas?
                 </p>
                 <p>
-                  A pesquisa pode levar semanas, e mesmo assim você pode acabar perdendo oportunidades incríveis ou escolhendo opções que não são ideais para o seu perfil de viajante.
+                  A pesquisa leva semanas, e mesmo assim você pode acabar perdendo oportunidades ou escolhendo opções que não são ideais para o seu perfil de viajante.
                 </p>
                 <p>
                   <span className="text-accent-500 font-bold">Nós resolvemos isso para você.</span> Nossa equipe de especialistas conhece cada detalhe do Caribe e vai criar uma viagem personalizada que supera suas expectativas, sem que você precise se preocupar com a complexidade do planejamento.
@@ -145,7 +144,7 @@ export default function CaribePage() {
                     Relaxamento Total
                   </h3>
                   <p className="text-white/90 font-comfortaa text-lg">
-                    Spas de luxo, praias privativas e momentos de paz absoluta em resorts exclusivos.
+                    Se você quer curtir spas, praias privativas e momentos de paz absoluta em resorts exclusivos.
                   </p>
                 </div>
               </div>
@@ -165,7 +164,7 @@ export default function CaribePage() {
                     Aventura e Exploração
                   </h3>
                   <p className="text-white/90 font-comfortaa text-lg">
-                    Mergulho em águas cristalinas, snorkeling em recifes de coral e exploração de ilhas desertas.
+                    Para você mergulhar em águas cristalinas, ver recifes de coral e explorar ilhas desertas.
                   </p>
                 </div>
               </div>
@@ -185,7 +184,7 @@ export default function CaribePage() {
                     Cultura e Gastronomia
                   </h3>
                   <p className="text-white/90 font-comfortaa text-lg">
-                    Experiências gastronômicas únicas, festivais locais e imersão na cultura caribenha.
+                    Se você quer experiências gastronômicas únicas, festivais locais e imersão na cultura caribenha.
                   </p>
                 </div>
               </div>
