@@ -32,6 +32,32 @@ interface UtmParams {
   content?: string
 }
 
+// Country codes data
+const countryCodes = [
+  { code: '+55', country: 'Brasil', flag: '🇧🇷' },
+  { code: '+1', country: 'Estados Unidos', flag: '🇺🇸' },
+  { code: '+1', country: 'Canadá', flag: '🇨🇦' },
+  { code: '+351', country: 'Portugal', flag: '🇵🇹' },
+  { code: '+34', country: 'Espanha', flag: '🇪🇸' },
+  { code: '+33', country: 'França', flag: '🇫🇷' },
+  { code: '+39', country: 'Itália', flag: '🇮🇹' },
+  { code: '+49', country: 'Alemanha', flag: '🇩🇪' },
+  { code: '+44', country: 'Reino Unido', flag: '🇬🇧' },
+  { code: '+54', country: 'Argentina', flag: '🇦🇷' },
+  { code: '+56', country: 'Chile', flag: '🇨🇱' },
+  { code: '+57', country: 'Colômbia', flag: '🇨🇴' },
+  { code: '+58', country: 'Venezuela', flag: '🇻🇪' },
+  { code: '+51', country: 'Peru', flag: '🇵🇪' },
+  { code: '+593', country: 'Equador', flag: '🇪🇨' },
+  { code: '+52', country: 'México', flag: '🇲🇽' },
+  { code: '+81', country: 'Japão', flag: '🇯🇵' },
+  { code: '+82', country: 'Coreia do Sul', flag: '🇰🇷' },
+  { code: '+86', country: 'China', flag: '🇨🇳' },
+  { code: '+91', country: 'Índia', flag: '🇮🇳' },
+  { code: '+61', country: 'Austrália', flag: '🇦🇺' },
+  { code: '+64', country: 'Nova Zelândia', flag: '🇳🇿' }
+]
+
 const getUtmParams = (searchParams: URLSearchParams | null): UtmParams => {
   if (!searchParams) return {}
   
@@ -77,7 +103,8 @@ function LeadFormContent({
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: ''
+    phone: '',
+    countryCode: '+55' // Default to Brazil
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -92,6 +119,10 @@ function LeadFormContent({
     } else {
       setFormData(prev => ({ ...prev, [name]: value }))
     }
+  }
+
+  const handleCountryCodeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFormData(prev => ({ ...prev, countryCode: e.target.value }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -112,8 +143,8 @@ function LeadFormContent({
       // Combine UTM metadata with additional metadata
       const metadata = [...utmMetadata, ...additionalMetadata]
 
-      // Add Brazilian country code (+55) to the phone number
-      const phoneWithCountryCode = `+55${formData.phone.replace(/\D/g, '')}`
+      // Combine country code with phone number
+      const phoneWithCountryCode = `${formData.countryCode}${formData.phone.replace(/\D/g, '')}`
 
       const response = await LeadsApiService.createLead({
         name: formData.name,
@@ -147,7 +178,7 @@ function LeadFormContent({
       }
       
       // Reset form
-      setFormData({ name: '', email: '', phone: '' })
+      setFormData({ name: '', email: '', phone: '', countryCode: '+55' })
 
       // Send event
       if (event) {
@@ -211,17 +242,35 @@ function LeadFormContent({
         <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
           Telefone
         </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={formData.phone}
-          onChange={handleInputChange}
-          required
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-          placeholder="(00) 00000-0000"
-          maxLength={15}
-        />
+        <div className="flex gap-2">
+          {/* Country Code Dropdown */}
+          <select
+            name="countryCode"
+            value={formData.countryCode}
+            onChange={handleCountryCodeChange}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white"
+            style={{ minWidth: '120px' }}
+          >
+            {countryCodes.map((country, index) => (
+              <option key={index} value={country.code}>
+                {country.flag} {country.code}
+              </option>
+            ))}
+          </select>
+          
+          {/* Phone Input */}
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+            required
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+            placeholder="(00) 00000-0000"
+            maxLength={15}
+          />
+        </div>
       </div>
 
       <div className={`${showBackButton ? 'flex justify-between gap-4' : ''}`}>
