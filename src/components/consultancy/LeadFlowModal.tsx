@@ -80,11 +80,11 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
             </h3>
             <p className="text-secondary-600 font-comfortaa text-lg leading-relaxed">
               Vamos fazer algumas perguntas para entender melhor o que vocês desejam.
-              Esse processo é rápido e vai nos ajudar a criar uma proposta personalizada que se encaixe perfeitamente no seu perfil e desejos.
+              Esse processo é rápido e vai nos ajudar a criar uma pré-proposta personalizada que se encaixe perfeitamente no seu perfil e desejos.
             </p>
             <div className="bg-accent-50 border border-accent-200 rounded-lg p-4">
               <p className="text-accent-800 font-comfortaa text-sm">
-                <strong>Próximos passos:</strong> Após preencher suas informações, nossos especialistas entrarão em contato para agendar uma reunião inicial.
+                <strong>Próximos passos:</strong> Após preencher suas informações, nossos especialistas entrarão em contato para agendar uma reunião inicial e apresentar a pré-proposta.
               </p>
             </div>
           </div>
@@ -94,10 +94,10 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
         return (
           <div className="space-y-6">
             <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-6">
-              Qual é o seu destino dos sonhos?
+              Para onde você quer ir nessa viagem?
             </h3>
             <p className="text-secondary-600 font-comfortaa text-lg mb-6">
-              Escolha um destino da nossa lista ou digite outro destino de sua preferência.
+              Escolha um destino da nossa lista ou digite outro de sua preferência.
             </p>
             <div className="space-y-4">
               {/* Destination Options */}
@@ -219,7 +219,7 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
             </p>
             <div>
               <label className="block text-secondary-600 font-comfortaa text-lg mb-4">
-                Adicione detalhes, expectativas ou qualquer informação que achar importante
+                Adicione detalhes, expectativas ou qualquer informação que achar importante.
               </label>
               <textarea
                 value={flowData.additionalDetails}

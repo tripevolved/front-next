@@ -32,7 +32,7 @@ export default function ComoFuncionaSection({ source, onContactClick }: ComoFunc
                   Reunião inicial com nossos especialistas
                 </h3>
                 <p className="text-secondary-600 font-comfortaa text-lg">
-                  Sessão de uma hora com nossos especialistas para entender suas preferências, necessidades e orçamento para essa viagem.
+                  Sessão de uma hora com nossos especialistas para entender suas preferências, necessidades e orçamento para essa viagem. Também vamos apresentar uma pré-proposta para você, com base nas suas respostas ao formulário.
                 </p>
               </div>
             </div>
