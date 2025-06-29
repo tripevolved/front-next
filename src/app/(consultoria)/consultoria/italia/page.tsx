@@ -52,10 +52,10 @@ export default function ItaliaPage() {
             <div className="order-2 lg:order-1">
               <div className="rounded-xl overflow-hidden shadow-2xl">
                 <MuxVideoPlayer 
-                  playbackId="y6nLWJI02JXoMaZVl5UntssnJRgP88SW81yCX6k00y8I00"
-                  title="Itália - Terra da Arte e Cultura"
+                  playbackId="fEowTECBZ92miTlmxw5Nj00OalTd4n01MnrbI4A7pPUmI"
                   isMuted={false}
                   loop={false}
+                  placeholderImage="/assets/consultoria/italia/vsl_poster.jpg"
                 />
               </div>
             </div>
@@ -90,7 +90,7 @@ export default function ItaliaPage() {
             {/* Image */}
             <div className="relative h-[600px]">
               <Image
-                src="/assets/consultoria/italia/planning-challenges.jpg"
+                src="/assets/consultoria/italia/mirabelle_rome.jpg"
                 alt="Pessoa confusa com muitas opções de viagem na Itália"
                 fill
                 className="object-cover rounded-2xl shadow-xl"
@@ -139,7 +139,7 @@ export default function ItaliaPage() {
             <div className="group relative overflow-hidden rounded-xl shadow-lg">
               <div className="relative h-[400px]">
                 <Image
-                  src="/assets/consultoria/italia/arte-cultura.jpg"
+                  src="/assets/consultoria/italia/galeria_umberto.jpg"
                   alt="Arte e cultura italiana"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -159,7 +159,7 @@ export default function ItaliaPage() {
             <div className="group relative overflow-hidden rounded-xl shadow-lg">
               <div className="relative h-[400px]">
                 <Image
-                  src="/assets/consultoria/italia/gastronomia.jpg"
+                  src="/assets/consultoria/italia/castiglion_del_bosco.jpg"
                   alt="Gastronomia italiana"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -179,7 +179,7 @@ export default function ItaliaPage() {
             <div className="group relative overflow-hidden rounded-xl shadow-lg">
               <div className="relative h-[400px]">
                 <Image
-                  src="/assets/consultoria/italia/paisagens.jpg"
+                  src="/assets/consultoria/italia/capri.jpg"
                   alt="Paisagens italianas"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
