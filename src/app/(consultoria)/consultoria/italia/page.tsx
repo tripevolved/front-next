@@ -5,24 +5,22 @@ import { useState } from 'react'
 import { MuxVideoPlayer } from '@/components/MuxVideoPlayer'
 import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
 import NewsletterSection from '@/components/consultancy/NewsletterSection'
-import FAQTripPlanningSection from '@/components/consultancy/FAQTripPlanningSection'
 import TripEvolvedSection from '@/components/consultancy/TripEvolvedSection'
 import ComoFuncionaSection from '@/components/consultancy/ComoFuncionaSection'
 import QuotesCarousel from '@/components/QuotesCarousel'
 import Button from '@/components/common/Button'
+import FAQSection from '@/components/consultancy/FAQSection'
 
 export default function ItaliaPage() {
   const [isLeadFlowModalOpen, setIsLeadFlowModalOpen] = useState(false)
 
   const italianDestinations = [
     'Roma',
-    'Florença',
     'Veneza',
     'Milão',
-    'Nápoles',
     'Sicília',
     'Toscana',
-    'Amalfi',
+    'Costa Amalfitana',
     'Cinque Terre',
     'Puglia'
   ]
@@ -100,11 +98,11 @@ export default function ItaliaPage() {
             {/* Content */}
             <div>
               <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
-                Planejar uma viagem para a Itália pode ser <span className="text-accent-500">desafiador</span>
+                <span className="text-accent-500">Sobrecarregada</span> ao tentar planejar a sua viagem para a Itália?
               </h2>
               <div className="space-y-6 text-secondary-600 font-comfortaa text-lg mb-8">
                 <p>
-                  Com tantas cidades históricas, regiões únicas e experiências gastronômicas, é fácil se sentir sobrecarregado. Qual cidade visitar primeiro? Como organizar os traslados entre regiões? Onde encontrar os melhores restaurantes autênticos?
+                  Com tantas cidades históricas, regiões únicas e experiências gastronômicas, não há tempo para planejar tudo. Qual cidade visitar primeiro? Como organizar os traslados entre regiões? Onde encontrar os melhores restaurantes autênticos?
                 </p>
                 <p>
                   A pesquisa pode levar semanas, e mesmo assim você pode acabar perdendo experiências incríveis ou escolhendo opções que não são ideais para o seu perfil de viajante.
@@ -214,6 +212,7 @@ export default function ItaliaPage() {
       <ComoFuncionaSection 
         source="Itália" 
         onContactClick={() => setIsLeadFlowModalOpen(true)} 
+        mode="consultancy"
       />
 
       {/* Trip Evolved Section */}
@@ -235,7 +234,7 @@ export default function ItaliaPage() {
       </section>
 
       {/* FAQ Section */}
-      <FAQTripPlanningSection source="Itália" />
+      <FAQSection source="Itália" />
 
       {/* Final CTA Section */}
       <section className="py-24 bg-secondary-900 text-white">
