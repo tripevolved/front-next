@@ -9,9 +9,17 @@ interface MuxVideoPlayerProps {
   autoplay?: boolean
   loop?: boolean
   isMuted?: boolean
+  placeholderImage?: string
 }
 
-export function MuxVideoPlayer({ playbackId, title, autoplay = true, loop = true, isMuted = true }: MuxVideoPlayerProps) {
+export function MuxVideoPlayer({ 
+  playbackId, 
+  title, 
+  autoplay = true, 
+  loop = true, 
+  isMuted = true,
+  placeholderImage 
+}: MuxVideoPlayerProps) {
   const [showControls, setShowControls] = useState(true);
   const videoRef = useRef<any>(null);
   const timeoutRef = useRef<any>(null);
@@ -40,6 +48,7 @@ export function MuxVideoPlayer({ playbackId, title, autoplay = true, loop = true
         playsInline
         className="w-full h-full object-cover"
         accentColor="#0ab9ad"
+        poster={placeholderImage}
       />
 
       {/* Overlay Controls */}

@@ -48,9 +48,10 @@ export default function CaribePage() {
             <div className="order-2 lg:order-1">
               <div className="rounded-xl overflow-hidden shadow-2xl">
                 <MuxVideoPlayer 
-                  playbackId="7GDhDvzbZUG3q8zbY2H8ELexkA00JCzekMnqr9y1jWX8"
+                  playbackId="36MPnXNByTEUZpeN00DMChaLhhXUYPgLkniNy6k2kCmw"
                   isMuted={false}
                   loop={false}
+                  placeholderImage="/assets/consultoria/caribe/vsl_poster.jpg"
                 />
               </div>
             </div>
