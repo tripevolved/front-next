@@ -24,6 +24,7 @@ export default function ContactExpertModal({
     if (onSuccess) {
       onSuccess()
     } else {
+      onClose()
       router.push('/obrigado')
     }
   }

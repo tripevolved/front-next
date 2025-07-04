@@ -2,13 +2,14 @@
 
 import Image from 'next/image'
 import ExperienceCarousel from '@/components/ExperienceCarousel'
+import ServicesCarousel from '@/components/ServicesCarousel'
+import ServicesDetailsCarousel from '@/components/ServicesDetailsCarousel'
 import QuotesCarousel from '@/components/QuotesCarousel'
 import FAQ from '@/components/FAQ'
 import DestinationsSection from '@/components/DestinationsSection'
-import ContactCard from '@/components/ContactCard'
+import NewsletterSection from '@/components/consultancy/NewsletterSection'
 import { useWizard } from '@/contexts/WizardContext'
 import Button from '@/components/common/Button'
-import Link from 'next/link'
 
 interface HomeContentProps {
   faqQuestions: Array<{
@@ -24,17 +25,27 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center">
-        {/* Background Image with Overlay */}
+        {/* Background Video with Overlay */}
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/assets/home/hero-praia.jpg"
-            alt="Praias paradisíacas é com a Trip Evolved"
-            fill
-            className="object-cover"
-            priority
-            sizes="100vw"
-            quality={90}
-          />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src="/assets/home/hero-video.mp4" type="video/mp4" />
+            {/* Fallback Image */}
+            <Image
+              src="/assets/home/hero-praia.jpg"
+              alt="Praias paradisíacas é com a Trip Evolved"
+              fill
+              className="object-cover"
+              priority
+              sizes="100vw"
+              quality={90}
+            />
+          </video>
           <div className="absolute inset-0 bg-black/40" />
         </div>
 
@@ -61,126 +72,20 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
         </div>
       </section>
 
-      {/* Second Section */}
-      <section className="py-24 bg-white">
-        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            {/* Content Column */}
-            <div className="w-full lg:w-[70%]">
-              <h2 className="font-baloo text-4xl md:text-5xl font-bold mb-6 text-secondary-500">
-                Para você, que não quer pacotes prontos nem perder tempo
-              </h2>
-              <p className="font-comfortaa text-xl text-gray-600 mb-8">
-                Roteiros exclusivos e personalizados para você viver experiências autênticas que combinam com seu estilo de viajante. Sempre respeitando seu orçamento.
-              </p>
-              <Button 
-                onClick={openWizard}
-                event="pre_descobrir_viagem"
-                eventOptions={{
-                  source: 'Second Section - Home'
-                }}
-                className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
-              >
-                Descobrir minha viagem
-              </Button>
-            </div>
-
-            {/* Images Column */}
-            <div className="relative w-full lg:w-[30%] h-[450px]">
-              <div className="absolute right-0 top-0 w-4/5 h-72 rounded-lg overflow-hidden shadow-xl">
-                <Image
-                  src="/assets/home/yosemite-valley.jpg"
-                  alt="Yosemite Valley"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 30vw"
-                  quality={85}
-                />
-              </div>
-              <div className="absolute right-8 top-48 w-4/5 h-72 rounded-lg overflow-hidden shadow-xl">
-                <Image
-                  src="/assets/home/sancho-praia.jpg"
-                  alt="Praia do Sancho"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 30vw"
-                  quality={85}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Second Section - Services Carousel */}
+      <section className="bg-white h-screen">
+        <ServicesCarousel />
       </section>
 
       {/* Como Funciona Section */}
-      <section className="py-24 bg-secondary-500">
-        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-          <h2 className="font-baloo text-4xl md:text-5xl font-bold mb-12 text-white text-center">
-            Como <span className="text-accent-500">funciona</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {/* Card 1 */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-accent-500 mb-4">
-                <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4">
-                Descubra sua viagem
-              </h3>
-              <p className="text-secondary-600 font-comfortaa">
-                Clique em <span className="font-bold">&quot;descobrir minha viagem&quot;</span>, preencha o questionário e fale com um dos nossos especialistas. Vamos agendar uma reunião para entender suas expectativas e ideias para essa viagem. Essa reunião é gratuita e você não tem nenhuma obrigação de continuar conosco.
-              </p>
-            </div>
-
-            {/* Card 2 */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-accent-500 mb-4">
-                <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4">
-                Construímos sua viagem
-              </h3>
-              <p className="text-secondary-600 font-comfortaa">
-                Você receberá uma proposta que vai muito além da hospedagem e voo: você terá um itinerário completo, atrações, restaurantes... momentos únicos e jóias escondidas do seu destino que você <span className="font-bold">não conseguiria encontrar sozinho</span>. Essa proposta custa R$1.200,00, valor referente à nossa taxa de consultoria.
-              </p>
-            </div>
-
-            {/* Card 3 */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-accent-500 mb-4">
-                <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4">
-                Reservas e viagem
-              </h3>
-              <p className="text-secondary-600 font-comfortaa">
-                Confirme sua viagem realizando o pagamento e vamos realizar <span className="font-bold">todas as reservas necessárias</span>. Você também terá auxílio com toda a documentação para só se preocupar em embarcar. Além disso, você tem suporte 24/7 e um serviço de concierge enquanto viaja: vamos reservar os restaurantes, atrações e tudo que você precisar.
-              </p>
-            </div>
-          </div>
-          <div className="text-center">
-            <Button 
-              onClick={openWizard}
-              event="pre_descobrir_viagem"
-              eventOptions={{
-                source: 'Como funciona Section - Home'
-              }}
-              className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
-            >
-              Descobrir minha viagem
-            </Button>
-          </div>
-        </div>
+      <section className="bg-secondary-500 h-screen">
+        <ServicesDetailsCarousel />
       </section>
 
       {/* Third Section - Destinations */}
-      <DestinationsSection />
+      <div>
+        <DestinationsSection />
+      </div>
 
       {/* Fourth Section - Experiences Carousel */}
       <section className="py-24 bg-secondary-500">
@@ -189,40 +94,6 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
             Viagens que não saem da nossa mente
           </h2>
           <ExperienceCarousel />
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-24 bg-white">
-        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Profile Card */}
-            <div className="bg-secondary-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow">
-              <div className="mb-6">
-                <svg className="w-12 h-12 text-accent-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                <h3 className="text-2xl font-baloo font-bold text-secondary-900 mb-2">
-                  Descobrir meu perfil de viajante
-                </h3>
-                <p className="text-secondary-600 font-comfortaa">
-                  Aqui, a viagem começa com seu perfil de viajante. Se descubra.
-                </p>
-              </div>
-              <Link 
-                href="/perfil"
-                className="inline-flex items-center gap-2 bg-accent-500 text-white px-6 py-3 rounded-full font-baloo font-semibold hover:bg-accent-600 transition-colors"
-              >
-                Fazer o teste
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
-
-            {/* Contact Card */}
-            <ContactCard phoneNumber="5512991694499" />
-          </div>
         </div>
       </section>
 
@@ -274,6 +145,9 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
           </Button>
         </div>
       </section>
+
+      {/* Newsletter Section */}
+      <NewsletterSection source="Home" />
     </div>
   )
 } 
