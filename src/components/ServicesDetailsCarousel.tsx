@@ -17,7 +17,7 @@ const services = [
       'Concierge dedicado para suas necessidades'
     ],
     feeDescription: 'Taxa de consultoria',
-    image: '/assets/home/yosemite-valley.jpg',
+    image: '/assets/home/iguacu-cataratas.jpg',
     color: 'from-secondary-500 to-secondary-600'
   },
   {
@@ -33,7 +33,7 @@ const services = [
       'Suporte quando você precisar'
     ],
     feeDescription: 'Adiantamento para planejamento',
-    image: '/assets/home/sancho-praia.jpg',
+    image: '/assets/home/resort-piscina.jpg',
     color: 'from-primary-500 to-primary-600'
   },
   {
@@ -49,7 +49,7 @@ const services = [
       'Momentos que contam histórias'
     ],
     feeDescription: 'Taxa por dia de roteiro',
-    image: '/assets/home/hero-praia.jpg',
+    image: '/assets/home/vista-capri.jpg',
     color: 'from-accent-500 to-accent-600'
   }
 ]
@@ -84,6 +84,13 @@ export default function ServicesDetailsCarousel() {
               {/* Content */}
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+                  {/* Section Title */}
+                  <div className="absolute top-8 right-8 z-10">
+                    <h2 className="font-baloo text-2xl md:text-3xl font-bold text-white/80">
+                      Como trabalhamos?
+                    </h2>
+                  </div>
+                  
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     {/* Text Content */}
                     <div className="text-white">
@@ -119,11 +126,6 @@ export default function ServicesDetailsCarousel() {
                           Conhecer mais
                         </Link>
                       </div>
-                    </div>
-
-                    {/* Visual Element */}
-                    <div className="hidden lg:block">
-                      <div className={`w-full h-96 rounded-2xl bg-gradient-to-br ${service.color} opacity-20`}></div>
                     </div>
                   </div>
                 </div>

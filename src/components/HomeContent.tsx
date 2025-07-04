@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import ExperienceCarousel from '@/components/ExperienceCarousel'
-import ServicesCarousel from '@/components/ServicesCarousel'
+import ProductsCarousel from '@/components/ProductsCarousel'
 import ServicesDetailsCarousel from '@/components/ServicesDetailsCarousel'
 import QuotesCarousel from '@/components/QuotesCarousel'
 import FAQ from '@/components/FAQ'
@@ -10,6 +10,7 @@ import DestinationsSection from '@/components/DestinationsSection'
 import NewsletterSection from '@/components/consultancy/NewsletterSection'
 import { useWizard } from '@/contexts/WizardContext'
 import Button from '@/components/common/Button'
+import { MuxVideoPlayer } from '@/components/MuxVideoPlayer'
 
 interface HomeContentProps {
   faqQuestions: Array<{
@@ -27,25 +28,13 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
       <section className="relative h-screen flex items-center">
         {/* Background Video with Overlay */}
         <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover"
-          >
-            <source src="/assets/home/hero-video.mp4" type="video/mp4" />
-            {/* Fallback Image */}
-            <Image
-              src="/assets/home/hero-praia.jpg"
-              alt="Praias paradisíacas é com a Trip Evolved"
-              fill
-              className="object-cover"
-              priority
-              sizes="100vw"
-              quality={90}
-            />
-          </video>
+          <MuxVideoPlayer
+            playbackId="n6rcwla8OeA202pnK99Qww016hkZZrfT00vV99DHkrBTMU"
+            autoplay={true}
+            loop={true}
+            isMuted={true}
+            placeholderImage="/assets/home/hero-praia.jpg"
+          />
           <div className="absolute inset-0 bg-black/40" />
         </div>
 
@@ -72,9 +61,9 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
         </div>
       </section>
 
-      {/* Second Section - Services Carousel */}
+      {/* Second Section - Products Carousel */}
       <section className="bg-white h-screen">
-        <ServicesCarousel />
+        <ProductsCarousel />
       </section>
 
       {/* Como Funciona Section */}
