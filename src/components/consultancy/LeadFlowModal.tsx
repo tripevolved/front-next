@@ -23,6 +23,8 @@ interface LeadFlowData {
   destination: string
   startDate: Date | null
   endDate: Date | null
+  selectedMonth: string
+  dateSelectionType: 'calendar' | 'month'
   additionalDetails: string
 }
 
@@ -35,6 +37,8 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
     destination: '',
     startDate: null,
     endDate: null,
+    selectedMonth: '',
+    dateSelectionType: 'calendar',
     additionalDetails: ''
   })
 
@@ -60,6 +64,8 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
       destination: '',
       startDate: null,
       endDate: null,
+      selectedMonth: '',
+      dateSelectionType: 'calendar',
       additionalDetails: ''
     })
     onClose()
@@ -195,15 +201,71 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
               Quando você quer viajar?
             </h3>
             <div className="space-y-6">
-              <label className="block text-secondary-600 font-comfortaa text-lg mb-4">
-                Selecione as datas da sua viagem
-              </label>
-              <DateRangeSelector
-                startDate={flowData.startDate}
-                endDate={flowData.endDate}
-                onDateRangeChange={([startDate, endDate]) => setFlowData(prev => ({ ...prev, startDate, endDate }))}
-                minDate={new Date()}
-              />
+              {/* Selection Type Toggle */}
+              <div className="flex gap-2 mb-6">
+                <button
+                  onClick={() => setFlowData(prev => ({ ...prev, dateSelectionType: 'calendar' }))}
+                  className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all ${
+                    flowData.dateSelectionType === 'calendar'
+                      ? 'border-accent-500 bg-accent-50 text-accent-700'
+                      : 'border-secondary-200 hover:border-accent-300 text-secondary-700'
+                  }`}
+                >
+                  <span className="font-comfortaa text-sm font-medium">Datas específicas</span>
+                </button>
+                <button
+                  onClick={() => setFlowData(prev => ({ ...prev, dateSelectionType: 'month' }))}
+                  className={`flex-1 py-3 px-4 rounded-lg border-2 transition-all ${
+                    flowData.dateSelectionType === 'month'
+                      ? 'border-accent-500 bg-accent-50 text-accent-700'
+                      : 'border-secondary-200 hover:border-accent-300 text-secondary-700'
+                  }`}
+                >
+                  <span className="font-comfortaa text-sm font-medium">Mês específico</span>
+                </button>
+              </div>
+
+              {/* Calendar Selection */}
+              {flowData.dateSelectionType === 'calendar' && (
+                <div>
+                  <label className="block text-secondary-600 font-comfortaa text-lg mb-4">
+                    Selecione as datas da sua viagem
+                  </label>
+                  <DateRangeSelector
+                    startDate={flowData.startDate}
+                    endDate={flowData.endDate}
+                    onDateRangeChange={([startDate, endDate]) => setFlowData(prev => ({ ...prev, startDate, endDate }))}
+                    minDate={new Date()}
+                  />
+                </div>
+              )}
+
+              {/* Month Selection */}
+              {flowData.dateSelectionType === 'month' && (
+                <div>
+                  <label className="block text-secondary-600 font-comfortaa text-lg mb-4">
+                    Selecione o mês da sua viagem
+                  </label>
+                  <div className="grid grid-cols-3 gap-3">
+                    {[
+                      'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                      'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+                    ].map((month) => (
+                      <button
+                        key={month}
+                        onClick={() => setFlowData(prev => ({ ...prev, selectedMonth: month }))}
+                        className={`p-3 rounded-lg border-2 transition-all ${
+                          flowData.selectedMonth === month
+                            ? 'border-accent-500 bg-accent-50 text-accent-700'
+                            : 'border-secondary-200 hover:border-accent-300 text-secondary-700'
+                        }`}
+                      >
+                        <span className="font-comfortaa text-sm">{month}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )
@@ -335,6 +397,16 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
                     keyDescription: 'Data de retorno'
                   },
                   {
+                    key: 'selected_month',
+                    value: flowData.selectedMonth,
+                    keyDescription: 'Mês selecionado'
+                  },
+                  {
+                    key: 'date_selection_type',
+                    value: flowData.dateSelectionType,
+                    keyDescription: 'Tipo de seleção de data'
+                  },
+                  {
                     key: 'additional_details',
                     value: flowData.additionalDetails,
                     keyDescription: 'Detalhes adicionais'
@@ -407,7 +479,10 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
                 (currentStep === 2 && !flowData.travelType) ||
                 (currentStep === 3 && !flowData.tripProfile) ||
                 (currentStep === 4 && flowData.tripGoals.length === 0) ||
-                (currentStep === 5 && (!flowData.startDate || !flowData.endDate))
+                (currentStep === 5 && (
+                  (flowData.dateSelectionType === 'calendar' && (!flowData.startDate || !flowData.endDate)) ||
+                  (flowData.dateSelectionType === 'month' && !flowData.selectedMonth)
+                ))
               }
               className="font-baloo bg-accent-500 text-white px-6 py-2 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all ml-auto disabled:bg-secondary-300 disabled:cursor-not-allowed"
             >
