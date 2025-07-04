@@ -64,8 +64,12 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
       </section>
 
       {/* Second Section - Products Carousel */}
-      <section className="bg-white h-screen">
-        <ProductsCarousel />
+      <section className="py-12 bg-white">
+        <div className="w-full md:w-[90%] mx-auto px-4 md:px-0">
+          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+            <ProductsCarousel />
+          </div>
+        </div>
       </section>
 
       {/* Como Funciona Section */}
