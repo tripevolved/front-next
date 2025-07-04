@@ -8,9 +8,9 @@ import QuotesCarousel from '@/components/QuotesCarousel'
 import FAQ from '@/components/FAQ'
 import DestinationsSection from '@/components/DestinationsSection'
 import NewsletterSection from '@/components/consultancy/NewsletterSection'
-import { useWizard } from '@/contexts/WizardContext'
 import Button from '@/components/common/Button'
-import { MuxVideoPlayer } from '@/components/MuxVideoPlayer'
+import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
+import { useState } from 'react'
 
 interface HomeContentProps {
   faqQuestions: Array<{
@@ -20,7 +20,7 @@ interface HomeContentProps {
 }
 
 export default function HomeContent({ faqQuestions }: HomeContentProps) {
-  const { openWizard } = useWizard()
+  const [isLeadModalOpen, setIsLeadModalOpen] = useState(false)
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -50,14 +50,14 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
               Jornadas sob medida, pensadas para seu estilo. Porque <span className="font-bold">exclusividade</span> começa com personalização.
             </p>
             <Button 
-              onClick={openWizard}
+              onClick={() => setIsLeadModalOpen(true)}
               event="pre_descobrir_viagem"
               eventOptions={{
                 source: 'Hero Section - Home'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
-              Descobrir minha viagem
+              Conversar com especialista
             </Button>
           </div>
         </div>
@@ -123,20 +123,35 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
             Vamos começar sua jornada?
           </h2>
           <Button 
-            onClick={openWizard}
+            onClick={() => setIsLeadModalOpen(true)}
             event="pre_descobrir_viagem"
             eventOptions={{
               source: 'Final CTA Section - Home'
             }}
             className="font-baloo bg-primary-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-700 transition-all"
           >
-            Descobrir minha viagem
+            Conversar com especialista
           </Button>
         </div>
       </section>
 
       {/* Newsletter Section */}
       <NewsletterSection source="Home" />
+
+      {/* Lead Flow Modal */}
+      <LeadFlowModal
+        isOpen={isLeadModalOpen}
+        onClose={() => setIsLeadModalOpen(false)}
+        destinations={[
+          'Costa Amafitana, Itália',
+          'Aruba',
+          'Curaçao',
+          'Dolomitas, Itália',
+          'Torres del Paine, Chile',
+          'Bariloche, Argentina'
+        ]}
+        source="Home"
+      />
     </div>
   )
 } 
