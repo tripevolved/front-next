@@ -26,14 +26,16 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center">
-        {/* Background Video with Overlay */}
+        {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
-          <MuxVideoPlayer
-            playbackId="n6rcwla8OeA202pnK99Qww016hkZZrfT00vV99DHkrBTMU"
-            autoplay={true}
-            loop={true}
-            isMuted={true}
-            placeholderImage="/assets/home/hero-praia.jpg"
+          <Image
+            src="/assets/home/hero.jpg"
+            alt="Hero background"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+            quality={90}
           />
           <div className="absolute inset-0 bg-black/40" />
         </div>

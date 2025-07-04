@@ -2,20 +2,21 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
-import { useWizard } from '@/contexts/WizardContext'
 import Button from '@/components/common/Button'
 import NewsletterSection from '@/components/consultancy/NewsletterSection'
-import FAQTripPlanningSection from '@/components/consultancy/FAQTripPlanningSection'
+import FAQ from '@/components/FAQ'
+import ScriptFlowModal from '@/components/consultancy/ScriptFlowModal'
 import { ScriptOutline } from '@/components/scripts/ScriptOutline'
 import { Script } from '@/components/scripts/types'
+import { MuxVideoPlayer } from '@/components/MuxVideoPlayer'
 
 export default function EvolvedExperienciasPage() {
-  const { openWizard } = useWizard()
+  const [isScriptModalOpen, setIsScriptModalOpen] = useState(false)
 
-  // Sample script data for demonstration
+  // Curacao script data for future experience
   const sampleScript: Script = {
-    startDate: '2024-06-15',
-    endDate: '2024-06-22',
+    startDate: '2025-03-13',
+    endDate: '2025-03-20',
     days: [
       {
         dayNumber: 1,
@@ -23,41 +24,21 @@ export default function EvolvedExperienciasPage() {
         dayActions: [
           {
             id: '1-1',
-            image: '/assets/experiences/curacao/willemstad.jpg',
-            title: 'Chegada em Willemstad',
-            subtitle: 'Capital colorida de Curaçao',
-            description: 'Bem-vindo à vibrante capital de Curaçao! Willemstad é conhecida por suas casas coloridas no estilo holandês e pela ponte flutuante Queen Emma Bridge. Comece sua jornada explorando o centro histórico, declarado Patrimônio Mundial da UNESCO.',
+            image: '/assets/experiences/curacao/oi-curacao.png',
+            title: 'Bem-vindo a Curaçao!',
+            subtitle: 'Chegada e primeiro contato com a ilha',
+            description: 'Você será recebido com uma vista deslumbrante ao chegar em Curaçao. Muita natureza e um mar espetacular te aguardam! Check-in no Coral Estate Luxury Resort, um resort exclusivo à beira-mar com vista privilegiada.',
             time: '14:00 - 18:00',
-            location: 'Willemstad, Curaçao',
+            location: 'Coral Estate Luxury Resort',
             highlights: [
-              'Ponte Queen Emma Bridge',
-              'Casas coloridas do centro histórico',
-              'Mercado flutuante',
-              'Fotografias panorâmicas'
+              'Vista espetacular do resort',
+              'Acesso direto à praia paradisíaca',
+              'Ambiente super tranquilo',
+              'Primeiro contato com a natureza local'
             ],
             gallery: [
-              '/assets/experiences/curacao/willemstad.jpg',
-              '/assets/experiences/curacao/queen-emma-bridge.jpg',
-              '/assets/experiences/curacao/colorful-houses.jpg'
-            ]
-          },
-          {
-            id: '1-2',
-            image: '/assets/experiences/curacao/sunset-dinner.jpg',
-            title: 'Jantar ao Pôr do Sol',
-            subtitle: 'Restaurante à beira-mar',
-            description: 'Encerre seu primeiro dia com um jantar romântico em um dos melhores restaurantes à beira-mar de Curaçao. Saboreie pratos locais enquanto observa o pôr do sol sobre o mar do Caribe.',
-            time: '19:00 - 21:00',
-            location: 'Restaurante à beira-mar',
-            highlights: [
-              'Vista panorâmica do mar',
-              'Culinária local autêntica',
-              'Ambiente romântico',
-              'Cocktails tropicais'
-            ],
-            gallery: [
-              '/assets/experiences/curacao/sunset-dinner.jpg',
-              '/assets/experiences/curacao/local-cuisine.jpg'
+              '/assets/experiences/curacao/oi-curacao.png',
+              '/assets/experiences/curacao/coral-estate.png'
             ]
           }
         ]
@@ -68,51 +49,293 @@ export default function EvolvedExperienciasPage() {
         dayActions: [
           {
             id: '2-1',
-            image: '/assets/experiences/curacao/beach-morning.jpg',
-            title: 'Manhã na Praia',
-            subtitle: 'Praia de Cas Abou',
-            description: 'Comece o dia relaxando em uma das praias mais bonitas de Curaçao. Cas Abou oferece águas cristalinas e areia branca, perfeitas para um mergulho matinal ou simplesmente relaxar ao som das ondas.',
-            time: '08:00 - 12:00',
-            location: 'Praia de Cas Abou',
+            image: '/assets/experiences/curacao/cas-abao.png',
+            title: 'Manhã em Cas Abao',
+            subtitle: 'Primeira praia paradisíaca',
+            description: 'Comece o dia explorando Cas Abao, uma das praias mais bonitas do norte de Curaçao. Águas cristalinas e paisagens espetaculares te aguardam.',
+            time: '09:00 - 12:00',
+            location: 'Cas Abao',
             highlights: [
               'Águas cristalinas',
-              'Areia branca',
-              'Mergulho matinal',
-              'Relaxamento total'
+              'Paisagens espetaculares',
+              'Primeira experiência de praia',
+              'Fotos incríveis'
             ],
             gallery: [
-              '/assets/experiences/curacao/beach-morning.jpg',
-              '/assets/experiences/curacao/crystal-waters.jpg'
+              '/assets/experiences/curacao/cas-abao.png',
+              '/assets/experiences/curacao/coral-estate.png'
             ]
           },
           {
             id: '2-2',
-            image: '/assets/experiences/curacao/snorkeling.jpg',
-            title: 'Snorkeling na Barreira',
-            subtitle: 'Exploração marinha',
-            description: 'Explore a rica vida marinha de Curaçao com uma sessão de snorkeling na barreira de coral. Descubra peixes coloridos, corais vibrantes e talvez até algumas tartarugas marinhas.',
+            image: '/assets/experiences/curacao/cas-abao.png',
+            title: 'Tarde em Porto Marie',
+            subtitle: 'Segunda praia do norte',
+            description: 'À tarde, continue a exploração em Porto Marie, outra joia do norte de Curaçao. Cada praia tem seu charme único.',
             time: '14:00 - 17:00',
-            location: 'Barreira de Coral',
+            location: 'Porto Marie',
             highlights: [
-              'Vida marinha colorida',
-              'Corais vibrantes',
-              'Possível encontro com tartarugas',
-              'Equipamento incluído'
+              'Charme único da praia',
+              'Continuidade da exploração',
+              'Diferentes paisagens',
+              'Experiência completa do norte'
             ],
             gallery: [
-              '/assets/experiences/curacao/snorkeling.jpg',
-              '/assets/experiences/curacao/coral-reef.jpg'
+              '/assets/experiences/curacao/cas-abao.png',
+              '/assets/experiences/curacao/coral-estate.png'
+            ]
+          },
+          {
+            id: '2-3',
+            image: '/assets/experiences/curacao/coral-estate.png',
+            title: 'Jantar no Karakter',
+            subtitle: 'Jantar ao pôr do sol',
+            description: 'Encerre o dia com um jantar incrível no Karakter, ao pôr do sol. A comida e o atendimento são impecáveis, mas a paisagem é o que faz toda a diferença.',
+            time: '19:00 - 21:00',
+            location: 'Karakter Restaurant',
+            highlights: [
+              'Jantar ao pôr do sol',
+              'Comida impecável',
+              'Atendimento excepcional',
+              'Paisagem deslumbrante'
+            ],
+            gallery: [
+              '/assets/experiences/curacao/coral-estate.png',
+              '/assets/experiences/curacao/cas-abao.png'
             ]
           }
         ]
       },
       {
         dayNumber: 3,
-        isAvailable: false,
-        dayActions: []
+        isAvailable: true,
+        dayActions: [
+          {
+            id: '3-1',
+            image: '/assets/experiences/curacao/kenepa-grandi.png',
+            title: 'Manhã nas Kenepas',
+            subtitle: 'Praias famosas de Curaçao',
+            description: 'Dedique a manhã para explorar as famosas praias Kenepa Grandi e Kenepa Chiki. Cada uma tem suas características únicas e vistas deslumbrantes.',
+            time: '08:00 - 12:00',
+            location: 'Kenepa Grandi e Kenepa Chiki',
+            highlights: [
+              'Praias famosas de Curaçao',
+              'Características únicas',
+              'Vistas deslumbrantes',
+              'Experiência matinal completa'
+            ],
+            gallery: [
+              '/assets/experiences/curacao/kenepa-grandi.png',
+              '/assets/experiences/curacao/lagun-blou.png'
+            ]
+          },
+          {
+            id: '3-2',
+            image: '/assets/experiences/curacao/kenepa-grandi.png',
+            title: 'Tarde em Playa Lagun',
+            subtitle: 'A maior surpresa da viagem',
+            description: 'À tarde, descubra Playa Lagun, que será a maior surpresa da sua viagem. Água mais profunda, perfeita para mergulhos, mas com um mar tranquilo demais!',
+            time: '14:00 - 18:00',
+            location: 'Playa Lagun',
+            highlights: [
+              'Água mais profunda para mergulhos',
+              'Mar tranquilo e seguro',
+              'Vista deslumbrante do Lagun Blou Resort',
+              'Experiência única de mergulho'
+            ],
+            gallery: [
+              '/assets/experiences/curacao/kenepa-grandi.png',
+              '/assets/experiences/curacao/lagun-blou.png'
+            ]
+          },
+          {
+            id: '3-3',
+            image: '/assets/experiences/curacao/lagun-blou.png',
+            title: 'Jantar no Isabelle',
+            subtitle: 'Jantar à beira-mar',
+            description: 'Encerre o dia com um jantar romântico no Isabelle, um restaurante à beira-mar que oferece uma experiência gastronômica única.',
+            time: '19:00 - 21:00',
+            location: 'Isabelle Restaurant',
+            highlights: [
+              'Jantar romântico',
+              'Restaurante à beira-mar',
+              'Experiência gastronômica única',
+              'Ambiente especial'
+            ],
+            gallery: [
+              '/assets/experiences/curacao/lagun-blou.png',
+              '/assets/experiences/curacao/kenepa-grandi.png'
+            ]
+          }
+        ]
+      },
+      {
+        dayNumber: 4,
+        isAvailable: true,
+        dayActions: [
+          {
+            id: '4-1',
+            image: '/assets/experiences/curacao/pietermaai-culture.png',
+            title: 'Check-in no Pietermaai',
+            subtitle: 'Chegada ao bairro histórico',
+            description: 'Mude-se para o coração cultural de Willemstad. Check-in no Pietermaai Boutique Hotel, localizado no bairro mais charmoso da cidade.',
+            time: '10:00 - 12:00',
+            location: 'Pietermaai Boutique Hotel',
+            highlights: [
+              'Bairro histórico vibrante',
+              'Casas antigas reformadas',
+              'Localização estratégica',
+              'Ambiente cultural autêntico'
+            ],
+            gallery: [
+              '/assets/experiences/curacao/pietermaai-culture.png',
+              '/assets/experiences/curacao/pietermaai-boutique.png'
+            ]
+          },
+          {
+            id: '4-2',
+            image: '/assets/experiences/curacao/pietermaai-culture.png',
+            title: 'Exploração de Pietermaai',
+            subtitle: 'Cultura e história local',
+            description: 'Dedique a tarde para explorar o bairro de Pietermaai, conhecendo sua história, arquitetura única e cultura vibrante.',
+            time: '14:00 - 18:00',
+            location: 'Pietermaai, Willemstad',
+            highlights: [
+              'História do bairro',
+              'Arquitetura única',
+              'Cultura vibrante',
+              'Exploração local'
+            ],
+            gallery: [
+              '/assets/experiences/curacao/pietermaai-culture.png',
+              '/assets/experiences/curacao/pietermaai-boutique.png'
+            ]
+          }
+        ]
+      },
+      {
+        dayNumber: 5,
+        isAvailable: true,
+        dayActions: [
+          {
+            id: '5-1',
+            image: '/assets/experiences/curacao/punda-fort.png',
+            title: 'Manhã em Punda',
+            subtitle: 'Coração histórico de Willemstad',
+            description: 'Explore Punda, o coração histórico de Willemstad. Conheça as casas coloridas, a arquitetura holandesa e os pontos históricos.',
+            time: '09:00 - 12:00',
+            location: 'Punda, Willemstad',
+            highlights: [
+              'Casas coloridas',
+              'Arquitetura holandesa',
+              'Pontos históricos',
+              'Cultura local'
+            ],
+            gallery: [
+              '/assets/experiences/curacao/punda-fort.png',
+              '/assets/experiences/curacao/pietermaai-boutique.png'
+            ]
+          },
+          {
+            id: '5-2',
+            image: '/assets/experiences/curacao/punda-fort.png',
+            title: 'Tarde em Otrobanda',
+            subtitle: 'Ponte Rainha Emma e Kura Hulanda',
+            description: 'À tarde, atravesse a ponte Rainha Emma para Otrobanda. Visite a Kura Hulanda Village e explore o centro comercial charmoso com restaurantes ótimos.',
+            time: '14:00 - 18:00',
+            location: 'Otrobanda, Willemstad',
+            highlights: [
+              'Ponte Rainha Emma flutuante',
+              'Kura Hulanda Village',
+              'Centro comercial charmoso',
+              'Restaurantes ótimos'
+            ],
+            gallery: [
+              '/assets/experiences/curacao/punda-fort.png',
+              '/assets/experiences/curacao/pietermaai-boutique.png'
+            ]
+          }
+        ]
+      },
+      {
+        dayNumber: 6,
+        isAvailable: true,
+        dayActions: [
+          {
+            id: '6-1',
+            image: '/assets/experiences/curacao/klein-curacao-2.png',
+            title: 'Klein Curaçao',
+            subtitle: 'Paraíso intocado',
+            description: 'Dedique o dia inteiro para Klein Curaçao, uma experiência imperdível. É natureza quase intocada, uma experiência única e inesquecível.',
+            time: '08:00 - 17:00',
+            location: 'Klein Curaçao',
+            highlights: [
+              'Natureza quase intocada',
+              'Praia paradisíaca',
+              'Experiência única',
+              'Paisagem deslumbrante'
+            ],
+            gallery: [
+              '/assets/experiences/curacao/klein-curacao-2.png',
+              '/assets/experiences/curacao/pietermaai-boutique.png'
+            ]
+          }
+        ]
+      },
+      {
+        dayNumber: 7,
+        isAvailable: true,
+        dayActions: [
+          {
+            id: '7-1',
+            image: '/assets/experiences/curacao/curacao.png',
+            title: 'Últimos momentos',
+            subtitle: 'Compras finais e partida',
+            description: 'Aproveite as últimas horas em Curaçao para fazer compras de lembrancinhas e relaxar no hotel antes da partida.',
+            time: '09:00 - 12:00',
+            location: 'Willemstad e Hotel',
+            highlights: [
+              'Compras de lembrancinhas',
+              'Relaxamento final',
+              'Últimos passeios pela cidade',
+              'Preparação para partida'
+            ],
+            gallery: [
+              '/assets/experiences/curacao/curacao.png',
+              '/assets/experiences/curacao/pietermaai-boutique.png'
+            ]
+          }
+        ]
       }
     ]
   }
+
+  const roteiroFAQQuestions = [
+    {
+      question: "Como funciona a criação do roteiro personalizado?",
+      answer: "Começamos com uma reunião detalhada para entender seus interesses, estilo de viagem e objetivos. Nossos especialistas mergulham no destino e criam um roteiro dia a dia, com horários, locais específicos e experiências únicas que vão muito além do turismo tradicional."
+    },
+    {
+      question: "O que está incluído no roteiro?",
+      answer: "Cada roteiro inclui um cronograma detalhado com horários, locais específicos, recomendações de restaurantes exclusivos, experiências únicas, dicas locais e até mesmo sugestões de fotos. Tudo é pensado para criar momentos memoráveis e autênticos."
+    },
+    {
+      question: "Posso personalizar o roteiro depois de recebido?",
+      answer: "Absolutamente! O roteiro é seu e pode ser ajustado quantas vezes for necessário. Trabalhamos juntos para garantir que cada detalhe esteja perfeito antes da sua viagem começar."
+    },
+    {
+      question: "Vocês reservam as atividades do roteiro?",
+      answer: "A realização de reservas é parte do nosso serviço de concierge, que não está incluso com seu roteiro. Nossos especialistas podem te explicar como funciona em detalhes e, além disso, seu roteiro terá os detalhes indicando onde as reservas são necessárias."
+    },
+    {
+      question: "E se eu quiser mudar algo durante a viagem?",
+      answer: "O roteiro é um guia, não uma obrigação! Você tem total liberdade para adaptar conforme sua vontade."
+    },
+    {
+      question: "Por que o valor é por dia?",
+      answer: "Cada dia de roteiro representa horas de pesquisa, conhecimento local e personalização. O valor de R$300,00 por dia garante que cada momento da sua viagem seja cuidadosamente planejado para criar experiências únicas e memoráveis."
+    }
+  ]
 
   return (
     <div className="flex flex-col">
@@ -121,7 +344,7 @@ export default function EvolvedExperienciasPage() {
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/home/hero-praia.jpg"
+            src="/assets/home/vista-capri.jpg"
             alt="Evolved Experiências - Cada dia, uma experiência única"
             fill
             className="object-cover"
@@ -142,17 +365,17 @@ export default function EvolvedExperienciasPage() {
               Cada dia, uma experiência única
             </p>
             <p className="font-comfortaa text-lg md:text-xl mb-8 text-white/90">
-              Você quer transformar cada momento da viagem em algo extraordinário. Nossos especialistas mergulham no seu destino e criam um roteiro diário que vai muito além do óbvio. Cada manhã, tarde e noite será uma descoberta, uma surpresa, uma experiência que você nunca esquecerá.
+              Você quer transformar cada momento da viagem em algo extraordinário. Nossos especialistas mergulham no seu destino e criam um roteiro diário que vai muito além do óbvio. Cada manhã, tarde e noite será uma descoberta, uma surpresa, uma experiência que você nunca esquecerá. Prepare-se para viver momentos únicos em Curaçao.
             </p>
             <Button 
-              onClick={openWizard}
+              onClick={() => setIsScriptModalOpen(true)}
               event="pre_descobrir_viagem"
               eventOptions={{
                 source: 'Hero Section - Evolved Experiências'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
-              Descobrir minha viagem
+              Quero meu roteiro
             </Button>
           </div>
         </div>
@@ -218,10 +441,10 @@ export default function EvolvedExperienciasPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                   </svg>
                 </div>
-                <h3 className="font-baloo text-xl font-bold text-secondary-900">Script Personalizado</h3>
+                <h3 className="font-baloo text-xl font-bold text-secondary-900">Reunião com especialista</h3>
               </div>
               <p className="text-secondary-600 font-comfortaa text-lg">
-                Roteiro criado especificamente para seu perfil e interesses.
+                Conversa personalizada para entender seus desejos e criar o roteiro ideal.
               </p>
             </div>
 
@@ -272,7 +495,7 @@ export default function EvolvedExperienciasPage() {
           <ScriptOutline 
             script={sampleScript}
             title="Exemplo de Script Personalizado"
-            subtitle="Curaçao - 7 dias de experiências únicas"
+            subtitle="Curaçao - 8 dias de experiências únicas"
             showModal={true}
           />
         </div>
@@ -302,8 +525,12 @@ export default function EvolvedExperienciasPage() {
 
             {/* Visual Element */}
             <div className="relative h-[500px]">
-              <div className="absolute inset-0 bg-gradient-to-br from-accent-600 to-accent-700 rounded-2xl opacity-20"></div>
-              <div className="absolute inset-4 bg-gradient-to-br from-white to-white/10 rounded-xl opacity-10"></div>
+              <Image
+                src="/assets/experiences/curacao/kenepa-grandi.png"
+                alt="Kenepa Grandi - Praia paradisíaca de Curaçao"
+                fill
+                className="object-cover rounded-2xl"
+              />
             </div>
           </div>
         </div>
@@ -318,19 +545,44 @@ export default function EvolvedExperienciasPage() {
           <p className="text-secondary-600 font-comfortaa text-lg mb-8 max-w-2xl mx-auto">
             A taxa por dia de roteiro garante que cada momento da sua viagem seja uma experiência única e memorável, criada especialmente para você.
           </p>
-          <div className="bg-secondary-50 p-8 rounded-2xl max-w-md mx-auto">
+          <div className="bg-secondary-50 p-8 rounded-2xl max-w-md mx-auto mb-8">
             <div className="text-accent-500 font-baloo font-semibold text-xl mb-2">
               Taxa por Dia de Roteiro
+            </div>
+            <div className="text-3xl font-baloo font-bold text-secondary-900 mb-2">
+              R$ 300,00
             </div>
             <p className="text-secondary-600 font-comfortaa">
               Valor por dia que inclui todas as experiências e recomendações
             </p>
           </div>
+          <Button
+            onClick={() => setIsScriptModalOpen(true)}
+            event="pre_descobrir_viagem"
+            eventOptions={{
+              source: 'Investment Section - Evolved Experiências'
+            }}
+            className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+          >
+            Quero meu roteiro
+          </Button>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <FAQTripPlanningSection source="Evolved Experiências" />
+      <section className="py-24 bg-secondary-50">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <div className="text-center mb-12">
+            <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-4 text-secondary-900">
+              Dúvidas sobre nossos roteiros personalizados?
+            </h2>
+            <p className="text-secondary-600 font-comfortaa text-lg max-w-2xl mx-auto">
+              Tire suas dúvidas sobre como criamos roteiros únicos e personalizados
+            </p>
+          </div>
+          <FAQ questions={roteiroFAQQuestions} />
+        </div>
+      </section>
 
       {/* Final CTA Section */}
       <section className="py-24 bg-secondary-900 text-white">
@@ -342,20 +594,26 @@ export default function EvolvedExperienciasPage() {
             Agende uma reunião com nossos especialistas e descubra como podemos transformar cada dia da sua viagem em uma experiência única.
           </p>
           <Button
-            onClick={openWizard}
+            onClick={() => setIsScriptModalOpen(true)}
             event="pre_descobrir_viagem"
             eventOptions={{
               source: 'Final CTA Section - Evolved Experiências'
             }}
             className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
           >
-            Descobrir minha viagem
+            Quero meu roteiro
           </Button>
         </div>
       </section>
 
       {/* Newsletter Section */}
       <NewsletterSection source="Evolved Experiências" />
+
+      {/* Script Flow Modal */}
+      <ScriptFlowModal
+        isOpen={isScriptModalOpen}
+        onClose={() => setIsScriptModalOpen(false)}
+      />
     </div>
   )
 } 
