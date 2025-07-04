@@ -70,7 +70,7 @@ const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => void, onB
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-baloo font-bold text-secondary-900 mb-4">Quando você quer viajar?</h2>
+      <h2 className="text-2xl font-baloo font-bold text-secondary-900 mb-4">Vamos descobrir sua viagem?</h2>
       <p className="text-gray-600 mb-6">Selecione as datas da sua viagem para encontrarmos os melhores destinos para você.</p>
       
       <form onSubmit={handleSubmit} className="space-y-4">

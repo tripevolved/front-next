@@ -18,13 +18,15 @@ export default function ContactExpertModal({
   onSuccess,
   additionalMetadata = []
 }: ContactExpertModalProps) {
-  const router = useRouter()
-
   const handleSuccess = () => {
     if (onSuccess) {
       onSuccess()
     } else {
-      router.push('/obrigado')
+      onClose()
+      // Redirect to WhatsApp
+      const message = encodeURIComponent('Olá! Gostaria de conversar com um especialista sobre minha viagem.')
+      const whatsappUrl = `https://wa.me/5512991694499?text=${message}`
+      window.open(whatsappUrl, '_blank')
     }
   }
 
@@ -47,7 +49,7 @@ export default function ContactExpertModal({
           Falar com especialista
         </h2>
         <p className="text-gray-600 mb-6">
-          Preencha os campos abaixo para que nossos especialistas possam entrar em contato com você.
+          Preencha os campos abaixo e vamos te direcionar para nosso WhatsApp.
         </p>
         <LeadForm
           onSuccess={handleSuccess}
