@@ -83,9 +83,7 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
       </section>
 
       {/* Third Section - Destinations */}
-      <div>
-        <DestinationsSection />
-      </div>
+      <DestinationsSection />
 
       {/* Fourth Section - Experiences Carousel */}
       <section className="py-24 bg-secondary-500">
