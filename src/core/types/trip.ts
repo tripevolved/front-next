@@ -198,4 +198,5 @@ export interface CreateTripRequest {
   travelerProfile: string;
   dates: TripDates;
   travelers: TripTravelers;
+  mode?: "PROPOSAL" | "CONSULTANCY";
 }

@@ -120,7 +120,7 @@ export default function ServicesDetailsCarousel() {
                           {service.feeDescription}
                         </div>
                         <Link 
-                          href={`/${service.id}`}
+                          href={`/servicos/${service.id}`}
                           className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
                         >
                           Conhecer mais
