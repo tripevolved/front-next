@@ -28,7 +28,27 @@ export interface PaymentResponse {
   payment: Payment;
 }
 
+export interface PaymentItemRequest {
+  amount: number;
+  type: "CONSULTANCY" | "PLANNING" | "SCRIPT";
+}
+
+export interface CreatePaymentRequest {
+  travelerId: string;
+  tripId: string;
+  items: PaymentItemRequest[];
+}
+
+export interface CreatePaymentResponse {
+  paymentId: string;
+}
+
 export const getPaymentById = async (paymentId: string) => {
   const route = `payments/${paymentId}`;
   return ApiRequest.get<PaymentResponse>(route);
+};
+
+export const createPayment = async (paymentData: CreatePaymentRequest) => {
+  const route = "payments";
+  return ApiRequest.post<CreatePaymentResponse>(route, paymentData);
 }; 

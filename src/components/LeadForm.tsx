@@ -1,8 +1,9 @@
 'use client'
 
 import { Suspense, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { LeadsApiService } from '@/clients/leads'
+import { UsersApiService } from '@/clients/users'
 import { LocalStorageService } from '@/clients/local'
 import { EventType } from '@/components/basic/FacebookPixel'
 import * as fpixel from '@/utils/libs/fpixel'
@@ -22,6 +23,8 @@ interface LeadFormProps {
   onBack?: () => void
   event?: EventType
   eventOptions?: Record<string, any>
+  enableUniqueSignUp?: boolean
+  redirectAfterSignUp?: string
 }
 
 interface UtmParams {
@@ -97,9 +100,12 @@ function LeadFormContent({
   showBackButton = false,
   onBack,
   event,
-  eventOptions
+  eventOptions,
+  enableUniqueSignUp = false,
+  redirectAfterSignUp
 }: LeadFormProps) {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -146,12 +152,16 @@ function LeadFormContent({
       // Combine country code with phone number
       const phoneWithCountryCode = `${formData.countryCode}${formData.phone.replace(/\D/g, '')}`
 
-      const response = await LeadsApiService.createLead({
+      // Create lead data
+      const leadData = {
         name: formData.name,
         email: formData.email,
         phone: phoneWithCountryCode,
         metadata
-      })
+      }
+
+      // Create lead
+      const response = await LeadsApiService.createLead(leadData)
       
       // Save only the name to local storage using LocalStorageService
       if (response) {
@@ -159,6 +169,35 @@ function LeadFormContent({
           id: response.id,
           name: formData.name
         })
+      }
+
+      // If unique sign-up is enabled, also create user account
+      if (enableUniqueSignUp) {
+        try {
+          const uniqueSignUpResponse = await UsersApiService.uniqueSignUp(leadData)
+          
+          // Check if uniqueId is returned
+          if (uniqueSignUpResponse.uniqueId) {
+            // Build redirect URL with redirectAfterSignUp if provided
+            const redirectUrl = redirectAfterSignUp 
+              ? `/app/cadastro/${encodeURIComponent(uniqueSignUpResponse.uniqueId)}?email=${encodeURIComponent(formData.email)}&redirectTo=${encodeURIComponent(redirectAfterSignUp)}`
+              : `/app/cadastro/${encodeURIComponent(uniqueSignUpResponse.uniqueId)}?email=${encodeURIComponent(formData.email)}`;
+            
+            // Redirect to cadastro page with uniqueId and email
+            router.push(redirectUrl)
+            return // Exit early to prevent other callbacks
+          } else {
+            // If no uniqueId is returned, redirect to login page with redirectTo if provided
+            const loginUrl = redirectAfterSignUp 
+              ? `/app/entrar?redirectTo=${encodeURIComponent(redirectAfterSignUp)}`
+              : '/app/entrar';
+            router.push(loginUrl)
+            return // Exit early to prevent other callbacks
+          }
+        } catch (uniqueSignUpError) {
+          console.error('Error in unique sign-up:', uniqueSignUpError)
+          // Continue with normal flow if unique sign-up fails
+        }
       }
       
       if (redirectToWhatsApp && phoneNumber) {

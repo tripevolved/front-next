@@ -1,5 +1,6 @@
-import { getPaymentById } from "./payments";
+import { getPaymentById, createPayment } from "./payments";
 
 export const PaymentsApiService = {
-  getPaymentById
+  getPaymentById,
+  createPayment
 }; 
