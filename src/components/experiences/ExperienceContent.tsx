@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ShareModal } from "@/components/ShareModal";
 import ContactExpertModal from "@/components/ContactExpertModal";
 import { LocalStorageService } from "@/clients/local";
 import type { Experience } from "@/core/types/experiences";
 import { VideoOverlay } from "./VideoOverlay";
-import { VideoSlider } from "../VideoSlider";
+import { ItineraryContent } from "@/components/itineraries";
 
 interface ExperienceContentProps {
   experience: Experience;
@@ -18,10 +18,6 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [hasTraveler, setHasTraveler] = useState(false);
-  const [activeDay, setActiveDay] = useState<number | null>(null);
-  const [showDayNav, setShowDayNav] = useState(false);
-  const dayRefs = useRef<(HTMLElement | null)[]>([]);
-  const dayOneRef = useRef<HTMLElement | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<{
     playbackId: string;
     title: string;
@@ -44,60 +40,6 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
     return () => clearInterval(interval);
   }, [experience.images.length]);
 
-  // Set up intersection observer to detect which day is in view
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const dayId = entry.target.id;
-            const dayNumber = parseInt(dayId.split("-")[1]);
-            setActiveDay(dayNumber);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    // Observe all day sections
-    dayRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => {
-      dayRefs.current.forEach((ref) => {
-        if (ref) observer.unobserve(ref);
-      });
-    };
-  }, [experience.itinerary.length]);
-
-  // Set up intersection observer to detect when day 1 is in view
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setShowDayNav(true);
-          } else if (entry.boundingClientRect.top > 0) {
-            // Only hide if we're scrolling back up above day 1
-            setShowDayNav(false);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (dayOneRef.current) {
-      observer.observe(dayOneRef.current);
-    }
-
-    return () => {
-      if (dayOneRef.current) {
-        observer.unobserve(dayOneRef.current);
-      }
-    };
-  }, []);
-
   // Function to handle sharing
   const handleShare = () => {
     setIsShareModalOpen(true);
@@ -112,15 +54,6 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
     } else {
       // If no traveler, open contact modal
       setIsContactModalOpen(true);
-    }
-  };
-
-  // Function to handle smooth scrolling to sections
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    e.preventDefault();
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -144,21 +77,6 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
       title: `Destaque ${index + 1}`,
     }));
   };
-
-  const videos = [
-    {
-      playbackId: "LC00LtUVGHHhu1Hy00LwWvbykZbyuFS2adlomOrS02ERf4",
-      title: "Video Title 1",
-    },
-    {
-      playbackId: "LC00LtUVGHHhu1Hy00LwWvbykZbyuFS2adlomOrS02ERf4",
-      title: "Video Title 2",
-    },
-    {
-      playbackId: "LC00LtUVGHHhu1Hy00LwWvbykZbyuFS2adlomOrS02ERf4",
-      title: "Video Title 3",
-    },
-  ];
 
   return (
     <div className="min-h-screen">
@@ -194,7 +112,6 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
               <p className="text-lg md:text-xl font-comfortaa mb-6">{experience.travelers}</p>
               <a
                 href="#itinerary"
-                onClick={(e) => scrollToSection(e, "itinerary")}
                 className="inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-3 rounded-full font-baloo font-semibold hover:bg-primary-50 transition-colors"
               >
                 Ver itinerário
@@ -218,218 +135,20 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
         </div>
       </section>
 
-      {/* Itinerary Section */}
-      <section id="itinerary" className="py-16 bg-white scroll-mt-20">
-        <div className="max-w-[80%] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Left Column - Itinerary */}
-            <div className="relative">
-              <h2 className="text-3xl font-baloo font-bold text-secondary-900 mb-8">
-                Itinerário dia a dia
-              </h2>
-
-              <div className="space-y-8">
-                {experience.itinerary.map((day, index) => (
-                  <div key={day.day} className="relative">
-                    <a
-                      href={`#day-${day.day}`}
-                      onClick={(e) => scrollToSection(e, `day-${day.day}`)}
-                      className="flex items-start gap-4 group"
-                    >
-                      {/* Day Circle */}
-                      <div className="flex-shrink-0 w-16 h-16 rounded-full bg-primary-100 flex flex-col items-center justify-center">
-                        <span className="text-xs text-primary-600 font-comfortaa">dia</span>
-                        <span className="text-xl font-baloo font-bold text-primary-600">
-                          {String(day.day).padStart(2, "0")}
-                        </span>
-                      </div>
-
-                      {/* Day Content */}
-                      <div className="pt-2">
-                        <h3 className="text-xl font-baloo font-semibold text-secondary-900 group-hover:text-primary-600 transition-colors">
-                          {day.activity}
-                        </h3>
-                        <p className="text-sm text-secondary-600">{day.date}</p>
-                      </div>
-                    </a>
-
-                    {/* Connecting Dots - Fixed to properly connect between days */}
-                    {index < experience.itinerary.length - 1 && (
-                      <div className="absolute left-8 top-16 h-[calc(100%+2rem)] w-0.5 bg-primary-200" />
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Column - Map */}
-            <div className="relative">
-              <div className="relative h-[600px] rounded-xl overflow-hidden">
-                {experience.mapImage && (
-                  <Image
-                    src={experience.mapImage}
-                    alt="Mapa do itinerário"
-                    fill
-                    className="object-cover"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/30 to-transparent" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Day-by-Day Navigation Sidebar - Only visible on lg screens and above */}
-      <div
-        className={`fixed left-0 top-1/2 -translate-y-1/2 bg-white shadow-lg rounded-r-xl p-4 transition-all duration-300 z-10 hidden lg:block ${
-          showDayNav ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="space-y-4">
-          {experience.itinerary.map((day, index) => (
-            <div key={day.day} className="relative">
-              <a
-                href={`#day-${day.day}`}
-                onClick={(e) => scrollToSection(e, `day-${day.day}`)}
-                className={`flex items-center justify-center transition-all duration-300`}
-              >
-                {/* Day Circle */}
-                <div
-                  className={`flex-shrink-0 w-12 h-12 rounded-full flex flex-col items-center justify-center transition-colors ${
-                    activeDay === day.day
-                      ? "bg-primary-600 text-white"
-                      : "bg-primary-100 text-primary-600"
-                  }`}
-                >
-                  <span className="text-xs font-comfortaa">dia</span>
-                  <span className="text-sm font-baloo font-bold">
-                    {String(day.day).padStart(2, "0")}
-                  </span>
-                </div>
-              </a>
-
-              {/* Connecting Dots - Faded for non-active days */}
-              {index < experience.itinerary.length - 1 && (
-                <div
-                  className={`absolute left-6 top-12 h-[calc(100%+0.5rem)] w-0.5 transition-opacity duration-300 ${
-                    activeDay === day.day || activeDay === day.day + 1
-                      ? "bg-primary-200"
-                      : "bg-primary-100 opacity-40"
-                  }`}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Day Sections */}
-      {experience.itinerary.map((day, dayIndex) => (
-        <section
-          key={dayIndex}
-          id={`day-${day.day}`}
-          ref={(el) => {
-            dayRefs.current[dayIndex] = el;
-            if (day.day === 1) dayOneRef.current = el;
-          }}
-          className="py-16 bg-gray-50 scroll-mt-20"
-        >
-          <div className="lg:max-w-[80%] mx-auto">
-            {/* Day Background Image - Full Width of Container */}
-            <div className="relative h-[500px] mb-16 rounded-2xl overflow-hidden">
-              <Image
-                src={day.image}
-                alt={`Dia ${day.day} - ${day.activity}`}
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-
-              {/* Day Title and Date */}
-              <div className="absolute bottom-0 left-0 p-6 text-white w-full">
-                <div className="flex items-center gap-4 mb-2">
-                  <div className="w-16 h-16 rounded-full bg-primary-100 flex flex-col items-center justify-center">
-                    <span className="text-xs text-primary-600 font-comfortaa">dia</span>
-                    <span className="text-xl font-baloo font-bold text-primary-600">
-                      {String(day.day).padStart(2, "0")}
-                    </span>
-                  </div>
-                  <div>
-                    <h2 className="text-3xl font-baloo font-bold">{day.activity}</h2>
-                    <p className="text-lg">{day.date}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Day Description Box - Smaller and Overlapping */}
-            <div className="bg-white rounded-xl p-6 shadow-sm mb-8 relative z-1 -mt-24 mx-auto max-w-3xl">
-              <p className="text-secondary-700">{day.description}</p>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-              <div className="flex flex-col gap-6 lg:col-span-2">
-                <div className="bg-accent-100 rounded-xl p-8 shadow-sm">
-                  <p className="text-secondary-700">{day.highlights.description}</p>
-                </div>
-                <div className="bg-white rounded-lg shadow-lg p-6">
-                  <h3 className="text-xl font-semibold text-primary mb-4">Hospedagem</h3>
-                  <div className="flex flex-col md:flex-row gap-6">
-                    <div className="flex-1">
-                      <h4 className="text-lg font-medium text-gray-900 mb-2">{day.hotel.name}</h4>
-                      <p className="text-gray-600">{day.hotel.description}</p>
-                    </div>
-                    <div className="w-full md:w-48 h-48 relative rounded-full overflow-hidden">
-                      <Image
-                        src={day.hotel.image}
-                        alt={day.hotel.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column - Highlights */}
-              <div className="rounded-lg pr-6 pb-6 pl-6 space-y-4 lg:col-span-3 overflow-hidden">
-                <div className="relative">
-                  <div className="overflow-x-auto pb-4 -mx-4 px-4">
-                    <div className="grid grid-flow-col auto-cols-[minmax(280px,1fr)] gap-4">
-                      <div
-                        key="1"
-                        className="relative group over overflow-hidden bg-white shadow-lg p-6 pb-12"
-                      >
-                        <div className="relative w-full rounded-lg h-full flex gap-3 flex-col">
-                          <p className="text-lg font-medium text-gray-700">Destaque {1 + 1}</p>
-                          {day.highlights.videos && day.highlights.videos.length > 0 ? (
-                            <>
-                              <div className="flex gap-5 items-center justify-evenly">
-                                <div className="flex flex-col gap-4">
-                                  <div>
-                                    <VideoSlider videos={day.highlights.videos} />
-                                  </div>
-                                </div>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <p className="text-gray-500">Nenhum vídeo disponível</p>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      ))}
+      {/* Itinerary Content */}
+      <ItineraryContent 
+        itinerary={experience.itinerary.map((day, index) => ({
+          id: day.day,
+          date: day.date,
+          activity: day.activity,
+          image: day.image,
+          description: day.description,
+          hotel: day.hotel,
+          highlights: day.highlights
+        }))} 
+        mapImage={experience.mapImage}
+        type="day"
+      />
 
       {/* Fixed Bottom Menu */}
       <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg py-4 px-6 z-[11]">
