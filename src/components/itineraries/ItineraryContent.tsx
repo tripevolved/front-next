@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { VideoSlider } from "../VideoSlider";
+import { HotelDetailsModal } from "./HotelDetailsModal";
 
 export interface ItineraryItem {
   id: number;
@@ -14,6 +15,12 @@ export interface ItineraryItem {
     name: string;
     description: string;
     image: string;
+    details?: {
+      description: string;
+      highlight: string;
+      images: string[];
+      includedServices: string[];
+    };
   };
   highlights: {
     description: string;
@@ -32,6 +39,8 @@ export interface ItineraryContentProps {
 export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContentProps) {
   const [activeItem, setActiveItem] = useState<number | null>(null);
   const [showItemNav, setShowItemNav] = useState(false);
+  const [selectedHotel, setSelectedHotel] = useState<ItineraryItem['hotel'] | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const itemRefs = useRef<(HTMLElement | null)[]>([]);
   const itemOneRef = useRef<HTMLElement | null>(null);
 
@@ -96,6 +105,17 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  // Function to handle hotel modal
+  const openHotelModal = (hotel: ItineraryItem['hotel']) => {
+    setSelectedHotel(hotel);
+    setIsModalOpen(true);
+  };
+
+  const closeHotelModal = () => {
+    setIsModalOpen(false);
+    setSelectedHotel(null);
   };
 
   return (
@@ -263,10 +283,21 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
                 </div>
                 <div className="bg-white rounded-lg shadow-lg p-6">
                   <h3 className="text-xl font-semibold text-primary mb-4">Hospedagem</h3>
-                  <div className="flex flex-col md:flex-row gap-6">
+                  <div 
+                    className={`flex flex-col md:flex-row gap-6 ${item.hotel.details ? 'cursor-pointer' : ''}`}
+                    onClick={() => item.hotel.details && openHotelModal(item.hotel)}
+                  >
                     <div className="flex-1">
                       <h4 className="text-lg font-medium text-gray-900 mb-2">{item.hotel.name}</h4>
                       <p className="text-gray-600">{item.hotel.description}</p>
+                      {item.hotel.details && (
+                        <div className="mt-3 flex items-center gap-2 text-primary-600 text-sm">
+                          <span>Clique para mais detalhes</span>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </div>
+                      )}
                     </div>
                     <div className="w-full md:w-48 h-48 relative rounded-full overflow-hidden">
                       <Image
@@ -318,6 +349,15 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
           </div>
         </section>
       ))}
+
+      {/* Hotel Details Modal */}
+      {selectedHotel && (
+        <HotelDetailsModal
+          isOpen={isModalOpen}
+          onClose={closeHotelModal}
+          hotel={selectedHotel}
+        />
+      )}
     </>
   );
 } 

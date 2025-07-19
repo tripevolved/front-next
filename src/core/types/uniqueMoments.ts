@@ -109,7 +109,26 @@ export const mockPropostaData: PropostaData = {
       hotel: {
         name: 'Baluarte Boutique Hotel',
         description: 'Um hotel boutique simples e charmoso localizado no coração do Casco Viejo.',
-        image: '/assets/experiences/curacao/hotel-baluarte.jpg'
+        image: '/assets/experiences/curacao/hotel-baluarte.jpg',
+        details: {
+          description: 'O Baluarte Boutique Hotel é uma joia escondida no coração do Casco Viejo, Patrimônio Mundial da UNESCO. Com apenas 12 quartos exclusivos, oferece uma experiência íntima e autêntica em um edifício histórico cuidadosamente restaurado. Cada detalhe foi pensado para proporcionar conforto e charme, mantendo a atmosfera colonial que torna o local tão especial.',
+          highlight: 'Localização privilegiada no coração do Casco Viejo, a apenas passos das principais atrações históricas e culturais da Cidade do Panamá.',
+          images: [
+            '/assets/experiences/curacao/hotel-baluarte-2.jpg',
+            '/assets/experiences/curacao/hotel-baluarte-3.jpg',
+            '/assets/experiences/curacao/hotel-baluarte-4.jpg'
+          ],
+          includedServices: [
+            'Café da manhã continental incluído',
+            'Wi-Fi gratuito em todas as áreas',
+            'Recepção 24 horas',
+            'Serviço de concierge',
+            'Terraço com vista panorâmica',
+            'Ar condicionado individual',
+            'TV de tela plana',
+            'Cofre no quarto'
+          ]
+        }
       },
       highlights: {
         description: 'O Canal do Panamá é sensacional e surpreendeu, mas o charme do Casco Viejo nos conquistou.',
@@ -125,7 +144,26 @@ export const mockPropostaData: PropostaData = {
       hotel: {
         name: 'AC Hotel by Marriott Panama City',
         description: 'Um hotel moderno com vista panorâmica da cidade, localizado no centro financeiro da Cidade do Panamá.',
-        image: '/assets/experiences/curacao/ac-hotel-panama.jpg'
+        image: '/assets/experiences/curacao/ac-hotel-panama.jpg',
+        details: {
+          description: 'O AC Hotel by Marriott Panama City combina design contemporâneo com funcionalidade, oferecendo uma experiência sofisticada no coração do distrito financeiro. Com vistas deslumbrantes da cidade e do Canal do Panamá, o hotel é perfeito para viajantes que apreciam conforto moderno e localização estratégica.',
+          highlight: 'Vistas panorâmicas do Canal do Panamá e da cidade moderna, com fácil acesso ao centro financeiro e comercial.',
+          images: [
+            '/assets/experiences/curacao/ac-hotel-panama-2.jpg',
+            '/assets/experiences/curacao/ac-hotel-panama-3.jpg',
+            '/assets/experiences/curacao/ac-hotel-panama-4.jpg'
+          ],
+          includedServices: [
+            'Café da manhã buffet completo',
+            'Wi-Fi de alta velocidade',
+            'Academia 24 horas',
+            'Piscina na cobertura',
+            'Bar e restaurante',
+            'Serviço de quarto',
+            'Estacionamento',
+            'Business center'
+          ]
+        }
       },
       highlights: {
         description: 'A estrutura da Costanera é incrível. Um lugar perfeito para um bom exercício matinal.',
@@ -141,7 +179,26 @@ export const mockPropostaData: PropostaData = {
       hotel: {
         name: 'Coral Estate Luxury Resort',
         description: 'Um resort exclusivo à beira-mar, com uma vista privilegiada e acesso direto a uma praia paradisíaca e super tranquila.',
-        image: '/assets/experiences/curacao/coral-estate.png'
+        image: '/assets/experiences/curacao/coral-estate.png',
+        details: {
+          description: 'O Coral Estate Luxury Resort é um refúgio paradisíaco localizado em um morro à beira-mar, oferecendo vistas deslumbrantes do Caribe. Com apenas 20 suítes exclusivas, o resort proporciona uma experiência íntima e luxuosa, combinando conforto moderno com a beleza natural de Curaçao.',
+          highlight: 'Localização exclusiva em um morro à beira-mar, com acesso direto a uma praia privativa e vistas panorâmicas do Caribe.',
+          images: [
+            '/assets/experiences/curacao/coral-estate-2.png',
+            '/assets/experiences/curacao/coral-estate-3.png',
+            '/assets/experiences/curacao/coral-estate-4.png'
+          ],
+          includedServices: [
+            'Café da manhã gourmet',
+            'Wi-Fi premium',
+            'Piscina infinita',
+            'Spa e massagens',
+            'Restaurante à la carte',
+            'Bar na praia',
+            'Atividades aquáticas',
+            'Concierge personalizado'
+          ]
+        }
       },
       highlights: {
         description: 'A chegada no Coral Estate. O resort está aninhado em um morro à beira-mar, o que proporciona uma vista espetacular.',
