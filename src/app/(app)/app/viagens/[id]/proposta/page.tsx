@@ -8,10 +8,11 @@ interface PropostaPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default function PropostaPage({ params }: PropostaPageProps) {
-  // For now, use the mock proposta data
-  // In the future, this could fetch the proposta by ID from an API
-  const propostaData = mockPropostaData;
+export default async function PropostaPage({ params }: PropostaPageProps) {
+  const { id } = await params;
+  
+  // Mock data - in a real app, this would come from an API
+  const propostaData = mockPropostaData.id === id ? mockPropostaData : null;
 
   if (!propostaData) {
     return (
@@ -76,7 +77,7 @@ export default function PropostaPage({ params }: PropostaPageProps) {
       <ItineraryContent 
         itinerary={propostaData.itinerary} 
         mapImage={propostaData.mapImage}
-        type="day"
+        type="period"
       />
 
       {/* Proposal Details */}
