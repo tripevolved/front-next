@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 
 interface ImageCarouselProps {
@@ -10,6 +10,8 @@ interface ImageCarouselProps {
   showCounter?: boolean
   showIndicators?: boolean
   showArrows?: boolean
+  autoScroll?: boolean
+  autoScrollInterval?: number
 }
 
 export function ImageCarousel({
@@ -18,7 +20,9 @@ export function ImageCarousel({
   height = 'h-64',
   showCounter = true,
   showIndicators = true,
-  showArrows = true
+  showArrows = true,
+  autoScroll = false,
+  autoScrollInterval = 4000
 }: ImageCarouselProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
@@ -33,6 +37,17 @@ export function ImageCarousel({
       prev === 0 ? images.length - 1 : prev - 1
     )
   }
+
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (!autoScroll || images.length <= 1) return
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length)
+    }, autoScrollInterval)
+
+    return () => clearInterval(interval)
+  }, [autoScroll, autoScrollInterval, images.length])
 
   if (images.length === 0) {
     return (

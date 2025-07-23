@@ -8,14 +8,14 @@ const products = [
     title: 'Jornadas a dois',
     description: 'Viagens românticas e experiências exclusivas criadas especialmente para casais que buscam momentos especiais juntos.',
     image: '/assets/home/casal-sicilia.jpg',
-    link: '/jornadas-a-dois'
+    link: '/produtos/jornadas-a-dois'
   },
   {
     id: 'cruzeiros-extraordinarios',
     title: 'Cruzeiros Extraordinários',
     description: 'Descubra destinos incríveis a bordo dos melhores navios, com experiências exclusivas e roteiros personalizados.',
     image: '/assets/home/cruzeiros-extraordinarios.jpg',
-    link: '/cruzeiros-extraordinarios'
+    link: '/produtos/cruzeiros-extraordinarios'
   }
 ]
 

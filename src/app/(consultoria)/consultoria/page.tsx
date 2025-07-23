@@ -2,15 +2,25 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
-import ContactExpertModal from '@/components/ContactExpertModal'
+import { MuxVideoPlayer } from '@/components/MuxVideoPlayer'
+import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
 import NewsletterSection from '@/components/consultancy/NewsletterSection'
 import FAQSection from '@/components/consultancy/FAQSection'
 import TripEvolvedSection from '@/components/consultancy/TripEvolvedSection'
+import QuotesCarousel from '@/components/QuotesCarousel'
 import Button from '@/components/common/Button'
 
 export default function ConsultoriaPage() {
-  const [isContactModalOpen, setIsContactModalOpen] = useState(false)
-  const [isExplanationModalOpen, setIsExplanationModalOpen] = useState(false)
+  const [isLeadFlowModalOpen, setIsLeadFlowModalOpen] = useState(false)
+
+  const destinations = [
+    'Itália',
+    'Portugal',
+    'Caribe',
+    'Patagônia',
+    'Estados Unidos',
+    'Argentina'
+  ]
 
   return (
     <div className="flex flex-col">
@@ -32,26 +42,42 @@ export default function ConsultoriaPage() {
 
         {/* Content */}
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 relative z-10">
-          <div className="max-w-2xl">
-            <h1 className="font-baloo text-4xl md:text-6xl font-bold mb-6 text-white">
-              Sua viagem a dois. Com experiências que vocês não conseguem encontrar sozinhos.
-            </h1>
-            <Button 
-              onClick={() => setIsContactModalOpen(true)}
-              event="pre_agendar"
-              eventOptions={{
-                source: 'Hero Section - Consultoria'
-              }}
-              className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
-            >
-              Quero agendar minha sessão
-            </Button>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Video Column */}
+            <div className="order-2 lg:order-1">
+              <div className="rounded-xl overflow-hidden shadow-2xl">
+                <MuxVideoPlayer 
+                  className="h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[90vh] max-w-sm md:max-w-md lg:max-w-lg mx-auto"
+                  playbackId="7cTDzzE2b5clh2Z00ea100epbv02uWd016JTnSX1GIiOKj4"
+                  isMuted={false}
+                  loop={false}
+                  autoplay={true}
+                />
+              </div>
+            </div>
+
+            {/* Content Column */}
+            <div className="order-1 lg:order-2">
+              <h1 className="font-baloo text-4xl md:text-6xl font-bold mb-6 text-white">
+                Sua viagem a dois. Com experiências que vocês não conseguem encontrar sozinhos.
+              </h1>
+              <Button 
+                onClick={() => setIsLeadFlowModalOpen(true)}
+                event="pre_agendar"
+                eventOptions={{
+                  source: 'Hero Section - Consultoria'
+                }}
+                className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+              >
+                Falar com especialista
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Momentos únicos Section */}
-      <section className="py-24 bg-secondary-50">
+      <section className="py-24 bg-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-12 text-secondary-900">
             Vamos encontrar para vocês <span className="text-accent-500">momentos únicos</span> como...
@@ -110,14 +136,14 @@ export default function ConsultoriaPage() {
           </div>
           <div className="text-center mt-12">
             <Button 
-              onClick={() => setIsContactModalOpen(true)}
+              onClick={() => setIsLeadFlowModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
                 source: 'Momentos únicos Section - Consultoria'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
-              Quero agendar minha sessão
+              Falar com especialista
             </Button>
           </div>
         </div>
@@ -225,223 +251,96 @@ export default function ConsultoriaPage() {
           </div>
           <div className="text-center">
             <Button 
-              onClick={() => setIsContactModalOpen(true)}
+              onClick={() => setIsLeadFlowModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
                 source: 'Para casais que Section - Consultoria'
               }}
               className="inline-block font-baloo bg-primary-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-600 transition-all"
             >
-              Quero agendar minha sessão
+              Falar com especialista
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Como funciona Section */}
-      <section className="py-24 bg-white">
+      {/* Jornada Evolved Section */}
+      <section className="py-16 bg-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="text-center mb-16">
             <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
-              Do primeiro contato ao último brinde da viagem, tudo pensado <span className="text-accent-500">com carinho e estratégia</span>
+              <span className="text-accent-500">Jornada Evolved</span>
             </h2>
-            <h3 className="font-baloo text-xl md:text-2xl font-semibold text-primary-500">
-              Um processo sob medida para criar a viagem mais especial da vida de vocês
-            </h3>
+            <p className="font-baloo text-xl md:text-2xl font-semibold text-primary-500 mb-4">
+              Apenas 12 vagas por mês para garantir atenção máxima
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
             {/* Step 1 */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
-              <div className="flex flex-col items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
-                  1
-                </div>
-                <div>
-                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Sessão &quot;onde ir&quot;
-                  </h3>
-                  <p className="text-secondary-600 font-comfortaa text-lg">
-                    Tudo começa com uma conversa leve e acolhedora. Nela, entendemos o estilo de vocês, o que esperam viver juntos e como gostam de viajar. Essa reunião é gratuita e feita para vocês se sentirem à vontade — sem nenhuma obrigação de seguir.
-                  </p>
+            <div className="text-center">
+              <div className="relative mb-8">
+                <div className="w-32 h-32 rounded-full bg-accent-500 flex items-center justify-center mx-auto shadow-lg">
+                  <span className="text-white font-baloo text-4xl font-bold">1</span>
                 </div>
               </div>
+              <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-4">
+                Pré-proposta
+              </h3>
+              <p className="text-secondary-600 font-comfortaa text-lg">
+                Itinerário personalizado, momentos únicos, voos e hospedagens selecionadas especialmente para vocês.
+              </p>
             </div>
 
             {/* Step 2 */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
-              <div className="flex flex-col items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
-                  2
-                </div>
-                <div>
-                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Confirmação da jornada
-                  </h3>
-                  <p className="text-secondary-600 font-comfortaa text-lg">
-                    Com o pagamento de R$500,00, damos início à criação de uma proposta sob medida. O valor investido é totalmente abatido no fechamento da viagem.{' '}
-                    <button
-                      onClick={() => setIsExplanationModalOpen(true)}
-                      className="text-accent-500 hover:text-accent-600 font-semibold underline"
-                    >
-                      Por que cobramos a proposta?
-                    </button>
-                  </p>
+            <div className="text-center">
+              <div className="relative mb-8">
+                <div className="w-32 h-32 rounded-full bg-accent-500 flex items-center justify-center mx-auto shadow-lg">
+                  <span className="text-white font-baloo text-4xl font-bold">2</span>
                 </div>
               </div>
+              <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-4">
+                Início da consultoria
+              </h3>
+              <p className="text-secondary-600 font-comfortaa text-lg">
+                Com o pagamento de R$ 1.200,00, iniciamos o processo completo de criação da sua viagem.
+              </p>
             </div>
 
             {/* Step 3 */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
-              <div className="flex flex-col items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
-                  3
-                </div>
-                <div>
-                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Proposta personalizada para a jornada
-                  </h3>
-                  <p className="text-secondary-600 font-comfortaa text-lg">
-                    A sua proposta inclui todos os detalhes que você precisa saber a respeito do itinerário, voos, sugestão de hotéis e experiências marcantes. A ideia é que, aqui, já se imaginem no destino, curtindo os momentos que pensamos para vocês.
-                  </p>
+            <div className="text-center">
+              <div className="relative mb-8">
+                <div className="w-32 h-32 rounded-full bg-accent-500 flex items-center justify-center mx-auto shadow-lg">
+                  <span className="text-white font-baloo text-4xl font-bold">3</span>
                 </div>
               </div>
-            </div>
-
-            {/* Step 4 */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
-              <div className="flex flex-col items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
-                  4
-                </div>
-                <div>
-                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Ajustes da proposta
-                  </h3>
-                  <p className="text-secondary-600 font-comfortaa text-lg">
-                    A proposta pode ser ajustada quantas vezes for necessário. O objetivo é garantir que cada detalhe reflita perfeitamente o que vocês desejam e imaginam.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Step 5 */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
-              <div className="flex flex-col items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
-                  5
-                </div>
-                <div>
-                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Documentação completa
-                  </h3>
-                  <p className="text-secondary-600 font-comfortaa text-lg">
-                    Garantimos que toda a documentação necessária, como vistos, vacinas, receitas médicas, passaportes etc., esteja completa e em dia, para que vocês viajem com tranquilidade.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Step 6 */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all">
-              <div className="flex flex-col items-start gap-4 mb-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full bg-accent-500 flex items-center justify-center text-white font-baloo text-2xl font-bold">
-                  6
-                </div>
-                <div>
-                  <h3 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                    Preparativos completos
-                  </h3>
-                  <p className="text-secondary-600 font-comfortaa text-lg">
-                    Cuidamos de check-ins, horários de traslados e todos os pequenos detalhes que fazem a diferença. Vocês vão embarcar tranquilos e animados para a jornada que virá!
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Bonus Section */}
-          <div className="bg-primary-50 p-8 rounded-xl mb-16">
-            <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-8 text-center">
-              E mais detalhes exclusivos para sua viagem ser ainda mais especial
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h4 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                  Concierge pessoal para cuidar de vocês
-                </h4>
-                <p className="text-secondary-600 font-comfortaa text-lg">
-                  Com reservas de restaurantes, ingressos, lembretes e, o mais importante: alguém para ajudar vocês a navegar o destino com tranquilidade, no WhatsApp.
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-xl shadow-md">
-                <h4 className="font-baloo text-xl font-bold text-secondary-900 mb-4">
-                  Dossiê da Viagem
-                </h4>
-                <p className="text-secondary-600 font-comfortaa text-lg">
-                  Que vocês recebem em casa, com tudo que precisam saber, como a burocracia necessária, o que levar na mala, lugares que vocês não podem perder e o que mais for necessário.
-                </p>
-              </div>
+              <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-4">
+                Viagem cuidada pelos especialistas
+              </h3>
+              <p className="text-secondary-600 font-comfortaa text-lg">
+                Nossos especialistas cuidam de todos os detalhes, desde reservas até suporte durante a viagem.
+              </p>
             </div>
           </div>
 
           {/* CTA Section */}
           <div className="text-center">
             <Button 
-              onClick={() => setIsContactModalOpen(true)}
+              onClick={() => setIsLeadFlowModalOpen(true)}
               event="pre_agendar"
               eventOptions={{
-                source: 'Como funciona Section - Consultoria'
+                source: 'Jornada Evolved Section - Consultoria'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
-              Quero agendar minha sessão
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Por que agendar agora Section */}
-      <section className="py-24 bg-secondary-500 text-white">
-        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-          <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-12 text-center">
-            Por que agendar sua reunião agora?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
-            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl hover:bg-white/20 transition-all">
-              <h3 className="text-2xl font-baloo font-bold mb-4 text-accent-500">
-                Vagas Limitadas
-              </h3>
-              <p className="text-white/90 font-comfortaa text-lg">
-                Temos apenas <span className="text-accent-500 font-bold text-2xl">6 vagas</span> por mês para garantir atenção máxima a vocês. Não perca a oportunidade de garantir sua vaga.
-              </p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl hover:bg-white/20 transition-all">
-              <h3 className="text-2xl font-baloo font-bold mb-4 text-accent-500">
-                Planejamento Antecipado
-              </h3>
-              <p className="text-white/90 font-comfortaa text-lg">
-                Quanto antes começarmos a planejar sua viagem, <span className="text-accent-500 font-bold text-2xl">melhores opções</span> teremos disponíveis. Garanta as melhores experiências.
-              </p>
-            </div>
-          </div>
-          <div className="text-center">
-            <Button 
-              onClick={() => setIsContactModalOpen(true)}
-              event="pre_agendar"
-              eventOptions={{
-                source: 'Por que agendar agora Section - Consultoria'
-              }}
-              className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
-            >
-              Quero agendar minha sessão
+              Falar com especialista
             </Button>
           </div>
         </div>
       </section>
 
       {/* Viagem Personalizada Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-secondary-50">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Images */}
@@ -488,6 +387,16 @@ export default function ConsultoriaPage() {
       {/* Trip Evolved Section */}
       <TripEvolvedSection />
 
+      {/* Customer Quotes Section */}
+      <section className="py-24 bg-secondary-50">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-12 text-center text-secondary-900">
+            O que nossos clientes dizem sobre nós
+          </h2>
+          <QuotesCarousel />
+        </div>
+      </section>
+
       {/* FAQ Section */}
       <FAQSection source="Consultoria" />
 
@@ -501,14 +410,14 @@ export default function ConsultoriaPage() {
             Agende uma reunião com nossos especialistas e comece a planejar a viagem dos seus sonhos hoje mesmo.
           </p>
           <Button
-            onClick={() => setIsContactModalOpen(true)}
+            onClick={() => setIsLeadFlowModalOpen(true)}
             event="pre_agendar"
             eventOptions={{
               source: 'Final CTA Section - Consultoria'
             }}
             className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
           >
-            Quero agendar minha sessão
+            Falar com especialista
           </Button>
         </div>
       </section>
@@ -516,40 +425,13 @@ export default function ConsultoriaPage() {
       {/* Newsletter Section */}
       <NewsletterSection source="Consultoria" />
 
-      {/* Contact Expert Modal */}
-      <ContactExpertModal
-        isOpen={isContactModalOpen}
-        onClose={() => setIsContactModalOpen(false)}
-        additionalMetadata={[
-          {
-            key: 'source',
-            value: 'Consultoria',
-            keyDescription: 'Fonte do lead'
-          }
-        ]}
+      {/* Lead Flow Modal */}
+      <LeadFlowModal
+        isOpen={isLeadFlowModalOpen}
+        onClose={() => setIsLeadFlowModalOpen(false)}
+        destinations={destinations}
+        source="Consultoria"
       />
-
-      {/* Explanation Modal */}
-      {isExplanationModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl p-8 max-w-2xl w-full relative">
-            <button
-              onClick={() => setIsExplanationModalOpen(false)}
-              className="absolute top-4 right-4 text-secondary-400 hover:text-secondary-600"
-            >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-            <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-4">
-              Por que cobramos a proposta?
-            </h3>
-            <p className="text-secondary-600 font-comfortaa text-lg">
-              Não trabalhamos com pacotes prontos. Cada viagem que construímos é unica e merece um planejamento especial. O valor de R$500,00 é um investimento que garante essa proposta detalhada e personalizada, fruto de horas de pesquisa e planejamento. Este valor é totalmente abatido no fechamento da viagem, demonstrando nosso compromisso com a qualidade do serviço.
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   )
 } 

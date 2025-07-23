@@ -10,6 +10,7 @@ interface MuxVideoPlayerProps {
   loop?: boolean
   isMuted?: boolean
   placeholderImage?: string
+  className?: string
 }
 
 export function MuxVideoPlayer({ 
@@ -18,7 +19,8 @@ export function MuxVideoPlayer({
   autoplay = true, 
   loop = true, 
   isMuted = true,
-  placeholderImage 
+  placeholderImage,
+  className
 }: MuxVideoPlayerProps) {
   const [showControls, setShowControls] = useState(true);
   const videoRef = useRef<any>(null);
@@ -34,7 +36,7 @@ export function MuxVideoPlayer({
 
   return (
     <div
-      className="relative w-full mx-auto bg-black rounded-lg overflow-hidden object-cover"
+      className={`relative w-full mx-auto bg-black rounded-lg overflow-hidden object-cover ${className}`}
       onMouseMove={handleMouseActivity}
       onMouseEnter={handleMouseActivity}
     >

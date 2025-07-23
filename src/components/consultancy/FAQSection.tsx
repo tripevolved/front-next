@@ -29,7 +29,7 @@ export default function FAQSection({ source, questions }: FAQSectionProps) {
       answer: "Oferecemos suporte 24/7 durante toda a sua viagem. Nossa equipe está sempre pronta para ajudar com qualquer situação, desde mudanças de reservas até emergências. Você nunca estará sozinho."
     },
     {
-      question: "Por que vocês cobram para apresentar a proposta?",
+      question: "Por que vocês cobram para cuidar da minha viagem?",
       answer: "Não trabalhamos com pacotes prontos. Cada viagem que construímos é unica e merece um planejamento especial. O valor de R$1.200,00 é um investimento que garante essa proposta detalhada e personalizada, fruto de horas de pesquisa e planejamento."
     }
   ]

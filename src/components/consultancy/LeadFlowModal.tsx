@@ -85,7 +85,7 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
               Vamos criar sua viagem dos sonhos!
             </h3>
             <p className="text-secondary-600 font-comfortaa text-lg leading-relaxed">
-              Vamos fazer algumas perguntas para entender melhor o que vocês desejam.
+              Vamos fazer algumas perguntas para entender melhor o que você deseja.
               Esse processo é rápido e vai nos ajudar a criar uma pré-proposta personalizada que se encaixe perfeitamente no seu perfil e desejos.
             </p>
             <div className="bg-accent-50 border border-accent-200 rounded-lg p-4">
@@ -339,7 +339,7 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
                       Reunião inicial
                     </h4>
                     <p className="text-gray-500 font-comfortaa text-xs">
-                      Onde vamos nos aprofundar nos detalhes da sua viagem
+                      Onde vamos apresentar sua pré-proposta, completa e sem custo para você
                     </p>
                   </div>
                 </div>
