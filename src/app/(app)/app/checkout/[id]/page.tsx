@@ -12,12 +12,13 @@ const formatCurrency = (amount: number, currency: string = 'BRL'): string => {
 };
 
 interface CheckoutPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function CheckoutPage({ params }: CheckoutPageProps) {
+export default async function CheckoutPage({ params }: CheckoutPageProps) {
+  const { id } = await params;
   const [payment, setPayment] = useState<Payment | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -26,7 +27,7 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
     const fetchPayment = async () => {
       try {
         setLoading(true);
-        const response = await PaymentsApiService.getPaymentById(params.id);
+        const response = await PaymentsApiService.getPaymentById(id);
         setPayment(response.payment);
       } catch (err) {
         setError("Erro ao carregar informações do pagamento");
@@ -36,10 +37,10 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
       }
     };
 
-    if (params.id) {
+    if (id) {
       fetchPayment();
     }
-  }, [params.id]);
+  }, [id]);
 
   if (loading) {
     return (

@@ -238,7 +238,7 @@ export default function CheckoutPage() {
                 O que está incluído no Jornada Evolved?
               </h3>
               <p className="text-gray-600">
-                Além de todo o planejamento, você recebe como bônus o acesso ao "Evolved Experiências" e terá um Trip Concierge disponível durante toda a viagem para qualquer necessidade.
+                Além de todo o planejamento, você recebe como bônus o acesso ao &ldquo;Evolved Experiências&rdquo; e terá um Trip Concierge disponível durante toda a viagem para qualquer necessidade.
               </p>
             </div>
             
