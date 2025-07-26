@@ -85,6 +85,7 @@ export default async function PropostaPage({ params }: PropostaPageProps) {
         accommodations={propostaData.accommodations}
         flights={propostaData.flights}
         otherInclusions={propostaData.otherInclusions}
+        potentialInclusions={propostaData.potentialInclusions}
         pricing={propostaData.pricing}
         description={propostaData.description}
         cta={propostaData.cta}

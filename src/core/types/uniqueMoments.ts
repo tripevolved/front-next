@@ -52,6 +52,7 @@ export interface PropostaData {
   accommodations: Accommodation[];
   flights: Flight[];
   otherInclusions: OtherInclusion[];
+  potentialInclusions?: OtherInclusion[];
   pricing: PricingItem[];
   description: string;
   cta: {
@@ -65,63 +66,60 @@ export const mockPropostaData: PropostaData = {
   id: "16dd53cc-76dc-45f2-b697-4c1d920c5124",
   title: "Puglia: O coração da Itália",
   dates: "5 a 12 de Outubro, 2025",
-  travelers: "por Henrique Gasparotto",
+  travelers: "para Lucia, por Henrique Gasparotto",
   uniqueMoments: [
     {
-      id: "culinary-class-alberobello",
-      title: "Aula de Culinária em Alberobello",
+      id: "market-to-table-alberobello",
+      title: "Do mercado para a mesa em Alberobello",
       subtitle: "Sabores autênticos da Puglia",
-      description: "Aprenda os segredos da culinária pugliese em uma aula de culinária tradicional em Alberobello. Prepare pratos autênticos como orecchiette, focaccia e burrata, usando ingredientes locais frescos e técnicas centenárias.",
+      description: "Vamos explorar o pitoresco mercado de Alberobello, onde as cores e aromas das frutas e verduras da estação nos recebem. Juntos, selecionamos ingredientes frescos para o nosso almoço. Em casa, preparamos um aperitivo com produtos locais, mergulhamos na tradição pugliese fazendo orecchiette frescas e terminamos criando o famoso tiramisu italiano. Um dia inesquecível de descoberta e culinária.",
       images: [
-        "/assets/experiences/italia/culinary-class-1.jpg",
-        "/assets/experiences/italia/culinary-class-2.jpg",
+        "https://ucarecdn.com/d0533fe9-fd50-4b2a-9468-e0e65c8453df/-/format/auto/-/stretch/off/-/progressive/yes/-/resize/1920x/-/quality/smart/",
+        "https://ucarecdn.com/fd092a72-0e2c-492e-98e3-d1816c3c7cd7/-/format/auto/-/stretch/off/-/progressive/yes/-/resize/1920x/-/quality/smart/",
       ]
     },
     {
       id: "coffee-lecce",
-      title: "Coffee L'Incontro em Lecce",
+      title: "Caffè L'Incontro em Lecce",
       subtitle: "O Pasticciotto perfeito",
       description: "Visite o histórico Coffee L'Incontro em Lecce, onde você experimentará o autêntico Pasticciotto Leccese, um doce tradicional da região. Uma experiência gastronômica que combina história, tradição e sabor único.",
       images: [
-        "/assets/experiences/italia/coffee-lecce-1.jpg",
-        "/assets/experiences/italia/coffee-lecce-2.jpg",
+        "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f9/ff/e5/img-20200222-213953-largejpg.jpg?w=900&h=-1&s=1",
+        "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/ba/6e/48/photo2jpg.jpg?w=1200&h=-1&s=1",
       ]
     }
   ],
-  mapImage: "/assets/experiences/italia/puglia-mapa.png",
+  mapImage: "https://res.cloudinary.com/tripevolved/image/upload/v1753530175/Captura_de_tela_2025-07-26_084221_ae1pfm.png",
   itinerary: [
     {
       id: 1,
       date: '5 de outubro',
       activity: 'Lago di Como para Milão',
-      image: '/assets/experiences/italia/lago-como.jpg',
-      description: 'Início da jornada no deslumbrante Lago di Como, com suas vilas históricas e paisagens alpinas. Transfer para Milão, a capital da moda e do design italiano.',
+      image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753530462/724_1_j9m2qd.jpg',
+      description: 'Ida para Milão é uma decisão logística, já que você estará no Lago di Como. Uma noite em Milão, bem localizada para jantar próximo ao Duomo e pegar o trem no dia seguinte.',
       hotel: {
-        name: 'Hotel Milano Scala',
-        description: 'Hotel boutique no centro histórico de Milão, próximo ao Duomo e à Galleria Vittorio Emanuele II.',
-        image: '/assets/experiences/italia/hotel-milano.jpg',
+        name: 'Hotel Cavour',
+        description: 'Hotel elegante no centro de Milão, a poucos minutos do Duomo e da estação central.',
+        image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/123456789.jpg', // Example, replace with real image from Booking.com
         details: {
-          description: 'O Hotel Milano Scala está localizado no coração histórico de Milão, a poucos passos do Duomo e da famosa Galleria Vittorio Emanuele II. Com design contemporâneo e serviço personalizado, oferece uma base perfeita para explorar a capital da moda italiana.',
-          highlight: 'Localização privilegiada no centro histórico, com fácil acesso às principais atrações de Milão.',
+          description: 'O Hotel Cavour oferece conforto e localização privilegiada no coração de Milão, ideal para uma noite estratégica antes de seguir viagem.',
+          highlight: 'Localização central, ideal para jantar próximo ao Duomo e fácil acesso à estação de trem.',
           images: [
-            '/assets/experiences/italia/hotel-milano-2.jpg',
-            '/assets/experiences/italia/hotel-milano-3.jpg',
-            '/assets/experiences/italia/hotel-milano-4.jpg'
+            'https://cf.bstatic.com/xdata/images/hotel/max1024x768/123456789.jpg',
+            'https://cf.bstatic.com/xdata/images/hotel/max1024x768/987654321.jpg',
+            'https://cf.bstatic.com/xdata/images/hotel/max1024x768/192837465.jpg'
           ],
           includedServices: [
-            'Café da manhã continental',
+            'Café da manhã incluso',
             'Wi-Fi gratuito',
             'Recepção 24 horas',
-            'Bar no lobby',
-            'Ar condicionado',
-            'TV de tela plana',
-            'Cofre no quarto',
-            'Serviço de concierge'
+            'Restaurante e bar',
+            'Academia'
           ]
         }
       },
       highlights: {
-        description: 'A transição do sereno Lago di Como para a vibrante Milão oferece um contraste perfeito entre natureza e urbanidade.',
+        description: 'Uma noite estratégica em Milão para facilitar a logística da viagem.',
         videos: undefined
       }
     },
@@ -132,16 +130,16 @@ export const mockPropostaData: PropostaData = {
       image: '/assets/experiences/italia/train-journey.jpg',
       description: 'Viagem de trem em classe executiva de Milão para Alberobello, atravessando a bela paisagem italiana. Uma jornada de 9 horas que vale cada minuto.',
       hotel: {
-        name: 'Trulli Resort & Spa',
-        description: 'Resort único com trulli tradicionais da Puglia, oferecendo uma experiência autêntica da região.',
-        image: '/assets/experiences/italia/trulli-resort.jpg',
+        name: 'Abate Masseria & Resort',
+        description: 'Masseria histórica restaurada, oferecendo uma experiência autêntica da Puglia em uma estrutura rural tradicional.',
+        image: '/assets/experiences/italia/abate-masseria.jpg',
         details: {
-          description: 'O Trulli Resort & Spa oferece uma experiência única em trulli tradicionais da Puglia, as características casas cônicas de pedra da região. Cada trullo foi cuidadosamente restaurado para proporcionar conforto moderno mantendo a autenticidade histórica.',
-          highlight: 'Hospedagem em trulli tradicionais, uma experiência única e autêntica da Puglia.',
+          description: 'O Abate Masseria & Resort é uma masseria histórica cuidadosamente restaurada, preservando a arquitetura rural tradicional da Puglia. Esta estrutura centenária oferece uma experiência única de hospedagem em uma propriedade rural autêntica, combinando charme histórico com conforto moderno.',
+          highlight: 'Hospedagem em uma masseria histórica restaurada, uma experiência única da arquitetura rural pugliese.',
           images: [
-            '/assets/experiences/italia/trulli-resort-2.jpg',
-            '/assets/experiences/italia/trulli-resort-3.jpg',
-            '/assets/experiences/italia/trulli-resort-4.jpg'
+            '/assets/experiences/italia/abate-masseria-2.jpg',
+            '/assets/experiences/italia/abate-masseria-3.jpg',
+            '/assets/experiences/italia/abate-masseria-4.jpg'
           ],
           includedServices: [
             'Café da manhã regional',
@@ -183,26 +181,26 @@ export const mockPropostaData: PropostaData = {
       image: '/assets/experiences/italia/lecce.jpg',
       description: 'Visita a Lecce, conhecida como a "Florença do Sul" por sua arquitetura barroca e rica história cultural.',
       hotel: {
-        name: 'Palazzo dei Dondoli',
-        description: 'Palazzo histórico no centro de Lecce, com arquitetura barroca e charme italiano.',
-        image: '/assets/experiences/italia/palazzo-lecce.jpg',
+        name: 'Risorgimento Resort',
+        description: 'Membro do WorldHotels Elite, localizado no centro da cidade, próximo às estruturas gregas de Lecce.',
+        image: '/assets/experiences/italia/risorgimento-resort.jpg',
         details: {
-          description: 'O Palazzo dei Dondoli é um palácio histórico restaurado no coração de Lecce, oferecendo uma experiência única de hospedagem em um edifício barroco autêntico. Cada quarto é decorado com móveis antigos e detalhes arquitetônicos originais.',
-          highlight: 'Hospedagem em um palácio histórico barroco no centro de Lecce.',
+          description: 'O Risorgimento Resort, membro do WorldHotels Elite, oferece uma experiência de luxo no coração de Lecce. Localizado no centro da cidade, está próximo às impressionantes estruturas gregas que fazem parte do rico patrimônio histórico da região.',
+          highlight: 'Hotel de luxo no centro de Lecce, próximo às estruturas gregas históricas.',
           images: [
-            '/assets/experiences/italia/palazzo-lecce-2.jpg',
-            '/assets/experiences/italia/palazzo-lecce-3.jpg',
-            '/assets/experiences/italia/palazzo-lecce-4.jpg'
+            '/assets/experiences/italia/risorgimento-resort-2.jpg',
+            '/assets/experiences/italia/risorgimento-resort-3.jpg',
+            '/assets/experiences/italia/risorgimento-resort-4.jpg'
           ],
           includedServices: [
-            'Café da manhã no jardim',
+            'Café da manhã buffet',
             'Wi-Fi gratuito',
-            'Guia local incluído',
-            'Restaurante no local',
-            'Jardim histórico',
-            'Biblioteca antiga',
-            'Concierge personalizado',
-            'Tour cultural'
+            'Recepção 24 horas',
+            'Restaurante gourmet',
+            'Spa e wellness',
+            'Academia',
+            'Bar elegante',
+            'Serviço de concierge'
           ]
         }
       },
@@ -218,26 +216,26 @@ export const mockPropostaData: PropostaData = {
       image: '/assets/experiences/italia/polignano-mare.jpg',
       description: 'Exploração de Bari, capital da Puglia, e Polignano a Mare, com suas praias deslumbrantes e centro histórico.',
       hotel: {
-        name: 'Hotel Terranobile',
-        description: 'Hotel boutique em Bari, próximo ao centro histórico e ao mar Adriático.',
-        image: '/assets/experiences/italia/hotel-bari.jpg',
+        name: 'Mercure Villa Romanazzi Carducci Bari',
+        description: 'Hotel 4 estrelas bem localizado em Bari, oferecendo conforto e conveniência.',
+        image: '/assets/experiences/italia/mercure-bari.jpg',
         details: {
-          description: 'O Hotel Terranobile está localizado no centro de Bari, oferecendo fácil acesso ao centro histórico e ao mar Adriático. Com design moderno e serviço atencioso, é a base perfeita para explorar a capital da Puglia.',
-          highlight: 'Localização central em Bari, com fácil acesso ao centro histórico e ao mar.',
+          description: 'O Mercure Villa Romanazzi Carducci Bari é um hotel 4 estrelas estrategicamente localizado, oferecendo o equilíbrio perfeito entre conforto moderno e conveniência. Com instalações de qualidade e serviço profissional, é a base ideal para explorar a capital da Puglia.',
+          highlight: 'Hotel 4 estrelas bem localizado, oferecendo conforto e conveniência em Bari.',
           images: [
-            '/assets/experiences/italia/hotel-bari-2.jpg',
-            '/assets/experiences/italia/hotel-bari-3.jpg',
-            '/assets/experiences/italia/hotel-bari-4.jpg'
+            '/assets/experiences/italia/mercure-bari-2.jpg',
+            '/assets/experiences/italia/mercure-bari-3.jpg',
+            '/assets/experiences/italia/mercure-bari-4.jpg'
           ],
           includedServices: [
             'Café da manhã buffet',
             'Wi-Fi gratuito',
             'Recepção 24 horas',
-            'Bar no rooftop',
+            'Restaurante no local',
+            'Bar',
             'Academia',
             'Estacionamento',
-            'Transfer para aeroporto',
-            'Guia local'
+            'Transfer para aeroporto'
           ]
         }
       },
@@ -252,30 +250,7 @@ export const mockPropostaData: PropostaData = {
       activity: 'Bari para Liège, Bélgica',
       image: '/assets/experiences/italia/bari-airport.jpg',
       description: 'Voo de Bari para Bruxelas, seguido de transfer para Liège, na Bélgica, encerrando nossa jornada pela Puglia.',
-      hotel: {
-        name: 'Hotel Liège Palace',
-        description: 'Hotel histórico no centro de Liège, próximo à estação de trem e ao centro histórico.',
-        image: '/assets/experiences/italia/hotel-liege.jpg',
-        details: {
-          description: 'O Hotel Liège Palace está localizado no coração histórico de Liège, oferecendo uma base perfeita para explorar esta encantadora cidade belga. Com arquitetura clássica e serviço refinado.',
-          highlight: 'Localização histórica no centro de Liège, com fácil acesso às principais atrações.',
-          images: [
-            '/assets/experiences/italia/hotel-liege-2.jpg',
-            '/assets/experiences/italia/hotel-liege-3.jpg',
-            '/assets/experiences/italia/hotel-liege-4.jpg'
-          ],
-          includedServices: [
-            'Café da manhã continental',
-            'Wi-Fi gratuito',
-            'Recepção 24 horas',
-            'Restaurante no local',
-            'Bar elegante',
-            'Sala de conferências',
-            'Estacionamento',
-            'Transfer para estação'
-          ]
-        }
-      },
+      hotel: undefined,
       highlights: {
         description: 'A transição da ensolarada Puglia para a charmosa Liège marca o fim de uma jornada inesquecível.',
         videos: undefined
@@ -284,52 +259,35 @@ export const mockPropostaData: PropostaData = {
   ],
   accommodations: [
     {
-      name: "Hotel Milano Scala",
-      image: "/assets/experiences/italia/hotel-milano.jpg",
+      name: "Hotel Cavour",
+      image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/123456789.jpg",
       dates: "5 de outubro",
-      description: "Hotel boutique no centro histórico de Milão, próximo ao Duomo"
+      description: "Hotel elegante no centro de Milão, ideal para jantar próximo ao Duomo e seguir viagem de trem."
     },
     {
-      name: "Trulli Resort & Spa",
-      image: "/assets/experiences/italia/trulli-resort.jpg",
+      name: "Abate Masseria & Resort",
+      image: "/assets/experiences/italia/abate-masseria.jpg",
       dates: "6-9 de outubro",
-      description: "Resort único com trulli tradicionais da Puglia"
+      description: "Masseria histórica restaurada, experiência autêntica da Puglia"
     },
     {
-      name: "Palazzo dei Dondoli",
-      image: "/assets/experiences/italia/palazzo-lecce.jpg",
+      name: "Risorgimento Resort",
+      image: "/assets/experiences/italia/risorgimento-resort.jpg",
       dates: "9-10 de outubro",
-      description: "Palazzo histórico no centro de Lecce, com arquitetura barroca"
+      description: "Membro do WorldHotels Elite, no centro de Lecce, próximo às estruturas gregas"
     },
     {
-      name: "Hotel Terranobile",
-      image: "/assets/experiences/italia/hotel-bari.jpg",
+      name: "Mercure Villa Romanazzi Carducci Bari",
+      image: "/assets/experiences/italia/mercure-bari.jpg",
       dates: "10-12 de outubro",
-      description: "Hotel boutique em Bari, próximo ao centro histórico e ao mar Adriático"
-    },
-    {
-      name: "Hotel Liège Palace",
-      image: "/assets/experiences/italia/hotel-liege.jpg",
-      dates: "12 de outubro",
-      description: "Hotel histórico no centro de Liège, próximo à estação de trem"
+      description: "Hotel 4 estrelas bem localizado em Bari"
     }
   ],
   flights: [
     {
-      fromAirport: "Milão Centrale (MIL)",
-      toAirport: "Alberobello (ALB)",
-      airline: "Trenitalia",
-      class: "Executiva",
-      baggage: "Bagagem de mão + despachada",
-      departureDate: "6 de outubro",
-      departureTime: "08:00",
-      arrivalTime: "17:00",
-      flightNumber: "FR 1234"
-    },
-    {
       fromAirport: "Bari (BRI)",
       toAirport: "Bruxelas (BRU)",
-      airline: "Ryanair",
+      airline: "Ita",
       class: "Econômica",
       baggage: "Bagagem de mão + despachada",
       departureDate: "12 de outubro",
@@ -340,12 +298,18 @@ export const mockPropostaData: PropostaData = {
   ],
   otherInclusions: [
     {
-      title: "Transfer",
-      details: "Transfer privativo aeroporto-hotel-aeroporto em Milão e Bari"
-    },
-    {
       title: "Trem",
       details: "Passagem de trem executiva Milão-Alberobello (9 horas de viagem)"
+    },
+    {
+      title: "Experiência 'Do mercado para a mesa' em Alberobello",
+      details: "Sabores autênticos da Puglia"
+    }
+  ],
+  potentialInclusions: [
+    {
+      title: "Transfer",
+      details: "Transfer privativo aeroporto-hotel-aeroporto em Milão e Bari"
     },
     {
       title: "Guia Local",
@@ -366,7 +330,7 @@ export const mockPropostaData: PropostaData = {
     {
       type: "price",
       title: "Viagem",
-      amount: 12990,
+      amount: 15113,
       currency: "R$"
     },
     {
@@ -375,7 +339,7 @@ export const mockPropostaData: PropostaData = {
       amount: 0,
       currency: "R$",
       description: "Guia personalizado da viagem com roteiro detalhado",
-      originalAmount: 3000
+      originalAmount: 2100
     }
   ],
   description: "Uma jornada inesquecível pela Puglia, o coração da Itália, incluindo hospedagem em trulli tradicionais, cidades históricas e experiências gastronômicas únicas. Ideal para viajantes que buscam autenticidade, cultura e sabores tradicionais italianos.",
