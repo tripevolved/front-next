@@ -24,6 +24,7 @@ export interface ItineraryItem {
   };
   highlights: {
     description: string;
+    details?: string;
     videos?: string[];
   };
 }
@@ -322,7 +323,7 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
                         className="relative group over overflow-hidden bg-white shadow-lg p-6 pb-12"
                       >
                         <div className="relative w-full rounded-lg h-full flex gap-3 flex-col">
-                          <p className="text-lg font-medium text-gray-700">{item.highlights.description}</p>
+                          <p className="text-lg font-medium text-gray-700">{item.highlights.details}</p>
                           {item.highlights.videos && item.highlights.videos.length > 0 ? (
                             <>
                               <div className="flex gap-5 items-center justify-evenly">

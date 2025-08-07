@@ -100,14 +100,16 @@ export const mockPropostaData: PropostaData = {
       hotel: {
         name: 'Hotel Cavour',
         description: 'Hotel elegante no centro de Milão, a poucos minutos do Duomo e da estação central.',
-        image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/123456789.jpg', // Example, replace with real image from Booking.com
+        image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753698629/cavour_externo_i0bwfk.jpg',
         details: {
           description: 'O Hotel Cavour oferece conforto e localização privilegiada no coração de Milão, ideal para uma noite estratégica antes de seguir viagem.',
           highlight: 'Localização central, ideal para jantar próximo ao Duomo e fácil acesso à estação de trem.',
           images: [
-            'https://cf.bstatic.com/xdata/images/hotel/max1024x768/123456789.jpg',
-            'https://cf.bstatic.com/xdata/images/hotel/max1024x768/987654321.jpg',
-            'https://cf.bstatic.com/xdata/images/hotel/max1024x768/192837465.jpg'
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753698629/cavour_quarto_sfqkxc.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753698628/cavour_area_phl39a.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753698628/cavour_cafe_bdailt.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753698628/cavour_fitness_icccju.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753698628/cavour_extra_fjap8v.jpg'
           ],
           includedServices: [
             'Café da manhã incluso',
@@ -120,6 +122,7 @@ export const mockPropostaData: PropostaData = {
       },
       highlights: {
         description: 'Uma noite estratégica em Milão para facilitar a logística da viagem.',
+        details: 'A decisão de parar uma noite em Milão é logística, mas a escolha da hospedagem é para que vocês estejam bem localizados para curtir um pouco da cidade antes da viagem rumo ao Sul.',
         videos: undefined
       }
     },
@@ -127,19 +130,20 @@ export const mockPropostaData: PropostaData = {
       id: 2,
       date: '6 de outubro',
       activity: 'Milão para Alberobello de trem',
-      image: '/assets/experiences/italia/train-journey.jpg',
+      image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753698966/trem_italo_p07p0w.webp',
       description: 'Viagem de trem em classe executiva de Milão para Alberobello, atravessando a bela paisagem italiana. Uma jornada de 9 horas que vale cada minuto.',
       hotel: {
         name: 'Abate Masseria & Resort',
         description: 'Masseria histórica restaurada, oferecendo uma experiência autêntica da Puglia em uma estrutura rural tradicional.',
-        image: '/assets/experiences/italia/abate-masseria.jpg',
+        image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_externo_znbl5f.jpg',
         details: {
           description: 'O Abate Masseria & Resort é uma masseria histórica cuidadosamente restaurada, preservando a arquitetura rural tradicional da Puglia. Esta estrutura centenária oferece uma experiência única de hospedagem em uma propriedade rural autêntica, combinando charme histórico com conforto moderno.',
           highlight: 'Hospedagem em uma masseria histórica restaurada, uma experiência única da arquitetura rural pugliese.',
           images: [
-            '/assets/experiences/italia/abate-masseria-2.jpg',
-            '/assets/experiences/italia/abate-masseria-3.jpg',
-            '/assets/experiences/italia/abate-masseria-4.jpg'
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_quarto_ioi8mt.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_banheiro_d9fyxd.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753699782/abate_externo_2_j5bcyp.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753699782/abate_piscina_tqyg7a.jpg'
           ],
           includedServices: [
             'Café da manhã regional',
@@ -155,6 +159,7 @@ export const mockPropostaData: PropostaData = {
       },
       highlights: {
         description: 'A viagem de trem oferece vistas deslumbrantes da paisagem italiana, e a chegada em Alberobello é mágica.',
+        details: 'Esta jornada de 9 horas pela Itália é muito mais que um simples deslocamento - é uma transição do norte industrial para o sul rural. O trem corta vales, atravessa vilarejos medievais e revela a diversidade da paisagem italiana. Para quem busca entender a alma do país, esta viagem oferece uma perspectiva única: a transformação gradual da cultura, arquitetura e até mesmo da luz conforme se avança para o sul. A chegada em Alberobello, com seus trulli brancos emergindo na paisagem, é o momento em que a magia da Puglia se revela completamente.',
         videos: undefined
       }
     },
@@ -162,35 +167,61 @@ export const mockPropostaData: PropostaData = {
       id: 3,
       date: '6 a 9 de outubro',
       activity: 'Alberobello e Valle d\'Itria',
-      image: '/assets/experiences/italia/alberobello.jpg',
-      description: 'Exploração dos trulli de Alberobello, Patrimônio Mundial da UNESCO, e da encantadora Valle d\'Itria com suas paisagens de oliveiras.',
+      image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753699920/14383_kh0pry.jpg',
+      description: 'Exploração dos trulli de Alberobello, Patrimônio Mundial da UNESCO, e do encantador Valle d\'Itria com suas paisagens únicas.',
       hotel: {
-        name: 'Trulli Resort & Spa',
-        description: 'Continuação da estadia no resort de trulli tradicionais.',
-        image: '/assets/experiences/italia/trulli-resort.jpg'
+        name: 'Abate Masseria & Resort',
+        description: 'Masseria histórica restaurada, oferecendo uma experiência autêntica da Puglia em uma estrutura rural tradicional.',
+        image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_externo_znbl5f.jpg',
+        details: {
+          description: 'O Abate Masseria & Resort é uma masseria histórica cuidadosamente restaurada, preservando a arquitetura rural tradicional da Puglia. Esta estrutura centenária oferece uma experiência única de hospedagem em uma propriedade rural autêntica, combinando charme histórico com conforto moderno.',
+          highlight: 'Hospedagem em uma masseria histórica restaurada, uma experiência única da arquitetura rural pugliese.',
+          images: [
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_quarto_ioi8mt.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_banheiro_d9fyxd.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753699782/abate_externo_2_j5bcyp.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753699782/abate_piscina_tqyg7a.jpg'
+          ],
+          includedServices: [
+            'Café da manhã regional',
+            'Wi-Fi gratuito',
+            'Spa e piscina',
+            'Restaurante tradicional',
+            'Aula de culinária',
+            'Jardim mediterrâneo',
+            'Estacionamento',
+            'Transfer para Alberobello'
+          ]
+        }
       },
       highlights: {
-        description: 'Alberobello é um lugar de sonho, com seus trulli brancos e ruas de pedra. A Valle d\'Itria é simplesmente deslumbrante.',
-        videos: undefined
+        description: 'Alberobello é um lugar de sonho, com seus trulli brancos e ruas de pedra. O Valle d\'Itria é simplesmente deslumbrante.',
+        videos: [
+          "rhRYFZQlZfofBmivbt5Xz02oXZBR9CQOrSvStCrB5JYE",
+          "WldIJp27fp013FLvvKUp9u00BJierDgJX4pGOdK2a71hM"
+        ]
       }
     },
     {
       id: 4,
       date: '9 a 10 de outubro',
       activity: 'Lecce - A Florença do Sul',
-      image: '/assets/experiences/italia/lecce.jpg',
+      image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753701331/lecce_zq7zj5.jpg',
       description: 'Visita a Lecce, conhecida como a "Florença do Sul" por sua arquitetura barroca e rica história cultural.',
       hotel: {
         name: 'Risorgimento Resort',
         description: 'Membro do WorldHotels Elite, localizado no centro da cidade, próximo às estruturas gregas de Lecce.',
-        image: '/assets/experiences/italia/risorgimento-resort.jpg',
+        image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753701465/risorgimento_resort_externo_2_zwpmdf.jpg',
         details: {
           description: 'O Risorgimento Resort, membro do WorldHotels Elite, oferece uma experiência de luxo no coração de Lecce. Localizado no centro da cidade, está próximo às impressionantes estruturas gregas que fazem parte do rico patrimônio histórico da região.',
           highlight: 'Hotel de luxo no centro de Lecce, próximo às estruturas gregas históricas.',
           images: [
-            '/assets/experiences/italia/risorgimento-resort-2.jpg',
-            '/assets/experiences/italia/risorgimento-resort-3.jpg',
-            '/assets/experiences/italia/risorgimento-resort-4.jpg'
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753701466/risorgimento_resort_externo_cmdv0p.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753701463/risorgimento_resort_banheiro_r2y7mw.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753701461/risorgimento_resort_jantar_zwuod6.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753701459/risorgimento_resort_quarto_gmlpc4.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753701458/risorgimento_resort_vista_yealmo.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753701456/risorgimento_resort_cafe_pacuhd.jpg'
           ],
           includedServices: [
             'Café da manhã buffet',
@@ -205,7 +236,8 @@ export const mockPropostaData: PropostaData = {
         }
       },
       highlights: {
-        description: 'Lecce é uma cidade de sonho, com sua arquitetura barroca e o famoso Coffee L\'Incontro para o Pasticciotto.',
+        description: 'Lecce é uma cidade incrível, com muita história. E, claro, tem na gastronomia o Pasticciotto Leccese, que não pode ser deixado de fora da experiência.',
+        details: 'Conhecida como a "Florença do Sul", Lecce é um tesouro  que convida à descoberta. Suas ruas revelam séculos de história, desde os romanos até o esplendor do século XVII. Para quem busca entender a alma da Puglia, cada esquina conta uma história - e o Pasticciotto Leccese é apenas o começo de uma jornada gastronômica que vai muito além do doce.',
         videos: undefined
       }
     },
@@ -213,19 +245,22 @@ export const mockPropostaData: PropostaData = {
       id: 5,
       date: '10 a 12 de outubro',
       activity: 'Bari e Polignano a Mare',
-      image: '/assets/experiences/italia/polignano-mare.jpg',
+      image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753701694/bari_eipfpq.jpg',
       description: 'Exploração de Bari, capital da Puglia, e Polignano a Mare, com suas praias deslumbrantes e centro histórico.',
       hotel: {
         name: 'Mercure Villa Romanazzi Carducci Bari',
         description: 'Hotel 4 estrelas bem localizado em Bari, oferecendo conforto e conveniência.',
-        image: '/assets/experiences/italia/mercure-bari.jpg',
+        image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753701839/mercure_villa_romanazzi_externo_mps8ih.jpg',
         details: {
           description: 'O Mercure Villa Romanazzi Carducci Bari é um hotel 4 estrelas estrategicamente localizado, oferecendo o equilíbrio perfeito entre conforto moderno e conveniência. Com instalações de qualidade e serviço profissional, é a base ideal para explorar a capital da Puglia.',
           highlight: 'Hotel 4 estrelas bem localizado, oferecendo conforto e conveniência em Bari.',
           images: [
-            '/assets/experiences/italia/mercure-bari-2.jpg',
-            '/assets/experiences/italia/mercure-bari-3.jpg',
-            '/assets/experiences/italia/mercure-bari-4.jpg'
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753701837/mercure_villa_romanazzi_quarto_deluxe_r3z3zj.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753701835/mercure_villa_romanazzi_externo2_ho03m5.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753701833/mercure_villa_romanazzi_cafe_y9gvua.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753701831/mercure_villa_romanazzi_piscina_whrp7u.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753701829/mercure_villa_romanazzi_restaurante_arsipi.jpg',
+            'https://res.cloudinary.com/tripevolved/image/upload/v1753701827/mercure_villa_romanazzi_restaurante2_aw8ylw.jpg'
           ],
           includedServices: [
             'Café da manhã buffet',
@@ -241,18 +276,22 @@ export const mockPropostaData: PropostaData = {
       },
       highlights: {
         description: 'Bari é vibrante e autêntica, enquanto Polignano a Mare é simplesmente deslumbrante com suas falésias.',
-        videos: undefined
+        videos: [
+          'o01tpinhD2AMkkwTbMTzfvXwq6W9pX1iJ3mz8X9en00UY',
+          'ofvDl02Lb4tfwp7wQgz5EMmfNv4w3klX5KGR9RXeXjAg'
+        ]
       }
     },
     {
       id: 6,
       date: '12 de outubro',
       activity: 'Bari para Liège, Bélgica',
-      image: '/assets/experiences/italia/bari-airport.jpg',
+      image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753702534/410_lk4p6m.jpg',
       description: 'Voo de Bari para Bruxelas, seguido de transfer para Liège, na Bélgica, encerrando nossa jornada pela Puglia.',
       hotel: undefined,
       highlights: {
         description: 'A transição da ensolarada Puglia para a charmosa Liège marca o fim de uma jornada inesquecível.',
+        details: 'A melhor opção foi o voo Bari - Bruxelas, com conexão em Roma. Com isso, precisamos alinhar a chegada a Liége a partir do aeroporto de Bruxelas.',
         videos: undefined
       }
     }
@@ -260,25 +299,25 @@ export const mockPropostaData: PropostaData = {
   accommodations: [
     {
       name: "Hotel Cavour",
-      image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/123456789.jpg",
+      image: "https://res.cloudinary.com/tripevolved/image/upload/v1753698629/cavour_externo_i0bwfk.jpg",
       dates: "5 de outubro",
       description: "Hotel elegante no centro de Milão, ideal para jantar próximo ao Duomo e seguir viagem de trem."
     },
     {
       name: "Abate Masseria & Resort",
-      image: "/assets/experiences/italia/abate-masseria.jpg",
+      image: "https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_externo_znbl5f.jpg",
       dates: "6-9 de outubro",
       description: "Masseria histórica restaurada, experiência autêntica da Puglia"
     },
     {
       name: "Risorgimento Resort",
-      image: "/assets/experiences/italia/risorgimento-resort.jpg",
+      image: "https://res.cloudinary.com/tripevolved/image/upload/v1753701465/risorgimento_resort_externo_2_zwpmdf.jpg",
       dates: "9-10 de outubro",
       description: "Membro do WorldHotels Elite, no centro de Lecce, próximo às estruturas gregas"
     },
     {
       name: "Mercure Villa Romanazzi Carducci Bari",
-      image: "/assets/experiences/italia/mercure-bari.jpg",
+      image: "https://res.cloudinary.com/tripevolved/image/upload/v1753701839/mercure_villa_romanazzi_externo_mps8ih.jpg",
       dates: "10-12 de outubro",
       description: "Hotel 4 estrelas bem localizado em Bari"
     }
@@ -304,20 +343,28 @@ export const mockPropostaData: PropostaData = {
     {
       title: "Experiência 'Do mercado para a mesa' em Alberobello",
       details: "Sabores autênticos da Puglia"
+    },
+    {
+      title: "Seguro Viagem",
+      details: "Seguro completo para duas pessoas com cobertura médica, bagagem e cancelamento ate EUR 30.000,00"
     }
   ],
   potentialInclusions: [
     {
-      title: "Transfer",
+      title: "Transfers em Milão e Bari",
       details: "Transfer privativo aeroporto-hotel-aeroporto em Milão e Bari"
     },
     {
-      title: "Guia Local",
-      details: "Guia local em italiano e inglês em todas as cidades"
+      title: "Transfer Bruxelas-Liège",
+      details: "Transfer privativo aeroporto de Bruxelas para Liège"
     },
     {
-      title: "Seguro Viagem",
-      details: "Seguro completo com cobertura médica, bagagem e cancelamento (Allianz)"
+      title: "Guia Local",
+      details: "Guia local para passeios, especialmente em Lecce e Alberobello"
+    },
+    {
+      title: "Passeios pelo Valle D'Itria",
+      details: "Pode ser feito por aluguel de carro ou passeios marcados, privados, são várias possibilidades."
     }
   ],
   pricing: [
@@ -330,7 +377,7 @@ export const mockPropostaData: PropostaData = {
     {
       type: "price",
       title: "Viagem",
-      amount: 15113,
+      amount: 18128,
       currency: "R$"
     },
     {
