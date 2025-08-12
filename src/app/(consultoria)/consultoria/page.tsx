@@ -63,7 +63,7 @@ export default function ConsultoriaPage() {
       </section>
 
       {/* Video Section */}
-      <section id="video-section" className="py-12 bg-white">
+      <section id="video-section" className="py-12 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-4 text-secondary-900">
@@ -78,6 +78,90 @@ export default function ConsultoriaPage() {
               loop={false}
               autoplay={true}
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Process Section */}
+      <section className="py-24 bg-secondary-100">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <div className="text-center mb-16">
+            <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
+              A <span className="text-accent-500">Jornada Evolved</span> tem um processo pensado para minimizar o seu esforço
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Step 1 */}
+            <div className="text-center">
+              <div className="bg-accent-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+                1
+              </div>
+              <h3 className="font-baloo text-xl font-bold mb-4 text-secondary-900">
+                Primeiro Contato
+              </h3>
+              <p className="text-secondary-600 mb-4">
+                Você clica em "Começar minha jornada" e preenche um formulário rápido com suas preferências de viagem
+              </p>
+              <div className="bg-accent-50 p-4 rounded-lg">
+                <p className="text-sm text-accent-700 font-semibold">
+                  ⏱️ Menos de 5 minutos para preencher
+                </p>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="text-center">
+              <div className="bg-accent-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+                2
+              </div>
+              <h3 className="font-baloo text-xl font-bold mb-4 text-secondary-900">
+                Dossiê da Viagem
+              </h3>
+              <p className="text-secondary-600 mb-4">
+                Nossos especialistas preparam um dossiê personalizado com a primeira proposta da sua viagem dos sonhos
+              </p>
+              <div className="bg-accent-50 p-4 rounded-lg">
+                <p className="text-sm text-accent-700 font-semibold">
+                  📋 Proposta detalhada em até 48 horas
+                </p>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="text-center">
+              <div className="bg-accent-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+                3
+              </div>
+              <h3 className="font-baloo text-xl font-bold mb-4 text-secondary-900">
+                Contratação
+              </h3>
+              <p className="text-secondary-600 mb-4">
+                Se você gostar da proposta, contrata a Jornada Evolved pagando a taxa de R$ 1.200,00 e começamos a criar sua viagem
+              </p>
+              <div className="bg-accent-50 p-4 rounded-lg">
+                <p className="text-sm text-accent-700 font-semibold">
+                  💳 Pagamento único e sem surpresas
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Button 
+              onClick={() => {
+                document.getElementById('service-breakdown')?.scrollIntoView({ 
+                  behavior: 'smooth' 
+                });
+              }}
+              event="pre_agendar"
+              eventOptions={{
+                source: 'Process Section - Consultoria'
+              }}
+              className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+            >
+              Começar minha jornada
+            </Button>
           </div>
         </div>
       </section>
@@ -142,214 +226,22 @@ export default function ConsultoriaPage() {
           </div>
           <div className="text-center mt-12">
             <Button 
-              onClick={() => setIsLeadFlowModalOpen(true)}
+              onClick={() => {
+                document.getElementById('service-breakdown')?.scrollIntoView({ 
+                  behavior: 'smooth' 
+                });
+              }}
               event="pre_agendar"
               eventOptions={{
                 source: 'Momentos únicos Section - Consultoria'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
-              Falar com especialista
+              Começar minha jornada
             </Button>
           </div>
         </div>
       </section>
-
-             {/* Jornada Evolved - Irresistible Offer Section */}
-       <section className="py-24 bg-gradient-to-br from-secondary-900 via-secondary-800 to-secondary-900 text-white">
-         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-           {/* Scarcity Header */}
-           <div className="text-center mb-16">
-             <div className="inline-block bg-red-600 text-white px-6 py-2 rounded-full text-sm font-bold mb-4 animate-pulse">
-               ⚠️ APENAS 8 VAGAS POR MÊS
-             </div>
-             <h2 className="font-baloo text-4xl md:text-5xl font-bold mb-4">
-               <span className="text-accent-500">Jornada Evolved</span>
-             </h2>
-             <p className="font-baloo text-2xl md:text-3xl font-semibold text-accent-300 mb-6">
-               R$ 1.200,00
-             </p>
-             <p className="text-lg text-white/80 max-w-2xl mx-auto">
-               A viagem dos seus sonhos, criada por especialistas que entendem o que realmente importa
-             </p>
-           </div>
-
-                       {/* Core Services Section */}
-            <div className="mb-16">
-              <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/20 mb-8">
-                <h3 className="font-baloo text-2xl font-bold mb-6 text-accent-300 text-center">O que você recebe:</h3>
-                <div className="space-y-6">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="font-semibold text-white">Curadoria de experiências e hospedagens</h4>
-                      <p className="text-sm text-white/70">
-                        <span className="text-accent-300 font-bold text-base">R$ 800,00</span> em tempo poupado para você e segurança de estar fazendo a melhor escolha
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="font-semibold text-white">Itinerário com a logística ideal</h4>
-                      <p className="text-sm text-white/70">
-                        <span className="text-accent-300 font-bold text-base">R$ 400,00</span> em pesquisas e reservas de trens, alugueis de carro, transfers e o que mais for necessário
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="font-semibold text-white">Destinos fora do óbvio</h4>
-                      <p className="text-sm text-white/70">
-                        <span className="text-accent-300 font-bold text-base">R$ 400,00</span> em acesso ao conhecimento de especialistas
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="font-semibold text-white">Momentos únicos</h4>
-                      <p className="text-sm text-white/70">
-                        <span className="text-accent-300 font-bold text-base">R$ 500,00</span> em momentos que fazem você pensar "valeu cada centavo"
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="font-semibold text-white">Checklist de documentação necessária</h4>
-                      <p className="text-sm text-white/70">
-                        <span className="text-accent-300 font-bold text-base">R$ 149,00</span> em organização para você não esquecer nada
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="font-semibold text-white">Rechecagem de todas as reservas da viagem</h4>
-                      <p className="text-sm text-white/70">
-                        <span className="text-accent-300 font-bold text-base">R$ 299,00</span>
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h4 className="font-semibold text-white">Assistência 24/7 Trip Evolved</h4>
-                      <p className="text-sm text-white/70">
-                        <span className="text-accent-300 font-bold text-base">R$ 500,00</span> em tranquilidade para a viagem
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Core Services Value */}
-              <div className="bg-gradient-to-r from-green-600/20 to-green-500/20 p-6 rounded-xl border border-green-400/30 mb-8">
-                <div className="text-center">
-                  <p className="text-sm text-white/70 mb-2">VALOR DOS SERVIÇOS PRINCIPAIS:</p>
-                  <p className="font-baloo text-3xl font-bold text-green-400">R$ 3.048,00</p>
-                  <p className="text-sm text-white/70 mt-2">Você paga apenas R$ 1.200,00</p>
-                  <p className="text-lg font-bold text-green-400 mt-2">ECONOMIA DE R$ 1.848,00</p>
-                </div>
-              </div>
-
-              {/* First CTA */}
-              <div className="text-center">
-                <div className="bg-red-600/20 border border-red-400/30 p-4 rounded-xl mb-6">
-                  <p className="text-white font-semibold">
-                    ⏰ ÚLTIMAS VAGAS DISPONÍVEIS PARA ESTE MÊS
-                  </p>
-                </div>
-                <Button 
-                  onClick={() => setIsLeadFlowModalOpen(true)}
-                  event="pre_agendar"
-                  eventOptions={{
-                    source: 'Jornada Evolved Core Services - Consultoria'
-                  }}
-                  className="inline-block font-baloo bg-accent-500 text-white px-12 py-4 rounded-full text-xl font-semibold hover:bg-accent-600 transition-all transform hover:scale-105 shadow-2xl"
-                >
-                  FALAR COM ESPECIALISTA AGORA
-                </Button>
-                <p className="text-sm text-white/60 mt-4">
-                  ⚡ Nossos especialistas vão te chamar no whatsapp em até 24 horas
-                </p>
-              </div>
-            </div>
-
-            {/* Bonuses Section */}
-            <div className="mb-16">
-              <div className="bg-gradient-to-br from-accent-500/20 to-accent-600/20 p-8 rounded-xl border border-accent-400/30 mb-8">
-                <h3 className="font-baloo text-2xl font-bold mb-6 text-accent-300 text-center">🎁 BÔNUS EXCLUSIVOS:</h3>
-                <div className="space-y-6">
-                  <div className="bg-white/10 p-6 rounded-lg">
-                    <h4 className="font-semibold text-white mb-3">Evolved Experiências</h4>
-                    <p className="text-sm text-white/70 mb-3">
-                      <span className="text-accent-300 font-bold text-base">R$ 300,00</span> por dia de viagem em:
-                    </p>
-                    <ul className="text-sm text-white/70 space-y-2 ml-4">
-                      <li>• Roteiro com o seu ritmo</li>
-                      <li>• Plano de contingência para chuva e outros imprevistos</li>
-                      <li>• Lembretes das atividades da viagem</li>
-                      <li>• Indicações de restaurantes</li>
-                    </ul>
-                  </div>
-                  <div className="bg-white/10 p-6 rounded-lg">
-                    <h4 className="font-semibold text-white">Kit de memórias pós-viagem</h4>
-                    <p className="text-sm text-white/70">
-                      <span className="text-accent-300 font-bold text-base">R$ 299,00</span> em recordações organizadas da sua viagem
-                    </p>
-                  </div>
-                  <div className="bg-white/10 p-6 rounded-lg">
-                    <h4 className="font-semibold text-white">Mentoria 1-1 para organização de mala</h4>
-                    <p className="text-sm text-white/70">
-                      <span className="text-accent-300 font-bold text-base">R$ 300,00</span> em orientação personalizada para sua bagagem
-                    </p>
-                  </div>
-                  <div className="bg-white/10 p-6 rounded-lg">
-                    <h4 className="font-semibold text-white">Itinerário da próxima viagem</h4>
-                    <p className="text-sm text-white/70">
-                      <span className="text-accent-300 font-bold text-base">R$ 400,00</span> em planejamento antecipado da sua próxima aventura
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bonuses Value */}
-              <div className="bg-gradient-to-r from-purple-600/20 to-purple-500/20 p-6 rounded-xl border border-purple-400/30 mb-8">
-                <div className="text-center">
-                  <p className="text-sm text-white/70 mb-2">VALOR DOS BÔNUS EXCLUSIVOS:</p>
-                  <p className="font-baloo text-3xl font-bold text-purple-400">R$ 2.499,00</p>
-                  <p className="text-sm text-white/70 mt-2">INCLUÍDOS SEM CUSTO ADICIONAL</p>
-                </div>
-              </div>
-
-              {/* Second CTA */}
-              <div className="text-center">
-                <Button 
-                  onClick={() => setIsLeadFlowModalOpen(true)}
-                  event="pre_agendar"
-                  eventOptions={{
-                    source: 'Jornada Evolved Bonuses - Consultoria'
-                  }}
-                  className="inline-block font-baloo bg-accent-500 text-white px-12 py-4 rounded-full text-xl font-semibold hover:bg-accent-600 transition-all transform hover:scale-105 shadow-2xl"
-                >
-                  FALAR COM ESPECIALISTA AGORA
-                </Button>
-                <p className="text-sm text-white/60 mt-4">
-                  ⚡ Nossos especialistas vão te chamar no whatsapp em até 24 horas
-                </p>
-              </div>
-            </div>
-
-            {/* Total Value Summary */}
-            <div className="bg-gradient-to-r from-blue-600/20 to-blue-500/20 p-8 rounded-xl border border-blue-400/30">
-              <div className="text-center">
-                <p className="text-sm text-white/70 mb-2">VALOR TOTAL DOS ITENS INCLUÍDOS NA SUA JORNADA:</p>
-                <p className="font-baloo text-4xl font-bold text-blue-400">R$ 5.547,00</p>
-                <p className="text-sm text-white/70 mt-2">Você paga apenas R$ 1.200,00</p>
-                <p className="text-xl font-bold text-blue-400 mt-2">ECONOMIA TOTAL DE R$ 4.347,00</p>
-                <p className="text-sm text-white/60 mt-4">
-                  💎 Inclui todos os serviços principais + todos os bônus exclusivos
-                </p>
-              </div>
-            </div>
-         </div>
-       </section>
 
       {/* Viagem Personalizada Section */}
       <section className="py-24 bg-secondary-50">
@@ -396,6 +288,202 @@ export default function ConsultoriaPage() {
         </div>
       </section>
 
+      {/* Jornada Evolved - Irresistible Offer Section */}
+      <section id="service-breakdown" className="py-24 bg-gradient-to-br from-secondary-900 via-secondary-800 to-secondary-900 text-white">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          {/* Scarcity Header */}
+          <div className="text-center mb-16">
+            <div className="inline-block bg-red-600 text-white px-6 py-2 rounded-full text-sm font-bold mb-4 animate-pulse">
+              ⚠️ APENAS 8 VAGAS POR MÊS
+            </div>
+            <h2 className="font-baloo text-4xl md:text-5xl font-bold mb-4">
+              <span className="text-accent-500">Jornada Evolved</span>
+            </h2>
+            <p className="font-baloo text-2xl md:text-3xl font-semibold text-accent-300 mb-6">
+              R$ 1.200,00
+            </p>
+            <p className="text-lg text-white/80 max-w-2xl mx-auto">
+              A viagem dos seus sonhos, criada por especialistas que entendem o que realmente importa
+            </p>
+          </div>
+
+          {/* Core Services Section */}
+          <div className="mb-16">
+            <div className="bg-white/10 backdrop-blur-sm p-8 rounded-xl border border-white/20 mb-8">
+              <h3 className="font-baloo text-2xl font-bold mb-6 text-accent-300 text-center">O que você recebe:</h3>
+              <div className="space-y-6">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-semibold text-white">Curadoria de experiências e hospedagens</h4>
+                    <p className="text-sm text-white/70">
+                      <span className="text-accent-300 font-bold text-base">R$ 800,00</span> em tempo poupado para você e segurança de estar fazendo a melhor escolha
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-semibold text-white">Itinerário com a logística ideal</h4>
+                    <p className="text-sm text-white/70">
+                      <span className="text-accent-300 font-bold text-base">R$ 400,00</span> em pesquisas e reservas de trens, alugueis de carro, transfers e o que mais for necessário
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-semibold text-white">Destinos fora do óbvio</h4>
+                    <p className="text-sm text-white/70">
+                      <span className="text-accent-300 font-bold text-base">R$ 400,00</span> em acesso ao conhecimento de especialistas
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-semibold text-white">Momentos únicos</h4>
+                    <p className="text-sm text-white/70">
+                      <span className="text-accent-300 font-bold text-base">R$ 500,00</span> em momentos que fazem você pensar "valeu cada centavo"
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-semibold text-white">Checklist de documentação necessária</h4>
+                    <p className="text-sm text-white/70">
+                      <span className="text-accent-300 font-bold text-base">R$ 149,00</span> em organização para você não esquecer nada
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-semibold text-white">Rechecagem de todas as reservas da viagem</h4>
+                    <p className="text-sm text-white/70">
+                      <span className="text-accent-300 font-bold text-base">R$ 299,00</span>
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-semibold text-white">Assistência 24/7 Trip Evolved</h4>
+                    <p className="text-sm text-white/70">
+                      <span className="text-accent-300 font-bold text-base">R$ 500,00</span> em tranquilidade para a viagem
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Core Services Value */}
+            <div className="bg-gradient-to-r from-green-600/20 to-green-500/20 p-6 rounded-xl border border-green-400/30 mb-8">
+              <div className="text-center">
+                <p className="text-sm text-white/70 mb-2">VALOR DOS SERVIÇOS PRINCIPAIS:</p>
+                <p className="font-baloo text-3xl font-bold text-green-400">R$ 3.048,00</p>
+                <p className="text-sm text-white/70 mt-2">Você paga apenas R$ 1.200,00</p>
+                <p className="text-lg font-bold text-green-400 mt-2">ECONOMIA DE R$ 1.848,00</p>
+              </div>
+            </div>
+
+            {/* First CTA */}
+            <div className="text-center">
+              <div className="bg-red-600/20 border border-red-400/30 p-4 rounded-xl mb-6">
+                <p className="text-white font-semibold">
+                  ⏰ ÚLTIMAS VAGAS DISPONÍVEIS PARA ESTE MÊS
+                </p>
+              </div>
+              <Button 
+                onClick={() => setIsLeadFlowModalOpen(true)}
+                event="pre_agendar"
+                eventOptions={{
+                  source: 'Jornada Evolved Core Services - Consultoria'
+                }}
+                className="inline-block font-baloo bg-accent-500 text-white px-12 py-4 rounded-full text-xl font-semibold hover:bg-accent-600 transition-all transform hover:scale-105 shadow-2xl"
+              >
+                Começar minha jornada
+              </Button>
+              <p className="text-sm text-white/60 mt-4">
+                ⚡ Nossos especialistas vão te chamar no whatsapp em até 24 horas
+              </p>
+            </div>
+          </div>
+
+          {/* Bonuses Section */}
+          <div className="mb-16">
+            <div className="bg-gradient-to-br from-accent-500/20 to-accent-600/20 p-8 rounded-xl border border-accent-400/30 mb-8">
+              <h3 className="font-baloo text-2xl font-bold mb-6 text-accent-300 text-center">🎁 BÔNUS EXCLUSIVOS:</h3>
+              <div className="space-y-6">
+                <div className="bg-white/10 p-6 rounded-lg">
+                  <h4 className="font-semibold text-white mb-3">Evolved Experiências</h4>
+                  <p className="text-sm text-white/70 mb-3">
+                    <span className="text-accent-300 font-bold text-base">R$ 300,00</span> por dia de viagem em:
+                  </p>
+                  <ul className="text-sm text-white/70 space-y-2 ml-4">
+                    <li>• Roteiro com o seu ritmo</li>
+                    <li>• Plano de contingência para chuva e outros imprevistos</li>
+                    <li>• Lembretes das atividades da viagem</li>
+                    <li>• Indicações de restaurantes</li>
+                  </ul>
+                </div>
+                <div className="bg-white/10 p-6 rounded-lg">
+                  <h4 className="font-semibold text-white">Kit de memórias pós-viagem</h4>
+                  <p className="text-sm text-white/70">
+                    <span className="text-accent-300 font-bold text-base">R$ 299,00</span> em recordações organizadas da sua viagem
+                  </p>
+                </div>
+                <div className="bg-white/10 p-6 rounded-lg">
+                  <h4 className="font-semibold text-white">Mentoria 1-1 para organização de mala</h4>
+                  <p className="text-sm text-white/70">
+                    <span className="text-accent-300 font-bold text-base">R$ 300,00</span> em orientação personalizada para sua bagagem
+                  </p>
+                </div>
+                <div className="bg-white/10 p-6 rounded-lg">
+                  <h4 className="font-semibold text-white">Itinerário da próxima viagem</h4>
+                  <p className="text-sm text-white/70">
+                    <span className="text-accent-300 font-bold text-base">R$ 400,00</span> em planejamento antecipado da sua próxima aventura
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Bonuses Value */}
+            <div className="bg-gradient-to-r from-purple-600/20 to-purple-500/20 p-6 rounded-xl border border-purple-400/30 mb-8">
+              <div className="text-center">
+                <p className="text-sm text-white/70 mb-2">VALOR DOS BÔNUS EXCLUSIVOS:</p>
+                <p className="font-baloo text-3xl font-bold text-purple-400">R$ 2.499,00</p>
+                <p className="text-sm text-white/70 mt-2">INCLUÍDOS SEM CUSTO ADICIONAL</p>
+              </div>
+            </div>
+
+            {/* Second CTA */}
+            <div className="text-center">
+              <Button 
+                onClick={() => setIsLeadFlowModalOpen(true)}
+                event="pre_agendar"
+                eventOptions={{
+                  source: 'Jornada Evolved Bonuses - Consultoria'
+                }}
+                className="inline-block font-baloo bg-accent-500 text-white px-12 py-4 rounded-full text-xl font-semibold hover:bg-accent-600 transition-all transform hover:scale-105 shadow-2xl"
+              >
+                Começar minha jornada
+              </Button>
+              <p className="text-sm text-white/60 mt-4">
+                ⚡ Nossos especialistas vão te chamar no whatsapp em até 24 horas
+              </p>
+            </div>
+          </div>
+
+          {/* Total Value Summary */}
+          <div className="bg-gradient-to-r from-blue-600/20 to-blue-500/20 p-8 rounded-xl border border-blue-400/30">
+            <div className="text-center">
+              <p className="text-sm text-white/70 mb-2">VALOR TOTAL DOS ITENS INCLUÍDOS NA SUA JORNADA:</p>
+              <p className="font-baloo text-4xl font-bold text-blue-400">R$ 5.547,00</p>
+              <p className="text-sm text-white/70 mt-2">Você paga apenas R$ 1.200,00</p>
+              <p className="text-xl font-bold text-blue-400 mt-2">ECONOMIA TOTAL DE R$ 4.347,00</p>
+              <p className="text-sm text-white/60 mt-4">
+                💎 Inclui todos os serviços principais + todos os bônus exclusivos
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Trip Evolved Section */}
       <TripEvolvedSection />
 
@@ -413,24 +501,34 @@ export default function ConsultoriaPage() {
       <FAQSection source="Consultoria" />
 
       {/* Final CTA Section */}
-      <section className="py-24 bg-secondary-900 text-white">
+      <section className="py-24 bg-gradient-to-br from-accent-500 to-accent-600 text-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 text-center">
           <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6">
-            Vamos transformar sua viagem em uma <span className="text-accent-500">experiência única?</span>
+            Pronto para começar sua <span className="text-white">Jornada Evolved</span>?
           </h2>
-          <p className="text-white/90 font-comfortaa text-lg mb-8 max-w-2xl mx-auto">
-            Agende uma reunião com nossos especialistas e comece a planejar a viagem dos seus sonhos hoje mesmo.
+          <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
+            Junte-se aos casais que já transformaram suas ideias em viagens incríveis. 
+            Nossos especialistas estão prontos para te guiar nesse processo.
           </p>
-          <Button
-            onClick={() => setIsLeadFlowModalOpen(true)}
-            event="pre_agendar"
-            eventOptions={{
-              source: 'Final CTA Section - Consultoria'
-            }}
-            className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
-          >
-            Falar com especialista
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button 
+              onClick={() => setIsLeadFlowModalOpen(true)}
+              event="pre_agendar"
+              eventOptions={{
+                source: 'Final CTA Section - Consultoria'
+              }}
+              className="inline-block font-baloo bg-white text-accent-600 px-12 py-4 rounded-full text-xl font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-2xl"
+            >
+              Começar minha jornada
+            </Button>
+            <div className="text-sm text-white/80">
+              ⚡ Nossos especialistas vão te chamar no whatsapp em até 24 horas
+            </div>
+          </div>
+          <div className="mt-8 text-sm text-white/70">
+            <p>🎯 Apenas 8 vagas disponíveis por mês</p>
+            <p>💎 Economia total de R$ 4.347,00 em valor</p>
+          </div>
         </div>
       </section>
 
