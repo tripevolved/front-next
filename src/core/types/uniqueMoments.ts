@@ -62,7 +62,7 @@ export interface PropostaData {
 }
 
 // Mock data for proposta page
-export const mockPropostaData: PropostaData = {
+export const mockPropostaData1: PropostaData = {
   id: "16dd53cc-76dc-45f2-b697-4c1d920c5124",
   title: "Puglia: O coração da Itália",
   dates: "5 a 12 de Outubro, 2025",
@@ -390,6 +390,129 @@ export const mockPropostaData: PropostaData = {
     }
   ],
   description: "Uma jornada inesquecível pela Puglia, o coração da Itália, incluindo hospedagem em trulli tradicionais, cidades históricas e experiências gastronômicas únicas. Ideal para viajantes que buscam autenticidade, cultura e sabores tradicionais italianos.",
+  cta: {
+    text: "Reservar com especialista",
+    action: "https://wa.me/?text=Olá! Gostaria de reservar a viagem para Puglia, Itália."
+  }
+}; 
+export const mockPropostaData2: PropostaData = {
+  id: "16dd53cc-76dc-45f2-b697-4c1d920c5124",
+  title: "Sul da Itália: Napoles, Pompeia e Costa Amalfitana",
+  dates: "Datas a definir",
+  travelers: "para Kátia e João, por Henrique Gasparotto",
+  uniqueMoments: [
+    {
+      id: "monte-solaro-anacapri",
+      title: "Monte Solaro",
+      subtitle: "A vista mais espetacular de Capri (e da Costa Amalfitana)",
+      description: "O Monte Solaro oferece a vista mais incrível, a quase 600m de altitude.",
+      images: [
+        "https://res.cloudinary.com/tripevolved/image/upload/v1754566082/monte_solaro_jc8wbf.jpg",
+      ]
+    }
+  ],
+  mapImage: "https://res.cloudinary.com/tripevolved/image/upload/v1754565877/Captura_de_tela_2025-08-07_082344_ugjymk.png",
+  itinerary: [
+    {
+      id: 1,
+      date: '1ª parte da viagem',
+      activity: 'Nápoles',
+      image: 'https://res.cloudinary.com/tripevolved/image/upload/v1754567014/napoles-italia-capa_ovb99u.jpg',
+      description: 'Nápoles é uma das cidades mais vibrantes da Itália. Conhecida por sua rica história, gastronomia autêntica e atmosfera única que combina caos e charme.',
+      hotel: undefined,
+      highlights: {
+        description: 'Nápoles é o ponto de partida perfeito para explorar o sul da Itália, com sua energia única e autenticidade.',
+        details: 'Espere uma cidade que desperta todos os sentidos. Suas ruas estreitas escondem tesouros gastronômicos, sua história se revela em cada esquina, e sua atmosfera única combina o caos urbano com um charme irresistível. Para quem busca entender a verdadeira Itália, Nápoles é o ponto de partida ideal - uma cidade que não se esconde atrás de fachadas turísticas, mas revela sua alma autêntica em cada interação.',
+        videos: undefined
+      }
+    },
+    {
+      id: 2,
+      date: '2ª parte da viagem',
+      activity: 'Pompeia',
+      image: 'https://res.cloudinary.com/tripevolved/image/upload/v1754567008/Pompeia-na-Italia-scaled_k7qpzk.jpg',
+      description: 'Pompeia é um sítio arqueológico único no mundo, preservado pela erupção do Vesúvio em 79 d.C. Uma viagem no tempo que revela a vida cotidiana dos romanos.',
+      hotel: undefined,
+      highlights: {
+        description: 'Pompeia oferece uma experiência única de viagem no tempo, preservada pela tragédia que a destruiu.',
+        details: 'Pompeia é mais que um sítio arqueológico - é uma janela para o passado que nos permite caminhar pelas ruas de uma cidade romana exatamente como ela era há 2000 anos. A erupção do Vesúvio, que destruiu a cidade, paradoxalmente a preservou para a eternidade. Para quem busca entender a história humana, cada passo pelas ruas de pedra, cada afresco nas paredes, cada mosaico no chão conta uma história que transcende o tempo.',
+        videos: undefined
+      }
+    },
+    {
+      id: 3,
+      date: '3ª parte da viagem',
+      activity: 'Capri',
+      image: 'https://res.cloudinary.com/tripevolved/image/upload/v1754567005/1200px-Capri_coastline_kuemld.jpg',
+      description: 'Capri é uma ilha mágica no Golfo de Nápoles, famosa por suas vistas deslumbrantes, grutas azuis e atmosfera sofisticada que atrai visitantes há séculos.',
+      hotel: undefined,
+      highlights: {
+        description: 'Capri combina beleza natural com sofisticação, oferecendo experiências únicas como a Gruta Azul.',
+        details: 'Capri é uma ilha que transcende o tempo, onde a sofisticação moderna se encontra com a beleza natural intocada. Suas falésias dramáticas, suas grutas misteriosas e suas vistas panorâmicas criam uma experiência que vai muito além do turismo convencional. Para quem busca entender a magia do Mediterrâneo, Capri oferece uma lição sobre como a natureza e a cultura podem coexistir em perfeita harmonia - cada caminhada pelas suas ruas revela um novo ângulo de beleza, cada vista do Monte Solaro oferece uma nova perspectiva sobre a vida.',
+        videos: undefined
+      }
+    },
+    {
+      id: 4,
+      date: '4ª parte da viagem',
+      activity: 'Amalfi',
+      image: 'https://res.cloudinary.com/tripevolved/image/upload/v1754567002/amalfi_798_iebnbt.jpg',
+      description: 'Amalfi é uma joia da Costa Amalfitana, com sua catedral medieval, ruas estreitas e vistas deslumbrantes do Mediterrâneo.',
+      hotel: undefined,
+      highlights: {
+        description: 'Amalfi é o coração histórico da Costa Amalfitana, com sua catedral que domina a paisagem.',
+        details: 'Amalfi foi uma das repúblicas marítimas mais poderosas da Itália medieval, e sua catedral majestosa ainda testemunha esse passado glorioso. A cidade, espremida entre o mar e as montanhas, oferece uma experiência única onde história, arte e natureza se encontram. Para quem busca entender a alma da Costa Amalfitana, Amalfi é o ponto de partida - uma cidade que preserva sua identidade histórica enquanto abraça a beleza natural que a rodeia.',
+        videos: undefined
+      }
+    },
+    {
+      id: 5,
+      date: '5ª parte da viagem',
+      activity: 'Positano',
+      image: 'https://res.cloudinary.com/tripevolved/image/upload/v1754566999/Positano__Italy_cn1m0w.webp',
+      description: 'Positano é a pérola da Costa Amalfitana, com suas casas coloridas em cascata, praias de areia negra e atmosfera romântica que a tornou famosa mundialmente.',
+      hotel: undefined,
+      highlights: {
+        description: 'Positano é sinônimo de romance e beleza, com suas vistas deslumbrantes e atmosfera única.',
+        details: 'Positano é a materialização do sonho mediterrâneo. Suas casas coloridas que descem em cascata até o mar, suas praias de areia negra que contrastam com o azul cristalino das águas, e sua atmosfera que mistura elegância com autenticidade criam uma experiência que toca a alma. Para quem busca entender o que faz um lugar ser verdadeiramente especial, Positano ensina que a beleza não está apenas no que se vê, mas na sensação que se experimenta - cada esquina conta uma história de amor com a vida, cada vista do mar oferece uma lição sobre a simplicidade da felicidade.',
+        videos: undefined
+      }
+    },
+    {
+      id: 6,
+      date: '6ª parte da viagem',
+      activity: 'Sorrento',
+      image: 'https://res.cloudinary.com/tripevolved/image/upload/v1754566997/sorrento_suazbr.webp',
+      description: 'Sorrento é uma cidade charmosa no topo de falésias, conhecida por seus limões, limoncello e vistas panorâmicas da baía de Nápoles.',
+      hotel: undefined,
+      highlights: {
+        description: 'Sorrento oferece a combinação perfeita de cultura, gastronomia e vistas deslumbrantes.',
+        details: 'Sorrento é o ponto final perfeito desta jornada pela Costa Amalfitana. Sua posição estratégica oferece vistas panorâmicas que abrangem desde Nápoles até Capri, enquanto suas ruas históricas preservam o charme de uma cidade italiana autêntica. Para quem busca entender a essência do sul da Itália, Sorrento representa a síntese perfeita: história, gastronomia, beleza natural e aquele jeito italiano de viver que faz cada momento parecer especial.',
+        videos: undefined
+      }
+    }
+  ],
+  accommodations: [],
+  flights: [],
+  otherInclusions: [],
+  potentialInclusions: [],
+  pricing: [
+    {
+      type: "fee",
+      title: "Taxa de consultoria Jornada Evolved",
+      amount: 1200,
+      currency: "R$"
+    },
+    {
+      type: "bonus",
+      title: "Evolved Experiências",
+      amount: 0,
+      currency: "R$",
+      description: "Guia personalizado da viagem com roteiro detalhado",
+      originalAmount: 3000
+    }
+  ],
+  description: "Uma jornada inesquecível pela costa amalfitana, incluindo hospedagem em trulli tradicionais, cidades históricas e experiências gastronômicas únicas. Ideal para viajantes que buscam autenticidade, cultura e sabores tradicionais italianos.",
   cta: {
     text: "Reservar com especialista",
     action: "https://wa.me/?text=Olá! Gostaria de reservar a viagem para Puglia, Itália."

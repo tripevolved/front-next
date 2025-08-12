@@ -2,7 +2,7 @@ import React from "react";
 import { UniqueMomentsCarousel } from "@/components/uniqueMoments";
 import { ItineraryContent } from "@/components/itineraries";
 import { ProposalDetails } from "@/components/proposals";
-import { mockPropostaData } from "@/core/types/uniqueMoments";
+import { mockPropostaData2 } from "@/core/types/uniqueMoments";
 
 interface PropostaPageProps {
   params: Promise<{ id: string }>;
@@ -12,7 +12,7 @@ export default async function PropostaPage({ params }: PropostaPageProps) {
   const { id } = await params;
   
   // Mock data - in a real app, this would come from an API
-  const propostaData = mockPropostaData.id === id ? mockPropostaData : null;
+  const propostaData = mockPropostaData2.id === id ? mockPropostaData2 : null;
 
   if (!propostaData) {
     return (
