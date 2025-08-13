@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useState, ReactNode } from 'react'
-import TripDiscoveryWizard from '@/components/TripDiscoveryWizard'
+import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
 
 interface WizardContextType {
   openWizard: () => void
@@ -19,7 +19,19 @@ export function WizardProvider({ children }: { children: ReactNode }) {
   return (
     <WizardContext.Provider value={{ openWizard, closeWizard }}>
       {children}
-      <TripDiscoveryWizard isOpen={isWizardOpen} onClose={closeWizard} />
+      <LeadFlowModal 
+        isOpen={isWizardOpen} 
+        onClose={closeWizard}
+        destinations={[
+          'Costa Amafitana, Itália',
+          'Aruba',
+          'Curaçao',
+          'Dolomitas, Itália',
+          'Torres del Paine, Chile',
+          'Bariloche, Argentina'
+        ]}
+        source="Top Menu"
+      />
     </WizardContext.Provider>
   )
 }

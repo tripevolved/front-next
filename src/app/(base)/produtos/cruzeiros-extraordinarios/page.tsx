@@ -3,7 +3,6 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
-import NewsletterSection from '@/components/consultancy/NewsletterSection'
 import Button from '@/components/common/Button'
 
 export default function CruzeirosExtraordinariosPage() {
@@ -53,7 +52,7 @@ export default function CruzeirosExtraordinariosPage() {
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
-              Conversar com especialista
+              Começar minha jornada
             </Button>
           </div>
         </div>
@@ -121,7 +120,7 @@ export default function CruzeirosExtraordinariosPage() {
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
-              Conversar com especialista
+              Começar minha jornada
             </Button>
           </div>
         </div>
@@ -151,7 +150,7 @@ export default function CruzeirosExtraordinariosPage() {
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
-              Conversar com especialista
+              Começar minha jornada
             </Button>
           </div>
         </div>
@@ -174,13 +173,10 @@ export default function CruzeirosExtraordinariosPage() {
             }}
             className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
           >
-            Conversar com especialista
+            Começar minha jornada
           </Button>
         </div>
       </section>
-
-      {/* Newsletter Section */}
-      <NewsletterSection source="Cruzeiros Extraordinários" />
 
       {/* Lead Flow Modal */}
       <LeadFlowModal

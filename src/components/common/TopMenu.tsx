@@ -73,13 +73,13 @@ export default function TopMenu() {
           <div className="hidden md:block flex-shrink-0">
             <Button
               onClick={openWizard}
-              event="pre_descobrir_viagem"
+              event="pre_agendar"
               eventOptions={{
                 source: 'Top Menu'
               }}
               className="font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors"
             >
-              Descobrir minha viagem
+              Começar minha jornada
             </Button>
           </div>
 
@@ -102,13 +102,13 @@ export default function TopMenu() {
                     openWizard();
                     setIsMenuOpen(false);
                   }}
-                  event="pre_descobrir_viagem"
+                  event="pre_agendar"
                   eventOptions={{
                     source: 'Top Menu'
                   }}
                   className="w-full font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors"
                 >
-                  Descobrir minha viagem
+                  Começar minha jornada
                 </Button>
               </div>
             </div>
