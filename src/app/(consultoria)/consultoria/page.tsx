@@ -101,7 +101,7 @@ export default function ConsultoriaPage() {
                 Primeiro Contato
               </h3>
               <p className="text-secondary-600 mb-4">
-                Você clica em "Começar minha jornada" e preenche um formulário rápido com suas preferências de viagem
+                Você clica em &quot;Começar minha jornada&quot; e preenche um formulário rápido com suas preferências de viagem
               </p>
               <div className="bg-accent-50 p-4 rounded-lg">
                 <p className="text-sm text-accent-700 font-semibold">
@@ -340,7 +340,7 @@ export default function ConsultoriaPage() {
                   <div>
                     <h4 className="font-semibold text-white">Momentos únicos</h4>
                     <p className="text-sm text-white/70">
-                      <span className="text-accent-300 font-bold text-base">R$ 500,00</span> em momentos que fazem você pensar "valeu cada centavo"
+                      <span className="text-accent-300 font-bold text-base">R$ 500,00</span> em momentos que fazem você pensar &quot;valeu cada centavo&quot;
                     </p>
                   </div>
                 </div>
