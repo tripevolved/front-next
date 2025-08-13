@@ -123,7 +123,7 @@ export default function ConsultoriaPage() {
               </p>
               <div className="bg-accent-50 p-4 rounded-lg">
                 <p className="text-sm text-accent-700 font-semibold">
-                  📋 Proposta detalhada em até 48 horas
+                  📋 Em até 48 horas
                 </p>
               </div>
             </div>
@@ -137,7 +137,7 @@ export default function ConsultoriaPage() {
                 Contratação
               </h3>
               <p className="text-secondary-600 mb-4">
-                Se você gostar da proposta, contrata a Jornada Evolved pagando a taxa de R$ 1.200,00 e começamos a criar sua viagem
+                Você contrata a Jornada Evolved pagando a taxa de consultoria de R$ 1.200,00 e começamos a criar sua viagem
               </p>
               <div className="bg-accent-50 p-4 rounded-lg">
                 <p className="text-sm text-accent-700 font-semibold">
@@ -151,7 +151,7 @@ export default function ConsultoriaPage() {
             <Button 
               onClick={() => {
                 document.getElementById('service-breakdown')?.scrollIntoView({ 
-                  behavior: 'smooth' 
+                  behavior: 'smooth'
                 });
               }}
               event="pre_agendar"
