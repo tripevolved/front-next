@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ShareModal } from "@/components/ShareModal";
-import ContactExpertModal from "@/components/ContactExpertModal";
 import { LocalStorageService } from "@/clients/local";
 import type { Experience } from "@/core/types/experiences";
 import { VideoOverlay } from "./VideoOverlay";
 import { ItineraryContent } from "@/components/itineraries";
+import { useWizard } from "@/contexts/WizardContext";
+import { UniqueMomentsCarousel } from "@/components/uniqueMoments/UniqueMomentsCarousel";
 
 interface ExperienceContentProps {
   experience: Experience;
@@ -16,7 +17,6 @@ interface ExperienceContentProps {
 export function ExperienceContent({ experience }: ExperienceContentProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [hasTraveler, setHasTraveler] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<{
     playbackId: string;
@@ -24,6 +24,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
     dayIndex: number;
     videoIndex: number;
   } | null>(null);
+  const { openWizard } = useWizard();
 
   // Check if traveler exists in localStorage
   useEffect(() => {
@@ -52,8 +53,8 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
       const message = `Olá! Gostaria de planejar uma viagem similar à experiência ${experience.title}.`;
       window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank");
     } else {
-      // If no traveler, open contact modal
-      setIsContactModalOpen(true);
+      // If no traveler, open wizard
+      openWizard();
     }
   };
 
@@ -135,6 +136,30 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
         </div>
       </section>
 
+
+
+      {/* Unique Moments Carousel */}
+      {experience.uniqueMoments && experience.uniqueMoments.length > 0 && (
+        <section className="py-16 bg-white">
+          <div className="max-w-[80%] mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-baloo font-bold text-secondary-900 mb-4">
+                Alguns momentos chave dessa experiência
+              </h2>
+            </div>
+            <UniqueMomentsCarousel 
+              uniqueMoments={experience.uniqueMoments.map((moment, index) => ({
+                id: `moment-${index}`,
+                title: moment.title,
+                subtitle: moment.title,
+                description: moment.description,
+                images: [moment.image]
+              }))}
+            />
+          </div>
+        </section>
+      )}
+
       {/* Itinerary Content */}
       <ItineraryContent 
         itinerary={experience.itinerary.map((day, index) => ({
@@ -157,7 +182,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
             onClick={handlePlanTrip}
             className="bg-primary-600 text-white px-6 py-3 rounded-full font-baloo font-semibold hover:bg-primary-700 transition-colors z-[11]"
           >
-            {hasTraveler ? "Planejar minha viagem" : "Falar com um especialista"}
+            {hasTraveler ? "Planejar minha viagem" : "Começar minha jornada"}
           </button>
 
           <button
@@ -191,11 +216,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
         message={`Confira esta experiência incrível: ${experience.title}`}
       />
 
-      {/* Contact Expert Modal */}
-      <ContactExpertModal
-        isOpen={isContactModalOpen}
-        onClose={() => setIsContactModalOpen(false)}
-      />
+
 
       {/* Video Overlay */}
       {selectedVideo && (

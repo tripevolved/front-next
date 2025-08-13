@@ -6,6 +6,11 @@ export interface Experience {
   description: string
   images: string[]
   mapImage?: string
+  uniqueMoments?: {
+    title: string
+    description: string
+    image: string
+  }[]
   itinerary: {
     day: number
     date: string
@@ -32,6 +37,18 @@ export const mockExperiences: Experience[] = [
     travelers: 'por Henrique Gasparotto',
     description: 'Uma jornada incrível por Curaçao, uma ilha que é muito mais que só praias e resorts! Além de uma passadinha rápida pelos encantos da Cidade do Panamá.',
     mapImage: '/assets/experiences/curacao/curacao-mapa.png',
+    uniqueMoments: [
+      {
+        title: 'Klein Curaçao',
+        description: 'Uma ilha deserta com praias de areia branca e águas cristalinas, perfeita para mergulho e snorkel.',
+        image: '/assets/experiences/curacao/klein-curacao.png'
+      },
+      {
+        title: 'Pôr do sol no Karakter',
+        description: 'Um jantar romântico à beira-mar com vista deslumbrante para o pôr do sol caribenho.',
+        image: '/assets/experiences/curacao/curacao-punda.png'
+      }
+    ],
     images: [
       '/assets/experiences/curacao/klein-curacao.png',
       '/assets/experiences/curacao/curacao-punda.png',
@@ -191,6 +208,18 @@ export const mockExperiences: Experience[] = [
     travelers: 'por Henrique Gasparotto',
     description: 'A road trip para curtir o melhor das paisagens californianas, saindo de Los Angeles e chegando em San Francisco - mas de um jeito diferente.',
     mapImage: '/assets/experiences/california/california-map.png',
+    uniqueMoments: [
+      {
+        title: 'Yosemite National Park',
+        description: 'Paisagens deslumbrantes com sequoias gigantes, cachoeiras e vistas panorâmicas de tirar o fôlego.',
+        image: '/assets/experiences/california/yosemite.png'
+      },
+      {
+        title: 'Lake Tahoe',
+        description: 'Um lago alpino cristalino cercado por montanhas nevadas, perfeito para relaxar e apreciar a natureza.',
+        image: '/assets/experiences/california/lake-tahoe.png'
+      }
+    ],
     images: [
       '/assets/experiences/california/la-griffith.png',
       '/assets/experiences/california/lake-tahoe.png',

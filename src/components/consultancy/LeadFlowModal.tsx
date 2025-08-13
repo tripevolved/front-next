@@ -86,11 +86,11 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
             </h3>
             <p className="text-secondary-600 font-comfortaa text-lg leading-relaxed">
               Vamos fazer algumas perguntas para entender melhor o que você deseja.
-              Esse processo é rápido e vai nos ajudar a criar uma pré-proposta personalizada que se encaixe perfeitamente no seu perfil e desejos.
+              Esse processo é rápido e vai nos ajudar a criar um dossiê personalizado da sua viagem.
             </p>
             <div className="bg-accent-50 border border-accent-200 rounded-lg p-4">
               <p className="text-accent-800 font-comfortaa text-sm">
-                <strong>Próximos passos:</strong> Após preencher suas informações, nossos especialistas entrarão em contato para agendar uma reunião inicial e apresentar a pré-proposta.
+                <strong>Próximos passos:</strong> Após preencher suas informações, nossos especialistas entrarão em contato para agendar uma reunião inicial e apresentar o dossiê.
               </p>
             </div>
           </div>
