@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { MuxVideoPlayer } from '@/components/MuxVideoPlayer'
 import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
-import NewsletterSection from '@/components/consultancy/NewsletterSection'
 import FAQSection from '@/components/consultancy/FAQSection'
 import TripEvolvedSection from '@/components/consultancy/TripEvolvedSection'
 import QuotesCarousel from '@/components/QuotesCarousel'
@@ -44,8 +43,11 @@ export default function ConsultoriaPage() {
         {/* Content */}
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-baloo text-4xl md:text-6xl font-bold mb-6 text-white">
-            Sua viagem a dois. Com experiências que vocês não conseguem encontrar sozinhos.
+            Jornada Evolved: Zero stress, a melhor viagem da sua vida
           </h1>
+          <h4 className="font-baloo text-2xl md:text-4xl mb-6 text-white">
+            Nós desenhamos, reservamos e cuidamos de toda sua viagem internacional para que você só tenha o trabalho de aproveitar.
+          </h4>
           <Button 
             onClick={() => {
               document.getElementById('video-section')?.scrollIntoView({ 
@@ -64,7 +66,7 @@ export default function ConsultoriaPage() {
       </section>
 
       {/* Video Section */}
-      <section id="video-section" className="py-12 bg-gray-50">
+      {/*}<section id="video-section" className="py-12 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-4 text-secondary-900">
@@ -81,7 +83,7 @@ export default function ConsultoriaPage() {
             />
           </div>
         </div>
-      </section>
+      </section>*/}
 
       {/* Process Section */}
       <ProcessSection 
@@ -97,7 +99,7 @@ export default function ConsultoriaPage() {
       <section className="py-24 bg-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-12 text-secondary-900">
-            Vamos encontrar para vocês <span className="text-accent-500">momentos únicos</span> como...
+            Vamos encontrar <span className="text-accent-500">momentos únicos</span> como...
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {/* Card 1 */}
@@ -145,7 +147,7 @@ export default function ConsultoriaPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent duration-300 flex flex-col justify-end p-6">
                   <p className="text-white font-comfortaa text-lg">
-                    Um trilha leve e paisagens incríveis em Yosemite, na Califórnia
+                    Trilha leve e paisagens incríveis em Yosemite, na Califórnia
                   </p>
                 </div>
               </div>
@@ -207,7 +209,7 @@ export default function ConsultoriaPage() {
                   Vocês têm uma rotina intensa, pouco tempo a dois e um desejo comum: viver momentos que realmente façam sentido. Nós entendemos isso. É por isso que, antes de sugerir qualquer destino, ouvimos. Descobrimos juntos o que inspira, o que emociona, o que faz cada segundo valer a pena.
                 </p>
                 <p>
-                  Com esse entendimento, construímos uma viagem com propósito. Desde a escolha da hospedagem perfeita até as experiências mais significativas — como aquele jantar especial ou um passeio inesperado — tudo ganha um ritmo que acompanha o casal. Assim, a viagem se torna uma história criada a partir de quem vocês são.
+                  Com esse entendimento, construímos uma viagem com propósito. Desde a escolha da hospedagem perfeita até as experiências mais significativas — como aquele jantar especial ou um passeio inesperado — tudo ganha um ritmo que acompanha vocês. Assim, a viagem se torna uma história criada a partir de quem vocês são.
                 </p>
               </div>
             </div>
