@@ -342,7 +342,7 @@ export default function ConsultoriaPage() {
                   </p>
                 </div>
                 <div className="bg-white/10 p-6 rounded-lg">
-                  <h4 className="font-semibold text-white">Mentoria "O que levar" para organização de mala</h4>
+                  <h4 className="font-semibold text-white">Mentoria &quot;O que levar&quot; para organização de mala</h4>
                   <p className="text-sm text-white/70">
                     <span className="text-accent-300 font-bold text-base">R$ 149,00</span> em orientação personalizada para sua bagagem
                   </p>
