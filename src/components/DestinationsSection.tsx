@@ -56,7 +56,7 @@ export default function DestinationsSection() {
   }
 
   return (
-    <section className="py-24">
+    <section id="destinations-section" className="py-24">
       <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
         <div className="text-center mb-12">
           <h2 className="font-baloo text-4xl md:text-5xl font-bold mb-4 text-secondary-500">

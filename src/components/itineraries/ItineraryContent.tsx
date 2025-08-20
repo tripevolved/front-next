@@ -11,7 +11,7 @@ export interface ItineraryItem {
   activity: string;
   image: string;
   description: string;
-  hotel: {
+  hotel?: {
     name: string;
     description: string;
     image: string;
@@ -24,6 +24,7 @@ export interface ItineraryItem {
   };
   highlights: {
     description: string;
+    details?: string;
     videos?: string[];
   };
 }
@@ -281,11 +282,12 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
                 <div className="bg-accent-100 rounded-xl p-8 shadow-sm">
                   <p className="text-secondary-700">{item.highlights.description}</p>
                 </div>
+                {item.hotel && (
                 <div className="bg-white rounded-lg shadow-lg p-6">
                   <h3 className="text-xl font-semibold text-primary mb-4">Hospedagem</h3>
                   <div 
                     className={`flex flex-col md:flex-row gap-6 ${item.hotel.details ? 'cursor-pointer' : ''}`}
-                    onClick={() => item.hotel.details && openHotelModal(item.hotel)}
+                    onClick={() => item.hotel!.details && openHotelModal(item.hotel)}
                   >
                     <div className="flex-1">
                       <h4 className="text-lg font-medium text-gray-900 mb-2">{item.hotel.name}</h4>
@@ -308,7 +310,7 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
                       />
                     </div>
                   </div>
-                </div>
+                </div>)}
               </div>
 
               {/* Right Column - Highlights */}
@@ -321,7 +323,7 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
                         className="relative group over overflow-hidden bg-white shadow-lg p-6 pb-12"
                       >
                         <div className="relative w-full rounded-lg h-full flex gap-3 flex-col">
-                          <p className="text-lg font-medium text-gray-700">Destaque {1 + 1}</p>
+                          <p className="text-lg font-medium text-gray-700">{item.highlights.details}</p>
                           {item.highlights.videos && item.highlights.videos.length > 0 ? (
                             <>
                               <div className="flex gap-5 items-center justify-evenly">
@@ -332,13 +334,7 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
                                 </div>
                               </div>
                             </>
-                          ) : (
-                            <>
-                              <div className="absolute inset-0 flex items-center justify-center">
-                                <p className="text-gray-500">Nenhum vídeo disponível</p>
-                              </div>
-                            </>
-                          )}
+                          ) : <></>}
                         </div>
                       </div>
                     </div>

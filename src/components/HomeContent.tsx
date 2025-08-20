@@ -3,13 +3,11 @@
 import Image from 'next/image'
 import ExperienceCarousel from '@/components/ExperienceCarousel'
 import ProductsCarousel from '@/components/ProductsCarousel'
-import ServicesDetailsCarousel from '@/components/ServicesDetailsCarousel'
 import QuotesCarousel from '@/components/QuotesCarousel'
 import FAQ from '@/components/FAQ'
-import DestinationsSection from '@/components/DestinationsSection'
-import NewsletterSection from '@/components/consultancy/NewsletterSection'
 import Button from '@/components/common/Button'
 import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
+import ProcessSection from '@/components/consultancy/ProcessSection'
 import { useState } from 'react'
 
 interface HomeContentProps {
@@ -50,14 +48,19 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
               Jornadas sob medida, pensadas para seu estilo. Porque <span className="font-bold">exclusividade</span> começa com personalização.
             </p>
             <Button 
-              onClick={() => setIsLeadModalOpen(true)}
+              onClick={() => {
+                const comoFuncionaSection = document.getElementById('como-funciona-section');
+                if (comoFuncionaSection) {
+                  comoFuncionaSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
               event="pre_descobrir_viagem"
               eventOptions={{
                 source: 'Hero Section - Home'
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
-              Conversar com especialista
+              Quero saber mais
             </Button>
           </div>
         </div>
@@ -73,12 +76,12 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
       </section>
 
       {/* Como Funciona Section */}
-      <section className="bg-secondary-500 h-screen">
-        <ServicesDetailsCarousel />
-      </section>
-
-      {/* Third Section - Destinations */}
-      <DestinationsSection />
+      <ProcessSection 
+        id="como-funciona-section"
+        title="Como funciona nossa Jornada Evolved"
+        onCtaClick={() => setIsLeadModalOpen(true)}
+        eventSource="Como Funciona Section - Home"
+      />
 
       {/* Fourth Section - Experiences Carousel */}
       <section className="py-24 bg-secondary-500">
@@ -134,13 +137,10 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
             }}
             className="font-baloo bg-primary-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-700 transition-all"
           >
-            Conversar com especialista
+            Começar minha jornada
           </Button>
         </div>
       </section>
-
-      {/* Newsletter Section */}
-      <NewsletterSection source="Home" />
 
       {/* Lead Flow Modal */}
       <LeadFlowModal

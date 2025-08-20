@@ -29,6 +29,11 @@ const quotes: Quote[] = [
     text: "Passando para agradecer pela viagem, estava tudo maravilhoso e muito bem pensado. Vocês entenderam bem nosso perfil e o que a gente gosta. Desde passagem aérea, locação de carro, hotéis... os hotéis estavam maravilhosos!",
     footer: "Suzimara G",
     footerSub: "Viajou para El Calafate e Ushuaia, Argentina"
+  },
+  {
+    text: "Quero agradecer, estou adorando estar aqui, muito obrigada pelo carinho. Eles fizeram um roteiro de viagem para a gente, estamos curtindo todos os passeios. Maravilha de hotel, vale a pena! Nota 10!",
+    footer: "Pedro e Fabiana",
+    footerSub: "Viajaram para Curaçao"
   }
 ]
 

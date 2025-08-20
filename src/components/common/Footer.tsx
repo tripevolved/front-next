@@ -100,24 +100,32 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Launch */}
+          {/* Column 4: Services */}
           <div>
-            <h3 className="font-baloo text-base font-semibold mb-4 text-accent-500">Lançamento</h3>
+            <h3 className="font-baloo text-base font-semibold mb-4 text-accent-500">Serviços</h3>
             <ul className="space-y-1.5">
               <li>
                 <Link
-                  href="/pre-cadastro"
+                  href="/servicos/jornada-evolved"
                   className="text-white/80 hover:text-white transition-colors text-sm"
                 >
-                  Participe da lista de espera
+                  Jornada Evolved
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/perfil"
+                  href="/servicos/plano-evolved"
                   className="text-white/80 hover:text-white transition-colors text-sm"
                 >
-                  Descubra seu perfil de viajante
+                  Plano Evolved
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/servicos/evolved-experiencias"
+                  className="text-white/80 hover:text-white transition-colors text-sm"
+                >
+                  Evolved Experiências
                 </Link>
               </li>
             </ul>

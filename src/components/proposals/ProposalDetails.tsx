@@ -6,6 +6,7 @@ interface ProposalDetailsProps {
   accommodations: Accommodation[];
   flights: Flight[];
   otherInclusions: OtherInclusion[];
+  potentialInclusions?: OtherInclusion[];
   pricing: PricingItem[];
   description: string;
   cta: {
@@ -14,7 +15,7 @@ interface ProposalDetailsProps {
   };
 }
 
-export function ProposalDetails({ accommodations, flights, otherInclusions, pricing, description, cta }: ProposalDetailsProps) {
+export function ProposalDetails({ accommodations, flights, otherInclusions, potentialInclusions, pricing, description, cta }: ProposalDetailsProps) {
   const formatPrice = (amount: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -138,6 +139,27 @@ export function ProposalDetails({ accommodations, flights, otherInclusions, pric
                   ))}
                 </div>
               </div>
+
+              {/* Potential Inclusions */}
+              {potentialInclusions && potentialInclusions.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="text-2xl font-baloo font-bold text-secondary-900 mb-6">
+                    Outras possíveis inclusões (não inclusas no preço)
+                  </h3>
+                  <div className="space-y-4">
+                    {potentialInclusions.map((inclusion, index) => (
+                      <div key={index} className="p-4 bg-gray-50 rounded-lg">
+                        <h4 className="font-semibold text-secondary-900 mb-2">
+                          {inclusion.title}
+                        </h4>
+                        <p className="text-secondary-700 text-sm">
+                          {inclusion.details}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Right Column - Pricing and CTA */}
