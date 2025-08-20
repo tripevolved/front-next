@@ -223,7 +223,7 @@ export default function ConsultoriaPage() {
           {/* Scarcity Header */}
           <div className="text-center mb-16">
             <div className="inline-block bg-red-600 text-white px-6 py-2 rounded-full text-sm font-bold mb-4 animate-pulse">
-              ⚠️ APENAS 8 VAGAS POR MÊS
+              ⚠️ APENAS 8 VIAGENS POR MÊS
             </div>
             <h2 className="font-baloo text-4xl md:text-5xl font-bold mb-4">
               <span className="text-accent-500">Jornada Evolved</span>
@@ -245,15 +245,15 @@ export default function ConsultoriaPage() {
                   <div>
                     <h4 className="font-semibold text-white">Curadoria de experiências e hospedagens</h4>
                     <p className="text-sm text-white/70">
-                      <span className="text-accent-300 font-bold text-base">R$ 800,00</span> em tempo poupado para você e segurança de estar fazendo a melhor escolha
+                      Tempo poupado para você e a segurança de fazer a melhor escolha
                     </p>
                   </div>
                 </div>
                 <div className="flex justify-between items-start">
                   <div>
-                    <h4 className="font-semibold text-white">Itinerário com a logística ideal</h4>
+                    <h4 className="font-semibold text-white">Itinerário personalizado com a logística ideal</h4>
                     <p className="text-sm text-white/70">
-                      <span className="text-accent-300 font-bold text-base">R$ 400,00</span> em pesquisas e reservas de trens, alugueis de carro, transfers e o que mais for necessário
+                      Sem necessidade de longas pesquisas e reservas de trens, alugueis de carro, transfers e o que mais for necessário
                     </p>
                   </div>
                 </div>
@@ -261,7 +261,7 @@ export default function ConsultoriaPage() {
                   <div>
                     <h4 className="font-semibold text-white">Destinos fora do óbvio</h4>
                     <p className="text-sm text-white/70">
-                      <span className="text-accent-300 font-bold text-base">R$ 400,00</span> em acesso ao conhecimento de especialistas
+                      Acesso ao conhecimento de especialistas
                     </p>
                   </div>
                 </div>
@@ -269,31 +269,15 @@ export default function ConsultoriaPage() {
                   <div>
                     <h4 className="font-semibold text-white">Momentos únicos</h4>
                     <p className="text-sm text-white/70">
-                      <span className="text-accent-300 font-bold text-base">R$ 500,00</span> em momentos que fazem você pensar &quot;valeu cada centavo&quot;
+                      Momentos que fazem você pensar &quot;valeu cada centavo&quot;
                     </p>
                   </div>
                 </div>
                 <div className="flex justify-between items-start">
                   <div>
-                    <h4 className="font-semibold text-white">Checklist de documentação necessária</h4>
+                    <h4 className="font-semibold text-white">Assistência 24/7</h4>
                     <p className="text-sm text-white/70">
-                      <span className="text-accent-300 font-bold text-base">R$ 149,00</span> em organização para você não esquecer nada
-                    </p>
-                  </div>
-                </div>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h4 className="font-semibold text-white">Rechecagem de todas as reservas da viagem</h4>
-                    <p className="text-sm text-white/70">
-                      <span className="text-accent-300 font-bold text-base">R$ 299,00</span>
-                    </p>
-                  </div>
-                </div>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h4 className="font-semibold text-white">Assistência 24/7 Trip Evolved</h4>
-                    <p className="text-sm text-white/70">
-                      <span className="text-accent-300 font-bold text-base">R$ 500,00</span> em tranquilidade para a viagem
+                      Tranquilidade para a viagem
                     </p>
                   </div>
                 </div>
@@ -303,10 +287,11 @@ export default function ConsultoriaPage() {
             {/* Core Services Value */}
             <div className="bg-gradient-to-r from-green-600/20 to-green-500/20 p-6 rounded-xl border border-green-400/30 mb-8">
               <div className="text-center">
-                <p className="text-sm text-white/70 mb-2">VALOR DOS SERVIÇOS PRINCIPAIS:</p>
-                <p className="font-baloo text-3xl font-bold text-green-400">R$ 3.048,00</p>
+                <p className="text-sm text-white/70 mb-2">QUANTO VALE O SEU TEMPO?</p>
+                <p className="text-sm text-white/70 mb-2">40 horas é o tempo necessário para planejar uma viagem internacional</p>
+                <p className="font-baloo text-3xl font-bold text-green-400">R$ 250,00/h x 40h = R$10.000,00</p>
                 <p className="text-sm text-white/70 mt-2">Você paga apenas R$ 1.200,00</p>
-                <p className="text-lg font-bold text-green-400 mt-2">ECONOMIA DE R$ 1.848,00</p>
+                <p className="text-lg font-bold text-green-400 mt-2">ECONOMIA DE R$ 8.800,00</p>
               </div>
             </div>
 
@@ -336,12 +321,12 @@ export default function ConsultoriaPage() {
           {/* Bonuses Section */}
           <div className="mb-16">
             <div className="bg-gradient-to-br from-accent-500/20 to-accent-600/20 p-8 rounded-xl border border-accent-400/30 mb-8">
-              <h3 className="font-baloo text-2xl font-bold mb-6 text-accent-300 text-center">🎁 BÔNUS EXCLUSIVOS:</h3>
+              <h3 className="font-baloo text-2xl font-bold mb-6 text-accent-300 text-center">🎁 E VOCÊ TAMBÉM RECEBE BÔNUS EXCLUSIVOS:</h3>
               <div className="space-y-6">
                 <div className="bg-white/10 p-6 rounded-lg">
                   <h4 className="font-semibold text-white mb-3">Evolved Experiências</h4>
                   <p className="text-sm text-white/70 mb-3">
-                    <span className="text-accent-300 font-bold text-base">R$ 300,00</span> por dia de viagem em:
+                    Nosso serviço de construção de roteiros únicos. Originalmente <span className="text-accent-300 font-bold text-base">R$ 300,00</span> por dia de viagem em:
                   </p>
                   <ul className="text-sm text-white/70 space-y-2 ml-4">
                     <li>• Roteiro com o seu ritmo</li>
@@ -351,21 +336,21 @@ export default function ConsultoriaPage() {
                   </ul>
                 </div>
                 <div className="bg-white/10 p-6 rounded-lg">
-                  <h4 className="font-semibold text-white">Kit de memórias pós-viagem</h4>
+                  <h4 className="font-semibold text-white">Livro de memórias pós-viagem</h4>
                   <p className="text-sm text-white/70">
-                    <span className="text-accent-300 font-bold text-base">R$ 299,00</span> em recordações organizadas da sua viagem
+                    <span className="text-accent-300 font-bold text-base">R$ 299,00</span> é o custo de um produto similar, tudo em recordações organizadas da sua viagem
                   </p>
                 </div>
                 <div className="bg-white/10 p-6 rounded-lg">
-                  <h4 className="font-semibold text-white">Mentoria 1-1 para organização de mala</h4>
+                  <h4 className="font-semibold text-white">Mentoria "O que levar" para organização de mala</h4>
                   <p className="text-sm text-white/70">
-                    <span className="text-accent-300 font-bold text-base">R$ 300,00</span> em orientação personalizada para sua bagagem
+                    <span className="text-accent-300 font-bold text-base">R$ 149,00</span> em orientação personalizada para sua bagagem
                   </p>
                 </div>
                 <div className="bg-white/10 p-6 rounded-lg">
                   <h4 className="font-semibold text-white">Itinerário da próxima viagem</h4>
                   <p className="text-sm text-white/70">
-                    <span className="text-accent-300 font-bold text-base">R$ 400,00</span> em planejamento antecipado da sua próxima aventura
+                    <span className="text-accent-300 font-bold text-base">R$ 400,00</span> em planejamento antecipado da sua próxima jornada
                   </p>
                 </div>
               </div>
@@ -375,7 +360,7 @@ export default function ConsultoriaPage() {
             <div className="bg-gradient-to-r from-purple-600/20 to-purple-500/20 p-6 rounded-xl border border-purple-400/30 mb-8">
               <div className="text-center">
                 <p className="text-sm text-white/70 mb-2">VALOR DOS BÔNUS EXCLUSIVOS:</p>
-                <p className="font-baloo text-3xl font-bold text-purple-400">R$ 2.499,00</p>
+                <p className="font-baloo text-3xl font-bold text-purple-400">AO MENOS <span className="line-through">R$ 2.348,00</span></p>
                 <p className="text-sm text-white/70 mt-2">INCLUÍDOS SEM CUSTO ADICIONAL</p>
               </div>
             </div>
@@ -401,12 +386,11 @@ export default function ConsultoriaPage() {
           {/* Total Value Summary */}
           <div className="bg-gradient-to-r from-blue-600/20 to-blue-500/20 p-8 rounded-xl border border-blue-400/30">
             <div className="text-center">
-              <p className="text-sm text-white/70 mb-2">VALOR TOTAL DOS ITENS INCLUÍDOS NA SUA JORNADA:</p>
-              <p className="font-baloo text-4xl font-bold text-blue-400">R$ 5.547,00</p>
-              <p className="text-sm text-white/70 mt-2">Você paga apenas R$ 1.200,00</p>
-              <p className="text-xl font-bold text-blue-400 mt-2">ECONOMIA TOTAL DE R$ 4.347,00</p>
+              <p className="font-baloo text-xl font-bold text-blue-400">40+ horas poupadas</p>
+              <p className="font-baloo text-xl font-bold text-blue-400 mb-2">Ao menos R$ 2.348,00 em bônus exclusivos</p>
+              <p className="text-2xl font-bold text-accent-500 mt-2">Você paga apenas R$ 1.200,00</p> 
               <p className="text-sm text-white/60 mt-4">
-                💎 Inclui todos os serviços principais + todos os bônus exclusivos
+                💎 40+ horas do seu tempo + todos os bônus exclusivos incluídos + experiências que você não encontra sozinha
               </p>
             </div>
           </div>
@@ -433,7 +417,7 @@ export default function ConsultoriaPage() {
       <section className="py-24 bg-gradient-to-br from-accent-500 to-accent-600 text-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 text-center">
           <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6">
-            Pronto para começar sua <span className="text-white">Jornada Evolved</span>?
+            Pronta para começar sua <span className="text-white">Jornada Evolved</span>?
           </h2>
           <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
             Junte-se aos casais que já transformaram suas ideias em viagens incríveis. 
@@ -455,8 +439,7 @@ export default function ConsultoriaPage() {
             </div>
           </div>
           <div className="mt-8 text-sm text-white/70">
-            <p>🎯 Apenas 8 vagas disponíveis por mês</p>
-            <p>💎 Economia total de R$ 4.347,00 em valor</p>
+            <p>🎯 Realizamos apenas 8 viagens por mês</p>
           </div>
         </div>
       </section>

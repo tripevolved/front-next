@@ -336,10 +336,10 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
                   </div>
                   <div>
                     <h4 className="font-baloo text-base font-bold text-gray-600">
-                      Reunião inicial
+                      Reunião inicial com um especialista
                     </h4>
                     <p className="text-gray-500 font-comfortaa text-xs">
-                      Onde vamos apresentar sua pré-proposta, completa e sem custo para você
+                      Onde vamos conhecer você e sua viagem para criar uma proposta personalizada
                     </p>
                   </div>
                 </div>
