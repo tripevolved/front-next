@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { ShareModal } from "@/components/ShareModal";
 import { LocalStorageService } from "@/clients/local";
 import type { Experience } from "@/core/types/experiences";
 import { VideoOverlay } from "./VideoOverlay";
 import { ItineraryContent } from "@/components/itineraries";
-import { useWizard } from "@/contexts/WizardContext";
 import { UniqueMomentsCarousel } from "@/components/uniqueMoments/UniqueMomentsCarousel";
+import { ExperienceExitModal } from "./ExperienceExitModal";
 
 interface ExperienceContentProps {
   experience: Experience;
@@ -17,6 +17,7 @@ interface ExperienceContentProps {
 export function ExperienceContent({ experience }: ExperienceContentProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [isExitModalOpen, setIsExitModalOpen] = useState(false);
   const [hasTraveler, setHasTraveler] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<{
     playbackId: string;
@@ -24,7 +25,10 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
     dayIndex: number;
     videoIndex: number;
   } | null>(null);
-  const { openWizard } = useWizard();
+  const [hasShownExitModal, setHasShownExitModal] = useState(false);
+  const [hasShownBottomModal, setHasShownBottomModal] = useState(false);
+  
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Check if traveler exists in localStorage
   useEffect(() => {
@@ -41,21 +45,54 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
     return () => clearInterval(interval);
   }, [experience.images.length]);
 
+  // Exit intent detection
+  useEffect(() => {
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0 && !hasShownExitModal) {
+        setIsExitModalOpen(true);
+        setHasShownExitModal(true);
+      }
+    };
+
+    const handleBeforeUnload = () => {
+      if (!hasShownExitModal) {
+        setIsExitModalOpen(true);
+        setHasShownExitModal(true);
+      }
+    };
+
+    document.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [hasShownExitModal]);
+
+  // Bottom scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      if (hasShownBottomModal) return;
+
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // Show modal when user reaches 90% of the page
+      if (scrollTop + windowHeight >= documentHeight * 0.9) {
+        setIsExitModalOpen(true);
+        setHasShownBottomModal(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasShownBottomModal]);
+
   // Function to handle sharing
   const handleShare = () => {
     setIsShareModalOpen(true);
-  };
-
-  // Function to handle planning a trip
-  const handlePlanTrip = () => {
-    if (hasTraveler) {
-      // If traveler exists, direct to WhatsApp
-      const message = `Olá! Gostaria de planejar uma viagem similar à experiência ${experience.title}.`;
-      window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank");
-    } else {
-      // If no traveler, open wizard
-      openWizard();
-    }
   };
 
   const handleVideoChange = (dayIndex: number, videoIndex: number) => {
@@ -80,7 +117,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" ref={containerRef}>
       {/* Hero Section */}
       <section className="relative h-[70vh]">
         {/* Background Images Carousel */}
@@ -136,8 +173,6 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
         </div>
       </section>
 
-
-
       {/* Unique Moments Carousel */}
       {experience.uniqueMoments && experience.uniqueMoments.length > 0 && (
         <section className="py-16 bg-white">
@@ -175,39 +210,6 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
         type="day"
       />
 
-      {/* Fixed Bottom Menu */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg py-4 px-6 z-[11]">
-        <div className="mx-auto flex sm:justify-center sm:items-center gap-6">
-          <button
-            onClick={handlePlanTrip}
-            className="bg-primary-600 text-white px-6 py-3 rounded-full font-baloo font-semibold hover:bg-primary-700 transition-colors z-[11]"
-          >
-            {hasTraveler ? "Planejar minha viagem" : "Começar minha jornada"}
-          </button>
-
-          <button
-            onClick={handleShare}
-            className="w-12 h-12 rounded-full bg-secondary-500 flex items-center justify-center text-secondary-600 hover:bg-secondary-50 transition-colors"
-            aria-label="Compartilhar"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="#ffffff"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-
       {/* Share Modal */}
       <ShareModal
         isOpen={isShareModalOpen}
@@ -216,7 +218,12 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
         message={`Confira esta experiência incrível: ${experience.title}`}
       />
 
-
+      {/* Exit Modal */}
+      <ExperienceExitModal
+        isOpen={isExitModalOpen}
+        onClose={() => setIsExitModalOpen(false)}
+        experienceTitle={experience.title}
+      />
 
       {/* Video Overlay */}
       {selectedVideo && (
