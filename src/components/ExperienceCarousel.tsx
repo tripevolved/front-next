@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Experience, mockExperiences } from '@/core/types/experiences'
+import { mockExperiences } from '@/core/types/experiences'
 
 export default function ExperienceCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)

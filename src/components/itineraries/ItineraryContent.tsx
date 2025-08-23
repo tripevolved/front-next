@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { VideoSlider } from "../VideoSlider";
 import { HotelDetailsModal } from "./HotelDetailsModal";
+import { CruiseDetailsModal } from "./CruiseDetailsModal";
+import type { Cruise } from "@/core/types/cruise";
 
 export interface ItineraryItem {
   id: number;
@@ -22,6 +24,7 @@ export interface ItineraryItem {
       includedServices: string[];
     };
   };
+  cruise?: Cruise;
   highlights: {
     description: string;
     details?: string;
@@ -37,11 +40,90 @@ export interface ItineraryContentProps {
   type: ItineraryType;
 }
 
+// Hotel Component
+function HotelComponent({ hotel, onOpenModal }: { 
+  hotel: ItineraryItem['hotel']; 
+  onOpenModal: (hotel: ItineraryItem['hotel']) => void;
+}) {
+  if (!hotel) return null;
+
+  return (
+    <div className="bg-white rounded-lg shadow-lg p-6">
+      <h3 className="text-xl font-semibold text-primary mb-4">Hospedagem</h3>
+      <div 
+        className={`flex flex-col md:flex-row gap-6 ${hotel.details ? 'cursor-pointer' : ''}`}
+        onClick={() => hotel.details && onOpenModal(hotel)}
+      >
+        <div className="flex-1">
+          <h4 className="text-lg font-medium text-gray-900 mb-2">{hotel.name}</h4>
+          <p className="text-gray-600">{hotel.description}</p>
+          {hotel.details && (
+            <div className="mt-3 flex items-center gap-2 text-primary-600 text-sm">
+              <span>Clique para mais detalhes</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </div>
+          )}
+        </div>
+        <div className="w-full md:w-48 h-48 relative rounded-full overflow-hidden">
+          <Image
+            src={hotel.image}
+            alt={hotel.name}
+            fill
+            className="object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Cruise Component
+function CruiseComponent({ cruise, onOpenModal }: { 
+  cruise: ItineraryItem['cruise'];
+  onOpenModal: (cruise: Cruise) => void;
+}) {
+  if (!cruise) return null;
+
+  return (
+    <div className="bg-white rounded-lg shadow-lg p-6">
+      <h3 className="text-xl font-semibold text-primary mb-4">Cruzeiro</h3>
+      <div 
+        className="flex flex-col md:flex-row gap-6 cursor-pointer"
+        onClick={() => onOpenModal(cruise)}
+      >
+        <div className="flex-1">
+          <h4 className="text-lg font-medium text-gray-900 mb-2">{cruise.name}</h4>
+          <p className="text-gray-600 mb-2">{cruise.description}</p>
+          <p className="text-sm text-primary-600 font-medium">Duração: {cruise.duration}</p>
+          <div className="mt-3 flex items-center gap-2 text-primary-600 text-sm">
+            <span>Clique para ver detalhes completos</span>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </div>
+        </div>
+        <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
+          <Image
+            src={cruise.image}
+            alt={cruise.name}
+            fill
+            className="object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContentProps) {
   const [activeItem, setActiveItem] = useState<number | null>(null);
   const [showItemNav, setShowItemNav] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState<ItineraryItem['hotel'] | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCruise, setSelectedCruise] = useState<Cruise | null>(null);
+  const [isHotelModalOpen, setIsHotelModalOpen] = useState(false);
+  const [isCruiseModalOpen, setIsCruiseModalOpen] = useState(false);
   const itemRefs = useRef<(HTMLElement | null)[]>([]);
   const itemOneRef = useRef<HTMLElement | null>(null);
 
@@ -111,12 +193,23 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
   // Function to handle hotel modal
   const openHotelModal = (hotel: ItineraryItem['hotel']) => {
     setSelectedHotel(hotel);
-    setIsModalOpen(true);
+    setIsHotelModalOpen(true);
   };
 
   const closeHotelModal = () => {
-    setIsModalOpen(false);
+    setIsHotelModalOpen(false);
     setSelectedHotel(null);
+  };
+
+  // Function to handle cruise modal
+  const openCruiseModal = (cruise: Cruise) => {
+    setSelectedCruise(cruise);
+    setIsCruiseModalOpen(true);
+  };
+
+  const closeCruiseModal = () => {
+    setIsCruiseModalOpen(false);
+    setSelectedCruise(null);
   };
 
   return (
@@ -277,70 +370,42 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
               <p className="text-secondary-700">{item.description}</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-              <div className="flex flex-col gap-6 lg:col-span-2">
-                <div className="bg-accent-100 rounded-xl p-8 shadow-sm">
-                  <p className="text-secondary-700">{item.highlights.description}</p>
-                </div>
-                {item.hotel && (
-                <div className="bg-white rounded-lg shadow-lg p-6">
-                  <h3 className="text-xl font-semibold text-primary mb-4">Hospedagem</h3>
-                  <div 
-                    className={`flex flex-col md:flex-row gap-6 ${item.hotel.details ? 'cursor-pointer' : ''}`}
-                    onClick={() => item.hotel!.details && openHotelModal(item.hotel)}
-                  >
-                    <div className="flex-1">
-                      <h4 className="text-lg font-medium text-gray-900 mb-2">{item.hotel.name}</h4>
-                      <p className="text-gray-600">{item.hotel.description}</p>
-                      {item.hotel.details && (
-                        <div className="mt-3 flex items-center gap-2 text-primary-600 text-sm">
-                          <span>Clique para mais detalhes</span>
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                    <div className="w-full md:w-48 h-48 relative rounded-full overflow-hidden">
-                      <Image
-                        src={item.hotel.image}
-                        alt={item.hotel.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-                </div>)}
+            {/* New Layout: Highlights Description (Left) + Videos (Right) */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+              {/* Left Column - Highlights Description */}
+              <div className="bg-accent-100 rounded-xl p-8 shadow-sm">
+                <p className="text-secondary-700">{item.highlights.description}</p>
               </div>
 
-              {/* Right Column - Highlights */}
-              <div className="rounded-lg pr-6 pb-6 pl-6 space-y-4 lg:col-span-3 overflow-hidden">
-                <div className="relative">
-                  <div className="overflow-x-auto pb-4 -mx-4 px-4">
-                    <div className="grid grid-flow-col auto-cols-[minmax(280px,1fr)] gap-4">
-                      <div
-                        key="1"
-                        className="relative group over overflow-hidden bg-white shadow-lg p-6 pb-12"
-                      >
-                        <div className="relative w-full rounded-lg h-full flex gap-3 flex-col">
-                          <p className="text-lg font-medium text-gray-700">{item.highlights.details}</p>
-                          {item.highlights.videos && item.highlights.videos.length > 0 ? (
-                            <>
-                              <div className="flex gap-5 items-center justify-evenly">
-                                <div className="flex flex-col gap-4">
-                                  <div>
-                                    <VideoSlider videos={item.highlights.videos} />
-                                  </div>
-                                </div>
-                              </div>
-                            </>
-                          ) : <></>}
-                        </div>
-                      </div>
-                    </div>
+              {/* Right Column - Videos */}
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                {item.highlights.videos && item.highlights.videos.length > 0 ? (
+                  <div>
+                    <h3 className="text-lg font-semibold text-primary mb-4">Vídeos</h3>
+                    <VideoSlider videos={item.highlights.videos} />
                   </div>
-                </div>
+                ) : (
+                  <div className="text-center text-gray-500 py-8">
+                    <p>Nenhum vídeo disponível</p>
+                  </div>
+                )}
               </div>
+            </div>
+
+            {/* Bottom Section - Hotel or Cruise Component */}
+            <div className="mt-8">
+              {item.hotel && (
+                <HotelComponent 
+                  hotel={item.hotel} 
+                  onOpenModal={openHotelModal}
+                />
+              )}
+              {item.cruise && (
+                <CruiseComponent 
+                  cruise={item.cruise}
+                  onOpenModal={openCruiseModal}
+                />
+              )}
             </div>
           </div>
         </section>
@@ -349,9 +414,18 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
       {/* Hotel Details Modal */}
       {selectedHotel && (
         <HotelDetailsModal
-          isOpen={isModalOpen}
+          isOpen={isHotelModalOpen}
           onClose={closeHotelModal}
           hotel={selectedHotel}
+        />
+      )}
+
+      {/* Cruise Details Modal */}
+      {selectedCruise && (
+        <CruiseDetailsModal
+          isOpen={isCruiseModalOpen}
+          onClose={closeCruiseModal}
+          cruise={selectedCruise}
         />
       )}
     </>

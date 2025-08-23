@@ -1,9 +1,11 @@
+import type { Cruise } from './cruise';
+
 export interface Experience {
   name: string
   title: string
-  dates: string
   travelers: string
   description: string
+  type: 'day-by-day' | 'by-period'
   images: string[]
   mapImage?: string
   uniqueMoments?: {
@@ -12,16 +14,17 @@ export interface Experience {
     image: string
   }[]
   itinerary: {
-    day: number
+    period: number
     date: string
     activity: string
     image: string
     description: string
-    hotel: {
+    hotel?: {
       name: string
       description: string
       image: string
     }
+    cruise?: Cruise
     highlights: {
       description: string
       videos?: string[]
@@ -33,8 +36,8 @@ export const mockExperiences: Experience[] = [
   {
     name: 'curacao',
     title: 'Curaçao tem tudo que você imagina',
-    dates: '11 a 20 de Março, 2025',
     travelers: 'por Henrique Gasparotto',
+    type: 'day-by-day',
     description: 'Uma jornada incrível por Curaçao, uma ilha que é muito mais que só praias e resorts! Além de uma passadinha rápida pelos encantos da Cidade do Panamá.',
     mapImage: '/assets/experiences/curacao/curacao-mapa.png',
     uniqueMoments: [
@@ -56,8 +59,8 @@ export const mockExperiences: Experience[] = [
     ],
     itinerary: [
       {
-        day: 1,
-        date: '11 de março',
+        period: 1,
+        date: 'Dia 1',
         activity: 'Canal do Panamá e um pouquinho do Casco Viejo',
         image: '/assets/experiences/curacao/casco-viejo.png',
         description: 'O dia começou cedo, com a visita ao impressionante Canal do Panamá ainda pela manhã. À tarde, exploramos um pouco (ou muito) do Casco Viejo.',
@@ -72,8 +75,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 2,
-        date: '12 de março',
+        period: 2,
+        date: 'Dia 2',
         activity: 'Uma corridinha matinal pela Costanera e partiu centro!',
         image: '/assets/experiences/curacao/costanera.png',
         description: 'A experiência de correr pela Costanera foi muito legal! Tirando o cheiro em torno do mercado de peixes, é claro.',
@@ -88,8 +91,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 3,
-        date: '13 de março',
+        period: 3,
+        date: 'Dia 3',
         activity: 'Oi, Curaçao!',
         image: '/assets/experiences/curacao/oi-curacao.png',
         description: 'O primeiro contato com Curaçao foi quase um susto. Muita natureza e um mar espetacular!',
@@ -104,8 +107,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 4,
-        date: '14 de março',
+        period: 4,
+        date: 'Dia 4',
         activity: 'Cas Abao, Porto Marie e um pôr do sol a dois',
         image: '/assets/experiences/curacao/cas-abao.png',
         description: 'O norte de Curaçao tem ilhas que são espetáculos e Cas Abao e Porto Marie não poderiam ser deixadas de fora.',
@@ -120,8 +123,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 5,
-        date: '15 de março',
+        period: 5,
+        date: 'Dia 5',
         activity: 'Oi, Kenepas! Oi, Playa Lagun!',
         image: '/assets/experiences/curacao/kenepa-grandi.png',
         description: 'A Playa Lagun foi a maior surpresa da viagem. Que lugar: água mais profunda, perfeita para mergulhos, mas com um mar tranquilo demais!',
@@ -136,8 +139,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 6,
-        date: '16 de março',
+        period: 6,
+        date: 'Dia 6',
         activity: 'Partiu Pietermaai',
         image: '/assets/experiences/curacao/pietermaai-culture.png',
         description: 'Desde o começo, sabíamos que queríamos conhecer Willemstad, viver a cultura. E já começamos bem, ficando muito bem localizados em Pietermaai.',
@@ -152,8 +155,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 7,
-        date: '17 de março',
+        period: 7,
+        date: 'Dia 7',
         activity: 'Punda, Otrobanda e uma cultura única!',
         image: '/assets/experiences/curacao/punda-fort.png',
         description: 'Punda e Otrobanda, o coração de Willemstad. Atravessar a ponte Rainha Emma é uma experiência incrível. Dá até pra ver o pessoal correndo quando o sino toca!',
@@ -168,8 +171,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 8,
-        date: '18 de março',
+        period: 8,
+        date: 'Dia 8',
         activity: 'Klein Curaçao: que paraíso!',
         image: '/assets/experiences/curacao/klein-curacao-2.png',
         description: 'Imperdível: Klein Curaçao merece cada segundo da visita. É natureza quase intocada.',
@@ -184,8 +187,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 9,
-        date: '19 de março',
+        period: 9,
+        date: 'Dia 9',
         activity: 'Últimos passeios e curtir o hotel',
         image: '/assets/experiences/curacao/curacao.png',
         description: 'O dia de passear pela manhã, comprar as últimas lembrancinhas e, claro, relaxamento no hotel, aproveitando as últimas horas em Curaçao.',
@@ -202,10 +205,305 @@ export const mockExperiences: Experience[] = [
     ],
   },
   {
+    name: 'miami-cruise',
+    title: 'Miami com cruzeiro no Caribe',
+    travelers: 'por Deborah Eppi',
+    type: 'by-period',
+    description: 'Uma experiência única combinando a vibrante cidade de Miami com um cruzeiro pelo Caribe no Freedom of the Seas. Do luxo dos hotéis de Miami Beach às águas cristalinas do Caribe.',
+    mapImage: '/assets/experiences/miami/miami-map.png',
+    uniqueMoments: [
+      {
+        title: 'Freedom of the Seas',
+        description: '5 noites a bordo de um dos maiores navios de cruzeiro do mundo, com cabine externa e vista para o mar.',
+        image: '/assets/experiences/miami/freedom-of-seas.png'
+      },
+      {
+        title: 'Miami Beach',
+        description: '3 noites no icônico Fontainebleau Miami Beach, um dos hotéis mais luxuosos da costa leste.',
+        image: '/assets/experiences/miami/fontainebleau.png'
+      }
+    ],
+    images: [
+      '/assets/experiences/miami/miami-beach.png',
+      '/assets/experiences/miami/freedom-of-seas.png',
+      '/assets/experiences/miami/caribbean-islands.png',
+      '/assets/experiences/miami/hard-rock-cafe.png',
+    ],
+    itinerary: [
+      {
+        period: 1,
+        date: 'Dias 1 a 3',
+        activity: 'Miami Beach - Luxo e Praia',
+        image: '/assets/experiences/miami/miami-beach.png',
+        description: 'Voo noturno saindo de São Paulo às 23:15 e chegada em Miami às 06:55. 3 noites no icônico Fontainebleau Miami Beach com café da manhã incluso.',
+        hotel: {
+          name: 'Fontainebleau Miami Beach',
+          description: 'Um dos hotéis mais icônicos de Miami Beach, com praia privativa, múltiplas piscinas e restaurantes premiados.',
+          image: '/assets/experiences/miami/fontainebleau.png'
+        },
+        highlights: {
+          description: 'Exploração de Miami Beach, Art Deco District, Lincoln Road Mall, city tour completo por Miami e jantar no Hard Rock Café.',
+          videos: undefined
+        }
+      },
+      {
+        period: 2,
+        date: 'Dias 4 a 8',
+        activity: 'Freedom of the Seas - 5 noites no Caribe',
+        image: '/assets/experiences/miami/freedom-of-seas.png',
+        description: '5 noites a bordo do Freedom of the Seas, um dos maiores navios de cruzeiro do mundo, com cabine externa e vista para o mar.',
+        cruise: {
+          name: 'Freedom of the Seas',
+          description: 'Um dos maiores navios de cruzeiro do mundo, com cabine externa, múltiplas piscinas, shows, restaurantes e atividades para todos os gostos.',
+          image: '/assets/experiences/miami/freedom-cabin.png',
+          duration: '5 noites',
+          details: {
+            main: {
+              departurePort: 'Miami, FL',
+              arrivalPort: 'Miami, FL',
+              departureDate: '17 de outubro, 2025',
+              arrivalDate: '22 de outubro, 2025',
+              cabinType: 'Cabine Externa com Vista para o Mar',
+              price: 'A partir de R$ 2.500 por pessoa',
+              highlights: [
+                'Cabine externa com vista para o mar',
+                'Todas as refeições incluídas',
+                'Entretenimento a bordo',
+                '3 paradas em ilhas caribenhas'
+              ],
+              included: [
+                'Hospedagem em cabine externa',
+                'Todas as refeições no restaurante principal',
+                'Entretenimento e shows',
+                'Uso de piscinas e academia',
+                'Atividades para crianças e adolescentes'
+              ],
+              notIncluded: [
+                'Bebidas alcoólicas',
+                'Restaurantes especializados',
+                'Excursões em terra',
+                'Spa e tratamentos',
+                'Gorjetas'
+              ]
+            },
+            itinerary: {
+              totalDays: 5,
+              daysAtSea: 2,
+              ports: [
+                {
+                  name: 'Nassau',
+                  country: 'Bahamas',
+                  arrivalTime: '08:00',
+                  departureTime: '17:00',
+                  duration: '9 horas',
+                  highlights: [
+                    'Praias de areia branca',
+                    'Mergulho com snorkel',
+                    'Compras duty-free',
+                    'Passeio pela cidade histórica'
+                  ]
+                },
+                {
+                  name: 'Cozumel',
+                  country: 'México',
+                  arrivalTime: '07:00',
+                  departureTime: '18:00',
+                  duration: '11 horas',
+                  highlights: [
+                    'Recifes de coral para mergulho',
+                    'Ruínas maias',
+                    'Praias paradisíacas',
+                    'Gastronomia mexicana'
+                  ]
+                },
+                {
+                  name: 'Costa Maya',
+                  country: 'México',
+                  arrivalTime: '08:00',
+                  departureTime: '16:00',
+                  duration: '8 horas',
+                  highlights: [
+                    'Parque aquático',
+                    'Visita às ruínas de Chacchoben',
+                    'Praias exclusivas',
+                    'Atividades aquáticas'
+                  ]
+                }
+              ],
+              route: 'Miami → Nassau → Costa Maya → Cozumel → Miami'
+            },
+            experiences: [
+              {
+                name: 'FlowRider',
+                description: 'Simulador de surf a bordo do navio',
+                duration: '1 hora',
+                category: 'onboard',
+                included: true
+              },
+              {
+                name: 'Rock Climbing Wall',
+                description: 'Parede de escalada de 13 metros',
+                duration: '30 minutos',
+                category: 'onboard',
+                included: true
+              },
+              {
+                name: 'Ice Skating',
+                description: 'Pista de patinação no gelo',
+                duration: '1 hora',
+                category: 'onboard',
+                included: true
+              },
+              {
+                name: 'Broadway Shows',
+                description: 'Shows musicais da Broadway',
+                duration: '90 minutos',
+                category: 'entertainment',
+                included: true
+              },
+              {
+                name: 'Excursão em Nassau',
+                description: 'Tour pela cidade e praias',
+                duration: '4 horas',
+                category: 'shore',
+                price: 'R$ 150',
+                included: false
+              },
+              {
+                name: 'Mergulho em Cozumel',
+                description: 'Mergulho nos recifes de coral',
+                duration: '3 horas',
+                category: 'shore',
+                price: 'R$ 200',
+                included: false
+              }
+            ],
+            ship: {
+              name: 'Freedom of the Seas',
+              company: 'Royal Caribbean International',
+              capacity: 3634,
+              yearBuilt: 2006,
+              refurbished: 2020,
+              length: '339 metros',
+              width: '56 metros',
+              decks: 15,
+              features: [
+                'FlowRider surf simulator',
+                'Rock climbing wall',
+                'Ice skating rink',
+                'Mini golf course',
+                'Basketball court',
+                'Fitness center',
+                'Spa and wellness center'
+              ],
+              amenities: [
+                {
+                  category: 'Piscinas',
+                  items: [
+                    'Piscina principal',
+                    'Piscina para adultos',
+                    'Piscina infantil',
+                    'Jacuzzis'
+                  ]
+                },
+                {
+                  category: 'Esportes',
+                  items: [
+                    'Academia completa',
+                    'Quadra de basquete',
+                    'Parede de escalada',
+                    'FlowRider'
+                  ]
+                },
+                {
+                  category: 'Entretenimento',
+                  items: [
+                    'Teatro principal',
+                    'Casino',
+                    'Discoteca',
+                    'Karaokê'
+                  ]
+                }
+              ],
+              dining: [
+                {
+                  name: 'Main Dining Room',
+                  type: 'main',
+                  description: 'Restaurante principal com menu variado',
+                  included: true
+                },
+                {
+                  name: 'Windjammer Café',
+                  type: 'casual',
+                  description: 'Buffet internacional',
+                  included: true
+                },
+                {
+                  name: 'Chops Grille',
+                  type: 'specialty',
+                  description: 'Steakhouse premium',
+                  included: false
+                },
+                {
+                  name: 'Giovanni\'s Table',
+                  type: 'specialty',
+                  description: 'Culinária italiana autêntica',
+                  included: false
+                }
+              ],
+              entertainment: [
+                {
+                  name: 'AquaTheater',
+                  type: 'show',
+                  description: 'Shows aquáticos com acrobatas'
+                },
+                {
+                  name: 'Studio B',
+                  type: 'venue',
+                  description: 'Teatro para shows de gelo'
+                },
+                {
+                  name: 'Promenade',
+                  type: 'venue',
+                  description: 'Área central com lojas e cafés'
+                },
+                {
+                  name: 'Casino Royale',
+                  type: 'activity',
+                  description: 'Casino com jogos de mesa e slots'
+                }
+              ]
+            }
+          }
+        },
+        highlights: {
+          description: '3 paradas em ilhas caribenhas, dias no mar com atividades a bordo, shows, jantares especiais e experiências únicas no Caribe.',
+          videos: undefined
+        }
+      },
+      {
+        period: 3,
+        date: 'Dias 9 a 11',
+        activity: 'Miami Final e Retorno',
+        image: '/assets/experiences/miami/miami-last-day.png',
+        description: '2 noites no JW Marriott Marquis Miami no centro da cidade, tempo para compras finais e voo de retorno.',
+        hotel: {
+          name: 'JW Marriott Marquis Miami',
+          description: 'Hotel de luxo no centro de Miami, próximo ao Bayfront Park e Bayside Marketplace.',
+          image: '/assets/experiences/miami/jw-marriott.png'
+        },
+        highlights: {
+          description: 'Compras no Bayside Marketplace, tempo livre para explorar Miami e voo de retorno saindo às 21:05.',
+          videos: undefined
+        }
+      },
+    ],
+  },
+  {
     name: 'california-b',
     title: 'A Califórnia que poucos falam',
-    dates: '24 a 31 de maio, 2024',
     travelers: 'por Henrique Gasparotto',
+    type: 'day-by-day',
     description: 'A road trip para curtir o melhor das paisagens californianas, saindo de Los Angeles e chegando em San Francisco - mas de um jeito diferente.',
     mapImage: '/assets/experiences/california/california-map.png',
     uniqueMoments: [
@@ -228,8 +526,8 @@ export const mockExperiences: Experience[] = [
     ],
     itinerary: [
       {
-        day: 1,
-        date: '24 de maio',
+        period: 1,
+        date: 'Dia 1',
         activity: 'LA só de passagem',
         image: '/assets/experiences/california/la-griffith.png',
         description: 'O dia em Los Angeles foi só de passagem, mas com uma chegada no Observatório Griffith antes de partir rumo a Morro Bay.',
@@ -244,8 +542,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 2,
-        date: '25 de maio',
+        period: 2,
+        date: 'Dia 2',
         activity: 'Uma manhã única em Morro Bay e partiu rumo Fresno',
         image: '/assets/experiences/california/morro-rock.png',
         description: 'A manhã em Morro Bay foi incrível. A cidadezinha é muito tranquila, com a vista para a Morro Rock sendo um show à parte.',
@@ -260,8 +558,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 3,
-        date: '26 de maio',
+        period: 3,
+        date: 'Dia 3',
         activity: 'Sequoia & Kings Canyon - Que lugar! E para fechar, Yosemite no fim da tarde',
         image: '/assets/experiences/california/sequoia.png',
         description: 'Fresno é a porta de entrada para alguns dos parques nacionais mais impressionantes dos EUA: Sequoia & Kings Canyon e o mundialmente famoso Yosemite National Park. Os lugares valem cada segundo da visita.',
@@ -276,8 +574,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 4,
-        date: '27 de maio',
+        period: 4,
+        date: 'Dia 4',
         activity: 'Yosemite e ponto final',
         image: '/assets/experiences/california/yosemite-2.png',
         description: 'Sabíamos que Yosemite merecia mais do que uma visita rápida de fim de dia e não nos decepcionamos. É um espetáculo atrás do outro.',
@@ -292,8 +590,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 5,
-        date: '28 de maio',
+        period: 5,
+        date: 'Dia 5',
         activity: 'Lake Tahoe - (quase) ainda na Califórnia!',
         image: '/assets/experiences/california/lake-tahoe.png',
         description: 'Um pouco mais ao norte, Lake Tahoe é uma das maravilhas naturais da Califórnia. Partimos cedo de Oakhurst, passamos pela Eldorado National Forest e chegamos em South Lake Tahoe, nossa base para conhecer esse lugar lindo.',
@@ -308,8 +606,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 6,
-        date: '29 de maio',
+        period: 6,
+        date: 'Dia 6',
         activity: 'Dia de praia em Tahoe!',
         image: '/assets/experiences/california/lake-tahoe-2.png',
         description: 'Num cantinho pertinho de Kings Beach, descobrimos uma praia tranquila para relaxar e curtir o dia. O que dizer da água: gelada, muito gelada! Mas tínhamos que mergulhar um pouco, certo?',
@@ -324,8 +622,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 7,
-        date: '30 de maio',
+        period: 7,
+        date: 'Dia 7',
         activity: 'São Francisco - A cidade da baía',
         image: '/assets/experiences/california/san-francisco.png',
         description: 'A chegada em São Francisco tinha que ser pela Golden Gate Bridge, certo? Fizemos questão que nosso caminho nos trouxesse por lá.',
@@ -340,8 +638,8 @@ export const mockExperiences: Experience[] = [
         }
       },
       {
-        day: 8,
-        date: '31 de maio',
+        period: 8,
+        date: 'Dia 8',
         activity: 'Piers, muitos piers. E, claro, Alcatraz!',
         image: '/assets/experiences/california/alcatraz.png',
         description: 'São Francisco oferece muitas vistas da Baía, e tínhamos que aproveitar. Coit Tower, Palace of Fine Arts... Mas, principalmente, os piers em torno do Fisherman\'s Wharf.',
