@@ -81,14 +81,14 @@ export default function ProcessSection({
               3
             </div>
             <h3 className="font-baloo text-xl font-bold mb-4 text-secondary-900">
-              Pagamento da taxa de design da viagem
+              Pagamento da taxa de consultoria de viagem
             </h3>
             <p className="text-secondary-600 mb-4">
-              Com um pagamento de R$500,00, você garante o itinerário personalizado da melhor viagem da sua vida. Ao reservar sua viagem conosco, esse valor volta para você.
+              Com um pagamento de R$1200,00, você garante o nosso cuidado e atenção para criar a melhor viagem da sua vida.
             </p>
             <div className="bg-accent-50 p-4 rounded-lg">
               <p className="text-sm text-accent-700 font-semibold">
-                Esse pagamento é um crédito para sua viagem
+                A partir daqui, começamos o planejamento
               </p>
             </div>
           </div>
@@ -124,7 +124,7 @@ export default function ProcessSection({
             </p>
             <div className="bg-accent-50 p-4 rounded-lg">
               <p className="text-sm text-accent-700 font-semibold">
-                Se não estivermos alinhados após duas revisões, devolvemos a taxa de design da viagem.
+                Se não estivermos alinhados após duas revisões, devolvemos a taxa de consultoria de viagem.
               </p>
             </div>
           </div>
@@ -138,7 +138,7 @@ export default function ProcessSection({
               Reservas e Pagamentos
             </h3>
             <p className="text-secondary-600 mb-4">
-              Gerenciamos todas as reservas e pagamentos da viagem, incluindo nossa taxa de consultoria de R$1200,00.
+              Gerenciamos todas as reservas e pagamentos da viagem, incluindo voos, hospedagens, experiências e mais.
             </p>
             <div className="bg-accent-50 p-4 rounded-lg">
               <p className="text-sm text-accent-700 font-semibold">
@@ -153,14 +153,14 @@ export default function ProcessSection({
               7
             </div>
             <h3 className="font-baloo text-xl font-bold mb-4 text-secondary-900">
-              Onboarding do Concierge
+              Criamos momentos únicos
             </h3>
             <p className="text-secondary-600 mb-4">
               Construção do seu roteiro de viagem detalhado, checklist de documentos, consultoria de &quot;o que levar&quot;, reservas de restaurantes e passeios.
             </p>
             <div className="bg-accent-50 p-4 rounded-lg">
               <p className="text-sm text-accent-700 font-semibold">
-                Roteiro no seu ritmo e com plano B, para mudança de plano ou chuvas, por exemplo
+                Roteiro no seu ritmo e com plano B, para mudança de planos ou chuvas
               </p>
             </div>
           </div>
