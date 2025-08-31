@@ -6,6 +6,7 @@ export interface Experience {
   travelers: string
   description: string
   type: 'day-by-day' | 'by-period'
+  isVisible: boolean
   images: string[]
   mapImage?: string
   uniqueMoments?: {
@@ -38,6 +39,7 @@ export const mockExperiences: Experience[] = [
     title: 'Curaçao tem tudo que você imagina',
     travelers: 'por Henrique Gasparotto',
     type: 'day-by-day',
+    isVisible: true,
     description: 'Uma jornada incrível por Curaçao, uma ilha que é muito mais que só praias e resorts! Além de uma passadinha rápida pelos encantos da Cidade do Panamá.',
     mapImage: '/assets/experiences/curacao/curacao-mapa.png',
     uniqueMoments: [
@@ -209,6 +211,7 @@ export const mockExperiences: Experience[] = [
     title: 'Miami com cruzeiro no Caribe',
     travelers: 'por Deborah Eppi',
     type: 'by-period',
+    isVisible: false,
     description: 'Uma experiência única combinando a vibrante cidade de Miami com um cruzeiro pelo Caribe no Freedom of the Seas. Do luxo dos hotéis de Miami Beach às águas cristalinas do Caribe.',
     mapImage: '/assets/experiences/miami/miami-map.png',
     uniqueMoments: [
@@ -504,6 +507,7 @@ export const mockExperiences: Experience[] = [
     title: 'A Califórnia que poucos falam',
     travelers: 'por Henrique Gasparotto',
     type: 'day-by-day',
+    isVisible: true,
     description: 'A road trip para curtir o melhor das paisagens californianas, saindo de Los Angeles e chegando em San Francisco - mas de um jeito diferente.',
     mapImage: '/assets/experiences/california/california-map.png',
     uniqueMoments: [
@@ -651,6 +655,121 @@ export const mockExperiences: Experience[] = [
         highlights: {
           description: 'A viagem para Alcatraz foi uma das mais legais de toda a viagem. A experiência toda, com as histórias contadas lá dentro, vale muito a pena. E as vistas do trajeto de barco...',
           videos: undefined
+        }
+      },
+    ],
+  },
+  {
+    name: 'puglia',
+    title: 'Puglia: O coração da Itália',
+    travelers: 'por Henrique Gasparotto',
+    type: 'by-period',
+    isVisible: false,
+    description: 'Uma jornada inesquecível pela Puglia, o coração da Itália, incluindo hospedagem em trulli tradicionais, cidades históricas e experiências gastronômicas únicas. Ideal para viajantes que buscam autenticidade, cultura e sabores tradicionais italianos.',
+    mapImage: 'https://res.cloudinary.com/tripevolved/image/upload/v1753530175/Captura_de_tela_2025-07-26_084221_ae1pfm.png',
+    uniqueMoments: [
+      {
+        title: 'Do mercado para a mesa em Alberobello',
+        description: 'Vamos explorar o pitoresco mercado de Alberobello, onde as cores e aromas das frutas e verduras da estação nos recebem. Juntos, selecionamos ingredientes frescos para o nosso almoço.',
+        image: 'https://ucarecdn.com/d0533fe9-fd50-4b2a-9468-e0e65c8453df/-/format/auto/-/stretch/off/-/progressive/yes/-/resize/1920x/-/quality/smart/'
+      },
+      {
+        title: 'Caffè L\'Incontro em Lecce',
+        description: 'Visite o histórico Coffee L\'Incontro em Lecce, onde você experimentará o autêntico Pasticciotto Leccese, um doce tradicional da região.',
+        image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/f9/ff/e5/img-20200222-213953-largejpg.jpg?w=900&h=-1&s=1'
+      }
+    ],
+    images: [
+      'https://res.cloudinary.com/tripevolved/image/upload/v1753699920/14383_kh0pry.jpg',
+      'https://res.cloudinary.com/tripevolved/image/upload/v1753701331/lecce_zq7zj5.jpg',
+      'https://res.cloudinary.com/tripevolved/image/upload/v1753701694/bari_eipfpq.jpg',
+      'https://ucarecdn.com/d0533fe9-fd50-4b2a-9468-e0e65c8453df/-/format/auto/-/stretch/off/-/progressive/yes/-/resize/1920x/-/quality/smart/',
+    ],
+    itinerary: [
+      {
+        period: 1,
+        date: 'Dias 1 a 2',
+        activity: 'Milão - A capital da moda e da cultura italiana',
+        image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753530462/724_1_j9m2qd.jpg',
+        description: 'Dois dias em Milão para explorar a capital da moda italiana. Visite o Duomo, a Galleria Vittorio Emanuele II, o Teatro La Scala e as boutiques de luxo da Via Montenapoleone. Aproveite a gastronomia local nos restaurantes tradicionais e modernos da cidade.',
+        hotel: {
+          name: 'Hotel Cavour',
+          description: 'Hotel elegante no centro de Milão, a 15 minutos a pé da Catedral de Milão. Tem um buffet de café da manhã variado com opções sem glúten, ideal para comer bem e sair para curtir Milão. O Restaurante Conte Camillo serve especialidades da culinária italiana. Fica a apenas 700 metros do Teatro La Scala. Especial para viagens a dois.',
+          image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753698629/cavour_externo_i0bwfk.jpg'
+        },
+        highlights: {
+          description: 'Milão oferece uma combinação perfeita de história, moda e gastronomia. Do Duomo gótico à Galleria Vittorio Emanuele II, cada esquina revela a elegância italiana. A Via Montenapoleone é o paraíso das compras de luxo, enquanto o Teatro La Scala representa a excelência cultural da cidade.',
+          videos: undefined
+        }
+      },
+      {
+        period: 2,
+        date: 'Dia 3',
+        activity: 'Milão para Alberobello de trem',
+        image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753698966/trem_italo_p07p0w.webp',
+        description: 'Viagem de trem em classe executiva de Milão para Alberobello, atravessando a bela paisagem italiana. Uma jornada de 9 horas que vale cada minuto.',
+        hotel: {
+          name: 'Abate Masseria & Resort',
+          description: 'Masseria histórica restaurada, oferecendo uma experiência autêntica da Puglia em uma estrutura rural tradicional.',
+          image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_externo_znbl5f.jpg'
+        },
+        highlights: {
+          description: 'Esta jornada de 9 horas pela Itália é muito mais que um simples deslocamento - é uma transição do norte industrial para o sul rural. O trem corta vales, atravessa vilarejos medievais e revela a diversidade da paisagem italiana. Para quem busca entender a alma do país, esta viagem oferece uma perspectiva única: a transformação gradual da cultura, arquitetura e até mesmo da luz conforme se avança para o sul. A chegada em Alberobello, com seus trulli brancos emergindo na paisagem, é o momento em que a magia da Puglia se revela completamente.',
+          videos: undefined
+        }
+      },
+      {
+        period: 3,
+        date: 'Dias 3 a 5',
+        activity: 'Alberobello e Valle d\'Itria',
+        image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753699920/14383_kh0pry.jpg',
+        description: 'Exploração dos trulli de Alberobello, Patrimônio Mundial da UNESCO, e do encantador Valle d\'Itria com suas paisagens únicas.',
+        hotel: {
+          name: 'Abate Masseria & Resort',
+          description: 'Masseria histórica restaurada, oferecendo uma experiência autêntica da Puglia em uma estrutura rural tradicional.',
+          image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_externo_znbl5f.jpg'
+        },
+        highlights: {
+          description: 'Alberobello é um lugar de sonho, com seus trulli brancos e ruas de pedra. O Valle d\'Itria é simplesmente deslumbrante.',
+          videos: [
+            "rhRYFZQlZfofBmivbt5Xz02oXZBR9CQOrSvStCrB5JYE",
+            "WldIJp27fp013FLvvKUp9u00BJierDgJX4pGOdK2a71hM"
+          ]
+        }
+      },
+      {
+        period: 4,
+        date: 'Dia 6',
+        activity: 'Lecce - A Florença do Sul',
+        image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753701331/lecce_zq7zj5.jpg',
+        description: 'Visita a Lecce, conhecida como a "Florença do Sul" por sua arquitetura barroca e rica história cultural.',
+        hotel: {
+          name: 'Risorgimento Resort',
+          description: 'Membro do WorldHotels Elite, localizado no centro da cidade, próximo às estruturas gregas de Lecce.',
+          image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753701465/risorgimento_resort_externo_2_zwpmdf.jpg'
+        },
+        highlights: {
+          description: 'Lecce é uma cidade incrível, com muita história. E, claro, tem na gastronomia o Pasticciotto Leccese, que não pode ser deixado de fora da experiência.',
+          videos: undefined
+        }
+      },
+      {
+        period: 5,
+        date: 'Dias 7 a 8',
+        activity: 'Bari e Polignano a Mare',
+        image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753701694/bari_eipfpq.jpg',
+        description: 'Exploração de Bari, capital da Puglia, e Polignano a Mare, com suas praias deslumbrantes e centro histórico.',
+        hotel: {
+          name: 'Mercure Villa Romanazzi Carducci Bari',
+          description: 'Hotel 4 estrelas bem localizado em Bari, oferecendo conforto e conveniência.',
+          image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753701839/mercure_villa_romanazzi_externo_mps8ih.jpg'
+        },
+        highlights: {
+          description: 'Bari é vibrante e autêntica, enquanto Polignano a Mare é simplesmente deslumbrante com suas falésias.',
+          videos: [
+            'o01tpinhD2AMkkwTbMTzfvXwq6W9pX1iJ3mz8X9en00UY',
+            'ofvDl02Lb4tfwp7wQgz5EMmfNv4w3klX5KGR9RXeXjAg'
+          ]
         }
       },
     ],

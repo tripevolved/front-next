@@ -8,13 +8,21 @@ import { mockExperiences } from '@/core/types/experiences'
 export default function ExperienceCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
 
+  // Filter experiences to only show visible ones
+  const visibleExperiences = mockExperiences.filter(experience => experience.isVisible)
+
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % mockExperiences.length)
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % visibleExperiences.length)
     }, 5000)
 
     return () => clearInterval(timer)
-  }, [])
+  }, [visibleExperiences.length])
+
+  // Don't render if no visible experiences
+  if (visibleExperiences.length === 0) {
+    return null
+  }
 
   return (
     <div className="relative w-full">
@@ -24,7 +32,7 @@ export default function ExperienceCarousel() {
           className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
-          {mockExperiences.map((experience) => (
+          {visibleExperiences.map((experience) => (
             <div 
               key={experience.name}
               className="w-full flex-shrink-0"
@@ -63,7 +71,7 @@ export default function ExperienceCarousel() {
 
       {/* Indicators */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-        {mockExperiences.map((_, index) => (
+        {visibleExperiences.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
