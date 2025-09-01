@@ -3,49 +3,10 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Button from '@/components/common/Button'
-import { Map, MapMarker } from '@/components/maps'
+import { Map } from '@/components/maps'
 
 export default function BergenPortPlaybook() {
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false)
-  const [selectedMarker, setSelectedMarker] = useState<MapMarker | null>(null)
-
-  // Bergen attractions markers
-  const bergenMarkers: MapMarker[] = [
-    {
-      id: '1',
-      position: { lat: 60.3913, lng: 5.3221 },
-      title: 'Bryggen Wharf',
-      info: 'Historic Hanseatic wharf and UNESCO World Heritage site. Colorful wooden houses from the 14th century.'
-    },
-    {
-      id: '2',
-      position: { lat: 60.3971, lng: 5.3247 },
-      title: 'Fløibanen Funicular',
-      info: 'Cable car to Mount Fløyen with panoramic views at 320m height. Best views of Bergen and the fjords.'
-    },
-    {
-      id: '3',
-      position: { lat: 60.3948, lng: 5.3254 },
-      title: 'Fish Market (Fisketorget)',
-      info: 'Famous outdoor fish market with fresh local seafood and traditional Norwegian products.'
-    },
-    {
-      id: '4',
-      position: { lat: 60.3935, lng: 5.3238 },
-      title: 'Bryggeloftet Restaurant',
-      info: 'Traditional Norwegian restaurant serving authentic local dishes in a historic setting.'
-    },
-    {
-      id: '5',
-      position: { lat: 60.3952, lng: 5.3241 },
-      title: 'Bergenhus Port',
-      info: 'Main cruise port where ships dock. Starting point for your Bergen adventure.'
-    }
-  ]
-
-  const handleMarkerClick = (marker: MapMarker) => {
-    setSelectedMarker(marker)
-  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -226,49 +187,17 @@ export default function BergenPortPlaybook() {
                   Clique nos marcadores para ver informações detalhadas sobre cada ponto da sua rota.
                 </p>
                 
-                <div className="mb-6">
-                  <Map
-                    apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}
-                    center={{ lat: 60.3913, lng: 5.3221 }} // Bergen center
-                    zoom={15}
-                    markers={bergenMarkers}
-                    height="400px"
-                    width="100%"
-                    className="rounded-lg shadow-lg"
-                    onMarkerClick={handleMarkerClick}
-                    showControls={true}
-                    loadingComponent={
-                      <div className="flex items-center justify-center h-full bg-gray-100 rounded-lg">
-                        <div className="text-center">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-500 mx-auto mb-2"></div>
-                          <p className="text-gray-600">Carregando mapa...</p>
-                        </div>
-                      </div>
-                    }
-                    errorComponent={
-                      <div className="flex items-center justify-center h-full bg-red-50 rounded-lg">
-                        <div className="text-center">
-                          <p className="text-red-600 font-medium">Erro ao carregar mapa</p>
-                          <p className="text-red-500 text-sm">Verifique sua chave da API</p>
-                        </div>
-                      </div>
-                    }
-                  />
-                </div>
-
-                {selectedMarker && (
-                  <div className="bg-accent-50 p-6 rounded-xl">
-                    <h4 className="font-baloo text-xl font-bold text-secondary-900 mb-3">
-                      📍 {selectedMarker.title}
-                    </h4>
-                    <p className="text-secondary-700 font-comfortaa mb-3">
-                      {selectedMarker.info}
-                    </p>
-                    <p className="text-accent-600 text-sm font-semibold">
-                      Coordenadas: {selectedMarker.position.lat.toFixed(4)}, {selectedMarker.position.lng.toFixed(4)}
-                    </p>
-                  </div>
-                )}
+                                 <div className="mb-6">
+                   <Map
+                     apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}
+                     center={{ lat: 60.3913, lng: 5.3221 }} // Bergen center
+                     zoom={15}
+                     height="400px"
+                     width="100%"
+                     className="rounded-lg shadow-lg"
+                     showControls={true}
+                   />
+                 </div>
 
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="bg-secondary-50 p-4 rounded-lg">
