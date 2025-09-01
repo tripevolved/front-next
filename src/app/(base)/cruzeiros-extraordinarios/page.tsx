@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
 import CruiseSearchForm from '@/components/consultancy/CruiseSearchForm'
@@ -440,12 +441,12 @@ export default function CruzeirosExtraordinariosPage() {
                 </h3>
                 <p className="text-secondary-600 font-comfortaa leading-relaxed">
                   Cada parada do seu cruzeiros é uma chance de conhecer a cultura local, a história e a natureza. E preparamos um plano para cada uma delas.{' '}
-                  <a 
-                    href="/cruzeiros-extraordinarios/norte-da-europa/bergen/sample" 
+                  <Link 
+                    href="/cruzeiros-extraordinarios/norte-da-europa/portos/bergen" 
                     className="text-accent-500 hover:text-accent-600 underline font-semibold transition-colors"
                   >
                     Veja um exemplo
-                  </a>
+                  </Link>
                 </p>
             </div>
 
