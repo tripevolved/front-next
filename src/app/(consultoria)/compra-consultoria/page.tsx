@@ -1,9 +1,31 @@
 "use client";
 import Button from "@/components/common/Button";
+import { CruiseCard } from "@/components/cruises/CruiseCard";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function CompraConsultoria() {
+  type DetailsCardProps = {
+    message: string;
+  };
+
+  const DetailsCard = ({ message }: DetailsCardProps) => {
+    return (
+      <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow w-96 h-52 flex flex-col items-center">
+        <div className="text-primary-300 mb-4">
+          <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+            />
+          </svg>
+        </div>
+        <p className="text-secondary-600 text-lg font-comfortaa text-center">{message}</p>
+      </div>
+    );
+  };
   return (
     <div>
       {/* Background Image with Overlay */}
@@ -80,54 +102,8 @@ export default function CompraConsultoria() {
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
-              <div className="h-52 bg-red-600">
-                <h1 className="text-white flex justify-center items-center h-full">
-                  CARROSSEL DE IMAGENS
-                </h1>
-              </div>
-              <div>
-                <p className="text-gray-600 text-lg">Explora Journeys</p>
-              </div>
-              <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                  Nice - Roma: Uma Jornada Incrível
-                </button>
-                <div>
-                  <p>Ocean Terrace Suite a partir de R$X,00</p>
-                  <p>De 12 a 20 de abril de 2026</p>
-                </div>
-              </div>
-              <div className="flex justify-center w-full">
-                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                  Quero saber mais
-                </Button>
-              </div>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
-              <div className="h-52 bg-red-600">
-                <h1 className="text-white flex justify-center items-center h-full">
-                  CARROSSEL DE IMAGENS
-                </h1>
-              </div>
-              <div>
-                <p className="text-gray-600 text-lg">Explora Journeys</p>
-              </div>
-              <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                  Nice - Roma: Uma Jornada Incrível
-                </button>
-                <div>
-                  <p>Ocean Terrace Suite a partir de R$X,00</p>
-                  <p>De 12 a 20 de abril de 2026</p>
-                </div>
-              </div>
-              <div className="flex justify-center w-full">
-                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                  Quero saber mais
-                </Button>
-              </div>
-            </div>
+            <CruiseCard />
+            <CruiseCard />
           </div>
         </section>
 
@@ -138,54 +114,8 @@ export default function CompraConsultoria() {
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
-              <div className="h-52 bg-red-600">
-                <h1 className="text-white flex justify-center items-center h-full">
-                  CARROSSEL DE IMAGENS
-                </h1>
-              </div>
-              <div>
-                <p className="text-gray-600 text-lg">Explora Journeys</p>
-              </div>
-              <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                  Nice - Roma: Uma Jornada Incrível
-                </button>
-                <div>
-                  <p>Ocean Terrace Suite a partir de R$X,00</p>
-                  <p>De 12 a 20 de abril de 2026</p>
-                </div>
-              </div>
-              <div className="flex justify-center w-full">
-                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                  Quero saber mais
-                </Button>
-              </div>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
-              <div className="h-52 bg-red-600">
-                <h1 className="text-white flex justify-center items-center h-full">
-                  CARROSSEL DE IMAGENS
-                </h1>
-              </div>
-              <div>
-                <p className="text-gray-600 text-lg">Explora Journeys</p>
-              </div>
-              <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                  Nice - Roma: Uma Jornada Incrível
-                </button>
-                <div>
-                  <p>Ocean Terrace Suite a partir de R$X,00</p>
-                  <p>De 12 a 20 de abril de 2026</p>
-                </div>
-              </div>
-              <div className="flex justify-center w-full">
-                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                  Quero saber mais
-                </Button>
-              </div>
-            </div>
+            <CruiseCard />
+            <CruiseCard />
           </div>
         </section>
 
@@ -197,54 +127,8 @@ export default function CompraConsultoria() {
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
-              <div className="h-52 bg-red-600">
-                <h1 className="text-white flex justify-center items-center h-full">
-                  CARROSSEL DE IMAGENS
-                </h1>
-              </div>
-              <div>
-                <p className="text-gray-600 text-lg">Explora Journeys</p>
-              </div>
-              <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                  Nice - Roma: Uma Jornada Incrível
-                </button>
-                <div>
-                  <p>Ocean Terrace Suite a partir de R$X,00</p>
-                  <p>De 12 a 20 de abril de 2026</p>
-                </div>
-              </div>
-              <div className="flex justify-center w-full">
-                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                  Quero saber mais
-                </Button>
-              </div>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
-              <div className="h-52 bg-red-600">
-                <h1 className="text-white flex justify-center items-center h-full">
-                  CARROSSEL DE IMAGENS
-                </h1>
-              </div>
-              <div>
-                <p className="text-gray-600 text-lg">Explora Journeys</p>
-              </div>
-              <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                  Nice - Roma: Uma Jornada Incrível
-                </button>
-                <div>
-                  <p>Ocean Terrace Suite a partir de R$X,00</p>
-                  <p>De 12 a 20 de abril de 2026</p>
-                </div>
-              </div>
-              <div className="flex justify-center w-full">
-                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                  Quero saber mais
-                </Button>
-              </div>
-            </div>
+            <CruiseCard />
+            <CruiseCard />
           </div>
         </section>
 
@@ -255,54 +139,8 @@ export default function CompraConsultoria() {
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
-              <div className="h-52 bg-red-600">
-                <h1 className="text-white flex justify-center items-center h-full">
-                  CARROSSEL DE IMAGENS
-                </h1>
-              </div>
-              <div>
-                <p className="text-gray-600 text-lg">Explora Journeys</p>
-              </div>
-              <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                  Nice - Roma: Uma Jornada Incrível
-                </button>
-                <div>
-                  <p>Ocean Terrace Suite a partir de R$X,00</p>
-                  <p>De 12 a 20 de abril de 2026</p>
-                </div>
-              </div>
-              <div className="flex justify-center w-full">
-                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                  Quero saber mais
-                </Button>
-              </div>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
-              <div className="h-52 bg-red-600">
-                <h1 className="text-white flex justify-center items-center h-full">
-                  CARROSSEL DE IMAGENS
-                </h1>
-              </div>
-              <div>
-                <p className="text-gray-600 text-lg">Explora Journeys</p>
-              </div>
-              <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                  Nice - Roma: Uma Jornada Incrível
-                </button>
-                <div>
-                  <p>Ocean Terrace Suite a partir de R$X,00</p>
-                  <p>De 12 a 20 de abril de 2026</p>
-                </div>
-              </div>
-              <div className="flex justify-center w-full">
-                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                  Quero saber mais
-                </Button>
-              </div>
-            </div>
+            <CruiseCard />
+            <CruiseCard />
           </div>
         </section>
 
@@ -313,54 +151,8 @@ export default function CompraConsultoria() {
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
-              <div className="h-52 bg-red-600">
-                <h1 className="text-white flex justify-center items-center h-full">
-                  CARROSSEL DE IMAGENS
-                </h1>
-              </div>
-              <div>
-                <p className="text-gray-600 text-lg">Explora Journeys</p>
-              </div>
-              <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                  Nice - Roma: Uma Jornada Incrível
-                </button>
-                <div>
-                  <p>Ocean Terrace Suite a partir de R$X,00</p>
-                  <p>De 12 a 20 de abril de 2026</p>
-                </div>
-              </div>
-              <div className="flex justify-center w-full">
-                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                  Quero saber mais
-                </Button>
-              </div>
-            </div>
-            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
-              <div className="h-52 bg-red-600">
-                <h1 className="text-white flex justify-center items-center h-full">
-                  CARROSSEL DE IMAGENS
-                </h1>
-              </div>
-              <div>
-                <p className="text-gray-600 text-lg">Explora Journeys</p>
-              </div>
-              <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                  Nice - Roma: Uma Jornada Incrível
-                </button>
-                <div>
-                  <p>Ocean Terrace Suite a partir de R$X,00</p>
-                  <p>De 12 a 20 de abril de 2026</p>
-                </div>
-              </div>
-              <div className="flex justify-center w-full">
-                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                  Quero saber mais
-                </Button>
-              </div>
-            </div>
+            <CruiseCard />
+            <CruiseCard />
           </div>
         </section>
 
@@ -467,66 +259,10 @@ export default function CompraConsultoria() {
           </div>
           <div className="flex flex-col gap-9 justify-center items-center px-6">
             <div className="flex md:grid md:grid-cols-2 md:grid-rows-2 flex-col items-center gap-10 md:max-w-5xl">
-              <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow w-96 h-52 flex flex-col items-center">
-                <div className="text-primary-300 mb-4">
-                  <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                    />
-                  </svg>
-                </div>
-                <p className="text-secondary-600 text-lg font-comfortaa text-center">
-                  Curadoria dos melhores cruzeiros do mundo
-                </p>
-              </div>
-              <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow w-96 h-52 flex flex-col items-center">
-                <div className="text-primary-300 mb-4">
-                  <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                    />
-                  </svg>
-                </div>
-                <p className="text-secondary-600 text-lg font-comfortaa text-center">
-                  Conveniência para você: nós cuidamos de todos os detalhes
-                </p>
-              </div>
-              <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow w-96 h-52 flex flex-col items-center">
-                <div className="text-primary-300 mb-4">
-                  <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                    />
-                  </svg>
-                </div>
-                <p className="text-secondary-600 text-lg font-comfortaa text-center">
-                  Personalizamos toda a sua viagem, não só o cruzeiro
-                </p>
-              </div>
-              <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow w-96 h-52 flex flex-col items-center">
-                <div className="text-primary-300 mb-4">
-                  <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-                    />
-                  </svg>
-                </div>
-                <p className="text-secondary-600 text-lg font-comfortaa text-center">
-                  Assistência de especialistas
-                </p>
-              </div>
+              <DetailsCard message="Curadoria dos melhores cruzeiros do mundo" />
+              <DetailsCard message=" Conveniência para você: nós cuidamos de todos os detalhes" />
+              <DetailsCard message=" Personalizamos toda a sua viagem, não só o cruzeiro" />
+              <DetailsCard message=" Assistência de especialistas" />
             </div>
           </div>
         </section>
