@@ -40,10 +40,11 @@ export default function CompraConsultoria() {
           </div>
         </div>
       </section>
+
       <div className="flex flex-col gap-6">
         {/* Content */}
-        <section className="p-5 flex flex-col gap-7 bg-secondary-500 text-white">
-          <div className="flex pr-10">
+        <section className="p-5 flex flex-col gap-7 bg-secondary-500 text-white ">
+          <div className="flex pl-3">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
               Os melhores cruzeiros para casais...
             </h1>
@@ -58,11 +59,11 @@ export default function CompraConsultoria() {
               />
             </div>
             <div className="space-y-6">
-              <p className=" font-comfortaa text-2xl leading-relaxed">
+              <p className="font-comfortaa text-2xl leading-relaxed">
                 Se você sonha com um cruzeiro e não sabe como escolher, está no lugar{" "}
                 <span className="font-bold text-accent-500">certo</span>
               </p>
-              <p className=" font-comfortaa text-2xl leading-relaxed">
+              <p className="font-comfortaa text-2xl leading-relaxed">
                 Na <span className="text-primary-500 font-bold">Trip</span>{" "}
                 <span className="text-accent-500 font-bold">Evolved</span>, realizamos uma curadoria
                 detalhada dos maiores cruzeiros do mundo. E usamos nossa experiência de mais de 20
@@ -73,13 +74,13 @@ export default function CompraConsultoria() {
         </section>
 
         <section className="p-5 flex flex-col gap-7">
-          <div className="flex pr-10">
+          <div className="flex pl-3">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
               ...que querem <span className="text-primary-500">relaxar</span>
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <div className="bg-white shadow-lg rounded-lg  h-96 w-full flex flex-col gap-5 p-4">
+            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
               <div className="h-52 bg-red-600">
                 <h1 className="text-white flex justify-center items-center h-full">
                   CARROSSEL DE IMAGENS
@@ -98,47 +99,46 @@ export default function CompraConsultoria() {
                 </div>
               </div>
               <div className="flex justify-center w-full">
-                <Button className=" inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
+                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
                   Quero saber mais
                 </Button>
               </div>
             </div>
-            <div className="bg-white shadow-lg rounded-lg w-full h-96 flex flex-col">
-              <div className="bg-white shadow-lg rounded-lg  h-96 w-full flex flex-col gap-5 p-4">
-                <div className="h-52 bg-red-600">
-                  <h1 className="text-white flex justify-center items-center h-full">
-                    CARROSSEL DE IMAGENS
-                  </h1>
-                </div>
+            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
+              <div className="h-52 bg-red-600">
+                <h1 className="text-white flex justify-center items-center h-full">
+                  CARROSSEL DE IMAGENS
+                </h1>
+              </div>
+              <div>
+                <p className="text-gray-600 text-lg">Explora Journeys</p>
+              </div>
+              <div className="flex flex-col w-full items-start gap-4">
+                <button className="underline text-3xl text-primary-500 font-bold" type="button">
+                  Nice - Roma: Uma Jornada Incrível
+                </button>
                 <div>
-                  <p className="text-gray-600 text-lg">Explora Journeys</p>
+                  <p>Ocean Terrace Suite a partir de R$X,00</p>
+                  <p>De 12 a 20 de abril de 2026</p>
                 </div>
-                <div className="flex flex-col w-full items-start gap-4">
-                  <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                    Nice - Roma: Uma Jornada Incrível
-                  </button>
-                  <div>
-                    <p>Ocean Terrace Suite a partir de R$X,00</p>
-                    <p>De 12 a 20 de abril de 2026</p>
-                  </div>
-                </div>
-                <div className="flex justify-center w-full">
-                  <Button className=" inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                    Quero saber mais
-                  </Button>
-                </div>
+              </div>
+              <div className="flex justify-center w-full">
+                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
+                  Quero saber mais
+                </Button>
               </div>
             </div>
           </div>
         </section>
+
         <section className="p-5 flex flex-col gap-7">
-          <div className="flex">
+          <div className="flex pl-3">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
               ...que querem <span className="text-primary-500">gastronomia</span> fora de série
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <div className="bg-white shadow-lg rounded-lg  h-96 w-full flex flex-col gap-5 p-4">
+            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
               <div className="h-52 bg-red-600">
                 <h1 className="text-white flex justify-center items-center h-full">
                   CARROSSEL DE IMAGENS
@@ -157,48 +157,47 @@ export default function CompraConsultoria() {
                 </div>
               </div>
               <div className="flex justify-center w-full">
-                <Button className=" inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
+                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
                   Quero saber mais
                 </Button>
               </div>
             </div>
-            <div className="bg-white shadow-lg rounded-lg w-full h-96 flex flex-col">
-              <div className="bg-white shadow-lg rounded-lg  h-96 w-full flex flex-col gap-5 p-4">
-                <div className="h-52 bg-red-600">
-                  <h1 className="text-white flex justify-center items-center h-full">
-                    CARROSSEL DE IMAGENS
-                  </h1>
-                </div>
+            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
+              <div className="h-52 bg-red-600">
+                <h1 className="text-white flex justify-center items-center h-full">
+                  CARROSSEL DE IMAGENS
+                </h1>
+              </div>
+              <div>
+                <p className="text-gray-600 text-lg">Explora Journeys</p>
+              </div>
+              <div className="flex flex-col w-full items-start gap-4">
+                <button className="underline text-3xl text-primary-500 font-bold" type="button">
+                  Nice - Roma: Uma Jornada Incrível
+                </button>
                 <div>
-                  <p className="text-gray-600 text-lg">Explora Journeys</p>
+                  <p>Ocean Terrace Suite a partir de R$X,00</p>
+                  <p>De 12 a 20 de abril de 2026</p>
                 </div>
-                <div className="flex flex-col w-full items-start gap-4">
-                  <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                    Nice - Roma: Uma Jornada Incrível
-                  </button>
-                  <div>
-                    <p>Ocean Terrace Suite a partir de R$X,00</p>
-                    <p>De 12 a 20 de abril de 2026</p>
-                  </div>
-                </div>
-                <div className="flex justify-center w-full">
-                  <Button className=" inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                    Quero saber mais
-                  </Button>
-                </div>
+              </div>
+              <div className="flex justify-center w-full">
+                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
+                  Quero saber mais
+                </Button>
               </div>
             </div>
           </div>
         </section>
+
         <section className="p-5 flex flex-col gap-7">
-          <div className="flex">
+          <div className="flex pl-3">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
               ...que querem <span className="text-primary-500">agito</span> e{" "}
               <span className="text-accent-500">exclusividade</span>
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <div className="bg-white shadow-lg rounded-lg  h-96 w-full flex flex-col gap-5 p-4">
+            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
               <div className="h-52 bg-red-600">
                 <h1 className="text-white flex justify-center items-center h-full">
                   CARROSSEL DE IMAGENS
@@ -217,47 +216,46 @@ export default function CompraConsultoria() {
                 </div>
               </div>
               <div className="flex justify-center w-full">
-                <Button className=" inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
+                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
                   Quero saber mais
                 </Button>
               </div>
             </div>
-            <div className="bg-white shadow-lg rounded-lg w-full h-96 flex flex-col">
-              <div className="bg-white shadow-lg rounded-lg  h-96 w-full flex flex-col gap-5 p-4">
-                <div className="h-52 bg-red-600">
-                  <h1 className="text-white flex justify-center items-center h-full">
-                    CARROSSEL DE IMAGENS
-                  </h1>
-                </div>
+            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
+              <div className="h-52 bg-red-600">
+                <h1 className="text-white flex justify-center items-center h-full">
+                  CARROSSEL DE IMAGENS
+                </h1>
+              </div>
+              <div>
+                <p className="text-gray-600 text-lg">Explora Journeys</p>
+              </div>
+              <div className="flex flex-col w-full items-start gap-4">
+                <button className="underline text-3xl text-primary-500 font-bold" type="button">
+                  Nice - Roma: Uma Jornada Incrível
+                </button>
                 <div>
-                  <p className="text-gray-600 text-lg">Explora Journeys</p>
+                  <p>Ocean Terrace Suite a partir de R$X,00</p>
+                  <p>De 12 a 20 de abril de 2026</p>
                 </div>
-                <div className="flex flex-col w-full items-start gap-4">
-                  <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                    Nice - Roma: Uma Jornada Incrível
-                  </button>
-                  <div>
-                    <p>Ocean Terrace Suite a partir de R$X,00</p>
-                    <p>De 12 a 20 de abril de 2026</p>
-                  </div>
-                </div>
-                <div className="flex justify-center w-full">
-                  <Button className=" inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                    Quero saber mais
-                  </Button>
-                </div>
+              </div>
+              <div className="flex justify-center w-full">
+                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
+                  Quero saber mais
+                </Button>
               </div>
             </div>
           </div>
         </section>
+
         <section className="p-5 flex flex-col gap-7">
-          <div className="flex">
+          <div className="flex pl-3">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
               ...que querem a <span className="text-primary-500">expedição</span> da vida
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <div className="bg-white shadow-lg rounded-lg  h-96 w-full flex flex-col gap-5 p-4">
+            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
               <div className="h-52 bg-red-600">
                 <h1 className="text-white flex justify-center items-center h-full">
                   CARROSSEL DE IMAGENS
@@ -276,47 +274,46 @@ export default function CompraConsultoria() {
                 </div>
               </div>
               <div className="flex justify-center w-full">
-                <Button className=" inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
+                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
                   Quero saber mais
                 </Button>
               </div>
             </div>
-            <div className="bg-white shadow-lg rounded-lg w-full h-96 flex flex-col">
-              <div className="bg-white shadow-lg rounded-lg  h-96 w-full flex flex-col gap-5 p-4">
-                <div className="h-52 bg-red-600">
-                  <h1 className="text-white flex justify-center items-center h-full">
-                    CARROSSEL DE IMAGENS
-                  </h1>
-                </div>
+            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
+              <div className="h-52 bg-red-600">
+                <h1 className="text-white flex justify-center items-center h-full">
+                  CARROSSEL DE IMAGENS
+                </h1>
+              </div>
+              <div>
+                <p className="text-gray-600 text-lg">Explora Journeys</p>
+              </div>
+              <div className="flex flex-col w-full items-start gap-4">
+                <button className="underline text-3xl text-primary-500 font-bold" type="button">
+                  Nice - Roma: Uma Jornada Incrível
+                </button>
                 <div>
-                  <p className="text-gray-600 text-lg">Explora Journeys</p>
+                  <p>Ocean Terrace Suite a partir de R$X,00</p>
+                  <p>De 12 a 20 de abril de 2026</p>
                 </div>
-                <div className="flex flex-col w-full items-start gap-4">
-                  <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                    Nice - Roma: Uma Jornada Incrível
-                  </button>
-                  <div>
-                    <p>Ocean Terrace Suite a partir de R$X,00</p>
-                    <p>De 12 a 20 de abril de 2026</p>
-                  </div>
-                </div>
-                <div className="flex justify-center w-full">
-                  <Button className=" inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                    Quero saber mais
-                  </Button>
-                </div>
+              </div>
+              <div className="flex justify-center w-full">
+                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
+                  Quero saber mais
+                </Button>
               </div>
             </div>
           </div>
         </section>
+
         <section className="p-5 flex flex-col gap-7">
-          <div className="flex">
+          <div className="flex pl-3">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
               ...que buscam um cruzeiro fluvial
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <div className="bg-white shadow-lg rounded-lg  h-96 w-full flex flex-col gap-5 p-4">
+            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
               <div className="h-52 bg-red-600">
                 <h1 className="text-white flex justify-center items-center h-full">
                   CARROSSEL DE IMAGENS
@@ -335,39 +332,38 @@ export default function CompraConsultoria() {
                 </div>
               </div>
               <div className="flex justify-center w-full">
-                <Button className=" inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
+                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
                   Quero saber mais
                 </Button>
               </div>
             </div>
-            <div className="bg-white shadow-lg rounded-lg w-full h-96 flex flex-col">
-              <div className="bg-white shadow-lg rounded-lg  h-96 w-full flex flex-col gap-5 p-4">
-                <div className="h-52 bg-red-600">
-                  <h1 className="text-white flex justify-center items-center h-full">
-                    CARROSSEL DE IMAGENS
-                  </h1>
-                </div>
+            <div className="bg-white shadow-lg rounded-lg h-96 w-full flex flex-col gap-5 p-4">
+              <div className="h-52 bg-red-600">
+                <h1 className="text-white flex justify-center items-center h-full">
+                  CARROSSEL DE IMAGENS
+                </h1>
+              </div>
+              <div>
+                <p className="text-gray-600 text-lg">Explora Journeys</p>
+              </div>
+              <div className="flex flex-col w-full items-start gap-4">
+                <button className="underline text-3xl text-primary-500 font-bold" type="button">
+                  Nice - Roma: Uma Jornada Incrível
+                </button>
                 <div>
-                  <p className="text-gray-600 text-lg">Explora Journeys</p>
+                  <p>Ocean Terrace Suite a partir de R$X,00</p>
+                  <p>De 12 a 20 de abril de 2026</p>
                 </div>
-                <div className="flex flex-col w-full items-start gap-4">
-                  <button className="underline text-3xl text-primary-500 font-bold" type="button">
-                    Nice - Roma: Uma Jornada Incrível
-                  </button>
-                  <div>
-                    <p>Ocean Terrace Suite a partir de R$X,00</p>
-                    <p>De 12 a 20 de abril de 2026</p>
-                  </div>
-                </div>
-                <div className="flex justify-center w-full">
-                  <Button className=" inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
-                    Quero saber mais
-                  </Button>
-                </div>
+              </div>
+              <div className="flex justify-center w-full">
+                <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-9/12">
+                  Quero saber mais
+                </Button>
               </div>
             </div>
           </div>
         </section>
+
         {/* Conversa com Especialistas */}
         <section className="flex items-center p-2 flex-col gap-4">
           <div className="flex justify-center mb-4">
@@ -379,7 +375,7 @@ export default function CompraConsultoria() {
             </svg>
             Conversar com especialista no Whats
           </button>
-          <div className="flex md:flex-row flex-col gap-3 w-full">
+          <div className="flex md:grid flex-col md:grid-cols-2 gap-10 w-full">
             {/* Henrique */}
             <div className="group relative overflow-hidden rounded-xl shadow-lg w-full">
               <div className="relative md:h-[600px] h-[400px]">
@@ -419,20 +415,18 @@ export default function CompraConsultoria() {
                 </div>
               </div>
             </div>
-
-            {/* Deborah */}
             <div className="group relative overflow-hidden rounded-xl shadow-lg w-full">
               <div className="relative md:h-[600px] h-[400px]">
                 <Image
                   src="/assets/sobre/deborah.png"
-                  alt="Deborah Eppi"
+                  alt="Henrique Gasparotto"
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                   <h3 className="text-2xl font-baloo font-bold text-white mb-2">Deborah Eppi</h3>
                   <p className="text-white/90 font-comfortaa mb-4">
-                    Sócia e especialista na curadoria e atendimento ao cliente.
+                    Fundador, sócio e especialista em estratégias de recomendação e produto.
                   </p>
                   <div className="flex gap-4">
                     <Link
@@ -459,11 +453,12 @@ export default function CompraConsultoria() {
             </div>
           </div>
         </section>
-        {/* Pq a Trip Evolved? */}
-        <section className="flex flex-col gap-5 bg-primary- md:p-8">
+
+        {/* Por que a Trip Evolved? */}
+        <section className="flex flex-col gap-5 bg-primary-200 md:p-8 pb-6">
           <div className="flex flex-col gap-2 px-10 py-5">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
-              Por que a <span className="text-primary-50">Trip Evolved</span>?
+              Por que a <span className="text-primary-500">Trip Evolved</span>?
             </h1>
             <span className="text-xl">
               Criado por Henrique Gasparotto e Deborah Eppi, a Trip Evolved nasceu porque
@@ -471,7 +466,7 @@ export default function CompraConsultoria() {
             </span>
           </div>
           <div className="flex flex-col gap-9 justify-center items-center px-6">
-            <div className="flex md:grid md:grid-cols-2 md:grid-rows-2 flex-col items-center gap-10 md:max-w-5xl place-items-end">
+            <div className="flex md:grid md:grid-cols-2 md:grid-rows-2 flex-col items-center gap-10 md:max-w-5xl">
               <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow w-96 h-52 flex flex-col items-center">
                 <div className="text-primary-300 mb-4">
                   <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -483,7 +478,6 @@ export default function CompraConsultoria() {
                     />
                   </svg>
                 </div>
-
                 <p className="text-secondary-600 text-lg font-comfortaa text-center">
                   Curadoria dos melhores cruzeiros do mundo
                 </p>
@@ -514,7 +508,6 @@ export default function CompraConsultoria() {
                     />
                   </svg>
                 </div>
-
                 <p className="text-secondary-600 text-lg font-comfortaa text-center">
                   Personalizamos toda a sua viagem, não só o cruzeiro
                 </p>
@@ -530,7 +523,6 @@ export default function CompraConsultoria() {
                     />
                   </svg>
                 </div>
-
                 <p className="text-secondary-600 text-lg font-comfortaa text-center">
                   Assistência de especialistas
                 </p>
@@ -548,6 +540,7 @@ export default function CompraConsultoria() {
           </div>
           <div className="bg-red-700 h-[100px] px-10"></div>
         </section>
+
         {/* Oportunidades Exclusivas */}
         <section className="flex flex-col justify-center gap-3 from-primary-600 to-primary-700 bg-gradient-to-br p-8 md:p-10">
           <div className="flex pl-3">
