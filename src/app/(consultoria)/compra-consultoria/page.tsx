@@ -42,7 +42,7 @@ export default function CompraConsultoria() {
       </section>
       <div className="flex flex-col gap-6">
         {/* Content */}
-        <section className="p-5 flex flex-col gap-7 bg-[#1a365d] text-white">
+        <section className="p-5 flex flex-col gap-7 bg-secondary-500 text-white">
           <div className="flex pr-10">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
               Os melhores cruzeiros para casais...
@@ -60,11 +60,11 @@ export default function CompraConsultoria() {
             <div className="space-y-6">
               <p className=" font-comfortaa text-2xl leading-relaxed">
                 Se você sonha com um cruzeiro e não sabe como escolher, está no lugar{" "}
-                <span className="font-bold text-[#f5ac0a]">certo</span>
+                <span className="font-bold text-accent-500">certo</span>
               </p>
               <p className=" font-comfortaa text-2xl leading-relaxed">
-                Na <span className="text-[#0ab9ad] font-bold">Trip</span>{" "}
-                <span className="text-[#f5ac0a] font-bold">Evolved</span>, realizamos uma curadoria
+                Na <span className="text-primary-500 font-bold">Trip</span>{" "}
+                <span className="text-accent-500 font-bold">Evolved</span>, realizamos uma curadoria
                 detalhada dos maiores cruzeiros do mundo. E usamos nossa experiência de mais de 20
                 anos de mercado para conectar você à experiência certa.
               </p>
@@ -75,7 +75,7 @@ export default function CompraConsultoria() {
         <section className="p-5 flex flex-col gap-7">
           <div className="flex pr-10">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
-              ...que querem <span className="text-[#0ab9ad]">relaxar</span>
+              ...que querem <span className="text-primary-500">relaxar</span>
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
@@ -89,7 +89,7 @@ export default function CompraConsultoria() {
                 <p className="text-gray-600 text-lg">Explora Journeys</p>
               </div>
               <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-[#0ab9ad] font-bold" type="button">
+                <button className="underline text-3xl text-primary-500 font-bold" type="button">
                   Nice - Roma: Uma Jornada Incrível
                 </button>
                 <div>
@@ -114,7 +114,7 @@ export default function CompraConsultoria() {
                   <p className="text-gray-600 text-lg">Explora Journeys</p>
                 </div>
                 <div className="flex flex-col w-full items-start gap-4">
-                  <button className="underline text-3xl text-[#0ab9ad] font-bold" type="button">
+                  <button className="underline text-3xl text-primary-500 font-bold" type="button">
                     Nice - Roma: Uma Jornada Incrível
                   </button>
                   <div>
@@ -134,7 +134,7 @@ export default function CompraConsultoria() {
         <section className="p-5 flex flex-col gap-7">
           <div className="flex">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
-              ...que querem <span className="text-[#0ab9ad]">gastronomia</span> fora de série
+              ...que querem <span className="text-primary-500">gastronomia</span> fora de série
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
@@ -148,7 +148,7 @@ export default function CompraConsultoria() {
                 <p className="text-gray-600 text-lg">Explora Journeys</p>
               </div>
               <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-[#0ab9ad] font-bold" type="button">
+                <button className="underline text-3xl text-primary-500 font-bold" type="button">
                   Nice - Roma: Uma Jornada Incrível
                 </button>
                 <div>
@@ -173,7 +173,7 @@ export default function CompraConsultoria() {
                   <p className="text-gray-600 text-lg">Explora Journeys</p>
                 </div>
                 <div className="flex flex-col w-full items-start gap-4">
-                  <button className="underline text-3xl text-[#0ab9ad] font-bold" type="button">
+                  <button className="underline text-3xl text-primary-500 font-bold" type="button">
                     Nice - Roma: Uma Jornada Incrível
                   </button>
                   <div>
@@ -193,8 +193,8 @@ export default function CompraConsultoria() {
         <section className="p-5 flex flex-col gap-7">
           <div className="flex">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
-              ...que querem <span className="text-[#0ab9ad]">agito</span> e{" "}
-              <span className="text-[#f5ac0a]">exclusividade</span>
+              ...que querem <span className="text-primary-500">agito</span> e{" "}
+              <span className="text-accent-500">exclusividade</span>
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
@@ -208,7 +208,7 @@ export default function CompraConsultoria() {
                 <p className="text-gray-600 text-lg">Explora Journeys</p>
               </div>
               <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-[#0ab9ad] font-bold" type="button">
+                <button className="underline text-3xl text-primary-500 font-bold" type="button">
                   Nice - Roma: Uma Jornada Incrível
                 </button>
                 <div>
@@ -233,7 +233,7 @@ export default function CompraConsultoria() {
                   <p className="text-gray-600 text-lg">Explora Journeys</p>
                 </div>
                 <div className="flex flex-col w-full items-start gap-4">
-                  <button className="underline text-3xl text-[#0ab9ad] font-bold" type="button">
+                  <button className="underline text-3xl text-primary-500 font-bold" type="button">
                     Nice - Roma: Uma Jornada Incrível
                   </button>
                   <div>
@@ -253,7 +253,7 @@ export default function CompraConsultoria() {
         <section className="p-5 flex flex-col gap-7">
           <div className="flex">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
-              ...que querem a <span className="text-[#0ab9ad]">expedição</span> da vida
+              ...que querem a <span className="text-primary-500">expedição</span> da vida
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
@@ -267,7 +267,7 @@ export default function CompraConsultoria() {
                 <p className="text-gray-600 text-lg">Explora Journeys</p>
               </div>
               <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-[#0ab9ad] font-bold" type="button">
+                <button className="underline text-3xl text-primary-500 font-bold" type="button">
                   Nice - Roma: Uma Jornada Incrível
                 </button>
                 <div>
@@ -292,7 +292,7 @@ export default function CompraConsultoria() {
                   <p className="text-gray-600 text-lg">Explora Journeys</p>
                 </div>
                 <div className="flex flex-col w-full items-start gap-4">
-                  <button className="underline text-3xl text-[#0ab9ad] font-bold" type="button">
+                  <button className="underline text-3xl text-primary-500 font-bold" type="button">
                     Nice - Roma: Uma Jornada Incrível
                   </button>
                   <div>
@@ -326,7 +326,7 @@ export default function CompraConsultoria() {
                 <p className="text-gray-600 text-lg">Explora Journeys</p>
               </div>
               <div className="flex flex-col w-full items-start gap-4">
-                <button className="underline text-3xl text-[#0ab9ad] font-bold" type="button">
+                <button className="underline text-3xl text-primary-500 font-bold" type="button">
                   Nice - Roma: Uma Jornada Incrível
                 </button>
                 <div>
@@ -351,7 +351,7 @@ export default function CompraConsultoria() {
                   <p className="text-gray-600 text-lg">Explora Journeys</p>
                 </div>
                 <div className="flex flex-col w-full items-start gap-4">
-                  <button className="underline text-3xl text-[#0ab9ad] font-bold" type="button">
+                  <button className="underline text-3xl text-primary-500 font-bold" type="button">
                     Nice - Roma: Uma Jornada Incrível
                   </button>
                   <div>
@@ -460,10 +460,10 @@ export default function CompraConsultoria() {
           </div>
         </section>
         {/* Pq a Trip Evolved? */}
-        <section className="flex flex-col gap-5 bg-[#b6eae6] md:p-8">
+        <section className="flex flex-col gap-5 bg-primary- md:p-8">
           <div className="flex flex-col gap-2 px-10 py-5">
             <h1 className="font-baloo text-3xl font-bold md:text-5xl">
-              Por que a <span className="text-[#0ab9ad]">Trip Evolved</span>?
+              Por que a <span className="text-primary-50">Trip Evolved</span>?
             </h1>
             <span className="text-xl">
               Criado por Henrique Gasparotto e Deborah Eppi, a Trip Evolved nasceu porque
