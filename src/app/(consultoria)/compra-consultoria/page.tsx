@@ -1,32 +1,24 @@
 "use client";
 import Button from "@/components/common/Button";
 import { CruiseCard } from "@/components/cruises/CruiseCard";
+import CruiseDetailsModal from "@/components/cruises/CruiseDetailsModal";
+import { DetailsCard } from "@/components/cruises/DetailsCard";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function CompraConsultoria() {
-  type DetailsCardProps = {
-    message: string;
+  const [isCruiseDetailsModalOpen, setIsCruiseDetailsModalOpen] = useState<boolean>(true);
+
+  const handleExitModal = () => {
+    setIsCruiseDetailsModalOpen(false);
   };
 
-  const DetailsCard = ({ message }: DetailsCardProps) => {
-    return (
-      <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow w-96 h-52 flex flex-col items-center">
-        <div className="text-primary-300 mb-4">
-          <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
-            />
-          </svg>
-        </div>
-        <p className="text-secondary-600 text-lg font-comfortaa text-center">{message}</p>
-      </div>
-    );
+  const handleOpen = () => {
+    setIsCruiseDetailsModalOpen(true);
   };
+
   return (
     <div>
       {/* Background Image with Overlay */}
@@ -103,8 +95,8 @@ export default function CompraConsultoria() {
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <CruiseCard />
-            <CruiseCard />
+            <CruiseCard handleClick={handleOpen} />
+            <CruiseCard handleClick={handleOpen} />
           </div>
         </section>
 
@@ -115,8 +107,8 @@ export default function CompraConsultoria() {
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <CruiseCard />
-            <CruiseCard />
+            <CruiseCard handleClick={handleOpen} />
+            <CruiseCard handleClick={handleOpen} />
           </div>
         </section>
 
@@ -128,8 +120,8 @@ export default function CompraConsultoria() {
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <CruiseCard />
-            <CruiseCard />
+            <CruiseCard handleClick={handleOpen} />
+            <CruiseCard handleClick={handleOpen} />
           </div>
         </section>
 
@@ -140,8 +132,8 @@ export default function CompraConsultoria() {
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <CruiseCard />
-            <CruiseCard />
+            <CruiseCard handleClick={handleOpen} />
+            <CruiseCard handleClick={handleOpen} />
           </div>
         </section>
 
@@ -152,8 +144,8 @@ export default function CompraConsultoria() {
             </h1>
           </div>
           <div className="flex justify-around items-center md:flex-row flex-col w-full gap-10">
-            <CruiseCard />
-            <CruiseCard />
+            <CruiseCard handleClick={handleOpen} />
+            <CruiseCard handleClick={handleOpen} />
           </div>
         </section>
 
@@ -303,6 +295,7 @@ export default function CompraConsultoria() {
           </div>
         </section>
       </div>
+      <CruiseDetailsModal isOpen={isCruiseDetailsModalOpen} handleClose={handleExitModal} />
     </div>
   );
 }
