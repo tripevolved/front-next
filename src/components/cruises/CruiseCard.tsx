@@ -37,7 +37,7 @@ export const CruiseCard = ({ handleClick }: CruiseCardProps) => {
 
   return (
     <div
-      className="bg-white shadow-lg rounded-lg h-full w-full flex flex-col gap-5 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors"
+      className="bg-white shadow-lg rounded-lg w-full md:w-5/12 h-full max-h-[70vh] flex flex-col gap-5 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors"
       onClick={handleClick}
     >
       <div className="h-96">
@@ -47,11 +47,11 @@ export const CruiseCard = ({ handleClick }: CruiseCardProps) => {
         <p className="text-gray-600 text-xl font-bold">Explora Journeys</p>
       </div>
       <div className="flex flex-col w-full items-start gap-4">
-        <span className="underline text-3xl text-primary-500 font-bold">
+        <span className="underline text-2xl text-primary-500 font-bold">
           Nice - Roma: Uma Jornada Incrível
         </span>
         <div>
-          <p className="md:text-xl">
+          <p className="md:text-lg">
             <span className="font-extrabold italic">Ocean Terrace Suite</span> a partir de{" "}
             <span className="text-gray-800 font-bold">R$</span>
             <span className="text-primary-500 font-bold">X,00</span>
@@ -65,7 +65,7 @@ export const CruiseCard = ({ handleClick }: CruiseCardProps) => {
       </div>
       <div className="flex justify-center w-full">
         <Button
-          className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-2xl font-semibold hover:bg-accent-600 transition-all w-11/12"
+          className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-xl font-semibold hover:bg-accent-600 transition-all md:w-9/12 w-11/12"
           onClick={handleClick}
         >
           Quero saber mais
