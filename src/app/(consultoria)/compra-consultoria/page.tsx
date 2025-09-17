@@ -1,6 +1,7 @@
 "use client";
 import Button from "@/components/common/Button";
 import { CruiseCard } from "@/components/cruises/CruiseCard";
+import ReviewsCarousel from "@/components/ReviewsCarousel";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -274,7 +275,11 @@ export default function CompraConsultoria() {
               O que dizem nossos clientes?
             </h1>
           </div>
-          <div className="bg-red-700 h-[100px] px-10"></div>
+          <div className="p-3 flex items-center justify-center w-full">
+            <div className="md:max-w-4xl w-full">
+              <ReviewsCarousel />
+            </div>
+          </div>
         </section>
 
         {/* Oportunidades Exclusivas */}

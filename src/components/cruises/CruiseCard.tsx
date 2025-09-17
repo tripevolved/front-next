@@ -1,23 +1,38 @@
-import Image from "next/image";
 import Button from "../common/Button";
+import { PhotoCarousel } from "../PhotoCarousel";
+import { Photo } from "@/core/types";
 
 export const CruiseCard = () => {
+  const photos: Photo[] = [
+    {
+      title: "aaaa",
+      sources: [
+        {
+          height: 100,
+          width: 100,
+          url: "https://cdn.expertphotography.com/wp-content/uploads/2020/10/Fine-Art-Photography-Examples-Sunlight-Planets-by-Troyes-Christina.jpg",
+          type: "lg",
+        },
+      ],
+      alt: "Foto casal jantar",
+    },
+    {
+      title: "aaaa",
+      sources: [
+        {
+          height: 100,
+          width: 100,
+          url: "https://cdn.expertphotography.com/wp-content/uploads/2020/10/Fine-Art-Photography-Examples-Sunlight-Planets-by-Troyes-Christina.jpg",
+          type: "lg",
+        },
+      ],
+      alt: "Foto casal jantar",
+    },
+  ];
   return (
     <div className="bg-white shadow-lg rounded-lg h-full w-full flex flex-col gap-5 p-5">
       <div className="h-96">
-        <Image
-          src="/assets/home/cruzeiros-extraordinarios.jpg"
-          alt="Cruzeiros extraordinários com a Trip Evolved"
-          className="object-cover h-full w-full rounded-xl"
-          priority
-          width="150"
-          height="100"
-          style={{
-            position: "static",
-          }}
-          sizes="100vw"
-          quality={90}
-        />
+        <PhotoCarousel title="aaaa" photos={photos} />
       </div>
       <div>
         <p className="text-gray-600 text-xl font-bold">Explora Journeys</p>
