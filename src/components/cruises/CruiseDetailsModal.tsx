@@ -56,14 +56,16 @@ export default function CruiseDetailsModal({ isOpen, handleClose }: CruiseDetail
               </div>
             </div>
             <div>
-              <h1>Suítes</h1>
+              <h1 className="font-bold text-xl">Suítes</h1>
               <div>
                 <CruiseOptionsCarousel />
               </div>
             </div>
             <div>
-              <h1>Gastronomia</h1>
-              <div className="bg-red-700"></div>
+              <h1 className="font-bold text-xl">Gastronomia</h1>
+               <div>
+                <CruiseOptionsCarousel />
+              </div>
             </div>
           </div>
           <div className="absolute bottom-4 left-8 right-8 z-20 bg-gradient-to-t from-white via-white to-transparent pt-4">
