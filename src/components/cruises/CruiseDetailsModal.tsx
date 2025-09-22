@@ -39,8 +39,8 @@ export default function CruiseDetailsModal({ isOpen, handleClose }: CruiseDetail
             </div>
             <div className="bg-primary-50 border-2 border-primary-500 p-3 md:px-4 px-2  flex items-center justify-center text-center flex-wrap whitespace-pre-line gap-6 rounded-[40px]">
               <span className="text-gray-600 text-md italic">
-                "Essa jornada combina toda a grandiosidade e cuidado Explora Journeys com as
-                paisagens perfeitas e espetaculares de Roma e Nice. Perfeita para curtir a dois"
+                &quot;Essa jornada combina toda a grandiosidade e cuidado Explora Journeys com as
+                paisagens perfeitas e espetaculares de Roma e Nice. Perfeita para curtir a dois&quot;
               </span>
               <div className="flex justify-around items-center gap-3">
                 <Image

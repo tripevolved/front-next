@@ -103,7 +103,7 @@ export default function ReviewsCarousel() {
               </button>
               <div className="flex flex-col gap-3 items-center justify-center text-center">
                 <h1 className="font-bold md:text-2xl text-lg">People love this!</h1>
-                <div className="italic md:text-xl">"{quote.text}"</div>
+                <div className="italic md:text-xl">&quot;{quote.text}&quot;</div>
                 <div className="flex flex-row gap-1 h-5 md:h-7">
                   {new Array(5).fill(5).map((_, starIndex) => {
                     return <img key={starIndex} alt="star" src="/assets/stays/star.svg" />;
