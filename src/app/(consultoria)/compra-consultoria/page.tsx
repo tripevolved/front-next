@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function CompraConsultoria() {
-  const [isCruiseDetailsModalOpen, setIsCruiseDetailsModalOpen] = useState<boolean>(true);
+  const [isCruiseDetailsModalOpen, setIsCruiseDetailsModalOpen] = useState<boolean>(false);
 
   const handleExitModal = () => {
     setIsCruiseDetailsModalOpen(false);
