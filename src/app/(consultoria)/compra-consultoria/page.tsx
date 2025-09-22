@@ -58,7 +58,7 @@ export default function CompraConsultoria() {
 
       <div className="flex flex-col gap-6">
         {/* Content */}
-        <section className="p-5 flex flex-col gap-7 bg-secondary-500 text-white ">
+        <section className="p-10 flex flex-col gap-7 bg-secondary-500 text-white">
           <div className="flex pl-3">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               Os melhores cruzeiros para casais...
@@ -88,8 +88,8 @@ export default function CompraConsultoria() {
           </div>
         </section>
 
-        <section className="p-5 flex flex-col gap-7">
-          <div className="flex pl-3">
+        <section className="p-10 flex flex-col gap-7">
+          <div className="flex pl-6">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               ...que querem <span className="text-primary-500">relaxar</span>
             </h1>
@@ -100,8 +100,8 @@ export default function CompraConsultoria() {
           </div>
         </section>
 
-        <section className="p-5 flex flex-col gap-7">
-          <div className="flex pl-3">
+        <section className="p-10 flex flex-col gap-7">
+          <div className="flex pl-6">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               ...que querem <span className="text-primary-500">gastronomia</span> fora de série
             </h1>
@@ -112,8 +112,8 @@ export default function CompraConsultoria() {
           </div>
         </section>
 
-        <section className="p-5 flex flex-col gap-7">
-          <div className="flex pl-3">
+        <section className="p-10 flex flex-col gap-7">
+          <div className="flex pl-6">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               ...que querem <span className="text-primary-500">agito</span> e{" "}
               <span className="text-accent-500">exclusividade</span>
@@ -125,8 +125,8 @@ export default function CompraConsultoria() {
           </div>
         </section>
 
-        <section className="p-5 flex flex-col gap-7">
-          <div className="flex pl-3">
+        <section className="p-10 flex flex-col gap-7">
+          <div className="flex pl-6">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               ...que querem a <span className="text-primary-500">expedição</span> da vida
             </h1>
@@ -137,8 +137,8 @@ export default function CompraConsultoria() {
           </div>
         </section>
 
-        <section className="p-5 flex flex-col gap-7">
-          <div className="flex pl-3">
+        <section className="p-8 flex flex-col gap-7">
+          <div className="flex pl-6">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               ...que buscam um cruzeiro fluvial
             </h1>
@@ -150,7 +150,7 @@ export default function CompraConsultoria() {
         </section>
 
         {/* Conversa com Especialistas */}
-        <section className="flex items-center p-2 flex-col gap-4">
+        <section className="flex items-center p-2 flex-col gap-4 ">
           <div className="flex justify-center mb-4">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">Não achou o seu roteiro?</h1>
           </div>
@@ -160,7 +160,16 @@ export default function CompraConsultoria() {
             </svg>
             Conversar com especialista no Whats
           </button>
-          <div className="flex md:grid flex-col md:grid-cols-2 gap-10 w-full md:w-9/12">
+          <div className="flex flex-col gap-2 px-10 py-5 ">
+            <h1 className="font-baloo text-3xl font-bold md:text-4xl">
+              Por que a <span className="text-primary-500">Trip Evolved</span>?
+            </h1>
+            <span className="text-lg">
+              Criado por Henrique Gasparotto e Deborah Eppi, a Trip Evolved nasceu porque
+              acreditamos que viagens são experiências únicas e merecem ser vividas como tal.
+            </span>
+          </div>
+          <div className="flex md:grid flex-col md:grid-cols-2 gap-10 w-full md:w-10/12 ">
             {/* Henrique */}
             <div className="group relative overflow-hidden rounded-xl shadow-lg w-full">
               <div className="relative md:h-[600px] h-[400px]">
@@ -240,28 +249,32 @@ export default function CompraConsultoria() {
         </section>
 
         {/* Por que a Trip Evolved? */}
-        <section className="flex flex-col gap-5 bg-primary-200 md:p-8 pb-6">
-          <div className="flex flex-col gap-2 px-10 py-5">
-            <h1 className="font-baloo text-3xl font-bold md:text-4xl">
-              Por que a <span className="text-primary-500">Trip Evolved</span>?
-            </h1>
-            <span className="text-lg">
-              Criado por Henrique Gasparotto e Deborah Eppi, a Trip Evolved nasceu porque
-              acreditamos que viagens são experiências únicas e merecem ser vividas como tal.
-            </span>
-          </div>
+        <section className="flex flex-col gap-5 bg-secondary-200 p-10">
           <div className="flex flex-col gap-9 justify-center items-center px-6">
             <div className="flex md:grid md:grid-cols-2 md:grid-rows-2 flex-col items-center gap-10 md:max-w-5xl">
-              <DetailsCard message="Curadoria dos melhores cruzeiros do mundo" />
+              <DetailsCard
+                message={
+                  <p>
+                    Curadoria dos melhores{" "}
+                    <span className="font-bold text-accent-500">cruzeiros</span> do mundo
+                  </p>
+                }
+              />
               <DetailsCard message=" Conveniência para você: nós cuidamos de todos os detalhes" />
               <DetailsCard message=" Personalizamos toda a sua viagem, não só o cruzeiro" />
-              <DetailsCard message=" Assistência de especialistas" />
+              <DetailsCard
+                message={
+                  <p>
+                    Assistência de <span className="font-bold text-accent-500">especialistas</span>
+                  </p>
+                }
+              />
             </div>
           </div>
         </section>
 
         {/* O que dizem nossos clientes? */}
-        <section className="flex flex-col">
+        <section className="flex flex-col p-8">
           <div className="flex pl-3">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               O que dizem nossos clientes?
@@ -275,7 +288,7 @@ export default function CompraConsultoria() {
         </section>
 
         {/* Oportunidades Exclusivas */}
-        <section className="flex flex-col justify-center gap-3 from-primary-600 to-primary-700 bg-gradient-to-br p-8 md:p-10">
+        <section className="flex flex-col justify-center gap-3 from-primary-600 to-primary-700 bg-gradient-to-br p-10">
           <div className="flex pl-3">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl text-white">
               Oportunidades e roteiros exclusivos

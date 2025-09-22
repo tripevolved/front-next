@@ -12,7 +12,7 @@ export default function CruiseDetailsModal({ isOpen, handleClose }: CruiseDetail
   return (
     <div>
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-xl p-8 max-w-5xl w-full relative max-h-[90vh] overflow-hidden flex flex-col">
+        <div className="bg-white rounded-xl py-8 px-3 max-w-5xl w-full relative max-h-[90vh] overflow-hidden flex flex-col">
           <button
             onClick={handleClose}
             className="absolute top-4 right-4 text-secondary-400 hover:text-secondary-600 z-10"
@@ -55,16 +55,33 @@ export default function CruiseDetailsModal({ isOpen, handleClose }: CruiseDetail
                 </span>
               </div>
             </div>
-            <div>
-              <h1 className="font-bold text-xl">Suítes</h1>
-              <div>
-                <CruiseOptionsCarousel />
+            <div className="flex flex-col gap-8 p-3">
+              <div className="flex flex-col gap-3">
+                <div className="flex gap-2 items-center">
+                  <h1 className="font-bold text-xl">Suítes</h1>
+                  <img
+                    src="/assets/emojis/accomodation.png"
+                    className="max-w-10 max-h-10"
+                    alt="Emoji de suíte"
+                  />
+                </div>
+
+                <div>
+                  <CruiseOptionsCarousel />
+                </div>
               </div>
-            </div>
-            <div>
-              <h1 className="font-bold text-xl">Gastronomia</h1>
-               <div>
-                <CruiseOptionsCarousel />
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-3">
+                  <h1 className="font-bold text-xl">Gastronomia</h1>
+                  <img
+                    src="/assets/emojis/food.png"
+                    alt="Emoji de talheres"
+                    className="max-w-10 max-h-10"
+                  />
+                </div>
+                <div>
+                  <CruiseOptionsCarousel />
+                </div>
               </div>
             </div>
           </div>

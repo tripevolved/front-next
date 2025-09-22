@@ -37,11 +37,11 @@ export const CruiseCard = ({ handleClick }: CruiseCardProps) => {
 
   return (
     <div
-      className="bg-white shadow-lg rounded-lg w-full md:w-5/12 h-full max-h-[70vh] flex flex-col gap-5 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors"
+      className="bg-white shadow-lg rounded-lg w-full md:max-w-3xl h-full max-h-[70vh] flex flex-col gap-5 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors"
       onClick={handleClick}
     >
       <div className="h-96">
-        <PhotoCarousel title="aaaa" photos={photos} />
+        <PhotoCarousel title="Cruzeiros" photos={photos} />
       </div>
       <div>
         <p className="text-gray-600 text-xl font-bold">Explora Journeys</p>

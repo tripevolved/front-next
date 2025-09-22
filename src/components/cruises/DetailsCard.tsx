@@ -1,5 +1,7 @@
+import { ReactNode } from "react";
+
 type DetailsCardProps = {
-  message: string;
+  message: string | ReactNode;
 };
 
 export const DetailsCard = ({ message }: DetailsCardProps) => {
