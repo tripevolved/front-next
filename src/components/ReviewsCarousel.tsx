@@ -1,9 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import QuoteCard from "./QuoteCard";
-import { Picture } from "@/ui";
-import { Icon } from "mars-ds";
 
 interface Quote {
   text: string;

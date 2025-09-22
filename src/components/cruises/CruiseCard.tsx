@@ -47,7 +47,7 @@ export const CruiseCard = ({ handleClick }: CruiseCardProps) => {
         <p className="text-gray-600 text-xl font-bold">Explora Journeys</p>
       </div>
       <div className="flex flex-col w-full items-start gap-4">
-        <span className="underline text-2xl text-primary-500 font-bold">
+        <span className="text-2xl text-primary-500 font-bold">
           Nice - Roma: Uma Jornada Incrível
         </span>
         <div>
