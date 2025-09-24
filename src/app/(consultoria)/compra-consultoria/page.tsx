@@ -48,7 +48,7 @@ export default function CompraConsultoria() {
               </h1>
             </div>
             <div className="w-full text-center">
-              <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-2xl font-semibold hover:bg-accent-600 transition-all">
+              <Button className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all">
                 Quero saber mais
               </Button>
             </div>
@@ -88,8 +88,8 @@ export default function CompraConsultoria() {
           </div>
         </section>
 
-        <section className="p-10 flex flex-col gap-7">
-          <div className="flex pl-6">
+        <section className="md:p-8 p-5 flex flex-col gap-7 container mx-auto">
+          <div className="flex">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               ...que querem <span className="text-primary-500">relaxar</span>
             </h1>
@@ -100,8 +100,8 @@ export default function CompraConsultoria() {
           </div>
         </section>
 
-        <section className="p-10 flex flex-col gap-7">
-          <div className="flex pl-6">
+        <section className="md:p-8 p-5 flex flex-col gap-7 container mx-auto">
+          <div className="flex">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               ...que querem <span className="text-primary-500">gastronomia</span> fora de série
             </h1>
@@ -112,8 +112,8 @@ export default function CompraConsultoria() {
           </div>
         </section>
 
-        <section className="p-10 flex flex-col gap-7">
-          <div className="flex pl-6">
+          <section className="md:p-8 p-5 flex flex-col gap-7 container mx-auto">
+          <div className="flex pl-3">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               ...que querem <span className="text-primary-500">agito</span> e{" "}
               <span className="text-accent-500">exclusividade</span>
@@ -125,7 +125,7 @@ export default function CompraConsultoria() {
           </div>
         </section>
 
-        <section className="p-10 flex flex-col gap-7">
+          <section className="md:p-8 p-5 flex flex-col gap-7 container mx-auto">
           <div className="flex pl-6">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               ...que querem a <span className="text-primary-500">expedição</span> da vida
@@ -137,7 +137,7 @@ export default function CompraConsultoria() {
           </div>
         </section>
 
-        <section className="p-8 flex flex-col gap-7">
+          <section className="md:p-8 p-5 flex flex-col gap-7 container mx-auto">
           <div className="flex pl-6">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               ...que buscam um cruzeiro fluvial
