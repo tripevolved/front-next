@@ -24,6 +24,11 @@ export interface ItineraryItem {
       includedServices: string[];
     };
   };
+  experience?: {
+    name: string;
+    description: string;
+    image: string;
+  };
   cruise?: Cruise;
   highlights: {
     description: string;
@@ -32,7 +37,7 @@ export interface ItineraryItem {
   };
 }
 
-export type ItineraryType = 'day' | 'period';
+export type ItineraryType = "day" | "period";
 
 export interface ItineraryContentProps {
   itinerary: ItineraryItem[];
@@ -41,17 +46,20 @@ export interface ItineraryContentProps {
 }
 
 // Hotel Component
-function HotelComponent({ hotel, onOpenModal }: { 
-  hotel: ItineraryItem['hotel']; 
-  onOpenModal: (hotel: ItineraryItem['hotel']) => void;
+function HotelComponent({
+  hotel,
+  onOpenModal,
+}: {
+  hotel: ItineraryItem["hotel"];
+  onOpenModal: (hotel: ItineraryItem["hotel"]) => void;
 }) {
   if (!hotel) return null;
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
       <h3 className="text-xl font-semibold text-primary mb-4">Hospedagem</h3>
-      <div 
-        className={`flex flex-col md:flex-row gap-6 ${hotel.details ? 'cursor-pointer' : ''}`}
+      <div
+        className={`flex flex-col md:flex-row gap-6 ${hotel.details ? "cursor-pointer" : ""}`}
         onClick={() => hotel.details && onOpenModal(hotel)}
       >
         <div className="flex-1">
@@ -61,18 +69,43 @@ function HotelComponent({ hotel, onOpenModal }: {
             <div className="mt-3 flex items-center gap-2 text-primary-600 text-sm">
               <span>Clique para mais detalhes</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                />
               </svg>
             </div>
           )}
         </div>
         <div className="w-full md:w-48 h-48 relative rounded-full overflow-hidden">
-          <Image
-            src={hotel.image}
-            alt={hotel.name}
-            fill
-            className="object-cover"
-          />
+          <Image src={hotel.image} alt={hotel.name} fill className="object-cover" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CruiseExperienceComponent({
+  experience,
+  onOpenModal,
+}: {
+  experience: ItineraryItem["experience"];
+  onOpenModal: (hotel: ItineraryItem["experience"]) => void;
+}) {
+  if (!experience) return null;
+
+  return (
+    <div className="bg-white rounded-lg shadow-lg p-6">
+      <h3 className="text-xl font-semibold text-primary mb-4">Experiência</h3>
+      <div className={`flex flex-col md:flex-row gap-6 `}>
+        <div className="flex-1">
+          <h4 className="text-lg font-medium text-gray-900 mb-2">{experience.name}</h4>
+          <p className="text-gray-600">{experience.description}</p>
+        </div>
+        <div className="w-full md:w-48 h-48 relative rounded-full overflow-hidden">
+          <Image src={experience.image} alt={experience.name} fill className="object-cover" />
         </div>
       </div>
     </div>
@@ -80,8 +113,11 @@ function HotelComponent({ hotel, onOpenModal }: {
 }
 
 // Cruise Component
-function CruiseComponent({ cruise, onOpenModal }: { 
-  cruise: ItineraryItem['cruise'];
+function CruiseComponent({
+  cruise,
+  onOpenModal,
+}: {
+  cruise: ItineraryItem["cruise"];
   onOpenModal: (cruise: Cruise) => void;
 }) {
   if (!cruise) return null;
@@ -89,7 +125,7 @@ function CruiseComponent({ cruise, onOpenModal }: {
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
       <h3 className="text-xl font-semibold text-primary mb-4">Cruzeiro</h3>
-      <div 
+      <div
         className="flex flex-col md:flex-row gap-6 cursor-pointer"
         onClick={() => onOpenModal(cruise)}
       >
@@ -100,17 +136,17 @@ function CruiseComponent({ cruise, onOpenModal }: {
           <div className="mt-3 flex items-center gap-2 text-primary-600 text-sm">
             <span>Clique para ver detalhes completos</span>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              />
             </svg>
           </div>
         </div>
         <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
-          <Image
-            src={cruise.image}
-            alt={cruise.name}
-            fill
-            className="object-cover"
-          />
+          <Image src={cruise.image} alt={cruise.name} fill className="object-cover" />
         </div>
       </div>
     </div>
@@ -120,12 +156,14 @@ function CruiseComponent({ cruise, onOpenModal }: {
 export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContentProps) {
   const [activeItem, setActiveItem] = useState<number | null>(null);
   const [showItemNav, setShowItemNav] = useState(false);
-  const [selectedHotel, setSelectedHotel] = useState<ItineraryItem['hotel'] | null>(null);
+  const [selectedHotel, setSelectedHotel] = useState<ItineraryItem["hotel"] | null>(null);
   const [selectedCruise, setSelectedCruise] = useState<Cruise | null>(null);
   const [isHotelModalOpen, setIsHotelModalOpen] = useState(false);
   const [isCruiseModalOpen, setIsCruiseModalOpen] = useState(false);
   const itemRefs = useRef<(HTMLElement | null)[]>([]);
   const itemOneRef = useRef<HTMLElement | null>(null);
+
+  console.log("aaaa ->", itinerary);
 
   // Set up intersection observer to detect which item is in view
   useEffect(() => {
@@ -191,7 +229,7 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
   };
 
   // Function to handle hotel modal
-  const openHotelModal = (hotel: ItineraryItem['hotel']) => {
+  const openHotelModal = (hotel: ItineraryItem["hotel"]) => {
     setSelectedHotel(hotel);
     setIsHotelModalOpen(true);
   };
@@ -235,7 +273,7 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
                       {/* Item Circle */}
                       <div className="flex-shrink-0 w-16 h-16 rounded-full bg-primary-100 flex flex-col items-center justify-center">
                         <span className="text-xs text-primary-600 font-comfortaa">
-                          {type === 'day' ? 'dia' : 'fase'}
+                          {type === "day" ? "dia" : "fase"}
                         </span>
                         <span className="text-xl font-baloo font-bold text-primary-600">
                           {String(item.id).padStart(2, "0")}
@@ -264,12 +302,7 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
             <div className="relative">
               <div className="relative h-[600px] rounded-xl overflow-hidden">
                 {mapImage && (
-                  <Image
-                    src={mapImage}
-                    alt="Mapa do itinerário"
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src={mapImage} alt="Mapa do itinerário" fill className="object-cover" />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-r from-white via-white/30 to-transparent" />
               </div>
@@ -300,9 +333,7 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
                       : "bg-primary-100 text-primary-600"
                   }`}
                 >
-                  <span className="text-xs font-comfortaa">
-                    {type === 'day' ? 'dia' : 'fase'}
-                  </span>
+                  <span className="text-xs font-comfortaa">{type === "day" ? "dia" : "fase"}</span>
                   <span className="text-sm font-baloo font-bold">
                     {String(item.id).padStart(2, "0")}
                   </span>
@@ -340,7 +371,7 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
             <div className="relative h-[500px] mb-16 rounded-2xl overflow-hidden">
               <Image
                 src={item.image}
-                alt={`${type === 'day' ? 'Dia' : 'Fase'} ${item.id} - ${item.activity}`}
+                alt={`${type === "day" ? "Dia" : "Fase"} ${item.id} - ${item.activity}`}
                 fill
                 className="object-cover"
               />
@@ -351,7 +382,7 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
                 <div className="flex items-center gap-4 mb-2">
                   <div className="w-16 h-16 rounded-full bg-primary-100 flex flex-col items-center justify-center">
                     <span className="text-xs text-primary-600 font-comfortaa">
-                      {type === 'day' ? 'dia' : 'fase'}
+                      {type === "day" ? "dia" : "fase"}
                     </span>
                     <span className="text-xl font-baloo font-bold text-primary-600">
                       {String(item.id).padStart(2, "0")}
@@ -394,17 +425,15 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
 
             {/* Bottom Section - Hotel or Cruise Component */}
             <div className="mt-8">
-              {item.hotel && (
-                <HotelComponent 
-                  hotel={item.hotel} 
+              {item.hotel && <HotelComponent hotel={item.hotel} onOpenModal={openHotelModal} />}
+              {item.experience && (
+                <CruiseExperienceComponent
+                  experience={item.experience}
                   onOpenModal={openHotelModal}
                 />
               )}
               {item.cruise && (
-                <CruiseComponent 
-                  cruise={item.cruise}
-                  onOpenModal={openCruiseModal}
-                />
+                <CruiseComponent cruise={item.cruise} onOpenModal={openCruiseModal} />
               )}
             </div>
           </div>
@@ -430,4 +459,4 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
       )}
     </>
   );
-} 
+}
