@@ -5,18 +5,31 @@ import CruiseOptionsCarousel from "@/components/cruises/CruisesOptionsCarousel";
 import { ItineraryContent } from "@/components/itineraries";
 import { getExperienceByName } from "@/core/types/experiences";
 import Image from "next/image";
+import Link from "next/link";
+
+function ExperienceNotFound() {
+  return (
+    <div className="px-6 flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-4xl font-baloo font-bold text-secondary-900 mb-4">
+          Experiência não encontrada
+        </h1>
+        <span className="text-lg text-secondary-600 mb-8">
+          A experiência que você está procurando não existe.
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export default function CruiseOverview() {
-  const experience = getExperienceByName("miami-cruise");
+  const experience = getExperienceByName("miami-fff");
 
-  console.log(experience)
+  console.log(experience);
 
-  if (!experience) {
-    return <h1>Sexo</h1>;
-  }
   return (
     <>
-      <section className="flex flex-col gap-3">
+      <section className="flex flex-col gap-4">
         <section className="flex flex-col md:flex-row items-center gap-4 w-full p-10 bg-secondary-500">
           <div className="w-full max-w-4xl">
             <CruiseImageCarousel />
@@ -29,8 +42,8 @@ export default function CruiseOverview() {
             <span className="text-white text-xl">De 12 a 20 de abril de 2026</span>
           </div>
         </section>
-        <section className="px-3 flex w-full justify-center items-center">
-          <div className="bg-primary-50 max-w-3xl  border-2 border-primary-500 p-3 md:px-4 px-2 flex items-center justify-center text-center flex-wrap whitespace-pre-line gap-6 rounded-[40px]">
+        <section className="px-3 flex w-full justify-center items-center md:mt-3">
+          <div className="bg-primary-50 max-w-3xl  border-2 border-primary-500 py-3 px-4 flex items-center justify-center text-center flex-wrap whitespace-pre-line gap-6 rounded-[40px]">
             <span className="text-gray-600 text-md italic">
               &quot;Essa jornada combina toda a grandiosidade e cuidado Explora Journeys com as
               paisagens perfeitas e espetaculares de Roma e Nice. Perfeita para curtir a dois&quot;
@@ -50,21 +63,25 @@ export default function CruiseOverview() {
           </div>
         </section>
         <section className="p-3">
-          <ItineraryContent
-            itinerary={experience?.itinerary.map((item, index) => ({
-              id: item.period,
-              date: item.date,
-              activity: item.activity,
-              image: item.image,
-              description: item.description,
-              hotel: item.hotel,
-              experience: item.experience,
-              cruise: item.cruise,
-              highlights: item.highlights,
-            }))}
-            mapImage={experience?.mapImage}
-            type={experience?.type === "day-by-day" ? "day" : "period"}
-          />
+          {experience ? (
+            <ItineraryContent
+              itinerary={experience?.itinerary.map((item, index) => ({
+                id: item.period,
+                date: item.date,
+                activity: item.activity,
+                image: item.image,
+                description: item.description,
+                hotel: item.hotel,
+                experience: item.experience,
+                cruise: item.cruise,
+                highlights: item.highlights,
+              }))}
+              mapImage={experience?.mapImage}
+              type={experience?.type === "day-by-day" ? "day" : "period"}
+            />
+          ) : (
+            <ExperienceNotFound />
+          )}
         </section>
         <section className="md:h-[80vh] h-[60vh] flex items-center justify-center w-full p-4">
           <Image
@@ -78,31 +95,31 @@ export default function CruiseOverview() {
         </section>
         <section className="p-8 flex  gap-3 items-center justify-center bg-secondary-100">
           <div className="flex flex-col max-w-5xl items-center gap-4 md:flex-row">
-            <div>
-              <div>
-                <div>
-                  <h1 className="font-baloo text-3xl mb-3 font-bold">Navio Cruzeiro</h1>
-                  <Image
-                    src="/assets/experiences/curacao/curacao-mapa.png"
-                    fill
-                    alt="teste"
-                    className="object-cover max-w-96 max-h-96 w-full h-full rounded-xl !relative"
-                    sizes="100vw"
-                    quality={100}
-                  />
-                </div>
-              </div>
+            <div className="w-full h-full">
+              <h1 className="font-baloo text-3xl mb-3 font-bold md:text-4xl">
+                Navio <span className="text-accent-500">Cruzeiro</span>
+              </h1>
+              <Image
+                src="/assets/experiences/curacao/curacao-mapa.png"
+                alt="teste"
+                className="object-cover max-w-96 max-h-96 md:max-w-[30rem] md:max-h-[30rem] rounded-xl !relative"
+                width={1000}
+                height={1000}
+                quality={100}
+              />
             </div>
-            <div className="flex flex-col gap-3">
-              <span className="text-2xl">3 suítes</span>
-              <span className="flex flex-row gap-1 h-5 md:h-7">
+            <div className="flex flex-col gap-4 h-full">
+              <span className="text-3xl font-comfortaa font-bold">
+                3<span className="text-accent-500 font-bold"> suítes</span>{" "}
+              </span>
+              <span className="flex flex-row gap-1 h-5 md:h-9">
                 {new Array(5).fill(5).map((_, starIndex) => {
                   return (
-                    <img key={starIndex} alt="star" className="h-5" src="/assets/stays/star.svg" />
+                    <img key={starIndex} alt="star" className="h-6" src="/assets/stays/star.svg" />
                   );
                 })}
               </span>
-              <span className="text-justify text-lg">
+              <span className="text-justify text-xl">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio, quisquam enim
                 fugiat rerum temporibus consequatur soluta tenetur eligendi debitis vero
                 necessitatibus aliquam minus quaerat. Ipsam magni ducimus autem molestiae
@@ -111,17 +128,19 @@ export default function CruiseOverview() {
             </div>
           </div>
         </section>
-        <section className="flex flex-col gap-3 p-3">
-          <h1 className=" font-baloo text-2xl font-bold">Áreas</h1>
-          <CruiseOptionsCarousel />
-        </section>
-        <section className="flex flex-col gap-3 p-3">
-          <h1 className=" font-baloo text-2xl font-bold">Suítes</h1>
-          <CruiseOptionsCarousel />
-        </section>
-        <section className="flex flex-col gap-3 p-3">
-          <h1 className=" font-baloo text-2xl font-bold">Gastronomia</h1>
-          <CruiseOptionsCarousel />
+        <section className="flex flex-col gap-6">
+          <div className="flex flex-col gap-3 p-3 container">
+            <h1 className=" font-baloo text-2xl md:text-3xl font-bold">Áreas</h1>
+            <CruiseOptionsCarousel />
+          </div>
+          <div className="flex flex-col gap-3 p-3 container">
+            <h1 className=" font-baloo text-2xl md:text-3xl font-bold">Suítes</h1>
+            <CruiseOptionsCarousel />
+          </div>
+          <div className="flex flex-col gap-3 p-3 container">
+            <h1 className=" font-baloo text-2xl md:text-3xl font-bold">Gastronomia</h1>
+            <CruiseOptionsCarousel />
+          </div>
         </section>
         <section className="flex flex-col justify-center gap-3 from-primary-600 to-primary-700 bg-gradient-to-br p-10">
           <div className="flex pl-3">
