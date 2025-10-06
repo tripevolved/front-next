@@ -1,32 +1,17 @@
 "use client";
 
-import CruiseImageCarousel from "@/components/cruises/CruiseImageCarousel";
-import CruiseOptionsCarousel from "@/components/cruises/CruisesOptionsCarousel";
-import { ItineraryContent } from "@/components/itineraries";
-import { getExperienceByName } from "@/core/types/experiences";
 import Image from "next/image";
-import Link from "next/link";
+import CruiseImageCarousel from "./CruiseImageCarousel";
+import { ItineraryContent } from "../itineraries";
+import CruiseOptionsCarousel from "./CruisesOptionsCarousel";
+import CruiseExperienceNotFound from "./CruiseExperienceNotFound";
+import { Experience } from "@/core/types/experiences";
 
-function ExperienceNotFound() {
-  return (
-    <div className="px-6 flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-baloo font-bold text-secondary-900 mb-4">
-          Experiência não encontrada
-        </h1>
-        <span className="text-lg text-secondary-600 mb-8">
-          A experiência que você está procurando não existe.
-        </span>
-      </div>
-    </div>
-  );
+interface CruiseExperienceContentProps {
+  experience: Experience;
 }
 
-export default function CruiseOverview() {
-  const experience = getExperienceByName("miami-fff");
-
-  console.log(experience);
-
+export default function CruiseExperience({ experience }: CruiseExperienceContentProps) {
   return (
     <>
       <section className="flex flex-col gap-4">
@@ -80,7 +65,7 @@ export default function CruiseOverview() {
               type={experience?.type === "day-by-day" ? "day" : "period"}
             />
           ) : (
-            <ExperienceNotFound />
+            <CruiseExperienceNotFound />
           )}
         </section>
         <section className="md:h-[80vh] h-[60vh] flex items-center justify-center w-full p-4">
