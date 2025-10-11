@@ -170,7 +170,7 @@ export default function CompraConsultoria() {
               Por que a Trip Evolved?
             </h2>
             <p className="font-comfortaa text-xl text-gray-600 max-w-3xl mx-auto">
-              Criada por Henrique Gasparotto e Deborah Eppi, a Trip Evolved nasceu porque acreditamos que viagens são experiências únicas e merecem ser vividas como tal.
+              A Trip Evolved nasceu porque acreditamos que viagens são experiências únicas e merecem ser vividas como tal.
             </p>
           </div>
           <div className="flex flex-col gap-9 justify-center items-center px-6">
@@ -197,7 +197,7 @@ export default function CompraConsultoria() {
                 }
               />
               <DetailsCard 
-                message="Personalizamos toda a sua viagem, não só o cruzeiro"
+                message="Personalizamos toda a sua viagem, muito além do cruzeiro"
                 icon={
                   <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />

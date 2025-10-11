@@ -19,13 +19,13 @@ const cruiseTypeConfig = {
     label: "Experiências nos destinos",
     description: "Cruzeiros com foco em destinos únicos e experiências gastronômicas"
   },
-  expedition: {
-    label: "Expedições únicas",
+  adventure: {
+    label: "Expedições únicas e destinos fora do comum",
     description: "Cruzeiros de aventura e exploração"
   },
-  river: {
-    label: "Fluviais",
-    description: "Cruzeiros fluviais por rios icônicos do mundo"
+  bucketlist: {
+    label: "Algo para a lista de desejos",
+    description: "Cruzeiros para a lista de desejos"
   }
 };
 
@@ -34,14 +34,14 @@ export default function CruiseSections({ handleClick }: CruiseSectionsProps) {
   const [cruises, setCruises] = useState<Record<CruiseType, CruiseCardData[]>>({
     relax: [],
     destination: [],
-    expedition: [],
-    river: []
+    adventure: [],
+    bucketlist: []
   });
   const [loading, setLoading] = useState<Record<CruiseType, boolean>>({
     relax: false,
     destination: false,
-    expedition: false,
-    river: false
+    adventure: false,
+    bucketlist: false
   });
   const [error, setError] = useState<string | null>(null);
 
@@ -54,7 +54,7 @@ export default function CruiseSections({ handleClick }: CruiseSectionsProps) {
     try {
       const response = await CruisesApiService.getCruisesByType({
         type,
-        limit: 10
+        limit: 3
       });
       
       setCruises(prev => ({
