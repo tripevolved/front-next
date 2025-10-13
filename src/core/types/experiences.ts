@@ -9,6 +9,7 @@ export interface Experience {
   isVisible: boolean;
   images: string[];
   mapImage?: string;
+  googleLink?: string;
   uniqueMoments?: {
     title: string;
     description: string;
@@ -245,6 +246,7 @@ export const mockExperiences: Experience[] = [
     description:
       "Uma experiência única combinando a vibrante cidade de Miami com um cruzeiro pelo Caribe no Freedom of the Seas. Do luxo dos hotéis de Miami Beach às águas cristalinas do Caribe.",
     mapImage: "/assets/experiences/miami/miami-map.png",
+    googleLink: "aaaa",
     uniqueMoments: [
       {
         title: "Freedom of the Seas",

@@ -6,6 +6,7 @@ import { VideoSlider } from "../VideoSlider";
 import { HotelDetailsModal } from "./HotelDetailsModal";
 import { CruiseDetailsModal } from "./CruiseDetailsModal";
 import type { Cruise } from "@/core/types/cruise";
+import { Map } from "../maps";
 
 export interface ItineraryItem {
   id: number;
@@ -42,6 +43,7 @@ export type ItineraryType = "day" | "period";
 export interface ItineraryContentProps {
   itinerary: ItineraryItem[];
   mapImage?: string;
+  googleLink?: string;
   type: ItineraryType;
 }
 
@@ -153,7 +155,7 @@ function CruiseComponent({
   );
 }
 
-export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContentProps) {
+export function ItineraryContent({ itinerary, mapImage, googleLink, type }: ItineraryContentProps) {
   const [activeItem, setActiveItem] = useState<number | null>(null);
   const [showItemNav, setShowItemNav] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState<ItineraryItem["hotel"] | null>(null);
@@ -162,8 +164,6 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
   const [isCruiseModalOpen, setIsCruiseModalOpen] = useState(false);
   const itemRefs = useRef<(HTMLElement | null)[]>([]);
   const itemOneRef = useRef<HTMLElement | null>(null);
-
-  console.log("aaaa ->", itinerary);
 
   // Set up intersection observer to detect which item is in view
   useEffect(() => {
@@ -302,9 +302,21 @@ export function ItineraryContent({ itinerary, mapImage, type }: ItineraryContent
             <div className="relative">
               <div className="relative h-[600px] rounded-xl overflow-hidden">
                 {mapImage && (
-                  <Image src={mapImage} alt="Mapa do itinerário" fill className="object-cover" />
+                  <>
+                    <Image src={mapImage} alt="Mapa do itinerário" fill className="object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-white via-white/30 to-transparent" />
+                  </>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/30 to-transparent" />
+                {googleLink && (
+                  <Map
+                    apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""}
+                    center={{ lat: 60.3913, lng: 5.3221 }}
+                    height="100%"
+                    zoom={15}
+                    className="rounded-lg shadow-lg object-cover"
+                    showControls={true}
+                  />
+                )}
               </div>
             </div>
           </div>
