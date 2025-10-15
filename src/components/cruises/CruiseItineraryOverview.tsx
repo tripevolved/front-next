@@ -3,15 +3,46 @@
 import Image from "next/image";
 import CruiseImageCarousel from "./CruiseImageCarousel";
 import { ItineraryContent } from "../itineraries";
-import CruiseOptionsCarousel from "./CruisesOptionsCarousel";
 import CruiseExperienceNotFound from "./CruiseExperienceNotFound";
 import { Experience } from "@/core/types/experiences";
+import { useEffect, useState } from "react";
+import { CruiseExitModal } from "./CruiseExitModal";
 
 interface CruiseExperienceContentProps {
   experience: Experience;
 }
 
 export default function CruiseItineraryOverview({ experience }: CruiseExperienceContentProps) {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [hasShownExitModal, setHasShownExitModal] = useState(false);
+
+  const handleExitModal = () => {
+    setIsModalOpen(false);
+  };
+
+  useEffect(() => {
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 0 && !hasShownExitModal) {
+        setIsModalOpen(true);
+        setHasShownExitModal(true);
+      }
+    };
+
+    const handleBeforeUnload = () => {
+      if (!hasShownExitModal) {
+        setIsModalOpen(true);
+        setHasShownExitModal(true);
+      }
+    };
+
+    document.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [hasShownExitModal]);
   return (
     <>
       <section className="flex flex-col gap-4">
@@ -89,6 +120,13 @@ export default function CruiseItineraryOverview({ experience }: CruiseExperience
             </button>
           </div>
         </section>
+        {/* Trigger when tries to leave page */}
+
+        <CruiseExitModal
+          isOpen={true}
+          onClose={handleExitModal}
+          experienceTitle={experience.title}
+        />
       </section>
     </>
   );
