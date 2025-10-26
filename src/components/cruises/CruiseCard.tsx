@@ -83,7 +83,7 @@ export const CruiseCard = ({ handleClick, cruise }: CruiseCardProps) => {
       </div>
       <div className="flex justify-center w-full">
         <Button
-          className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-2xl text-xl font-semibold hover:bg-accent-600 transition-all md:w-9/12 w-11/12"
+          className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-xl font-semibold hover:bg-accent-600 transition-all md:w-9/12 w-11/12"
           onClick={handleClick}
         >
           Quero saber mais
