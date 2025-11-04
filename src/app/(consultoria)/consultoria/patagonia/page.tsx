@@ -21,10 +21,7 @@ export default function PatagoniaPage() {
     'Bariloche',
     'Puerto Natales',
     'El Chaltén',
-    'Punta Arenas',
-    'Puerto Varas',
-    'Coyhaique',
-    'Puerto Montt'
+    'Punta Arenas'
   ]
 
   return (

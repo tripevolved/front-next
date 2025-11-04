@@ -14,7 +14,7 @@ export function WhatsAppDirectButton({
   className = '',
   ...props
 }: WhatsAppDirectButtonProps) {
-  const phoneNumber = '5512991694499'
+  const phoneNumber = '5551993582462'
   const encodedMessage = encodeURIComponent(message)
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`
 
