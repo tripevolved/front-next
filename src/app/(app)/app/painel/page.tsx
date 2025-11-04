@@ -1,5 +1,6 @@
 import { auth0 } from '@/lib/auth0'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 
 export default async function PainelPage() {
   // Get the user session from Auth0
@@ -87,12 +88,13 @@ export default async function PainelPage() {
 
       {/* Quick Actions */}
       <div className="mt-6 flex gap-4">
-        <a
+        <Link
           href="/app/viagens"
           className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
         >
           Minhas Viagens
-        </a>
+        </Link>
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a
           href="/auth/logout"
           className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
