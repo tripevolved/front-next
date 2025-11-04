@@ -3,11 +3,7 @@
 import { useState } from 'react'
 import ContactExpertModal from './ContactExpertModal'
 
-interface ContactCardProps {
-  phoneNumber?: string
-}
-
-export default function ContactCard({ phoneNumber = '5512991694499' }: ContactCardProps) {
+export default function ContactCard() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (

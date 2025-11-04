@@ -25,7 +25,7 @@ export default function ContactExpertModal({
       onClose()
       // Redirect to WhatsApp
       const message = encodeURIComponent('Olá! Gostaria de conversar com um especialista sobre minha viagem.')
-      const whatsappUrl = `https://wa.me/5512991694499?text=${message}`
+      const whatsappUrl = `https://wa.me/5551993582462?text=${message}`
       window.open(whatsappUrl, '_blank')
     }
   }
