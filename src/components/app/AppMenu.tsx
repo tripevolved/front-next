@@ -16,12 +16,12 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
   const handleLogout = () => {
     // Here you would typically call a logout service
     // For now, we'll redirect to the logout page
-    router.push('/app/sair')
+    router.push('/auth/logout')
   }
 
   const handleWhatsApp = () => {
-    const message = 'Olá! Gostaria de falar com um especialista sobre viagens.'
-    const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(message)}`
+    const message = 'Olá! Gostaria de falar com um especialista sobre minha próxima viagem.'
+    const whatsappUrl = `https://wa.me/5551993582462?text=${encodeURIComponent(message)}`
     window.open(whatsappUrl, '_blank')
   }
 

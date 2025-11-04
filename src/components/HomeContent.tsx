@@ -87,7 +87,7 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
       <section className="py-24 bg-secondary-500">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <h2 className="font-baloo text-4xl md:text-5xl font-bold mb-12 text-white">
-            Viagens que não saem da nossa mente
+            Viagens incríveis para sua inspiração
           </h2>
           <ExperienceCarousel />
         </div>

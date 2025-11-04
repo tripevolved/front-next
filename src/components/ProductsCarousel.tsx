@@ -13,9 +13,9 @@ const products = [
   {
     id: 'cruzeiros-extraordinarios',
     title: 'Cruzeiros Extraordinários',
-    description: 'Descubra destinos incríveis a bordo dos melhores navios, com experiências exclusivas e roteiros personalizados.',
+    description: 'Descubra destinos incríveis a bordo dos melhores navios, com experiências exclusivas e detalhes que você só recebe na Trip Evolved.',
     image: '/assets/home/cruzeiros-extraordinarios.jpg',
-    link: '/produtos/cruzeiros-extraordinarios'
+    link: '/cruzeiros-extraordinarios'
   }
 ]
 
@@ -25,7 +25,7 @@ export default function ProductsCarousel() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length)
-    }, 5000)
+    }, 8000)
 
     return () => clearInterval(timer)
   }, [])
