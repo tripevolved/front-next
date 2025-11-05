@@ -170,7 +170,7 @@ export default function CompraConsultoria() {
               Por que a Trip Evolved?
             </h2>
             <p className="font-comfortaa text-xl text-gray-600 max-w-3xl mx-auto">
-              Criada por Henrique Gasparotto e Deborah Eppi, a Trip Evolved nasceu porque acreditamos que viagens são experiências únicas e merecem ser vividas como tal.
+              Criada por Henrique Gasparotto, a Trip Evolved nasceu porque acreditamos que viagens são experiências únicas e merecem ser vividas como tal.
             </p>
           </div>
           <div className="flex flex-col gap-9 justify-center items-center px-6">

@@ -12,7 +12,7 @@ const processSteps = [
   },
   {
     step: "2", 
-    title: "Contratação da Voyage Evolved",
+    title: "Contratação da Jornada Evolved",
     description: "Após a reunião, você contrata a consultoria especializada da Trip Evolved, e nós cuidamos de todos os detalhes para você."
   },
   {
