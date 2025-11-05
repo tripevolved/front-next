@@ -43,6 +43,6 @@ export const getCruisesByType = async ({
     page: String(page),
     limit: String(limit)
   });
-  const route = `cruises/by-type?${params.toString()}`;
+  const route = `cruises/?${params.toString()}`;
   return ApiRequest.get<CruisesResponse>(route);
 };
