@@ -1,4 +1,3 @@
-import CruiseExperience from "@/components/cruises/CruiseExperience";
 import CruiseExperienceNotFound from "@/components/cruises/CruiseExperienceNotFound";
 import CruiseItineraryOverview from "@/components/cruises/CruiseItineraryOverview";
 import { getExperienceByName } from "@/core/types/experiences";

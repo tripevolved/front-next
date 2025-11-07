@@ -123,7 +123,7 @@ export default function CruiseItineraryOverview({ experience }: CruiseExperience
         {/* Trigger when tries to leave page */}
 
         <CruiseExitModal
-          isOpen={true}
+          isOpen={isModalOpen}
           onClose={handleExitModal}
           experienceTitle={experience.title}
         />
