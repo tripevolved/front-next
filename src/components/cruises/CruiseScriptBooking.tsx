@@ -10,15 +10,26 @@ import { useState } from "react";
 import { PhotoCarousel } from "../PhotoCarousel";
 import { Photo } from "@/core/types";
 import { MuxVideoPlayer } from "../MuxVideoPlayer";
+import { CruiseJourneyBookingModal } from "./CruiseJourneyBookingModal";
 
 interface CruiseScriptProps {
   experience: Experience;
 }
 export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
   const [isCruiseDetailsModalOpen, setIsCruiseDetailsModalOpen] = useState<boolean>(false);
+  const [isCruiseJourneyDetailsModalOpen, setIsCruiseJourneyDetailsModalOpen] =
+    useState<boolean>(false);
 
   const handleExitModal = () => {
     setIsCruiseDetailsModalOpen(false);
+  };
+
+  const handleExitJourneyModal = () => {
+    setIsCruiseJourneyDetailsModalOpen(false);
+  };
+
+  const handleOpenJourneyModal = () => {
+    setIsCruiseJourneyDetailsModalOpen(true);
   };
 
   const photos: Photo[] = [
@@ -47,8 +58,6 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
       alt: "Foto casal jantar",
     },
   ];
-
-  console.log(experience);
 
   return (
     <>
@@ -283,9 +292,9 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
               A sua <span className="text-primary-500">Jornada Evolved</span>
             </h1>
-            <div className="container w-full gap-10 p-0">
+            <div className="container w-full gap-10 p-0" onClick={handleOpenJourneyModal}>
               <div className="bg-white shadow-lg rounded-lg w-full h-full max-h-[100vh] flex flex-col gap-5 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors">
-                <div className="h-[150rem]">
+                <div className="h-96">
                   <PhotoCarousel title="Cruzeiros" photos={photos} />
                 </div>
                 <div className="flex flex-col gap-2">
@@ -496,6 +505,12 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
           </section>
         </div>
       </div>
+
+      <CruiseJourneyBookingModal
+        isOpen={isCruiseJourneyDetailsModalOpen}
+        onClose={handleExitJourneyModal}
+        experienceTitle={experience.title}
+      />
     </>
   );
 }
