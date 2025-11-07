@@ -6,8 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { DetailsCard } from "./DetailsCard";
 import ReviewsCarousel from "../ReviewsCarousel";
-import { CruiseDetailsModal } from "../itineraries/CruiseDetailsModal";
 import { useState } from "react";
+import { PhotoCarousel } from "../PhotoCarousel";
+import { Photo } from "@/core/types";
+import { MuxVideoPlayer } from "../MuxVideoPlayer";
 
 interface CruiseScriptProps {
   experience: Experience;
@@ -19,6 +21,33 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
     setIsCruiseDetailsModalOpen(false);
   };
 
+  const photos: Photo[] = [
+    {
+      title: "aaaa",
+      sources: [
+        {
+          height: 100,
+          width: 100,
+          url: "https://cdn.expertphotography.com/wp-content/uploads/2020/10/Fine-Art-Photography-Examples-Sunlight-Planets-by-Troyes-Christina.jpg",
+          type: "lg",
+        },
+      ],
+      alt: "Foto casal jantar",
+    },
+    {
+      title: "aaaa",
+      sources: [
+        {
+          height: 100,
+          width: 100,
+          url: "https://cdn.expertphotography.com/wp-content/uploads/2020/10/Fine-Art-Photography-Examples-Sunlight-Planets-by-Troyes-Christina.jpg",
+          type: "lg",
+        },
+      ],
+      alt: "Foto casal jantar",
+    },
+  ];
+
   console.log(experience);
 
   return (
@@ -26,8 +55,16 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
       <div>
         <section className="relative min-h-screen flex items-center">
           <div className="absolute inset-0 z-0">
-            <h1>Video</h1>
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/40 w-full h-full">
+              <MuxVideoPlayer
+                playbackId="36MPnXNByTEUZpeN00DMChaLhhXUYPgLkniNy6k2kCmw"
+                isMuted={true}
+                autoplay={true}
+                loop={true}
+                placeholderImage="/assets/consultoria/caribe/vsl_poster.jpg"
+                className="h-full"
+              />
+            </div>
           </div>
 
           {/* Content */}
@@ -48,15 +85,258 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
           </div>
         </section>
 
-        <div className="flex flex-col gap-6">
-          <section className="flex items-center p-2 flex-col gap-4 ">
+        <div className="flex flex-col gap-3">
+          <section className=" p-2 flex-col gap-4 container">
+            <div className="flex flex-col gap-4 px-2 md:px-10 py-3">
+              <h1 className="font-baloo text-3xl font-bold md:text-4xl">
+                Por que <span className="text-primary-500">{experience.title}</span>?
+              </h1>
+              <div className="flex md:flex-row flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                  <div className="relative md:h-[400px] h-[400px]">
+                    <Image
+                      src="/assets/experiences/miami/freedom-of-seas.png"
+                      alt={experience.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110 rounded-xl"
+                    />
+                  </div>
+                  <span>
+                    {" "}
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod dicta voluptatem
+                    voluptates deserunt exercitationem minus laborum animi rem ullam dolores modi
+                    repellendus vel, incidunt aut! Atque cum ipsam dignissimos voluptate.
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <div className="relative md:h-[400px] h-[400px]">
+                    <Image
+                      src="/assets/experiences/miami/freedom-of-seas.png"
+                      alt={experience.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110 rounded-xl"
+                    />
+                  </div>
+                  <h1>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod dicta voluptatem
+                    voluptates deserunt exercitationem minus laborum animi rem ullam dolores modi
+                    repellendus vel, incidunt aut! Atque cum ipsam dignissimos voluptate.
+                  </h1>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="flex items-center p-3 flex-col gap-4">
+            <h1 className="font-baloo text-3xl font-bold md:text-4xl">O seu roteiro pronto</h1>
+            <div className="container w-full gap-10 p-0">
+              <div className="bg-white shadow-lg rounded-lg w-full h-full max-h-[100vh] flex flex-col gap-5 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors">
+                <div className="h-96">
+                  <PhotoCarousel photos={photos} title="aaaa" />
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold font-baloo">
+                    Seu roteiro por{" "}
+                    <span className="font-bold text-primary-500">{experience.title}</span>
+                  </h1>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <span className="font-bold text-lg">Inclui:</span>
+                  <div>
+                    <ul className="list-disc pl-5 flex flex-col gap-3 text-md font-comfortaa">
+                      <li className="flex gap-3 items-center">
+                        <svg
+                          width="35"
+                          height="35"
+                          viewBox="0 0 35 35"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle cx="17.5" cy="17.5" r="17.5" fill="#0AB9AD" />
+                          <path
+                            d="M19.8843 14.7019L23.9042 13.6393C24.1154 13.5835 24.3357 13.5693 24.5525 13.5975C24.7692 13.6257 24.9783 13.6957 25.1676 13.8035C25.357 13.9114 25.5229 14.055 25.656 14.2261C25.7891 14.3972 25.8867 14.5925 25.9433 14.8009C25.9999 15.0092 26.0143 15.2265 25.9857 15.4403C25.9572 15.6542 25.8862 15.8604 25.7769 16.0471C25.6675 16.2339 25.522 16.3976 25.3485 16.5289C25.175 16.6602 24.977 16.7565 24.7658 16.8123L12.7044 20L9 15.8786L11.4116 15.2406L13.4511 16.4025L15.8636 15.7645L12.7469 10.6372L15.1593 10L19.8835 14.7019H19.8843Z"
+                            stroke="white"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M10 24H25"
+                            stroke="white"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        <span>
+                          <span className="font-bold text-primary-500">Voo</span> em classe
+                          econômica
+                        </span>
+                      </li>
+                      <li className="flex gap-3 items-center">
+                        {" "}
+                        <svg
+                          width="35"
+                          height="35"
+                          viewBox="0 0 35 35"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle cx="17.5" cy="17.5" r="17.5" fill="#0AB9AD" />
+                          <path
+                            d="M19.8843 14.7019L23.9042 13.6393C24.1154 13.5835 24.3357 13.5693 24.5525 13.5975C24.7692 13.6257 24.9783 13.6957 25.1676 13.8035C25.357 13.9114 25.5229 14.055 25.656 14.2261C25.7891 14.3972 25.8867 14.5925 25.9433 14.8009C25.9999 15.0092 26.0143 15.2265 25.9857 15.4403C25.9572 15.6542 25.8862 15.8604 25.7769 16.0471C25.6675 16.2339 25.522 16.3976 25.3485 16.5289C25.175 16.6602 24.977 16.7565 24.7658 16.8123L12.7044 20L9 15.8786L11.4116 15.2406L13.4511 16.4025L15.8636 15.7645L12.7469 10.6372L15.1593 10L19.8835 14.7019H19.8843Z"
+                            stroke="white"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M10 24H25"
+                            stroke="white"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        <span>
+                          <span className="font-bold text-primary-500">Hotel</span> 4 estrelas em
+                          boa localização
+                        </span>
+                      </li>
+                      <li className="flex gap-3 items-center">
+                        {" "}
+                        <svg
+                          width="35"
+                          height="35"
+                          viewBox="0 0 35 35"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle cx="17.5" cy="17.5" r="17.5" fill="#0AB9AD" />
+                          <path
+                            d="M19.8843 14.7019L23.9042 13.6393C24.1154 13.5835 24.3357 13.5693 24.5525 13.5975C24.7692 13.6257 24.9783 13.6957 25.1676 13.8035C25.357 13.9114 25.5229 14.055 25.656 14.2261C25.7891 14.3972 25.8867 14.5925 25.9433 14.8009C25.9999 15.0092 26.0143 15.2265 25.9857 15.4403C25.9572 15.6542 25.8862 15.8604 25.7769 16.0471C25.6675 16.2339 25.522 16.3976 25.3485 16.5289C25.175 16.6602 24.977 16.7565 24.7658 16.8123L12.7044 20L9 15.8786L11.4116 15.2406L13.4511 16.4025L15.8636 15.7645L12.7469 10.6372L15.1593 10L19.8835 14.7019H19.8843Z"
+                            stroke="white"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M10 24H25"
+                            stroke="white"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        <span>
+                          <span className="font-bold text-primary-500">Passeio</span> X
+                        </span>
+                      </li>
+                      <li className="flex gap-3 items-center">
+                        {" "}
+                        <svg
+                          width="35"
+                          height="35"
+                          viewBox="0 0 35 35"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle cx="17.5" cy="17.5" r="17.5" fill="#0AB9AD" />
+                          <path
+                            d="M19.8843 14.7019L23.9042 13.6393C24.1154 13.5835 24.3357 13.5693 24.5525 13.5975C24.7692 13.6257 24.9783 13.6957 25.1676 13.8035C25.357 13.9114 25.5229 14.055 25.656 14.2261C25.7891 14.3972 25.8867 14.5925 25.9433 14.8009C25.9999 15.0092 26.0143 15.2265 25.9857 15.4403C25.9572 15.6542 25.8862 15.8604 25.7769 16.0471C25.6675 16.2339 25.522 16.3976 25.3485 16.5289C25.175 16.6602 24.977 16.7565 24.7658 16.8123L12.7044 20L9 15.8786L11.4116 15.2406L13.4511 16.4025L15.8636 15.7645L12.7469 10.6372L15.1593 10L19.8835 14.7019H19.8843Z"
+                            stroke="white"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                          <path
+                            d="M10 24H25"
+                            stroke="white"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                        <span>
+                          <span className="text-primary-500 font-bold">Suporte</span> básico
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="font-bold flex flex-col gap-1 font-baloo text-2xl">
+                  <h1>A partir de</h1>
+                  <span className="text-primary-500">R$0,00</span>
+                </div>
+                <div className="flex flex-col gap-2 w-full">
+                  <button
+                    className="inline-flex text-center justify-center gap-3 bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full font-baloo font-semibold text-xl transition-colors min-w-64"
+                    type="button"
+                  >
+                    <span>Reservar no Whats</span>
+                  </button>
+                  <button
+                    className="flex justify-center gap-3  text-black px-8 py-4 rounded-full font-baloo font-semibold text-xl transition-colors min-w-64"
+                    type="button"
+                  >
+                    <span>Ver detalhes</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="flex items-center p-3 flex-col gap-4">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
-              Por que {experience.title}?
+              A sua <span className="text-primary-500">Jornada Evolved</span>
             </h1>
+            <div className="container w-full gap-10 p-0">
+              <div className="bg-white shadow-lg rounded-lg w-full h-full max-h-[100vh] flex flex-col gap-5 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors">
+                <div className="h-[150rem]">
+                  <PhotoCarousel title="Cruzeiros" photos={photos} />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <span className="font-bold text-xl">
+                    Com <span className="italic text-primary-500">tudo</span> cuidado para você
+                  </span>
+                  <div className="flex flex-col gap-2">
+                    <span className="font-bold text-2xl font-baloo text-primary-500">Inclui:</span>
+                    <ul className="list-disc pl-5 flex flex-col gap-3 text-md font-comfortaa">
+                      <li>
+                        <span className="font-bold text-primary-500">Itinerário personalizado</span>
+                      </li>
+                      <li>Escolha dos melhores voos, hospedagens e passeios</li>
+                      <li>Indicação de restaurantes</li>
+                      <li>
+                        Logística detalhada da viagem, com reserva de transfers, trens, aluguéis de
+                        carros
+                      </li>
+                      <li>
+                        <span className="font-bold text-primary-500">Assistência</span> 24/7
+                      </li>
+                      <li>Mimos exclusivos</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="font-bold flex flex-col gap-1 font-baloo text-2xl italic">
+                  <span>
+                    Taxa de <span className="text-primary-500">consultoria</span> + Viagem conforme
+                    seu orçamento
+                  </span>
+                </div>
+                <div className="flex flex-col gap-2 w-full">
+                  <button
+                    className="inline-flex text-center justify-center gap-3 bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full font-baloo font-semibold text-xl transition-colors min-w-64"
+                    type="button"
+                  >
+                    <span>Contratar pelo Whats</span>
+                  </button>
+                  <button
+                    className="flex justify-center gap-3  text-black px-8 py-4 rounded-full font-baloo font-semibold text-xl transition-colors min-w-64"
+                    type="button"
+                  >
+                    <span>Ver detalhes</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </section>
 
           {/* Conversa com Especialistas */}
-          <section className="flex items-center p-2 flex-col gap-4 ">
+          <section className="flex items-center p-2 flex-col gap-4 container">
             <div className="flex flex-col gap-2 px-10 py-5 ">
               <h1 className="font-baloo text-3xl font-bold md:text-4xl">
                 Por que a <span className="text-primary-500">Trip Evolved</span>?
@@ -150,7 +430,7 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
           </section>
 
           {/* Por que a Trip Evolved? */}
-          <section className="flex flex-col gap-5 bg-secondary-200 p-10">
+          <section className="flex flex-col gap-5 bg-secondary-200 p-10 ">
             <div className="flex flex-col gap-9 justify-center items-center px-6">
               <div className="flex md:grid md:grid-cols-2 md:grid-rows-2 flex-col items-center gap-10 md:max-w-5xl">
                 <DetailsCard
@@ -176,8 +456,8 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
           </section>
 
           {/* O que dizem nossos clientes? */}
-          <section className="flex flex-col p-8">
-            <div className="flex pl-3">
+          <section className="flex flex-col md:px-8 md:py-8 px-2 py-8 container">
+            <div className="flex md:justify-center pl-3">
               <h1 className="font-baloo text-3xl font-bold md:text-4xl">
                 O que dizem nossos clientes?
               </h1>
@@ -190,14 +470,14 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
           </section>
 
           {/* Oportunidades Exclusivas */}
-          <section className="flex flex-col justify-center gap-3 from-primary-600 to-primary-700 bg-gradient-to-br p-10">
+          <section className="flex flex-col justify-center gap-3 from-primary-600 to-primary-700 bg-gradient-to-br p-10 ">
             <div className="flex pl-3">
               <h1 className="font-baloo text-3xl font-bold md:text-4xl text-white">
                 Quer entender como podemos te ajudar?
               </h1>
             </div>
             <div className="flex flex-col items-center gap-4">
-              <p className="text-lg px-3 text-white">
+              <p className="text-lg px-8 text-white">
                 Entendemos que cada viagem é única, porque você é único. Nos chame no Whats;
                 adoraríamos entender você e seus desejos para transformar em uma viagem
                 inesquecível.
