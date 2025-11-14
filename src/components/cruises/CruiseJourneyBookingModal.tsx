@@ -58,7 +58,7 @@ export function CruiseJourneyBookingModal({
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-6"
+        className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-2"
         onClick={onClose}
       >
         <div
@@ -72,8 +72,10 @@ export function CruiseJourneyBookingModal({
 
           {/* Process Preview */}
           <div className="bg-primary-50 rounded-xl p-6 mb-6">
-            <h1 className="font-baloo font-semibold text-xl mb-4 text-left md:text-2xl">O processo</h1>
-            <div className="space-y-3  text-sm md:text-base text-primary-600 text-left">
+            <h1 className="font-baloo font-semibold text-xl mb-4 text-left md:text-2xl">
+              O processo
+            </h1>
+            <div className="space-y-3  text-base  md:text-base text-primary-600 text-left">
               <div className="flex items-center gap-3">
                 <div className="w-6 h-6 bg-primary-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">
                   1
@@ -124,34 +126,38 @@ export function CruiseJourneyBookingModal({
             </div>
           </div>
           <div className="flex items-center justify-center p-3 mb-6">
-            <div className="flex text-center gap-6 items-center justify-around font-medium font-baloo">
-              <div className="w-40 h-36  rounded-2xl flex justify-center items-center p-3  bg-primary-300/30">
-                <span className="text-xl font-bold text-primary-700 font-comfortaa">
-                  Pensado para você
-                </span>
-              </div>
-              <div className="w-40 h-36  rounded-2xl flex justify-center items-center p-3 bg-accent-300/30">
-                <span className="text-xl font-bold font-comfortaa text-accent-500">
-                  Conveniente
-                </span>
-              </div>
-              <div className="w-40 h-36  rounded-2xl flex justify-center items-center p-3 bg-primary-300/30">
-                <span className="text-xl font-bold text-primary-700 font-comfortaa p-3">
-                  Feito por especialistas
-                </span>
+            <div className="relative w-full md:flex-row flex-col flex text-center gap-6 items-center justify-center font-medium font-baloo">
+              <div className="relative w-[274px] h-[376px] md:w-[400px] md:h-[264px]">
+                <div className="w-40 h-36  rounded-2xl flex justify-center items-center p-3  bg-primary-300/30 absolute left-0 top-0">
+                  <span className="text-xl font-bold text-primary-700 font-comfortaa">
+                    Pensado para você
+                  </span>
+                </div>
+                <div className="w-40 h-36  rounded-2xl flex justify-center items-center p-3 bg-accent-300/30 absolute left-[120px] md:top-[120px] top-[120px]">
+                  <span className="text-xl font-bold font-comfortaa text-accent-500">
+                    Conveniente
+                  </span>
+                </div>
+                <div className="w-40 h-36  rounded-2xl flex justify-center items-center p-3 bg-primary-300/30 absolute md:left-[240px] md:top-0 left-0 top-[240px]">
+                  <span className="text-xl font-bold text-primary-700 font-comfortaa p-3">
+                    Feito por especialistas
+                  </span>
+                </div>
               </div>
             </div>
           </div>
           <div className="container mb-6">
             <div className="flex flex-col items-center gap-4">
               <h1 className="font-baloo text-3xl text-primary-500 font-bold">
-                Entenda como funciona, nas palavras do <span className="text-accent-500">Henrique</span>, nosso sócio
+                Entenda como funciona, nas palavras do{" "}
+                <span className="text-accent-500">Henrique</span>, nosso sócio
               </h1>
-              <div>
+              <div className="h-96">
                 <MuxVideoPlayer
                   playbackId="36MPnXNByTEUZpeN00DMChaLhhXUYPgLkniNy6k2kCmw"
                   isMuted={false}
                   loop={false}
+                  className="object-cover h-full"
                   placeholderImage="/assets/consultoria/caribe/vsl_poster.jpg"
                 />
               </div>
@@ -185,7 +191,7 @@ export function CruiseJourneyBookingModal({
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+            className="absolute top-3 right-3 md:text-white text-gray-500 hover:text-gray-300 transition-colors"
           >
             <svg
               className="w-6 h-6"
