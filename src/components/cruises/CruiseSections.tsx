@@ -13,18 +13,18 @@ interface CruiseSectionsProps {
 const cruiseTypeConfig = {
   relax: {
     label: "Bem-estar e tranquilidade",
-    description: "Cruzeiros focados em relaxamento e bem-estar"
+    description: "Luxo sensorial sem ostentação"
   },
   destination: {
-    label: "Experiências nos destinos",
-    description: "Cruzeiros com foco em destinos únicos e experiências gastronômicas"
+    label: "Viver o destino",
+    description: "Não apenas visitá-lo"
   },
   expedition: {
     label: "Expedições únicas",
     description: "Cruzeiros de aventura e exploração"
   },
   river: {
-    label: "Fluviais",
+    label: "Refinamento cultural",
     description: "Cruzeiros fluviais por rios icônicos do mundo"
   }
 };
@@ -54,7 +54,7 @@ export default function CruiseSections({ handleClick }: CruiseSectionsProps) {
     try {
       const response = await CruisesApiService.getCruisesByType({
         type,
-        limit: 10
+        limit: 3
       });
       
       setCruises(prev => ({
@@ -104,7 +104,7 @@ export default function CruiseSections({ handleClick }: CruiseSectionsProps) {
       </div>
 
       {/* Active Section */}
-      <section className="md:p-8 p-5 flex flex-col gap-7 container mx-auto mt-6">
+      <section className="md:p-8 px-2 py-4 flex flex-col gap-7 container mx-auto">
         
         {error && (
           <div className="text-center py-8">
@@ -126,10 +126,15 @@ export default function CruiseSections({ handleClick }: CruiseSectionsProps) {
         )}
         
         {!loading[activeType] && !error && (
-          <CruiseCarousel 
-            handleClick={handleClick} 
-            cruises={cruises[activeType]}
-          />
+          <>
+            <p className="text-xl max-w-3xl mx-auto text-center">
+              {cruiseTypeConfig[activeType].description}
+            </p>
+            <CruiseCarousel 
+              handleClick={handleClick} 
+              cruises={cruises[activeType]}
+            />
+          </>
         )}
       </section>
     </div>

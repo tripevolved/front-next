@@ -10,7 +10,7 @@ interface CruiseCarouselProps {
   cardsCount?: number;
 }
 
-export default function CruiseCarousel({ handleClick, cruises, cardsCount = 4 }: CruiseCarouselProps) {
+export default function CruiseCarousel({ handleClick, cruises, cardsCount = 3 }: CruiseCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: string) => {
@@ -30,6 +30,7 @@ export default function CruiseCarousel({ handleClick, cruises, cardsCount = 4 }:
           <CruiseCard handleClick={handleClick} cruise={cruise} />
         </div>
       ))
+      // TODO: REMOVE THIS WHEN WE HAVE THE DATA
     : Array.from({ length: cardsCount }, (_, index) => (
         <div key={index} className="flex-shrink-0 w-80 md:w-96">
           <CruiseCard handleClick={handleClick} />

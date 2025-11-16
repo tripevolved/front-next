@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Button from "../common/Button";
 import { PhotoCarousel } from "../PhotoCarousel";
 import { Photo } from "@/core/types";
@@ -52,42 +51,40 @@ export const CruiseCard = ({ handleClick, cruise }: CruiseCardProps) => {
   ];
 
   return (
-    <div
-      className="bg-white shadow-lg rounded-lg w-full md:max-w-3xl h-full max-h-[70vh] flex flex-col gap-5 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors"
-      onClick={handleClick}
-    >
+    <div className="bg-white shadow-lg rounded-lg w-full md:max-w-3xl h-full max-h-[70vh] flex flex-col cursor-pointer hover:bg-gray-300/30 transition-colors">
       <div className="h-96">
         <PhotoCarousel title="Cruzeiros" photos={photos} />
       </div>
-      <div>
-        <p className="text-gray-600 text-xl font-bold">
-          {cruise?.company || "Explora Journeys"}
-        </p>
-      </div>
-      <div className="flex flex-col w-full items-start gap-4">
-        <span className="text-2xl text-primary-500 font-bold">
-          {cruise?.title || "Nice - Roma: Uma Jornada Incrível"}
-        </span>
+      <div
+        className="md:max-w-3xl flex flex-col gap-3 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors"
+        onClick={handleClick}
+      >
         <div>
-          <p className="md:text-lg">
-            <span className="font-extrabold italic">{cruise?.cabinType || "Ocean Terrace Suite"}</span> a partir de{" "}
-            <span className="text-gray-800 font-bold">R$</span>
-            <span className="text-primary-500 font-bold">{cruise?.price || "X,00"}</span>
-          </p>
-          <p className="md:text-lg">
-            De <span className="text-primary-500 font-bold">{cruise?.departureDate || "12"}</span> a{" "}
-            <span className="text-primary-500 font-bold">{cruise?.arrivalDate || "20"}</span> de abril de{" "}
-            <span className="font-extrabold">2026</span>
+          <p className="text-gray-500">
+            {cruise?.company || "Explora Journeys"}
           </p>
         </div>
-      </div>
-      <div className="flex justify-center w-full">
-        <Button
-          className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-xl font-semibold hover:bg-accent-600 transition-all md:w-9/12 w-11/12"
-          onClick={handleClick}
-        >
-          Quero saber mais
-        </Button>
+        <div className="flex flex-col w-full items-start gap-4">
+          <span className="text-2xl text-primary-500 font-bold">
+            {cruise?.title || "Nice - Roma: Uma Jornada Incrível"}
+          </span>
+          <div>
+            <p className="md:text-lg">
+              De {cruise?.departureDate || "12"} a {cruise?.arrivalDate || "20"} de abril de 2026
+            </p>
+            <p className="md:text-lg">
+              <span className="italic">{cruise?.cabinType || "Ocean Terrace Suite"}</span> a partir de {cruise?.price || "R$X,00"}
+            </p>
+          </div>
+        </div>
+        <div className="flex justify-center w-full">
+          <Button
+            className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-xl font-semibold hover:bg-accent-600 transition-all md:w-9/12 w-11/12"
+            onClick={handleClick}
+          >
+            Quero saber mais
+          </Button>
+        </div>
       </div>
     </div>
   );
