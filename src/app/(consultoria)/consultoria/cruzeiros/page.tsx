@@ -91,12 +91,12 @@ export default function CompraConsultoria() {
         </div>
       </section>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col">
         {/* Content */}
         <section id="cruise-info" className="p-10 flex flex-col gap-7 bg-secondary-500 text-white">
           <div className="flex pl-3">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">
-              Os melhores cruzeiros de luxo para casais
+              Para você, que entende que o cruzeiro é um meio para uma jornada única
             </h1>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-4">
@@ -110,12 +110,12 @@ export default function CompraConsultoria() {
             </div>
             <div className="space-y-6">
               <p className="font-comfortaa text-xl leading-relaxed">
-                Navios gigantes e lotados? Horário para jantar? A sua viagem não é sobre isso.
+                Navios gigantes e lotados? Horário para jantar? A sua viagem <span className="text-primary-500 font-bold">não</span> é sobre isso.
               </p>
               <p className="font-comfortaa text-xl leading-relaxed">
                 Na <span className="text-primary-500 font-bold">Trip</span>{" "}
                 <span className="text-accent-500 font-bold">Evolved</span>, realizamos uma curadoria
-                dos melhores cruzeiros de luxo do mundo. O foco é em serviço, exclusividade, gastronomia e imersão cultural. Usamos nossa experiência para te guiar na escolha da melhor viagem.
+                dos melhores cruzeiros de luxo do mundo. O foco é no que você precisa: a culinária como parte central da experiência, serviço, exclusividade e, claro, o destino como foco de tudo isso. Usamos nossa experiência para te guiar na escolha da melhor viagem.
               </p>
             </div>
           </div>
@@ -170,17 +170,17 @@ export default function CompraConsultoria() {
               Por que a Trip Evolved?
             </h2>
             <p className="font-comfortaa text-xl text-gray-600 max-w-3xl mx-auto">
-              Criada por Henrique Gasparotto e Deborah Eppi, a Trip Evolved nasceu porque acreditamos que viagens são experiências únicas e merecem ser vividas como tal.
+              Criada por Henrique Gasparotto, a Trip Evolved nasceu porque acreditamos que viagens são experiências únicas e merecem ser vividas como tal.
             </p>
           </div>
           <div className="flex flex-col gap-9 justify-center items-center px-6">
             <div className="flex md:grid md:grid-cols-2 md:grid-rows-2 flex-col items-center gap-10 md:max-w-5xl">
               <DetailsCard
                 message={
-                  <p>
+                  <>
                     Curadoria dos melhores{" "}
                     <span className="font-bold text-accent-500">cruzeiros</span> do mundo
-                  </p>
+                  </>
                 }
                 icon={
                   <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -206,9 +206,9 @@ export default function CompraConsultoria() {
               />
               <DetailsCard
                 message={
-                  <p>
+                  <>
                     Assistência de <span className="font-bold text-accent-500">especialistas</span> em todos os momentos
-                  </p>
+                  </>
                 }
                 icon={
                   <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">

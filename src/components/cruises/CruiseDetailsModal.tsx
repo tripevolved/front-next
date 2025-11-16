@@ -1,6 +1,7 @@
 import Image from "next/image";
 import CruiseImageCarousel from "./CruiseImageCarousel";
 import CruiseOptionsCarousel from "./CruisesOptionsCarousel";
+import { WhatsAppDirectButton } from "../WhatsAppDirectButton";
 
 type CruiseDetailsModalProps = {
   isOpen: boolean;
@@ -26,23 +27,23 @@ export default function CruiseDetailsModal({ isOpen, handleClose }: CruiseDetail
               />
             </svg>
           </button>
-          <div className="flex flex-col gap-5 p-3 flex-1 overflow-y-auto pb-9">
-            <div className="w-full">
+          <div className="flex flex-col gap-3 flex-1 overflow-y-auto pb-9">
+            <div className="w-full mt-2">
               <CruiseImageCarousel />
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-lg text-gray-500">Explora Journeys</span>
-              <h1 className="font-bold text-primary-500 text-lg">
+              <span className="text-gray-500">Explora Journeys</span>
+              <h1 className="font-bold text-primary-500 text-xl">
                 Nice - Roma: uma jornada incrível
               </h1>
               <span className="font-bold text-gray-500">De 12 a 20 de abril de 2026</span>
             </div>
-            <div className="bg-primary-50 border-2 border-primary-500 p-3 md:px-4 px-2  flex items-center justify-center text-center flex-wrap whitespace-pre-line gap-6 rounded-[40px]">
+            <div className="bg-primary-50 p-3 md:px-4 px-2  flex items-center justify-center text-center flex-wrap whitespace-pre-line gap-6 rounded-[40px]">
               <span className="text-gray-600 text-md italic">
                 &quot;Essa jornada combina toda a grandiosidade e cuidado Explora Journeys com as
                 paisagens perfeitas e espetaculares de Roma e Nice. Perfeita para curtir a dois&quot;
               </span>
-              <div className="flex justify-around items-center gap-3">
+              <div className="flex justify-around items-center gap-2">
                 <Image
                   src="/assets/sobre/gasp.png"
                   alt="Decorative element"
@@ -57,41 +58,208 @@ export default function CruiseDetailsModal({ isOpen, handleClose }: CruiseDetail
             </div>
             <div className="flex flex-col gap-8 p-3">
               <div className="flex flex-col gap-3">
-                <div className="flex gap-2 items-center">
-                  <h1 className="font-bold text-xl">Suítes</h1>
-                  <img
-                    src="/assets/emojis/accomodation.png"
-                    className="max-w-10 max-h-10"
-                    alt="Emoji de suíte"
-                  />
-                </div>
+                <h1 className="font-bold text-xl">Itinerário</h1>
+                <div className="flex flex-col gap-4">
+                  {/* Day 1 */}
+                  <div className="flex gap-4 items-start border-b border-gray-200 pb-4">
+                    <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                      <Image
+                        src="/assets/destinations/nice.jpg"
+                        alt="Nice, França"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-primary-500">Dia 1</span>
+                        <span className="text-sm text-gray-500">12 de abril</span>
+                      </div>
+                      <h3 className="font-semibold text-gray-900">Nice, França</h3>
+                      <p className="text-sm text-gray-600">Embarque • 17:00 - 22:00</p>
+                      <p className="text-sm text-gray-500">
+                        Início da jornada na deslumbrante Costa Azul francesa
+                      </p>
+                    </div>
+                  </div>
 
-                <div>
-                  <CruiseOptionsCarousel />
+                  {/* Day 2 */}
+                  <div className="flex gap-4 items-start border-b border-gray-200 pb-4">
+                    <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                      <Image
+                        src="/assets/destinations/monte-carlo.jpg"
+                        alt="Monte Carlo, Mônaco"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-primary-500">Dia 2</span>
+                        <span className="text-sm text-gray-500">13 de abril</span>
+                      </div>
+                      <h3 className="font-semibold text-gray-900">Monte Carlo, Mônaco</h3>
+                      <p className="text-sm text-gray-600">08:00 - 18:00</p>
+                      <p className="text-sm text-gray-500">
+                        Explore o glamour e luxo do principado de Mônaco
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Day 3 */}
+                  <div className="flex gap-4 items-start border-b border-gray-200 pb-4">
+                    <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                      <Image
+                        src="/assets/destinations/portofino.jpg"
+                        alt="Portofino, Itália"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-primary-500">Dia 3</span>
+                        <span className="text-sm text-gray-500">14 de abril</span>
+                      </div>
+                      <h3 className="font-semibold text-gray-900">Portofino, Itália</h3>
+                      <p className="text-sm text-gray-600">08:00 - 20:00</p>
+                      <p className="text-sm text-gray-500">
+                        Vilarejo de pescadores com charme inigualável
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Day 4 */}
+                  <div className="flex gap-4 items-start border-b border-gray-200 pb-4">
+                    <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                      <Image
+                        src="/assets/destinations/livorno.jpg"
+                        alt="Livorno (Florença), Itália"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-primary-500">Dia 4</span>
+                        <span className="text-sm text-gray-500">15 de abril</span>
+                      </div>
+                      <h3 className="font-semibold text-gray-900">Livorno (Florença), Itália</h3>
+                      <p className="text-sm text-gray-600">07:00 - 19:00</p>
+                      <p className="text-sm text-gray-500">
+                        Portal para Florença, berço do Renascimento
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Day 5 */}
+                  <div className="flex gap-4 items-start border-b border-gray-200 pb-4">
+                    <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                      <Image
+                        src="/assets/destinations/elba.jpg"
+                        alt="Ilha de Elba, Itália"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-primary-500">Dia 5</span>
+                        <span className="text-sm text-gray-500">16 de abril</span>
+                      </div>
+                      <h3 className="font-semibold text-gray-900">Ilha de Elba, Itália</h3>
+                      <p className="text-sm text-gray-600">08:00 - 18:00</p>
+                      <p className="text-sm text-gray-500">
+                        Ilha paradisíaca com praias cristalinas
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Day 6 */}
+                  <div className="flex gap-4 items-start border-b border-gray-200 pb-4">
+                    <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                      <Image
+                        src="/assets/destinations/porto-santo-stefano.jpg"
+                        alt="Porto Santo Stefano, Itália"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-primary-500">Dia 6</span>
+                        <span className="text-sm text-gray-500">17 de abril</span>
+                      </div>
+                      <h3 className="font-semibold text-gray-900">Porto Santo Stefano, Itália</h3>
+                      <p className="text-sm text-gray-600">08:00 - 17:00</p>
+                      <p className="text-sm text-gray-500">
+                        Charmosa cidade portuária na costa toscana
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Day 7 */}
+                  <div className="flex gap-4 items-start border-b border-gray-200 pb-4">
+                    <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                      <Image
+                        src="/assets/destinations/amalfi.jpg"
+                        alt="Costa Amalfitana, Itália"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-primary-500">Dia 7</span>
+                        <span className="text-sm text-gray-500">18 de abril</span>
+                      </div>
+                      <h3 className="font-semibold text-gray-900">Costa Amalfitana, Itália</h3>
+                      <p className="text-sm text-gray-600">07:00 - 19:00</p>
+                      <p className="text-sm text-gray-500">
+                        Uma das costas mais bonitas do mundo
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Day 8 */}
+                  <div className="flex gap-4 items-start">
+                    <div className="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+                      <Image
+                        src="/assets/destinations/rome.jpg"
+                        alt="Roma (Civitavecchia), Itália"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-primary-500">Dia 8</span>
+                        <span className="text-sm text-gray-500">20 de abril</span>
+                      </div>
+                      <h3 className="font-semibold text-gray-900">Roma (Civitavecchia), Itália</h3>
+                      <p className="text-sm text-gray-600">Desembarque • 08:00</p>
+                      <p className="text-sm text-gray-500">
+                        Fim da jornada na Cidade Eterna
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
+
               <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-3">
-                  <h1 className="font-bold text-xl">Gastronomia</h1>
-                  <img
-                    src="/assets/emojis/food.png"
-                    alt="Emoji de talheres"
-                    className="max-w-10 max-h-10"
-                  />
-                </div>
-                <div>
-                  <CruiseOptionsCarousel />
-                </div>
+                <h1 className="font-bold text-xl">Suítes</h1>
+                <CruiseOptionsCarousel />
+              </div>
+              <div className="flex flex-col gap-3">
+                <h1 className="font-bold text-xl">Gastronomia</h1>
+                <CruiseOptionsCarousel />
               </div>
             </div>
           </div>
           <div className="absolute bottom-4 left-8 right-8 z-20 bg-gradient-to-t from-white via-white to-transparent pt-4">
-            <button className="inline-flex items-center justify-center  gap-3 w-full text-center bg-green-500 hover:bg-green-600 py-2 rounded text-white transition-colors">
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
-              </svg>
-              Reservar no Whats
-            </button>
+            <WhatsAppDirectButton className="w-full" message="Olá! Gostaria de falar sobre o cruzeiro Nice - Roma: uma jornada incrível. Podem me ajudar?">
+              Reservar
+            </WhatsAppDirectButton>
           </div>
         </div>
       </div>

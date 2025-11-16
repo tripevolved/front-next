@@ -50,7 +50,7 @@ export default function CruiseConsultancyModal({ isOpen, onClose }: CruiseConsul
 
         <div className="text-center mb-6">
           <h2 className="font-baloo text-2xl md:text-3xl font-bold text-secondary-900 mb-4">
-            Vamos conversar sobre sua Voyage?
+            Vamos conversar sobre sua Jornada?
           </h2>
           <p className="font-comfortaa text-lg text-gray-600">
             Nossos especialistas vão entrar em contato para agendar sua conversa inicial
