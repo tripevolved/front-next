@@ -91,7 +91,7 @@ export default function CompraConsultoria() {
         </div>
       </section>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col">
         {/* Content */}
         <section id="cruise-info" className="p-10 flex flex-col gap-7 bg-secondary-500 text-white">
           <div className="flex pl-3">
