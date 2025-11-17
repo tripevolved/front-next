@@ -112,22 +112,6 @@ export default function Footer() {
                   Jornada Evolved
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/servicos/plano-evolved"
-                  className="text-white/80 hover:text-white transition-colors text-sm"
-                >
-                  Plano Evolved
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/servicos/evolved-experiencias"
-                  className="text-white/80 hover:text-white transition-colors text-sm"
-                >
-                  Evolved Experiências
-                </Link>
-              </li>
             </ul>
           </div>
 
