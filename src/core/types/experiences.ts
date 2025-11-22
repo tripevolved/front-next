@@ -1,4 +1,5 @@
 import type { Cruise } from "./cruise";
+import { exploraII } from "./ships";
 
 export interface Experience {
   name: string;
@@ -454,97 +455,7 @@ export const mockExperiences: Experience[] = [
                 included: false,
               },
             ],
-            ship: {
-              name: "Freedom of the Seas",
-              company: "Royal Caribbean International",
-              capacity: 3634,
-              yearBuilt: 2006,
-              refurbished: 2020,
-              length: "339 metros",
-              width: "56 metros",
-              decks: 15,
-              features: [
-                "FlowRider surf simulator",
-                "Rock climbing wall",
-                "Ice skating rink",
-                "Mini golf course",
-                "Basketball court",
-                "Fitness center",
-                "Spa and wellness center",
-              ],
-              amenities: [
-                {
-                  category: "Piscinas",
-                  items: [
-                    "Piscina principal",
-                    "Piscina para adultos",
-                    "Piscina infantil",
-                    "Jacuzzis",
-                  ],
-                },
-                {
-                  category: "Esportes",
-                  items: [
-                    "Academia completa",
-                    "Quadra de basquete",
-                    "Parede de escalada",
-                    "FlowRider",
-                  ],
-                },
-                {
-                  category: "Entretenimento",
-                  items: ["Teatro principal", "Casino", "Discoteca", "Karaokê"],
-                },
-              ],
-              dining: [
-                {
-                  name: "Main Dining Room",
-                  type: "main",
-                  description: "Restaurante principal com menu variado",
-                  included: true,
-                },
-                {
-                  name: "Windjammer Café",
-                  type: "casual",
-                  description: "Buffet internacional",
-                  included: true,
-                },
-                {
-                  name: "Chops Grille",
-                  type: "specialty",
-                  description: "Steakhouse premium",
-                  included: false,
-                },
-                {
-                  name: "Giovanni's Table",
-                  type: "specialty",
-                  description: "Culinária italiana autêntica",
-                  included: false,
-                },
-              ],
-              entertainment: [
-                {
-                  name: "AquaTheater",
-                  type: "show",
-                  description: "Shows aquáticos com acrobatas",
-                },
-                {
-                  name: "Studio B",
-                  type: "venue",
-                  description: "Teatro para shows de gelo",
-                },
-                {
-                  name: "Promenade",
-                  type: "venue",
-                  description: "Área central com lojas e cafés",
-                },
-                {
-                  name: "Casino Royale",
-                  type: "activity",
-                  description: "Casino com jogos de mesa e slots",
-                },
-              ],
-            },
+            ship: exploraII,
           },
         },
         highlights: {

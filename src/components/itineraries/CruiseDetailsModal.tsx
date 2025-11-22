@@ -276,7 +276,7 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
                     <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
                       <div className="relative h-48">
                         <Image
-                          src={experience.image || `/assets/experiences/miami/experience-${index + 1}.jpg`}
+                          src={experience.image!}
                           alt={experience.name}
                           fill
                           className="object-cover"
@@ -313,7 +313,7 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
                 {/* Ship Hero Image */}
                 <div className="relative h-64 rounded-lg overflow-hidden">
                   <Image
-                    src="/assets/experiences/miami/freedom-of-seas.png"
+                    src={cruise.details.ship.image}
                     alt={cruise.details.ship.name}
                     fill
                     className="object-cover"
@@ -397,7 +397,7 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
                       <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
                         <div className="relative h-32">
                           <Image
-                            src={`/assets/experiences/miami/restaurant-${index + 1}.jpg`}
+                            src={restaurant.image!}
                             alt={restaurant.name}
                             fill
                             className="object-cover"
@@ -429,7 +429,7 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
                       <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
                         <div className="relative h-32">
                           <Image
-                            src={`/assets/experiences/miami/entertainment-${index + 1}.jpg`}
+                            src={item.image!}
                             alt={item.name}
                             fill
                             className="object-cover"
