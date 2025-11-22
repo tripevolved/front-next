@@ -15,6 +15,13 @@ export interface Experience {
     description: string;
     image: string;
   }[];
+  price?: {
+    included: string[];
+    notIncluded: string[];
+    pricePerPerson: number;
+    total: number;
+    currency: string;
+  };
   itinerary: {
     period: number;
     date: string;
@@ -267,6 +274,33 @@ export const mockExperiences: Experience[] = [
       "/assets/experiences/miami/caribbean-islands.png",
       "/assets/experiences/miami/hard-rock-cafe.png",
     ],
+    price: {
+      included: [
+        "Voos internacionais ida e volta (São Paulo - Miami)",
+        "3 noites no Fontainebleau Miami Beach com café da manhã",
+        "5 noites no Freedom of the Seas em cabine externa com vista para o mar",
+        "Todas as refeições no restaurante principal do cruzeiro",
+        "Entretenimento e shows a bordo",
+        "Uso de piscinas, academia e atividades do navio",
+        "2 noites no JW Marriott Marquis Miami",
+        "City tour completo por Miami",
+        "Jantar no Hard Rock Café",
+        "Assistência de viagem",
+      ],
+      notIncluded: [
+        "Bebidas alcoólicas no cruzeiro",
+        "Restaurantes especializados do navio",
+        "Excursões em terra (Nassau, Cozumel, Costa Maya)",
+        "Spa e tratamentos a bordo",
+        "Gorjetas do cruzeiro",
+        "Despesas pessoais",
+        "Seguro viagem",
+        "Refeições não mencionadas",
+      ],
+      pricePerPerson: 12500,
+      total: 25000,
+      currency: "BRL",
+    },
     itinerary: [
       {
         period: 1,

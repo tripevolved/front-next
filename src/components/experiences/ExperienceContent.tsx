@@ -9,6 +9,7 @@ import { VideoOverlay } from "./VideoOverlay";
 import { ItineraryContent } from "@/components/itineraries";
 import { UniqueMomentsCarousel } from "@/components/uniqueMoments/UniqueMomentsCarousel";
 import { ExperienceExitModal } from "./ExperienceExitModal";
+import { formatCurrency } from "@/utils/helpers/currency.helper";
 
 interface ExperienceContentProps {
   experience: Experience;
@@ -194,17 +195,97 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
         type={experience.type === 'day-by-day' ? 'day' : 'period'}
       />
 
+      {/* Price Breakdown Section */}
+      {experience.price && (
+        <section className="py-16 bg-secondary-50">
+          <div className="max-w-[80%] mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-baloo font-bold text-secondary-900 mb-4">
+                Investimento
+              </h2>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                {/* Pricing Summary */}
+                <div className="bg-gradient-to-br from-primary-50 to-primary-100 p-8 border-b border-gray-200">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <p className="text-sm text-secondary-600 mb-2">Por pessoa</p>
+                      <p className="text-3xl font-baloo font-bold text-secondary-900">
+                        {formatCurrency(experience.price.pricePerPerson, experience.price.currency)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-secondary-600 mb-2">Total</p>
+                      <p className="text-3xl font-baloo font-bold text-primary-600">
+                        {formatCurrency(experience.price.total, experience.price.currency)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Included and Not Included */}
+                <div className="p-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Included Items */}
+                    {experience.price.included.length > 0 && (
+                      <div>
+                        <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4 flex items-center gap-2">
+                          <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                          Incluso
+                        </h3>
+                        <ul className="space-y-3">
+                          {experience.price.included.map((item, index) => (
+                            <li key={index} className="flex items-start gap-3">
+                              <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              </svg>
+                              <span className="text-secondary-700">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Not Included Items */}
+                    {experience.price.notIncluded.length > 0 && (
+                      <div>
+                        <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4 flex items-center gap-2">
+                          <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                          Não incluso
+                        </h3>
+                        <ul className="space-y-3">
+                          {experience.price.notIncluded.map((item, index) => (
+                            <li key={index} className="flex items-start gap-3">
+                              <svg className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                              </svg>
+                              <span className="text-secondary-600">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-br from-primary-600 to-primary-700">
         <div className="max-w-[80%] mx-auto text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-baloo font-bold text-white mb-6">
-              Quer sua viagem personalizada em 7 dias ou menos?
+              Quer uma viagem como essa, personalizada para você?
             </h2>
-            <p className="text-lg text-white/90 mb-8">
-              Nossa equipe de especialistas está pronta para criar uma experiência única para você, 
-              baseada em suas preferências e estilo de viagem.
-            </p>
             
             {/* Process Preview */}
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 mb-8">
