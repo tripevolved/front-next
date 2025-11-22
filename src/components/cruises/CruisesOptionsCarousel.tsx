@@ -79,6 +79,9 @@ export default function CruiseOptionsCarousel() {
     },
   ];
 
+  const handleConsoleLog = () => {
+    console.log("TESTETESTESTE")
+  }
   return (
     <div className="w-full">
       <div className="relative">
