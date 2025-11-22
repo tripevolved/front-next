@@ -238,7 +238,7 @@ export const mockExperiences: Experience[] = [
     ],
   },
   {
-    name: 'miami-cruise',
+    name: 'miami-e-bahamas',
     title: 'Miami com cruzeiro no Caribe',
     travelers: 'por Henrique Gasparotto',
     type: 'by-period',

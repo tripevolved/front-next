@@ -92,7 +92,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
 
   const handleWhatsAppClick = () => {
     const message = `Olá! Gostaria de saber mais sobre a experiência "${experience.title}". Pode me ajudar?`;
-    const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/5551993582462?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 

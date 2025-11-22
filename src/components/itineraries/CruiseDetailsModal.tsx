@@ -105,7 +105,7 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
         </div>
 
         {/* Tabs - Fixed Height */}
-        <div className="border-b border-gray-200 bg-white flex-shrink-0">
+        <div className="border-b border-gray-200 bg-white flex-shrink-0 overflow-x-auto">
           <div className="flex space-x-8 px-6">
             {tabs.map((tab) => (
               <button
@@ -130,7 +130,6 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Detalhes da Viagem</h3>
                     <div className="space-y-3">
                       <div>
                         <span className="text-sm text-gray-600">Porto de Partida:</span>
