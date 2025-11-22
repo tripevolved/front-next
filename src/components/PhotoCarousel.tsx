@@ -30,7 +30,6 @@ export function PhotoCarousel({ photos, title }: PhotoCarouselProps) {
     <div className="relative w-full h-full">
       {photos.map((photo, index) => {
         const parsedPhoto = parsePhotoWithType(photo)
-        console.log(parsedPhoto)
         return (
           <div
             key={index}

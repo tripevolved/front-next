@@ -238,10 +238,10 @@ export const mockExperiences: Experience[] = [
     ],
   },
   {
-    name: "miami-cruise",
-    title: "Miami com cruzeiro no Caribe",
-    travelers: "por Deborah Eppi",
-    type: "by-period",
+    name: 'miami-cruise',
+    title: 'Miami com cruzeiro no Caribe',
+    travelers: 'por Henrique Gasparotto',
+    type: 'by-period',
     isVisible: false,
     description:
       "Uma experiência única combinando a vibrante cidade de Miami com um cruzeiro pelo Caribe no Freedom of the Seas. Do luxo dos hotéis de Miami Beach às águas cristalinas do Caribe.",

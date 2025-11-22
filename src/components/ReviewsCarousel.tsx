@@ -10,30 +10,30 @@ interface Quote {
 
 const quotes: Quote[] = [
   {
-    text: "This product brings so much value! I love it!",
+    text: "Foi tudo perfeito, amamos tudo e já pretendemos voltar ano que vem. Transfer, voo, estadia, passeios, tudo maravilhoso. Minha esposa ficou apaixonada por tudo naquele lugar. Agradeço pela atenção e cuidado que tiveram com nosso momento especial.",
     footer: "Leandro M",
-    footerSub: "Viajou para Porto de Galinhas, PE",
+    footerSub: "Viajou para Porto de Galinhas, PE"
   },
   {
-    text: "u qualquer atendimento de outras agências. Só gratidão.",
+    text: "Gostaria de elogiar o excelente serviço prestado, suprindo além do esperado as necessidades em viagem, hospedagem e locação de veículos. Auxílio que superou qualquer atendimento de outras agências. Só gratidão.",
     footer: "Alexandra A",
-    footerSub: "Viajou para Roma, Itália",
+    footerSub: "Viajou para Roma, Itália"
   },
   {
     text: "Foi perfeito, tudo perfeito. Obrigadaaaa",
     footer: "Cassiane O",
-    footerSub: "Viajou para Dubai, Emirados Árabes Unidos",
+    footerSub: "Viajou para Dubai, Emirados Árabes Unidos"
   },
   {
-    text: "Pa gente gosta. Desde passagem aérea, locação de carro, hotéis... os hotéis estavam maravilhosos!",
+    text: "Passando para agradecer pela viagem, estava tudo maravilhoso e muito bem pensado. Vocês entenderam bem nosso perfil e o que a gente gosta. Desde passagem aérea, locação de carro, hotéis... os hotéis estavam maravilhosos!",
     footer: "Suzimara G",
-    footerSub: "Viajou para El Calafate e Ushuaia, Argentina",
+    footerSub: "Viajou para El Calafate e Ushuaia, Argentina"
   },
   {
-    text: "amos curtinaravilha de hotel, vale a pena! Nota 10!",
+    text: "Quero agradecer, estou adorando estar aqui, muito obrigada pelo carinho. Eles fizeram um roteiro de viagem para a gente, estamos curtindo todos os passeios. Maravilha de hotel, vale a pena! Nota 10!",
     footer: "Pedro e Fabiana",
-    footerSub: "Viajaram para Curaçao",
-  },
+    footerSub: "Viajaram para Curaçao"
+  }
 ];
 
 export default function ReviewsCarousel() {
@@ -102,7 +102,6 @@ export default function ReviewsCarousel() {
                 </svg>
               </button>
               <div className="flex flex-col gap-3 items-center justify-center text-center">
-                <h1 className="font-bold md:text-2xl text-lg">People love this!</h1>
                 <div className="italic md:text-xl">&quot;{quote.text}&quot;</div>
                 <div className="flex flex-row gap-1 h-5 md:h-7">
                   {new Array(5).fill(5).map((_, starIndex) => {

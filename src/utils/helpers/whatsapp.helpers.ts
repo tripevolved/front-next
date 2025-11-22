@@ -1,4 +1,4 @@
-const WHATSAPP_PHONE = "5512991694499";
+const WHATSAPP_PHONE = "5551993582462";
 
 export const getWhatsappLink = (message = "", phone = WHATSAPP_PHONE) => {
   const number = encodeURIComponent(phone);
