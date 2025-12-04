@@ -148,7 +148,7 @@ function CruiseComponent({
           </div>
         </div>
         <div className="w-full md:w-48 h-48 relative rounded-lg overflow-hidden">
-          <Image src={cruise.image} alt={cruise.name} fill className="object-cover" />
+          <Image src={cruise.images[0]} alt={cruise.name} fill className="object-cover" />
         </div>
       </div>
     </div>

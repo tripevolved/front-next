@@ -17,6 +17,7 @@ export interface CruiseItinerary {
     arrivalTime?: string;
     departureTime?: string;
     duration: string;
+    image?: string;
     highlights: string[];
   }[];
   route: string;
@@ -56,7 +57,7 @@ export interface Cruise {
   // Basic information (thumbnail view)
   name: string;
   description: string;
-  image: string;
+  images: string[];
   duration: string;
   
   // Detailed information
