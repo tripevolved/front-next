@@ -7,7 +7,7 @@ import { PhotoCarousel } from "../PhotoCarousel";
 import { Photo } from "@/core/types";
 import { MuxVideoPlayer } from "../MuxVideoPlayer";
 
-interface ExperienceExitModalProps {
+interface CruiseJourneyBookingModalProps {
   isOpen: boolean;
   onClose: () => void;
   experienceTitle: string;
@@ -17,7 +17,7 @@ export function CruiseJourneyBookingModal({
   isOpen,
   onClose,
   experienceTitle,
-}: ExperienceExitModalProps) {
+}: CruiseJourneyBookingModalProps) {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   const handleStartJourney = () => {

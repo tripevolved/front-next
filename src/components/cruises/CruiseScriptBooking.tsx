@@ -11,6 +11,7 @@ import { PhotoCarousel } from "../PhotoCarousel";
 import { Photo } from "@/core/types";
 import { MuxVideoPlayer } from "../MuxVideoPlayer";
 import { CruiseJourneyBookingModal } from "./CruiseJourneyBookingModal";
+import { CruiseBookingModal } from "./CruiseBookingModal";
 
 interface CruiseScriptProps {
   experience: Experience;
@@ -30,6 +31,10 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
 
   const handleOpenJourneyModal = () => {
     setIsCruiseJourneyDetailsModalOpen(true);
+  };
+
+  const handleOpenBookingModal = () => {
+    setIsCruiseDetailsModalOpen(true);
   };
 
   const photos: Photo[] = [
@@ -52,7 +57,7 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
           height: 100,
           width: 100,
           url: "https://cdn.expertphotography.com/wp-content/uploads/2020/10/Fine-Art-Photography-Examples-Sunlight-Planets-by-Troyes-Christina.jpg",
-          type: "lg",
+          type: arr"lg",
         },
       ],
       alt: "Foto casal jantar",
@@ -139,7 +144,7 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
 
           <section className="flex items-center p-3 flex-col gap-4">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl">O seu roteiro pronto</h1>
-            <div className="container w-full gap-10 p-0">
+            <div className="container w-full gap-10 p-0" onClick={handleOpenBookingModal}>
               <div className="bg-white shadow-lg rounded-lg w-full h-full max-h-[100vh] flex flex-col gap-5 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors">
                 <div className="h-96">
                   <PhotoCarousel photos={photos} title="aaaa" />
@@ -509,6 +514,11 @@ export default function CruiseScriptBooking({ experience }: CruiseScriptProps) {
       <CruiseJourneyBookingModal
         isOpen={isCruiseJourneyDetailsModalOpen}
         onClose={handleExitJourneyModal}
+        experienceTitle={experience.title}
+      />
+      <CruiseBookingModal
+        isOpen={isCruiseDetailsModalOpen}
+        onClose={handleExitModal}
         experienceTitle={experience.title}
       />
     </>
