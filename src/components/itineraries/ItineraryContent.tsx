@@ -273,7 +273,7 @@ export function ItineraryContent({ itinerary, mapImage, googleLink, type }: Itin
                       {/* Item Circle */}
                       <div className="flex-shrink-0 w-16 h-16 rounded-full bg-primary-100 flex flex-col items-center justify-center">
                         <span className="text-xs text-primary-600 font-comfortaa">
-                          {type === "day" ? "dia" : "fase"}
+                          {type === "day" ? "dia" : "parte"}
                         </span>
                         <span className="text-xl font-baloo font-bold text-primary-600">
                           {String(item.id).padStart(2, "0")}
@@ -345,7 +345,7 @@ export function ItineraryContent({ itinerary, mapImage, googleLink, type }: Itin
                       : "bg-primary-100 text-primary-600"
                   }`}
                 >
-                  <span className="text-xs font-comfortaa">{type === "day" ? "dia" : "fase"}</span>
+                  <span className="text-xs font-comfortaa">{type === "day" ? "dia" : "parte"}</span>
                   <span className="text-sm font-baloo font-bold">
                     {String(item.id).padStart(2, "0")}
                   </span>
@@ -383,7 +383,7 @@ export function ItineraryContent({ itinerary, mapImage, googleLink, type }: Itin
             <div className="relative h-[500px] mb-16 rounded-2xl overflow-hidden">
               <Image
                 src={item.image}
-                alt={`${type === "day" ? "Dia" : "Fase"} ${item.id} - ${item.activity}`}
+                alt={`${type === "day" ? "Dia" : "Parte"} ${item.id} - ${item.activity}`}
                 fill
                 className="object-cover"
               />

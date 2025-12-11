@@ -556,7 +556,9 @@ export const mockExperiences: Experience[] = [
         highlights: {
           description:
             "Uma jornada que celebra a beleza natural do Caribe em sua essência. Desde as praias douradas de Puerto Plata até as florestas tropicais exuberantes de Dominica, cada destino revela uma faceta única dessa região paradisíaca. Em Barbados, os ritmos Bajan e as praias de areia branca encantam, enquanto Guadalupe surpreende com suas paisagens vulcânicas. Os dias no mar oferecem um momento perfeito para relaxar e aproveitar todas as comodidades do Explora I. Em St. John, as águas cristalinas e os recifes preservados são um paraíso para mergulhadores. A bordo, a exclusividade e tranquilidade imperam, com espaços amplos, serviço impecável e uma atmosfera de hotel boutique 5 estrelas flutuante.",
-          videos: undefined,
+          videos: [
+            "402mYYYzRmKX2rn014MLa7jaNVSfPTcGnMOESfwvLosQI",
+          ],
         },
       },
       {

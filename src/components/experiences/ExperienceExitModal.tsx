@@ -14,8 +14,8 @@ export function ExperienceExitModal({ isOpen, onClose, experienceTitle }: Experi
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
   const handleStartJourney = () => {
-    const message = `Olá! Gostaria de planejar uma viagem customizada similar à experiência ${experienceTitle}.`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank");
+    const message = `Olá! Gostaria de saber mais sobre a experiência "${experienceTitle}". Pode me ajudar?`;
+    window.open(`https://wa.me/5551993582462?text=${encodeURIComponent(message)}`, "_blank");
     onClose();
   };
 
