@@ -12,9 +12,11 @@ interface LeadFlowModalProps {
   onClose: () => void
   destinations: string[]
   source: string
+  skipDestination?: boolean
+  skipProfile?: boolean
 }
 
-type TravelType = 'casal' | 'individual'
+type TravelType = 'casal'
 
 interface LeadFlowData {
   travelType: TravelType | null
@@ -28,7 +30,7 @@ interface LeadFlowData {
   additionalDetails: string
 }
 
-export default function LeadFlowModal({ isOpen, onClose, destinations, source }: LeadFlowModalProps) {
+export default function LeadFlowModal({ isOpen, onClose, destinations, source, skipDestination = false, skipProfile = false }: LeadFlowModalProps) {
   const [currentStep, setCurrentStep] = useState(0)
   const [flowData, setFlowData] = useState<LeadFlowData>({
     travelType: null,
@@ -42,8 +44,27 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
     additionalDetails: ''
   })
 
+  // Define which logical steps to show (0-7)
+  const getVisibleSteps = (): number[] => {
+    const steps = [0] // Always show welcome step
+    if (!skipDestination) steps.push(1)
+    steps.push(2) // Travel type - always shown
+    if (!skipProfile) steps.push(3)
+    steps.push(4, 5, 6, 7) // Goals, dates, details, lead form - always shown
+    return steps
+  }
+
+  const visibleSteps = getVisibleSteps()
+  const totalSteps = visibleSteps.length
+  const finalStepIndex = totalSteps - 1
+
+  // Get the logical step number from the current visible step index
+  const getLogicalStep = (visibleStepIndex: number): number => {
+    return visibleSteps[visibleStepIndex] ?? 0
+  }
+
   const handleNext = () => {
-    if (currentStep === 7) {
+    if (currentStep === finalStepIndex) {
       // Stay on the same step (final step with lead form)
       return
     } else {
@@ -52,6 +73,7 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
   }
 
   const handleBack = () => {
+    if (currentStep === 0) return
     setCurrentStep(prev => prev - 1)
   }
 
@@ -77,7 +99,9 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
   }
 
   const renderStep = () => {
-    switch (currentStep) {
+    const logicalStep = getLogicalStep(currentStep)
+    
+    switch (logicalStep) {
       case 0:
         return (
           <div className="space-y-6">
@@ -97,6 +121,10 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
         )
 
       case 1:
+        if (skipDestination) {
+          // This step is skipped, should not reach here
+          return null
+        }
         return (
           <div className="space-y-6">
             <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-6">
@@ -161,6 +189,10 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
         )
 
       case 3:
+        if (skipProfile) {
+          // This step is skipped, should not reach here
+          return null
+        }
         return (
           <div className="space-y-6">
             <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-6">
@@ -295,6 +327,7 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
         )
 
       case 7:
+        // Final step (lead form) - always shown
         return (
           <div className="space-y-6">
             <div className="bg-accent-50 border border-accent-200 rounded-lg p-4">
@@ -322,10 +355,10 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
                   </div>
                   <div>
                     <h4 className="font-baloo text-base font-bold text-green-600">
-                      Contato dos especialistas
+                      Conversa inicial com um especialista
                     </h4>
                     <p className="text-green-500 font-comfortaa text-xs">
-                      Nossos especialistas entrarão em contato em até 24h úteis
+                      Nossos especialistas entrarão em contato em até 24h úteis para conversar sobre sua viagem
                     </p>
                   </div>
                 </div>
@@ -336,10 +369,10 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
                   </div>
                   <div>
                     <h4 className="font-baloo text-base font-bold text-gray-600">
-                      Reunião inicial com um especialista
+                      Sua proposta personalizada
                     </h4>
                     <p className="text-gray-500 font-comfortaa text-xs">
-                      Onde vamos conhecer você e sua viagem para criar uma proposta personalizada
+                      Nossos especialistas criarão uma proposta personalizada para sua viagem
                     </p>
                   </div>
                 </div>
@@ -440,17 +473,17 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
         <div className="mb-6 flex-shrink-0">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium text-secondary-600">
-              Passo {currentStep + 1} de 8
+              Passo {currentStep + 1} de {totalSteps}
             </span>
             <span className="text-sm font-medium text-secondary-600">
-              {Math.round(((currentStep + 1) / 8) * 100)}%
+              {Math.round(((currentStep + 1) / totalSteps) * 100)}%
             </span>
           </div>
           <div className="w-full bg-secondary-200 rounded-full h-2">
             <div 
               className="bg-accent-500 h-2 rounded-full transition-all duration-300"
               style={{ 
-                width: `${((currentStep + 1) / 8) * 100}%`
+                width: `${((currentStep + 1) / totalSteps) * 100}%`
               }}
             />
           </div>
@@ -462,7 +495,7 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
         </div>
 
         {/* Navigation buttons - only show if not on final step */}
-        {currentStep !== 7 && (
+        {currentStep !== finalStepIndex && (
           <div className="flex justify-between mt-6 flex-shrink-0">
             {currentStep > 0 && (
               <button
@@ -475,11 +508,11 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source }:
             <button
               onClick={handleNext}
               disabled={
-                (currentStep === 1 && !flowData.destination.trim()) ||
-                (currentStep === 2 && !flowData.travelType) ||
-                (currentStep === 3 && !flowData.tripProfile) ||
-                (currentStep === 4 && flowData.tripGoals.length === 0) ||
-                (currentStep === 5 && (
+                (getLogicalStep(currentStep) === 1 && !skipDestination && !flowData.destination.trim()) ||
+                (getLogicalStep(currentStep) === 2 && !flowData.travelType) ||
+                (getLogicalStep(currentStep) === 3 && !skipProfile && !flowData.tripProfile) ||
+                (getLogicalStep(currentStep) === 4 && flowData.tripGoals.length === 0) ||
+                (getLogicalStep(currentStep) === 5 && (
                   (flowData.dateSelectionType === 'calendar' && (!flowData.startDate || !flowData.endDate)) ||
                   (flowData.dateSelectionType === 'month' && !flowData.selectedMonth)
                 ))

@@ -12,6 +12,17 @@ interface TripGoalsSelectorProps {
   className?: string
 }
 
+// Default goals to use when backend fails
+const DEFAULT_GOALS: TripGoal[] = [
+  { name: 'Descanso e reconexão', uniqueName: 'descanso-e-reconexao' },
+  { name: 'Celebrar data especial', uniqueName: 'celebrar-data-especial' },
+  { name: 'Explorar destino', uniqueName: 'explorar-destino' },
+  { name: 'Curtir gastronomia local', uniqueName: 'curtir-gastronomia-local' },
+  { name: 'Só aproveitar', uniqueName: 'so-aproveitar' },
+  { name: 'Conhecer vários lugares', uniqueName: 'conhecer-varios-lugares' },
+  { name: 'Passeios de natureza', uniqueName: 'passeios-de-natureza' },
+]
+
 export default function TripGoalsSelector({ 
   selectedGoals, 
   onGoalsChange, 
@@ -21,18 +32,17 @@ export default function TripGoalsSelector({
 }: TripGoalsSelectorProps) {
   const [availableGoals, setAvailableGoals] = useState<TripGoal[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   
   useEffect(() => {
     const fetchGoals = async () => {
       try {
         setIsLoading(true)
-        setError(null)
         const goals = await TripsApiService.getGoals(tripType === 'casal' ? 'COUPLE' : 'INDIVIDUAL')
         setAvailableGoals(goals)
       } catch (err) {
         console.error('Error fetching goals:', err)
-        setError('Não foi possível carregar os objetivos. Por favor, tente novamente.')
+        // Use default goals when backend fails
+        setAvailableGoals(DEFAULT_GOALS)
       } finally {
         setIsLoading(false)
       }
@@ -54,20 +64,6 @@ export default function TripGoalsSelector({
       <div className={`text-center py-8 ${className}`}>
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600 mx-auto mb-4"></div>
         <p className="text-primary-600 font-medium">Carregando objetivos...</p>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className={`text-center py-8 ${className}`}>
-        <p className="text-red-600 mb-4">{error}</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-primary-600 text-white rounded-full hover:bg-primary-700"
-        >
-          Tentar novamente
-        </button>
       </div>
     )
   }
