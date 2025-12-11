@@ -7,7 +7,7 @@ interface VideoSliderProps {
   autoplay?: boolean;
 }
 
-export function VideoSlider({ videos, className, autoplay = true }: VideoSliderProps) {
+export function VideoSlider({ videos, className, autoplay = false }: VideoSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 

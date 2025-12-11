@@ -417,7 +417,7 @@ export function ItineraryContent({ itinerary, mapImage, googleLink, type }: Itin
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
               {/* Left Column - Highlights Description */}
               <div className="bg-accent-100 rounded-xl p-8 shadow-sm">
-                <p className="text-secondary-700">{item.highlights.description}</p>
+                <p className="text-secondary-700" dangerouslySetInnerHTML={{ __html: item.highlights.description }} />
               </div>
 
               {/* Right Column - Videos */}

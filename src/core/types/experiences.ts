@@ -313,7 +313,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description:
-            "Miami é o início perfeito dessa jornada. Brickell oferece uma atmosfera cosmopolita única, com seus arranha-céus modernos, restaurantes renomados e uma vida noturna vibrante. Aproveite para fazer compras, explorar as praias paradisíacas de South Beach, desfrutar da gastronomia internacional e se preparar para embarcar em uma experiência única de luxo e tranquilidade a bordo do Explora I.",
+            "<h3 class='text-xl font-semibold mb-3'>Miami: O início perfeito da jornada</h3><ul class='list-disc pl-6'><li class='italic mb-3'>Brickell oferece uma atmosfera cosmopolita única, com seus arranha-céus modernos, restaurantes renomados e uma vida noturna vibrante.</li><li class='italic mb-3'>Aproveite para fazer compras, explorar as praias paradisíacas de South Beach, desfrutar da gastronomia internacional e se preparar para embarcar em uma experiência única de luxo e tranquilidade a bordo do Explora I.</li></ul>",
           videos: undefined,
         },
       },
@@ -555,7 +555,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description:
-            "Uma jornada que celebra a beleza natural do Caribe em sua essência. Desde as praias douradas de Puerto Plata até as florestas tropicais exuberantes de Dominica, cada destino revela uma faceta única dessa região paradisíaca. Em Barbados, os ritmos Bajan e as praias de areia branca encantam, enquanto Guadalupe surpreende com suas paisagens vulcânicas. Os dias no mar oferecem um momento perfeito para relaxar e aproveitar todas as comodidades do Explora I. Em St. John, as águas cristalinas e os recifes preservados são um paraíso para mergulhadores. A bordo, a exclusividade e tranquilidade imperam, com espaços amplos, serviço impecável e uma atmosfera de hotel boutique 5 estrelas flutuante.",
+            "<h3 class='text-xl font-semibold mb-3'>Uma jornada de beleza natural pelo Caribe</h3><ul class='list-disc pl-6'><li class='italic mb-3'>Desde as praias douradas de Puerto Plata até as florestas tropicais exuberantes de Dominica, cada destino revela uma faceta única dessa região paradisíaca. Em Barbados, os ritmos Bajan e as praias de areia branca encantam, enquanto Guadalupe surpreende com suas paisagens vulcânicas.</li><li class='italic mb-3'>Os dias no mar oferecem um momento perfeito para relaxar e aproveitar todas as comodidades do Explora I. Em St. John, as águas cristalinas e os recifes preservados são um paraíso para mergulhadores. A bordo, a exclusividade e tranquilidade imperam, com espaços amplos, serviço impecável e uma atmosfera de hotel boutique 5 estrelas flutuante.</li></ul>",
           videos: [
             "402mYYYzRmKX2rn014MLa7jaNVSfPTcGnMOESfwvLosQI",
           ],
@@ -574,7 +574,7 @@ export const mockExperiences: Experience[] = [
           image: "https://res.cloudinary.com/tripevolved/image/upload/v1764844379/0aeda2cf_dzgxwq.avif",
         },
         highlights: {
-          description: "O encerramento perfeito dessa jornada pelo Caribe. San Juan oferece uma combinação única de história, cultura e beleza natural. A localização privilegiada do hotel, próximo ao icônico Castillo San Felipe del Morro, uma das fortalezas históricas mais impressionantes do Caribe, permite explorar facilmente Old San Juan. As ruas de paralelepípedos, a arquitetura colonial colorida e a atmosfera única transportam os visitantes para outra época. A baía de San Juan oferece vistas espetaculares, enquanto os restaurantes locais permitem descobrir a autêntica culinária porto-riquenha. Um final perfeito para uma experiência que celebra as belezas naturais e culturais do Caribe.",
+          description: "<h3 class='text-xl font-semibold mb-3'>San Juan: O encerramento perfeito da jornada</h3><ul class='list-disc pl-6'><li class='italic mb-3'>San Juan oferece uma combinação única de história, cultura e beleza natural. A localização privilegiada do hotel, próximo ao icônico Castillo San Felipe del Morro, uma das fortalezas históricas mais impressionantes do Caribe, permite explorar facilmente Old San Juan. As ruas de paralelepípedos, a arquitetura colonial colorida e a atmosfera única transportam os visitantes para outra época.</li><li class='italic mb-3'>A baía de San Juan oferece vistas espetaculares, enquanto os restaurantes locais permitem descobrir a autêntica culinária porto-riquenha. Um final perfeito para uma experiência que celebra as belezas naturais e culturais do Caribe.</li></ul>",
           videos: undefined,
         },
       },
