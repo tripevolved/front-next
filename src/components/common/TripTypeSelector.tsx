@@ -19,8 +19,6 @@ export default function TripTypeSelector({
   onTypeSelect, 
   types = [
     { id: 'casal', name: 'Casal', icon: '❤️', available: true },
-    { id: 'individual', name: 'Individual', icon: '👤', available: true },
-    { id: 'familia', name: 'Família', icon: '👨‍👩‍👧‍👦', available: false },
     { id: 'amigos', name: 'Amigos', icon: '👥', available: false }
   ],
   className = '' 

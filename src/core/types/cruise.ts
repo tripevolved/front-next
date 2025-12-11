@@ -17,6 +17,7 @@ export interface CruiseItinerary {
     arrivalTime?: string;
     departureTime?: string;
     duration: string;
+    image?: string;
     highlights: string[];
   }[];
   route: string;
@@ -31,6 +32,7 @@ export interface CruiseShip {
   length: string;
   width: string;
   decks: number;
+  image: string;
   features: string[];
   amenities: {
     category: string;
@@ -41,11 +43,13 @@ export interface CruiseShip {
     type: 'main' | 'specialty' | 'casual';
     description: string;
     included: boolean;
+    image?: string;
   }[];
   entertainment: {
     name: string;
     type: 'show' | 'activity' | 'venue';
     description: string;
+    image?: string;
   }[];
 }
 
@@ -53,7 +57,7 @@ export interface Cruise {
   // Basic information (thumbnail view)
   name: string;
   description: string;
-  image: string;
+  images: string[];
   duration: string;
   
   // Detailed information

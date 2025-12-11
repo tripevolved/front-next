@@ -23,20 +23,12 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
     { id: 'ship', label: 'Navio' }
   ] as const;
 
-  // Mock images for the cruise (in a real app, these would come from the cruise data)
-  const cruiseImages = [
-    cruise.image,
-    '/assets/experiences/miami/freedom-of-seas.png',
-    '/assets/experiences/miami/caribbean-islands.png',
-    '/assets/experiences/miami/hard-rock-cafe.png',
-  ];
-
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % cruiseImages.length);
+    setCurrentImageIndex((prev) => (prev + 1) % cruise.images.length);
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + cruiseImages.length) % cruiseImages.length);
+    setCurrentImageIndex((prev) => (prev - 1 + cruise.images.length) % cruise.images.length);
   };
 
   return (
@@ -45,56 +37,59 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
         {/* Hero Header with Background Image - Fixed Height */}
         <div className="relative h-64 rounded-t-xl overflow-hidden flex-shrink-0">
           <Image
-            src={cruiseImages[currentImageIndex]}
+            src={cruise.images[currentImageIndex]}
             alt={cruise.name}
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
           
           {/* Image Navigation */}
-          <div className="absolute top-4 right-4 flex gap-2">
+          <div className="absolute top-4 right-4 flex gap-2 z-20 pointer-events-auto">
             <button
               onClick={prevImage}
-              className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              className="w-10 h-10 md:w-8 md:h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 active:bg-white/40 transition-colors relative z-20"
+              aria-label="Imagem anterior"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <button
               onClick={nextImage}
-              className="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+              className="w-10 h-10 md:w-8 md:h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 active:bg-white/40 transition-colors relative z-20"
+              aria-label="Próxima imagem"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </div>
 
           {/* Image Indicators */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-            {cruiseImages.map((_, index) => (
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20 pointer-events-auto">
+            {cruise.images.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                className={`w-3 h-3 md:w-2 md:h-2 rounded-full transition-colors relative z-20 ${
+                  index === currentImageIndex ? 'bg-white' : 'bg-white/50 hover:bg-white/70'
                 }`}
+                aria-label={`Ir para imagem ${index + 1}`}
               />
             ))}
           </div>
 
           {/* Header Content */}
-          <div className="absolute bottom-0 left-0 right-0 p-6">
+          <div className="absolute bottom-0 left-0 right-0 p-6 z-10 pointer-events-none">
             <div className="flex justify-between items-end">
-              <div className="text-white">
+              <div className="text-white pointer-events-none">
                 <h2 className="text-3xl font-baloo font-bold">{cruise.name}</h2>
                 <p className="text-lg opacity-90 mt-1">{cruise.description}</p>
               </div>
               <button
                 onClick={onClose}
-                className="text-white/80 hover:text-white transition-colors"
+                className="text-white/80 hover:text-white transition-colors relative z-20 pointer-events-auto"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -105,7 +100,7 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
         </div>
 
         {/* Tabs - Fixed Height */}
-        <div className="border-b border-gray-200 bg-white flex-shrink-0">
+        <div className="border-b border-gray-200 bg-white flex-shrink-0 overflow-x-auto">
           <div className="flex space-x-8 px-6">
             {tabs.map((tab) => (
               <button
@@ -130,7 +125,6 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Detalhes da Viagem</h3>
                     <div className="space-y-3">
                       <div>
                         <span className="text-sm text-gray-600">Porto de Partida:</span>
@@ -233,7 +227,7 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
                       <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
                         <div className="relative h-48">
                           <Image
-                            src={`/assets/experiences/miami/port-${index + 1}.jpg`}
+                            src={port.image!}
                             alt={`${port.name}, ${port.country}`}
                             fill
                             className="object-cover"
@@ -277,7 +271,7 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
                     <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
                       <div className="relative h-48">
                         <Image
-                          src={experience.image || `/assets/experiences/miami/experience-${index + 1}.jpg`}
+                          src={experience.image!}
                           alt={experience.name}
                           fill
                           className="object-cover"
@@ -314,7 +308,7 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
                 {/* Ship Hero Image */}
                 <div className="relative h-64 rounded-lg overflow-hidden">
                   <Image
-                    src="/assets/experiences/miami/freedom-of-seas.png"
+                    src={cruise.details.ship.image}
                     alt={cruise.details.ship.name}
                     fill
                     className="object-cover"
@@ -323,40 +317,6 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
                   <div className="absolute bottom-0 left-0 p-6 text-white">
                     <h3 className="text-2xl font-bold">{cruise.details.ship.name}</h3>
                     <p className="text-lg opacity-90">{cruise.details.ship.company}</p>
-                  </div>
-                </div>
-
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Informações do Navio</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div>
-                      <span className="text-sm text-gray-600">Empresa:</span>
-                      <p className="font-medium">{cruise.details.ship.company}</p>
-                    </div>
-                    <div>
-                      <span className="text-sm text-gray-600">Capacidade:</span>
-                      <p className="font-medium">{cruise.details.ship.capacity.toLocaleString()} passageiros</p>
-                    </div>
-                    <div>
-                      <span className="text-sm text-gray-600">Ano de Construção:</span>
-                      <p className="font-medium">{cruise.details.ship.yearBuilt}</p>
-                    </div>
-                    <div>
-                      <span className="text-sm text-gray-600">Reforamado:</span>
-                      <p className="font-medium">{cruise.details.ship.refurbished || 'Não'}</p>
-                    </div>
-                    <div>
-                      <span className="text-sm text-gray-600">Comprimento:</span>
-                      <p className="font-medium">{cruise.details.ship.length}</p>
-                    </div>
-                    <div>
-                      <span className="text-sm text-gray-600">Largura:</span>
-                      <p className="font-medium">{cruise.details.ship.width}</p>
-                    </div>
-                    <div>
-                      <span className="text-sm text-gray-600">Conveses:</span>
-                      <p className="font-medium">{cruise.details.ship.decks}</p>
-                    </div>
                   </div>
                 </div>
 
@@ -398,7 +358,7 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
                       <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
                         <div className="relative h-32">
                           <Image
-                            src={`/assets/experiences/miami/restaurant-${index + 1}.jpg`}
+                            src={restaurant.image!}
                             alt={restaurant.name}
                             fill
                             className="object-cover"
@@ -430,7 +390,7 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
                       <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
                         <div className="relative h-32">
                           <Image
-                            src={`/assets/experiences/miami/entertainment-${index + 1}.jpg`}
+                            src={item.image!}
                             alt={item.name}
                             fill
                             className="object-cover"
@@ -445,6 +405,40 @@ export function CruiseDetailsModal({ isOpen, onClose, cruise }: CruiseDetailsMod
                         </div>
                       </div>
                     ))}
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Informações do Navio</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div>
+                      <span className="text-sm text-gray-600">Empresa:</span>
+                      <p className="font-medium">{cruise.details.ship.company}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-gray-600">Capacidade:</span>
+                      <p className="font-medium">{cruise.details.ship.capacity.toLocaleString()} passageiros</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-gray-600">Ano de Construção:</span>
+                      <p className="font-medium">{cruise.details.ship.yearBuilt}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-gray-600">Reformado:</span>
+                      <p className="font-medium">{cruise.details.ship.refurbished || 'Não'}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-gray-600">Comprimento:</span>
+                      <p className="font-medium">{cruise.details.ship.length}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-gray-600">Largura:</span>
+                      <p className="font-medium">{cruise.details.ship.width}</p>
+                    </div>
+                    <div>
+                      <span className="text-sm text-gray-600">Conveses:</span>
+                      <p className="font-medium">{cruise.details.ship.decks}</p>
+                    </div>
                   </div>
                 </div>
               </div>

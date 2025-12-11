@@ -7,7 +7,6 @@ import { mockExperiences } from "@/core/types/experiences";
 export default function CruiseImageCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Filter experiences to only show visible ones
   const visibleExperiences = mockExperiences.filter((experience) => experience.isVisible);
 
   useEffect(() => {
@@ -18,14 +17,12 @@ export default function CruiseImageCarousel() {
     return () => clearInterval(timer);
   }, [visibleExperiences.length]);
 
-  // Don't render if no visible experiences
   if (visibleExperiences.length === 0) {
     return null;
   }
 
   return (
     <div className="relative w-full">
-      {/* Carousel Container */}
       <div className="relative overflow-hidden">
         <div
           className="flex transition-transform duration-500 ease-in-out"
@@ -49,7 +46,6 @@ export default function CruiseImageCarousel() {
         </div>
       </div>
 
-      {/* Indicators */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
         {visibleExperiences.map((_, index) => (
           <button
