@@ -298,7 +298,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
                     1
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white mb-1">Reunião de 45 min</h4>
+                    <h4 className="font-semibold text-white mb-1">Breve conversa inicial</h4>
                     <p className="text-sm text-white/80">Entendemos suas preferências e estilo de viagem</p>
                   </div>
                 </div>
@@ -360,7 +360,6 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
       <ExperienceExitModal
         isOpen={isExitModalOpen}
         onClose={() => setIsExitModalOpen(false)}
-        experienceTitle={experience.title}
       />
 
       {/* Video Overlay */}
