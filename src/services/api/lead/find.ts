@@ -1,5 +1,4 @@
 import type { Lead } from "@/core/types";
-import { LaunchListService } from "@/services/launch-list";
 import { ApiRequest } from "@/services/api/request";
 
 interface LeadApiResponse {
@@ -14,8 +13,7 @@ export const findByEmail = async (email: string): Promise<Lead | null> => {
     const data = await ApiRequest.get<LeadApiResponse>(url);
     const { travelerId: id, inviterName: name, inviterId } = data;
     const invitedBy = !inviterId ? null : { id: inviterId };
-    const launchList = await LaunchListService.findByEmail(email);
-    return { id, email, name, launchList, invitedBy };
+    return { id, email, name, invitedBy };
   } catch (error) {
     console.info("Email not registered");
     return null;

@@ -18,7 +18,7 @@ export function AppLayoutContent({ children }: AppLayoutContentProps) {
           <div className="flex items-center justify-between">
             {/* Greeting */}
             <div className="flex items-center">
-              <h1 className="text-xl font-bold">
+              <h1 className="font-bold">
                 Olá, {travelerState?.name || 'Viajante'}
               </h1>
             </div>

@@ -8,7 +8,6 @@ import { NoSSR, ProgressIndicator } from "@/ui";
 import "@/ui/styles/index.scss";
 import { LeadProvider } from "@/features";
 import { Environment } from "@/utils/helpers/environment.helpers";
-import { AppAuthProvider } from "@/core/app-auth";
 import { useAnalytics } from "@/services/analytics";
 import Head from "next/head";
 
@@ -42,11 +41,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <GoogleScripts />
         <AppProvider linkComponent={LinkComponent}>
           <ProgressIndicator />
-          <AppAuthProvider>
-            <NoSSR enabled={Environment.isProduction()}>
-              <Component {...pageProps} />
-            </NoSSR>
-          </AppAuthProvider>
+          <NoSSR enabled={Environment.isProduction()}>
+            <Component {...pageProps} />
+          </NoSSR>
         </AppProvider>
       </LeadProvider>
     </>

@@ -25,10 +25,6 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
     window.open(whatsappUrl, '_blank')
   }
 
-  const handleBackToPanel = () => {
-    router.push('/app/painel')
-  }
-
   return (
     <div className={`relative ${className}`}>
       {/* Toggle Button */}
@@ -47,18 +43,8 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
         <div className="fixed inset-0 z-50 bg-white">
           {/* Header */}
           <header className="bg-primary-500 text-white px-4 py-4">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={handleBackToPanel}
-                className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                aria-label="Voltar ao painel"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              
-              <h1 className="text-lg font-semibold">
+            <div className="flex items-center justify-between">             
+              <h1 className="font-semibold">
                 Olá, {travelerState?.name || 'Viajante'}
               </h1>
               
@@ -103,7 +89,7 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
               <div className="space-y-1">
                 <button
                   onClick={() => {
-                    router.push('/app/painel')
+                    router.push('/app')
                     setIsOpen(false)
                   }}
                   className="w-full flex items-center px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
