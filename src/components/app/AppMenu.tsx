@@ -42,22 +42,19 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
       {isOpen && (
         <div className="fixed inset-0 z-50 bg-white">
           {/* Header */}
-          <header className="bg-primary-500 text-white px-4 py-4">
-            <div className="flex items-center justify-between">             
-              <h1 className="font-semibold">
-                Olá, {travelerState?.name || 'Viajante'}
-              </h1>
-              
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
-                aria-label="Fechar menu"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
+          <header className="bg-primary-500 text-white px-4 py-4 flex items-center gap-8">
+            <button
+              onClick={() => setIsOpen(false)}
+              className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
+              aria-label="Fechar menu"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <h1 className="font-semibold">
+              Olá, {travelerState?.name || 'Viajante'}
+            </h1>
           </header>
 
           {/* User Profile Section */}
