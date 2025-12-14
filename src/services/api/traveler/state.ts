@@ -3,6 +3,6 @@ import { ApiRequest } from "@/services/api/request";
 
 export const getTravelerState = async () => {
   const route = `travelers/state`;
-  const travelerState = await ApiRequest.get<TravelerState>(route);
+  const travelerState = await ApiRequest.get<TravelerState | null>(route);
   return travelerState;
 };

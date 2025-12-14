@@ -1,17 +1,16 @@
-import { auth0 } from '@/lib/auth0'
-import { redirect } from 'next/navigation'
+'use client'
+
 import Link from 'next/link'
+import { useAppStore } from '@/core/store'
+import { TravelerProfile } from '@/components/travelers'
 
-export default async function PainelPage() {
-  // Get the user session from Auth0
-  const session = await auth0.getSession()
+export default function PainelPage() {
+  const travelerState = useAppStore((state) => state.travelerState)
+  const needsCompletion = !travelerState || !travelerState.id || travelerState.id === ''
 
-  // If no session, redirect to login (middleware should handle this, but just in case)
-  if (!session) {
-    redirect('/auth/login')
+  if (needsCompletion) {
+    return <TravelerProfile />
   }
-
-  const user = session.user
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -26,60 +25,34 @@ export default async function PainelPage() {
         
         <div className="space-y-4">
           {/* Profile Picture */}
-          {user.picture && (
-            <div className="flex items-center space-x-4">
-              <img
-                src={user.picture}
-                alt={user.name || 'User'}
-                className="w-20 h-20 rounded-full border-2 border-primary-500"
-              />
-              <div>
-                <p className="text-lg font-medium text-gray-900">{user.name}</p>
-                <p className="text-sm text-gray-500">{user.email}</p>
-              </div>
+          <div className="flex items-center space-x-4">
+            <div className="w-20 h-20 bg-primary-500/10 rounded-full flex items-center justify-center">
+              <span className="text-2xl text-primary-500 font-semibold">
+                {travelerState?.name?.charAt(0).toUpperCase() || 'V'}
+              </span>
             </div>
-          )}
+            <div>
+              <p className="text-lg font-medium text-gray-900">{travelerState?.name || 'Viajante'}</p>
+              <p className="text-sm text-gray-500">{travelerState?.email || 'Não informado'}</p>
+            </div>
+          </div>
 
           {/* User Details */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
             <div className="border-l-4 border-primary-500 pl-4">
               <p className="text-sm font-medium text-gray-500">Nome</p>
-              <p className="text-base text-gray-900">{user.name || 'Não informado'}</p>
+              <p className="text-base text-gray-900">{travelerState?.name || 'Não informado'}</p>
             </div>
 
             <div className="border-l-4 border-primary-500 pl-4">
               <p className="text-sm font-medium text-gray-500">Email</p>
-              <p className="text-base text-gray-900">{user.email || 'Não informado'}</p>
+              <p className="text-base text-gray-900">{travelerState?.email || 'Não informado'}</p>
             </div>
 
-            {user.nickname && (
-              <div className="border-l-4 border-primary-500 pl-4">
-                <p className="text-sm font-medium text-gray-500">Apelido</p>
-                <p className="text-base text-gray-900">{user.nickname}</p>
-              </div>
-            )}
-
-            {user.email_verified !== undefined && (
-              <div className="border-l-4 border-primary-500 pl-4">
-                <p className="text-sm font-medium text-gray-500">Email Verificado</p>
-                <p className="text-base text-gray-900">
-                  {user.email_verified ? (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      Sim
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                      Não
-                    </span>
-                  )}
-                </p>
-              </div>
-            )}
-
-            {user.sub && (
+            {travelerState?.id && (
               <div className="border-l-4 border-primary-500 pl-4 md:col-span-2">
-                <p className="text-sm font-medium text-gray-500">ID do Usuário</p>
-                <p className="text-base text-gray-900 font-mono text-sm">{user.sub}</p>
+                <p className="text-sm font-medium text-gray-500">ID do Viajante</p>
+                <p className="text-base text-gray-900 font-mono text-sm">{travelerState.id}</p>
               </div>
             )}
           </div>
