@@ -770,6 +770,7 @@ export const mockExperiences: Experience[] = [
     travelers: "Para casais que querem explorar a Itália de forma autêntica e inesquecível",
     description: "Uma jornada de 8 dias pelo norte da Itália, combinando a sofisticação cultural de Milão, o romantismo do Lago di Como e o impacto natural das Dolomitas. O roteiro foi desenhado para casais que valorizam boa mesa, música de qualidade e experiências autênticas, com ritmo equilibrado e logística fluida em trens.",
     type: "day-by-day",
+    mapImage: "https://res.cloudinary.com/tripevolved/image/upload/v1765897918/Captura_de_tela_2025-12-16_121056_oqgem4.png",
     isVisible: true,
     images: [
       "https://res.cloudinary.com/tripevolved/image/upload/v1765886721/2266_zmrns5.jpg",
