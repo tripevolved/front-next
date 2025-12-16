@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { auth0 } from "./lib/auth0";
+import { UserService } from "./services/user";
 
 export async function middleware(request: NextRequest) {
   const authRes = await auth0.middleware(request);
@@ -18,6 +19,8 @@ export async function middleware(request: NextRequest) {
     if (!session) {
       return NextResponse.redirect(`${origin}/auth/login?returnTo=${encodeURIComponent(pathname)}`)
     }
+
+    UserService.updateTravelerState();
   }
 
   return authRes;

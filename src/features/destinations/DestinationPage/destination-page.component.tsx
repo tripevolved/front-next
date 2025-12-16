@@ -1,5 +1,5 @@
 import type { DestinationPageProps } from "./destination-page.types";
-import { LeadListForm, PageBase } from "@/features";
+import { PageBase } from "@/features";
 import { DestinationHeroSection } from "./destinations-hero.section";
 import { DestinationInfoSection } from "./destination-info.section";
 import { DestinationVideoSection } from "./destination-video.section";
@@ -8,7 +8,6 @@ import { DestinationPostsSection } from "./destinations-posts.section";
 import { DestinationFaqSection } from "./destination-faq.section";
 import { DestinationProfileSection } from "./destination-profile.section";
 import { Button, Container, Text } from "mars-ds";
-import { UserCredentials } from "@/services/user/credentials";
 import { Box, SectionBase, WhatsappButton } from "@/ui";
 import { canSignUp } from "@/utils/helpers/environment.helpers";
 import { useRouter } from "next/router";
@@ -109,7 +108,6 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
     travelerProfiles = [],
     travelType,
   } = destination;
-  const Cta = () => <DestinationCta uniqueName={uniqueName} destinationTitle={destination.title} />;
 
   return (
     <PageBase navbar={navbar} footer={footer} seo={seo}>
@@ -121,13 +119,12 @@ export function DestinationPage({ destination, seo, navbar, footer }: Destinatio
       />
       <DestinationInfoSection features={features} recommendedBy={recommendedBy} />
       <Box style={{margin: 32}}>
-        <Cta />
       </Box>
       {videos.length ? <DestinationVideoSection title={title} videos={videos} /> : null}
       {tips.length ? <DestinationTipsSection tips={tips} /> : null}
       {posts.length ? <DestinationPostsSection posts={posts} /> : null}
       <DestinationFaqSection faq={mock.faq} title={title}>
-        <Cta />
+
       </DestinationFaqSection>
     </PageBase>
   );
@@ -137,66 +134,3 @@ interface DestinationCtaProps {
   uniqueName: string;
   destinationTitle: string;
 }
-
-const DestinationCta = ({ uniqueName, destinationTitle }: DestinationCtaProps) => {
-  const userData = UserCredentials.get();
-  const router = useRouter();
-  const sourceParam = typeof router.query.source === "string" ? router.query.source : undefined;
-
-  if (sourceParam && sourceParam === "consultoria") {
-    return (
-      <Container className="text-center">
-        <LeadListForm
-          label={"Organize sua viagem com especialistas"}
-          heading={"Deixe suas informações e nossos especialistas vão entrar em contato"}
-          source={sourceParam ? `${sourceParam}-${uniqueName}` : undefined}
-          cta={{
-            children: "Quero agendar"
-          }}
-        >
-          <Text>
-            Vamos entrar em contato em até 24h úteis para te ajudar a organizar a viagem dos sonhos! Conte conosco!
-          </Text>
-          <Text size="xs">
-            Ao deixar suas informações, você confirma que leu e aceita nossa <a target='_blank' style={{color: "var(--color-brand-2)"}} href={"https://tripevolved.com.br/politica-de-privacidade/"} rel="noreferrer">Política de Privacidade</a>.
-          </Text>
-        </LeadListForm>
-      </Container>
-    );
-  }
-
-  return (
-    <div className="text-center">
-      {userData?.idToken ? (
-        <Button
-          style={{ width: 336 }}
-          // @ts-ignore
-          variant="tertiary"
-          href={`/app/viagens/nova?para=${uniqueName}`}
-        >
-          Planejar a minha viagem
-        </Button>
-      ) : canSignUp() ? (
-        <Button
-          style={{ width: 336 }}
-          // @ts-ignore
-          variant="tertiary"
-          href={`/app/cadastro?redirectTo=${encodeURIComponent(
-            `/app/viagens/nova?para=${uniqueName}`
-          )}`}
-        >
-          Planejar a minha viagem
-        </Button>
-      ) : (
-        <WhatsappButton
-          style={{ width: 336 }}
-          // @ts-ignore
-          variant="tertiary"
-          message={`Olá! Quero agendar uma conversa e saber mais sobre ${destinationTitle}!`}
-        >
-          Agendar conversa com especialista
-        </WhatsappButton>
-      )}
-    </div>
-  );
-};

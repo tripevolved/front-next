@@ -1,6 +1,5 @@
 import type { Lead, LeadCreateDTO } from "@/core/types";
 import { findByEmail } from "./find";
-import { LaunchListService } from "@/services/launch-list";
 import { ApiRequest } from "@/services/api/request";
 
 interface LeadApiResponse {
@@ -21,6 +20,5 @@ export const create = async (data: LeadCreateDTO) => {
 
   data.phone = `+55${data.phone.replace(/\D/g, "")}`;
   const newLead = await postLead(data);
-  const launchList = await LaunchListService.create(newLead);
-  return { ...newLead, launchList };
+  return { ...newLead };
 };

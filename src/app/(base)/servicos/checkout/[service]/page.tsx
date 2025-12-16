@@ -263,8 +263,6 @@ export default function CheckoutPage({ params }: CheckoutPageProps) {
                   
                   <LeadForm
                     submitButtonText={isCreatingTrip ? "Criando viagem..." : "Continuar para Pagamento"}
-                    enableUniqueSignUp={true}
-                    redirectAfterSignUp={redirectAfterSignUp}
                     onSuccess={() => handleFormSubmit({ name: "", email: "", phone: "" })}
                     additionalMetadata={[
                       {

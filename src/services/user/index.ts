@@ -1,17 +1,11 @@
-import { UserCredentials } from "./credentials";
-import { login, type LoginArgs } from "./login";
-import { logout } from "./logout";
 import { updateTravelerState } from "./update-traveler-state";
+import { auth0 } from "@/lib/auth0";
 
-export type { LoginArgs };
-
-const isGuest = () => !UserCredentials.get();
+const isGuest = () => !auth0.getAccessToken();
 const isAuth = () => !isGuest();
 
 export const UserService = {
-  login,
-  logout,
-  getCredentials: UserCredentials.get,
+  getCredentials: async () => await auth0.getAccessToken(),
   isGuest,
   isAuth,
   updateTravelerState: () => { if (isAuth()) updateTravelerState(); },

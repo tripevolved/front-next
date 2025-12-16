@@ -10,7 +10,6 @@ import { Picture, SectionBase, StepsLoader } from "@/ui";
 import { ProfileQuestionsForm } from "./profile-questions-form";
 import { useRouter } from "next/router";
 import { delay } from "@/utils/helpers/async.helpers";
-import { LeadForm } from "@/features";
 import { useAppStore } from "@/core/store";
 import { Text } from "@/ui";
 
@@ -96,11 +95,6 @@ export function ProfileQuestions({ className, children, ...props }: ProfileQuest
                 Preencha para ver o resultado e receber uma boa surpresa no e-mail.
               </Text>
             </div>
-            <LeadForm
-              gap={16}
-              onSubmitCallback={({ email }) => sendAnswers(email)}
-              cta={{ children: "Descobrir meu perfil" }}
-            />
           </Card>
         ) : (
           <ProfileQuestionsForm onSubmit={handleAnswers} />

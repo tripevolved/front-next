@@ -765,6 +765,181 @@ export const mockExperiences: Experience[] = [
     ],
   },
   {
+    name: "milao-como-dolomitas",
+    title: "Gastronomia, música e paisagens icônicas pelo norte da Itália",
+    travelers: "Para casais que querem explorar a Itália de forma autêntica e inesquecível",
+    description: "Uma jornada de 8 dias pelo norte da Itália, combinando a sofisticação cultural de Milão, o romantismo do Lago di Como e o impacto natural das Dolomitas. O roteiro foi desenhado para casais que valorizam boa mesa, música de qualidade e experiências autênticas, com ritmo equilibrado e logística fluida em trens.",
+    type: "day-by-day",
+    mapImage: "https://res.cloudinary.com/tripevolved/image/upload/v1765897918/Captura_de_tela_2025-12-16_121056_oqgem4.png",
+    isVisible: true,
+    images: [
+      "https://res.cloudinary.com/tripevolved/image/upload/v1765886721/2266_zmrns5.jpg",
+      "https://res.cloudinary.com/tripevolved/image/upload/v1765886695/4835_joeoee.jpg",
+      "https://res.cloudinary.com/tripevolved/image/upload/v1765886675/6754_qvrqgw.jpg"
+    ],
+    uniqueMoments: [
+      {
+        title: "Gnocchi na casa de um chef em Milão",
+        description: "Uma experiência íntima e profundamente italiana, cozinhando gnocchi artesanais na casa de um chef local, entendendo técnicas, histórias e o valor do tempo à mesa.",
+        image: "https://res.cloudinary.com/tripevolved/image/upload/v1765886964/gnocchi_milao_qzow2o.webp"
+      },
+      {
+        title: "Concerto em Milão",
+        description: "Uma noite de música ao vivo em um dos endereços mais respeitados da cidade, conectando cultura, ritmo e atmosfera.",
+        image: "https://res.cloudinary.com/tripevolved/image/upload/v1765886962/teatro_laescala_pfahiw.avif"
+      },
+      {
+        title: "Passeio de barco no Lago di Como",
+        description: "Navegar entre vilas históricas e paisagens cinematográficas, vivendo o lago em ritmo lento e contemplativo.",
+        image: "https://res.cloudinary.com/tripevolved/image/upload/v1765887427/barco_lagodicomo_dufeo5.avif"
+      }
+    ],
+    itinerary: [
+      {
+        period: 1,
+        date: "Dia 1",
+        activity: "O primeiro acorde em Milão",
+        image: "https://res.cloudinary.com/tripevolved/image/upload/v1753530462/724_1_j9m2qd.jpg",
+        description: "O primeiro contato com Milão é a partir do The Square Milano Duomo, onde você estará bem localizado para explorar a cidade",
+        hotel: {
+          name: "The Square Milano Duomo - Preferred Hotels & Resorts",
+          description: "A poucos passos do Duomo, este hotel moderno exala um ambiente vibrante e sofisticado. Aprecie vistas de tirar o fôlego do bar na cobertura e delicie-se com um delicioso café da manhã todas as manhãs. A partir dele, é extremamente fácil se deslocar e conhecer melhor a região central de Milão.",
+          image: "https://res.cloudinary.com/tripevolved/image/upload/v1765892121/7e4c57dc_ciknml.avif"
+        },
+        highlights: {
+          description: "A chegada a Milão marca o primeiro contato com a Europa através de uma cidade elegante e cheia de personalidade. O dia é dedicado a caminhar por Brera, absorvendo o ritmo local, cafés charmosos e o estilo milanês. À noite, a cidade se revela musical e sofisticada, criando uma introdução cultural marcante para a viagem."
+        }
+      },
+      {
+        period: 2,
+        date: "Dia 2",
+        activity: "Experiências gastronômicas puramente italianas",
+        image: "https://res.cloudinary.com/tripevolved/image/upload/v1765896207/Obica-Duomo_MG_3758_n1poqc.jpg",
+        description: "O dia é centrado em uma experiência única: preparar gnocchi artesanais na casa de um chef italiano.",
+        hotel: {
+          name: "The Square Milano Duomo - Preferred Hotels & Resorts",
+          description: "A poucos passos do Duomo, este hotel moderno exala um ambiente vibrante e sofisticado. Aprecie vistas de tirar o fôlego do bar na cobertura e delicie-se com um delicioso café da manhã todas as manhãs. A partir dele, é extremamente fácil se deslocar e conhecer melhor a região central de Milão.",
+          image: "https://res.cloudinary.com/tripevolved/image/upload/v1765892121/7e4c57dc_ciknml.avif"
+        },
+        experience: {
+          name: "Gnocchi na casa de um chef",
+          description: "Vivência privada na residência de um chef local, aprendendo a fazer gnocchi do zero, entendendo técnicas, ingredientes e a cultura italiana à mesa.",
+          image: "gnocchi-chef-milan.jpg"
+        },
+        highlights: {
+          description: "Este é o dia mais gastronômico da viagem em Milão. A cidade se transforma em cozinha, começando pelo contato com ingredientes locais e culminando em uma experiência única: preparar gnocchi artesanais na casa de um chef italiano. Entre histórias, técnica e tradição, o casal vive a gastronomia lombarda de forma íntima e autêntica. O jantar encerra o dia com ainda mais significado, após ter colocado a mão na massa.",
+        }
+      },
+      {
+        period: 3,
+        date: "Dia 3",
+        activity: "Exploração cultural e musical de Milão",
+        image: "https://res.cloudinary.com/tripevolved/image/upload/v1765896202/26677_jtxkta.jpg",
+        hotel: {
+          name: "The Square Milano Duomo - Preferred Hotels & Resorts",
+          description: "A poucos passos do Duomo, este hotel moderno exala um ambiente vibrante e sofisticado. Aprecie vistas de tirar o fôlego do bar na cobertura e delicie-se com um delicioso café da manhã todas as manhãs. A partir dele, é extremamente fácil se deslocar e conhecer melhor a região central de Milão.",
+          image: "https://res.cloudinary.com/tripevolved/image/upload/v1765892121/7e4c57dc_ciknml.avif"
+        },
+        description: "A região de Milão é repleta de cultura e tradição italiana, com o Duomo e o Teatro alla Scala como pontos de referência.",
+        highlights: {
+          description: "O dia revela a Milão monumental. O Duomo impressiona pela arquitetura e pelo simbolismo, enquanto o Teatro alla Scala conecta o casal à tradição musical italiana. O restante do dia flui de forma livre, com pausas em cafés e observação da vida local, encerrando a passagem por Milão com profundidade cultural.",
+        }
+      },
+      {
+        period: 4,
+        date: "Dia 4",
+        activity: "O lago como respiro",
+        image: "https://res.cloudinary.com/tripevolved/image/upload/v1765896397/17741_svze6s.jpg",
+        hotel: {
+          name: "Swiss Diamond Boutique Hotel La Romantica",
+          description: "Um refúgio íntimo às margens do Lago Lugano e a poucos quilômetros de Como. Com apenas vinte e seis quartos e suítes, a sua privacidade e conforto são prioridades. A arquitetura de linhas modernas e grandes painéis de vidro se integra à paisagem, criando ambientes luminosos e sofisticados.",
+          image: "https://res.cloudinary.com/tripevolved/image/upload/v1765893308/d4822b25_bl14lc.avif"
+        },
+        description: "O primeiro contato com a região de Como é a partir do Swiss Diamond Boutique Hotel La Romantica, contando com uma vista espetacular para o Lago Lugano.",
+        highlights: {
+          description: "A curta viagem de trem leva o casal de Milão a Como, onde o ritmo muda completamente. A chegada é marcada por paisagens calmas, montanhas e água serena. O dia é dedicado a descansar, contemplar e aproveitar o hotel, iniciando uma fase mais romântica da viagem.",
+        }
+      },
+      {
+        period: 5,
+        date: "Dia 5",
+        activity: "Como em câmera lenta",
+        image: "https://res.cloudinary.com/tripevolved/image/upload/v1765887427/barco_lagodicomo_dufeo5.avif",
+        hotel: {
+          name: "Swiss Diamond Boutique Hotel La Romantica",
+          description: "Um refúgio íntimo às margens do Lago Lugano e a poucos quilômetros de Como. Com apenas vinte e seis quartos e suítes, a sua privacidade e conforto são prioridades. A arquitetura de linhas modernas e grandes painéis de vidro se integra à paisagem, criando ambientes luminosos e sofisticados.",
+          image: "https://res.cloudinary.com/tripevolved/image/upload/v1765893308/d4822b25_bl14lc.avif"
+        },
+        highlights: {
+          description: "O Lago di Como é vivido sem pressa. Um passeio de barco revela vilas históricas e paisagens cinematográficas, seguido de tempo livre em um vilarejo escolhido com calma. O luxo do dia está no tempo compartilhado, nos almoços longos e no silêncio elegante do lago.",
+        },
+        description: "O Lago di Como é vivido sem pressa. Um passeio de barco revela vilas históricas e paisagens cinematográficas, seguido de tempo livre em um vilarejo escolhido com calma. O luxo do dia está no tempo compartilhado, nos almoços longos e no silêncio elegante do lago."
+      },
+      {
+        period: 6,
+        date: "Dia 6",
+        activity: "Das águas às montanhas",
+        image: "https://res.cloudinary.com/tripevolved/image/upload/v1765896856/7eed33d7-city-22382-1657cd3fbe8_ifqjux.jpg",
+        hotel: {
+          name: "Grand Hotel Savoia Cortina d'Ampezzo, A Radisson Collection Hotel",
+          description: "Encastelado no coração de Cortina d’Ampezzo, aos pés das Dolomitas, o Grand Hotel Savoia – A Radisson Collection Hotel – combina a aura de um palácio construído em 1912 com a sofisticação contemporânea de um cinco estrelas. Espere vistas para as montanhas nevadas e para os telhados da estação alpina. Para casais, o cenário romântico é realçado por comodidades de luxo: um spa com tratamentos personalizados, massagens, piscina coberta aquecida, sauna e banho turco; um terraço panorâmico no último piso que permite admirar o pôr do sol sobre os picos; e o restaurante Savoy, onde pratos internacionais e um rico buffet de café da manhã são servidos em um ambiente refinado.",
+          image: "https://res.cloudinary.com/tripevolved/image/upload/v1765894374/0aff640c_mjttcn.avif"
+        },
+        highlights: {
+          description: "O deslocamento até Cortina d’Ampezzo marca a transição para um novo cenário. As montanhas das Dolomitas surgem como protagonistas e o fim do dia é reservado ao descanso, ao spa e à adaptação ao clima alpino.",
+        },
+        description: "As Dolomitas esperam para uma noite espetacular de descanso e spa."
+      },
+      {
+        period: 7,
+        date: "Dia 7",
+        activity: "Dolomitas, o grande espetáculo",
+        image: "https://res.cloudinary.com/tripevolved/image/upload/v1765896854/311829256_gu4t7j.jpg",
+        hotel: {
+          name: "Grand Hotel Savoia Cortina d'Ampezzo, A Radisson Collection Hotel",
+          description: "Encastelado no coração de Cortina d’Ampezzo, aos pés das Dolomitas, o Grand Hotel Savoia – A Radisson Collection Hotel – combina a aura de um palácio construído em 1912 com a sofisticação contemporânea de um cinco estrelas. Espere vistas para as montanhas nevadas e para os telhados da estação alpina. Para casais, o cenário romântico é realçado por comodidades de luxo: um spa com tratamentos personalizados, massagens, piscina coberta aquecida, sauna e banho turco; um terraço panorâmico no último piso que permite admirar o pôr do sol sobre os picos; e o restaurante Savoy, onde pratos internacionais e um rico buffet de café da manhã são servidos em um ambiente refinado.",
+          image: "https://res.cloudinary.com/tripevolved/image/upload/v1765894374/0aff640c_mjttcn.avif"
+        },
+        highlights: {
+          description: "A natureza assume o centro da experiência. Entre teleféricos panorâmicos e caminhadas leves, o casal vivencia as Dolomitas de forma acessível e impactante. O almoço em um rifugio reforça a autenticidade da região, encerrando o dia com silêncio, vinho e contemplação.",
+        },
+        description: "Paisagens alpinas, passeios com vistas incríveis e contemplação, além de uma experiência gastronômica de montanha."
+      },
+      {
+        period: 8,
+        date: "Dia 8",
+        activity: "O último olhar",
+        image: "https://res.cloudinary.com/tripevolved/image/upload/v1765896859/Faloria_Cortina_d_Ampezzo_10_bjkrt7.jpg",
+        highlights: {
+          description: "O último dia é dedicado a uma despedida calma. Um café longo, uma última caminhada por Cortina e a sensação de ter vivido uma viagem construída em camadas, onde gastronomia, música e paisagem se conectaram de forma memorável.",
+        },
+        description: "O último dia é dedicado a uma despedida calma. Um café longo, uma última caminhada por Cortina e a sensação de ter vivido uma viagem construída em camadas, onde gastronomia, música e paisagem se conectaram de forma memorável."
+      }
+    ],
+    price: {
+      included: [
+        "3 noites no The Square Milano Duomo - Preferred Hotels & Resorts, com café da manhã",
+        "2 noites no Swiss Diamond Boutique Hotel La Romantica, com café da manhã",
+        "2 noites no Grand Hotel Savoia Cortina d'Ampezzo, A Radisson Collection Hotel, com café da manhã",
+        "Transfer aeroporto-hotel (Milão)",
+        "Trem Milão-Como",
+        "Aluguel de carro Milão-Cortina, 3 diárias",
+        "Seguro viagem",
+        "Experiência gastronômica com Chef em Milão",
+        "Concerto em Milão",
+        "Passeio de barco no Lago di Como",
+        "Suporte 24h para sua viagem",
+      ],
+      notIncluded: [
+        "Alimentação",
+        "Passagens aéreas",
+      ],
+      pricePerPerson: 20915.49,
+      total: 41830.98,
+      currency: "BRL",
+    }
+  },  
+  {
     name: "puglia",
     title: "Puglia: O coração da Itália",
     travelers: "por Henrique Gasparotto",
