@@ -6,12 +6,10 @@ interface Traveler {
 }
 
 import type { TravelerState } from '@/core/types/travelerState'
-import type { User, UserCredentials } from '@/core/types/user'
 
 class LocalStorageService {
   private static TRAVELER_KEY = 'traveler'
   private static TRAVELER_STATE_KEY = 'trip-store'
-  private static USER_KEY = 'user'
 
   /**
    * Get the traveler data from sessionStorage
@@ -122,39 +120,6 @@ class LocalStorageService {
    */
   static hasTravelerState(): boolean {
     return this.getTravelerState() !== null
-  }
-
-  /**
-   * Get user credentials from sessionStorage
-   * @returns The user credentials or null if not found
-   */
-  static getCredentials(): UserCredentials | null {
-    if (typeof window === 'undefined') return null
-
-    const userData = sessionStorage.getItem(this.USER_KEY)
-    if (!userData) return null
-
-    try {
-      const user = JSON.parse(userData) as User
-      return user.credentials || null
-    } catch (error) {
-      console.error('Error parsing user data from sessionStorage:', error)
-      return null
-    }
-  }
-
-  /**
-   * Save user data to sessionStorage
-   * @param user The user data to save
-   */
-  static setUser(user: User): void {
-    if (typeof window === 'undefined') return
-
-    try {
-      sessionStorage.setItem(this.USER_KEY, JSON.stringify(user))
-    } catch (error) {
-      console.error('Error saving user data to sessionStorage:', error)
-    }
   }
 }
 

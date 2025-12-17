@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { updateTravelerState } from '@/services/user/update-traveler-state'
 import { TravelerService } from '@/clients/travelers'
 
@@ -35,17 +36,25 @@ export function TravelerProfile() {
     <div className="max-w-2xl mx-auto">
       <div className="bg-white rounded-lg shadow-md p-8">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          Complete suas informações
+          A sua próxima viagem está começando
         </h1>
+        
+        <div className="flex justify-center my-6">
+          <Image
+            src="/assets/perfil/inicio.svg"
+            alt="Início"
+            width={375}
+            height={375}
+            className="w-auto h-auto max-w-full"
+          />
+        </div>
+        
         <p className="text-gray-600 mb-6">
-          Complete suas informações para ter acesso às suas viagens personalizadas
+          Complete suas informações para ter acesso às recomendações de nossos especialistas para seu perfil
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-              Nome completo *
-            </label>
             <input
               type="text"
               id="name"
@@ -58,9 +67,6 @@ export function TravelerProfile() {
           </div>
 
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-              Telefone *
-            </label>
             <input
               type="tel"
               id="phone"
