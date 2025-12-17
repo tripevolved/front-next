@@ -1,4 +1,4 @@
-import { ApiRequest } from "@/clients/common/request";
+import { ApiRequest } from "@/services/api/request";
 
 interface MetadataItem {
   key: string;

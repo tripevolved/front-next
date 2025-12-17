@@ -1,4 +1,4 @@
-import { ApiRequest } from '../common/request'
+import { ApiRequest } from '@/services/api/request'
 import { CreateTripRequest } from '@/core/types/trip'
 
 export const createTrip = async (data: CreateTripRequest): Promise<{ id: string }> => {

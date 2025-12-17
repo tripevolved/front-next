@@ -1,4 +1,4 @@
-import { ApiRequest } from '../common/request'
+import { ApiRequest } from '@/services/api/request'
 
 export interface TripGoal {
   name: string,

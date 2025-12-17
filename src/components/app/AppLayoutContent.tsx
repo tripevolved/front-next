@@ -2,6 +2,8 @@
 
 import { useAppStore } from '@/core/store'
 import AppMenu from './AppMenu'
+import { updateTravelerState } from '@/services/user/update-traveler-state'
+import { useEffect } from 'react'
 
 interface AppLayoutContentProps {
   children: React.ReactNode
@@ -9,6 +11,12 @@ interface AppLayoutContentProps {
 
 export function AppLayoutContent({ children }: AppLayoutContentProps) {
   const { travelerState } = useAppStore()
+
+  useEffect(() => {
+    if (!travelerState || travelerState.id === "") {
+      updateTravelerState()
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-50">

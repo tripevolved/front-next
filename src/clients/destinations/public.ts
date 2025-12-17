@@ -1,5 +1,5 @@
 import { PublicDestination } from "@/core/types/destination";
-import { ApiRequest } from "@/clients/common/request";
+import { ApiRequest } from "@/services/api/request";
 
 /**
  * Get a destination by its unique name

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { updateTravelerState } from '@/services/user/update-traveler-state'
-import { ApiRequest } from '@/services/api/request'
+import { TravelerService } from '@/clients/travelers'
 
 export function TravelerProfile() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -15,8 +15,8 @@ export function TravelerProfile() {
     setError(null)
 
     try {
-      // Update traveler information
-      await ApiRequest.post('travelers/update', {
+      // Create traveler information
+      await TravelerService.createTraveler({
         name: formData.name,
         phone: formData.phone,
       })
@@ -24,8 +24,8 @@ export function TravelerProfile() {
       // Refresh traveler state
       await updateTravelerState()
     } catch (err) {
-      console.error('Error updating traveler:', err)
-      setError('Não foi possível atualizar suas informações. Por favor, tente novamente.')
+      console.error('Error creating traveler:', err)
+      setError('Não foi possível salvar suas informações. Por favor, tente novamente.')
     } finally {
       setIsSubmitting(false)
     }

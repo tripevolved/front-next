@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { auth0 } from "./lib/auth0";
-import { UserService } from "./services/user";
 
 export async function middleware(request: NextRequest) {
   const authRes = await auth0.middleware(request);
@@ -13,14 +12,12 @@ export async function middleware(request: NextRequest) {
   // public routes — no need to check for session
   if (request.nextUrl.pathname.startsWith("/app")) {
     const { pathname, origin } = new URL(request.url)
-    const session = await auth0.getSession()
+    const session = await auth0.getSession(request)
 
     // user does not have a session — redirect to login
     if (!session) {
       return NextResponse.redirect(`${origin}/auth/login?returnTo=${encodeURIComponent(pathname)}`)
     }
-
-    UserService.updateTravelerState();
   }
 
   return authRes;

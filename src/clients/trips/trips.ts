@@ -1,5 +1,5 @@
 import { TripProposal } from "@/core/types/trip";
-import { ApiRequest } from "@/clients/common/request";
+import { ApiRequest } from "@/services/api/request";
 import { LocalStorageService } from "@/clients/local";
 
 /**

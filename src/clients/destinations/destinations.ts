@@ -1,5 +1,5 @@
 import { Photo } from "@/core/types";
-import { ApiRequest } from "@/clients/common/request";
+import { ApiRequest } from "@/services/api/request";
 
 interface DestinationItem {
   coverImage: Photo;

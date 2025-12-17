@@ -1,4 +1,4 @@
-import { ApiRequest } from "@/clients/common/request";
+import { ApiRequest } from "@/services/api/request";
 
 export type CruiseType = 'relax' | 'destination' | 'expedition' | 'river';
 
