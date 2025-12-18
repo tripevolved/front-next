@@ -16,7 +16,6 @@ export interface PublicStay {
     hour: string;
     instructions?: string;
   };
-  cancellationPolicy?: string;
   recommendedFor: string[]; // e.g., ["Casais", "Lua de mel", "Romântico"]
   tags?: string; // e.g., "5 estrelas", "Luxo"
 }

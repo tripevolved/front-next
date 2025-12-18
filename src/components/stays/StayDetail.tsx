@@ -159,37 +159,40 @@ export function StayDetail({ stay }: StayDetailProps) {
                 />
               </section>
 
-              {/* Location */}
-              <section>
-                <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
-                  Localização
-                </h2>
-                <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                  <p className="text-gray-700 mb-2">
-                    <strong>Endereço:</strong> {stay.location.address}
-                  </p>
-                  <p className="text-gray-700">
-                    <strong>Cidade:</strong> {stay.location.city}, {stay.location.country}
-                  </p>
-                  {stay.location.nearbyAttractions && stay.location.nearbyAttractions.length > 0 && (
-                    <div className="mt-4">
-                      <p className="text-gray-700 font-semibold mb-2">Atrações próximas:</p>
-                      <ul className="list-disc list-inside text-gray-700 space-y-1">
-                        {stay.location.nearbyAttractions.map((attraction, index) => (
-                          <li key={index}>{attraction}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </section>
+              {/* Amenities */}
+              {stay.amenities && stay.amenities.length > 0 && (
+                <section>
+                  <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
+                    O que te espera nesta hospedagem?
+                  </h2>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {stay.amenities.map((amenity, index) => {
+                      const amenityIconPath = getAmenityIconPath(amenity.icon)
+                      
+                      return (
+                        <div key={index} className="flex items-center gap-3 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                          {amenityIconPath && (
+                            <div className="w-6 h-6 flex-shrink-0 text-primary-600">
+                              <Image
+                                src={amenityIconPath}
+                                alt={amenity.title}
+                                width={24}
+                                height={24}
+                                className="w-full h-full"
+                              />
+                            </div>
+                          )}
+                          <span className="text-gray-700 text-sm">{amenity.title}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </section>
+              )}
 
               {/* Check-in/Check-out Info */}
               {(stay.checkInInfo || stay.checkOutInfo) && (
                 <section>
-                  <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
-                    Informações de Check-in e Check-out
-                  </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {stay.checkInInfo && (
                       <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
@@ -224,55 +227,10 @@ export function StayDetail({ stay }: StayDetailProps) {
                   </div>
                 </section>
               )}
-
-              {/* Cancellation Policy */}
-              {stay.cancellationPolicy && (
-                <section>
-                  <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
-                    Política de Cancelamento
-                  </h2>
-                  <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                    <p className="text-gray-700">
-                      {stay.cancellationPolicy}
-                    </p>
-                  </div>
-                </section>
-              )}
             </div>
 
             {/* Right column - Sidebar */}
             <div className="space-y-6">
-              {/* Amenities */}
-              {stay.amenities && stay.amenities.length > 0 && (
-                <section className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 sticky top-6">
-                  <h2 className="text-2xl font-bold mb-6 text-gray-900">
-                    Comodidades
-                  </h2>
-                  <div className="space-y-4">
-                    {stay.amenities.map((amenity, index) => {
-                      const amenityIconPath = getAmenityIconPath(amenity.icon)
-                      
-                      return (
-                        <div key={index} className="flex items-start gap-3">
-                          {amenityIconPath && (
-                            <div className="w-6 h-6 flex-shrink-0 text-primary-600">
-                              <Image
-                                src={amenityIconPath}
-                                alt={amenity.title}
-                                width={24}
-                                height={24}
-                                className="w-full h-full"
-                              />
-                            </div>
-                          )}
-                          <span className="text-gray-700">{amenity.title}</span>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </section>
-              )}
-
               {/* CTA Section for couples trips */}
               <section className="bg-gradient-to-br from-primary-500 to-primary-600 p-6 rounded-lg shadow-lg text-white">
                 <h3 className="text-xl font-bold mb-3">
@@ -284,6 +242,29 @@ export function StayDetail({ stay }: StayDetailProps) {
                 <button className="w-full bg-white text-primary-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors">
                   Solicitar Orçamento
                 </button>
+              </section>
+
+              {/* Location */}
+              <section className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                <h2 className="text-xl font-bold mb-4 text-gray-900">
+                  Localização
+                </h2>
+                <p className="text-gray-700 mb-2">
+                  <strong>Endereço:</strong> {stay.location.address}
+                </p>
+                <p className="text-gray-700 mb-4">
+                  <strong>Cidade:</strong> {stay.location.city}, {stay.location.country}
+                </p>
+                {stay.location.nearbyAttractions && stay.location.nearbyAttractions.length > 0 && (
+                  <div>
+                    <p className="text-gray-700 font-semibold mb-2">Atrações próximas:</p>
+                    <ul className="list-disc list-inside text-gray-700 space-y-1">
+                      {stay.location.nearbyAttractions.map((attraction, index) => (
+                        <li key={index}>{attraction}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </section>
             </div>
           </div>
