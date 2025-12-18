@@ -2,9 +2,22 @@
 
 import { PublicStay } from '@/core/types/stay'
 import { ImageGrid } from '@/components/common/ImageGrid'
+import Image from 'next/image'
 
 interface StayDetailProps {
   stay: PublicStay
+}
+
+// Helper function to get icon image path
+const getIconPath = (iconName: string | undefined): string | null => {
+  if (!iconName) return null
+  return `/assets/emojis/${iconName}.png`
+}
+
+// Helper function to get amenity icon path
+const getAmenityIconPath = (iconName: string | undefined): string | null => {
+  if (!iconName) return null
+  return `/assets/amenities/${iconName}.svg`
 }
 
 export function StayDetail({ stay }: StayDetailProps) {
@@ -53,6 +66,82 @@ export function StayDetail({ stay }: StayDetailProps) {
         </div>
       </div>
 
+      {/* Highlights Section - Full Width */}
+      {stay.highlights && stay.highlights.length > 0 && (
+        <section className="bg-gradient-to-br from-primary-50 to-accent-50 py-16">
+          <div className="container mx-auto px-4">
+            <div className="max-w-7xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 text-center">
+                Por que escolhemos esta hospedagem
+              </h2>
+              <p className="text-lg text-gray-600 text-center mb-12 max-w-3xl mx-auto">
+                Nossa curadoria especial para casais em busca de momentos inesquecíveis
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {stay.highlights.map((highlight, index) => {
+                  const iconPath = getIconPath(highlight.icon)
+                  
+                  return (
+                    <div
+                      key={index}
+                      className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
+                    >
+                      {/* Image Background */}
+                      {highlight.imageUrl && (
+                        <div className="relative h-56 overflow-hidden">
+                          <Image
+                            src={highlight.imageUrl}
+                            alt={highlight.title}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                          {iconPath && (
+                            <div className="absolute top-4 right-4 w-16 h-16 bg-white rounded-full p-3 shadow-lg">
+                              <div className="relative w-full h-full">
+                                <Image
+                                  src={iconPath}
+                                  alt={highlight.title}
+                                  fill
+                                  className="object-contain"
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      
+                      {/* Content */}
+                      <div className="p-6">
+                        {!highlight.imageUrl && iconPath && (
+                          <div className="w-12 h-12 mb-4 relative">
+                            <Image
+                              src={iconPath}
+                              alt={highlight.title}
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                        )}
+                        <h3 className="text-2xl font-bold mb-3 text-gray-900 group-hover:text-primary-600 transition-colors">
+                          {highlight.title}
+                        </h3>
+                        <p className="text-gray-700 leading-relaxed">
+                          {highlight.description}
+                        </p>
+                      </div>
+                      
+                      {/* Decorative element */}
+                      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 to-accent-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Main content */}
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-7xl mx-auto">
@@ -69,33 +158,6 @@ export function StayDetail({ stay }: StayDetailProps) {
                   dangerouslySetInnerHTML={{ __html: stay.description }}
                 />
               </section>
-
-              {/* Highlights Section */}
-              {stay.highlights && stay.highlights.length > 0 && (
-                <section>
-                  <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
-                    Por que escolhemos esta hospedagem
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {stay.highlights.map((highlight, index) => (
-                      <div
-                        key={index}
-                        className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
-                      >
-                        {highlight.icon && (
-                          <div className="text-4xl mb-4">{highlight.icon}</div>
-                        )}
-                        <h3 className="text-xl font-semibold mb-3 text-gray-900">
-                          {highlight.title}
-                        </h3>
-                        <p className="text-gray-700 leading-relaxed">
-                          {highlight.description}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
 
               {/* Location */}
               <section>
@@ -187,14 +249,26 @@ export function StayDetail({ stay }: StayDetailProps) {
                     Comodidades
                   </h2>
                   <div className="space-y-4">
-                    {stay.amenities.map((amenity, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        {amenity.icon && (
-                          <span className="text-2xl flex-shrink-0">{amenity.icon}</span>
-                        )}
-                        <span className="text-gray-700">{amenity.title}</span>
-                      </div>
-                    ))}
+                    {stay.amenities.map((amenity, index) => {
+                      const amenityIconPath = getAmenityIconPath(amenity.icon)
+                      
+                      return (
+                        <div key={index} className="flex items-start gap-3">
+                          {amenityIconPath && (
+                            <div className="w-6 h-6 flex-shrink-0 text-primary-600">
+                              <Image
+                                src={amenityIconPath}
+                                alt={amenity.title}
+                                width={24}
+                                height={24}
+                                className="w-full h-full"
+                              />
+                            </div>
+                          )}
+                          <span className="text-gray-700">{amenity.title}</span>
+                        </div>
+                      )
+                    })}
                   </div>
                 </section>
               )}

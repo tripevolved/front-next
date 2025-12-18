@@ -32,7 +32,8 @@ export interface PublicStayImage {
 export interface PublicStayHighlight {
   title: string;
   description: string;
-  icon?: string; // Optional icon identifier
+  icon?: string; // Optional emoji or icon identifier
+  imageUrl?: string; // Optional background/featured image
 }
 
 export interface PublicStayAmenity {

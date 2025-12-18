@@ -25,9 +25,19 @@ const makeInstance = async (method: ApiRequestMethod, options: RequestOptions = 
 
 const makeServerSideInstance = async (method: ApiRequestMethod, options: RequestOptions = {}) => {
   const baseURL = `${API_URL}/api`;
-  const credentials = await auth0.getAccessToken();
-  const Authorization = credentials ? `Bearer ${credentials}` : undefined;
-  const headers = { "X-API-Key": API_KEY, Authorization, ...options.headers };
+  const headers: Record<string, string> = { "X-API-Key": API_KEY, ...options.headers };
+  
+  // Try to get access token, but don't fail if it's not available
+  try {
+    const credentials = await auth0.getAccessToken();
+    if (credentials) {
+      headers.Authorization = `Bearer ${credentials}`;
+    }
+  } catch (error) {
+    // Token not available or expired - continue without authentication
+    // This allows public endpoints to work without authentication
+  }
+  
   const instance = axios.create({ baseURL, headers });
   instance.interceptors.request.use(clientInfoInterceptor);
   return instance[method];
