@@ -2,6 +2,7 @@
 
 import { PublicStay } from '@/core/types/stay'
 import { ImageGrid } from '@/components/common/ImageGrid'
+import { StayRoomsSection } from './StayRoomsSection'
 import Image from 'next/image'
 
 interface StayDetailProps {
@@ -170,8 +171,8 @@ export function StayDetail({ stay }: StayDetailProps) {
                       const amenityIconPath = getAmenityIconPath(amenity.icon)
                       
                       return (
-                        <div key={index} className="flex items-center gap-3 bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                          {amenityIconPath && (
+                        <div key={index} className={`flex items-center bg-white p-4 rounded-lg shadow-sm border border-gray-200 ${amenityIconPath ? 'gap-3' : ''}`}>
+                          {amenityIconPath ? (
                             <div className="w-6 h-6 flex-shrink-0 text-primary-600">
                               <Image
                                 src={amenityIconPath}
@@ -181,7 +182,7 @@ export function StayDetail({ stay }: StayDetailProps) {
                                 className="w-full h-full"
                               />
                             </div>
-                          )}
+                          ) : null}
                           <span className="text-gray-700 text-sm">{amenity.title}</span>
                         </div>
                       )
@@ -270,6 +271,9 @@ export function StayDetail({ stay }: StayDetailProps) {
           </div>
         </div>
       </div>
+
+      {/* Rooms Section */}
+      <StayRoomsSection rooms={stay.rooms} uniqueName={stay.uniqueName} />
     </div>
   )
 }

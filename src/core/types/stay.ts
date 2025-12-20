@@ -18,6 +18,7 @@ export interface PublicStay {
   };
   recommendedFor: string[]; // e.g., ["Casais", "Lua de mel", "Romântico"]
   tags?: string; // e.g., "5 estrelas", "Luxo"
+  rooms?: PublicStayRoom[];
 }
 
 export interface PublicStayImage {
@@ -50,5 +51,28 @@ export interface PublicStayLocation {
     longitude: number;
   };
   nearbyAttractions?: string[];
+}
+
+export interface PublicStayRoom {
+  id: string;
+  title: string;
+  subtitle: string | null;
+  images: PublicStayImage[];
+  amenities: PublicStayAmenity[];
+}
+
+export interface PublicStayRoomAvailability extends PublicStayRoom {
+  price: number;
+  currency: string;
+  cancellationPolicy: string;
+  taxes?: {
+    amount: number;
+    description: string;
+  }[];
+}
+
+export interface StayAvailabilityResponse {
+  transactionId: string;
+  rooms: PublicStayRoomAvailability[];
 }
 
