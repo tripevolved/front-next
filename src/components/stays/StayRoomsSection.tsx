@@ -114,7 +114,7 @@ export function StayRoomsSection({ rooms, uniqueName }: StayRoomsSectionProps) {
               <label htmlFor="dateRange" className="block text-sm font-medium text-gray-700 mb-2">
                 Selecione as datas da sua jornada para verificar a disponibilidade
               </label>
-              <div className="relative">
+              <div className="relative inline-block w-full max-w-md">
                 <input
                   type="text"
                   id="dateRange"
@@ -122,7 +122,7 @@ export function StayRoomsSection({ rooms, uniqueName }: StayRoomsSectionProps) {
                   onClick={() => setIsCalendarOpen(!isCalendarOpen)}
                   readOnly
                   placeholder="Selecione as datas"
-                  className="w-full max-w-md px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-baloo cursor-pointer bg-white"
+                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-baloo cursor-pointer bg-white"
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400">
@@ -133,7 +133,7 @@ export function StayRoomsSection({ rooms, uniqueName }: StayRoomsSectionProps) {
                   </svg>
                 </div>
                 {isCalendarOpen && (
-                  <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 p-4">
+                  <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 p-4 left-0">
                     <DateRangeSelector
                       startDate={startDate}
                       endDate={endDate}
