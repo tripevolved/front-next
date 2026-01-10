@@ -15,16 +15,6 @@ interface RequestOptions {
 
 const makeInstance = async (method: ApiRequestMethod, options: RequestOptions = {}) => {
   const baseURL = `${API_URL}/api`;
-  const credentials = await getAccessToken();
-  const Authorization = credentials ? `Bearer ${credentials}` : undefined;
-  const headers = { "X-API-Key": API_KEY, Authorization, ...options.headers };
-  const instance = axios.create({ baseURL, headers });
-  instance.interceptors.request.use(clientInfoInterceptor);
-  return instance[method];
-};
-
-const makeServerSideInstance = async (method: ApiRequestMethod, options: RequestOptions = {}) => {
-  const baseURL = `${API_URL}/api`;
   const headers: Record<string, string> = { "X-API-Key": API_KEY, ...options.headers };
   
   // Try to get access token, but don't fail if it's not available
@@ -37,7 +27,7 @@ const makeServerSideInstance = async (method: ApiRequestMethod, options: Request
     // Token not available or expired - continue without authentication
     // This allows public endpoints to work without authentication
   }
-  
+
   const instance = axios.create({ baseURL, headers });
   instance.interceptors.request.use(clientInfoInterceptor);
   return instance[method];
@@ -47,10 +37,6 @@ const makeServerSideInstance = async (method: ApiRequestMethod, options: Request
 export const ApiRequest = {
   get: async <ResponseData = any>(route = "/", options: RequestOptions = {}) => {
     const method = await makeInstance("get", options);
-    return method<ResponseData>(route).then(({ data }) => data);
-  },
-  getServerSide: async <ResponseData = any>(route = "/", options: RequestOptions = {}) => {
-    const method = await makeServerSideInstance("get", options);
     return method<ResponseData>(route).then(({ data }) => data);
   },
   post: async <ResponseData = any>(route = "/", body: any, options: RequestOptions = {}) => {

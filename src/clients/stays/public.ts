@@ -8,6 +8,6 @@ import { ApiRequest } from "@/services/api/request";
  */
 export const getStayByUniqueName = async (uniqueName: string): Promise<PublicStay> => {
   const route = `stays/${uniqueName}`;
-  return ApiRequest.getServerSide<PublicStay>(route);
+  return ApiRequest.get<PublicStay>(route);
 };
 

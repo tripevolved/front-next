@@ -14,6 +14,6 @@ export const getStayAvailability = async (
   endDate: Date
 ): Promise<StayAvailabilityResponse> => {
   const route = `stays/${uniqueName}/availability?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
-  return ApiRequest.getServerSide<StayAvailabilityResponse>(route);
+  return ApiRequest.get<StayAvailabilityResponse>(route);
 };
 
