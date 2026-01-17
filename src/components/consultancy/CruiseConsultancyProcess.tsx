@@ -7,18 +7,18 @@ interface CruiseConsultancyProcessProps {}
 const processSteps = [
   {
     step: "1",
-    title: "Reunião de 45 minutos",
-    description: "Conversamos sobre seus sonhos de viagem, preferências e expectativas para entender exatamente o que você busca."
+    title: "Conversa inicial",
+    description: "Via telefone, reunião ou whatsapp, falamos sobre seus sonhos de viagem, preferências e expectativas para entender o que você busca."
   },
   {
     step: "2", 
-    title: "Contratação da Jornada Evolved",
-    description: "Após a reunião, você contrata a consultoria especializada da Trip Evolved, e nós cuidamos de todos os detalhes para você."
+    title: "Escolha do seu cruzeiro ideal",
+    description: "Em até 24h, você recebe 3 opções de cruzeiros, com todas as informações, fotos, vídeos e porque entendemos que é a melhor escolha para você."
   },
   {
     step: "3",
     title: "Sua viagem cuidada em todos os detalhes",
-    description: "Muito além do cruzeiro: voos, hotéis, transfers, experiências únicas e muito mais."
+    description: "Muito além do cruzeiro: voos, pré e pós-cruzeiro, transfers, concierge para excursões em terra, experiências únicas e muito mais."
   }
 ];
 

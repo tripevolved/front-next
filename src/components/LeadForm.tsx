@@ -1,7 +1,7 @@
 'use client'
 
 import { Suspense, useState } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { LeadsApiService } from '@/clients/leads'
 import { LocalStorageService } from '@/clients/local'
 import { EventType } from '@/components/basic/FacebookPixel'
@@ -100,7 +100,6 @@ function LeadFormContent({
   eventOptions,
 }: LeadFormProps) {
   const searchParams = useSearchParams()
-  const router = useRouter()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
