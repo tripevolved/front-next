@@ -2,26 +2,26 @@ import { ApiRequest } from "@/services/api/request";
 
 export type CruiseType = 'relax' | 'destination' | 'expedition' | 'river';
 
-export interface CruiseCardData {
+export interface CruiseData {
   id: string;
   title: string;
   company: string;
-  description: string;
-  image: string;
-  price: string;
-  duration: string;
-  departureDate: string;
-  arrivalDate: string;
-  departurePort: string;
-  arrivalPort: string;
-  cabinType: string;
+  images: string[];
+  price: CruisePrice;
+  departureDate: Date;
+  arrivalDate: Date;
   highlights: string[];
-  included: string[];
-  notIncluded: string[];
+}
+
+interface CruisePrice {
+  amount: number;
+  amountWithDiscount?: number;
+  currency: string;
+  cabinType: string;
 }
 
 interface CruisesResponse {
-  cruises: CruiseCardData[];
+  cruises: CruiseData[];
   total: number;
   page: number;
   totalPages: number;
