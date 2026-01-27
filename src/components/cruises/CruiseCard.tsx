@@ -4,7 +4,7 @@ import { Photo } from "@/core/types";
 import { CruiseData } from "@/clients/cruises/cruises";
 
 type CruiseCardProps = {
-  handleClick: () => void;
+  handleClick: (uniqueName: string) => void;
   cruise: CruiseData;
 };
 
@@ -68,7 +68,7 @@ export const CruiseCard = ({ handleClick, cruise }: CruiseCardProps) => {
       )}
       <div
         className="md:max-w-3xl flex flex-col gap-3 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors"
-        onClick={handleClick}
+        onClick={() => handleClick(cruise.uniqueName)}
       >
         <div>
           <p className="text-gray-500">
@@ -95,7 +95,7 @@ export const CruiseCard = ({ handleClick, cruise }: CruiseCardProps) => {
         <div className="flex justify-center w-full">
           <Button
             className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-xl font-semibold hover:bg-accent-600 transition-all md:w-9/12 w-11/12"
-            onClick={handleClick}
+            onClick={() => handleClick(cruise.uniqueName)}
           >
             Quero saber mais
           </Button>

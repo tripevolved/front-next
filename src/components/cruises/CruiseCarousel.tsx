@@ -5,7 +5,7 @@ import { CruiseCard } from "./CruiseCard";
 import { CruiseData } from "@/clients/cruises/cruises";
 
 interface CruiseCarouselProps {
-  handleClick: () => void;
+  handleClick: (uniqueName: string) => void;
   cruises?: CruiseData[];
   cardsCount?: number;
 }

@@ -7,7 +7,7 @@ import { CruiseType, CruiseData } from "@/clients/cruises/cruises";
 import Button from "../common/Button";
 
 interface CruiseSectionsProps {
-  handleClick: () => void;
+  handleClick: (uniqueName: string) => void;
 }
 
 const cruiseTypeConfig = {

@@ -46,3 +46,44 @@ export const getCruisesByType = async ({
   const route = `cruises/?${params.toString()}`;
   return ApiRequest.get<CruisesResponse>(route);
 };
+
+export interface CruiseDetails extends CruiseData {
+  description?: string;
+  itinerary?: CruiseItineraryItem[];
+  cabins?: CruiseCabin[];
+  gastronomy?: CruiseGastronomy[];
+  expertQuote?: {
+    text: string;
+    author: string;
+    authorImage?: string;
+  };
+}
+
+export interface CruiseItineraryItem {
+  day: number;
+  date: string;
+  port: string;
+  time?: string;
+  description?: string;
+  image?: string;
+  type?: 'embark' | 'port' | 'disembark';
+}
+
+export interface CruiseCabin {
+  name: string;
+  description?: string;
+  image?: string;
+  features?: string[];
+}
+
+export interface CruiseGastronomy {
+  name: string;
+  description?: string;
+  image?: string;
+  type?: string;
+}
+
+export const getCruiseByUniqueName = async (uniqueName: string) => {
+  const route = `cruises/${uniqueName}`;
+  return ApiRequest.get<CruiseDetails>(route);
+};

@@ -14,12 +14,15 @@ import { useRouter } from "next/navigation";
 export default function CompraConsultoria() {
   const router = useRouter();
   const [isCruiseDetailsModalOpen, setIsCruiseDetailsModalOpen] = useState<boolean>(false);
+  const [selectedCruiseUniqueName, setSelectedCruiseUniqueName] = useState<string | undefined>();
 
   const handleExitModal = () => {
     setIsCruiseDetailsModalOpen(false);
+    setSelectedCruiseUniqueName(undefined);
   };
 
-  const handleOpen = () => {
+  const handleOpen = (uniqueName: string) => {
+    setSelectedCruiseUniqueName(uniqueName);
     setIsCruiseDetailsModalOpen(true);
   };
 
@@ -382,7 +385,11 @@ export default function CompraConsultoria() {
           </div>
         </section>
       </div>
-      <CruiseDetailsModal isOpen={isCruiseDetailsModalOpen} handleClose={handleExitModal} />
+      <CruiseDetailsModal
+        isOpen={isCruiseDetailsModalOpen}
+        handleClose={handleExitModal}
+        uniqueName={selectedCruiseUniqueName}
+      />
     </div>
   );
 }
