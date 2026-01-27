@@ -3,7 +3,7 @@ import { ApiRequest } from "@/services/api/request";
 export type CruiseType = 'relax' | 'destination' | 'expedition' | 'river';
 
 export interface CruiseData {
-  id: string;
+  uniqueName: string;
   title: string;
   company: string;
   images: string[];

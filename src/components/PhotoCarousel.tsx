@@ -8,20 +8,21 @@ import { parsePhotoWithType } from '@/utils/helpers/photo.helpers'
 interface PhotoCarouselProps {
   photos: Photo[]
   title: string
+  autoScroll?: boolean
 }
 
-export function PhotoCarousel({ photos, title }: PhotoCarouselProps) {
+export function PhotoCarousel({ photos, title, autoScroll = true }: PhotoCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
-    if (photos.length <= 1) return
+    if (photos.length <= 1 || !autoScroll) return
 
     const interval = setInterval(() => {
       setCurrentIndex((current) => (current + 1) % photos.length)
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [photos.length])
+  }, [photos.length, autoScroll])
 
   if (photos.length === 0) return null
 
