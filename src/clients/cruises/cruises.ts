@@ -47,16 +47,29 @@ export const getCruisesByType = async ({
   return ApiRequest.get<CruisesResponse>(route);
 };
 
-export interface CruiseDetails extends CruiseData {
+export interface CruiseDetails {
+  uniqueName: string;
+  title: string;
+  company: string;
+  images: CruiseImage[];
+  price: CruisePrice;
+  departureDate: Date;
+  arrivalDate: Date;
   description?: string;
   itinerary?: CruiseItineraryItem[];
   cabins?: CruiseCabin[];
   gastronomy?: CruiseGastronomy[];
-  expertQuote?: {
-    text: string;
-    author: string;
-    authorImage?: string;
-  };
+  highlights: CruiseHighlight[];
+}
+
+interface CruiseHighlight {
+  description: string;
+  expertQuote?: string;
+}
+
+interface CruiseImage {
+  url: string;
+  shortDescription?: string;
 }
 
 export interface CruiseItineraryItem {

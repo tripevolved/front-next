@@ -63,17 +63,17 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
 
   // Convert images to Photo format
   const photos: Photo[] = cruiseDetails?.images && cruiseDetails.images.length > 0
-    ? cruiseDetails.images.map((imageUrl) => ({
+    ? cruiseDetails.images.map((image) => ({
         title: cruiseDetails.title,
         sources: [
           {
             height: 400,
             width: 600,
-            url: imageUrl,
+            url: image.url,
             type: "lg" as const,
           },
         ],
-        alt: cruiseDetails.title,
+        alt: image.shortDescription || cruiseDetails.title,
       }))
     : [];
 
@@ -148,28 +148,25 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
                     </span>
                   )}
                 </div>
-                {cruiseDetails.expertQuote && (
-                  <div className="bg-primary-50 p-3 md:px-4 px-2 flex items-center justify-center text-center flex-wrap whitespace-pre-line gap-6 rounded-[40px]">
-                    <span className="text-gray-600 text-md italic">
-                      &quot;{cruiseDetails.expertQuote.text}&quot;
-                    </span>
-                    <div className="flex justify-around items-center gap-2">
-                      {cruiseDetails.expertQuote.authorImage && (
-                        <Image
-                          src={cruiseDetails.expertQuote.authorImage}
-                          alt={cruiseDetails.expertQuote.author}
-                          width={30}
-                          height={30}
-                          className="lg:w-24 lg:h-24 h-[68px] w-[68px] object-cover rounded-full"
-                        />
-                      )}
-                      <span className="text-black font-extrabold">
-                        {cruiseDetails.expertQuote.author}
-                      </span>
-                    </div>
+                {cruiseDetails.highlights && cruiseDetails.highlights.length > 0 && (
+                  <div className="p-3 md:px-4 px-2 flex flex-col gap-4">
+                    {cruiseDetails.highlights.map((highlight, index) => (
+                      <div key={index} className="flex flex-col gap-2 text-left border border-gray-200 rounded-lg p-4 bg-white shadow-sm">
+                        {highlight.description && (
+                          <span className="text-accent-500 text-sm italic">
+                            {highlight.description}
+                          </span>
+                        )}
+                        {highlight.expertQuote && (
+                          <span className="text-gray-600 text-md">
+                            {highlight.expertQuote}
+                          </span>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 )}
-                <div className="flex flex-col gap-8 p-3">
+                {/*<div className="flex flex-col gap-8 p-3">
                   {cruiseDetails.itinerary && cruiseDetails.itinerary.length > 0 && (
                     <div className="flex flex-col gap-3">
                       <h1 className="font-bold text-xl">Itinerário</h1>
@@ -233,7 +230,7 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
                       <CruiseOptionsCarousel />
                     </div>
                   )}
-                </div>
+                </div>*/}
               </>
             )}
           </div>
