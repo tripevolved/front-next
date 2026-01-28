@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ImageGrid } from "../common/ImageGrid";
-import CruiseRatesCarousel from "./CruisesOptionsCarousel";
-import { WhatsAppDirectButton } from "../WhatsAppDirectButton";
+import CruiseRatesCarousel from "./CruisesRatesCarousel";
+import CruiseLeadModal from "../consultancy/CruiseLeadModal";
 import { CruisesApiService } from "@/clients/cruises";
 import type { CruiseDetails, CruiseItineraryItem } from "@/clients/cruises/cruises";
 
@@ -19,6 +19,9 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(new Set());
+  const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
+  const [leadModalText, setLeadModalText] = useState('Reservar');
+  const thankYouText = 'Obrigado! Vamos entrar em contato para planejar sua jornada.';
 
   useEffect(() => {
     if (isOpen && uniqueName) {
@@ -91,6 +94,41 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
       hour: '2-digit',
       minute: '2-digit'
     });
+  };
+
+  // Calculate duration in days
+  const calculateDuration = (departureDate: Date, arrivalDate: Date): string => {
+    const depDate = typeof departureDate === 'string' ? new Date(departureDate) : departureDate;
+    const arrDate = typeof arrivalDate === 'string' ? new Date(arrivalDate) : arrivalDate;
+    const diffTime = Math.abs(arrDate.getTime() - depDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return `${diffDays} ${diffDays === 1 ? 'dia' : 'dias'}`;
+  };
+
+  // Get search data from cruise details
+  const getSearchData = () => {
+    if (!cruiseDetails) {
+      return {
+        month: '',
+        duration: '',
+        cruiseName: ''
+      };
+    }
+
+    // Get month from departure date
+    const depDate = typeof cruiseDetails.departureDate === 'string' 
+      ? new Date(cruiseDetails.departureDate) 
+      : cruiseDetails.departureDate;
+    const month = depDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+
+    // Calculate duration
+    const duration = calculateDuration(cruiseDetails.departureDate, cruiseDetails.arrivalDate);
+
+    return {
+      month: month || '',
+      duration: duration || '',
+      cruiseName: cruiseDetails.title || ''
+    };
   };
 
   if (!isOpen) return null;
@@ -309,16 +347,23 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
           </div>
           {!loading && !error && cruiseDetails && (
             <div className="absolute bottom-4 left-8 right-8 z-20 bg-gradient-to-t from-white via-white to-transparent pt-4">
-              <WhatsAppDirectButton
-                className="w-full"
-                message={`Olá! Gostaria de falar sobre o cruzeiro ${cruiseDetails.title}. Podem me ajudar?`}
+              <button
+                onClick={() => setIsLeadModalOpen(true)}
+                className="w-full bg-primary-500 hover:bg-primary-600 text-white font-bold py-3 px-6 rounded-full transition-colors"
+                disabled={leadModalText === thankYouText}
               >
-                Reservar
-              </WhatsAppDirectButton>
+                {leadModalText}
+              </button>
             </div>
           )}
         </div>
       </div>
+      
+      <CruiseLeadModal
+        isOpen={isLeadModalOpen}
+        onClose={() => { setIsLeadModalOpen(false); setLeadModalText(thankYouText); }}
+        searchData={getSearchData()}
+      />
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import CruiseImageCarousel from "./CruiseImageCarousel";
 import { ItineraryContent } from "../itineraries";
-import CruiseOptionsCarousel from "./CruisesOptionsCarousel";
+import CruiseOptionsCarousel from "./CruisesRatesCarousel";
 import CruiseExperienceNotFound from "./CruiseExperienceNotFound";
 import { Experience } from "@/core/types/experiences";
 
@@ -113,7 +113,7 @@ export default function CruiseExperience({ experience }: CruiseExperienceContent
             </div>
           </div>
         </section>
-        <section className="flex flex-col gap-6">
+        {/*<section className="flex flex-col gap-6">
           <div className="flex flex-col gap-3 p-3 container">
             <h1 className=" font-baloo text-2xl md:text-3xl font-bold">Áreas</h1>
             <CruiseOptionsCarousel />
@@ -126,7 +126,7 @@ export default function CruiseExperience({ experience }: CruiseExperienceContent
             <h1 className=" font-baloo text-2xl md:text-3xl font-bold">Gastronomia</h1>
             <CruiseOptionsCarousel />
           </div>
-        </section>
+        </section>*/}
         <section className="flex flex-col justify-center gap-3 from-primary-600 to-primary-700 bg-gradient-to-br p-10">
           <div className="flex pl-3">
             <h1 className="font-baloo text-3xl font-bold md:text-4xl text-white">

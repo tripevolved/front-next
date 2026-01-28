@@ -60,16 +60,16 @@ export const CruiseCard = ({ handleClick, cruise }: CruiseCardProps) => {
   }
 
   return (
-    <div className="bg-white shadow-lg rounded-lg w-full md:max-w-3xl h-full max-h-[70vh] flex flex-col cursor-pointer hover:bg-gray-300/30 transition-colors">
+    <div 
+        className="bg-white shadow-lg rounded-lg w-full md:max-w-3xl h-full max-h-[70vh] flex flex-col cursor-pointer hover:bg-gray-300/30 transition-colors"
+        onClick={() => handleClick(cruise.uniqueName)}>
       {photos.length > 0 && (
         <div className="h-96">
           <PhotoCarousel title="Cruzeiros" photos={photos} autoScroll={false} />
         </div>
       )}
       <div
-        className="md:max-w-3xl flex flex-col gap-3 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors"
-        onClick={() => handleClick(cruise.uniqueName)}
-      >
+        className="md:max-w-3xl flex flex-col gap-3 p-5 cursor-pointer hover:bg-gray-300/30 transition-colors">
         <div>
           <p className="text-gray-500">
             {cruise.company}

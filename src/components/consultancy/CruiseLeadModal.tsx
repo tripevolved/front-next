@@ -6,9 +6,10 @@ interface CruiseLeadModalProps {
   isOpen: boolean
   onClose: () => void
   searchData: {
-    destination: string
-    month: string
-    duration: string
+    destination?: string
+    month?: string
+    duration?: string
+    cruiseName?: string
   }
 }
 
@@ -18,18 +19,23 @@ export default function CruiseLeadModal({ isOpen, onClose, searchData }: CruiseL
   const additionalMetadata = [
     {
       key: 'cruise_destination',
-      value: searchData.destination,
+      value: searchData.destination || '',
       keyDescription: 'Destino do Cruzeiro'
     },
     {
       key: 'cruise_month',
-      value: searchData.month,
+      value: searchData.month || '',
       keyDescription: 'Mês do Cruzeiro'
     },
     {
       key: 'cruise_duration',
-      value: searchData.duration,
+      value: searchData.duration || '',
       keyDescription: 'Duração do Cruzeiro'
+    },
+    {
+      key: 'cruise_name',
+      value: searchData.cruiseName || '',
+      keyDescription: 'Nome do Cruzeiro'
     },
     {
       key: 'source',
@@ -43,14 +49,14 @@ export default function CruiseLeadModal({ isOpen, onClose, searchData }: CruiseL
       <div className="bg-white rounded-2xl max-w-md w-full p-6 md:p-8">
         <div className="text-center mb-6">
           <h2 className="font-baloo text-2xl md:text-3xl font-bold text-secondary-900 mb-4">
-            Nossos especialistas vão entrar em contato para conversar sobre sua jornada
+            Nossos especialistas vão entrar em contato para planejar sua jornada
           </h2>
           
           {/* Search Summary */}
           <div className="bg-secondary-50 rounded-lg p-4 mb-6">
             <p className="text-sm text-secondary-600 mb-2">Suas informações:</p>
             <p className="font-semibold text-secondary-900">
-              {searchData.destination} • {searchData.month} • {searchData.duration}
+              {searchData.cruiseName || searchData.destination} • {searchData.month} • {searchData.duration}
             </p>
           </div>
         </div>
