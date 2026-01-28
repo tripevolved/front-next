@@ -1,5 +1,6 @@
-import { getCruisesByType } from "./cruises";
+import { getCruisesByType, getCruiseByUniqueName } from "./cruises";
 
 export const CruisesApiService = {
-  getCruisesByType
+  getCruisesByType,
+  getCruiseByUniqueName
 };

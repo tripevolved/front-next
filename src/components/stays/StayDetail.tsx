@@ -22,14 +22,15 @@ const getAmenityIconPath = (iconName: string | undefined): string | null => {
 }
 
 export function StayDetail({ stay }: StayDetailProps) {
-  const imageUrls = stay.images.map((image) => image.url)
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero section with image grid */}
-      {imageUrls.length > 0 && (
+      {stay.images && stay.images.length > 0 && (
         <ImageGrid
-          images={imageUrls}
+          images={stay.images.map((image) => ({
+            url: image.url,
+            shortDescription: image.shortDescription
+          }))}
           title={stay.title}
         />
       )}

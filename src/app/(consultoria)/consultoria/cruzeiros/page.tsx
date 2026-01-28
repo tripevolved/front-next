@@ -5,29 +5,35 @@ import CruiseDetailsModal from "@/components/cruises/CruiseDetailsModal";
 import { DetailsCard } from "@/components/cruises/DetailsCard";
 import ReviewsCarousel from "@/components/ReviewsCarousel";
 import CruiseConsultancyProcess from "@/components/consultancy/CruiseConsultancyProcess";
-import CruiseConsultancyModal from "@/components/consultancy/CruiseConsultancyModal";
+import LeadForm from "@/components/LeadForm";
+import WhatsAppGroupButton from "@/components/cruises/WhatsAppGroupButton";
 import { MuxVideoPlayer } from "@/components/MuxVideoPlayer";
-import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function CompraConsultoria() {
+  const router = useRouter();
   const [isCruiseDetailsModalOpen, setIsCruiseDetailsModalOpen] = useState<boolean>(false);
-  const [isConsultancyModalOpen, setIsConsultancyModalOpen] = useState<boolean>(false);
+  const [selectedCruiseUniqueName, setSelectedCruiseUniqueName] = useState<string | undefined>();
 
   const handleExitModal = () => {
     setIsCruiseDetailsModalOpen(false);
+    setSelectedCruiseUniqueName(undefined);
   };
 
-  const handleOpen = () => {
+  const handleOpen = (uniqueName: string) => {
+    setSelectedCruiseUniqueName(uniqueName);
     setIsCruiseDetailsModalOpen(true);
   };
 
   const handleOpenConsultancyModal = () => {
-    setIsConsultancyModalOpen(true);
-  };
-
-  const handleCloseConsultancyModal = () => {
-    setIsConsultancyModalOpen(false);
+    const element = document.getElementById('consultancy-form');
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
   };
 
   const scrollToCruiseInfo = () => {
@@ -76,7 +82,7 @@ export default function CompraConsultoria() {
                 O seu cruzeiro começa pelo que você quer viver
               </h1>
               <p className="font-comfortaa text-xl md:text-2xl mb-8 text-white/90">
-                Cruzeiros de luxo, com a consultoria que muda a sua forma de viajar
+                Sua jornada com a consultoria que muda a sua forma de viajar
               </p>
             </div>
             <div className="w-full text-center">
@@ -94,39 +100,95 @@ export default function CompraConsultoria() {
       <div className="flex flex-col">
         {/* Content */}
         <section id="cruise-info" className="p-10 flex flex-col gap-7 bg-secondary-500 text-white">
-          <div className="flex pl-3">
-            <h1 className="font-baloo text-3xl font-bold md:text-4xl">
-              Para você, que entende que o cruzeiro é um meio para uma jornada única
-            </h1>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-4">
-            <div className="relative h-96 rounded-2xl overflow-hidden">
-              <Image
-                src="/assets/home/cruzeiros-extraordinarios.jpg"
-                alt="Mediterrâneo - História e cultura milenar"
-                fill
-                className="object-cover"
-              />
+          <div className="container mx-auto">
+            <div className="text-center mb-8">
+              <h1 className="font-baloo text-3xl font-bold md:text-4xl mb-4">
+                A Jornada Evolved nasceu para te guiar, com toda a expertise e transparência que você precisa.
+              </h1>
             </div>
-            <div className="space-y-6">
-              <p className="font-comfortaa text-xl leading-relaxed">
-                Navios gigantes e lotados? Horário para jantar? A sua viagem <span className="text-primary-500 font-bold">não</span> é sobre isso.
-              </p>
-              <p className="font-comfortaa text-xl leading-relaxed">
-                Na <span className="text-primary-500 font-bold">Trip</span>{" "}
-                <span className="text-accent-500 font-bold">Evolved</span>, realizamos uma curadoria
-                dos melhores cruzeiros de luxo do mundo. O foco é no que você precisa: a culinária como parte central da experiência, serviço, exclusividade e, claro, o destino como foco de tudo isso. Usamos nossa experiência para te guiar na escolha da melhor viagem.
-              </p>
+            <div className="flex flex-col gap-9 justify-center items-center">
+              <div className="flex md:grid md:grid-cols-3 flex-col items-center gap-10 md:max-w-5xl">
+                <DetailsCard
+                  message={
+                    <>
+                      Economia de <span className="font-bold text-accent-500">tempo</span>: você recebe 3 opções de cruzeiros em 24 horas
+                    </>
+                  }
+                  icon={
+                    <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  }
+                />
+                <DetailsCard
+                  message={
+                    <>
+                      <span className="font-bold text-accent-500">Transparência</span> total: o mesmo valor da internet, sem surpresas
+                    </>
+                  }
+                  icon={
+                    <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  }
+                />
+                <DetailsCard
+                  message={
+                    <>
+                      Ajuda de <span className="font-bold text-accent-500">especialistas</span>: planejamento com confiança e sem erros
+                    </>
+                  }
+                  icon={
+                    <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  }
+                />
+              </div>
+              {/* Bonuses Section */}
+              <div className="w-full flex flex-col items-center gap-6 mt-8">
+                <h2 className="font-baloo text-2xl md:text-3xl font-bold text-white">
+                  E você também recebe:
+                </h2>
+                <div className="flex md:grid md:grid-cols-2 flex-col items-center gap-10 md:max-w-4xl">
+                  <DetailsCard
+                    message={
+                      <>
+                        Design completo da viagem: <span className="font-bold text-accent-500">pré e pós-cruzeiro</span>, voos e todos os detalhes incluídos
+                      </>
+                    }
+                    icon={
+                      <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                      </svg>
+                    }
+                  />
+                  <DetailsCard
+                    message={
+                      <>
+                        Concierge para excursões em terra: <span className="font-bold text-accent-500">guia de portos exclusivo</span>, feito especialmente para você
+                      </>
+                    }
+                    icon={
+                      <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    }
+                  />
+                </div>
+              </div>
+              {/* CTA Button */}
+              <div className="text-center">
+                <Button
+                  onClick={handleOpenConsultancyModal}
+                  className="inline-block font-baloo bg-accent-500 text-white px-8 py-4 rounded-full text-xl font-semibold hover:bg-accent-600 transition-all shadow-lg hover:shadow-xl"
+                >
+                  Falar com um especialista
+                </Button>
+              </div>
             </div>
-          </div>
-          {/* CTA Button */}
-          <div className="text-center">
-            <Button
-              onClick={handleOpenConsultancyModal}
-              className="inline-block font-baloo bg-accent-500 text-white px-8 py-4 rounded-full text-xl font-semibold hover:bg-accent-600 transition-all shadow-lg hover:shadow-xl"
-            >
-              Falar com um especialista
-            </Button>
           </div>
         </section>
 
@@ -144,7 +206,7 @@ export default function CompraConsultoria() {
               <p className="font-comfortaa text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
                 Um processo simples e personalizado para criar a viagem dos seus sonhos
               </p>
-          </div>
+            </div>
 
             {/* Process Steps */}
             <div className="mb-12">
@@ -170,16 +232,15 @@ export default function CompraConsultoria() {
               Por que a Trip Evolved?
             </h2>
             <p className="font-comfortaa text-xl text-gray-600 max-w-3xl mx-auto">
-              Criada por Henrique Gasparotto, a Trip Evolved nasceu porque acreditamos que viagens são experiências únicas e merecem ser vividas como tal.
+              A Trip Evolved nasceu porque acreditamos que viagens são experiências únicas e merecem ser vividas como tal.
             </p>
           </div>
           <div className="flex flex-col gap-9 justify-center items-center px-6">
-            <div className="flex md:grid md:grid-cols-2 md:grid-rows-2 flex-col items-center gap-10 md:max-w-5xl">
+            <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 flex-col items-center gap-10 md:max-w-6xl">
               <DetailsCard
                 message={
                   <>
-                    Curadoria dos melhores{" "}
-                    <span className="font-bold text-accent-500">cruzeiros</span> do mundo
+                    <span className="font-bold text-accent-500">Curadoria</span> dos melhores cruzeiros do mundo
                   </>
                 }
                 icon={
@@ -188,31 +249,63 @@ export default function CompraConsultoria() {
                   </svg>
                 }
               />
-              <DetailsCard 
-                message="Conveniência para você: nós cuidamos de todos os detalhes"
-                icon={
-                  <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+              <DetailsCard
+                message={
+                  <>
+                    <span className="font-bold text-accent-500">Concierge</span> para escolher passeios em terra com você, com todo o suporte
+                  </>
                 }
-              />
-              <DetailsCard 
-                message="Personalizamos toda a sua viagem, não só o cruzeiro"
                 icon={
                   <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                 }
               />
               <DetailsCard
                 message={
                   <>
-                    Assistência de <span className="font-bold text-accent-500">especialistas</span> em todos os momentos
+                    <span className="font-bold text-accent-500">Especialistas</span> com estudo aprofundado de cada cruzeiro oferecido
                   </>
                 }
                 icon={
                   <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                }
+              />
+              <DetailsCard
+                message={
+                  <>
+                    Design completo da <span className="font-bold text-accent-500">viagem</span>: pré e pós-cruzeiro, voos e todos os detalhes
+                  </>
+                }
+                icon={
+                  <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                  </svg>
+                }
+              />
+              <DetailsCard
+                message={
+                  <>
+                    Cruzeiros <span className="font-bold text-accent-500">escolhidos a dedo</span>: sem filas, com exclusividade e cuidado
+                  </>
+                }
+                icon={
+                  <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                }
+              />
+              <DetailsCard
+                message={
+                  <>
+                    Guias de destino <span className="font-bold text-accent-500">aprofundados</span> para cada porto
+                  </>
+                }
+                icon={
+                  <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                   </svg>
                 }
               />
@@ -243,34 +336,60 @@ export default function CompraConsultoria() {
           </div>
         </section>
 
-        {/* Oportunidades Exclusivas */}
-        <section className="flex flex-col justify-center gap-3 from-primary-600 to-primary-700 bg-gradient-to-br p-10">
-          <div className="text-center mb-8">
-            <h2 className="font-baloo text-4xl md:text-5xl font-bold text-white mb-4">
-              Oportunidades e roteiros exclusivos
-            </h2>
-          </div>
-          <div className="flex flex-col items-center gap-4">
-            <p className="text-lg px-3 text-white">
-              Todos os dias, compartilhamos roteiros, dicas e oportunidades exclusivas dos melhores
-              cruzeiros do mundo. Entre em nosso grupo exclusivo no WhatsApp.
-            </p>
-            <a
-              href="https://chat.whatsapp.com/DQCBgshaX0DFoiBetEm4dI"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full font-baloo font-semibold text-xl transition-colors min-w-64"
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
-              </svg>
-              <span>Entrar no grupo exclusivo</span>
-            </a>
+        {/* Vamos conversar sobre sua Jornada? */}
+        <section id="consultancy-form" className="flex flex-col justify-center gap-3 bg-primary-500 p-10">
+          <div className="max-w-2xl mx-auto w-full">
+            <div className="text-center mb-6">
+              <h2 className="font-baloo text-3xl md:text-4xl font-bold text-white mb-4">
+                Vamos encontrar seu cruzeiro ideal?
+              </h2>
+              <p className="font-comfortaa text-lg text-white/90">
+                Nossos especialistas vão entrar em contato para entender suas preferências e encontrar o cruzeiro ideal para você
+              </p>
+            </div>
+
+            <LeadForm
+              submitButtonText="Enviar e aguardar contato"
+              additionalMetadata={[
+                {
+                  key: 'source',
+                  value: 'Consultoria Cruzeiros',
+                  keyDescription: 'Fonte'
+                },
+                {
+                  key: 'consultancy_type',
+                  value: 'Cruise Consultancy',
+                  keyDescription: 'Tipo de Consultoria'
+                }
+              ]}
+              event="agendar"
+              eventOptions={{
+                source: 'Consultoria Cruzeiros',
+                consultancy_type: 'Cruise Consultancy'
+              }}
+              onSuccess={() => {
+                router.push('/obrigado')
+              }}
+            />
+
+            {/* WhatsApp Group Invitation */}
+            <div className="mt-6 pt-6 border-t border-white/20 text-center">
+              <p className="font-comfortaa text-sm text-white/90 mb-3">
+                Não é o momento ideal para uma conversa? Entre em nosso grupo exclusivo, com a melhor curadoria de cruzeiros de luxo.
+              </p>
+              <WhatsAppGroupButton
+                href="https://chat.whatsapp.com/DQCBgshaX0DFoiBetEm4dI"
+                size="compact"
+              />
+            </div>
           </div>
         </section>
       </div>
-      <CruiseDetailsModal isOpen={isCruiseDetailsModalOpen} handleClose={handleExitModal} />
-      <CruiseConsultancyModal isOpen={isConsultancyModalOpen} onClose={handleCloseConsultancyModal} />
+      <CruiseDetailsModal
+        isOpen={isCruiseDetailsModalOpen}
+        handleClose={handleExitModal}
+        uniqueName={selectedCruiseUniqueName}
+      />
     </div>
   );
 }

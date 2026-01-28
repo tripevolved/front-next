@@ -1,10 +1,15 @@
 'use client'
 
 import Image from 'next/image'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+
+interface ImageItem {
+  url: string
+  shortDescription?: string
+}
 
 interface ImageGridProps {
-  images: string[]
+  images: ImageItem[] | string[]
   title: string
 }
 
@@ -13,12 +18,32 @@ export function ImageGrid({ images, title }: ImageGridProps) {
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
   
+  // Normalize images to always be objects with url and shortDescription
+  const normalizedImages: ImageItem[] = useMemo(() => 
+    images.map((img) => typeof img === 'string' ? { url: img } : img),
+    [images]
+  )
+  
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50
 
   // Handle keyboard navigation
   useEffect(() => {
     if (selectedImageIndex === null) return
+
+    const goToNext = () => {
+      setSelectedImageIndex((prev) => {
+        if (prev === null) return null
+        return (prev + 1) % normalizedImages.length
+      })
+    }
+
+    const goToPrevious = () => {
+      setSelectedImageIndex((prev) => {
+        if (prev === null) return null
+        return (prev - 1 + normalizedImages.length) % normalizedImages.length
+      })
+    }
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
@@ -35,16 +60,16 @@ export function ImageGrid({ images, title }: ImageGridProps) {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedImageIndex])
+  }, [selectedImageIndex, normalizedImages.length])
 
   const goToNext = () => {
     if (selectedImageIndex === null) return
-    setSelectedImageIndex((selectedImageIndex + 1) % images.length)
+    setSelectedImageIndex((selectedImageIndex + 1) % normalizedImages.length)
   }
 
   const goToPrevious = () => {
     if (selectedImageIndex === null) return
-    setSelectedImageIndex((selectedImageIndex - 1 + images.length) % images.length)
+    setSelectedImageIndex((selectedImageIndex - 1 + normalizedImages.length) % normalizedImages.length)
   }
 
   // Touch handlers for swipe gestures
@@ -75,7 +100,7 @@ export function ImageGrid({ images, title }: ImageGridProps) {
     setTouchEnd(null)
   }
 
-  if (images.length === 0) {
+  if (normalizedImages.length === 0) {
     return (
       <div className="w-full h-96 bg-gray-100 flex items-center justify-center">
         <p className="text-gray-500">Nenhuma imagem disponível</p>
@@ -83,9 +108,9 @@ export function ImageGrid({ images, title }: ImageGridProps) {
     )
   }
 
-  const mainImage = images[0]
-  const sideImages = images.slice(1, 3)
-  const remainingCount = images.length > 3 ? images.length - 3 : 0
+  const mainImage = normalizedImages[0]
+  const sideImages = normalizedImages.slice(1, 3)
+  const remainingCount = normalizedImages.length > 3 ? normalizedImages.length - 3 : 0
 
   return (
     <>
@@ -97,8 +122,8 @@ export function ImageGrid({ images, title }: ImageGridProps) {
             {/* Main image - 2/3 width */}
             <div className="col-span-2 relative overflow-hidden rounded-l-lg cursor-pointer group">
               <Image
-                src={mainImage}
-                alt={`${title} - Imagem principal`}
+                src={mainImage.url}
+                alt={mainImage.shortDescription || `${title} - Imagem principal`}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                 priority
@@ -116,8 +141,8 @@ export function ImageGrid({ images, title }: ImageGridProps) {
                   } ${index === sideImages.length - 1 && remainingCount === 0 ? 'rounded-br-lg' : ''} flex-1`}
                 >
                   <Image
-                    src={image}
-                    alt={`${title} - Imagem ${index + 2}`}
+                    src={image.url}
+                    alt={image.shortDescription || `${title} - Imagem ${index + 2}`}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                     onClick={() => setSelectedImageIndex(index + 1)}
@@ -147,8 +172,8 @@ export function ImageGrid({ images, title }: ImageGridProps) {
           {/* Main image - full width */}
           <div className="relative h-[300px] w-full">
             <Image
-              src={mainImage}
-              alt={`${title} - Imagem principal`}
+              src={mainImage.url}
+              alt={mainImage.shortDescription || `${title} - Imagem principal`}
               fill
               className="object-cover"
               priority
@@ -166,8 +191,8 @@ export function ImageGrid({ images, title }: ImageGridProps) {
                   onClick={() => setSelectedImageIndex(index + 1)}
                 >
                   <Image
-                    src={image}
-                    alt={`${title} - Imagem ${index + 2}`}
+                    src={image.url}
+                    alt={image.shortDescription || `${title} - Imagem ${index + 2}`}
                     fill
                     className="object-cover"
                   />
@@ -211,11 +236,11 @@ export function ImageGrid({ images, title }: ImageGridProps) {
 
           {/* Image counter */}
           <div className="absolute top-4 left-4 bg-black/50 text-white px-4 py-2 rounded-lg text-sm z-10">
-            {selectedImageIndex + 1} / {images.length}
+            {selectedImageIndex + 1} / {normalizedImages.length}
           </div>
 
           {/* Previous button */}
-          {images.length > 1 && (
+          {normalizedImages.length > 1 && (
             <button
               className="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-colors z-10"
               onClick={(e) => {
@@ -231,7 +256,7 @@ export function ImageGrid({ images, title }: ImageGridProps) {
           )}
 
           {/* Next button */}
-          {images.length > 1 && (
+          {normalizedImages.length > 1 && (
             <button
               className="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-colors z-10"
               onClick={(e) => {
@@ -252,17 +277,17 @@ export function ImageGrid({ images, title }: ImageGridProps) {
             onClick={(e) => e.stopPropagation()}
           >
             <Image
-              src={images[selectedImageIndex]}
-              alt={`${title} - Imagem ${selectedImageIndex + 1}`}
+              src={normalizedImages[selectedImageIndex].url}
+              alt={normalizedImages[selectedImageIndex].shortDescription || `${title} - Imagem ${selectedImageIndex + 1}`}
               fill
               className="object-contain"
             />
           </div>
 
           {/* Thumbnail strip at bottom */}
-          {images.length > 1 && (
+          {normalizedImages.length > 1 && (
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 overflow-x-auto max-w-[90vw] px-4 py-2 bg-black/50 rounded-lg">
-              {images.map((image, index) => (
+              {normalizedImages.map((image, index) => (
                 <button
                   key={index}
                   className={`relative w-16 h-16 flex-shrink-0 rounded overflow-hidden border-2 transition-all ${
@@ -276,8 +301,8 @@ export function ImageGrid({ images, title }: ImageGridProps) {
                   }}
                 >
                   <Image
-                    src={image}
-                    alt={`Miniatura ${index + 1}`}
+                    src={image.url}
+                    alt={image.shortDescription || `Miniatura ${index + 1}`}
                     fill
                     className="object-cover"
                   />

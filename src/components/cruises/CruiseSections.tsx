@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from "react";
 import CruiseCarousel from "./CruiseCarousel";
 import { CruisesApiService } from "@/clients/cruises";
-import { CruiseType, CruiseCardData } from "@/clients/cruises/cruises";
+import { CruiseType, CruiseData } from "@/clients/cruises/cruises";
 import Button from "../common/Button";
 
 interface CruiseSectionsProps {
-  handleClick: () => void;
+  handleClick: (uniqueName: string) => void;
 }
 
 const cruiseTypeConfig = {
@@ -31,7 +31,7 @@ const cruiseTypeConfig = {
 
 export default function CruiseSections({ handleClick }: CruiseSectionsProps) {
   const [activeType, setActiveType] = useState<CruiseType>('relax');
-  const [cruises, setCruises] = useState<Record<CruiseType, CruiseCardData[]>>({
+  const [cruises, setCruises] = useState<Record<CruiseType, CruiseData[]>>({
     relax: [],
     destination: [],
     expedition: [],

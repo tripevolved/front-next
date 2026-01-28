@@ -7,7 +7,7 @@ type DetailsCardProps = {
 
 export const DetailsCard = ({ message, icon }: DetailsCardProps) => {
   return (
-    <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow w-96 h-52 flex flex-col items-center">
+    <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow h-58 flex flex-col items-center">
       <div className="text-primary-300 mb-4">
         {icon || (
           <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -20,7 +20,7 @@ export const DetailsCard = ({ message, icon }: DetailsCardProps) => {
           </svg>
         )}
       </div>
-      <p className="text-secondary-600 text-lg font-comfortaa text-center">{message}</p>
+      <p className="text-secondary-600 text-lg font-comfortaa text-center my-auto">{message}</p>
     </div>
   );
 };

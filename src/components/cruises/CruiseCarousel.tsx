@@ -2,11 +2,11 @@
 
 import React, { useRef } from "react";
 import { CruiseCard } from "./CruiseCard";
-import { CruiseCardData } from "@/clients/cruises/cruises";
+import { CruiseData } from "@/clients/cruises/cruises";
 
 interface CruiseCarouselProps {
-  handleClick: () => void;
-  cruises?: CruiseCardData[];
+  handleClick: (uniqueName: string) => void;
+  cruises?: CruiseData[];
   cardsCount?: number;
 }
 
@@ -23,19 +23,33 @@ export default function CruiseCarousel({ handleClick, cruises, cardsCount = 3 }:
     }
   };
 
-  // Generate array of cards based on cruises data or cardsCount
-  const cards = cruises && cruises.length > 0 
-    ? cruises.map((cruise, index) => (
-        <div key={cruise.id} className="flex-shrink-0 w-80 md:w-96">
+  // Check if there are no cruises
+  const hasCruises = cruises && cruises.length > 0;
+
+  // Generate array of cards based on cruises data
+  const cards = hasCruises
+    ? cruises.map((cruise) => (
+        <div key={cruise.uniqueName} className="flex-shrink-0 w-80 md:w-96">
           <CruiseCard handleClick={handleClick} cruise={cruise} />
         </div>
       ))
-      // TODO: REMOVE THIS WHEN WE HAVE THE DATA
-    : Array.from({ length: cardsCount }, (_, index) => (
-        <div key={index} className="flex-shrink-0 w-80 md:w-96">
-          <CruiseCard handleClick={handleClick} />
+    : [];
+
+  // Empty state message
+  if (!hasCruises) {
+    return (
+      <div className="w-full py-12">
+        <div className="text-center">
+          <p className="font-comfortaa text-lg text-gray-600 max-w-2xl mx-auto">
+            No momento, não há cruzeiros disponíveis nesta categoria. Nossos especialistas estão sempre atualizando nossa curadoria com os melhores cruzeiros de luxo.
+          </p>
+          <p className="font-comfortaa text-base text-gray-500 mt-4 max-w-2xl mx-auto">
+            Entre em contato conosco para conhecer outras opções disponíveis.
+          </p>
         </div>
-      ));
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">

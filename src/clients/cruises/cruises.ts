@@ -2,26 +2,26 @@ import { ApiRequest } from "@/services/api/request";
 
 export type CruiseType = 'relax' | 'destination' | 'expedition' | 'river';
 
-export interface CruiseCardData {
-  id: string;
+export interface CruiseData {
+  uniqueName: string;
   title: string;
   company: string;
-  description: string;
-  image: string;
-  price: string;
-  duration: string;
-  departureDate: string;
-  arrivalDate: string;
-  departurePort: string;
-  arrivalPort: string;
-  cabinType: string;
+  images: string[];
+  price: CruisePrice;
+  departureDate: Date;
+  arrivalDate: Date;
   highlights: string[];
-  included: string[];
-  notIncluded: string[];
+}
+
+interface CruisePrice {
+  amount: number;
+  amountWithDiscount?: number;
+  currency: string;
+  cabinType: string;
 }
 
 interface CruisesResponse {
-  cruises: CruiseCardData[];
+  cruises: CruiseData[];
   total: number;
   page: number;
   totalPages: number;
@@ -45,4 +45,79 @@ export const getCruisesByType = async ({
   });
   const route = `cruises/?${params.toString()}`;
   return ApiRequest.get<CruisesResponse>(route);
+};
+
+export interface CruiseDetails {
+  uniqueName: string;
+  title: string;
+  company: string;
+  images: CruiseImage[];
+  price: CruisePrice;
+  departureDate: Date;
+  arrivalDate: Date;
+  description?: string;
+  itinerary: CruiseItineraryItem[];
+  highlights: CruiseHighlight[];
+  rateView: CruiseShipRate;
+}
+
+export interface CruiseShipRate {
+  cruiseShipId: number;
+  rates: CruiseRate[];
+}
+
+export interface CruiseRate {
+  roomCategoryId: number;
+  roomImages: CruiseImage[];
+
+  name: string;
+  description?: string;
+  amountPerPerson: number;
+  amountPerPersonWithDiscount?: number;
+  currency: string;
+}
+
+interface CruiseHighlight {
+  description: string;
+  expertQuote?: string;
+}
+
+interface CruiseImage {
+  url: string;
+  shortDescription?: string;
+}
+
+export interface CruiseItineraryItem {
+  arrivalDateTime: Date;
+  departureDateTime: Date;
+
+  embarkationStartDateTime?: Date;
+  embarkationEndDateTime?: Date;
+  disembarkationStartDateTime?: Date;
+  disembarkationEndDateTime?: Date;
+
+  title: string;
+  description?: string;
+  highlight?: string;
+  dockType?: 'Dock' | 'Tender';
+  image?: CruiseImage;
+}
+
+export interface CruiseCabin {
+  name: string;
+  description?: string;
+  image?: string;
+  features?: string[];
+}
+
+export interface CruiseGastronomy {
+  name: string;
+  description?: string;
+  image?: string;
+  type?: string;
+}
+
+export const getCruiseByUniqueName = async (uniqueName: string) => {
+  const route = `cruises/${uniqueName}`;
+  return ApiRequest.get<CruiseDetails>(route);
 };
