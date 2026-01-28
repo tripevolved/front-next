@@ -56,10 +56,25 @@ export interface CruiseDetails {
   departureDate: Date;
   arrivalDate: Date;
   description?: string;
-  itinerary?: CruiseItineraryItem[];
-  cabins?: CruiseCabin[];
-  gastronomy?: CruiseGastronomy[];
+  itinerary: CruiseItineraryItem[];
   highlights: CruiseHighlight[];
+  rateView: CruiseShipRate;
+}
+
+export interface CruiseShipRate {
+  cruiseShipId: number;
+  rates: CruiseRate[];
+}
+
+export interface CruiseRate {
+  roomCategoryId: number;
+  roomImages: CruiseImage[];
+
+  name: string;
+  description?: string;
+  amountPerPerson: number;
+  amountPerPersonWithDiscount?: number;
+  currency: string;
 }
 
 interface CruiseHighlight {
@@ -73,13 +88,19 @@ interface CruiseImage {
 }
 
 export interface CruiseItineraryItem {
-  day: number;
-  date: string;
-  port: string;
-  time?: string;
+  arrivalDateTime: Date;
+  departureDateTime: Date;
+
+  embarkationStartDateTime?: Date;
+  embarkationEndDateTime?: Date;
+  disembarkationStartDateTime?: Date;
+  disembarkationEndDateTime?: Date;
+
+  title: string;
   description?: string;
-  image?: string;
-  type?: 'embark' | 'port' | 'disembark';
+  highlight?: string;
+  dockType?: 'Dock' | 'Tender';
+  image?: CruiseImage;
 }
 
 export interface CruiseCabin {

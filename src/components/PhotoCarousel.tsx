@@ -28,14 +28,14 @@ export function PhotoCarousel({ photos, title, autoScroll = true }: PhotoCarouse
 
   // TODO improve this component to get the best photo size based on the screen size
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full min-h-[200px]">
       {photos.map((photo, index) => {
         const parsedPhoto = parsePhotoWithType(photo)
         return (
           <div
             key={index}
             className={`absolute inset-0 transition-opacity duration-500 ${
-              index === currentIndex ? 'opacity-100' : 'opacity-0'
+              index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
             }`}
           >
             <Image
@@ -49,7 +49,7 @@ export function PhotoCarousel({ photos, title, autoScroll = true }: PhotoCarouse
         )
       })}
       {photos.length > 1 && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
           {photos.map((_, index) => (
             <button
               key={index}

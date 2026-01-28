@@ -56,7 +56,7 @@ export default function CruiseSections({ handleClick }: CruiseSectionsProps) {
         type,
         limit: 3
       });
-      console.log(response);
+      
       setCruises(prev => ({
         ...prev,
         [type]: response.cruises
