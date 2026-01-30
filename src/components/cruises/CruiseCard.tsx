@@ -31,9 +31,8 @@ export const CruiseCard = ({ handleClick, cruise }: CruiseCardProps) => {
     }
   };
 
-  // Format price
-  const formatPrice = () => {
-    const amount = cruise.price.amountWithDiscount || cruise.price.amount;
+  // Format price amount
+  const formatPriceAmount = (amount: number) => {
     const currency = cruise.price.currency === 'BRL' ? 'R$' : cruise.price.currency;
     return `${currency} ${amount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   };
@@ -86,9 +85,19 @@ export const CruiseCard = ({ handleClick, cruise }: CruiseCardProps) => {
               </p>
             )}
             {cruise.price && (
-              <p className="md:text-lg">
-                <span className="italic">{cruise.price.cabinType}</span> a partir de {formatPrice()} por pessoa
-              </p>
+              <div className="flex flex-col gap-0.5">
+                <p className="text-base font-medium italic truncate" title={cruise.price.cabinType}>
+                  {cruise.price.cabinType} a partir de
+                </p>
+                <p className="text-sm text-gray-600 line-through">
+                  {formatPriceAmount(cruise.price.amount)}
+                </p>
+                {cruise.price.amountWithDiscount != null && cruise.price.amountWithDiscount !== cruise.price.amount && (
+                  <p className="text-sm font-semibold text-accent-500">
+                    {formatPriceAmount(cruise.price.amountWithDiscount)} por pessoa
+                  </p>
+                )}
+              </div>
             )}
           </div>
         </div>

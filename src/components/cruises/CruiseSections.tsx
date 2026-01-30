@@ -13,19 +13,15 @@ interface CruiseSectionsProps {
 const cruiseTypeConfig = {
   relax: {
     label: "Bem-estar e tranquilidade",
-    description: "Luxo sensorial sem ostentação"
+    description: "Para você relaxar e desfrutar de momentos tranquilos"
   },
   destination: {
     label: "Viver o destino",
-    description: "Não apenas visitá-lo"
+    description: "Para você explorar os destinos mais incríveis do mundo"
   },
-  expedition: {
-    label: "Expedições únicas",
-    description: "Cruzeiros de aventura e exploração"
-  },
-  river: {
-    label: "Refinamento cultural",
-    description: "Cruzeiros fluviais por rios icônicos do mundo"
+  uniqueBeauty: {
+    label: "Beleza única",
+    description: "Natureza e lugares de beleza única do mundo"
   }
 };
 
@@ -34,14 +30,12 @@ export default function CruiseSections({ handleClick }: CruiseSectionsProps) {
   const [cruises, setCruises] = useState<Record<CruiseType, CruiseData[]>>({
     relax: [],
     destination: [],
-    expedition: [],
-    river: []
+    uniqueBeauty: []
   });
   const [loading, setLoading] = useState<Record<CruiseType, boolean>>({
     relax: false,
     destination: false,
-    expedition: false,
-    river: false
+    uniqueBeauty: false
   });
   const [error, setError] = useState<string | null>(null);
 

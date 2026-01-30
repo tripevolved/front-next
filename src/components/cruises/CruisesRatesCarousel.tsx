@@ -93,12 +93,12 @@ export default function CruiseRatesCarousel({ rates }: CruiseRatesCarouselProps)
           }}
         >
           {rates.map((rate) => {
-            const imageUrl = rate.roomImages && rate.roomImages.length > 0 
-              ? rate.roomImages[0].url 
+            const imageUrl = rate.coverImage && rate.coverImage.url 
+              ? rate.coverImage.url 
               : '/assets/blank-image.png';
-            const imageAlt = rate.roomImages && rate.roomImages.length > 0
-              ? rate.roomImages[0].shortDescription || rate.name
-              : rate.name;
+            const imageAlt = rate.coverImage && rate.coverImage.shortDescription
+              ? rate.coverImage.shortDescription
+              : '';
             
             const hasDiscount = rate.amountPerPersonWithDiscount !== null && rate.amountPerPersonWithDiscount !== undefined && !isNaN(Number(rate.amountPerPersonWithDiscount));
             const originalAmount = hasDiscount ? rate.amountPerPerson : null;
