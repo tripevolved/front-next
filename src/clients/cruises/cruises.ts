@@ -1,6 +1,6 @@
 import { ApiRequest } from "@/services/api/request";
 
-export type CruiseType = 'relax' | 'destination' | 'expedition' | 'river';
+export type CruiseType = 'relax' | 'destination' | 'uniqueBeauty';
 
 export interface CruiseData {
   uniqueName: string;
@@ -51,6 +51,7 @@ export interface CruiseDetails {
   uniqueName: string;
   title: string;
   company: string;
+  ship: string;
   images: CruiseImage[];
   price: CruisePrice;
   departureDate: Date;
@@ -59,6 +60,7 @@ export interface CruiseDetails {
   itinerary: CruiseItineraryItem[];
   highlights: CruiseHighlight[];
   rateView: CruiseShipRate;
+  services: CruiseService[];
 }
 
 export interface CruiseShipRate {
@@ -68,13 +70,13 @@ export interface CruiseShipRate {
 
 export interface CruiseRate {
   roomCategoryId: number;
-  roomImages: CruiseImage[];
-
+  
   name: string;
   description?: string;
   amountPerPerson: number;
   amountPerPersonWithDiscount?: number;
   currency: string;
+  coverImage: CruiseImage;
 }
 
 interface CruiseHighlight {
@@ -82,7 +84,13 @@ interface CruiseHighlight {
   expertQuote?: string;
 }
 
-interface CruiseImage {
+interface CruiseService {
+  name: string;
+  description: string;
+  icon?: string;
+}
+
+export interface CruiseImage {
   url: string;
   shortDescription?: string;
 }

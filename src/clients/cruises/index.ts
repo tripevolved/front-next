@@ -1,6 +1,10 @@
 import { getCruisesByType, getCruiseByUniqueName } from "./cruises";
+import { getCruiseShip, getCruiseShipDetails, getCruiseShipAttractions } from "./cruiseships";
 
 export const CruisesApiService = {
   getCruisesByType,
-  getCruiseByUniqueName
+  getCruiseByUniqueName,
+  getCruiseShip,
+  getCruiseShipDetails,
+  getCruiseShipAttractions
 };

@@ -1,13 +1,35 @@
-import React, { useRef } from "react";
-import Image from "next/image";
-import type { CruiseRate } from "@/clients/cruises/cruises";
+"use client";
 
-interface CruiseRatesCarouselProps {
-  rates: CruiseRate[];
+import React, { useRef, useState, useEffect } from "react";
+import Image from "next/image";
+import { CruisesApiService } from "@/clients/cruises";
+import type { CruiseShipAttraction } from "@/clients/cruises/cruiseships";
+
+interface CruiseRestaurantsCarouselProps {
+  shipName: string;
 }
 
-export default function CruiseRatesCarousel({ rates }: CruiseRatesCarouselProps) {
+export default function CruiseRestaurantsCarousel({ shipName }: CruiseRestaurantsCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [restaurants, setRestaurants] = useState<CruiseShipAttraction[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!shipName) return;
+    setLoading(true);
+    setError(null);
+    CruisesApiService.getCruiseShipAttractions(shipName, ['Restaurant'])
+      .then((data) => {
+        setRestaurants(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching restaurants:", err);
+        setError("Não foi possível carregar os restaurantes.");
+        setLoading(false);
+      });
+  }, [shipName]);
 
   const scroll = (direction: string) => {
     if (scrollRef && scrollRef.current) {
@@ -19,24 +41,26 @@ export default function CruiseRatesCarousel({ rates }: CruiseRatesCarouselProps)
     }
   };
 
-  const formatPrice = (amount: number | undefined | null, currency: string = 'BRL') => {
-    if (amount === null || amount === undefined || isNaN(Number(amount))) {
-      return 'Preço não disponível';
-    }
-    const numAmount = Number(amount);
-    if (isNaN(numAmount)) {
-      return 'Preço não disponível';
-    }
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: currency || 'BRL',
-    }).format(numAmount);
-  };
-
-  if (!rates || !Array.isArray(rates) || rates.length === 0) {
+  if (loading) {
     return (
       <div className="w-full p-4 text-center text-gray-500 bg-gray-50 rounded-lg">
-        <p>Nenhum quarto disponível no momento.</p>
+        <p>Carregando restaurantes...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full p-4 text-center text-red-500 bg-red-50 rounded-lg">
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  if (!restaurants || !Array.isArray(restaurants) || restaurants.length === 0) {
+    return (
+      <div className="w-full p-4 text-center text-gray-500 bg-gray-50 rounded-lg">
+        <p>Nenhum restaurante disponível no momento.</p>
       </div>
     );
   }
@@ -92,22 +116,17 @@ export default function CruiseRatesCarousel({ rates }: CruiseRatesCarouselProps)
             msOverflowStyle: "none",
           }}
         >
-          {rates.map((rate) => {
-            const imageUrl = rate.coverImage && rate.coverImage.url 
-              ? rate.coverImage.url 
+          {restaurants.map((restaurant, index) => {
+            const imageUrl = restaurant.images && restaurant.images.length > 0 && restaurant.images[0].url
+              ? restaurant.images[0].url
               : '/assets/blank-image.png';
-            const imageAlt = rate.coverImage && rate.coverImage.shortDescription
-              ? rate.coverImage.shortDescription
-              : '';
-            
-            const hasDiscount = rate.amountPerPersonWithDiscount !== null && rate.amountPerPersonWithDiscount !== undefined && !isNaN(Number(rate.amountPerPersonWithDiscount));
-            const originalAmount = hasDiscount ? rate.amountPerPerson : null;
-            const displayAmount = hasDiscount ? rate.amountPerPersonWithDiscount : rate.amountPerPerson;
-            const currency = rate.currency || 'BRL';
+            const imageAlt = restaurant.images && restaurant.images.length > 0 && restaurant.images[0].shortDescription
+              ? restaurant.images[0].shortDescription
+              : restaurant.name;
 
             return (
               <div
-                key={rate.roomCategoryId}
+                key={`${restaurant.name}-${index}`}
                 className="flex-shrink-0 w-64 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-xl shadow-lg rounded-lg bg-white border border-gray-200 overflow-hidden group/item"
               >
                 <div className="flex flex-col">
@@ -120,30 +139,15 @@ export default function CruiseRatesCarousel({ rates }: CruiseRatesCarouselProps)
                     />
                   </div>
 
-                  <div className="p-4 flex flex-col gap-3">
-                    <div>
-                      <h1 className="font-bold font-baloo text-gray-800 text-xl mb-1">
-                        {rate.name}
-                      </h1>
-                      {rate.description && (
-                        <p className="text-gray-600 text-sm mb-2 line-clamp-2">
-                          {rate.description}
-                        </p>
-                      )}
-                      <div className="flex flex-col gap-1">
-                        {originalAmount !== null && (
-                          <p className="text-gray-400 text-sm line-through">
-                            {formatPrice(originalAmount, currency)}
-                          </p>
-                        )}
-                        <p className="text-gray-600 text-sm">
-                          <span className="font-bold text-accent-500 text-lg">
-                            {formatPrice(displayAmount, currency)}
-                          </span>
-                          {" "}por pessoa
-                        </p>
-                      </div>
-                    </div>
+                  <div className="p-4 flex flex-col gap-2">
+                    <h1 className="font-bold font-baloo text-gray-800 text-xl">
+                      {restaurant.name}
+                    </h1>
+                    {restaurant.description && (
+                      <p className="text-gray-600 text-sm line-clamp-3">
+                        {restaurant.description}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

@@ -4,9 +4,12 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ImageGrid } from "../common/ImageGrid";
 import CruiseRatesCarousel from "./CruisesRatesCarousel";
+import CruiseRestaurantsCarousel from "./CruiseRestaurantsCarousel";
 import CruiseLeadModal from "../consultancy/CruiseLeadModal";
+import CruiseShipCard from "./CruiseShipCard";
+import CruiseShipDetailsModal from "./CruiseShipDetailsModal";
 import { CruisesApiService } from "@/clients/cruises";
-import type { CruiseDetails, CruiseItineraryItem } from "@/clients/cruises/cruises";
+import type { CruiseDetails } from "@/clients/cruises/cruises";
 
 type CruiseDetailsModalProps = {
   isOpen: boolean;
@@ -21,6 +24,7 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
   const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(new Set());
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
   const [leadModalText, setLeadModalText] = useState('Reservar');
+  const [isShipDetailsModalOpen, setIsShipDetailsModalOpen] = useState(false);
   const thankYouText = 'Obrigado! Vamos entrar em contato para planejar sua jornada.';
 
   useEffect(() => {
@@ -335,6 +339,52 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
                       </div>
                     </div>
                   )}
+                  {cruiseDetails.services && cruiseDetails.services.length > 0 && (
+                    <div className="flex flex-col gap-3">
+                      <h1 className="font-bold text-xl">A jornada inclui:</h1>
+                      <div className="grid grid-cols-1 md:grid-cols-2 border border-gray-200 rounded-lg bg-white shadow-sm">
+                        {cruiseDetails.services.map((service, index) => (
+                            <div
+                              key={index}
+                              className="flex gap-3 items-start p-4"
+                            >
+                              {service.icon && (
+                                <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center text-primary-500">
+                                  <img
+                                    src={`/assets/services/${service.icon}.svg`}
+                                    alt=""
+                                    className="w-6 h-6 object-contain"
+                                  />
+                                </div>
+                              )}
+                              <div className="flex flex-col gap-0.5 min-w-0">
+                                <span className="font-medium text-sm text-gray-900">{service.name}</span>
+                                {service.description && (
+                                  <span className="text-xs text-gray-600 italic">
+                                    {service.description}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+                  {cruiseDetails.ship && (
+                    <div className="flex flex-col gap-3">
+                      <h1 className="font-bold text-xl">Navio</h1>
+                      <CruiseShipCard
+                        shipName={cruiseDetails.ship}
+                        onOpenDetails={() => setIsShipDetailsModalOpen(true)}
+                      />
+                    </div>
+                  )}
+                  {cruiseDetails.ship && (
+                    <div className="flex flex-col gap-3">
+                      <h1 className="font-bold text-xl">Restaurantes</h1>
+                      <CruiseRestaurantsCarousel shipName={cruiseDetails.ship} />
+                    </div>
+                  )}
                   {cruiseDetails.rateView && cruiseDetails.rateView.rates && cruiseDetails.rateView.rates.length > 0 && (
                     <div className="flex flex-col gap-3">
                       <h1 className="font-bold text-xl">Quartos</h1>
@@ -363,6 +413,11 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
         isOpen={isLeadModalOpen}
         onClose={() => { setIsLeadModalOpen(false); setLeadModalText(thankYouText); }}
         searchData={getSearchData()}
+      />
+      <CruiseShipDetailsModal
+        isOpen={isShipDetailsModalOpen}
+        onClose={() => setIsShipDetailsModalOpen(false)}
+        shipName={cruiseDetails?.ship ?? null}
       />
     </div>
   );
