@@ -5,6 +5,8 @@ import Image from "next/image";
 import { ImageGrid } from "../common/ImageGrid";
 import CruiseRatesCarousel from "./CruisesRatesCarousel";
 import CruiseLeadModal from "../consultancy/CruiseLeadModal";
+import CruiseShipCard from "./CruiseShipCard";
+import CruiseShipDetailsModal from "./CruiseShipDetailsModal";
 import { CruisesApiService } from "@/clients/cruises";
 import type { CruiseDetails } from "@/clients/cruises/cruises";
 
@@ -21,6 +23,7 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
   const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(new Set());
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
   const [leadModalText, setLeadModalText] = useState('Reservar');
+  const [isShipDetailsModalOpen, setIsShipDetailsModalOpen] = useState(false);
   const thankYouText = 'Obrigado! Vamos entrar em contato para planejar sua jornada.';
 
   useEffect(() => {
@@ -366,6 +369,15 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
                       </div>
                     </div>
                   )}
+                  {cruiseDetails.ship && (
+                    <div className="flex flex-col gap-3">
+                      <h1 className="font-bold text-xl">Navio</h1>
+                      <CruiseShipCard
+                        shipName={cruiseDetails.ship}
+                        onOpenDetails={() => setIsShipDetailsModalOpen(true)}
+                      />
+                    </div>
+                  )}
                   {cruiseDetails.rateView && cruiseDetails.rateView.rates && cruiseDetails.rateView.rates.length > 0 && (
                     <div className="flex flex-col gap-3">
                       <h1 className="font-bold text-xl">Quartos</h1>
@@ -394,6 +406,11 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
         isOpen={isLeadModalOpen}
         onClose={() => { setIsLeadModalOpen(false); setLeadModalText(thankYouText); }}
         searchData={getSearchData()}
+      />
+      <CruiseShipDetailsModal
+        isOpen={isShipDetailsModalOpen}
+        onClose={() => setIsShipDetailsModalOpen(false)}
+        shipName={cruiseDetails?.ship ?? null}
       />
     </div>
   );

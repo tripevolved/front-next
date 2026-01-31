@@ -51,6 +51,7 @@ export interface CruiseDetails {
   uniqueName: string;
   title: string;
   company: string;
+  ship: string;
   images: CruiseImage[];
   price: CruisePrice;
   departureDate: Date;
@@ -89,7 +90,7 @@ interface CruiseService {
   icon?: string;
 }
 
-interface CruiseImage {
+export interface CruiseImage {
   url: string;
   shortDescription?: string;
 }
