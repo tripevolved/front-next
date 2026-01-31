@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ImageGrid } from "../common/ImageGrid";
 import CruiseRatesCarousel from "./CruisesRatesCarousel";
+import CruiseRestaurantsCarousel from "./CruiseRestaurantsCarousel";
 import CruiseLeadModal from "../consultancy/CruiseLeadModal";
 import CruiseShipCard from "./CruiseShipCard";
 import CruiseShipDetailsModal from "./CruiseShipDetailsModal";
@@ -376,6 +377,12 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
                         shipName={cruiseDetails.ship}
                         onOpenDetails={() => setIsShipDetailsModalOpen(true)}
                       />
+                    </div>
+                  )}
+                  {cruiseDetails.ship && (
+                    <div className="flex flex-col gap-3">
+                      <h1 className="font-bold text-xl">Restaurantes</h1>
+                      <CruiseRestaurantsCarousel shipName={cruiseDetails.ship} />
                     </div>
                   )}
                   {cruiseDetails.rateView && cruiseDetails.rateView.rates && cruiseDetails.rateView.rates.length > 0 && (
