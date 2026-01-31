@@ -59,6 +59,7 @@ export interface CruiseDetails {
   itinerary: CruiseItineraryItem[];
   highlights: CruiseHighlight[];
   rateView: CruiseShipRate;
+  services: CruiseService[];
 }
 
 export interface CruiseShipRate {
@@ -80,6 +81,12 @@ export interface CruiseRate {
 interface CruiseHighlight {
   description: string;
   expertQuote?: string;
+}
+
+interface CruiseService {
+  name: string;
+  description: string;
+  icon?: string;
 }
 
 interface CruiseImage {
