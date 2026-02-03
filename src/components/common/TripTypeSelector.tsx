@@ -19,7 +19,7 @@ export default function TripTypeSelector({
   onTypeSelect, 
   types = [
     { id: 'casal', name: 'Casal', icon: '❤️', available: true },
-    { id: 'amigos', name: 'Amigos', icon: '👥', available: false }
+    { id: 'familia', name: 'Família', icon: '👨‍👩‍👧‍👦', available: true },
   ],
   className = '' 
 }: TripTypeSelectorProps) {

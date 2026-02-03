@@ -110,7 +110,7 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source, s
             </h3>
             <p className="text-secondary-600 font-comfortaa text-lg leading-relaxed">
               Vamos fazer algumas perguntas para entender melhor o que você deseja.
-              Esse processo é rápido e vai nos ajudar a criar um dossiê personalizado da sua viagem.
+              Esse processo leva menos de 5 minutos e vai nos ajudar a personalizar a sua viagem para você.
             </p>
             <div className="bg-accent-50 border border-accent-200 rounded-lg p-4">
               <p className="text-accent-800 font-comfortaa text-sm">
@@ -384,7 +384,7 @@ export default function LeadFlowModal({ isOpen, onClose, destinations, source, s
                 Deixe seus dados para começarmos
               </h4>
               <p className="text-secondary-600 font-comfortaa text-sm mb-4">
-                Nossos especialistas entrarão em contato para agendar uma reunião e criar sua proposta personalizada.
+                Nossos especialistas entrarão em contato para planejar sua viagem personalizada.
               </p>
               <LeadForm
                 onSuccess={handleLeadFormSuccess}
