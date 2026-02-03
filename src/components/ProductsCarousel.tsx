@@ -4,18 +4,18 @@ import Link from 'next/link'
 
 const products = [
   {
-    id: 'jornadas-a-dois',
-    title: 'Jornadas a dois',
-    description: 'Viagens românticas e experiências exclusivas criadas especialmente para casais que buscam momentos especiais juntos.',
-    image: '/assets/home/casal-sicilia.jpg',
-    link: '/produtos/jornadas-a-dois'
-  },
-  {
     id: 'cruzeiros-extraordinarios',
     title: 'Cruzeiros Extraordinários',
     description: 'Descubra destinos incríveis a bordo dos melhores navios, com experiências exclusivas e detalhes que você só recebe na Trip Evolved.',
     image: '/assets/home/cruzeiros-extraordinarios.jpg',
     link: '/cruzeiros-extraordinarios'
+  },
+  {
+    id: 'jornadas-a-dois',
+    title: 'Jornadas sob medida',
+    description: 'Viagens personalizadas e experiências exclusivas criadas especialmente para casais que buscam momentos especiais juntos.',
+    image: '/assets/home/casal-sicilia.jpg',
+    link: '/produtos/jornadas-a-dois'
   }
 ]
 

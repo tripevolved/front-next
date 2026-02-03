@@ -41,10 +41,10 @@ export default function JornadasADoisPage() {
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 relative z-10">
           <div className="max-w-2xl">
             <h1 className="font-baloo text-4xl md:text-6xl font-bold mb-6 text-white">
-              Jornadas a dois. Momentos únicos para casais.
+              Momentos únicos para casais
             </h1>
             <p className="font-comfortaa text-xl md:text-2xl mb-8 text-white/90">
-              Viagens românticas e experiências exclusivas criadas especialmente para casais que buscam momentos especiais juntos.
+              Viagens personalizadas e experiências exclusivas criadas especialmente para casais que buscam momentos especiais juntos.
             </p>
             <Button 
               onClick={() => setIsLeadModalOpen(true)}

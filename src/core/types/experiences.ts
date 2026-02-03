@@ -250,7 +250,7 @@ export const mockExperiences: Experience[] = [
     title: 'Uma jornada de beleza natural pelo Caribe',
     travelers: 'por Henrique Gasparotto',
     type: 'by-period',
-    isVisible: true,
+    isVisible: false,
     description:
       "Uma experiência única a bordo do Explora I explorando as belezas naturais do Caribe: praias paradisíacas, florestas tropicais exuberantes e águas cristalinas. Exclusividade, tranquilidade e serviço impecável combinados com a vibrante Miami e a história encantadora de San Juan.",
     mapImage: "https://res.cloudinary.com/tripevolved/image/upload/v1765191518/MIASJU-08-V12-map-en_mt8sxk.webp",
