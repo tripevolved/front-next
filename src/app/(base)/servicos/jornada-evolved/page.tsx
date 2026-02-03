@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
-import ProcessSection from '@/components/consultancy/ProcessSection'
+import JornadaEvolvedSection from '@/components/consultancy/JornadaEvolvedSection'
 import FAQSection from '@/components/consultancy/FAQSection'
 import Button from '@/components/common/Button'
 
@@ -11,12 +11,33 @@ export default function JornadaEvolvedPage() {
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false)
 
   const consultancyDestinations = [
-    'Maldivas',
-    'Aruba',
-    'Bahamas',
-    'Dolomitas, Itália',
-    'Torres del Paine, Chile',
-    'Anguilla'
+    'Cruzeiro pelo Mediterrâneo',
+    'Caribe',
+    'Cruzeiro pelo Norte da Europa',
+    'Patagônia',
+  ]
+
+  const faqQuestions = [
+    {
+      question: 'Quais cruzeiros vocês oferecem?',
+      answer: 'Trabalhamos com cruzeiros premium e de luxo, que entendemos que fornecem as melhores experiências a bordo e também na imersão em cada destino. São companhias diversas e com diferentes níveis de serviço, como Explora Journeys, Azamara, Celebrity e Norwegian Cruise Line.'
+    },
+    {
+      question: 'Vocês não são comissionados? Como funciona?',
+      answer: 'Como toda a indústria de viagens, em alguns casos recebemos comissão dos produtos. Para garantir nosso total alinhamento à você e sua viagem, escolhemos trabalhar com valores net (sem comissão) ou devolver as comissões recebidas como cashback. Isso significa dinheiro de volta no seu bolso e um cuidado total para que sua viagem seja especial.'
+    },
+    {
+      question: 'Quais destinos vocês atendem?',
+      answer: 'Nossa curadoria está em constante evolução. Nesse momento, trabalhamos com cruzeiros pelo Mediterrâneo, Caribe e Norte da Europa, além de alguns outros destinos terrestres focados na natureza. Para mais informações, entre em contato com nossos especialistas. Vamos fazer o possível para atender a todas as suas necessidades.'
+    },
+    {
+      question: 'Como começo a planejar minha viagem?',
+      answer: 'Clique em "Começar minha jornada" aqui no site. Nesse processo, você responderá algumas perguntas sobre sua viagem, que vão nos ajudar a recomendar as melhores opções para seu objetivo e perfil. Esse processo leva menos de 5 minutos e nossos especialistas entrarão em contato logo em seguida para planejar sua viagem.'
+    },
+    {
+      question: 'O que recebo na Jornada Evolved?',
+      answer: 'Como parte do nosso serviço de Travel Design, vamos construir toda a logística da viagem e reservar voos, hotéis, cruzeiros e o que mais for necessário. Você recebe tudo isso organizado, em casa e online, para só se preocupar em aproveitar cada momento. Além disso, você tem acesso ao nosso suporte para qualquer necessidade.'
+    }
   ]
 
   return (
@@ -26,7 +47,7 @@ export default function JornadaEvolvedPage() {
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/home/iguacu-cataratas.jpg"
+            src="/assets/consultoria/cruzeiros-unicos/hero-cruise.jpg"
             alt="Jornada Evolved - Consultoria Premium"
             fill
             className="object-cover"
@@ -63,22 +84,22 @@ export default function JornadaEvolvedPage() {
         </div>
       </section>
 
-      {/* Process Section */}
-      <ProcessSection 
+      <JornadaEvolvedSection
         onCtaClick={() => setIsLeadModalOpen(true)}
-        eventSource="Process Section - Jornada Evolved"
+        eventSource="Jornada Evolved Section - Jornada Evolved Page"
+        event="pre_agendar"
       />
 
       {/* Por que escolher Section */}
-      <section className="py-24 bg-secondary-500">
+      <section className="py-24 bg-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Content */}
-            <div className="text-white">
+            <div className="text-secondary-900">
               <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6">
                 Por que escolher a <span className="text-accent-400">Jornada Evolved</span>?
               </h2>
-              <div className="space-y-6 text-white/90 font-comfortaa text-lg">
+              <div className="space-y-6 text-secondary-600 font-comfortaa text-lg">
                 <p>
                   Quando você escolhe a Jornada Evolved, está escolhendo mais do que um serviço de viagem - está escolhendo uma parceria com especialistas apaixonados que entendem que cada viagem é única.
                 </p>
@@ -116,41 +137,8 @@ export default function JornadaEvolvedPage() {
         </div>
       </section>
 
-      {/* Investment Section */}
-      <section className="py-24 bg-white">
-        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 text-center">
-          <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
-            Investimento na sua <span className="text-accent-500">Jornada Evolved</span>
-          </h2>
-          <p className="text-secondary-600 font-comfortaa text-lg mb-8 max-w-2xl mx-auto">
-            A taxa de consultoria da Jornada Evolved é um investimento na qualidade e exclusividade da sua experiência. Cada real investido se traduz em momentos únicos e memórias inesquecíveis.
-          </p>
-          <div className="bg-secondary-50 p-8 rounded-2xl max-w-md mx-auto mb-8">
-            <div className="text-accent-500 font-baloo font-semibold text-xl mb-2">
-              Taxa de Consultoria
-            </div>
-            <div className="text-3xl font-baloo font-bold text-secondary-900 mb-2">
-              R$ 1.200,00
-            </div>
-            <p className="text-secondary-600 font-comfortaa">
-              Valor único para consultoria completa
-            </p>
-          </div>
-          <Button
-            onClick={() => setIsLeadModalOpen(true)}
-            event="pre_agendar"
-            eventOptions={{
-              source: 'Investment Section - Jornada Evolved'
-            }}
-            className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
-          >
-            Começar minha jornada
-          </Button>
-        </div>
-      </section>
-
       {/* FAQ Section */}
-      <FAQSection source="Jornada Evolved" />
+      <FAQSection source="Jornada Evolved" questions={faqQuestions} />
 
       {/* Final CTA Section */}
       <section className="py-24 bg-secondary-900 text-white">

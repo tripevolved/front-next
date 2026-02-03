@@ -16,7 +16,7 @@ const faqQuestions = [
   },
   {
     question: 'Quais cruzeiros vocês oferecem?',
-    answer: 'Trabalhamos cruzeiros premium e de luxo, que entendemos que fornecem as melhores experiências a bordo e também na imersão em cada destino. São companhias diversas e com diferentes níveis de serviço, como Explora Journeys, Azamara, Celebrity e Norwegian Cruise Line.'
+    answer: 'Trabalhamos com cruzeiros premium e de luxo, que entendemos que fornecem as melhores experiências a bordo e também na imersão em cada destino. São companhias diversas e com diferentes níveis de serviço, como Explora Journeys, Azamara, Celebrity e Norwegian Cruise Line.'
   },
   {
     question: 'Vocês não são comissionados? Como funciona?',

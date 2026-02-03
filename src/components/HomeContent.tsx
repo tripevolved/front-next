@@ -7,6 +7,7 @@ import QuotesCarousel from '@/components/QuotesCarousel'
 import FAQ from '@/components/FAQ'
 import Button from '@/components/common/Button'
 import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
+import JornadaEvolvedSection from '@/components/consultancy/JornadaEvolvedSection'
 import { useState } from 'react'
 
 const VALUE_CARDS = [
@@ -138,6 +139,11 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
           </div>
         </div>
       </section>
+
+      <JornadaEvolvedSection
+        onCtaClick={() => setIsLeadModalOpen(true)}
+        eventSource="Jornada Evolved Section - Home"
+      />
 
       {/* Products Carousel */}
       <section className="py-12 bg-white">
