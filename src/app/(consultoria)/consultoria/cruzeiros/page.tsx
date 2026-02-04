@@ -123,7 +123,7 @@ export default function CompraConsultoria() {
                 <DetailsCard
                   message={
                     <>
-                      <span className="font-bold text-accent-500">Transparência</span> total: o mesmo valor da internet, sem surpresas
+                      <span className="font-bold text-accent-500">Transparência</span> total: não trabalhamos com comissões, colocando milhares de reais de volta no seu bolso
                     </>
                   }
                   icon={
