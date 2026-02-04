@@ -3,16 +3,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
-import { useWizard } from '@/contexts/WizardContext'
-import Button from '@/components/common/Button'
 
 export default function TopMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { openWizard } = useWizard();
 
   const navLinks = [
-    { href: "/destinos", label: "Destinos" },
-    { href: "/beneficios", label: "Por que a Trip Evolved?" },
+    { href: "/cruzeiros-extraordinarios", label: "Cruzeiros Extraordinários" },
+    { href: "/experiencias", label: "Experiências" },
+    { href: "/beneficios", label: "Benefícios" },
     { href: "/app", label: "Minhas viagens" },
   ];
 
@@ -71,16 +69,12 @@ export default function TopMenu() {
 
           {/* CTA Button */}
           <div className="hidden md:block flex-shrink-0">
-            <Button
-              onClick={openWizard}
-              event="pre_agendar"
-              eventOptions={{
-                source: 'Top Menu'
-              }}
-              className="font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors"
+            <Link
+              href="/circulo-evolved"
+              className="inline-block font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors"
             >
-              Começar minha jornada
-            </Button>
+              Conhecer o Círculo Evolved
+            </Link>
           </div>
 
           {/* Mobile Menu */}
@@ -97,19 +91,13 @@ export default function TopMenu() {
                     {link.label}
                   </Link>
                 ))}
-                <Button
-                  onClick={() => {
-                    openWizard();
-                    setIsMenuOpen(false);
-                  }}
-                  event="pre_agendar"
-                  eventOptions={{
-                    source: 'Top Menu'
-                  }}
-                  className="w-full font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors"
+                <Link
+                  href="/circulo-evolved"
+                  className="block w-full text-center font-baloo bg-primary-500 text-white px-6 py-2 rounded-full hover:bg-primary-600 transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
                 >
-                  Começar minha jornada
-                </Button>
+                  Conhecer o Círculo Evolved
+                </Link>
               </div>
             </div>
           )}

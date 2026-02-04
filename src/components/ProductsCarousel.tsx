@@ -6,29 +6,23 @@ const products = [
   {
     id: 'cruzeiros-extraordinarios',
     title: 'Cruzeiros Extraordinários',
-    description: 'Descubra destinos incríveis a bordo dos melhores navios, com experiências exclusivas e detalhes que você só recebe na Trip Evolved.',
+    description: 'Descubra destinos incríveis a bordo dos melhores navios, com experiências exclusivas e concierge que você só recebe na Trip Evolved.',
     image: '/assets/home/cruzeiros-extraordinarios.jpg',
     link: '/cruzeiros-extraordinarios'
-  },
-  {
-    id: 'jornadas-a-dois',
-    title: 'Jornadas sob medida',
-    description: 'Viagens personalizadas e experiências exclusivas criadas especialmente para casais que buscam momentos especiais juntos.',
-    image: '/assets/home/casal-sicilia.jpg',
-    link: '/produtos/jornadas-a-dois'
   }
 ]
 
 export default function ProductsCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const hasMultiple = products.length > 1
 
   useEffect(() => {
+    if (!hasMultiple) return
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % products.length)
     }, 8000)
-
     return () => clearInterval(timer)
-  }, [])
+  }, [hasMultiple])
 
   return (
     <div className="relative w-full">
@@ -76,19 +70,21 @@ export default function ProductsCarousel() {
         </div>
       </div>
 
-      {/* Indicators */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3">
-        {products.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
-              index === currentIndex ? 'bg-white w-6' : 'bg-white/50'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+      {/* Indicators - only when more than one product */}
+      {hasMultiple && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3">
+          {products.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-3 h-3 rounded-full transition-all ${
+                index === currentIndex ? 'bg-white w-6' : 'bg-white/50'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 } 

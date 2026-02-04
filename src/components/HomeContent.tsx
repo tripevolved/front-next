@@ -1,14 +1,14 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import ExperienceCarousel from '@/components/ExperienceCarousel'
 import ProductsCarousel from '@/components/ProductsCarousel'
 import QuotesCarousel from '@/components/QuotesCarousel'
 import FAQ from '@/components/FAQ'
 import Button from '@/components/common/Button'
-import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
-import JornadaEvolvedSection from '@/components/consultancy/JornadaEvolvedSection'
-import { useState } from 'react'
+import CirculoEvolvedSection from '@/components/circulo-evolved/CirculoEvolvedSection'
+import { useRouter } from 'next/navigation'
 
 const VALUE_CARDS = [
   {
@@ -48,7 +48,7 @@ interface HomeContentProps {
 }
 
 export default function HomeContent({ faqQuestions }: HomeContentProps) {
-  const [isLeadModalOpen, setIsLeadModalOpen] = useState(false)
+  const router = useRouter()
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -79,9 +79,9 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
             </p>
             <Button 
               onClick={() => {
-                const comoFuncionaSection = document.getElementById('como-funciona-section');
-                if (comoFuncionaSection) {
-                  comoFuncionaSection.scrollIntoView({ behavior: 'smooth' });
+                const circuloEvolvedSection = document.getElementById('circulo-evolved-section');
+                if (circuloEvolvedSection) {
+                  circuloEvolvedSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
               event="pre_descobrir_viagem"
@@ -126,23 +126,22 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
             ))}
           </div>
           <div className="text-center mt-12">
-            <Button
-              onClick={() => setIsLeadModalOpen(true)}
-              event="pre_descobrir_viagem"
-              eventOptions={{
-                source: 'Pillars Section - Home',
-              }}
-              className="font-baloo bg-primary-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-700 transition-all"
+            <Link
+              href="/circulo-evolved"
+              className="inline-block font-baloo bg-primary-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-700 transition-all"
             >
-              Começar minha jornada
-            </Button>
+              Quero saber mais
+            </Link>
           </div>
         </div>
       </section>
 
-      <JornadaEvolvedSection
-        onCtaClick={() => setIsLeadModalOpen(true)}
-        eventSource="Jornada Evolved Section - Home"
+      <CirculoEvolvedSection
+        onCtaClick={() => router.push('/circulo-evolved')}
+        eventSource="Circulo Evolved Section - Home"
+        event="pre_descobrir_viagem"
+        ctaText="Quero saber mais"
+        id="circulo-evolved-section"
       />
 
       {/* Products Carousel */}
@@ -200,31 +199,14 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
           <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-primary-900">
             Vamos começar sua jornada?
           </h2>
-          <Button 
-            onClick={() => setIsLeadModalOpen(true)}
-            event="pre_descobrir_viagem"
-            eventOptions={{
-              source: 'Final CTA Section - Home'
-            }}
-            className="font-baloo bg-primary-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-700 transition-all"
+          <Link
+            href="/circulo-evolved"
+            className="inline-block font-baloo bg-primary-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-700 transition-all"
           >
-            Começar minha jornada
-          </Button>
+            Quero saber mais
+          </Link>
         </div>
       </section>
-
-      {/* Lead Flow Modal */}
-      <LeadFlowModal
-        isOpen={isLeadModalOpen}
-        onClose={() => setIsLeadModalOpen(false)}
-        destinations={[
-          'Cruzeiro pelo Mediterrâneo',
-          'Caribe',
-          'Cruzeiro pelo Norte da Europa',
-          'Patagônia',
-        ]}
-        source="Home"
-      />
     </div>
   )
 } 
