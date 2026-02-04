@@ -46,8 +46,8 @@ export default function CruiseSections({ handleClick }: CruiseSectionsProps) {
     setError(null);
     
     try {
-      const response = await CruisesApiService.getCruisesByType({
-        type,
+      const response = await CruisesApiService.getCruises({
+        types: [type],
         limit: 3
       });
       

@@ -1,85 +1,15 @@
-'use client'
-
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
-import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
+import CruzeirosExtraordinariosHero from '@/components/cruises/CruzeirosExtraordinariosHero'
 import CruiseSearchForm from '@/components/consultancy/CruiseSearchForm'
-import CruiseLeadModal from '@/components/consultancy/CruiseLeadModal'
-import Button from '@/components/common/Button'
-import { MuxVideoPlayer } from '@/components/MuxVideoPlayer'
 import JornadaGuidingCards from '@/components/cruises/JornadaGuidingCards'
 import WhatsAppGroupButton from '@/components/cruises/WhatsAppGroupButton'
 
 export default function CruzeirosExtraordinariosPage() {
-  const [isLeadModalOpen, setIsLeadModalOpen] = useState(false)
-  const [isCruiseModalOpen, setIsCruiseModalOpen] = useState(false)
-  const [searchData, setSearchData] = useState({
-    destination: '',
-    month: '',
-    duration: ''
-  })
-
-  const cruiseDestinations = [
-    'Mediterrâneo',
-    'Caribe',
-    'Alasca',
-    'Norte da Europa',
-    'Amazônia',
-    'Antártida'
-  ]
-
-  const handleCruiseSearch = (data: { destination: string; month: string; duration: string }) => {
-    setSearchData(data)
-    setIsCruiseModalOpen(true)
-  }
-
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Background Video with Overlay */}
-        <div className="absolute inset-0 z-0">
-          <div className="block md:hidden absolute inset-0">
-            <MuxVideoPlayer
-              playbackId="V00bvDGWfGlEibHGx8olVEj9NHxPylaTVu02Lhinuh9DQ"
-              autoplay={true}
-              loop={true}
-              isMuted={true}
-              className="w-full h-full object-cover rounded-none mx-0"
-            />
-          </div>
-          <div className="hidden md:block absolute inset-0">
-            <MuxVideoPlayer
-              playbackId="wGJb3Kl017IvIuwXsAaRJvSLhxkdivTWfyvr61usw01Jw"
-              autoplay={true}
-              loop={true}
-              isMuted={true}
-              className="w-full h-full object-cover rounded-none mx-0"
-            />
-          </div>
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-
-        {/* Content */}
-        <div className="w-full px-4 md:px-8 relative z-10">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-            <h1 className="font-baloo text-4xl md:text-6xl font-bold mb-6 text-white">
-                Cruzeiros extraordinários,<br /> experiências únicas,<br /> exclusividade em cada detalhe.
-            </h1>
-            <p className="font-comfortaa text-xl md:text-2xl mb-8 text-white/90">
-              Descubra destinos incríveis a bordo dos melhores navios, com experiências exclusivas e detalhes que você só recebe na Trip Evolved.
-            </p>
-            </div>
-
-            {/* Full Width Search Form */}
-            <div className="w-full">
-              <CruiseSearchForm onSearch={handleCruiseSearch} />
-            </div>
-          </div>
-        </div>
-      </section>
+      <CruzeirosExtraordinariosHero />
+      <CruiseSearchForm />
 
       {/* Partner Companies Section */}
       <section className="py-24 bg-secondary-50">
@@ -92,7 +22,7 @@ export default function CruzeirosExtraordinariosPage() {
               Nós selecionamos as melhores companhias de cruzeiros do mundo para oferecer experiências únicas e inesquecíveis.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center justify-items-center">
             <div className="flex items-center justify-center h-20 w-full">
               <Image
@@ -185,21 +115,6 @@ export default function CruzeirosExtraordinariosPage() {
           />
         </div>
       </section>
-
-      {/* Lead Flow Modal */}
-      <LeadFlowModal
-        isOpen={isLeadModalOpen}
-        onClose={() => setIsLeadModalOpen(false)}
-        destinations={cruiseDestinations}
-        source="Cruzeiros Extraordinários"
-      />
-
-      {/* Cruise Lead Modal */}
-      <CruiseLeadModal
-        isOpen={isCruiseModalOpen}
-        onClose={() => setIsCruiseModalOpen(false)}
-        searchData={searchData}
-      />
     </div>
   )
-} 
+}
