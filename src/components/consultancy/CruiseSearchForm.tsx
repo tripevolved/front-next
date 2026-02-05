@@ -86,7 +86,6 @@ export default function CruiseSearchForm({ onCtaClick }: CruiseSearchFormProps) 
       setError(null)
     }
     try {
-      console.log('fetchCruises', params)
       const res = await CruisesApiService.getCruises(params)
       if (append) {
         setCruises(prev => [...prev, ...res.cruises])

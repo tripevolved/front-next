@@ -100,9 +100,8 @@ export default function CruiseRatesCarousel({ rates }: CruiseRatesCarouselProps)
               ? rate.coverImage.shortDescription
               : '';
             
-            const hasDiscount = rate.amountPerPersonWithDiscount !== null && rate.amountPerPersonWithDiscount !== undefined && !isNaN(Number(rate.amountPerPersonWithDiscount));
-            const originalAmount = hasDiscount ? rate.amountPerPerson : null;
-            const displayAmount = hasDiscount ? rate.amountPerPersonWithDiscount : rate.amountPerPerson;
+            const hasDiscount = rate.amountPerPersonWithDiscount != null && !isNaN(Number(rate.amountPerPersonWithDiscount)) && rate.amountPerPersonWithDiscount !== rate.amountPerPerson;
+            const hasEvolvedDiscount = rate.amountPerPersonWithEvolvedDiscount != null && !isNaN(Number(rate.amountPerPersonWithEvolvedDiscount)) && rate.amountPerPersonWithEvolvedDiscount !== rate.amountPerPerson;
             const currency = rate.currency || 'BRL';
 
             return (
@@ -131,17 +130,40 @@ export default function CruiseRatesCarousel({ rates }: CruiseRatesCarouselProps)
                         </p>
                       )}
                       <div className="flex flex-col gap-1">
-                        {originalAmount !== null && (
-                          <p className="text-gray-400 text-sm line-through">
-                            {formatPrice(originalAmount, currency)}
+                        {(hasDiscount || hasEvolvedDiscount) && (
+                          <p className="text-gray-400 text-xs line-through">
+                            {formatPrice(rate.amountPerPerson, currency)}
                           </p>
                         )}
-                        <p className="text-gray-600 text-sm">
-                          <span className="font-bold text-accent-500 text-lg">
-                            {formatPrice(displayAmount, currency)}
-                          </span>
-                          {" "}por pessoa
-                        </p>
+                        {hasDiscount && (
+                          <p className={`text-gray-600 text-sm ${hasEvolvedDiscount && "line-through"}`}>
+                            <span className={`font-bold ${hasEvolvedDiscount ? "text-primary-600 line-through" : "text-accent-500 text-lg"}`}>
+                              {formatPrice(rate.amountPerPersonWithDiscount, currency)}
+                            </span>
+                            {" "}por pessoa
+                          </p>
+                        )}
+                        {hasEvolvedDiscount && (
+                          <>
+                            <p className="text-gray-600 text-sm">
+                              <span className="font-bold text-accent-500 text-lg">
+                                {formatPrice(rate.amountPerPersonWithEvolvedDiscount, currency)}
+                              </span>
+                              {" "}por pessoa
+                            </p>
+                            <p className="text-xs text-gray-500 mt-0.5">
+                              *valor exclusivo para clientes Círculo Evolved.
+                            </p>
+                          </>
+                        )}
+                        {!hasDiscount && !hasEvolvedDiscount && (
+                          <p className="text-gray-600 text-sm">
+                            <span className="font-bold text-accent-500 text-lg">
+                              {formatPrice(rate.amountPerPerson, currency)}
+                            </span>
+                            {" "}por pessoa
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>

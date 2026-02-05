@@ -16,6 +16,7 @@ export interface CruiseData {
 interface CruisePrice {
   amount: number;
   amountWithDiscount?: number;
+  amountWithEvolvedDiscount?: number;
   currency: string;
   cabinType: string;
 }
@@ -89,6 +90,7 @@ export interface CruiseRate {
   description?: string;
   amountPerPerson: number;
   amountPerPersonWithDiscount?: number;
+  amountPerPersonWithEvolvedDiscount?: number;
   currency: string;
   coverImage: CruiseImage;
 }
