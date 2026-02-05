@@ -412,6 +412,7 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
       <CruiseLeadModal
         isOpen={isLeadModalOpen}
         onClose={() => { setIsLeadModalOpen(false); setLeadModalText(thankYouText); }}
+        onBack={() => setIsLeadModalOpen(false)}
         searchData={getSearchData()}
       />
       <CruiseShipDetailsModal

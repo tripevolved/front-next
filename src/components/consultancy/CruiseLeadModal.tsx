@@ -6,6 +6,7 @@ import LeadForm from '@/components/LeadForm'
 interface CruiseLeadModalProps {
   isOpen: boolean
   onClose: () => void
+  onBack: () => void
   searchData: {
     destination?: string
     month?: string
@@ -14,7 +15,7 @@ interface CruiseLeadModalProps {
   }
 }
 
-export default function CruiseLeadModal({ isOpen, onClose, searchData }: CruiseLeadModalProps) {
+export default function CruiseLeadModal({ isOpen, onClose, onBack, searchData }: CruiseLeadModalProps) {
   if (!isOpen) return null
 
   const additionalMetadata = [
@@ -67,7 +68,7 @@ export default function CruiseLeadModal({ isOpen, onClose, searchData }: CruiseL
           submitButtonText="Enviar e aguardar contato"
           additionalMetadata={additionalMetadata}
           showBackButton={true}
-          onBack={onClose}
+          onBack={onBack}
           event="agendar"
           eventOptions={{
             destination: searchData.destination,
