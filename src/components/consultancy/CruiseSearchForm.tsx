@@ -7,6 +7,7 @@ import type { CruiseData } from '@/clients/cruises/cruises'
 import type { CruisesSearchParams } from '@/clients/cruises/cruises'
 import { CruiseCard } from '@/components/cruises/CruiseCard'
 import CruiseDetailsModal from '@/components/cruises/CruiseDetailsModal'
+import Image from 'next/image'
 
 const DESTINATIONS = [
   { value: 'Mediterranean', label: 'Mediterrâneo' },
@@ -71,10 +72,10 @@ export default function CruiseSearchForm({ onCtaClick }: CruiseSearchFormProps) 
     return (pageNum = 1): CruisesSearchParams => ({
       limit: LIMIT,
       page: pageNum,
-      ...(destinations.size > 0 && { destination: Array.from(destinations) }),
+      ...(destinations.size > 0 && { destinations: Array.from(destinations) }),
       ...(durationDays > 0 && { duration: durationDays }),
       ...(selectedMonths.size > 0 && { months: monthsSetToApi(selectedMonths) }),
-      ...(types.size > 0 && { type: Array.from(types) })
+      ...(types.size > 0 && { types: Array.from(types) })
     })
   }, [destinations, durationDays, selectedMonths, types])
 
@@ -263,7 +264,18 @@ export default function CruiseSearchForm({ onCtaClick }: CruiseSearchFormProps) 
             <p className="mt-2 text-gray-600 font-comfortaa">Carregando cruzeiros...</p>
           </div>
         )}
-        {!loading && !error && (
+        {!loading && !error && cruises.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+            <Image src="/assets/home/ship.svg" alt="Nenhum cruzeiro encontrado" width={100} height={100} />
+            <p className="font-comfortaa text-lg text-gray-600 max-w-md mb-2">
+              Nenhum cruzeiro encontrado para os filtros selecionados.
+            </p>
+            <p className="font-comfortaa text-base text-gray-500 max-w-md">
+              Altere destino, mês, duração ou estilo e clique em &quot;Descobrir cruzeiros&quot; para buscar novamente.
+            </p>
+          </div>
+        )}
+        {!loading && !error && cruises.length > 0 && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {cruises.map((cruise) => (
@@ -274,7 +286,7 @@ export default function CruiseSearchForm({ onCtaClick }: CruiseSearchFormProps) 
                 />
               ))}
             </div>
-            {cruises.length > 0 && page < totalPages && (
+            {page < totalPages && (
               <div className="flex justify-center pt-8">
                 <Button
                   type="button"
