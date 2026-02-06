@@ -32,8 +32,6 @@ export * from "./landing-pages/IntroductionCard";
 export * from "./landing-pages/SectionBaseInvite";
 export * from "./lead/LeadProvider";
 export * from "./lead/BudgetRequestForm";
-export * from "./payments/PaymentPage";
-export * from "./payments/PaymentSteps";
 export * from "./profile/ProfileBuilder";
 export * from "./profile/ProfileQuestions";
 export * from "./profile/ProfileSettingsModal";

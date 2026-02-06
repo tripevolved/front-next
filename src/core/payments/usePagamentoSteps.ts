@@ -10,7 +10,7 @@ import type {
 } from "@/core/types/payments";
 import type { CheckoutPaymentMethod, CheckoutSessionPayload } from "@/core/types/payments";
 import { DEFAULT_CHECKOUT_PAYLOAD, STEP_NAMES } from "@/core/types/payments";
-import type { TripPayer, TripPaymentMethod } from "@/core/types/tripPayment";
+import type { TripPayer, TripPaymentMethod } from "@/core/types/payments";
 import { useAppStore } from "@/core/store";
 
 const TOTAL_STEPS = STEP_NAMES.length;
