@@ -54,10 +54,15 @@ export const usePurchase = (tripId: string) => {
         installmentOptions: calcInstallmentsOptions(price.data.amount),
       },
       payer: {
-        birthDate: payer.data?.birthDate ? parseIsoDateToBrString(payer.data.birthDate) : "",
+        birthDate:
+          payer.data?.birthDate
+            ? parseIsoDateToBrString(new Date(payer.data.birthDate))
+            : "",
         cpf: payer.data?.cpf || "",
-        document: payer.data?.document || "",
-        fullName: payer.data?.fullName || "",
+        document: payer.data?.document ?? "",
+        fullName: payer.data
+          ? [payer.data.name, payer.data.lastName].filter(Boolean).join(" ")
+          : "",
         gender: payer.data?.gender || "",
         motherName: payer.data?.motherName || "",
         phone: payer.data?.phone || "",

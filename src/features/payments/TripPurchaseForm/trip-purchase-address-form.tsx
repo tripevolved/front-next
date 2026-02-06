@@ -1,7 +1,7 @@
 import type { TripPayerAddress } from "@/core/types";
 import { useState } from "react";
 import { Grid, Skeleton, TextField } from "mars-ds";
-import { ViaCepService } from "@/services/viacep";
+import { ViaCepClient } from "@/clients/viacep";
 
 type OnChange = React.FormEventHandler<HTMLInputElement>;
 
@@ -25,7 +25,7 @@ export const TripPurchaseAddressForm = (address: TripPayerAddress) => {
     const postalCode = value.replace(/\D/, "");
     if (postalCode.length < 8) return;
     setIsLoading(true);
-    const result = await ViaCepService.getAddress(postalCode);
+    const result = await ViaCepClient.getAddress(postalCode);
     if (!result) return handleSetData({ postalCode });
     const newData: TripPayerAddress = {
       address: result.logradouro,

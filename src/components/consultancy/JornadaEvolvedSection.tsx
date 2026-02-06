@@ -1,13 +1,8 @@
 'use client'
 
+import Image from 'next/image'
 import Button from '@/components/common/Button'
 import { EventType } from '@/components/basic/FacebookPixel'
-
-const CHECK_ICON = (
-  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5 13l4 4L19 7" />
-  </svg>
-)
 
 interface JornadaEvolvedSectionProps {
   onCtaClick: () => void
@@ -38,21 +33,33 @@ export default function JornadaEvolvedSection({
 
         <ul className="max-w-2xl mx-auto space-y-4 mb-10">
           <li className="flex gap-4 font-comfortaa text-white/90 items-start">
-            <span className="shrink-0 w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center mt-0.5">
-              {CHECK_ICON}
-            </span>
+            <Image
+              src="/assets/icons/icon-check-gold.svg"
+              alt=""
+              width={24}
+              height={24}
+              className="shrink-0 mt-0.5 w-6 h-6"
+            />
             <span><strong className="font-baloo text-white">Curadoria</strong> — Seleção de destinos, cruzeiros e experiências alinhados ao que você busca.</span>
           </li>
           <li className="flex gap-4 font-comfortaa text-white/90 items-start">
-            <span className="shrink-0 w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center mt-0.5">
-              {CHECK_ICON}
-            </span>
+            <Image
+              src="/assets/icons/icon-check-gold.svg"
+              alt=""
+              width={24}
+              height={24}
+              className="shrink-0 mt-0.5 w-6 h-6"
+            />
             <span><strong className="font-baloo text-white">Desenho de viagem</strong> — Serviço completo de planejamento e desenho da sua jornada sob medida.</span>
           </li>
           <li className="flex gap-4 font-comfortaa text-white/90 items-start">
-            <span className="shrink-0 w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center mt-0.5">
-              {CHECK_ICON}
-            </span>
+            <Image
+              src="/assets/icons/icon-check-gold.svg"
+              alt=""
+              width={24}
+              height={24}
+              className="shrink-0 mt-0.5 w-6 h-6"
+            />
             <span><strong className="font-baloo text-white">Valores líquidos ou cashback</strong> — Comissões revertidas em descontos ou cashback: você vê o valor real.</span>
           </li>
         </ul>

@@ -1,4 +1,11 @@
+import type {
+  CheckoutPayerData,
+  CheckoutPaymentMethod,
+  CheckoutSessionPayload,
+} from "@/core/types/payments";
 import { ApiRequest } from "@/services/api/request";
+
+export type { CheckoutPayerData, CheckoutPaymentMethod, CheckoutSessionPayload };
 
 export interface PaymentItem {
   id: string;
@@ -51,4 +58,25 @@ export const getPaymentById = async (paymentId: string) => {
 export const createPayment = async (paymentData: CreatePaymentRequest) => {
   const route = "payments";
   return ApiRequest.post<CreatePaymentResponse>(route, paymentData);
+};
+
+export const saveCheckoutPayer = async (
+  sessionId: string,
+  payer: CheckoutPayerData
+): Promise<void> => {
+  const route = `payments/checkout/${sessionId}/payer`;
+  await ApiRequest.post(route, payer);
+};
+
+export const saveCheckoutPaymentMethod = async (
+  sessionId: string,
+  method: CheckoutPaymentMethod
+): Promise<void> => {
+  const route = `payments/checkout/${sessionId}/method`;
+  await ApiRequest.post(route, { method });
+};
+
+export const finishCheckout = async (sessionId: string): Promise<{ success: boolean }> => {
+  const route = `payments/checkout/${sessionId}/finish`;
+  return ApiRequest.post(route, {});
 }; 

@@ -38,7 +38,7 @@ export function AppLayoutContent({ children }: AppLayoutContentProps) {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto">
         {children}
       </main>
     </div>

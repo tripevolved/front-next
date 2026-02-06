@@ -3,7 +3,6 @@ import axios from "axios";
 import { ensureNotSlashEnds } from "@/utils/helpers/url.helper";
 import { clientInfoInterceptor } from "./client-info.interceptor";
 import { getAccessToken } from "@auth0/nextjs-auth0/client";
-import { auth0 } from "@/lib/auth0";
 
 const API_URL = ensureNotSlashEnds(process.env.NEXT_PUBLIC_API_URL || "");
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
@@ -19,7 +18,7 @@ const makeInstance = async (method: ApiRequestMethod, options: RequestOptions = 
   
   // Try to get access token, but don't fail if it's not available
   try {
-    const credentials = await auth0.getAccessToken();
+    const credentials = await getAccessToken();
     if (credentials) {
       headers.Authorization = `Bearer ${credentials}`;
     }

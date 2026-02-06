@@ -42,7 +42,8 @@ export interface TripPaymentCreditCardInfo {
 }
 
 export interface TripPayer {
-  fullName: string;
+  name: string;
+  lastName: string;
   email: string;
   phone: string;
   cpf: string;
@@ -51,6 +52,14 @@ export interface TripPayer {
   gender: string;
   birthDate: Date | null;
   address: TripPayerAddress;
+}
+
+/** Response from GET /payments/{travelerId}/payer — document and birthDate required (string) */
+export interface PayerResponse
+  extends Omit<TripPayer, "document" | "birthDate"> {
+  document: string;
+  /** ISO date string */
+  birthDate: string;
 }
 
 export interface TripPayerAddress {
