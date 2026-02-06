@@ -4,7 +4,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import type { CreatePayerResponse } from "@/clients/payments/payer";
 import { PaymentsApiService } from "@/clients/payments";
-import type { CheckoutPayerData } from "@/core/types/payments";
+import type {
+  CheckoutPayerData,
+  PaymentIntentResponse,
+} from "@/core/types/payments";
 import type { CheckoutPaymentMethod, CheckoutSessionPayload } from "@/core/types/payments";
 import { DEFAULT_CHECKOUT_PAYLOAD, STEP_NAMES } from "@/core/types/payments";
 import type { TripPayer, TripPaymentMethod } from "@/core/types/tripPayment";
@@ -112,6 +115,7 @@ export function usePagamentoSteps() {
 
   const [stepIndex, setStepIndex] = useState(0);
   const [payload, setPayload] = useState<CheckoutSessionPayload>(DEFAULT_CHECKOUT_PAYLOAD);
+  const [paymentIntentResponse, setPaymentIntentResponse] = useState<PaymentIntentResponse | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [isLoadingPayer, setIsLoadingPayer] = useState(true);
@@ -206,20 +210,33 @@ export function usePagamentoSteps() {
   }, []);
 
   const savePaymentMethodAndNext = useCallback(
-    async (method: CheckoutPaymentMethod, totalAmount: number) => {
+    async (
+      method: CheckoutPaymentMethod,
+      totalAmount: number,
+      reference?: string,
+      type?: string
+    ) => {
       setSaveError(null);
       setIsSaving(true);
       try {
         setPayload((prev) => ({ ...prev, paymentMethod: method }));
         const tripMethod: TripPaymentMethod = method === "credit_card" ? "CREDIT_CARD" : "PIX";
+        const metadata: Record<string, string> = {};
+        if (reference != null && reference !== "") metadata.reference = reference;
+        if (type != null && type !== "") metadata.type = type;
         const paymentIntent = {
           payer: checkoutPayerToTripPayer(payload.payer),
           amount: totalAmount,
           installments: Math.min(12, Math.max(1, payload.installments ?? 1)),
           method: tripMethod,
-          metadata: {},
+          metadata,
         };
-        await PaymentsApiService.createPaymentIntent(paymentIntent);
+        const response = await PaymentsApiService.createPaymentIntent(paymentIntent);
+        if (!response.isSuccess) {
+          setSaveError(response.message ?? "Erro ao criar intenção de pagamento.");
+          return;
+        }
+        setPaymentIntentResponse(response);
         setStepIndex((i) => Math.min(i + 1, TOTAL_STEPS - 1));
       } catch (e) {
         setSaveError(e instanceof Error ? e.message : "Erro ao criar intenção de pagamento.");
@@ -273,5 +290,6 @@ export function usePagamentoSteps() {
     isLoadingPayer,
     travelerId: travelerId || null,
     travelerEmail: travelerEmail || undefined,
+    paymentIntentResponse,
   };
 }

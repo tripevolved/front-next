@@ -31,6 +31,7 @@ function PagamentoContent() {
     sessionId,
     isLoadingPayer = false,
     travelerEmail,
+    paymentIntentResponse,
   } = usePagamentoSteps();
 
   const stepProps = {
@@ -42,6 +43,9 @@ function PagamentoContent() {
     isLoadingPayer,
     travelerEmail,
     totalAmount: CIRCULO_PRICE,
+    paymentReference: "Círculo Evolved",
+    paymentType: "subscription",
+    paymentIntentResponse,
   };
 
   return (
@@ -83,7 +87,12 @@ function PagamentoContent() {
             {...stepProps}
             onNext={() => {
               if (payload.paymentMethod) {
-                savePaymentMethodAndNext(payload.paymentMethod, stepProps.totalAmount ?? CIRCULO_PRICE);
+                savePaymentMethodAndNext(
+                  payload.paymentMethod,
+                  stepProps.totalAmount ?? CIRCULO_PRICE,
+                  stepProps.paymentReference,
+                  stepProps.paymentType
+                );
               }
             }}
           />

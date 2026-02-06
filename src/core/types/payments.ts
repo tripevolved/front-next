@@ -99,4 +99,10 @@ export interface PagamentoStepProps {
   travelerEmail?: string;
   /** Total amount in reais (e.g. 6700 for R$ 6.700,00). Used for installments when credit_card. */
   totalAmount?: number;
+  /** Reference for the payment intent (e.g. "Círculo Evolved"). Sent in metadata. */
+  paymentReference?: string;
+  /** Type of the payment intent (e.g. "subscription"). Sent in metadata. */
+  paymentType?: string;
+  /** Response from create payment intent; used for PIX (pixInfo) in StepPaymentFinish. */
+  paymentIntentResponse?: PaymentIntentResponse | null;
 }
