@@ -1,21 +1,11 @@
-import {
-  getPaymentById,
-  createPayment,
-  saveCheckoutPayer,
-  saveCheckoutPaymentMethod,
-  finishCheckout,
-} from "./payments";
+import { createPaymentIntent } from "./payments";
 import { getPayerById, createPayer } from "./payer";
 
 export { getPayerById };
 export const PaymentsApiService = {
-  getPaymentById,
-  createPayment,
+  createPaymentIntent,
   getPayerById,
   createPayer,
-  saveCheckoutPayer,
-  saveCheckoutPaymentMethod,
-  finishCheckout,
 };
 
-export type { CheckoutPayerData, CheckoutPaymentMethod, CheckoutSessionPayload } from "@/core/types/payments"; 
+export type { CheckoutPayerData, CheckoutPaymentMethod, CheckoutSessionPayload } from "@/core/types/payments";

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PaymentsApiService } from "@/clients/payments";
-import type { Payment, PaymentItem } from "@/clients/payments/payments";
+import type { Payment, PaymentItem } from "@/clients/payments/payment";
 
 const formatCurrency = (amount: number, currency: string = 'BRL'): string => {
   return new Intl.NumberFormat('pt-BR', {

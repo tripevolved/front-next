@@ -2,6 +2,8 @@
 
 import type { PagamentoStepProps } from "@/core/types/payments";
 
+// TODO: Finish payment — wire to real endpoints (confirm payment, redirect to gateway, etc.)
+
 export function StepPaymentFinish({
   payload,
   setPayload,

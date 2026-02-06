@@ -7,6 +7,7 @@ import { PaymentsApiService } from "@/clients/payments";
 import type { CheckoutPayerData } from "@/core/types/payments";
 import type { CheckoutPaymentMethod, CheckoutSessionPayload } from "@/core/types/payments";
 import { DEFAULT_CHECKOUT_PAYLOAD, STEP_NAMES } from "@/core/types/payments";
+import type { TripPayer, TripPaymentMethod } from "@/core/types/tripPayment";
 import { useAppStore } from "@/core/store";
 
 const TOTAL_STEPS = STEP_NAMES.length;
@@ -178,50 +179,69 @@ export function usePagamentoSteps() {
         ...prev,
         payer: updatedPayer,
       }));
-      if (sessionId) {
-        await PaymentsApiService.saveCheckoutPayer(sessionId, updatedPayer);
-      }
       setStepIndex((i) => Math.min(i + 1, TOTAL_STEPS - 1));
     } catch (e) {
       setSaveError(e instanceof Error ? e.message : "Erro ao salvar dados do pagador.");
     } finally {
       setIsSaving(false);
     }
-  }, [travelerId, sessionId, payload.payer]);
+  }, [travelerId, payload.payer]);
+
+  const checkoutPayerToTripPayer = useCallback((p: CheckoutPayerData): TripPayer => {
+    const countryCodeDigits = (p.phoneCountryCode ?? "+55").replace(/\D/g, "");
+    const phone = `+${countryCodeDigits}${p.phone}`;
+    const birthDateIso = parseBrDateToIso(p.birthDate);
+    return {
+      name: p.name,
+      lastName: p.lastName,
+      email: p.email,
+      phone,
+      cpf: p.cpf,
+      document: p.document || null,
+      motherName: p.motherName || null,
+      gender: p.gender,
+      birthDate: birthDateIso ? new Date(birthDateIso) : null,
+      address: p.address,
+    };
+  }, []);
 
   const savePaymentMethodAndNext = useCallback(
-    async (method: CheckoutPaymentMethod) => {
+    async (method: CheckoutPaymentMethod, totalAmount: number) => {
       setSaveError(null);
       setIsSaving(true);
       try {
         setPayload((prev) => ({ ...prev, paymentMethod: method }));
-        if (sessionId) {
-          await PaymentsApiService.saveCheckoutPaymentMethod(sessionId, method);
-        }
+        const tripMethod: TripPaymentMethod = method === "credit_card" ? "CREDIT_CARD" : "PIX";
+        const paymentIntent = {
+          payer: checkoutPayerToTripPayer(payload.payer),
+          amount: totalAmount,
+          installments: Math.min(12, Math.max(1, payload.installments ?? 1)),
+          method: tripMethod,
+          metadata: {},
+        };
+        await PaymentsApiService.createPaymentIntent(paymentIntent);
         setStepIndex((i) => Math.min(i + 1, TOTAL_STEPS - 1));
       } catch (e) {
-        setSaveError(e instanceof Error ? e.message : "Erro ao salvar forma de pagamento.");
+        setSaveError(e instanceof Error ? e.message : "Erro ao criar intenção de pagamento.");
       } finally {
         setIsSaving(false);
       }
     },
-    [sessionId]
+    [payload.payer, payload.installments, checkoutPayerToTripPayer]
   );
 
+  // TODO: Finish payment — will use other endpoints (e.g. confirm payment, redirect to gateway, etc.)
   const finishAndNext = useCallback(async () => {
     setSaveError(null);
     setIsSaving(true);
     try {
-      if (sessionId) {
-        await PaymentsApiService.finishCheckout(sessionId);
-      }
       setStepIndex((i) => Math.min(i + 1, TOTAL_STEPS - 1));
     } catch (e) {
       setSaveError(e instanceof Error ? e.message : "Erro ao finalizar.");
     } finally {
       setIsSaving(false);
     }
-  }, [sessionId]);
+  }, []);
 
   const onBack = useCallback(() => {
     setStepIndex((i) => Math.max(i - 1, 0));

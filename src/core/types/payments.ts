@@ -1,6 +1,30 @@
 // Checkout pagamento flow (multi-step) — shared by Círculo Evolved and other product checkouts
 
-import type { TripPayerAddress } from "./tripPayment";
+import type { TripPayer, TripPayerAddress, TripPaymentMethod, TripPaymentProvider } from "./tripPayment";
+
+export interface PaymentIntent {
+  payer: TripPayer;
+  amount: number;
+  installments: number;
+  method: TripPaymentMethod;
+  metadata: Record<string, string>;
+}
+
+export interface PaymentIntentResponse {
+  isSuccess: boolean;
+  message?: string | null;
+  transactionId: string;
+  provider: TripPaymentProvider;
+  paymentMethod: TripPaymentMethod;
+  pixInfo: PixPaymentInfo | null;
+}
+
+export interface PixPaymentInfo {
+  qrCode: string;
+  amount: number;
+  netAmount: number;
+  expirationDate: Date;
+}
 
 export interface CheckoutPayerData {
   name: string;
@@ -24,6 +48,8 @@ export type CheckoutPaymentMethod = "credit_card" | "pix";
 export interface CheckoutSessionPayload {
   payer: CheckoutPayerData;
   paymentMethod: CheckoutPaymentMethod | null;
+  /** 1–12; used when paymentMethod is credit_card. Default 1. */
+  installments?: number;
   acceptTerms?: boolean;
 }
 
@@ -56,6 +82,7 @@ export const DEFAULT_CHECKOUT_PAYLOAD: CheckoutSessionPayload = {
     address: DEFAULT_ADDRESS,
   },
   paymentMethod: null,
+  installments: 1,
   acceptTerms: false,
 };
 
@@ -70,4 +97,6 @@ export interface PagamentoStepProps {
   isLoadingPayer?: boolean;
   /** Email from traveler state (pre-populated top section); must match payer.email */
   travelerEmail?: string;
+  /** Total amount in reais (e.g. 6700 for R$ 6.700,00). Used for installments when credit_card. */
+  totalAmount?: number;
 }

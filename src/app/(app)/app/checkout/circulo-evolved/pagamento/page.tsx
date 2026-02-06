@@ -9,6 +9,9 @@ import {
   StepPaymentFinish,
 } from "@/components/payments";
 
+/** Círculo Evolved price in reais (e.g. 6700 = R$ 6.700,00). */
+const CIRCULO_PRICE = 6700;
+
 function PagamentoContent() {
   const {
     stepIndex,
@@ -38,6 +41,7 @@ function PagamentoContent() {
     sessionId,
     isLoadingPayer,
     travelerEmail,
+    totalAmount: CIRCULO_PRICE,
   };
 
   return (
@@ -79,7 +83,7 @@ function PagamentoContent() {
             {...stepProps}
             onNext={() => {
               if (payload.paymentMethod) {
-                savePaymentMethodAndNext(payload.paymentMethod);
+                savePaymentMethodAndNext(payload.paymentMethod, stepProps.totalAmount ?? CIRCULO_PRICE);
               }
             }}
           />

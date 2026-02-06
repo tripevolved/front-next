@@ -1,82 +1,9 @@
-import type {
-  CheckoutPayerData,
-  CheckoutPaymentMethod,
-  CheckoutSessionPayload,
-} from "@/core/types/payments";
+import type { PaymentIntent, PaymentIntentResponse } from "@/core/types/payments";
 import { ApiRequest } from "@/services/api/request";
 
-export type { CheckoutPayerData, CheckoutPaymentMethod, CheckoutSessionPayload };
-
-export interface PaymentItem {
-  id: string;
-  name: string;
-  description?: string;
-  price: number;
-  quantity: number;
-  image?: string;
-}
-
-export interface Payment {
-  id: string;
-  status: "pending" | "completed" | "failed" | "cancelled";
-  totalAmount: number;
-  currency: string;
-  items: PaymentItem[];
-  createdAt: string;
-  updatedAt: string;
-  customerInfo?: {
-    name: string;
-    email: string;
-    phone?: string;
-  };
-}
-
-export interface PaymentResponse {
-  payment: Payment;
-}
-
-export interface PaymentItemRequest {
-  amount: number;
-  type: "CONSULTANCY" | "PLANNING" | "SCRIPT";
-}
-
-export interface CreatePaymentRequest {
-  travelerId: string;
-  tripId: string;
-  items: PaymentItemRequest[];
-}
-
-export interface CreatePaymentResponse {
-  paymentId: string;
-}
-
-export const getPaymentById = async (paymentId: string) => {
-  const route = `payments/${paymentId}`;
-  return ApiRequest.get<PaymentResponse>(route);
+export const createPaymentIntent = async (
+  paymentIntent: PaymentIntent
+): Promise<PaymentIntentResponse> => {
+  const route = "payments/intent";
+  return ApiRequest.post<PaymentIntentResponse>(route, paymentIntent);
 };
-
-export const createPayment = async (paymentData: CreatePaymentRequest) => {
-  const route = "payments";
-  return ApiRequest.post<CreatePaymentResponse>(route, paymentData);
-};
-
-export const saveCheckoutPayer = async (
-  sessionId: string,
-  payer: CheckoutPayerData
-): Promise<void> => {
-  const route = `payments/checkout/${sessionId}/payer`;
-  await ApiRequest.post(route, payer);
-};
-
-export const saveCheckoutPaymentMethod = async (
-  sessionId: string,
-  method: CheckoutPaymentMethod
-): Promise<void> => {
-  const route = `payments/checkout/${sessionId}/method`;
-  await ApiRequest.post(route, { method });
-};
-
-export const finishCheckout = async (sessionId: string): Promise<{ success: boolean }> => {
-  const route = `payments/checkout/${sessionId}/finish`;
-  return ApiRequest.post(route, {});
-}; 

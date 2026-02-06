@@ -3,16 +3,10 @@ import {
   TripPaymentMethod,
   TripPaymentStatus,
   TripPaymentProvider,
+  PixPaymentInfo,
 } from "@/core/types";
 import { ApiRequest } from "@/services/api/request";
 import { AxiosError } from "axios";
-
-export interface PixPaymentInfo {
-  qrCode: string;
-  amount: number;
-  netAmount: number;
-  expirationDate: Date;
-}
 
 export interface TripPaymentResult {
   tripId: string;
@@ -21,7 +15,7 @@ export interface TripPaymentResult {
   transactionId: string;
   provider: TripPaymentProvider;
   paymentMethod: TripPaymentMethod;
-  pixInfo: PixPaymentInfo;
+  pixInfo: PixPaymentInfo | null;
   paymentLinkUrl: string;
 }
 
