@@ -38,12 +38,25 @@ function parseBrDateToIso(br: string): string {
   return d.toISOString().slice(0, 10);
 }
 
+/** API returns phone as +{countryCode}{phoneDigits}. Parse to phoneCountryCode and national digits. */
+function parsePhoneFromE164(phone: string): { phoneCountryCode: string; phone: string } {
+  const digits = (phone ?? "").replace(/\D/g, "");
+  if (digits.startsWith("55") && digits.length > 10) {
+    return { phoneCountryCode: "+55", phone: digits.slice(2) };
+  }
+  if (digits.startsWith("1") && digits.length >= 10) {
+    return { phoneCountryCode: "+1", phone: digits.slice(1) };
+  }
+  if (digits.startsWith("351") && digits.length > 9) {
+    return { phoneCountryCode: "+351", phone: digits.slice(3) };
+  }
+  return { phoneCountryCode: "+55", phone: digits };
+}
+
 function mapCreatePayerResponseToCheckoutPayer(
   data: CreatePayerResponse
 ): CheckoutPayerData {
-  const phoneDigits = (data.phone ?? "").replace(/\D/g, "");
-  const phoneCountryCode = "+55";
-  const phone = phoneDigits.startsWith("+55") && phoneDigits.length > 10 ? phoneDigits.slice(3) : phoneDigits;
+  const { phoneCountryCode, phone } = parsePhoneFromE164(data.phone ?? "");
   return {
     name: data.name ?? "",
     lastName: data.lastName ?? "",
@@ -80,9 +93,7 @@ function mapPayerResponseToCheckoutPayer(data: {
   birthDate: string;
   address: CheckoutPayerData["address"];
 }): CheckoutPayerData {
-  const phoneDigits = (data.phone ?? "").replace(/\D/g, "");
-  const phoneCountryCode = "+55";
-  const phone = phoneDigits.startsWith("55") && phoneDigits.length > 10 ? phoneDigits.slice(2) : phoneDigits;
+  const { phoneCountryCode, phone } = parsePhoneFromE164(data.phone ?? "");
   return {
     name: data.name,
     lastName: data.lastName,

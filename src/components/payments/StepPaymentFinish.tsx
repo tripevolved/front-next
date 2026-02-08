@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
 import { differenceInMinutes } from "date-fns";
 import type { PagamentoStepProps } from "@/core/types/payments";
 import { copyToClipboard } from "@/utils/helpers/strings.helper";
 import { PaymentsApiService } from "@/clients/payments";
+import type { PaymentStatus } from "@/clients/payments/payments";
+
+const PIX_POLL_INTERVAL_MS = 15_000;
 
 async function fetchClientIp(): Promise<string> {
   try {
@@ -26,27 +29,110 @@ function formatCurrency(value: number): string {
 }
 
 function PixPaymentContent({
+  transactionId,
   qrCode,
   netAmount,
   expirationDate,
+  onBack,
 }: {
+  transactionId: string;
   qrCode: string;
   netAmount: number;
   expirationDate: Date | string;
+  onBack?: () => void;
 }) {
   const [copied, setCopied] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus | null>(null);
+  const [statusReason, setStatusReason] = useState<string | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
   const expDate = typeof expirationDate === "string" ? new Date(expirationDate) : expirationDate;
   const minutesLeft = differenceInMinutes(expDate, new Date());
+
+  useEffect(() => {
+    const checkPayment = async () => {
+      try {
+        const res = await PaymentsApiService.getPaymentByTransactionId(transactionId);
+        setPaymentStatus(res.status);
+        setStatusReason(res.statusReason);
+        if (res.status === "APPROVED" || res.status === "REFUSED" || res.status === "CANCELED") {
+          if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+          }
+        }
+      } catch {
+        // keep polling on transient errors
+      }
+    };
+
+    checkPayment();
+    intervalRef.current = setInterval(checkPayment, PIX_POLL_INTERVAL_MS);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [transactionId]);
 
   const handleCopy = () => {
     copyToClipboard(qrCode, "Código PIX copiado!");
     setCopied(true);
   };
 
+  if (paymentStatus === "APPROVED") {
+    return (
+      <div className="space-y-6">
+        <div className="p-6 bg-green-50 border border-green-200 rounded-xl">
+          <p className="font-comfortaa text-green-800 font-medium">
+            Pagamento realizado com sucesso!
+          </p>
+          <p className="font-comfortaa text-green-700 text-sm mt-2">
+            Obrigado pela sua compra. Você receberá a confirmação por e-mail.
+          </p>
+        </div>
+        <Link
+          href="/app"
+          className="inline-block font-baloo bg-accent-500 text-secondary-900 px-6 py-3 rounded-full font-semibold hover:bg-accent-600 transition-colors text-center"
+        >
+          Voltar ao painel
+        </Link>
+      </div>
+    );
+  }
+
+  if (paymentStatus === "REFUSED" || paymentStatus === "CANCELED") {
+    const message = statusReason ?? (paymentStatus === "REFUSED" ? "Pagamento recusado." : "Pagamento cancelado.");
+    return (
+      <div className="space-y-6">
+        <div className="p-6 bg-red-50 border border-red-200 rounded-xl">
+          <p className="font-comfortaa text-red-800 font-medium">
+            {paymentStatus === "REFUSED" ? "Pagamento recusado" : "Pagamento cancelado"}
+          </p>
+          <p className="font-comfortaa text-red-700 text-sm mt-2">
+            {message}
+          </p>
+        </div>
+        {onBack && (
+          <button
+            type="button"
+            onClick={onBack}
+            className="font-comfortaa px-4 py-2 text-secondary-700 hover:bg-secondary-100 rounded-lg transition-colors border border-secondary-200"
+          >
+            Voltar
+          </button>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <p className="font-comfortaa text-secondary-700">
-        Escaneie o QR Code com o app do seu banco para pagar com PIX. O pagamento será processado pela ValePay, nossa parceira de pagamentos.
+        Escaneie o QR Code com o app do seu banco para pagar com PIX.
+      </p>
+      <p className="font-comfortaa text-sm italic text-secondary-700">
+        O pagamento será processado pela ValePay, nossa parceira de pagamentos.
       </p>
       <div className="flex flex-col items-center gap-4 p-6 bg-secondary-50 rounded-xl border border-secondary-200">
         <QRCodeSVG value={qrCode} size={200} className="m-auto" />
@@ -71,6 +157,17 @@ function PixPaymentContent({
           Compra segura • Transação protegida
         </span>
       </div>
+      {onBack && (
+        <div className="flex gap-3 pt-4">
+          <button
+            type="button"
+            onClick={onBack}
+            className="font-comfortaa px-4 py-2 text-secondary-700 hover:bg-secondary-100 rounded-lg transition-colors"
+          >
+            Voltar
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -154,12 +251,14 @@ export function StepPaymentFinish({
   return (
     <section className="bg-white rounded-2xl border border-secondary-200 p-6 md:p-8 shadow-sm">
 
-      {isPix && pixInfo && (
+      {isPix && pixInfo && paymentIntentResponse?.transactionId && (
         <div className="mb-8">
           <PixPaymentContent
+            transactionId={paymentIntentResponse.transactionId}
             qrCode={pixInfo.qrCode}
             netAmount={pixInfo.netAmount}
             expirationDate={pixInfo.expirationDate}
+            onBack={onBack}
           />
         </div>
       )}
@@ -186,8 +285,11 @@ export function StepPaymentFinish({
       {!isPix && !cardSuccess && (
         <form onSubmit={handleCreditCardSubmit} className="space-y-4">
           {cardError && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg font-comfortaa text-red-700 text-sm">
-              {cardError}
+            <div className="p-4 bg-red-50 border border-red-200 rounded-xl font-comfortaa text-red-700 text-sm space-y-2">
+              <p className="font-medium">{cardError}</p>
+              <p className="text-red-600">
+                Volte ao passo anterior para tentar novamente ou escolher outra forma de pagamento.
+              </p>
             </div>
           )}
           <div>
@@ -292,29 +394,18 @@ export function StepPaymentFinish({
             )}
             <button
               type="submit"
-              disabled={cardSubmitting || !(payload.acceptTerms ?? false)}
+              disabled={cardSubmitting || !(payload.acceptTerms ?? false) || !!cardError}
               className="font-baloo bg-accent-500 text-secondary-900 px-6 py-2 rounded-full font-semibold hover:bg-accent-600 disabled:opacity-60 transition-all"
             >
               {cardSubmitting ? "Processando…" : "Confirmar e pagar"}
             </button>
           </div>
           <p className="font-comfortaa text-sm text-secondary-500">
-            Compra segura • Transação protegida junto à nossa parceira ValePay
+            Compra segura • Transação protegida
           </p>
         </form>
       )}
 
-      {isPix && pixInfo && onBack && (
-        <div className="flex gap-3 pt-4">
-          <button
-            type="button"
-            onClick={onBack}
-            className="font-comfortaa px-4 py-2 text-secondary-700 hover:bg-secondary-100 rounded-lg transition-colors"
-          >
-            Voltar
-          </button>
-        </div>
-      )}
     </section>
   );
 }
