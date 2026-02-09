@@ -1,6 +1,8 @@
 import { createTraveler } from "./travelers";
+import { travelerState } from "./state";
 
 export const TravelerService = {
-  createTraveler
+  createTraveler,
+  getTravelerState: travelerState
 };
 

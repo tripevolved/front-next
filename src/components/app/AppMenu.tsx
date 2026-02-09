@@ -12,6 +12,7 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
   const { travelerState } = useAppStore()
+  const subscriptionActive = travelerState?.subscription?.status === 'Active'
 
   const handleLogout = () => {
     // Here you would typically call a logout service
@@ -112,6 +113,26 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
                   </svg>
                   <span className="font-medium">Planejar viagem</span>
                 </div>
+
+                {/* Círculo Evolved */}
+                <button
+                  onClick={() => {
+                    router.push(subscriptionActive ? '/app/admin/circulo-evolved' : '/app/checkout/circulo-evolved')
+                    setIsOpen(false)
+                  }}
+                  className="w-full flex items-center px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                >
+                  {subscriptionActive ? (
+                    <svg className="w-5 h-5 text-amber-500 mr-3" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5 text-gray-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                  )}
+                  <span className="font-medium">Círculo Evolved</span>
+                </button>
 
                 {/* Falar com especialista */}
                 <button

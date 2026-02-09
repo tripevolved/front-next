@@ -25,7 +25,15 @@ export interface TravelerState {
   hasPastTrip: boolean;
   isActive: boolean;
   hasValidAddress: boolean;
+  subscription: Subscription | null;
   availableFeatures: ProductFeature[];
+}
+
+export interface Subscription {
+  name: string;
+  dateFrom: Date;
+  dateTo: Date;
+  status: "Active" | "Inactive";
 }
 
 type ProductFeature =
