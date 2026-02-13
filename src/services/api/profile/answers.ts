@@ -48,7 +48,7 @@ const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 export const sendAnswers = async ({ answers, email }: AnswersBody) => {
   const url = "profiles/answers";
-  const lead = await LeadApiService.getByEmail(email);
+  const lead = undefined; //await LeadApiService.getByEmail(email);
   if (!lead) throw new Error("Lead is not found");
 
   const { id } = lead;

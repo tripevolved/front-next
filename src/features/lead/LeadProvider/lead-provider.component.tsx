@@ -23,7 +23,7 @@ export const LeadProvider = ({ children }: { children: React.ReactNode }) => {
   const tryFindLead = async (email: string) => {
     leadUpdate(FETCH_STATE.FETCHING);
     try {
-      const dataLead = await LeadApiService.getByEmail(email);
+      const dataLead = undefined; //await LeadApiService.getByEmail(email);
       if (dataLead) leadCreate(dataLead);
       else router.replace("/");
     } catch (error) {

@@ -20,6 +20,7 @@ const BENEFIT_CARDS = [
 ]
 
 const FAQ_ITEMS = [
+  { q: 'Por que há vagas limitadas no Círculo Evolved?', a: 'O Círculo Evolved tem um número limitado de vagas para que possamos dar o cuidado e a atenção que cada pessoa merece. Essa limitação garante que sua viagem seja desenhada e acompanhada com a dedicação que você espera — sem comprometer a qualidade do atendimento.' },
   { q: 'Quem pode ser elegível aos benefícios?', a: 'Após a contratação, cadastramos sua família. Apenas viagens com essas pessoas (família direta) são elegíveis aos benefícios de cashback ou zero comissão.' },
   { q: 'As viagens precisam ser realizadas em 12 meses?', a: 'As viagens precisam ser reservadas no período de 12 meses, mas podem ser realizadas depois — o suporte necessário permanece.' },
   { q: 'Quais viagens estão incluídas?', a: 'Todas as viagens que você realizar no período estão incluídas, inclusive viagens curtas e de fim de semana.' },

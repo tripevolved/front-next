@@ -1,8 +1,7 @@
-'use client'
-
 import Image from 'next/image'
 import Button from '@/components/common/Button'
 import { EventType } from '@/components/basic/FacebookPixel'
+import LimitedSpotsNotice from './LimitedSpotsNotice'
 
 interface CirculoEvolvedSectionProps {
   onCtaClick: () => void
@@ -76,11 +75,13 @@ export default function CirculoEvolvedSection({
           </div>
         )}
 
-        <div className="bg-white/15 border-2 border-accent-400/60 rounded-2xl p-6 max-w-2xl mx-auto mb-10 text-center">
+        <div className="bg-white/15 border-2 border-accent-400/60 rounded-2xl p-6 max-w-2xl mx-auto mb-4 text-center">
           <p className="font-comfortaa text-white leading-relaxed">
             Você recupera o valor do serviço em descontos ou cashback ao fechar sua viagem — ou recebe a diferença de volta.
           </p>
         </div>
+
+        <LimitedSpotsNotice />
 
         <div className="text-center">
           <Button
