@@ -70,9 +70,11 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
                 <h2 className="text-xl font-semibold text-gray-900">
                   {travelerState?.name || 'Viajante'}
                 </h2>
-                <p className="text-gray-600">
-                  {travelerState?.email || 'viajante@email.com'}
-                </p>
+                {travelerState?.email && (
+                  <p className="text-gray-600">
+                    {travelerState?.email}
+                  </p>
+                )}
               </div>
             </div>
           </div>

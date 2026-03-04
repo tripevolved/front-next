@@ -14,7 +14,6 @@ export default function LimitedSpotsNotice() {
     const load = async () => {
       try {
         const data = await CustomersService.getSubscriptions()
-        console.log(data);
         if (!cancelled) {
           setSubscriptions(data)
         }
