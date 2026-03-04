@@ -38,7 +38,7 @@ export default function CirculoEvolvedPage() {
   return (
     <div className="flex flex-col">
       {/* Hero */}
-      <section className="relative py-24 md:py-32 bg-secondary-500 overflow-hidden">
+      <section className="relative py-16 md:py-24 bg-secondary-500 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-secondary-600/80 to-secondary-500" aria-hidden />
         <div className="relative w-full max-w-4xl mx-auto px-4 md:px-6 text-center">
           <h1 className="font-baloo text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
@@ -47,6 +47,18 @@ export default function CirculoEvolvedPage() {
           <p className="font-comfortaa text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10">
             Um pagamento anual te dá acesso a curadoria única e valores sem comissão para suas viagens — que você não encontra em outro lugar.
           </p>
+          <div className="mb-10 md:mb-12 w-full max-w-2xl mx-auto aspect-video rounded-xl overflow-hidden shadow-xl">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/hZyiun44Eh4?si=RklrrDSLTCIOBMYK"
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              className="w-full h-full"
+            />
+          </div>
           <button
             type="button"
             onClick={() => scrollTo('para-quem')}
