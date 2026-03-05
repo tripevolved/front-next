@@ -1,12 +1,10 @@
-import { TripDestination } from "@/core/types/destination";
 import { Photo } from "./photo";
 import { Traveler } from "./traveler";
 
 export interface TripDetails {
   id: string;
-  destination: TripDestination;
+  title: string;
   configuration: TripConfiguration;
-  isBuilding: boolean;
 }
 
 export interface FlightDetails {
@@ -80,10 +78,8 @@ export interface TripTransportation {
 }
 
 export interface TripConfiguration {
-  formattedDates: string;
-  startDate: string;
-  endDate: string;
-  period: string;
+  startDate: Date;
+  endDate: Date;
   budget: number;
   numAdults: number;
   numChildren: number;

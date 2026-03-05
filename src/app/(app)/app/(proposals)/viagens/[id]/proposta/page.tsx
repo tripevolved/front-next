@@ -1,33 +1,93 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { UniqueMomentsCarousel } from "@/components/uniqueMoments";
 import { ItineraryContent } from "@/components/itineraries";
 import { ProposalDetails } from "@/components/proposals";
+import { TripsApiService } from "@/clients/trips";
 import { mockPropostaData2 } from "@/core/types/uniqueMoments";
+import type { TripDetails } from "@/core/types";
 
 interface PropostaPageProps {
   params: Promise<{ id: string }>;
 }
 
+function formatHeroDates(tripDetails: TripDetails): string {
+  const config = tripDetails.configuration;
+  if (!config?.startDate || !config?.endDate) return "Datas a definir";
+  const start = new Date(config.startDate);
+  const end = new Date(config.endDate);
+  const opts: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  };
+  return `${start.toLocaleDateString("pt-BR", opts)} a ${end.toLocaleDateString("pt-BR", opts)}`;
+}
+
+function formatHeroTravelers(tripDetails: TripDetails): string {
+  const config = tripDetails.configuration;
+  if (!config) return "";
+  const { numAdults = 0, numChildren = 0 } = config;
+  const parts: string[] = [];
+  if (numAdults > 0) parts.push(`${numAdults} ${numAdults === 1 ? "adulto" : "adultos"}`);
+  if (numChildren > 0) parts.push(`${numChildren} ${numChildren === 1 ? "criança" : "crianças"}`);
+  if (parts.length === 0) return "";
+  return `para ${parts.join(" e ")}`;
+}
+
 export default async function PropostaPage({ params }: PropostaPageProps) {
   const { id } = await params;
-  
-  // Mock data - in a real app, this would come from an API
-  const propostaData = mockPropostaData2.id === id ? mockPropostaData2 : null;
 
-  if (!propostaData) {
+  let tripDetails: TripDetails | null = null;
+  try {
+    tripDetails = await TripsApiService.getTripDetailsById(id);
+  } catch {
+    tripDetails = null;
+  }
+
+  if (!tripDetails) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Proposta não encontrada</h1>
-          <p className="text-gray-600">A proposta solicitada não foi encontrada.</p>
+      <div className="min-h-screen flex items-center justify-center p-6">
+        <div className="flex flex-col items-center gap-6 text-center max-w-md">
+          <Image
+            src="/assets/states/empty-state.svg"
+            alt=""
+            width={240}
+            height={240}
+            className="object-contain"
+          />
+          <h1 className="text-xl font-bold text-gray-900">Proposta não encontrada</h1>
+          <p className="text-gray-600">A proposta de viagem não foi encontrada.</p>
+          <Link
+            href="/app"
+            className="inline-flex items-center gap-2 mt-2 bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-full font-medium transition-colors"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Voltar para o painel
+          </Link>
         </div>
       </div>
     );
   }
 
+  // Mock data for sections below hero (to be replaced in later steps)
+  const propostaData = mockPropostaData2.id === id ? mockPropostaData2 : null;
   const heroImage =
-    propostaData.uniqueMoments?.[0]?.images?.[0] ?? undefined;
+    propostaData?.uniqueMoments?.[0]?.images?.[0] ?? undefined;
 
   return (
     <div className="min-h-screen">
@@ -73,14 +133,18 @@ export default async function PropostaPage({ params }: PropostaPageProps) {
         </div>
         <div className="max-w-[80%] mx-auto text-center flex-1 flex flex-col items-center justify-center mt-10">
           <h1 className="text-4xl md:text-5xl font-baloo font-bold mb-4">
-            {propostaData.title}
+            {tripDetails.title}
           </h1>
           <p className="text-lg md:text-xl font-comfortaa mb-2">
-            {propostaData.dates}
+            {formatHeroDates(tripDetails)}
           </p>
-          <p className="text-lg md:text-xl font-comfortaa mb-8">
-            {propostaData.travelers}
-          </p>
+          {formatHeroTravelers(tripDetails) ? (
+            <p className="text-lg md:text-xl font-comfortaa mb-8">
+              {formatHeroTravelers(tripDetails)}
+            </p>
+          ) : (
+            <div className="mb-8" />
+          )}
           
           <a
             href="#itinerary"
@@ -105,33 +169,44 @@ export default async function PropostaPage({ params }: PropostaPageProps) {
         </div>
       </section>
 
-      {/* Unique Moments Carousel Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-[80%] mx-auto">
-          <h2 className="text-3xl font-baloo font-bold text-secondary-900 mb-8 text-center">
-            Momentos Únicos
-          </h2>
-          <UniqueMomentsCarousel uniqueMoments={propostaData.uniqueMoments} />
-        </div>
-      </section>
+      {/* Sections below hero still use mock data until later integration steps */}
+      {propostaData ? (
+        <>
+          {/* Unique Moments Carousel Section */}
+          <section className="py-16 bg-gray-50">
+            <div className="max-w-[80%] mx-auto">
+              <h2 className="text-3xl font-baloo font-bold text-secondary-900 mb-8 text-center">
+                Momentos Únicos
+              </h2>
+              <UniqueMomentsCarousel uniqueMoments={propostaData.uniqueMoments} />
+            </div>
+          </section>
 
-      {/* Itinerary Content */}
-      <ItineraryContent 
-        itinerary={propostaData.itinerary} 
-        mapImage={propostaData.mapImage}
-        type="period"
-      />
+          {/* Itinerary Content */}
+          <ItineraryContent
+            itinerary={propostaData.itinerary}
+            mapImage={propostaData.mapImage}
+            type="period"
+          />
 
-      {/* Proposal Details */}
-      <ProposalDetails
-        accommodations={propostaData.accommodations}
-        flights={propostaData.flights}
-        otherInclusions={propostaData.otherInclusions}
-        potentialInclusions={propostaData.potentialInclusions}
-        pricing={propostaData.pricing}
-        description={propostaData.description}
-        cta={propostaData.cta}
-      />
+          {/* Proposal Details */}
+          <ProposalDetails
+            accommodations={propostaData.accommodations}
+            flights={propostaData.flights}
+            otherInclusions={propostaData.otherInclusions}
+            potentialInclusions={propostaData.potentialInclusions}
+            pricing={propostaData.pricing}
+            description={propostaData.description}
+            cta={propostaData.cta}
+          />
+        </>
+      ) : (
+        <section className="py-16 bg-gray-50">
+          <div className="max-w-[80%] mx-auto text-center text-secondary-600">
+            Conteúdo da proposta em breve.
+          </div>
+        </section>
+      )}
     </div>
   );
 } 
