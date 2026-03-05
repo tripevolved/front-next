@@ -75,7 +75,6 @@ export * from "./trips/TripAccommodation";
 export * from "./trips/TripAccordeon";
 export * from "./trips/TripBasePage";
 export * from "./trips/TripCreationPage";
-export * from "./trips/TripDetailsPanel";
 export * from "./trips/TripDiscoverPage";
 export * from "./trips/TripEditConfiguration";
 export * from "./trips/TripHotelCard";
