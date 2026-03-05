@@ -14,7 +14,8 @@ export function DestinationFeatures({ destination }: DestinationFeaturesProps) {
       <h2 className="text-2xl font-baloo font-bold text-secondary-900 mb-6">O que {destination.title} oferece</h2>
       <div className="grid gap-6">
         {destination.features.map((feature, index) => {
-          type FeatureType = FeatureIcon;
+          type FeatureType = FeatureIcon | "comfort";
+          console.log(feature)
 
           const featureDetails: Record<FeatureType, { icon: string; title: string }> = {
             culture: { icon: '🎨', title: 'Cultura' },
@@ -22,6 +23,7 @@ export function DestinationFeatures({ destination }: DestinationFeaturesProps) {
             party: { icon: '🎉', title: 'Bares e Festas' },
             relax: { icon: '🧘‍♀️', title: 'Relaxamento' },
             attractions: { icon: '🏰', title: 'Atrações turísticas' },
+            comfort: { icon: '🏨', title: 'Hospedagens' },
             accommodation: { icon: '🏨', title: 'Hospedagens' },
             "natural-beauty": { icon: '🌄', title: 'Beleza Natural' },
             uniqueness: { icon: '✨', title: 'Único' },

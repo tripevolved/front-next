@@ -5,14 +5,18 @@ import { LocalStorageService } from "@/clients/local";
 /**
  * Get trip matches by trip ID
  * @param tripId The ID of the trip
+ * @param travelerId Optional traveler ID. If not passed, uses LocalStorageService.getTraveler()
  * @returns The trip proposal data
  */
-export const getTripMatches = async (tripId: string): Promise<TripProposal> => {
+export const getTripMatches = async (
+  tripId: string,
+  travelerId?: string
+): Promise<TripProposal> => {
   const route = `trips/matches/${tripId}`;
-  
-  // Get traveler ID from local storage
-  const traveler = LocalStorageService.getTraveler();
-  const headers = traveler ? { 'traveler-id': traveler.id } : undefined;
-  
+
+  const id =
+    travelerId ?? LocalStorageService.getTraveler()?.id;
+  const headers = id ? { "traveler-id": id } : undefined;
+
   return ApiRequest.get<TripProposal>(route, { headers });
 }; 

@@ -1,12 +1,37 @@
 "use client";
 
 import { PublicDestination, TravelType } from "@/core/types/destination";
+import { Photo } from "@/core/types";
 import { PhotoCarousel } from "@/components/PhotoCarousel";
 import { ShareModal } from "../ShareModal";
 import React, { useState } from "react";
 
 interface DestinationHeroProps {
   destination: PublicDestination;
+}
+
+// Normalize destination photos to Photo[] format expected by PhotoCarousel (same pattern as CruiseCard)
+function toCarouselPhotos(destination: PublicDestination): Photo[] {
+  if (!destination.photos?.length) return [];
+  return destination.photos
+    .map((photo) => {
+      const source = photo.sources?.find((s) => s?.url);
+      const url = source?.url;
+      if (!url) return null;
+      return {
+        title: destination.title,
+        sources: [
+          {
+            height: source.height ?? 400,
+            width: source.width ?? 600,
+            url,
+            type: "lg" as const,
+          },
+        ],
+        alt: photo.alt ?? destination.title,
+      };
+    })
+    .filter(Boolean) as Photo[];
 }
 
 // Helper function to get icon and Portuguese name based on travel type
@@ -23,6 +48,7 @@ function getTravelTypeDetails(type: TravelType) {
 
 export function DestinationHero({ destination }: DestinationHeroProps) {
   const { icon, name } = getTravelTypeDetails(destination.travelType);
+  const photos = toCarouselPhotos(destination);
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
@@ -32,11 +58,13 @@ export function DestinationHero({ destination }: DestinationHeroProps) {
 
   return (
     <div className="relative h-[50vh] md:h-[70vh]">
-      {destination.photos && destination.photos.length > 0 && (
-        <PhotoCarousel photos={destination.photos} title={destination.title} />
+      {photos.length > 0 && (
+        <div className="absolute inset-0 z-0">
+          <PhotoCarousel photos={photos} title={destination.title} />
+        </div>
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
+      <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/70 to-transparent pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 right-0 z-20 p-6 md:p-12">
         <div className="flex flex-row items-center justify-evenly">
           <div className="container mx-auto">
             <h1 className="text-3xl md:text-5xl font-baloo font-bold text-white mb-2">
@@ -91,7 +119,7 @@ export function DestinationHero({ destination }: DestinationHeroProps) {
       <ShareModal
         isOpen={isShareModalOpen}
         onClose={() => setIsShareModalOpen(false)}
-        link={typeof window !== "undefined" ? window.location.href : ""}
+        link={`https://tripevolved.com.br/destinos/${destination.uniqueName}`}
         message={`Confira este destino incrível: ${destination.title}`}
       />
     </div>

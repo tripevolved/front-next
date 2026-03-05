@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from 'react'
 import { TripsApiService } from '@/clients/trips'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
-import DateRangePicker from './DateRangePicker'
 import LeadForm from './LeadForm'
 import { CreateTripRequest, TripTravelers } from '@/core/types/trip'
 import { LocalStorageService } from '@/clients/local'
@@ -16,22 +15,22 @@ import TripTypeSelector from './common/TripTypeSelector'
 import TripProfileSelector from './common/TripProfileSelector'
 import TripGoalsSelector from './common/TripGoalsSelector'
 
-// Types for the wizard
-interface TripDates {
+// Types for the wizard (exported for reuse e.g. planejar page)
+export interface TripDates {
   startDate: string | null
   endDate: string | null
   month: number | null
 }
 
-interface TripGoals {
+export interface TripGoals {
   goals: string[]
 }
 
-interface TripProfile {
+export interface TripProfile {
   profile: string
 }
 
-interface TripType {
+export interface TripType {
   type: string
 }
 
@@ -41,8 +40,8 @@ interface UserInfo {
   phone: string
 }
 
-// Step components
-const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => void, onBack?: () => void }) => {
+// Step components (exported for reuse e.g. planejar page)
+export const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => void, onBack?: () => void }) => {
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null])
   const [startDate, endDate] = dateRange
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
@@ -147,7 +146,7 @@ const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => void, onB
   )
 }
 
-const StepGoals = ({ onNext, onBack, tripType }: { onNext: (goals: TripGoals) => void, onBack: () => void, tripType?: string }) => {
+export const StepGoals = ({ onNext, onBack, tripType }: { onNext: (goals: TripGoals) => void, onBack: () => void, tripType?: string }) => {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([])
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -190,7 +189,7 @@ const StepGoals = ({ onNext, onBack, tripType }: { onNext: (goals: TripGoals) =>
   )
 }
 
-const StepProfile = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (profile: TripProfile) => void, onBack: () => void, buttonText?: string }) => {
+export const StepProfile = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (profile: TripProfile) => void, onBack: () => void, buttonText?: string }) => {
   const [profile, setProfile] = useState('')
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -230,7 +229,7 @@ const StepProfile = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (pro
   )
 }
 
-const StepType = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (type: TripType) => void, onBack: () => void, buttonText?: string }) => {
+export const StepType = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (type: TripType) => void, onBack: () => void, buttonText?: string }) => {
   const [type, setType] = useState('')
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -329,7 +328,7 @@ function StepContact({ onNext, onBack, formData }: { onNext: () => void, onBack:
   )
 }
 
-function StepCreateTrip({ onNext }: { onNext: () => void }) {
+export function StepCreateTrip({ onNext }: { onNext: () => void }) {
   const hasCalledRef = useRef(false);
 
   useEffect(() => {
