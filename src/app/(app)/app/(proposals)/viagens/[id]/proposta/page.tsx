@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { UniqueMomentsCarousel } from "@/components/uniqueMoments";
 import { ItineraryContent } from "@/components/itineraries";
 import { ProposalDetails } from "@/components/proposals";
@@ -25,11 +26,52 @@ export default async function PropostaPage({ params }: PropostaPageProps) {
     );
   }
 
+  const heroImage =
+    propostaData.uniqueMoments?.[0]?.images?.[0] ?? undefined;
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16">
-        <div className="max-w-[80%] mx-auto text-center">
+      <section
+        className="relative text-white py-16 min-h-[320px] flex flex-col"
+        style={
+          heroImage
+            ? {
+                backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%), url(${heroImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+              }
+            : undefined
+        }
+      >
+        {!heroImage && (
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-600 to-primary-800 -z-10" />
+        )}
+        <div className="absolute top-6 left-6 z-10">
+          <Link
+            href={`/app`}
+            className="inline-flex items-center gap-1.5 bg-transparent border border-white text-white hover:bg-white/20 px-3 py-1.5 rounded-full text-sm font-medium transition-colors"
+            aria-label="Voltar"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Voltar ao painel
+          </Link>
+        </div>
+        <div className="max-w-[80%] mx-auto text-center flex-1 flex flex-col items-center justify-center mt-10">
           <h1 className="text-4xl md:text-5xl font-baloo font-bold mb-4">
             {propostaData.title}
           </h1>
@@ -42,7 +84,7 @@ export default async function PropostaPage({ params }: PropostaPageProps) {
           
           <a
             href="#itinerary"
-            className="inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-3 rounded-full font-baloo font-semibold hover:bg-primary-50 transition-colors"
+            className="inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-3 rounded-full font-baloo font-semibold hover:bg-primary-50 transition-colors w-fit"
           >
             Ver itinerário
             <svg

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Comfortaa, Baloo_2 } from 'next/font/google'
 import '@/main.css'
-import { AppLayoutContent } from '@/components/app/AppLayoutContent'
 
 const comfortaa = Comfortaa({ 
   subsets: ['latin'],
@@ -15,7 +14,7 @@ const baloo = Baloo_2({
 
 export const metadata: Metadata = {
   title: 'Trip Evolved',
-  description: 'Viagens personalizadas.',
+  description: 'Cruzeiros de luxo & viagens extraordinárias.',
 }
 
 export default function AppLayout({
@@ -26,9 +25,7 @@ export default function AppLayout({
   return (
     <html lang="pt-BR">
       <body className={`${comfortaa.variable} ${baloo.variable} font-comfortaa antialiased bg-white text-gray-900`}>
-        <AppLayoutContent>
-          {children}
-        </AppLayoutContent>
+        {children}
       </body>
     </html>
   )
