@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import LeadForm from '@/components/LeadForm'
 
 interface CruiseLeadModalProps {
@@ -76,21 +75,11 @@ export default function CruiseLeadModal({ isOpen, onClose, onBack, searchData }:
             duration: searchData.duration,
             source: 'Cruzeiros Extraordinários'
           }}
+          showPreferredContact={true}
+          showExpertHelpToggle={true}
         />
 
-        <div className="mt-6 pt-6 border-t border-gray-200">
-          <p className="text-center text-sm text-secondary-600 mb-3">
-            Faz parte do Círculo Evolved?
-          </p>
-          <div className="flex justify-center">
-            <Link
-              href="/app"
-              className="inline-block font-baloo font-semibold text-sm text-white bg-primary-500 hover:bg-primary-600 px-4 py-2 rounded-full transition-colors"
-            >
-              Faça seu login
-            </Link>
-          </div>
-        </div>
+        {/* TODO: Build "Faz parte do Círculo Evolved?" flow — login CTA for existing members */}
       </div>
     </div>
   )

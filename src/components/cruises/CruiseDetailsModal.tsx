@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ImageGrid } from "../common/ImageGrid";
 import CruiseRatesCarousel from "./CruisesRatesCarousel";
@@ -18,6 +19,7 @@ type CruiseDetailsModalProps = {
 };
 
 export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: CruiseDetailsModalProps) {
+  const router = useRouter();
   const [cruiseDetails, setCruiseDetails] = useState<CruiseDetails | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -411,7 +413,11 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
       
       <CruiseLeadModal
         isOpen={isLeadModalOpen}
-        onClose={() => { setIsLeadModalOpen(false); setLeadModalText(thankYouText); }}
+        onClose={() => {
+          setIsLeadModalOpen(false);
+          setLeadModalText(thankYouText);
+          router.push("/obrigado");
+        }}
         onBack={() => setIsLeadModalOpen(false)}
         searchData={getSearchData()}
       />

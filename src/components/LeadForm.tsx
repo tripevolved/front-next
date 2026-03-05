@@ -23,6 +23,10 @@ interface LeadFormProps {
   onBack?: () => void
   event?: EventType
   eventOptions?: Record<string, any>
+  /** When true, shows preferred contact (WhatsApp vs call) */
+  showPreferredContact?: boolean
+  /** When true, shows toggle for expert help building the entire trip */
+  showExpertHelpToggle?: boolean
 }
 
 interface UtmParams {
@@ -56,13 +60,17 @@ function LeadFormContent({
   onBack,
   event,
   eventOptions,
+  showPreferredContact = false,
+  showExpertHelpToggle = false,
 }: LeadFormProps) {
   const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '', // digits only
-    countryCode: '+55' // Default to Brazil
+    countryCode: '+55', // Default to Brazil
+    preferredContact: 'call' as 'whatsapp' | 'call',
+    wantsExpertHelp: false,
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -88,7 +96,17 @@ function LeadFormContent({
         }))
 
       // Combine UTM metadata with additional metadata
-      const metadata = [...utmMetadata, ...additionalMetadata]
+      let metadata = [...utmMetadata, ...additionalMetadata]
+      if (showPreferredContact) {
+        metadata = metadata.concat([
+          { key: 'preferred_contact', value: formData.preferredContact, keyDescription: 'Forma preferida de contato' }
+        ])
+      }
+      if (showExpertHelpToggle) {
+        metadata = metadata.concat([
+          { key: 'wants_expert_help', value: formData.wantsExpertHelp ? 'sim' : 'não', keyDescription: 'Quer ajuda de especialista para montar a viagem' }
+        ])
+      }
 
       // Combine country code with phone number (phone is already digits)
       const phoneWithCountryCode = `${formData.countryCode}${formData.phone}`
@@ -129,7 +147,14 @@ function LeadFormContent({
       }
       
       // Reset form (phone stored as digits)
-      setFormData({ name: '', email: '', phone: '', countryCode: '+55' })
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        countryCode: '+55',
+        preferredContact: 'call',
+        wantsExpertHelp: false,
+      })
 
       // Send event
       if (event) {
@@ -205,6 +230,54 @@ function LeadFormContent({
           placeholder="(00) 00000-0000"
         />
       </div>
+
+      {showPreferredContact && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Como você prefere ser contatado(a)?
+          </label>
+          <div className="flex gap-4">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="preferredContact"
+                value="whatsapp"
+                checked={formData.preferredContact === 'whatsapp'}
+                onChange={() => setFormData(prev => ({ ...prev, preferredContact: 'whatsapp' }))}
+                className="text-primary-600 border-gray-300 focus:ring-primary-500"
+              />
+              <span className="text-secondary-700">WhatsApp</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="preferredContact"
+                value="call"
+                checked={formData.preferredContact === 'call'}
+                onChange={() => setFormData(prev => ({ ...prev, preferredContact: 'call' }))}
+                className="text-primary-600 border-gray-300 focus:ring-primary-500"
+              />
+              <span className="text-secondary-700">Ligação</span>
+            </label>
+          </div>
+        </div>
+      )}
+
+      {showExpertHelpToggle && (
+        <div>
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={formData.wantsExpertHelp}
+              onChange={(e) => setFormData(prev => ({ ...prev, wantsExpertHelp: e.target.checked }))}
+              className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+            />
+            <span className="text-sm font-medium text-gray-700">
+              Quero ajuda de um especialista para montar minha viagem completa
+            </span>
+          </label>
+        </div>
+      )}
 
       <div className={`${showBackButton ? 'flex justify-between gap-4' : ''}`}>
         {showBackButton && onBack && (
