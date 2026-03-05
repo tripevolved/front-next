@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
+import { TripConfigurationSet } from "@/components/trips/TripConfigurationSet";
 import { UniqueMomentsCarousel } from "@/components/uniqueMoments";
 import { ItineraryContent } from "@/components/itineraries";
 import { ProposalDetails } from "@/components/proposals";
@@ -12,28 +13,27 @@ import { TripsApiService } from "@/clients/trips";
 import { mockPropostaData2 } from "@/core/types/uniqueMoments";
 import type { TripDetails } from "@/core/types";
 
+const MONTH_NAMES = [
+  "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro",
+];
+
 function formatHeroDates(tripDetails: TripDetails): string {
   const config = tripDetails.configuration;
-  if (!config?.startDate || !config?.endDate) return "Datas a definir";
-  const start = new Date(config.startDate);
-  const end = new Date(config.endDate);
-  const opts: Intl.DateTimeFormatOptions = {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  };
-  return `${start.toLocaleDateString("pt-BR", opts)} a ${end.toLocaleDateString("pt-BR", opts)}`;
-}
-
-function formatHeroTravelers(tripDetails: TripDetails): string {
-  const config = tripDetails.configuration;
-  if (!config) return "";
-  const { numAdults = 0, numChildren = 0 } = config;
-  const parts: string[] = [];
-  if (numAdults > 0) parts.push(`${numAdults} ${numAdults === 1 ? "adulto" : "adultos"}`);
-  if (numChildren > 0) parts.push(`${numChildren} ${numChildren === 1 ? "criança" : "crianças"}`);
-  if (parts.length === 0) return "";
-  return `para ${parts.join(" e ")}`;
+  if (config?.startDate && config?.endDate) {
+    const start = new Date(config.startDate);
+    const end = new Date(config.endDate);
+    const opts: Intl.DateTimeFormatOptions = {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    };
+    return `${start.toLocaleDateString("pt-BR", opts)} a ${end.toLocaleDateString("pt-BR", opts)}`;
+  }
+  if (config?.month != null && config.month >= 1 && config.month <= 12) {
+    return `Em ${MONTH_NAMES[config.month - 1]}`;
+  }
+  return "Datas a definir";
 }
 
 export default function PropostaPage() {
@@ -142,16 +142,9 @@ export default function PropostaPage() {
           <h1 className="text-4xl md:text-5xl font-baloo font-bold mb-4">
             {tripDetails.title}
           </h1>
-          <p className="text-lg md:text-xl font-comfortaa mb-2">
+          <p className="text-lg md:text-xl font-comfortaa mb-8">
             {formatHeroDates(tripDetails)}
           </p>
-          {formatHeroTravelers(tripDetails) ? (
-            <p className="text-lg md:text-xl font-comfortaa mb-8">
-              {formatHeroTravelers(tripDetails)}
-            </p>
-          ) : (
-            <div className="mb-8" />
-          )}
 
           <a
             href="#itinerary"
@@ -174,6 +167,11 @@ export default function PropostaPage() {
             </svg>
           </a>
         </div>
+      </section>
+
+      {/* Trip Configuration */}
+      <section className="max-w-[80%] mx-auto -mt-6 relative z-10 px-4">
+        <TripConfigurationSet configuration={tripDetails.configuration} />
       </section>
 
       {/* Sections below hero still use mock data until later integration steps */}

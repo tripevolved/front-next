@@ -78,8 +78,9 @@ export interface TripTransportation {
 }
 
 export interface TripConfiguration {
-  startDate: Date;
-  endDate: Date;
+  startDate?: Date;
+  endDate?: Date;
+  month?: number;
   budget: number;
   numAdults: number;
   numChildren: number;
