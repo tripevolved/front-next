@@ -5,7 +5,6 @@ import { putMatchedDestinations, getMatchedDestinations } from "./matches";
 import { createTrip } from "./create";
 import { getTripPending } from "./pendings";
 import { getTripPriceById } from "./price";
-import { putDestinationIdForTrip } from "./destination-set";
 import { editTrip } from "./configuration";
 import { removeById } from "./remove";
 import { getItinerary, getItineraryV2 } from "./itinerary";
@@ -25,7 +24,6 @@ export const TripsApiService = {
   getPriceById: getTripPriceById,
   getMatchedDestinations: getMatchedDestinations,
   setMatchedDestinations: putMatchedDestinations,
-  setDestinationId: putDestinationIdForTrip,
   setTripConfiguration: editTrip,
   removeById,
   getItinerary,

@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useAppStore } from '@/core/store'
@@ -11,6 +11,7 @@ import TripPlanningDecisionModal from '@/components/TripPlanningDecisionModal'
 import type { TripProposal } from '@/core/types'
 
 export default function PlanejarResultsPage() {
+  const router = useRouter()
   const params = useParams()
   const id = params?.id as string
 
@@ -118,7 +119,20 @@ export default function PlanejarResultsPage() {
         }}
         selectedDestination={selectedDestination.current}
         onContactExpert={() => {}}
-        onWantToGo={async () => Promise.resolve()}
+        onWantToGo={async (destinationId: string) => {
+          if (!id || !destinationId) return
+          try {
+            await TripsApiService.setDestinationIdForTrip({
+              tripId: id,
+              tripDestination: { destinationId },
+            })
+            selectedDestination.current = ''
+            setIsWantToGoModalOpen(false)
+            router.push(`/app/viagens/${id}/proposta`)
+          } catch (err) {
+            console.error('Failed to set destination for trip:', err)
+          }
+        }}
         isPublic={false}
       />
     </div>
