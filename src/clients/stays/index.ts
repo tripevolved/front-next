@@ -1,7 +1,7 @@
 import { getStayByUniqueName } from "./public";
 import { getStayAvailability } from "./availability";
 
-export const StaysApiClient = {
+export const StaysApiService = {
   getStayByUniqueName,
   getStayAvailability,
 };

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { PublicStayRoom, PublicStayImage, PublicStayRoomAvailability } from '@/core/types/stay'
 import { StayRoomDetailModal } from './StayRoomDetailModal'
-import { StaysApiClient } from '@/clients/stays'
+import { StaysApiService } from '@/clients/stays'
 import DateRangeSelector from '@/components/common/DateRangeSelector'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -55,7 +55,7 @@ export function StayRoomsSection({ rooms, uniqueName }: StayRoomsSectionProps) {
         setIsLoadingAvailability(true)
         setAvailabilityError(null)
         try {
-          const availability = await StaysApiClient.getStayAvailability(
+          const availability = await StaysApiService.getStayAvailability(
             uniqueName,
             startDate,
             endDate

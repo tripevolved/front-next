@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { StaysApiClient } from '@/clients/stays'
+import { StaysApiService } from '@/clients/stays'
 import { StayDetail } from '@/components/stays/StayDetail'
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 
 async function getStay(uniqueName: string) {
   try {
-    return await StaysApiClient.getStayByUniqueName(uniqueName)
+    return await StaysApiService.getStayByUniqueName(uniqueName)
   } catch (error) {
     throw new Error(`Failed to fetch stay ${error instanceof Error ? error.message : 'Unknown error'}`)
   }

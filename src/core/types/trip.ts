@@ -7,7 +7,6 @@ export interface TripDetails {
   destination: TripDestination;
   configuration: TripConfiguration;
   isBuilding: boolean;
-  hasScript: boolean;
 }
 
 export interface FlightDetails {
