@@ -1,16 +1,16 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import useSWR from "swr";
 import { UniqueMomentsCarousel } from "@/components/uniqueMoments";
 import { ItineraryContent } from "@/components/itineraries";
 import { ProposalDetails } from "@/components/proposals";
 import { TripsApiService } from "@/clients/trips";
 import { mockPropostaData2 } from "@/core/types/uniqueMoments";
 import type { TripDetails } from "@/core/types";
-
-interface PropostaPageProps {
-  params: Promise<{ id: string }>;
-}
 
 function formatHeroDates(tripDetails: TripDetails): string {
   const config = tripDetails.configuration;
@@ -36,17 +36,24 @@ function formatHeroTravelers(tripDetails: TripDetails): string {
   return `para ${parts.join(" e ")}`;
 }
 
-export default async function PropostaPage({ params }: PropostaPageProps) {
-  const { id } = await params;
+export default function PropostaPage() {
+  const params = useParams();
+  const id = params?.id as string;
 
-  let tripDetails: TripDetails | null = null;
-  try {
-    tripDetails = await TripsApiService.getTripDetailsById(id);
-  } catch {
-    tripDetails = null;
+  const { data: tripDetails, error, isLoading } = useSWR(
+    id ? `trip-details-${id}` : null,
+    () => TripsApiService.getTripDetailsById(id)
+  );
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600" />
+      </div>
+    );
   }
 
-  if (!tripDetails) {
+  if (error || !tripDetails) {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <div className="flex flex-col items-center gap-6 text-center max-w-md">
@@ -85,7 +92,7 @@ export default async function PropostaPage({ params }: PropostaPageProps) {
   }
 
   // Mock data for sections below hero (to be replaced in later steps)
-  const propostaData = mockPropostaData2.id === id ? mockPropostaData2 : null;
+  const propostaData = mockPropostaData2;
   const heroImage =
     propostaData?.uniqueMoments?.[0]?.images?.[0] ?? undefined;
 
@@ -145,7 +152,7 @@ export default async function PropostaPage({ params }: PropostaPageProps) {
           ) : (
             <div className="mb-8" />
           )}
-          
+
           <a
             href="#itinerary"
             className="inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-3 rounded-full font-baloo font-semibold hover:bg-primary-50 transition-colors w-fit"
@@ -209,4 +216,4 @@ export default async function PropostaPage({ params }: PropostaPageProps) {
       )}
     </div>
   );
-} 
+}
