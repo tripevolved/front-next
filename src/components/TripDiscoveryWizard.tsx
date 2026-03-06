@@ -5,10 +5,9 @@ import { TripsApiService } from '@/clients/trips'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 import LeadForm from './LeadForm'
-import { CreateTripRequest, TripTravelers } from '@/core/types/trip'
+import { CreateTripRequest, TravelerType } from '@/core/types/trip'
 import { LocalStorageService } from '@/clients/local'
 import * as fpixel from '@/utils/libs/fpixel'
-import { TripGoal } from '@/clients/trips/goals'
 import MonthSelector from './common/MonthSelector'
 import DateRangeSelector from './common/DateRangeSelector'
 import TripTypeSelector from './common/TripTypeSelector'
@@ -31,7 +30,7 @@ export interface TripProfile {
 }
 
 export interface TripType {
-  type: string
+  type: TravelerType
 }
 
 interface UserInfo {
@@ -146,7 +145,7 @@ export const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => vo
   )
 }
 
-export const StepGoals = ({ onNext, onBack, tripType }: { onNext: (goals: TripGoals) => void, onBack: () => void, tripType?: string }) => {
+export const StepGoals = ({ onNext, onBack, tripType }: { onNext: (goals: TripGoals) => void, onBack: () => void, tripType?: TravelerType }) => {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([])
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -230,22 +229,22 @@ export const StepProfile = ({ onNext, onBack, buttonText = "Próximo" }: { onNex
 }
 
 export const StepType = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (type: TripType) => void, onBack: () => void, buttonText?: string }) => {
-  const [type, setType] = useState('')
+  const [type, setType] = useState<TravelerType | ''>('')
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onNext({ type })
+    if (type) onNext({ type })
   }
 
   return (
     <div className="p-6">
       <h2 className="text-2xl font-baloo font-bold text-secondary-900 mb-4">Com quem você vai viajar?</h2>
-      <p className="text-gray-600 mb-6">Selecione o tipo de viagem que melhor se adequa ao seu grupo.</p>
+      <p className="text-gray-600 mb-6">Selecione o tipo de viagem que melhor se adequa à sua jornada.</p>
       
       <form onSubmit={handleSubmit} className="space-y-6">
         <TripTypeSelector
           selectedType={type}
-          onTypeSelect={setType}
+          onTypeSelect={(t) => setType(t)}
         />
 
         <div className="flex justify-between pt-4">
@@ -370,7 +369,7 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
 
   // Create a combined form data object
   const formData = {
-    tripType: tripType?.type || '',
+    tripType: tripType?.type ?? '',
     tripGoals: tripGoals?.goals || [],
     tripProfile: tripProfile?.profile || '',
     startDate: tripDates?.startDate || null,
@@ -454,8 +453,8 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
           month: tripDates?.month?.toString() || null
         },
         travelers: {
-          type: tripType?.type === 'casal' ? 'COUPLE' : 'INDIVIDUAL'
-        } as TripTravelers
+          type: tripType?.type ?? TravelerType.INDIVIDUAL
+        }
       }
 
       // Call the API to create the trip

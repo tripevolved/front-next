@@ -1,6 +1,13 @@
 import { Photo } from "./photo";
 import { Traveler } from "./traveler";
 
+export enum TravelerType {
+  COUPLE = "COUPLE",
+  INDIVIDUAL = "INDIVIDUAL",
+  FRIENDS = "FRIENDS",
+  FAMILY = "FAMILY",
+}
+
 export interface TripDetails {
   id: string;
   title: string;
@@ -86,6 +93,7 @@ export interface TripConfiguration {
   numChildren: number;
   childrenAges: number[];
   rooms: TripConfigurationRoom[] | null;
+  travelerType?: TravelerType;
 }
 
 export interface TripConfigurationRoom {
@@ -184,8 +192,8 @@ export interface TripDates {
   month: string | null;
 }
 
-export interface TripTravelers {
-  type: 'COUPLE' | 'INDIVIDUAL';
+export interface CreateTripTravelers {
+  type: TravelerType;
 }
 
 export interface CreateTripRequest {
@@ -193,6 +201,6 @@ export interface CreateTripRequest {
   goals: string[];
   travelerProfile: string;
   dates: TripDates;
-  travelers: TripTravelers;
+  travelers: CreateTripTravelers;
   mode?: "PROPOSAL" | "CONSULTANCY";
 }

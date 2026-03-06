@@ -6,16 +6,15 @@ import TripTypeSelector from '@/components/common/TripTypeSelector'
 import DateRangeSelector from '@/components/common/DateRangeSelector'
 import TripGoalsSelector from '@/components/common/TripGoalsSelector'
 import TripProfileSelector from '@/components/common/TripProfileSelector'
+import type { TravelerType } from '@/core/types/trip'
 
 interface ScriptFlowModalProps {
   isOpen: boolean
   onClose: () => void
 }
 
-type TravelType = 'casal' | 'individual'
-
 interface ScriptFlowData {
-  travelType: TravelType | null
+  travelType: TravelerType | null
   tripGoals: string[]
   tripProfile: string
   destination: string
@@ -106,8 +105,8 @@ export default function ScriptFlowModal({ isOpen, onClose }: ScriptFlowModalProp
               </h3>
             </div>
             <TripTypeSelector
-              selectedType={flowData.travelType || ''}
-              onTypeSelect={(type) => setFlowData(prev => ({ ...prev, travelType: type as TravelType }))}
+              selectedType={flowData.travelType ?? ''}
+              onTypeSelect={(type) => setFlowData(prev => ({ ...prev, travelType: type }))}
             />
           </div>
         )

@@ -3,11 +3,12 @@
 import { useState, useEffect } from 'react'
 import { TripsApiService } from '@/clients/trips'
 import { TripGoal } from '@/clients/trips/goals'
+import { TravelerType } from '@/core/types/trip'
 
 interface TripGoalsSelectorProps {
   selectedGoals: string[]
   onGoalsChange: (goals: string[]) => void
-  tripType?: string
+  tripType?: TravelerType
   maxSelections?: number
   className?: string
 }
@@ -37,7 +38,7 @@ export default function TripGoalsSelector({
     const fetchGoals = async () => {
       try {
         setIsLoading(true)
-        const goals = await TripsApiService.getGoals(tripType === 'casal' ? 'COUPLE' : 'INDIVIDUAL')
+        const goals = await TripsApiService.getGoals(tripType ?? TravelerType.INDIVIDUAL)
         setAvailableGoals(goals)
       } catch (err) {
         console.error('Error fetching goals:', err)

@@ -1,26 +1,32 @@
 'use client'
 
-interface TripType {
-  id: string
+import { TravelerType } from '@/core/types/trip'
+
+interface TripTypeOption {
+  id: TravelerType
   name: string
   icon: string
   available: boolean
 }
 
 interface TripTypeSelectorProps {
-  selectedType: string
-  onTypeSelect: (type: string) => void
-  types?: TripType[]
+  selectedType: TravelerType | string
+  onTypeSelect: (type: TravelerType) => void
+  types?: TripTypeOption[]
   className?: string
 }
+
+const DEFAULT_TYPES: TripTypeOption[] = [
+  { id: TravelerType.COUPLE, name: 'Casal', icon: '❤️', available: true },
+  { id: TravelerType.INDIVIDUAL, name: 'Sozinho(a)', icon: '👤', available: true },
+  { id: TravelerType.FRIENDS, name: 'Amigos', icon: '👥', available: true },
+  { id: TravelerType.FAMILY, name: 'Família', icon: '👨‍👩‍👧‍👦', available: true },
+]
 
 export default function TripTypeSelector({ 
   selectedType, 
   onTypeSelect, 
-  types = [
-    { id: 'casal', name: 'Casal', icon: '❤️', available: true },
-    { id: 'familia', name: 'Família', icon: '👨‍👩‍👧‍👦', available: true },
-  ],
+  types = DEFAULT_TYPES,
   className = '' 
 }: TripTypeSelectorProps) {
   return (

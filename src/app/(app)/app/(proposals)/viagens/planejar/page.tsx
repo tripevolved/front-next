@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useAppStore } from '@/core/store'
 import { TripsApiService } from '@/clients/trips'
-import type { CreateTripRequest } from '@/core/types/trip'
+import { type CreateTripRequest, TravelerType } from '@/core/types/trip'
 import {
   StepDates,
   StepType,
@@ -72,8 +72,8 @@ export default function PlanejarPage() {
         travelerProfile: tripProfile?.profile ?? '',
         dates: toApiDates(tripDates ?? { startDate: null, endDate: null, month: null }),
         travelers: {
-          type: tripType?.type === 'casal' ? 'COUPLE' : 'INDIVIDUAL',
-        } as unknown as CreateTripRequest['travelers'],
+          type: tripType?.type ?? TravelerType.INDIVIDUAL,
+        },
         mode: 'PROPOSAL',
       }
       const { id } = await TripsApiService.createTrip(tripRequest)
