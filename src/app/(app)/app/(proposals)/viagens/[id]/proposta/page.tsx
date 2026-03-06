@@ -93,8 +93,7 @@ export default function PropostaPage() {
 
   // Mock data for sections below hero (to be replaced in later steps)
   const propostaData = mockPropostaData2;
-  const heroImage =
-    propostaData?.uniqueMoments?.[0]?.images?.[0] ?? undefined;
+  const coverImageUrl = tripDetails.coverImage?.url;
 
   return (
     <div className="min-h-screen">
@@ -102,9 +101,9 @@ export default function PropostaPage() {
       <section
         className="relative text-white py-16 min-h-[320px] flex flex-col"
         style={
-          heroImage
+          coverImageUrl
             ? {
-                backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%), url(${heroImage})`,
+                backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%), url(${coverImageUrl})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -112,8 +111,8 @@ export default function PropostaPage() {
             : undefined
         }
       >
-        {!heroImage && (
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-600 to-primary-800 -z-10" />
+        {!coverImageUrl && (
+          <div className="absolute inset-0 bg-secondary-500 -z-10" />
         )}
         <div className="absolute top-6 left-6 z-10">
           <Link

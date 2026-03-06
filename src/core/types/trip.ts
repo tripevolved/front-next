@@ -12,6 +12,12 @@ export interface TripDetails {
   id: string;
   title: string;
   configuration: TripConfiguration;
+  coverImage?: TripImage;
+}
+
+interface TripImage {
+  url: string;
+  shortDescription?: string;
 }
 
 export interface FlightDetails {

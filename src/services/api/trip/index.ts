@@ -7,7 +7,6 @@ import { getTripPending } from "./pendings";
 import { getTripPriceById } from "./price";
 import { editTrip } from "./configuration";
 import { removeById } from "./remove";
-import { getItinerary, getItineraryV2 } from "./itinerary";
 import { getCheckoutById } from "./checkout";
 import { getTripReservationsCountForDashboard } from "./reservations-count";
 import { getTripTips } from "./tips";
@@ -26,7 +25,5 @@ export const TripsApiService = {
   setMatchedDestinations: putMatchedDestinations,
   setTripConfiguration: editTrip,
   removeById,
-  getItinerary,
-  getItineraryV2,
   getCheckout: getCheckoutById,
 };
