@@ -79,7 +79,6 @@ export * from "./trips/TripDiscoverPage";
 export * from "./trips/TripEditConfiguration";
 export * from "./trips/TripHotelCard";
 export * from "./trips/TripHotelList";
-export * from "./trips/TripPricingBox";
 export * from "./trips/TripStayDetails";
 export * from "./trips/TripStayRoomCard";
 export * from "./trips/TripStayRoomDetailsModal";

@@ -15,9 +15,13 @@ export interface TripDetails {
   coverImage?: TripImage;
 }
 
-interface TripImage {
+export interface TripImage {
   url: string;
   shortDescription?: string;
+}
+
+export interface TripVideo {
+  url: string;
 }
 
 export interface FlightDetails {

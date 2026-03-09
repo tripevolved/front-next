@@ -9,16 +9,17 @@ export async function middleware(request: NextRequest) {
     return authRes;
   }
 
-  // public routes — no need to check for session
   if (request.nextUrl.pathname.startsWith("/app")) {
     const { pathname, origin } = new URL(request.url)
     const session = await auth0.getSession(request)
-
+    
     // user does not have a session — redirect to login
     if (!session) {
       return NextResponse.redirect(`${origin}/auth/login?returnTo=${encodeURIComponent(pathname)}`)
     }
   }
+  
+  // public routes — no need to check for session
 
   return authRes;
 }

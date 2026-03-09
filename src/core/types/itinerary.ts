@@ -1,42 +1,28 @@
-import { TripTransportation } from "./trip";
-import { TripStaySimplified } from "./tripStay";
+import { TripImage, TripTransportation, TripVideo } from "./trip";
 
-export type ItineraryActionType = "ROUTE" | "FLIGHT" | "ACCOMMODATION" | "RENTAL_CAR" | "TRANSFER";
+export type ItineraryActionType = "ROUTE" | "FLIGHT" | "ACCOMMODATION" | "CRUISE" | "DAY_BY_DAY";
 
-export interface Coordinates {
-  title: string;
-  latitude: number;
-  longitude: number;
-}
-
-export interface ItineraryAction {
+export interface TripItineraryAction {
   tripItineraryActionId: string;
-  from: Coordinates;
-  to: Coordinates;
-  type: ItineraryActionType;
-  needsTravelerAction: boolean;
-  isMain: boolean;
-  isReady: boolean;
   title: string;
+  description: string;
+  start: Date;
+  end: Date;
+  type: ItineraryActionType;
+  previousTripItineraryActionId?: string;
+  nextTripItineraryActionId?: string;
+
+  coverImage?: TripImage;
+  videos?: TripVideo[];
+  highlight?: TripItineraryActionHighlight;
 }
 
-export interface ItineraryList {
+export interface TripItineraryActionHighlight {
+  description: string;
+}
+
+export interface TripItinerary {
   tripId: string;
-  actions: ItineraryAction[];
-}
-
-export type Action = TripStaySimplified |TripTransportation
-export const IsStayAction = (action: Action):action is TripStaySimplified => {
-  return action.hasOwnProperty('coverImage')
-}
-export const IsTransportationAction = (action: Action):action is TripTransportation => {
-  return action.hasOwnProperty('partnerLogoUrl')
-}
-export interface SimpleItineraryAction {
-  type: ItineraryActionType;
-  title: string;
-}
-
-export interface SimpleItinerary {
-  actions: SimpleItineraryAction[];
+  descriptionImage: TripImage;
+  actions: TripItineraryAction[];
 }

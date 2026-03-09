@@ -8,15 +8,13 @@ import { type UserSlice, createUserSlice } from "./user";
 import { type TravelerStateSlice, createTravelerStateSlice } from "./traveler";
 import { type TripScriptDaySlice, currentTripScriptDaySlice } from "./trip-day";
 import { type AccommodationSlice, createAccommodationSlice } from "./accomodation";
-import { type SimpleItinerarySlice, createSimpleItinerarySlice } from "./itinerary";
 
 export type StoreSlices = AccessesSlice &
   LeadSlice &
   UserSlice &
   TravelerStateSlice &
   TripScriptDaySlice &
-  AccommodationSlice &
-  SimpleItinerarySlice;
+  AccommodationSlice;
 
 export const useAppStore = create<StoreSlices>()(
   devtools(
@@ -28,7 +26,6 @@ export const useAppStore = create<StoreSlices>()(
         ...createTravelerStateSlice(...a),
         ...currentTripScriptDaySlice(...a),
         ...createAccommodationSlice(...a),
-        ...createSimpleItinerarySlice(...a),
       }),
       { name: GLOBAL_STORE_NAME }
     )

@@ -10,7 +10,7 @@ import { UniqueMomentsCarousel } from "@/components/uniqueMoments";
 import { ItineraryContent } from "@/components/itineraries";
 import { ProposalDetails } from "@/components/proposals";
 import { TripsApiService } from "@/clients/trips";
-import { mockPropostaData2 } from "@/core/types/uniqueMoments";
+import { mockProposal2 } from "@/core/types/uniqueMoments";
 import type { TripDetails } from "@/core/types";
 
 const MONTH_NAMES = [
@@ -92,7 +92,7 @@ export default function PropostaPage() {
   }
 
   // Mock data for sections below hero (to be replaced in later steps)
-  const propostaData = mockPropostaData2;
+  const propostaData = mockProposal2;
   const coverImageUrl = tripDetails.coverImage?.url;
 
   return (

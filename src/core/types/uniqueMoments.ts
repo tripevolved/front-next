@@ -41,7 +41,7 @@ export interface PricingItem {
 
 import type { ItineraryItem } from "@/components/itineraries";
 
-export interface PropostaData {
+export interface Proposal {
   id: string;
   title: string;
   dates: string;
@@ -62,7 +62,7 @@ export interface PropostaData {
 }
 
 // Mock data for proposta page
-export const mockPropostaData1: PropostaData = {
+export const mockProposal1: Proposal = {
   id: "16dd53cc-76dc-45f2-b697-4c1d920c5124",
   title: "Puglia: O coração da Itália",
   dates: "5 a 12 de Outubro, 2025",
@@ -395,7 +395,7 @@ export const mockPropostaData1: PropostaData = {
     action: "https://wa.me/?text=Olá! Gostaria de reservar a viagem para Puglia, Itália."
   }
 }; 
-export const mockPropostaData2: PropostaData = {
+export const mockProposal2: Proposal = {
   id: "16dd53cc-76dc-45f2-b697-4c1d920c5124",
   title: "Sul da Itália: Napoles, Pompeia e Costa Amalfitana",
   dates: "Datas a definir",
