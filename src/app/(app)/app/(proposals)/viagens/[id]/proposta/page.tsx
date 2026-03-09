@@ -6,8 +6,8 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { TripConfigurationSet } from "@/components/trips/TripConfigurationSet";
+import { TripItineraryProposal } from "@/components/trips/TripItineraryProposal";
 import { UniqueMomentsCarousel } from "@/components/uniqueMoments";
-import { ItineraryContent } from "@/components/itineraries";
 import { ProposalDetails } from "@/components/proposals";
 import { TripsApiService } from "@/clients/trips";
 import { mockProposal2 } from "@/core/types/uniqueMoments";
@@ -173,7 +173,10 @@ export default function PropostaPage() {
         <TripConfigurationSet configuration={tripDetails.configuration} />
       </section>
 
-      {/* Sections below hero still use mock data until later integration steps */}
+      {/* Itinerary from backend */}
+      <TripItineraryProposal tripId={id} type="period" />
+
+      {/* Sections below still use mock data until later integration steps */}
       {propostaData ? (
         <>
           {/* Unique Moments Carousel Section */}
@@ -185,13 +188,6 @@ export default function PropostaPage() {
               <UniqueMomentsCarousel uniqueMoments={propostaData.uniqueMoments} />
             </div>
           </section>
-
-          {/* Itinerary Content */}
-          <ItineraryContent
-            itinerary={propostaData.itinerary}
-            mapImage={propostaData.mapImage}
-            type="period"
-          />
 
           {/* Proposal Details */}
           <ProposalDetails
