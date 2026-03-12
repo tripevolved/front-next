@@ -3,7 +3,7 @@ import { useAppStore } from "@/core/store";
 
 import { ErrorState, Text } from "@/ui";
 import { Button, Link, Grid, Modal } from "mars-ds";
-import { HasProfile, ProfileSettingsModal } from "@/features";
+import { ProfileSettingsModal } from "@/features";
 
 export function TripTravelerProfileStep({ onNext, onPrevious }: StepComponentProps) {
   const travelerProfile = useAppStore((state) => state.travelerState.travelerProfile);
@@ -34,7 +34,7 @@ export function TripTravelerProfileStep({ onNext, onPrevious }: StepComponentPro
       <Text heading size="sm" className="trip-script-builder-step__item">
         Temos uma ideia do que você quer para essa viagem!
       </Text>
-      <HasProfile travelerProfile={travelerProfile} />
+      {/* <HasProfile travelerProfile={travelerProfile} /> */}
       <Text className="trip-script-builder-step__item" size="sm">
         Seu perfil de viajante nos ajuda a encontrar as melhores experiências para o seu roteiro.
       </Text>

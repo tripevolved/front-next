@@ -4,7 +4,7 @@ import { useAppStore } from '@/core/store'
 import { TravelDesignerWhatsAppCard } from '@/components/app/TravelDesignerWhatsAppCard'
 import { CreateTripCard } from '@/components/app/CreateTripCard'
 import { CirculoEvolvedCall } from '@/components/app/CirculoEvolvedCall'
-import { AppTripsSection } from '@/components/app/AppTripsSection'
+import { AppTripsCards } from '@/components/trips/AppTripsCards'
 
 export default function PainelPage() {
   const travelerState = useAppStore((state) => state.travelerState)
@@ -20,7 +20,7 @@ export default function PainelPage() {
       ) : (
         <CirculoEvolvedCall />
       )}
-      <AppTripsSection />
+      <AppTripsCards />
     </div>
   )
 }

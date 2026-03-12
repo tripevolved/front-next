@@ -5,12 +5,7 @@
 @import "./admin/Playground/playground.styles.scss";
 @import "./dashboard/BlogCardCarousel/blog-card-carousel.styles.scss";
 @import "./dashboard/ConfirmFlightModal/confirm-flight-modal.styles.scss";
-@import "./dashboard/DashboardHome/dashboard-home.styles.scss";
-@import "./dashboard/HasCurrentTrip/has-current-trip.styles.scss";
-@import "./dashboard/HasProfile/has-profile.styles.scss";
 @import "./dashboard/HeaderUserMenu/header-user-menu.styles.scss";
-@import "./dashboard/NoCurrentTrip/no-current-trip.styles.scss";
-@import "./dashboard/NoProfile/no-profile.styles.scss";
 @import "./dashboard/NotificationColumn/notification-column.styles.scss";
 @import "./dashboard/NotificationView/notification-view.styles.scss";
 @import "./dashboard/PendingDocumentsModal/pending-documents-modal.styles.scss";
@@ -18,7 +13,6 @@
 @import "./destinations/DestinationInfos/destinations-infos.styles.scss";
 @import "./destinations/DestinationPage/destination-hero.styles.scss";
 @import "./destinations/DestinationPage/destination-page.styles.scss";
-@import "./destinations/PublicDestinations/public-destinations.styles.scss";
 @import "./destinations/Discover/discover.styles.scss";
 @import "./landing-pages/AwardCard/award-card.styles.scss";
 @import "./landing-pages/HomeNumberedCard/home-numbered-card.styles.scss";
@@ -59,7 +53,6 @@
 @import "./trips/PageTrip/page-trip.styles.scss";
 @import "./trips/ReservationsPanel/reservations-panel.styles.scss";
 @import "./trips/TripAccommodation/trip-accommodation.styles.scss";
-@import "./trips/TripAccordeon/trip-accordeon.styles.scss";
 @import "./trips/TripEditConfiguration/trip-edit-configuration.styles.scss";
 @import "./trips/TripHotelCard/trip-hotel-card.styles.scss";
 @import "./trips/TripHotelList/trip-hotel-list.styles.scss";

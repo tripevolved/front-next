@@ -1,5 +1,5 @@
 import { useAppStore } from "@/core/store";
-import { HasProfile, type StepComponentProps } from "@/features";
+import { type StepComponentProps } from "@/features";
 import { ErrorState, Text } from "@/ui";
 import { Button } from "mars-ds";
 
@@ -16,7 +16,7 @@ export function StepProfile({ onNext }: StepComponentProps) {
 
   return (
     <div className="text-center">
-      <HasProfile travelerProfile={travelerProfile} />
+      {/* <HasProfile travelerProfile={travelerProfile} /> */}
       <Text className="color-text-secondary my-2x">
         Agora que já sabemos qual é o seu perfil de viajante, <br />
         clique em continuar para descobrir a sua trip:

@@ -1,1 +1,0 @@
-export { DashboardHome as default } from "@/features";

@@ -1,5 +1,4 @@
 import { getTripDetailsByIdForDashboard } from "./dashboard";
-import { getAllByTravelerId } from "./all";
 import { getTripDestinationQuestions, getTripQuestions } from "./questions";
 import { putMatchedDestinations, getMatchedDestinations } from "./matches";
 import { createTrip } from "./create";
@@ -14,7 +13,6 @@ import { getTripTips } from "./tips";
 export const TripsApiService = {
   getByIdForDashboard: getTripDetailsByIdForDashboard,
   getReservationsCountById: getTripReservationsCountForDashboard,
-  getAll: getAllByTravelerId,
   getTripDestinationQuestions: getTripDestinationQuestions,
   getTripQuestions: getTripQuestions,
   postCreate: createTrip,

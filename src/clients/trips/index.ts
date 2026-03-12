@@ -4,6 +4,7 @@ import { getTripMatches } from "./trips";
 import { createTrip, createEmptyTrip } from "./create";
 import { getGoals } from "./goals";
 import { getItinerary } from "./itinerary";
+import { getAllByTravelerId } from "./all";
 
 export const TripsApiService = {
   setDestinationIdForTrip: putDestinationIdForTrip,
@@ -12,5 +13,6 @@ export const TripsApiService = {
   createTrip,
   createEmptyTrip,
   getGoals,
-  getItinerary
+  getItinerary,
+  getAllByTravelerId
 }; 

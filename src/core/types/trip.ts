@@ -149,14 +149,13 @@ export interface TripListView {
   id: string;
   title: string;
   status: string;
-  images: Photo[];
+  images: TripImage[];
   period: string;
   enableDeletion?: boolean;
 }
 
 export interface AllTrips {
-  currentTrip?: TripListView | null;
-  otherTrips?: TripListView[];
+  trips?: TripListView[];
 }
 
 interface TripIncludes {
