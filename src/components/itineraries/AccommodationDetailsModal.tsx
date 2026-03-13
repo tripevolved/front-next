@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import { AccommodationsApiService } from "@/clients/accommodation";
+import { AccommodationsApiService } from "@/clients/accommodations";
 import { AccommodationDetail } from "@/components/accommodation/AccommodationDetail";
 
 interface AccommodationDetailsModalProps {

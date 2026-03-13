@@ -13,6 +13,6 @@ export const getAccommodationAvailability = async (
   startDate: Date,
   endDate: Date
 ): Promise<AccommodationAvailabilityResponse> => {
-  const route = `stays/${uniqueName}/availability?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
+  const route = `accommodations/${uniqueName}/availability?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
   return ApiRequest.get<AccommodationAvailabilityResponse>(route);
 };

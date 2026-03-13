@@ -9,6 +9,6 @@ import { ApiRequest } from "@/services/api/request";
 export const getAccommodationByUniqueName = async (
   uniqueName: string
 ): Promise<PublicAccommodation> => {
-  const route = `stays/${uniqueName}`;
+  const route = `accommodations/${uniqueName}`;
   return ApiRequest.get<PublicAccommodation>(route);
 };

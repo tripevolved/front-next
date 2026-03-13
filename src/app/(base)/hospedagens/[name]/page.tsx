@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { AccommodationsApiService } from '@/clients/accommodation'
+import { AccommodationsApiService } from '@/clients/accommodations'
 import { AccommodationDetail } from '@/components/accommodation/AccommodationDetail'
 
 type Props = {

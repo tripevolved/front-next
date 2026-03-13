@@ -7,7 +7,7 @@ import {
   PublicAccommodationRoomAvailability
 } from '@/core/types/accommodations'
 import { AccommodationRoomDetailModal } from './AccommodationRoomDetailModal'
-import { AccommodationsApiService } from '@/clients/accommodation'
+import { AccommodationsApiService } from '@/clients/accommodations'
 import DateRangeSelector from '@/components/common/DateRangeSelector'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
