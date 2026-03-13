@@ -198,7 +198,7 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
           activity: item.activity,
           image: item.image,
           description: item.description,
-          hotel: item.hotel,
+          accommodation: item.hotel,
           cruise: item.cruise,
           highlights: item.highlights
         }))} 

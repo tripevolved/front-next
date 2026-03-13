@@ -3,7 +3,6 @@ export * from "./lead";
 export * from "./profile";
 export * from "./register";
 export * from "./restaurants";
-export * from "./stays";
 export * from "./terms";
 export * from "./transportation";
 export * from "./trip";

@@ -1,44 +1,44 @@
 import { Metadata } from 'next'
-import { StaysApiService } from '@/clients/stays'
-import { StayDetail } from '@/components/stays/StayDetail'
+import { AccommodationsApiService } from '@/clients/accommodation'
+import { AccommodationDetail } from '@/components/accommodation/AccommodationDetail'
 
 type Props = {
   params: Promise<{ name: string }>
 }
 
-async function getStay(uniqueName: string) {
+async function getAccommodation(uniqueName: string) {
   try {
-    return await StaysApiService.getStayByUniqueName(uniqueName)
+    return await AccommodationsApiService.getAccommodationByUniqueName(uniqueName)
   } catch (error) {
-    throw new Error(`Failed to fetch stay ${error instanceof Error ? error.message : 'Unknown error'}`)
+    throw new Error(`Failed to fetch accommodation ${error instanceof Error ? error.message : 'Unknown error'}`)
   }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
-    const stay = await getStay((await params).name)
+    const accommodation = await getAccommodation((await params).name)
     
-    if (!stay) {
+    if (!accommodation) {
       return {
         title: 'Hospedagem não encontrada',
         description: 'A hospedagem que você está procurando não existe.',
       }
     }
 
-    const imageUrl = stay.images?.[0]?.url
+    const imageUrl = accommodation.images?.[0]?.url
 
     return {
-      title: `${stay.title}${stay.subtitle ? ` - ${stay.subtitle}` : ''}`,
-      description: stay.description || `Descubra ${stay.title}, uma hospedagem incrível para sua viagem a dois.`,
+      title: `${accommodation.title}${accommodation.subtitle ? ` - ${accommodation.subtitle}` : ''}`,
+      description: accommodation.description || `Descubra ${accommodation.title}, uma hospedagem incrível para sua viagem a dois.`,
       openGraph: {
-        title: `${stay.title}${stay.subtitle ? ` - ${stay.subtitle}` : ''}`,
-        description: stay.description || `Descubra ${stay.title}, uma hospedagem incrível para sua viagem a dois.`,
+        title: `${accommodation.title}${accommodation.subtitle ? ` - ${accommodation.subtitle}` : ''}`,
+        description: accommodation.description || `Descubra ${accommodation.title}, uma hospedagem incrível para sua viagem a dois.`,
         images: imageUrl ? [imageUrl] : undefined,
       },
       twitter: {
         card: 'summary_large_image',
-        title: `${stay.title}${stay.subtitle ? ` - ${stay.subtitle}` : ''}`,
-        description: stay.description || `Descubra ${stay.title}, uma hospedagem incrível para sua viagem a dois.`,
+        title: `${accommodation.title}${accommodation.subtitle ? ` - ${accommodation.subtitle}` : ''}`,
+        description: accommodation.description || `Descubra ${accommodation.title}, uma hospedagem incrível para sua viagem a dois.`,
         images: imageUrl ? [imageUrl] : undefined,
       },
     }
@@ -50,9 +50,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function StayPage({ params }: Props) {
-  const stay = await getStay((await params).name)
+export default async function AccommodationPage({ params }: Props) {
+  const accommodation = await getAccommodation((await params).name)
 
-  return <StayDetail stay={stay} />
+  return <AccommodationDetail accommodation={accommodation} />
 }
 

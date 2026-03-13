@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { VideoSlider } from "../VideoSlider";
-import { HotelDetailsModal } from "./HotelDetailsModal";
+import { AccommodationDetailsModal } from "./AccommodationDetailsModal";
 import { CruiseDetailsModal } from "./CruiseDetailsModal";
 import type { Cruise } from "@/core/types/cruise";
 import { Map } from "../maps";
@@ -14,16 +14,14 @@ export interface ItineraryItem {
   activity: string;
   image: string;
   description: string;
-  hotel?: {
+  accommodation?: {
+    accommodationId?: string;
+    accommodationUniqueName?: string;
     name: string;
     description: string;
     image: string;
-    details?: {
-      description: string;
-      highlight: string;
-      images: string[];
-      includedServices: string[];
-    };
+    tags?: string[];
+    recommendedFor?: string[];
   };
   experience?: {
     name: string;
@@ -47,27 +45,65 @@ export interface ItineraryContentProps {
   type: ItineraryType;
 }
 
-// Hotel Component
-function HotelComponent({
-  hotel,
+// Accommodation Component
+function AccommodationComponent({
+  accommodation,
   onOpenModal,
 }: {
-  hotel: ItineraryItem["hotel"];
-  onOpenModal: (hotel: ItineraryItem["hotel"]) => void;
+  accommodation: ItineraryItem["accommodation"];
+  onOpenModal: (accommodationUniqueName: string) => void;
 }) {
-  if (!hotel) return null;
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+
+  if (!accommodation) return null;
+
+  const hasDetails = Boolean(accommodation.accommodationUniqueName);
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6">
-      <h3 className="text-xl font-semibold text-primary mb-4">Hospedagem</h3>
       <div
-        className={`flex flex-col md:flex-row gap-6 ${hotel.details ? "cursor-pointer" : ""}`}
-        onClick={() => hotel.details && onOpenModal(hotel)}
+        className={`flex flex-col md:flex-row gap-6 ${hasDetails ? "cursor-pointer" : ""}`}
+        onClick={() => hasDetails && onOpenModal(accommodation.accommodationUniqueName!)}
       >
-        <div className="flex-1">
-          <h4 className="text-lg font-medium text-gray-900 mb-2">{hotel.name}</h4>
-          <p className="text-gray-600">{hotel.description}</p>
-          {hotel.details && (
+        <div className="flex-1 min-w-0">
+          <h4 className="text-lg font-medium text-gray-900 mb-2">{accommodation.name}</h4>
+          {(accommodation.tags?.some(Boolean) || accommodation.recommendedFor?.some(Boolean)) ? (
+            <div className="mb-3 flex flex-wrap gap-2">
+              {accommodation.tags?.filter(Boolean).map((tag) => (
+                <span
+                  key={tag}
+                  className="bg-primary-100 text-primary-700 px-2 py-0.5 rounded-full text-xs"
+                >
+                  {tag}
+                </span>
+              ))}
+              {accommodation.recommendedFor?.filter(Boolean).map((rec) => (
+                <span
+                  key={rec}
+                  className="bg-accent-100 text-accent-700 px-2 py-0.5 rounded-full text-xs"
+                >
+                  {rec}
+                </span>
+              ))}
+            </div>
+          ) : null}
+          <div>
+            <div
+              className={`text-gray-600 text-sm prose prose-sm max-w-none prose-p:text-gray-600 prose-ul:text-gray-600 prose-ol:text-gray-600 prose-li:text-gray-600 prose-p:text-sm prose-li:text-sm break-words ${!isDescriptionExpanded ? "line-clamp-4" : ""}`}
+              dangerouslySetInnerHTML={{ __html: accommodation.description }}
+            />
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsDescriptionExpanded((prev) => !prev);
+              }}
+              className="mt-2 text-primary-600 hover:text-primary-700 text-sm font-medium"
+            >
+              {isDescriptionExpanded ? "Ver menos" : "Ver mais"}
+            </button>
+          </div>
+          {hasDetails && (
             <div className="mt-3 flex items-center gap-2 text-primary-600 text-sm">
               <span>Clique para mais detalhes</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,8 +117,8 @@ function HotelComponent({
             </div>
           )}
         </div>
-        <div className="w-full md:w-48 h-48 relative rounded-full overflow-hidden">
-          <Image src={hotel.image} alt={hotel.name} fill className="object-cover" />
+        <div className="w-full md:w-48 h-48 relative rounded-full overflow-hidden shrink-0">
+          <Image src={accommodation.image} alt={accommodation.name} fill className="object-cover" />
         </div>
       </div>
     </div>
@@ -91,10 +127,8 @@ function HotelComponent({
 
 function CruiseExperienceComponent({
   experience,
-  onOpenModal,
 }: {
   experience: ItineraryItem["experience"];
-  onOpenModal: (hotel: ItineraryItem["experience"]) => void;
 }) {
   if (!experience) return null;
 
@@ -158,9 +192,9 @@ function CruiseComponent({
 export function ItineraryContent({ itinerary, mapImage, googleLink, type }: ItineraryContentProps) {
   const [activeItem, setActiveItem] = useState<number | null>(null);
   const [showItemNav, setShowItemNav] = useState(false);
-  const [selectedHotel, setSelectedHotel] = useState<ItineraryItem["hotel"] | null>(null);
+  const [selectedAccommodationUniqueName, setSelectedAccommodationUniqueName] = useState<string | null>(null);
   const [selectedCruise, setSelectedCruise] = useState<Cruise | null>(null);
-  const [isHotelModalOpen, setIsHotelModalOpen] = useState(false);
+  const [isAccommodationModalOpen, setIsAccommodationModalOpen] = useState(false);
   const [isCruiseModalOpen, setIsCruiseModalOpen] = useState(false);
   const itemRefs = useRef<(HTMLElement | null)[]>([]);
   const itemOneRef = useRef<HTMLElement | null>(null);
@@ -228,15 +262,15 @@ export function ItineraryContent({ itinerary, mapImage, googleLink, type }: Itin
     }
   };
 
-  // Function to handle hotel modal
-  const openHotelModal = (hotel: ItineraryItem["hotel"]) => {
-    setSelectedHotel(hotel);
-    setIsHotelModalOpen(true);
+  // Function to handle accommodation modal
+  const openAccommodationModal = (accommodationUniqueName: string) => {
+    setSelectedAccommodationUniqueName(accommodationUniqueName);
+    setIsAccommodationModalOpen(true);
   };
 
-  const closeHotelModal = () => {
-    setIsHotelModalOpen(false);
-    setSelectedHotel(null);
+  const closeAccommodationModal = () => {
+    setIsAccommodationModalOpen(false);
+    setSelectedAccommodationUniqueName(null);
   };
 
   // Function to handle cruise modal
@@ -300,7 +334,7 @@ export function ItineraryContent({ itinerary, mapImage, googleLink, type }: Itin
 
             {/* Right Column - Map */}
             <div className="relative">
-              <div className="relative h-[600px] rounded-xl overflow-hidden">
+              <div className="relative w-full aspect-video min-h-[200px] rounded-xl overflow-hidden">
                 {mapImage && (
                   <>
                     <Image src={mapImage} alt="Mapa do itinerário" fill className="object-cover" />
@@ -413,36 +447,41 @@ export function ItineraryContent({ itinerary, mapImage, googleLink, type }: Itin
               <p className="text-secondary-700">{item.description}</p>
             </div>
 
-            {/* New Layout: Highlights Description (Left) + Videos (Right) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-              {/* Left Column - Highlights Description */}
-              <div className="bg-accent-100 rounded-xl p-8 shadow-sm">
-                <p className="text-secondary-700" dangerouslySetInnerHTML={{ __html: item.highlights.description }} />
+            {/* Highlights Description + Videos (2 cols when videos present, full width otherwise) */}
+            {item.highlights.videos && item.highlights.videos.length > 0 ? (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div className="bg-accent-100 rounded-xl p-8 shadow-sm">
+                  <div
+                    className="text-secondary-700 prose prose-sm max-w-none prose-p:text-secondary-700 prose-ul:text-secondary-700 prose-ol:text-secondary-700 prose-li:text-secondary-700"
+                    dangerouslySetInnerHTML={{ __html: item.highlights.description }}
+                  />
+                </div>
+                <div className="bg-white rounded-xl p-6 shadow-sm">
+                  <h3 className="text-lg font-semibold text-primary mb-4">Vídeos</h3>
+                  <VideoSlider videos={item.highlights.videos} />
+                </div>
               </div>
-
-              {/* Right Column - Videos */}
-              <div className="bg-white rounded-xl p-6 shadow-sm">
-                {item.highlights.videos && item.highlights.videos.length > 0 ? (
-                  <div>
-                    <h3 className="text-lg font-semibold text-primary mb-4">Vídeos</h3>
-                    <VideoSlider videos={item.highlights.videos} />
-                  </div>
-                ) : (
-                  <div className="text-center text-gray-500 py-8">
-                    <p>Nenhum vídeo disponível</p>
-                  </div>
-                )}
+            ) : (
+              <div className="mb-8">
+                <div className="bg-accent-100 rounded-xl p-8 shadow-sm">
+                  <div
+                    className="text-secondary-700 prose prose-sm max-w-none prose-p:text-secondary-700 prose-ul:text-secondary-700 prose-ol:text-secondary-700 prose-li:text-secondary-700"
+                    dangerouslySetInnerHTML={{ __html: item.highlights.description }}
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Bottom Section - Hotel or Cruise Component */}
+            {/* Bottom Section - Accommodation or Cruise Component */}
             <div className="mt-8">
-              {item.hotel && <HotelComponent hotel={item.hotel} onOpenModal={openHotelModal} />}
-              {item.experience && (
-                <CruiseExperienceComponent
-                  experience={item.experience}
-                  onOpenModal={openHotelModal}
+              {item.accommodation && (
+                <AccommodationComponent
+                  accommodation={item.accommodation}
+                  onOpenModal={openAccommodationModal}
                 />
+              )}
+              {item.experience && (
+                <CruiseExperienceComponent experience={item.experience} />
               )}
               {item.cruise && (
                 <CruiseComponent cruise={item.cruise} onOpenModal={openCruiseModal} />
@@ -452,12 +491,12 @@ export function ItineraryContent({ itinerary, mapImage, googleLink, type }: Itin
         </section>
       ))}
 
-      {/* Hotel Details Modal */}
-      {selectedHotel && (
-        <HotelDetailsModal
-          isOpen={isHotelModalOpen}
-          onClose={closeHotelModal}
-          hotel={selectedHotel}
+      {/* Accommodation Details Modal */}
+      {selectedAccommodationUniqueName && (
+        <AccommodationDetailsModal
+          isOpen={isAccommodationModalOpen}
+          onClose={closeAccommodationModal}
+          accommodationUniqueName={selectedAccommodationUniqueName}
         />
       )}
 

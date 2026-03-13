@@ -97,28 +97,13 @@ export const mockProposal1: Proposal = {
       activity: 'Lago di Como para Milão',
       image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753530462/724_1_j9m2qd.jpg',
       description: 'Ida para Milão é uma decisão logística, já que você estará no Lago di Como. Uma noite em Milão, bem localizada para jantar próximo ao Duomo e pegar o trem no dia seguinte.',
-      hotel: {
+      accommodation: {
+        accommodationUniqueName: 'hotel-cavour-milano',
         name: 'Hotel Cavour',
         description: 'Hotel elegante no centro de Milão, a poucos minutos do Duomo e da estação central.',
         image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753698629/cavour_externo_i0bwfk.jpg',
-        details: {
-          description: 'O Hotel Cavour oferece conforto e localização privilegiada no coração de Milão, ideal para uma noite estratégica antes de seguir viagem.',
-          highlight: 'Localização central, ideal para jantar próximo ao Duomo e fácil acesso à estação de trem.',
-          images: [
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753698629/cavour_quarto_sfqkxc.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753698628/cavour_area_phl39a.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753698628/cavour_cafe_bdailt.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753698628/cavour_fitness_icccju.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753698628/cavour_extra_fjap8v.jpg'
-          ],
-          includedServices: [
-            'Café da manhã incluso',
-            'Wi-Fi gratuito',
-            'Recepção 24 horas',
-            'Restaurante e bar',
-            'Academia'
-          ]
-        }
+        tags: ['4 estrelas', 'Centro'],
+        recommendedFor: ['Casais', 'Romântico'],
       },
       highlights: {
         description: 'Uma noite estratégica em Milão para facilitar a logística da viagem.',
@@ -132,30 +117,13 @@ export const mockProposal1: Proposal = {
       activity: 'Milão para Alberobello de trem',
       image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753698966/trem_italo_p07p0w.webp',
       description: 'Viagem de trem em classe executiva de Milão para Alberobello, atravessando a bela paisagem italiana. Uma jornada de 9 horas que vale cada minuto.',
-      hotel: {
+      accommodation: {
+        accommodationUniqueName: 'abate-masseria-resort',
         name: 'Abate Masseria & Resort',
         description: 'Masseria histórica restaurada, oferecendo uma experiência autêntica da Puglia em uma estrutura rural tradicional.',
         image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_externo_znbl5f.jpg',
-        details: {
-          description: 'O Abate Masseria & Resort é uma masseria histórica cuidadosamente restaurada, preservando a arquitetura rural tradicional da Puglia. Esta estrutura centenária oferece uma experiência única de hospedagem em uma propriedade rural autêntica, combinando charme histórico com conforto moderno.',
-          highlight: 'Hospedagem em uma masseria histórica restaurada, uma experiência única da arquitetura rural pugliese.',
-          images: [
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_quarto_ioi8mt.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_banheiro_d9fyxd.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753699782/abate_externo_2_j5bcyp.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753699782/abate_piscina_tqyg7a.jpg'
-          ],
-          includedServices: [
-            'Café da manhã regional',
-            'Wi-Fi gratuito',
-            'Spa e piscina',
-            'Restaurante tradicional',
-            'Aula de culinária',
-            'Jardim mediterrâneo',
-            'Estacionamento',
-            'Transfer para Alberobello'
-          ]
-        }
+        tags: ['Masseria', 'Puglia'],
+        recommendedFor: ['Casais', 'Lua de mel'],
       },
       highlights: {
         description: 'A viagem de trem oferece vistas deslumbrantes da paisagem italiana, e a chegada em Alberobello é mágica.',
@@ -169,30 +137,13 @@ export const mockProposal1: Proposal = {
       activity: 'Alberobello e Valle d\'Itria',
       image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753699920/14383_kh0pry.jpg',
       description: 'Exploração dos trulli de Alberobello, Patrimônio Mundial da UNESCO, e do encantador Valle d\'Itria com suas paisagens únicas.',
-      hotel: {
+      accommodation: {
+        accommodationUniqueName: 'abate-masseria-resort',
         name: 'Abate Masseria & Resort',
         description: 'Masseria histórica restaurada, oferecendo uma experiência autêntica da Puglia em uma estrutura rural tradicional.',
         image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_externo_znbl5f.jpg',
-        details: {
-          description: 'O Abate Masseria & Resort é uma masseria histórica cuidadosamente restaurada, preservando a arquitetura rural tradicional da Puglia. Esta estrutura centenária oferece uma experiência única de hospedagem em uma propriedade rural autêntica, combinando charme histórico com conforto moderno.',
-          highlight: 'Hospedagem em uma masseria histórica restaurada, uma experiência única da arquitetura rural pugliese.',
-          images: [
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_quarto_ioi8mt.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753699783/abate_banheiro_d9fyxd.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753699782/abate_externo_2_j5bcyp.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753699782/abate_piscina_tqyg7a.jpg'
-          ],
-          includedServices: [
-            'Café da manhã regional',
-            'Wi-Fi gratuito',
-            'Spa e piscina',
-            'Restaurante tradicional',
-            'Aula de culinária',
-            'Jardim mediterrâneo',
-            'Estacionamento',
-            'Transfer para Alberobello'
-          ]
-        }
+        tags: ['Masseria', 'Puglia'],
+        recommendedFor: ['Casais', 'Lua de mel'],
       },
       highlights: {
         description: 'Alberobello é um lugar de sonho, com seus trulli brancos e ruas de pedra. O Valle d\'Itria é simplesmente deslumbrante.',
@@ -208,32 +159,13 @@ export const mockProposal1: Proposal = {
       activity: 'Lecce - A Florença do Sul',
       image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753701331/lecce_zq7zj5.jpg',
       description: 'Visita a Lecce, conhecida como a "Florença do Sul" por sua arquitetura barroca e rica história cultural.',
-      hotel: {
+      accommodation: {
+        accommodationUniqueName: 'risorgimento-resort-lecce',
         name: 'Risorgimento Resort',
         description: 'Membro do WorldHotels Elite, localizado no centro da cidade, próximo às estruturas gregas de Lecce.',
         image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753701465/risorgimento_resort_externo_2_zwpmdf.jpg',
-        details: {
-          description: 'O Risorgimento Resort, membro do WorldHotels Elite, oferece uma experiência de luxo no coração de Lecce. Localizado no centro da cidade, está próximo às impressionantes estruturas gregas que fazem parte do rico patrimônio histórico da região.',
-          highlight: 'Hotel de luxo no centro de Lecce, próximo às estruturas gregas históricas.',
-          images: [
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753701466/risorgimento_resort_externo_cmdv0p.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753701463/risorgimento_resort_banheiro_r2y7mw.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753701461/risorgimento_resort_jantar_zwuod6.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753701459/risorgimento_resort_quarto_gmlpc4.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753701458/risorgimento_resort_vista_yealmo.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753701456/risorgimento_resort_cafe_pacuhd.jpg'
-          ],
-          includedServices: [
-            'Café da manhã buffet',
-            'Wi-Fi gratuito',
-            'Recepção 24 horas',
-            'Restaurante gourmet',
-            'Spa e wellness',
-            'Academia',
-            'Bar elegante',
-            'Serviço de concierge'
-          ]
-        }
+        tags: ['Luxo', 'Centro'],
+        recommendedFor: ['Casais', 'Lua de mel'],
       },
       highlights: {
         description: 'Lecce é uma cidade incrível, com muita história. E, claro, tem na gastronomia o Pasticciotto Leccese, que não pode ser deixado de fora da experiência.',
@@ -247,32 +179,13 @@ export const mockProposal1: Proposal = {
       activity: 'Bari e Polignano a Mare',
       image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753701694/bari_eipfpq.jpg',
       description: 'Exploração de Bari, capital da Puglia, e Polignano a Mare, com suas praias deslumbrantes e centro histórico.',
-      hotel: {
+      accommodation: {
+        accommodationUniqueName: 'mercure-villa-romanazzi-bari',
         name: 'Mercure Villa Romanazzi Carducci Bari',
         description: 'Hotel 4 estrelas bem localizado em Bari, oferecendo conforto e conveniência.',
         image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753701839/mercure_villa_romanazzi_externo_mps8ih.jpg',
-        details: {
-          description: 'O Mercure Villa Romanazzi Carducci Bari é um hotel 4 estrelas estrategicamente localizado, oferecendo o equilíbrio perfeito entre conforto moderno e conveniência. Com instalações de qualidade e serviço profissional, é a base ideal para explorar a capital da Puglia.',
-          highlight: 'Hotel 4 estrelas bem localizado, oferecendo conforto e conveniência em Bari.',
-          images: [
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753701837/mercure_villa_romanazzi_quarto_deluxe_r3z3zj.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753701835/mercure_villa_romanazzi_externo2_ho03m5.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753701833/mercure_villa_romanazzi_cafe_y9gvua.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753701831/mercure_villa_romanazzi_piscina_whrp7u.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753701829/mercure_villa_romanazzi_restaurante_arsipi.jpg',
-            'https://res.cloudinary.com/tripevolved/image/upload/v1753701827/mercure_villa_romanazzi_restaurante2_aw8ylw.jpg'
-          ],
-          includedServices: [
-            'Café da manhã buffet',
-            'Wi-Fi gratuito',
-            'Recepção 24 horas',
-            'Restaurante no local',
-            'Bar',
-            'Academia',
-            'Estacionamento',
-            'Transfer para aeroporto'
-          ]
-        }
+        tags: ['4 estrelas', 'Bari'],
+        recommendedFor: ['Casais'],
       },
       highlights: {
         description: 'Bari é vibrante e autêntica, enquanto Polignano a Mare é simplesmente deslumbrante com suas falésias.',
@@ -288,7 +201,7 @@ export const mockProposal1: Proposal = {
       activity: 'Bari para Liège, Bélgica',
       image: 'https://res.cloudinary.com/tripevolved/image/upload/v1753702534/410_lk4p6m.jpg',
       description: 'Voo de Bari para Bruxelas, seguido de transfer para Liège, na Bélgica, encerrando nossa jornada pela Puglia.',
-      hotel: undefined,
+      accommodation: undefined,
       highlights: {
         description: 'A transição da ensolarada Puglia para a charmosa Liège marca o fim de uma jornada inesquecível.',
         details: 'A melhor opção foi o voo Bari - Bruxelas, com conexão em Roma. Com isso, precisamos alinhar a chegada a Liége a partir do aeroporto de Bruxelas.',
@@ -419,7 +332,7 @@ export const mockProposal2: Proposal = {
       activity: 'Nápoles',
       image: 'https://res.cloudinary.com/tripevolved/image/upload/v1754567014/napoles-italia-capa_ovb99u.jpg',
       description: 'Nápoles é uma das cidades mais vibrantes da Itália. Conhecida por sua rica história, gastronomia autêntica e atmosfera única que combina caos e charme.',
-      hotel: undefined,
+      accommodation: undefined,
       highlights: {
         description: 'Nápoles é o ponto de partida perfeito para explorar o sul da Itália, com sua energia única e autenticidade.',
         details: 'Espere uma cidade que desperta todos os sentidos. Suas ruas estreitas escondem tesouros gastronômicos, sua história se revela em cada esquina, e sua atmosfera única combina o caos urbano com um charme irresistível. Para quem busca entender a verdadeira Itália, Nápoles é o ponto de partida ideal - uma cidade que não se esconde atrás de fachadas turísticas, mas revela sua alma autêntica em cada interação.',
@@ -432,7 +345,7 @@ export const mockProposal2: Proposal = {
       activity: 'Pompeia',
       image: 'https://res.cloudinary.com/tripevolved/image/upload/v1754567008/Pompeia-na-Italia-scaled_k7qpzk.jpg',
       description: 'Pompeia é um sítio arqueológico único no mundo, preservado pela erupção do Vesúvio em 79 d.C. Uma viagem no tempo que revela a vida cotidiana dos romanos.',
-      hotel: undefined,
+      accommodation: undefined,
       highlights: {
         description: 'Pompeia oferece uma experiência única de viagem no tempo, preservada pela tragédia que a destruiu.',
         details: 'Pompeia é mais que um sítio arqueológico - é uma janela para o passado que nos permite caminhar pelas ruas de uma cidade romana exatamente como ela era há 2000 anos. A erupção do Vesúvio, que destruiu a cidade, paradoxalmente a preservou para a eternidade. Para quem busca entender a história humana, cada passo pelas ruas de pedra, cada afresco nas paredes, cada mosaico no chão conta uma história que transcende o tempo.',
@@ -445,7 +358,7 @@ export const mockProposal2: Proposal = {
       activity: 'Capri',
       image: 'https://res.cloudinary.com/tripevolved/image/upload/v1754567005/1200px-Capri_coastline_kuemld.jpg',
       description: 'Capri é uma ilha mágica no Golfo de Nápoles, famosa por suas vistas deslumbrantes, grutas azuis e atmosfera sofisticada que atrai visitantes há séculos.',
-      hotel: undefined,
+      accommodation: undefined,
       highlights: {
         description: 'Capri combina beleza natural com sofisticação, oferecendo experiências únicas como a Gruta Azul.',
         details: 'Capri é uma ilha que transcende o tempo, onde a sofisticação moderna se encontra com a beleza natural intocada. Suas falésias dramáticas, suas grutas misteriosas e suas vistas panorâmicas criam uma experiência que vai muito além do turismo convencional. Para quem busca entender a magia do Mediterrâneo, Capri oferece uma lição sobre como a natureza e a cultura podem coexistir em perfeita harmonia - cada caminhada pelas suas ruas revela um novo ângulo de beleza, cada vista do Monte Solaro oferece uma nova perspectiva sobre a vida.',
@@ -458,7 +371,7 @@ export const mockProposal2: Proposal = {
       activity: 'Amalfi',
       image: 'https://res.cloudinary.com/tripevolved/image/upload/v1754567002/amalfi_798_iebnbt.jpg',
       description: 'Amalfi é uma joia da Costa Amalfitana, com sua catedral medieval, ruas estreitas e vistas deslumbrantes do Mediterrâneo.',
-      hotel: undefined,
+      accommodation: undefined,
       highlights: {
         description: 'Amalfi é o coração histórico da Costa Amalfitana, com sua catedral que domina a paisagem.',
         details: 'Amalfi foi uma das repúblicas marítimas mais poderosas da Itália medieval, e sua catedral majestosa ainda testemunha esse passado glorioso. A cidade, espremida entre o mar e as montanhas, oferece uma experiência única onde história, arte e natureza se encontram. Para quem busca entender a alma da Costa Amalfitana, Amalfi é o ponto de partida - uma cidade que preserva sua identidade histórica enquanto abraça a beleza natural que a rodeia.',
@@ -471,7 +384,7 @@ export const mockProposal2: Proposal = {
       activity: 'Positano',
       image: 'https://res.cloudinary.com/tripevolved/image/upload/v1754566999/Positano__Italy_cn1m0w.webp',
       description: 'Positano é a pérola da Costa Amalfitana, com suas casas coloridas em cascata, praias de areia negra e atmosfera romântica que a tornou famosa mundialmente.',
-      hotel: undefined,
+      accommodation: undefined,
       highlights: {
         description: 'Positano é sinônimo de romance e beleza, com suas vistas deslumbrantes e atmosfera única.',
         details: 'Positano é a materialização do sonho mediterrâneo. Suas casas coloridas que descem em cascata até o mar, suas praias de areia negra que contrastam com o azul cristalino das águas, e sua atmosfera que mistura elegância com autenticidade criam uma experiência que toca a alma. Para quem busca entender o que faz um lugar ser verdadeiramente especial, Positano ensina que a beleza não está apenas no que se vê, mas na sensação que se experimenta - cada esquina conta uma história de amor com a vida, cada vista do mar oferece uma lição sobre a simplicidade da felicidade.',
@@ -484,7 +397,7 @@ export const mockProposal2: Proposal = {
       activity: 'Sorrento',
       image: 'https://res.cloudinary.com/tripevolved/image/upload/v1754566997/sorrento_suazbr.webp',
       description: 'Sorrento é uma cidade charmosa no topo de falésias, conhecida por seus limões, limoncello e vistas panorâmicas da baía de Nápoles.',
-      hotel: undefined,
+      accommodation: undefined,
       highlights: {
         description: 'Sorrento oferece a combinação perfeita de cultura, gastronomia e vistas deslumbrantes.',
         details: 'Sorrento é o ponto final perfeito desta jornada pela Costa Amalfitana. Sua posição estratégica oferece vistas panorâmicas que abrangem desde Nápoles até Capri, enquanto suas ruas históricas preservam o charme de uma cidade italiana autêntica. Para quem busca entender a essência do sul da Itália, Sorrento representa a síntese perfeita: história, gastronomia, beleza natural e aquele jeito italiano de viver que faz cada momento parecer especial.',

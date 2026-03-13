@@ -79,7 +79,7 @@ export default function CruiseItineraryOverview({ experience }: CruiseExperience
                 activity: item.activity,
                 image: item.image,
                 description: item.description,
-                hotel: item.hotel,
+                accommodation: item.hotel,
                 experience: item.experience,
                 cruise: item.cruise,
                 highlights: item.highlights,
