@@ -51,7 +51,7 @@ const LIMIT = 6
 export default function CruiseSearchForm({ onCtaClick }: CruiseSearchFormProps) {
   const [destinations, setDestinations] = useState<Set<string>>(new Set())
   const [selectedMonths, setSelectedMonths] = useState<Set<string>>(new Set())
-  const [durationDays, setDurationDays] = useState(7)
+  const [durationDays, setDurationDays] = useState(10)
   const [types, setTypes] = useState<Set<string>>(new Set())
   const [monthModalOpen, setMonthModalOpen] = useState(false)
   const [cruises, setCruises] = useState<CruiseData[]>([])

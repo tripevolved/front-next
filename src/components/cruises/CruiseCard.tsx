@@ -60,10 +60,10 @@ export const CruiseCard = ({ handleClick, cruise }: CruiseCardProps) => {
 
   return (
     <div 
-        className="bg-white shadow-lg rounded-lg w-full md:max-w-3xl h-full max-h-[70vh] flex flex-col cursor-pointer hover:bg-gray-300/30 transition-colors"
+        className="bg-white shadow-lg rounded-lg w-full md:max-w-3xl flex flex-col overflow-hidden cursor-pointer hover:bg-gray-300/30 transition-colors"
         onClick={() => handleClick(cruise.uniqueName)}>
       {photos.length > 0 && (
-        <div className="h-96">
+        <div className="w-full h-56 flex-shrink-0 overflow-hidden rounded-t-lg">
           <PhotoCarousel title="Cruzeiros" photos={photos} autoScroll={false} />
         </div>
       )}

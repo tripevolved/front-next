@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import { ImageGrid } from "../common/ImageGrid";
 import CruiseRatesCarousel from "./CruisesRatesCarousel";
@@ -143,19 +144,37 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
     <div>
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-xl py-8 px-3 max-w-5xl w-full relative max-h-[90vh] overflow-hidden flex flex-col">
-          <button
-            onClick={handleClose}
-            className="absolute top-4 right-4 text-secondary-400 hover:text-secondary-600 z-10"
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+          <div className="absolute top-4 right-4 flex items-center gap-3 z-10">
+            {uniqueName && (
+              <Link
+                href={`/cruzeiros-extraordinarios/${uniqueName}`}
+                className="flex items-center gap-1.5 text-primary-500 hover:text-primary-600 text-sm font-medium transition-colors"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
+                </svg>
+                Abrir em página
+              </Link>
+            )}
+            <button
+              onClick={handleClose}
+              className="text-secondary-400 hover:text-secondary-600"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
           <div className="flex flex-col gap-3 flex-1 overflow-y-auto pb-9">
             {loading && (
               <div className="flex items-center justify-center py-12">
