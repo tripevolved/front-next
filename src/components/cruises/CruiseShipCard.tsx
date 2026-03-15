@@ -80,7 +80,10 @@ export default function CruiseShipCard({ shipName, onOpenDetails }: CruiseShipCa
           <span className="text-sm text-gray-500">{ship.company}</span>
         )}
         {ship.description && (
-          <span className="text-sm text-gray-600 line-clamp-2">{ship.description}</span>
+          <div
+            className="text-sm text-gray-600 line-clamp-2 [&_p]:m-0 [&_p]:leading-snug"
+            dangerouslySetInnerHTML={{ __html: ship.description }}
+          />
         )}
         <div className="flex flex-wrap gap-x-4 gap-y-0 mt-1 text-xs text-gray-500">
           {ship.guests != null && <span>{ship.guests.toLocaleString("pt-BR")} passageiros</span>}
