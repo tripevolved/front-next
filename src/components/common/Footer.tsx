@@ -65,10 +65,18 @@ export default function Footer() {
             <ul className="space-y-1.5">
               <li>
                 <Link
-                  href="/termos-de-uso"
+                  href="/documentos/termos-de-uso"
                   className="text-white/80 hover:text-white transition-colors text-sm"
                 >
                   Termos de uso
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/documentos/circulo-evolved/termos-de-servico"
+                  className="text-white/80 hover:text-white transition-colors text-sm"
+                >
+                  Termos de serviço do Círculo Evolved
                 </Link>
               </li>
               <li>

@@ -112,7 +112,7 @@ export default function ConsultoriaLayout({
                   />
                 </div>
                 <div className="flex gap-12">
-                  <Link href="/termos-de-uso" className="text-white/80 hover:text-white transition-colors">
+                  <Link href="/documentos/termos-de-uso" className="text-white/80 hover:text-white transition-colors">
                     Termos de uso
                   </Link>
                   <Link href="/politica-de-privacidade" className="text-white/80 hover:text-white transition-colors">

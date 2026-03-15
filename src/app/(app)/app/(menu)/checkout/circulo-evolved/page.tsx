@@ -152,8 +152,12 @@ export default function CirculoEvolvedCheckoutPage() {
                 <li>O Círculo Evolved é um serviço de assinatura anual. O acesso e os benefícios vigoram por 12 meses a partir da confirmação do pagamento.</li>
                 <li>Os descontos e o cashback aplicam-se a viagens fechadas através da Trip Evolved durante o período de vigência da assinatura.</li>
                 <li>Condições para pagamento do cashback estão sujeitas à política comercial vigente e devem ser confirmadas no ato da reserva da viagem.</li>
-                <li>Ao prosseguir com o pagamento, você declara estar ciente e de acordo com estes termos e com os{' '}
-                  <Link href="/termos-de-uso" target="_blank" className="text-accent-600 hover:underline font-medium">
+                <li>Ao prosseguir com o pagamento, você declara estar ciente e de acordo com estes termos, os{' '}
+                  <Link href="/documentos/circulo-evolved/termos-de-servico" target="_blank" className="text-accent-600 hover:underline font-medium">
+                    Termos de Serviço do Círculo Evolved
+                  </Link>{' '}
+                  e com os{' '}
+                  <Link href="/documentos/termos-de-uso" target="_blank" className="text-accent-600 hover:underline font-medium">
                     Termos de Uso
                   </Link>{' '}
                   do site.
