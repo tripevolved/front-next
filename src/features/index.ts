@@ -16,7 +16,6 @@ export * from "./dashboard/TripPendings";
 export * from "./dashboard/TripTips";
 export * from "./destinations/CustomProfileDestinations";
 export * from "./destinations/DestinationInfos";
-export * from "./destinations/DestinationPage";
 export * from "./destinations/DestinationRecommendedBy";
 export * from "./destinations/DestinationsByProfileName";
 export * from "./landing-pages/AwardCard";

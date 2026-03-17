@@ -15,20 +15,15 @@ function toCarouselPhotos(destination: PublicDestination): Photo[] {
   if (!destination.photos?.length) return [];
   return destination.photos
     .map((photo) => {
-      const source = photo.sources?.find((s) => s?.url);
-      const url = source?.url;
-      if (!url) return null;
       return {
         title: destination.title,
-        sources: [
-          {
-            height: source.height ?? 400,
-            width: source.width ?? 600,
-            url,
-            type: "lg" as const,
-          },
-        ],
-        alt: photo.alt ?? destination.title,
+        sources: [{
+          url: photo.url,
+          width: 100,
+          height: 100,
+          type: "lg" as const,
+        }],
+        alt: photo.shortDescription ?? destination.title,
       };
     })
     .filter(Boolean) as Photo[];
