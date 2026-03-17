@@ -1,11 +1,16 @@
 import { Photo } from "./photo";
 
+export interface DestinationImage {
+  url: string;
+  shortDescription?: string;
+}
+
 export interface PublicDestination {
   id: string;
   uniqueName: string;
   title: string;
   recommendedBy: PublicDestinationExpert;
-  photos: Photo[];
+  photos: DestinationImage[];
   videos: PublicDestinationVideo[];
   posts: Post[];
   features: PublicDestinationFeature[];

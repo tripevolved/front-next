@@ -31,13 +31,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       openGraph: {
         title: `${destination.title}`,
         description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
-        images: destination.photos?.[0]?.sources?.[0]?.url ? [destination.photos[0].sources[0].url] : undefined,
+        images: destination.photos?.[0]?.url ? [destination.photos[0].url] : undefined,
       },
       twitter: {
         card: 'summary_large_image',
         title: `${destination.title}`,
         description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
-        images: destination.photos?.[0]?.sources?.[0]?.url ? [destination.photos[0].sources[0].url] : undefined,
+        images: destination.photos?.[0]?.url ? [destination.photos[0].url] : undefined,
       },
     }
   } catch (error) {

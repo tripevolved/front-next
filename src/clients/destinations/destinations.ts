@@ -1,8 +1,8 @@
-import { Photo } from "@/core/types";
+import { DestinationImage } from "@/core/types";
 import { ApiRequest } from "@/services/api/request";
 
 interface DestinationItem {
-  coverImage: Photo;
+  coverImage: DestinationImage;
   title: string;
   destinationId: string;
   name: string;

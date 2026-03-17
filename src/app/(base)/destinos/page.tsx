@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import DestinationCard from '@/components/DestinationCard'
 import { DestinationsApiService } from '@/clients/destinations'
 import { Destination } from '@/clients/destinations/destinations'
@@ -137,7 +136,7 @@ export default function DestinosPage() {
                 <DestinationCard
                   key={destination.destinationId}
                   title={destination.name}
-                  image={destination.coverImage?.sources.find(source => source.type === 'md')?.url || '/assets/destino/no-image-background.jpg'}
+                  image={destination.coverImage?.url || '/assets/destino/no-image-background.jpg'}
                   profile={destination.travelerProfile}
                   link={`/destinos/${destination.uniqueName}`}
                 />
