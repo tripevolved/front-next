@@ -32,8 +32,17 @@ export interface TripItineraryActionHighlight {
   description: string;
 }
 
+export interface TripUniqueMoment {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  images: TripImage[];
+}
+
 export interface TripItinerary {
   tripId: string;
   descriptionImage: TripImage;
   actions: TripItineraryAction[];
+  uniqueMoments?: TripUniqueMoment[];
 }

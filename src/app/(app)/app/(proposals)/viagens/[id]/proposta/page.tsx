@@ -7,7 +7,6 @@ import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { TripConfigurationSet } from "@/components/trips/TripConfigurationSet";
 import { TripItineraryProposal } from "@/components/trips/TripItineraryProposal";
-import { UniqueMomentsCarousel } from "@/components/uniqueMoments";
 import { ProposalDetails } from "@/components/proposals";
 import { TripsApiService } from "@/clients/trips";
 import { mockProposal2 } from "@/core/types/uniqueMoments";
@@ -179,16 +178,6 @@ export default function PropostaPage() {
       {/* Sections below still use mock data until later integration steps */}
       {propostaData ? (
         <>
-          {/* Unique Moments Carousel Section */}
-          <section className="py-16 bg-gray-50">
-            <div className="max-w-[80%] mx-auto">
-              <h2 className="text-3xl font-baloo font-bold text-secondary-900 mb-8 text-center">
-                Momentos Únicos
-              </h2>
-              <UniqueMomentsCarousel uniqueMoments={propostaData.uniqueMoments} />
-            </div>
-          </section>
-
           {/* Proposal Details */}
           <ProposalDetails
             accommodations={propostaData.accommodations}

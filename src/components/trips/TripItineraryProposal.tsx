@@ -5,7 +5,9 @@ import useSWR from "swr";
 import { TripsApiService } from "@/clients/trips";
 import { ItineraryContent, type ItineraryItem, type ItineraryType } from "@/components/itineraries/ItineraryContent";
 import { WhatsAppDirectButton } from "@/components/WhatsAppDirectButton";
-import type { TripItinerary, TripItineraryAction } from "@/core/types/itinerary";
+import type { TripItineraryAction } from "@/core/types/itinerary";
+import { UniqueMomentsCarousel } from "@/components/uniqueMoments";
+import type { UniqueMoment } from "@/core/types/uniqueMoments";
 
 const ERROR_STATE_IMAGE = "/assets/states/error-state.svg";
 const EMPTY_STATE_IMAGE = "/assets/states/empty-state.svg";
@@ -57,6 +59,22 @@ function mapActionToItineraryItem(action: TripItineraryAction, index: number): I
   return item;
 }
 
+function mapTripUniqueMomentToCarouselMoment(m: {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  images: Array<{ url?: string | null } | null> | null | undefined;
+}): UniqueMoment {
+  return {
+    id: m.id,
+    title: m.title,
+    subtitle: m.subtitle,
+    description: m.description,
+    images: (m.images ?? []).map((img) => img?.url).filter((url): url is string => Boolean(url)),
+  };
+}
+
 export interface TripItineraryProposalProps {
   tripId: string;
   type: ItineraryType;
@@ -104,6 +122,9 @@ export function TripItineraryProposal({ tripId, type, mapImage }: TripItineraryP
 
   const itinerary: ItineraryItem[] = (tripItinerary.actions ?? []).map(mapActionToItineraryItem);
   const mapImageUrl = mapImage ?? tripItinerary.descriptionImage?.url;
+  const uniqueMoments: UniqueMoment[] = (tripItinerary.uniqueMoments ?? []).map(
+    mapTripUniqueMomentToCarouselMoment
+  );
 
   if (itinerary.length === 0) {
     return (
@@ -128,10 +149,22 @@ export function TripItineraryProposal({ tripId, type, mapImage }: TripItineraryP
   }
 
   return (
-    <ItineraryContent
-      itinerary={itinerary}
-      mapImage={mapImageUrl}
-      type={type}
-    />
+    <>
+      {uniqueMoments.length > 0 && (
+        <section className="py-16 bg-gray-50">
+          <div className="max-w-[80%] mx-auto">
+            <h2 className="text-3xl font-baloo font-bold text-secondary-900 mb-8 text-center">
+              Momentos Únicos
+            </h2>
+            <UniqueMomentsCarousel uniqueMoments={uniqueMoments} />
+          </div>
+        </section>
+      )}
+      <ItineraryContent
+        itinerary={itinerary}
+        mapImage={mapImageUrl}
+        type={type}
+      />
+    </>
   );
 }

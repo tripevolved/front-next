@@ -42,9 +42,11 @@ export function UniqueMomentsCarousel({ uniqueMoments }: UniqueMomentsCarouselPr
           <p className="text-lg md:text-xl font-comfortaa mb-2">
             {currentMoment.subtitle}
           </p>
-          <p className="text-base md:text-lg opacity-90 max-w-2xl">
-            {currentMoment.description}
-          </p>
+          <div
+            lang="pt-BR"
+            className="w-full min-w-0 text-base md:text-lg opacity-90 max-w-2xl text-white/90 whitespace-normal break-normal hyphens-auto [overflow-wrap:anywhere] [word-break:normal] [&_p]:m-0 [&_p]:leading-snug [&_strong]:text-white [&_a]:text-white/90 [&_a]:underline"
+            dangerouslySetInnerHTML={{ __html: currentMoment.description }}
+          />
         </div>
       </div>
 
