@@ -3,6 +3,14 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAppStore } from '@/core/store'
+import { GLOBAL_STORE_NAME } from '@/core/configs/store.config'
+import { LocalStorageService } from '@/services/store/local-storage.service'
+import { initialAccessesState } from '@/core/store/accesses/accesses.constants'
+import { initialLeadValue } from '@/core/store/lead/lead.constants'
+import { initialUserState } from '@/core/store/user/user.constants'
+import { initialTravelerStateValue } from '@/core/store/traveler/traveler.constants'
+import { initialTripScriptDayValue } from '@/core/store/trip-day/trip-day.constants'
+import { makeState } from '@/core/store/store.helpers'
 
 interface AppMenuProps {
   className?: string
@@ -15,8 +23,25 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
   const subscriptionActive = travelerState?.subscription?.status === 'Active'
 
   const handleLogout = () => {
-    // Here you would typically call a logout service
-    // For now, we'll redirect to the logout page
+    setIsOpen(false)
+
+    // Clear persisted app state first (so we don't show stale data during/after logout)
+    try {
+      LocalStorageService.remove(GLOBAL_STORE_NAME)
+    } catch {
+      // ignore storage errors
+    }
+
+    // Reset the in-memory Zustand state too.
+    useAppStore.setState({
+      accesses: initialAccessesState,
+      lead: makeState(initialLeadValue),
+      user: initialUserState,
+      travelerState: initialTravelerStateValue,
+      tripScriptDay: initialTripScriptDayValue,
+    })
+
+    // Auth0 middleware relies on the /auth/logout route.
     router.push('/auth/logout')
   }
 

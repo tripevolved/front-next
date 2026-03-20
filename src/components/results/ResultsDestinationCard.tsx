@@ -62,7 +62,11 @@ export function ResultsDestinationCard({
   };
 
   const matchInfo = getMatchInfo();
-  const imageUrl = destination.images[0]?.sources?.[0]?.url || "/assets/blank-image.png";
+  const imageUrl = destination.images[0]?.url || "/assets/blank-image.png";
+  const detailsHtml = (destination.details || "Destino selecionado para você, esperando uma viagem incrível.").replace(
+    /\r\n|\r|\n/g,
+    "<br />",
+  );
 
   const onClick = (destination: TripMatchedDestination) => {
     onPlanningTripToGo(true);
@@ -127,9 +131,11 @@ export function ResultsDestinationCard({
         {/* Title and description at bottom */}
         <div className="absolute bottom-8 left-4 right-4 text-white">
           <h2 className="text-xl font-baloo font-bold mb-1">{destination.name}</h2>
-          <p className="text-white/90 text-sm line-clamp-2">
-            {destination.details || "Destino selecionado para você, esperando uma viagem incrível."}
-          </p>
+          <div
+            className="text-white/90 text-sm line-clamp-3 !whitespace-normal break-words [overflow-wrap:anywhere] [&_*]:!whitespace-normal [&_*]:break-words"
+            // `details` comes from backend as HTML content.
+            dangerouslySetInnerHTML={{ __html: detailsHtml }}
+          />
         </div>
       </div>
     </div>

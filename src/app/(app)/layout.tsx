@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Comfortaa, Baloo_2 } from 'next/font/google'
 import '@/main.css'
+import { TravelerStateBootstrap } from '@/components/app/TravelerStateBootstrap'
 
 const comfortaa = Comfortaa({ 
   subsets: ['latin'],
@@ -25,6 +26,7 @@ export default function AppLayout({
   return (
     <html lang="pt-BR">
       <body className={`${comfortaa.variable} ${baloo.variable} font-comfortaa antialiased bg-white text-gray-900`}>
+        <TravelerStateBootstrap />
         {children}
       </body>
     </html>
