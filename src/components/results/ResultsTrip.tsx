@@ -5,7 +5,6 @@ import { WhatsAppDirectButton } from "@/components/WhatsAppDirectButton";
 import { LocalStorageService } from "@/clients/local";
 import { TripProposal } from "@/core/types/trip";
 import { TripProposalContent } from "@/components/results/TripProposalContent";
-import { useAppStore } from "@/core/store";
 import TripPlanningDecisionModal from "../TripPlanningDecisionModal";
 
 type ResultTripProps = {
@@ -29,8 +28,6 @@ export function ResultsTrip({
   const [isWantToGoModalOpen, setIsWantToGoModalOpen] = useState(false);
   const selectedDestination = useRef<string>("");
   const hasTraveler = LocalStorageService.hasTraveler();
-
-  const { travelerProfile } = useAppStore((state) => state.travelerState);
 
   const handleContactExpert = () => {
     if (!hasTraveler) {
@@ -89,18 +86,18 @@ export function ResultsTrip({
               )}
 
               <Link
-                href="/destinos"
+                href="/circulo-evolved"
                 className="bg-white text-secondary-600 border border-secondary-600 px-8 py-3 rounded-full font-medium hover:bg-secondary-50 transition-colors"
               >
-                Explorar destinos
+                Explorar o Círculo Evolved
               </Link>
             </>
           ) : (
             <Link
-              href={`/destinos/?profileId=${travelerProfile}`}
+              href={`/circulo-evolved`}
               className="bg-white text-secondary-600 border border-secondary-600 px-8 py-3 rounded-full font-medium hover:bg-secondary-50 transition-colors"
             >
-              Ver mais destinos
+              Explorar o Círculo Evolved
             </Link>
           )}
         </div>
