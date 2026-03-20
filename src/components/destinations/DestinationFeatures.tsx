@@ -32,12 +32,15 @@ export function DestinationFeatures({ destination }: DestinationFeaturesProps) {
           const { icon, title } = featureDetails[feature.type as FeatureType] || { icon: '❓', title: 'Outro' };
 
           return (
-            <div key={index} className="bg-accent-100 p-6 rounded-xl shadow-sm">
+            <div key={index} className="bg-accent-100 p-6 rounded-xl shadow-sm min-w-0 overflow-hidden">
               <div className="flex items-start mb-2">
                 <div className="text-2xl mr-4">{icon}</div>
                 <h3 className="font-baloo font-bold text-lg text-secondary-900">{title}</h3>
               </div>
-              <p className="text-gray-600">{feature.description}</p>
+              <div
+                className="prose prose-sm max-w-none text-gray-600 overflow-hidden break-words [overflow-wrap:anywhere] [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_iframe]:max-w-full"
+                dangerouslySetInnerHTML={{ __html: feature.description }}
+              />
             </div>
           );
         })}

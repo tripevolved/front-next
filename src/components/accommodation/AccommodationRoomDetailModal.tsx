@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import {
   PublicAccommodationRoom,
   PublicAccommodationRoomAvailability,
@@ -7,6 +8,9 @@ import {
 } from '@/core/types/accommodations'
 import { ImageGrid } from '@/components/common/ImageGrid'
 import Image from 'next/image'
+
+const PROSE_CONTAINED =
+  'prose prose-lg max-w-none text-gray-700 overflow-hidden break-words [overflow-wrap:anywhere] [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_iframe]:max-w-full'
 
 interface AccommodationRoomDetailModalProps {
   room: PublicAccommodationRoom | PublicAccommodationRoomAvailability
@@ -24,6 +28,8 @@ export function AccommodationRoomDetailModal({
   isOpen,
   onClose
 }: AccommodationRoomDetailModalProps) {
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
+
   if (!isOpen) return null
 
   const roomImageUrls = room.images.map((image: PublicAccommodationImage) => image.url)
@@ -38,7 +44,7 @@ export function AccommodationRoomDetailModal({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl max-w-4xl w-full my-8 relative"
+        className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] my-8 relative flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -52,15 +58,27 @@ export function AccommodationRoomDetailModal({
         </button>
 
         {roomImageUrls.length > 0 && (
-          <div className="w-full">
+          <div className="w-full flex-shrink-0 overflow-hidden">
             <ImageGrid images={roomImageUrls} title={room.title} />
           </div>
         )}
 
-        <div className="p-8">
+        <div className="p-8 flex-1 min-h-0 overflow-y-auto">
           <h2 className="text-3xl font-bold mb-2 text-gray-900">{room.title}</h2>
           {room.subtitle && (
-            <p className="text-xl text-gray-600 mb-6">{room.subtitle}</p>
+            <div className="min-w-0 mb-6">
+              <div
+                className={`${PROSE_CONTAINED} overflow-y-auto text-gray-600 ${isDescriptionExpanded ? '' : 'max-h-[60vh]'}`}
+                dangerouslySetInnerHTML={{ __html: room.subtitle }}
+              />
+              <button
+                type="button"
+                onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                className="mt-3 text-primary-600 hover:text-primary-700 font-medium text-sm"
+              >
+                {isDescriptionExpanded ? 'Ver menos' : 'Ver mais'}
+              </button>
+            </div>
           )}
 
           {availabilityRoom && (

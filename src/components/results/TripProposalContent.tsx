@@ -1,6 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import type { MutableRefObject, Dispatch, SetStateAction } from "react";
 import type { TripProposal } from "@/core/types/trip";
 import { ResultsDestinationCard } from "@/components/results/ResultsDestinationCard";
+import CruiseDestinationDetailsModal from "@/components/cruises/CruiseDestinationDetailsModal";
+import AccommodationDestinationDetailsModal from "@/components/accommodation/AccommodationDestinationDetailsModal";
 
 export interface TripProposalContentProps {
   isLoading: boolean;
@@ -15,6 +20,22 @@ export function TripProposalContent({
   onPlanningTripToGo,
   selectedDestinationRef,
 }: TripProposalContentProps) {
+  const [isCruiseDestinationDetailsModalOpen, setIsCruiseDestinationDetailsModalOpen] = useState(false);
+  const [cruiseDestinationUniqueName, setCruiseDestinationUniqueName] = useState<string | undefined>(undefined);
+
+  const [isAccommodationDestinationDetailsModalOpen, setIsAccommodationDestinationDetailsModalOpen] = useState(false);
+  const [accommodationDestinationUniqueName, setAccommodationDestinationUniqueName] = useState<string | undefined>(undefined);
+
+  const openCruiseDestinationDetails = (destinationUniqueName: string) => {
+    setCruiseDestinationUniqueName(destinationUniqueName);
+    setIsCruiseDestinationDetailsModalOpen(true);
+  };
+
+  const openAccommodationDestinationDetails = (destinationUniqueName: string) => {
+    setAccommodationDestinationUniqueName(destinationUniqueName);
+    setIsAccommodationDestinationDetailsModalOpen(true);
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center py-12">
@@ -29,22 +50,43 @@ export function TripProposalContent({
 
   return (
     <>
+      <CruiseDestinationDetailsModal
+        isOpen={isCruiseDestinationDetailsModalOpen}
+        handleClose={() => {
+          setIsCruiseDestinationDetailsModalOpen(false);
+          setCruiseDestinationUniqueName(undefined);
+        }}
+        destinationUniqueName={cruiseDestinationUniqueName}
+      />
+
+      <AccommodationDestinationDetailsModal
+        isOpen={isAccommodationDestinationDetailsModalOpen}
+        handleClose={() => {
+          setIsAccommodationDestinationDetailsModalOpen(false);
+          setAccommodationDestinationUniqueName(undefined);
+        }}
+        destinationUniqueName={accommodationDestinationUniqueName}
+      />
+
+      <div className="w-full max-w-4xl mx-auto">
       {/* Main destination section */}
       {tripProposal.mainChoice && (
-        <div className="mb-12">
+        <div className="mb-12 w-full">
           <ResultsDestinationCard
             destination={tripProposal.mainChoice}
             isLarge={true}
             isMainChoice={true}
             onPlanningTripToGo={onPlanningTripToGo}
             setSelectedDestination={selectedDestinationRef}
+            onOpenCruiseDestinationDetails={openCruiseDestinationDetails}
+            onOpenAccommodationDestinationDetails={openAccommodationDestinationDetails}
           />
         </div>
       )}
       {/* Other destinations */}
       {tripProposal.otherChoices && tripProposal.otherChoices.length > 0 && (
         <div className="mb-12">
-          <h2 className="text-xl font-baloo font-bold text-secondary-900 mb-6 text-center">
+          <h2 className="text-xl font-baloo font-bold text-secondary-900 mb-6 text-left">
             Outras opções que você pode gostar
           </h2>
 
@@ -57,13 +99,15 @@ export function TripProposalContent({
                   destination={destination}
                   onPlanningTripToGo={onPlanningTripToGo}
                   setSelectedDestination={selectedDestinationRef}
+                  onOpenCruiseDestinationDetails={openCruiseDestinationDetails}
+                  onOpenAccommodationDestinationDetails={openAccommodationDestinationDetails}
                 />
               ))}
             </div>
           </div>
 
-          {/* Desktop: Two-column grid with 80% width container */}
-          <div className="hidden md:block w-4/5 mx-auto">
+          {/* Desktop: Two-column grid */}
+          <div className="hidden md:block w-full">
             <div className="grid grid-cols-2 gap-8">
               {tripProposal.otherChoices.map((destination) => (
                 <ResultsDestinationCard
@@ -71,12 +115,15 @@ export function TripProposalContent({
                   destination={destination}
                   onPlanningTripToGo={onPlanningTripToGo}
                   setSelectedDestination={selectedDestinationRef}
+                  onOpenCruiseDestinationDetails={openCruiseDestinationDetails}
+                  onOpenAccommodationDestinationDetails={openAccommodationDestinationDetails}
                 />
               ))}
             </div>
           </div>
         </div>
       )}
+      </div>
     </>
   );
 }

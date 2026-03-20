@@ -213,7 +213,10 @@ export function AccommodationRoomsSection({
                           {room.title}
                         </h3>
                         {room.subtitle && (
-                          <p className="text-lg text-gray-600 mb-4">{room.subtitle}</p>
+                          <div
+                            className="prose prose-lg max-w-none text-gray-600 mb-4 min-w-0 overflow-hidden break-words [overflow-wrap:anywhere] [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full line-clamp-3"
+                            dangerouslySetInnerHTML={{ __html: room.subtitle }}
+                          />
                         )}
 
                         {availabilityRoom && (

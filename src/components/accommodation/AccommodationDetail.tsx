@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { PublicAccommodation } from '@/core/types/accommodations'
 import { ImageGrid } from '@/components/common/ImageGrid'
 import { AccommodationRoomsSection } from './AccommodationRoomsSection'
@@ -21,7 +22,12 @@ const getAmenityIconPath = (iconName: string | undefined): string | null => {
   return `/assets/amenities/${iconName}.svg`
 }
 
+const PROSE_CONTAINED =
+  'prose prose-lg max-w-none text-gray-700 overflow-hidden break-words [overflow-wrap:anywhere] [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_iframe]:max-w-full'
+
 export function AccommodationDetail({ accommodation }: AccommodationDetailProps) {
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero section with image grid */}
@@ -151,14 +157,21 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
             {/* Left column - Main content */}
             <div className="lg:col-span-2 space-y-12">
               {/* Description */}
-              <section>
+              <section className="min-w-0">
                 <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
                   Sobre a Hospedagem
                 </h2>
-                <div 
-                  className="prose prose-lg max-w-none text-gray-700"
+                <div
+                  className={`${PROSE_CONTAINED} ${isDescriptionExpanded ? '' : 'max-h-[60vh] overflow-hidden'}`}
                   dangerouslySetInnerHTML={{ __html: accommodation.description }}
                 />
+                <button
+                  type="button"
+                  onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                  className="mt-3 text-primary-600 hover:text-primary-700 font-medium text-sm"
+                >
+                  {isDescriptionExpanded ? 'Ver menos' : 'Ver mais'}
+                </button>
               </section>
 
               {/* Amenities */}
@@ -195,36 +208,32 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
               {/* Check-in/Check-out Info */}
               {(accommodation.checkInInfo || accommodation.checkOutInfo) && (
                 <section>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 flex flex-wrap items-center gap-x-6 gap-y-2">
+                    <Image
+                      src="/assets/stays/time.png"
+                      alt=""
+                      width={24}
+                      height={24}
+                      className="flex-shrink-0"
+                    />
                     {accommodation.checkInInfo && (
-                      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                        <h3 className="text-xl font-semibold mb-3 text-gray-900">
-                          Check-in
-                        </h3>
-                        <p className="text-gray-700 mb-2">
-                          <strong>Horário:</strong> {accommodation.checkInInfo.hour}
-                        </p>
+                      <span className="text-gray-700">
+                        <strong>Check-in:</strong> {accommodation.checkInInfo.hour}
                         {accommodation.checkInInfo.instructions && (
-                          <p className="text-gray-700">
-                            {accommodation.checkInInfo.instructions}
-                          </p>
+                          <> · {accommodation.checkInInfo.instructions}</>
                         )}
-                      </div>
+                      </span>
+                    )}
+                    {accommodation.checkInInfo && accommodation.checkOutInfo && (
+                      <span className="text-gray-400 hidden sm:inline">|</span>
                     )}
                     {accommodation.checkOutInfo && (
-                      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                        <h3 className="text-xl font-semibold mb-3 text-gray-900">
-                          Check-out
-                        </h3>
-                        <p className="text-gray-700 mb-2">
-                          <strong>Horário:</strong> {accommodation.checkOutInfo.hour}
-                        </p>
+                      <span className="text-gray-700">
+                        <strong>Check-out:</strong> {accommodation.checkOutInfo.hour}
                         {accommodation.checkOutInfo.instructions && (
-                          <p className="text-gray-700">
-                            {accommodation.checkOutInfo.instructions}
-                          </p>
+                          <> · {accommodation.checkOutInfo.instructions}</>
                         )}
-                      </div>
+                      </span>
                     )}
                   </div>
                 </section>
@@ -248,16 +257,26 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
 
               {/* Location */}
               <section className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                <h2 className="text-xl font-bold mb-4 text-gray-900">
+                <h2 className="text-xl font-bold mb-4 text-gray-900 flex items-center gap-2">
+                  <Image
+                    src="/assets/script/map.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                    className="flex-shrink-0"
+                  />
                   Localização
                 </h2>
                 <p className="text-gray-700 mb-2">
                   <strong>Endereço:</strong> {accommodation.location.address}
                 </p>
-                <p className="text-gray-700 mb-4">
-                  <strong>Cidade:</strong> {accommodation.location.city}, {accommodation.location.country}
-                </p>
-                {accommodation.location.nearbyAttractions && accommodation.location.nearbyAttractions.length > 0 && (
+                {accommodation.location.city?.trim() && (
+                  <p className="text-gray-700 mb-4">
+                    <strong>Cidade:</strong> {accommodation.location.city}, {accommodation.location.country}
+                  </p>
+                )}
+                {accommodation.location.nearbyAttractions &&
+                  accommodation.location.nearbyAttractions.length > 0 && (
                   <div>
                     <p className="text-gray-700 font-semibold mb-2">Atrações próximas:</p>
                     <ul className="list-disc list-inside text-gray-700 space-y-1">

@@ -12,3 +12,15 @@ export const getAccommodationByUniqueName = async (
   const route = `accommodations/${uniqueName}`;
   return ApiRequest.get<PublicAccommodation>(route);
 };
+
+/**
+ * Get an accommodation by destination unique name (e.g. from trip proposal).
+ * @param destinationUniqueName The destination unique name
+ * @returns The accommodation data (same model as getAccommodationByUniqueName)
+ */
+export const getAccommodationByDestinationUniqueName = async (
+  destinationUniqueName: string
+): Promise<PublicAccommodation> => {
+  const route = `accommodations/${destinationUniqueName}/byDestination`;
+  return ApiRequest.get<PublicAccommodation>(route);
+};

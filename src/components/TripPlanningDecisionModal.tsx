@@ -16,6 +16,7 @@ interface TripPlanningDecisionModalProps {
   onContactExpert: () => void;
   onWantToGo: (destinationId: string) => Promise<void>;
   isPublic: boolean;
+  showShareButton?: boolean;
 }
 
 export default function TripPlanningDecisionModal({
@@ -25,6 +26,7 @@ export default function TripPlanningDecisionModal({
   onContactExpert,
   onWantToGo,
   isPublic,
+  showShareButton = true,
 }: TripPlanningDecisionModalProps) {
   const [destination, setDestination] = useState<PublicDestination | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -92,7 +94,7 @@ export default function TripPlanningDecisionModal({
           ) : destination ? (
             <div className="mb-6">
               {/* Hero section */}
-              <DestinationHero destination={destination} />
+              <DestinationHero destination={destination} showShareButton={showShareButton} />
 
               {/* Features section */}
               <div className="p-6">

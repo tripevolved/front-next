@@ -129,9 +129,23 @@ export interface TripMatchedDestination {
   price: number;
   name: string;
   uniqueName: string;
+  destinationType?: DestinationType;
   features?: string[];
   details?: string;
 }
+
+export type DestinationType =
+  | "POINT_OF_INTEREST"
+  | "CRUISE"
+  | "ACCOMMODATION"
+  | "LOCAL"
+  | "AIRPORT"
+  | "CITY"
+  | "REGION"
+  | "STATE"
+  | "COUNTRY"
+  | "MACRO_REGION"
+  | "CONTINENT";
 
 export interface TripProposal {
   mainChoice: TripMatchedDestination;

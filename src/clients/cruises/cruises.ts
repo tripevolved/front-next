@@ -145,3 +145,10 @@ export const getCruiseByUniqueName = async (uniqueName: string) => {
   const route = `cruises/${uniqueName}`;
   return ApiRequest.get<CruiseDetails>(route);
 };
+
+// Fetch cruise details based on a destination unique name.
+// Backend: GET {destinationUniqueName}/byDestination (under the cruises service).
+export const getCruiseByDestinationUniqueName = async (destinationUniqueName: string) => {
+  const route = `cruises/${destinationUniqueName}/byDestination`;
+  return ApiRequest.get<CruiseDetails>(route);
+};

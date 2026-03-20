@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { TripMatchedDestination } from "@/core/types";
 import { Dispatch, MutableRefObject, SetStateAction } from "react";
-import setSeconds from "date-fns/esm/setSeconds/index.js";
 
 export interface ResultsDestinationCardProps {
   destination: TripMatchedDestination;
@@ -9,6 +8,8 @@ export interface ResultsDestinationCardProps {
   isMainChoice?: boolean;
   onPlanningTripToGo: Dispatch<SetStateAction<boolean>>;
   setSelectedDestination: MutableRefObject<string>;
+  onOpenCruiseDestinationDetails?: (destinationUniqueName: string) => void;
+  onOpenAccommodationDestinationDetails?: (destinationUniqueName: string) => void;
 }
 
 // Profile mapping for feature icons
@@ -27,6 +28,8 @@ export function ResultsDestinationCard({
   isLarge = false,
   onPlanningTripToGo,
   setSelectedDestination,
+  onOpenCruiseDestinationDetails,
+  onOpenAccommodationDestinationDetails,
 }: ResultsDestinationCardProps) {
   // Get match level based on the match score
   const getMatchLevel = () => {
@@ -69,6 +72,15 @@ export function ResultsDestinationCard({
   );
 
   const onClick = (destination: TripMatchedDestination) => {
+    if (destination.destinationType === "CRUISE" && onOpenCruiseDestinationDetails) {
+      onOpenCruiseDestinationDetails(destination.uniqueName);
+      return;
+    }
+    if (destination.destinationType === "ACCOMMODATION" && onOpenAccommodationDestinationDetails) {
+      onOpenAccommodationDestinationDetails(destination.uniqueName);
+      return;
+    }
+
     onPlanningTripToGo(true);
     setSelectedDestination.current = destination.uniqueName;
   };
@@ -93,7 +105,7 @@ export function ResultsDestinationCard({
   return (
     <div
       className={`bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:scale-105 ${
-        isLarge ? "w-full md:w-3/5 mx-auto" : "w-[70%] md:w-full flex-shrink-0"
+        isLarge ? "w-full" : "w-[70%] md:w-full flex-shrink-0"
       } cursor-pointer`}
       onClick={() => onClick(destination)}
     >

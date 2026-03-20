@@ -14,7 +14,6 @@ export interface PublicDestination {
   videos: PublicDestinationVideo[];
   posts: Post[];
   features: PublicDestinationFeature[];
-  tips: PublicDestinationTip[];
   faq: PublicDestinationFaq[];
   travelerProfiles: string[];
   travelType: TravelType;
@@ -30,7 +29,6 @@ export interface TripDestination {
   recommendedBy: PublicDestinationExpert;
   photos: Photo[];
   features: PublicDestinationFeature[];
-  tips: PublicDestinationTip[];
   travelerProfiles: string[] | null;
   travelType: string;
 }
@@ -51,25 +49,10 @@ export type FeatureIcon =
   | "uniqueness"
   | "adrenaline";
 
-export type TipeIcon =
-  | "climate"
-  | "days-to-visit"
-  | "daily-cost"
-  | "generic"
-  | "period"
-  | "security";
-
 export interface PublicDestinationFeature {
   title: string;
   description: string;
   type: string; // Lista de nomes para emojis
-}
-
-export interface PublicDestinationTip {
-  type: string;
-  title: string;
-  subtitle: string;
-  description: string;
 }
 
 export interface PublicDestinationExpert {

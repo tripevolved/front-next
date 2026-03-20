@@ -56,7 +56,7 @@ export interface PublicAccommodationLocation {
 export interface PublicAccommodationRoom {
   id: string;
   title: string;
-  subtitle: string | null;
+  subtitle: string | null; // HTML content
   images: PublicAccommodationImage[];
   amenities: PublicAccommodationAmenity[];
 }

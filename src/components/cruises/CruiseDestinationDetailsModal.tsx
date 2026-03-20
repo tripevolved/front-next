@@ -1,42 +1,51 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import type { CruiseDetails } from "@/clients/cruises/cruises";
+import { CruisesApiService } from "@/clients/cruises";
 import CruiseLeadModal from "../consultancy/CruiseLeadModal";
 import CruiseShipDetailsModal from "./CruiseShipDetailsModal";
-import { CruisesApiService } from "@/clients/cruises";
-import type { CruiseDetails } from "@/clients/cruises/cruises";
 import CruiseDetailsBody from "./CruiseDetailsBody";
 
-type CruiseDetailsModalProps = {
+type CruiseDestinationDetailsModalProps = {
   isOpen: boolean;
   handleClose: () => void;
-  uniqueName?: string;
+  destinationUniqueName?: string;
 };
 
-export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: CruiseDetailsModalProps) {
+export default function CruiseDestinationDetailsModal({
+  isOpen,
+  handleClose,
+  destinationUniqueName,
+}: CruiseDestinationDetailsModalProps) {
   const router = useRouter();
+
   const [cruiseDetails, setCruiseDetails] = useState<CruiseDetails | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(new Set());
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false);
-  const [leadModalText, setLeadModalText] = useState('Reservar');
+  const [leadModalText, setLeadModalText] = useState("Reservar");
   const [isShipDetailsModalOpen, setIsShipDetailsModalOpen] = useState(false);
-  const thankYouText = 'Obrigado! Vamos entrar em contato para planejar sua jornada.';
+
+  const thankYouText = "Obrigado! Vamos entrar em contato para planejar sua jornada.";
 
   useEffect(() => {
-    if (isOpen && uniqueName) {
+    if (isOpen && destinationUniqueName) {
       setLoading(true);
       setError(null);
-      CruisesApiService.getCruiseByUniqueName(uniqueName)
+
+      CruisesApiService.getCruiseByDestinationUniqueName(destinationUniqueName)
         .then((data) => {
           setCruiseDetails(data);
           setLoading(false);
         })
         .catch((err) => {
-          console.error("Error fetching cruise details:", err);
+          console.error("Error fetching destination cruise details:", err);
           setError("Não foi possível carregar os detalhes do cruzeiro.");
           setLoading(false);
         });
@@ -46,65 +55,59 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
       setError(null);
       setExpandedDescriptions(new Set());
     }
-  }, [isOpen, uniqueName]);
+  }, [isOpen, destinationUniqueName]);
 
   const toggleDescription = (index: number) => {
     setExpandedDescriptions((prev) => {
       const newSet = new Set(prev);
-      if (newSet.has(index)) {
-        newSet.delete(index);
-      } else {
-        newSet.add(index);
-      }
+      if (newSet.has(index)) newSet.delete(index);
+      else newSet.add(index);
       return newSet;
     });
   };
 
-  // Calculate duration in days
   const calculateDuration = (departureDate: Date, arrivalDate: Date): string => {
-    const depDate = typeof departureDate === 'string' ? new Date(departureDate) : departureDate;
-    const arrDate = typeof arrivalDate === 'string' ? new Date(arrivalDate) : arrivalDate;
+    const depDate = typeof departureDate === "string" ? new Date(departureDate) : departureDate;
+    const arrDate = typeof arrivalDate === "string" ? new Date(arrivalDate) : arrivalDate;
     const diffTime = Math.abs(arrDate.getTime() - depDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return `${diffDays} ${diffDays === 1 ? 'dia' : 'dias'}`;
+    return `${diffDays} ${diffDays === 1 ? "dia" : "dias"}`;
   };
 
-  // Get search data from cruise details
   const getSearchData = () => {
     if (!cruiseDetails) {
       return {
-        month: '',
-        duration: '',
-        cruiseName: ''
+        month: "",
+        duration: "",
+        cruiseName: "",
       };
     }
 
-    // Get month from departure date
-    const depDate = typeof cruiseDetails.departureDate === 'string' 
-      ? new Date(cruiseDetails.departureDate) 
-      : cruiseDetails.departureDate;
-    const month = depDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+    const depDate =
+      typeof cruiseDetails.departureDate === "string"
+        ? new Date(cruiseDetails.departureDate)
+        : cruiseDetails.departureDate;
 
-    // Calculate duration
+    const month = depDate.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
     const duration = calculateDuration(cruiseDetails.departureDate, cruiseDetails.arrivalDate);
 
     return {
-      month: month || '',
-      duration: duration || '',
-      cruiseName: cruiseDetails.title || ''
+      month: month || "",
+      duration: duration || "",
+      cruiseName: cruiseDetails.title || "",
     };
   };
 
   if (!isOpen) return null;
-  
+
   return (
     <div>
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-xl py-8 px-3 max-w-5xl w-full relative max-h-[90vh] overflow-hidden flex flex-col">
           <div className="absolute top-4 right-4 flex items-center gap-3 z-10">
-            {uniqueName && (
+            {destinationUniqueName && (
               <Link
-                href={`/cruzeiros-extraordinarios/${uniqueName}`}
+                href={`/cruzeiros-extraordinarios/${cruiseDetails?.uniqueName ?? destinationUniqueName}`}
                 className="flex items-center gap-1.5 text-primary-500 hover:text-primary-600 text-sm font-medium transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -118,10 +121,8 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
                 Abrir em página
               </Link>
             )}
-            <button
-              onClick={handleClose}
-              className="text-secondary-400 hover:text-secondary-600"
-            >
+
+            <button onClick={handleClose} className="text-secondary-400 hover:text-secondary-600">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   strokeLinecap="round"
@@ -132,6 +133,7 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
               </svg>
             </button>
           </div>
+
           <div className="flex flex-col gap-3 flex-1 overflow-y-auto pb-9">
             {loading && (
               <div className="flex items-center justify-center py-12">
@@ -139,22 +141,22 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
                 <span className="ml-3 text-gray-600">Carregando detalhes do cruzeiro...</span>
               </div>
             )}
-            
+
             {error && (
               <div className="text-center py-8">
                 <p className="text-red-500 font-comfortaa text-lg">{error}</p>
                 <button
                   onClick={() => {
-                    if (uniqueName) {
+                    if (destinationUniqueName) {
                       setLoading(true);
                       setError(null);
-                      CruisesApiService.getCruiseByUniqueName(uniqueName)
+                      CruisesApiService.getCruiseByDestinationUniqueName(destinationUniqueName)
                         .then((data) => {
                           setCruiseDetails(data);
                           setLoading(false);
                         })
                         .catch((err) => {
-                          console.error("Error fetching cruise details:", err);
+                          console.error("Error fetching destination cruise details:", err);
                           setError("Não foi possível carregar os detalhes do cruzeiro.");
                           setLoading(false);
                         });
@@ -177,6 +179,7 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
               />
             )}
           </div>
+
           {!loading && !error && cruiseDetails && (
             <div className="absolute bottom-4 left-8 right-8 z-20 bg-gradient-to-t from-white via-white to-transparent pt-4">
               <button
@@ -189,23 +192,25 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
             </div>
           )}
         </div>
+
+        <CruiseLeadModal
+          isOpen={isLeadModalOpen}
+          onClose={() => {
+            setIsLeadModalOpen(false);
+            setLeadModalText(thankYouText);
+            router.push("/obrigado");
+          }}
+          onBack={() => setIsLeadModalOpen(false)}
+          searchData={getSearchData()}
+        />
+
+        <CruiseShipDetailsModal
+          isOpen={isShipDetailsModalOpen}
+          onClose={() => setIsShipDetailsModalOpen(false)}
+          shipName={cruiseDetails?.ship ?? null}
+        />
       </div>
-      
-      <CruiseLeadModal
-        isOpen={isLeadModalOpen}
-        onClose={() => {
-          setIsLeadModalOpen(false);
-          setLeadModalText(thankYouText);
-          router.push("/obrigado");
-        }}
-        onBack={() => setIsLeadModalOpen(false)}
-        searchData={getSearchData()}
-      />
-      <CruiseShipDetailsModal
-        isOpen={isShipDetailsModalOpen}
-        onClose={() => setIsShipDetailsModalOpen(false)}
-        shipName={cruiseDetails?.ship ?? null}
-      />
     </div>
   );
 }
+
