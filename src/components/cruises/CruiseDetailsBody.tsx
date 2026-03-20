@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import type { CruiseDetails } from "@/clients/cruises/cruises";
+import type { CruiseDetails, CruiseItineraryItem } from "@/clients/cruises/cruises";
 import { ImageGrid } from "../common/ImageGrid";
 import CruiseRatesCarousel from "./CruisesRatesCarousel";
 import CruiseRestaurantsCarousel from "./CruiseRestaurantsCarousel";
@@ -58,6 +58,130 @@ export default function CruiseDetailsBody({
     });
   };
 
+  const toDate = (d: Date | string): Date =>
+    typeof d === "string" ? new Date(d) : d;
+
+  const getCruiseDay = (date: Date): number => {
+    const d = toDate(date);
+    const dep = toDate(cruiseDetails.departureDate);
+    const depStart = new Date(dep.getFullYear(), dep.getMonth(), dep.getDate());
+    const dStart = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const diffMs = dStart.getTime() - depStart.getTime();
+    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+    return diffDays + 1;
+  };
+
+  const getItemDateRange = (item: CruiseItineraryItem): { start: Date; end: Date } | null => {
+    const startDate =
+      item.embarkationStartDateTime ?? item.arrivalDateTime ?? item.departureDateTime;
+    const endDate =
+      item.disembarkationEndDateTime ?? item.disembarkationStartDateTime ??
+      item.departureDateTime ?? item.arrivalDateTime;
+    if (!startDate || !endDate) return null;
+    return { start: toDate(startDate), end: toDate(endDate) };
+  };
+
+  const getDayLabel = (item: CruiseItineraryItem): string => {
+    if (!cruiseDetails.departureDate || !cruiseDetails.arrivalDate) return "";
+    const range = getItemDateRange(item);
+    if (!range) return "";
+
+    const startDay = getCruiseDay(range.start);
+    const endDay = getCruiseDay(range.end);
+
+    if (startDay === endDay) return `Dia ${startDay}`;
+    if (endDay === startDay + 1) return `Dias ${startDay} e ${endDay}`;
+    return `Dias ${startDay} a ${endDay}`;
+  };
+
+  const formatDateWithTime = (date: Date | string) => {
+    const d = toDate(date);
+    const dateStr = d.toLocaleDateString("pt-BR", {
+      day: "numeric",
+      month: "long",
+    });
+    const timeStr = d.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return `${dateStr} às ${timeStr}`;
+  };
+
+  const getDateDisplay = (item: CruiseItineraryItem): string | null => {
+    const range = getItemDateRange(item);
+    if (!range) return null;
+
+    const sameDay =
+      range.start.getDate() === range.end.getDate() &&
+      range.start.getMonth() === range.end.getMonth() &&
+      range.start.getFullYear() === range.end.getFullYear();
+
+    if (sameDay) return formatItineraryDate(range.start);
+
+    const startMonth = range.start.toLocaleDateString("pt-BR", { month: "long" });
+    const endMonth = range.end.toLocaleDateString("pt-BR", { month: "long" });
+    const year = range.start.getFullYear();
+
+    if (startMonth === endMonth && range.start.getFullYear() === range.end.getFullYear()) {
+      return `De ${range.start.getDate()} a ${range.end.getDate()} de ${startMonth} de ${year}`;
+    }
+    return `De ${range.start.getDate()} de ${startMonth} a ${range.end.getDate()} de ${endMonth} de ${year}`;
+  };
+
+  const getTimeDisplay = (item: CruiseItineraryItem): string | null => {
+    const hasEmbarkation = item.embarkationStartDateTime && item.embarkationEndDateTime;
+    const hasDisembarkation =
+      item.disembarkationStartDateTime && item.disembarkationEndDateTime;
+    const range = getItemDateRange(item);
+    const isMultiDay = range && getCruiseDay(range.start) !== getCruiseDay(range.end);
+
+    if (hasEmbarkation) {
+      const embarkStr = isMultiDay
+        ? `${formatDateWithTime(item.embarkationStartDateTime!)} - ${formatItineraryTime(item.embarkationEndDateTime!)}`
+        : `${formatItineraryTime(item.embarkationStartDateTime!)} - ${formatItineraryTime(item.embarkationEndDateTime!)}`;
+      const departure = item.departureDateTime
+        ? isMultiDay
+          ? formatDateWithTime(item.departureDateTime)
+          : formatItineraryTime(item.departureDateTime)
+        : null;
+      return departure ? `Embarque: ${embarkStr} • Partida: ${departure}` : `Embarque: ${embarkStr}`;
+    }
+
+    if (hasDisembarkation) {
+      const arrival = item.arrivalDateTime
+        ? isMultiDay
+          ? formatDateWithTime(item.arrivalDateTime)
+          : formatItineraryTime(item.arrivalDateTime)
+        : null;
+      const disembarkStart = toDate(item.disembarkationStartDateTime!);
+      const disembarkEnd = toDate(item.disembarkationEndDateTime!);
+      const disembarkSameDay =
+        disembarkStart.getDate() === disembarkEnd.getDate() &&
+        disembarkStart.getMonth() === disembarkEnd.getMonth();
+      const disembarkStr = disembarkSameDay
+        ? `${formatItineraryTime(item.disembarkationStartDateTime!)} - ${formatItineraryTime(item.disembarkationEndDateTime!)}`
+        : `${formatDateWithTime(item.disembarkationStartDateTime!)} - ${formatDateWithTime(item.disembarkationEndDateTime!)}`;
+      return arrival
+        ? `Chegada: ${arrival} • Desembarque: ${disembarkStr}`
+        : `Desembarque: ${disembarkStr}`;
+    }
+
+    const arrival = item.arrivalDateTime
+      ? isMultiDay
+        ? formatDateWithTime(item.arrivalDateTime)
+        : formatItineraryTime(item.arrivalDateTime)
+      : null;
+    const departure = item.departureDateTime
+      ? isMultiDay
+        ? formatDateWithTime(item.departureDateTime)
+        : formatItineraryTime(item.departureDateTime)
+      : null;
+    if (arrival && departure) return `${arrival} - ${departure}`;
+    if (arrival) return `Chegada: ${arrival}`;
+    if (departure) return `Partida: ${departure}`;
+    return null;
+  };
+
   return (
     <>
       {cruiseDetails.images && cruiseDetails.images.length > 0 && (
@@ -66,7 +190,7 @@ export default function CruiseDetailsBody({
         </div>
       )}
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 px-3 md:px-4">
         <span className="text-gray-500">{cruiseDetails.company}</span>
         <h1
           className={[
@@ -84,7 +208,7 @@ export default function CruiseDetailsBody({
       </div>
 
       {cruiseDetails.highlights && cruiseDetails.highlights.length > 0 && (
-        <div className="p-3 md:px-4 px-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="p-3 md:px-4 grid grid-cols-1 md:grid-cols-2 gap-4">
           {cruiseDetails.highlights.map((highlight, index) => (
             <div
               key={index}
@@ -109,45 +233,8 @@ export default function CruiseDetailsBody({
               {cruiseDetails.itinerary.map((item, index) => {
                 const imageUrl = item.image?.url || "/assets/blank-image.png";
                 const imageAlt = item.image?.shortDescription || item.title;
-
-                // Check if this is an embarkation or disembarkation based on date presence
-                const hasEmbarkation = item.embarkationStartDateTime && item.embarkationEndDateTime;
-                const hasDisembarkation =
-                  item.disembarkationStartDateTime && item.disembarkationEndDateTime;
-
-                // Determine which date to show
-                const displayDate = hasEmbarkation && item.embarkationStartDateTime
-                  ? item.embarkationStartDateTime
-                  : item.arrivalDateTime;
-
-                const getTimeDisplay = () => {
-                  if (hasEmbarkation) {
-                    const embarkRange = `${formatItineraryTime(item.embarkationStartDateTime!)} - ${formatItineraryTime(
-                      item.embarkationEndDateTime!,
-                    )}`;
-                    const departure = item.departureDateTime
-                      ? formatItineraryTime(item.departureDateTime)
-                      : null;
-                    return departure ? `Embarque: ${embarkRange} • Partida: ${departure}` : `Embarque: ${embarkRange}`;
-                  }
-
-                  if (hasDisembarkation) {
-                    const arrival = item.arrivalDateTime ? formatItineraryTime(item.arrivalDateTime) : null;
-                    const disembarkRange = `${formatItineraryTime(
-                      item.disembarkationStartDateTime!,
-                    )} - ${formatItineraryTime(item.disembarkationEndDateTime!)}`;
-                    return arrival
-                      ? `Chegada: ${arrival} • Desembarque: ${disembarkRange}`
-                      : `Desembarque: ${disembarkRange}`;
-                  }
-
-                  const arrival = item.arrivalDateTime ? formatItineraryTime(item.arrivalDateTime) : null;
-                  const departure = item.departureDateTime ? formatItineraryTime(item.departureDateTime) : null;
-                  if (arrival && departure) return `${arrival} - ${departure}`;
-                  if (arrival) return `Chegada: ${arrival}`;
-                  if (departure) return `Partida: ${departure}`;
-                  return null;
-                };
+                const dateDisplay = getDateDisplay(item);
+                const timeDisplay = getTimeDisplay(item);
 
                 return (
                   <div
@@ -162,13 +249,15 @@ export default function CruiseDetailsBody({
 
                     <div className="flex flex-col gap-1 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-primary-500">Dia {index + 1}</span>
-                        {displayDate && <span className="text-sm text-gray-500">{formatItineraryDate(displayDate)}</span>}
+                        <span className="font-bold text-primary-500">
+                          {getDayLabel(item) || `Dia ${index + 1}`}
+                        </span>
+                        {dateDisplay && <span className="text-sm text-gray-500">{dateDisplay}</span>}
                       </div>
 
                       <h3 className="font-semibold text-gray-900">{item.title}</h3>
 
-                      {getTimeDisplay() && <p className="text-sm text-gray-600">{getTimeDisplay()}</p>}
+                      {timeDisplay && <p className="text-sm text-gray-600">{timeDisplay}</p>}
 
                       {item.dockType && (
                         <p className="text-xs text-gray-500 italic">
