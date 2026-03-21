@@ -1,57 +1,36 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import useSWR from 'swr'
 import { useAppStore } from '@/core/store'
 import { TripsApiService } from '@/clients/trips'
 import { TripProposalContent } from '@/components/results/TripProposalContent'
 import TripPlanningDecisionModal from '@/components/TripPlanningDecisionModal'
 import type { TripProposal } from '@/core/types'
 
+function fetcherTripProposal(tripId: string) {
+  const travelerId = useAppStore.getState().travelerState?.id ?? undefined
+  return TripsApiService.getTripMatches(tripId, travelerId)
+}
+
 export default function PlanejarResultsPage() {
   const router = useRouter()
   const params = useParams()
-  const id = params?.id as string
+  const id = (params?.id as string) ?? ''
 
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(false)
-  const [tripProposal, setTripProposal] = useState<TripProposal | null>(null)
+  const { data: tripProposal, error: fetchError, isLoading } = useSWR<TripProposal>(
+    id ? ['trip-proposal', id] : null,
+    () => fetcherTripProposal(id),
+    { revalidateOnFocus: false }
+  )
+
   const [isWantToGoModalOpen, setIsWantToGoModalOpen] = useState(false)
   const selectedDestination = useRef<string>('')
-  const hasFetchedRef = useRef(false)
 
-  useEffect(() => {
-    if (!id) {
-      setIsLoading(false)
-      setError(true)
-      return
-    }
-    if (hasFetchedRef.current) return
-    hasFetchedRef.current = true
-
-    const fetchTripProposal = async () => {
-      const tid = useAppStore.getState().travelerState?.id ?? ''
-      try {
-        const proposal = await TripsApiService.getTripMatches(id, tid || undefined)
-        if (proposal && proposal.mainChoice) {
-          setTripProposal(proposal)
-        } else {
-          setError(true)
-        }
-      } catch (err) {
-        console.error('Failed to fetch trip proposal:', err)
-        setError(true)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    // Defer so store (e.g. persist) has rehydrated before reading travelerId
-    const t = setTimeout(fetchTripProposal, 0)
-    return () => clearTimeout(t)
-  }, [id])
+  const error = !id || fetchError || (tripProposal != null && !tripProposal.mainChoice)
 
   if (error && !isLoading) {
     return (
@@ -107,7 +86,7 @@ export default function PlanejarResultsPage() {
       <div className="container mx-auto px-4 -mt-8 relative z-10 pb-16">
         <TripProposalContent
           isLoading={isLoading}
-          tripProposal={tripProposal}
+          tripProposal={tripProposal ?? null}
           onPlanningTripToGo={setIsWantToGoModalOpen}
           selectedDestinationRef={selectedDestination}
         />

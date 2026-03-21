@@ -159,17 +159,30 @@ export interface TripAbstract {
   tripDashboard?: TripDashboard;
 }
 
+export type TripStatus = 'NEW' | 'PROPOSAL' | 'MATCHED' | 'SET';
+
 export interface TripListView {
   id: string;
   title: string;
-  status: string;
+  destination?: string;
+  description?: string;
+  status: TripStatus | string;
   images: TripImage[];
-  period: string;
+  /** @deprecated Use startDate/endDate instead */
+  period?: string;
+  startDate?: string | null;
+  endDate?: string | null;
+  price?: number | null;
+  savings?: number | null;
+  estimatedPrice?: number | null;
+  estimatedSavings?: number | null;
   enableDeletion?: boolean;
 }
 
 export interface AllTrips {
   trips?: TripListView[];
+  amountSaved?: number | null;
+  estimatedAmountToBeSaved?: number | null;
 }
 
 interface TripIncludes {

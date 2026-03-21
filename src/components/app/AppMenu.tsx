@@ -78,9 +78,14 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <h1 className="font-semibold">
-              Olá, {travelerState?.name || 'Viajante'}
-            </h1>
+            <div className="flex flex-col">
+              <h1 className="font-semibold">
+                Olá, {travelerState?.name || 'Viajante'}
+              </h1>
+              <p className="text-sm text-white/90 mt-0.5">
+                Vamos dar o próximo passo para sua viagem?
+              </p>
+            </div>
           </header>
 
           {/* User Profile Section */}
