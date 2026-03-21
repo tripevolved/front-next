@@ -9,6 +9,7 @@ import { useAppStore } from '@/core/store'
 import type { TripListView } from '@/core/types/trip'
 import { formatCurrency } from '@/utils/helpers/currency.helper'
 import { ImageCarousel } from '@/components/common/ImageCarousel'
+import { WhatsAppDirectButton } from '@/components/WhatsAppDirectButton'
 
 const PLACEHOLDER_IMAGE = '/assets/blank-image.png'
 
@@ -211,38 +212,39 @@ function TripIdeaModal({ trip, onClose }: { trip: TripListView; onClose: () => v
               <p className="text-sm text-secondary-600 font-medium">{trip.destination}</p>
             )}
             {trip.description && (
-              <div className="bg-accent-50 border border-accent-200 rounded-xl p-4">
+              <div className="bg-accent-50 border border-accent-200 rounded-xl p-4 overflow-hidden">
                 <p className="text-xs font-semibold text-accent-700 uppercase tracking-wider mb-2">
                   Recomendação do especialista
                 </p>
-                <p className="text-secondary-700 font-comfortaa text-sm leading-relaxed">{trip.description}</p>
+                <div
+                  className="text-secondary-700 font-comfortaa text-sm leading-relaxed prose prose-sm max-w-none overflow-hidden break-words [&_*]:max-w-full [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_iframe]:max-w-full [&_iframe]:max-h-[200px]"
+                  dangerouslySetInnerHTML={{ __html: trip.description }}
+                />
               </div>
             )}
             {(price != null && price !== 0) || (savings != null && savings !== 0) ? (
-              <div className="flex flex-wrap gap-4 pt-2">
-                {savings != null && savings !== 0 && (
-                  <div>
-                    <p className="text-xs text-secondary-500 mb-0.5">Economia estimada</p>
-                    <p className="font-baloo font-bold text-accent-600">{formatCurrency(savings)}</p>
-                  </div>
-                )}
+              <div className="flex flex-col gap-1 pt-2">
                 {price != null && price !== 0 && (
-                  <div>
-                    <p className="text-xs text-secondary-500 mb-0.5">Valor estimado</p>
-                    <p className="font-baloo font-bold text-secondary-900">~{formatCurrency(price)}</p>
-                  </div>
+                  <p className="font-baloo font-bold text-secondary-900">
+                    Valor total previsto: {formatCurrency(price)}
+                  </p>
+                )}
+                {savings != null && savings !== 0 && price != null && price !== 0 && (
+                  <p className="text-sm text-accent-600">
+                    Valor exclusivo para o Círculo Evolved: {formatCurrency(price - savings)}
+                  </p>
                 )}
               </div>
             ) : null}
           </div>
         </div>
         <div className="px-6 py-4 border-t border-gray-200 shrink-0">
-          <Link
-            href={`/app/viagens/planejar/${trip.id}`}
-            className="block w-full text-center font-baloo bg-accent-500 text-white px-6 py-3 rounded-full text-base font-semibold hover:bg-accent-600 transition-all"
+          <WhatsAppDirectButton
+            message={`Olá! Gostaria de falar com um especialista sobre a ideia de viagem: ${trip.title}`}
+            className="block w-full text-center font-baloo bg-accent-500 hover:bg-accent-600 text-white px-6 py-3 rounded-full text-base font-semibold"
           >
             Explorar esta ideia
-          </Link>
+          </WhatsAppDirectButton>
         </div>
       </div>
     </div>
@@ -271,25 +273,21 @@ function TripPriceDisplay({ trip }: { trip: TripListView }) {
   const useEstimated = ESTIMATED_STATUSES.includes(trip.status as (typeof ESTIMATED_STATUSES)[number])
   const price = useEstimated ? (trip.estimatedPrice ?? trip.price) : (trip.price ?? trip.estimatedPrice)
   const savings = useEstimated ? (trip.estimatedSavings ?? trip.savings) : (trip.savings ?? trip.estimatedSavings)
-  const isEstimated = useEstimated || (savings === trip.estimatedSavings && trip.estimatedSavings != null) || (price === trip.estimatedPrice && trip.estimatedPrice != null)
-  const estLabel = isEstimated ? ' (estimativa)' : ''
 
   if (price == null && savings == null) return null
 
+  const exclusiveValue = price != null && savings != null && savings !== 0 ? price - savings : price
+  if (exclusiveValue == null || exclusiveValue === 0) return null
+
+  const showOriginal = price != null && price !== exclusiveValue
+
   return (
-    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 mt-1 text-sm">
-      {savings != null && savings !== 0 && (
-        <span className="font-semibold text-accent-300">
-          Economia{estLabel}: {formatCurrency(savings)}
-        </span>
+    <div className="mt-1 flex flex-col gap-0.5">
+      {showOriginal && (
+        <p className="text-xs text-white/80 line-through">{formatCurrency(price)}</p>
       )}
-      {price != null && price !== 0 && (
-        <span className="text-white/90">
-          {savings != null && savings !== 0 && '• '}
-          {isEstimated && '~'}
-          {formatCurrency(price)}{estLabel}
-        </span>
-      )}
+      <p className="text-sm font-semibold text-accent-300">{formatCurrency(exclusiveValue)}</p>
+      <p className="text-[10px] text-white/70">Exclusivo para Círculo Evolved</p>
     </div>
   )
 }
@@ -305,7 +303,7 @@ function TripTimelineCard({ trip, isPast, onIdeaClick }: { trip: TripListView; i
     <div className={`group relative block rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 ${
       isPast ? 'opacity-80 hover:opacity-100' : ''
     } ${!isNewIdea ? 'cursor-pointer' : ''}`}>
-      <div className="relative h-32 sm:h-36">
+      <div className="relative h-40 sm:h-44">
         <Image
           src={imageUrl}
           alt={trip.title}
@@ -448,7 +446,7 @@ export function TripTimeline() {
       {isLoading ? (
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-36 rounded-xl bg-gray-100 animate-pulse" />
+            <div key={i} className="h-40 sm:h-44 rounded-xl bg-gray-100 animate-pulse" />
           ))}
         </div>
       ) : error ? (
@@ -468,43 +466,25 @@ export function TripTimeline() {
           })
           rows.push({ type: 'planejar' })
 
+          const CARD_ROW_H = 'h-40 sm:h-44'
+
           return (
-            <div className="flex gap-4">
-              {/* Timeline column: line + dots */}
-              <div className="w-8 shrink-0 relative flex flex-col">
-                <div className="absolute left-1/2 top-6 bottom-0 w-0.5 bg-primary-200 -translate-x-1/2" />
-                <div className="relative z-10 flex flex-col pt-6">
-                  {rows.map((row) => {
-                    if (row.type === 'month') {
+            <div className="flex gap-4 relative">
+              <div className="absolute left-4 top-6 bottom-0 w-0.5 bg-primary-200" />
+              <div className="relative z-10 flex flex-col flex-1 min-w-0 gap-4 pt-6">
+                {rows.map((row) => {
+                  if (row.type === 'month') {
                     const nowYearMonth = new Date().getFullYear() * 12 + new Date().getMonth() + 1
                     const isPast = row.group.key === '__past__' || (row.group.sortOrder < Infinity && row.group.sortOrder < nowYearMonth)
-                      return (
-                        <div key={row.group.key} className="flex justify-center py-1 pb-4">
+                    return (
+                      <div key={row.group.key} className="flex gap-4 items-center">
+                        <div className="w-8 shrink-0 flex justify-center">
                           <div
                             className={`w-4 h-4 rounded-full border-2 shrink-0 ${
                               isPast ? 'bg-primary-400 border-primary-400' : 'bg-white border-primary-500 shadow-sm'
                             }`}
                           />
                         </div>
-                      )
-                    }
-                    if (row.type === 'card') {
-                      return <div key={row.trip.id} className="h-32 sm:h-36 pb-4 shrink-0" />
-                    }
-                    return (
-                      <div key="planejar" className="flex justify-center py-1 pt-4">
-                        <div className="w-4 h-4 rounded-full border-2 border-dashed border-primary-400 shrink-0" />
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-              {/* Content column */}
-              <div className="flex-1 min-w-0 pt-6">
-                {rows.map((row) => {
-                  if (row.type === 'month') {
-                    return (
-                      <div key={row.group.key} className="pb-4">
                         <h3 className="text-sm font-semibold text-secondary-600 uppercase tracking-wider">
                           {row.group.label}
                         </h3>
@@ -515,18 +495,26 @@ export function TripTimeline() {
                     const endTs = parseDateToTimestamp(row.trip.endDate) || getTripSortDate(row.trip)
                     const isPast = endTs > 0 && endTs < Infinity && endTs < now
                     return (
-                      <div key={row.trip.id} className="pb-4">
-                        <TripTimelineCard
-                          trip={row.trip}
-                          isPast={isPast}
-                          onIdeaClick={(t) => setIdeaModalTrip(t)}
-                        />
+                      <div key={row.trip.id} className={`flex gap-4 ${CARD_ROW_H}`}>
+                        <div className="w-8 shrink-0 flex justify-center" />
+                        <div className="flex-1 min-h-0">
+                          <TripTimelineCard
+                            trip={row.trip}
+                            isPast={isPast}
+                            onIdeaClick={(t) => setIdeaModalTrip(t)}
+                          />
+                        </div>
                       </div>
                     )
                   }
                   return (
-                    <div key="planejar" className="pt-2">
-                      <PlanNewTripCard />
+                    <div key="planejar" className="flex gap-4 items-start pt-2">
+                      <div className="w-8 shrink-0 flex justify-center pt-4">
+                        <div className="w-4 h-4 rounded-full border-2 border-dashed border-primary-400 shrink-0" />
+                      </div>
+                      <div className="flex-1 pt-2">
+                        <PlanNewTripCard />
+                      </div>
                     </div>
                   )
                 })}
