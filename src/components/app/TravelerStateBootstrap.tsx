@@ -2,9 +2,9 @@
 
 import { useEffect } from 'react'
 
+import { getAccessToken } from '@auth0/nextjs-auth0/client'
 import { useAppStore } from '@/core/store'
 import { updateTravelerState } from '@/services/user/update-traveler-state'
-import { auth0 } from '@/lib/auth0'
 
 declare global {
   interface Window {
@@ -33,7 +33,7 @@ export function TravelerStateBootstrap() {
 
         for (let attempt = 0; attempt < maxAttempts; attempt++) {
           // Don't call the backend until Auth0 access token is available.
-          const credentials = await auth0.getAccessToken()
+          const credentials = await getAccessToken()
           if (credentials) {
             await updateTravelerState()
           }
