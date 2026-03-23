@@ -24,6 +24,9 @@ const DEFAULT_GOALS: TripGoal[] = [
   { name: 'Passeios de natureza', uniqueName: 'passeios-de-natureza' },
 ]
 
+const goalsCache = new Map<TravelerType, TripGoal[]>()
+const goalsInFlight = new Map<TravelerType, Promise<TripGoal[]>>()
+
 export default function TripGoalsSelector({ 
   selectedGoals, 
   onGoalsChange, 
@@ -35,16 +38,32 @@ export default function TripGoalsSelector({
   const [isLoading, setIsLoading] = useState(true)
   
   useEffect(() => {
+    const effectiveTripType = tripType ?? TravelerType.INDIVIDUAL
+
     const fetchGoals = async () => {
+      if (goalsCache.has(effectiveTripType)) {
+        setAvailableGoals(goalsCache.get(effectiveTripType) ?? [])
+        setIsLoading(false)
+        return
+      }
+
       try {
         setIsLoading(true)
-        const goals = await TripsApiService.getGoals(tripType ?? TravelerType.INDIVIDUAL)
+        let request = goalsInFlight.get(effectiveTripType)
+        if (!request) {
+          request = TripsApiService.getGoals(effectiveTripType)
+          goalsInFlight.set(effectiveTripType, request)
+        }
+
+        const goals = await request
+        goalsCache.set(effectiveTripType, goals)
         setAvailableGoals(goals)
       } catch (err) {
         console.error('Error fetching goals:', err)
         // Use default goals when backend fails
         setAvailableGoals(DEFAULT_GOALS)
       } finally {
+        goalsInFlight.delete(effectiveTripType)
         setIsLoading(false)
       }
     }

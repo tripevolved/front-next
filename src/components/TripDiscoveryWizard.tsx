@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { TripsApiService } from '@/clients/trips'
 import { useRouter } from 'next/navigation'
-import { format } from 'date-fns'
+import { differenceInDays, format } from 'date-fns'
 import LeadForm from './LeadForm'
 import { CreateTripRequest, TravelerType } from '@/core/types/trip'
 import { LocalStorageService } from '@/clients/local'
@@ -39,24 +39,44 @@ interface UserInfo {
   phone: string
 }
 
+interface StepTypeOption {
+  id: TravelerType
+  name: string
+  icon: string
+  available: boolean
+}
+
 // Step components (exported for reuse e.g. planejar page)
-export const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => void, onBack?: () => void }) => {
+export const StepDates = ({
+  onNext,
+  onBack,
+  hideMonthSelection = false,
+  title = 'Vamos descobrir sua viagem?',
+  description = 'Selecione as datas da sua viagem para encontrarmos os melhores destinos para você.',
+}: {
+  onNext: (dates: TripDates) => void
+  onBack?: () => void
+  hideMonthSelection?: boolean
+  title?: string
+  description?: string
+}) => {
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null])
   const [startDate, endDate] = dateRange
   const [selectedMonth, setSelectedMonth] = useState<string | null>(null)
-  const [selectionMode, setSelectionMode] = useState<'month' | 'range'>('month')
+  const [selectionMode, setSelectionMode] = useState<'month' | 'range'>(hideMonthSelection ? 'range' : 'month')
+  const effectiveSelectionMode: 'month' | 'range' = hideMonthSelection ? 'range' : selectionMode
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (selectionMode === 'month' && selectedMonth) {
+    if (effectiveSelectionMode === 'month' && selectedMonth) {
       // For month selection, only populate the month field
       onNext({
         startDate: null,
         endDate: null,
         month: parseInt(selectedMonth)
       })
-    } else if (selectionMode === 'range' && startDate && endDate) {
+    } else if (effectiveSelectionMode === 'range' && startDate && endDate) {
       // For date range selection, only populate the startDate and endDate fields
       onNext({
         startDate: format(startDate, 'yyyy-MM-dd'),
@@ -68,40 +88,42 @@ export const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => vo
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-baloo font-bold text-secondary-900 mb-4">Vamos descobrir sua viagem?</h2>
-      <p className="text-gray-600 mb-6">Selecione as datas da sua viagem para encontrarmos os melhores destinos para você.</p>
+      <h2 className="text-2xl font-baloo font-bold text-secondary-900 mb-4">{title}</h2>
+      <p className="text-gray-600 mb-6">{description}</p>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Toggle button for selection mode */}
-        <div className="flex justify-center mb-6">
-          <div className="inline-flex rounded-lg border border-gray-300 p-1 bg-gray-50">
-            <button
-              type="button"
-              onClick={() => setSelectionMode('month')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                selectionMode === 'month'
-                  ? 'bg-primary-600 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
-              }`}
-            >
-              Selecionar Mês
-            </button>
-            <button
-              type="button"
-              onClick={() => setSelectionMode('range')}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                selectionMode === 'range'
-                  ? 'bg-primary-600 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
-              }`}
-            >
-              Selecionar Datas
-            </button>
+        {!hideMonthSelection && (
+          <div className="flex justify-center mb-6">
+            <div className="inline-flex rounded-lg border border-gray-300 p-1 bg-gray-50">
+              <button
+                type="button"
+                onClick={() => setSelectionMode('month')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  selectionMode === 'month'
+                    ? 'bg-primary-600 text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                Selecionar Mês
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectionMode('range')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  selectionMode === 'range'
+                    ? 'bg-primary-600 text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                Selecionar Datas
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Month selection */}
-        {selectionMode === 'month' && (
+        {effectiveSelectionMode === 'month' && (
           <MonthSelector
             selectedMonth={selectedMonth}
             onMonthSelect={setSelectedMonth}
@@ -110,7 +132,7 @@ export const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => vo
         )}
 
         {/* Date range selection */}
-        {selectionMode === 'range' && (
+        {effectiveSelectionMode === 'range' && (
           <DateRangeSelector
             startDate={startDate}
             endDate={endDate}
@@ -132,8 +154,8 @@ export const StepDates = ({ onNext, onBack }: { onNext: (dates: TripDates) => vo
           <button
             type="submit"
             disabled={
-              (selectionMode === 'month' && !selectedMonth) || 
-              (selectionMode === 'range' && (!startDate || !endDate))
+              (effectiveSelectionMode === 'month' && !selectedMonth) || 
+              (effectiveSelectionMode === 'range' && (!startDate || !endDate))
             }
             className="px-6 py-2 bg-primary-600 text-white rounded-full hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
@@ -228,7 +250,19 @@ export const StepProfile = ({ onNext, onBack, buttonText = "Próximo" }: { onNex
   )
 }
 
-export const StepType = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: (type: TripType) => void, onBack: () => void, buttonText?: string }) => {
+export const StepType = ({
+  onNext,
+  onBack,
+  buttonText = "Próximo",
+  types,
+  disclaimerText,
+}: {
+  onNext: (type: TripType) => void
+  onBack: () => void
+  buttonText?: string
+  types?: StepTypeOption[]
+  disclaimerText?: string
+}) => {
   const [type, setType] = useState<TravelerType | ''>('')
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -245,7 +279,14 @@ export const StepType = ({ onNext, onBack, buttonText = "Próximo" }: { onNext: 
         <TripTypeSelector
           selectedType={type}
           onTypeSelect={(t) => setType(t)}
+          types={types}
         />
+
+        {disclaimerText && (
+          <p className="text-sm text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+            {disclaimerText}
+          </p>
+        )}
 
         <div className="flex justify-between pt-4">
           <button
@@ -446,15 +487,42 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
       const tripRequest: CreateTripRequest = {
         travelerId: traveler.id,
         goals: tripGoals?.goals || [],
-        travelerProfile: tripProfile?.profile || '',
-        dates: {
-          startDate: tripDates?.startDate || null,
-          endDate: tripDates?.endDate || null,
-          month: tripDates?.month?.toString() || null
+        tripDetails: {
+          travelerProfile: tripProfile?.profile || '',
+          // The modal flow currently doesn't collect an explicit trip description yet.
+          tripDescription: '',
         },
+        budget: {
+          maxBudget: null,
+          isFlexible: true,
+        },
+        dates: (() => {
+          const start = tripDates?.startDate ? new Date(tripDates.startDate) : null
+          const end = tripDates?.endDate ? new Date(tripDates.endDate) : null
+
+          const anyMonthFlexibility = tripDates?.month != null
+          const days =
+            start &&
+            end &&
+            !isNaN(start.getTime()) &&
+            !isNaN(end.getTime())
+              ? Math.max(1, differenceInDays(end, start) + 1)
+              : 1
+
+          return {
+            startDate: tripDates?.startDate || null,
+            endDate: tripDates?.endDate || null,
+            month: tripDates?.month ?? null,
+            anyMonthFlexibility,
+            minDays: days,
+            maxDays: days,
+          }
+        })(),
         travelers: {
           type: tripType?.type ?? TravelerType.INDIVIDUAL
-        }
+        },
+        shouldRecommendDestinations: true,
+        mode: 'PROPOSAL',
       }
 
       // Call the API to create the trip

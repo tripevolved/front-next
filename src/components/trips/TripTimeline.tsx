@@ -395,25 +395,6 @@ export function TripTimeline() {
 
   return (
     <section className="mt-10 pt-10 border-t border-gray-200">
-      {showSavings && (
-        <div className="mb-4 p-4 rounded-xl bg-accent-50 border border-accent-200">
-          <p className="text-sm text-secondary-700 font-comfortaa">
-            {amountSaved != null && amountSaved !== 0 && (
-              <>
-                Você já economizou <span className="font-semibold text-accent-600">{formatCurrency(amountSaved)}</span>
-                {estimatedAmountToBeSaved != null && estimatedAmountToBeSaved !== 0 ? ' e ' : ' com suas viagens.'}
-              </>
-            )}
-            {estimatedAmountToBeSaved != null && estimatedAmountToBeSaved !== 0 && (
-              <>
-                {amountSaved == null || amountSaved === 0 ? 'Você economizará ' : 'economizará mais '}
-                <span className="font-semibold text-accent-600">{formatCurrency(estimatedAmountToBeSaved)}</span>
-                {' '}com as viagens do seu calendário.
-              </>
-            )}
-          </p>
-        </div>
-      )}
       <div className="mb-6">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
           <h2 className="text-xl font-semibold text-gray-900">Meu calendário de viagens</h2>
@@ -442,6 +423,26 @@ export function TripTimeline() {
           </p>
         )}
       </div>
+      
+      {showSavings && (
+        <div className="mb-4 p-4 rounded-xl bg-accent-50 border border-accent-200">
+          <p className="text-sm text-secondary-700 font-comfortaa">
+            {amountSaved != null && amountSaved !== 0 && (
+              <>
+                Você já evitou <span className="font-semibold text-accent-600">{formatCurrency(amountSaved)}</span>
+                {estimatedAmountToBeSaved != null && estimatedAmountToBeSaved !== 0 ? ' e ' : ' em comissões em suas viagens.'}
+              </>
+            )}
+            {estimatedAmountToBeSaved != null && estimatedAmountToBeSaved !== 0 && (
+              <>
+                {amountSaved == null || amountSaved === 0 ? 'Você evitará ' : 'evitará mais '}
+                <span className="font-semibold text-accent-600">{formatCurrency(estimatedAmountToBeSaved)}</span>
+                {' '}em comissões com as viagens do seu calendário.
+              </>
+            )}
+          </p>
+        </div>
+      )}
 
       {isLoading ? (
         <div className="space-y-4">

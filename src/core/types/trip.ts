@@ -223,20 +223,62 @@ export interface TripTip {
 }
 
 export interface TripDates {
-  startDate: string | null;
-  endDate: string | null;
-  month: string | null;
+  startDate: string | null
+  endDate: string | null
+  /**
+   * Month of travel (1-12). When set, `startDate`/`endDate` are typically null.
+   */
+  month: number | null
+
+  /**
+   * When true, the backend should treat the selection as flexible around the selected month.
+   */
+  anyMonthFlexibility: boolean
+  minDays: number
+  maxDays: number
+}
+
+export interface CreateTripRoom {
+  adults: number
+  children: number
+  type: TravelerType
+  childrenAges: number[]
 }
 
 export interface CreateTripTravelers {
-  type: TravelerType;
+  adults?: number
+  children?: number
+  childrenAges?: number[]
+  rooms?: CreateTripRoom[]
+
+  type: TravelerType
+}
+
+export interface CreateTripDetails {
+  travelerProfile: string
+  tripDescription?: string
 }
 
 export interface CreateTripRequest {
   travelerId: string;
   goals: string[];
-  travelerProfile: string;
-  dates: TripDates;
-  travelers: CreateTripTravelers;
-  mode?: "PROPOSAL" | "CONSULTANCY";
+  /**
+   * New contract: details container (profile + trip description).
+   */
+  tripDetails: CreateTripDetails
+
+  budget: {
+    maxBudget: number | null
+    isFlexible: boolean
+  }
+
+  dates: TripDates
+  travelers: CreateTripTravelers
+
+  /**
+   * New contract flag. When true, the backend should generate destination recommendations.
+   */
+  shouldRecommendDestinations?: boolean
+
+  mode?: "PROPOSAL" | "CONSULTANCY"
 }

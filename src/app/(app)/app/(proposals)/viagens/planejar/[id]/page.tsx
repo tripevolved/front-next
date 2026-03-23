@@ -30,9 +30,10 @@ export default function PlanejarResultsPage() {
   const [isWantToGoModalOpen, setIsWantToGoModalOpen] = useState(false)
   const selectedDestination = useRef<string>('')
 
-  const error = !id || fetchError || (tripProposal != null && !tripProposal.mainChoice)
+  const hasEmptyRecommendation = Boolean(id) && tripProposal != null && !tripProposal.mainChoice
+  const hasFetchFailure = !id || fetchError
 
-  if (error && !isLoading) {
+  if (hasFetchFailure && !isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center p-6 bg-gray-50">
         <div className="flex flex-col items-center gap-6 text-center max-w-md">
@@ -55,6 +56,35 @@ export default function PlanejarResultsPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             Voltar ao planejamento
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  if (hasEmptyRecommendation && !isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6 bg-gray-50">
+        <div className="flex flex-col items-center gap-6 text-center max-w-md">
+          <Image
+            src="/assets/states/success-state.svg"
+            alt=""
+            width={240}
+            height={240}
+            className="object-contain"
+          />
+          <h1 className="text-xl font-bold text-gray-900">Recomendações em breve</h1>
+          <p className="text-gray-600">
+            Um especialista vai revisar sua viagem e retornar com as recomendações em até 48 horas.
+          </p>
+          <Link
+            href="/app"
+            className="inline-flex items-center gap-2 mt-2 bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-full font-medium transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Voltar ao painel
           </Link>
         </div>
       </div>
