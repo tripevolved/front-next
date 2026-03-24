@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useAppStore } from "@/core/store";
 import { usePagamentoSteps } from "@/core/payments";
@@ -10,13 +10,36 @@ import {
   StepPaymentSelection,
   StepPaymentFinish,
 } from "@/components/payments";
-
-/** Círculo Evolved price in reais (e.g. 6700 = R$ 6.700,00). */
-const CIRCULO_PRICE = 6700;
+import { CustomersService } from "@/clients/customers";
+import type { SubscriptionsResponse } from "@/clients/customers";
 
 function PagamentoContent() {
   const travelerState = useAppStore((state) => state.travelerState);
   const subscriptionActive = travelerState?.subscription?.status === "Active";
+  const [subscriptions, setSubscriptions] = useState<SubscriptionsResponse | null>(null);
+  const [subscriptionsLoading, setSubscriptionsLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    CustomersService.getSubscriptions()
+      .then((data) => {
+        if (!cancelled) setSubscriptions(data);
+      })
+      .catch(() => {
+        if (!cancelled) setSubscriptions(null);
+      })
+      .finally(() => {
+        if (!cancelled) setSubscriptionsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const circuloPrice =
+    subscriptions != null && typeof subscriptions.priceWithTravelAdvisor === "number"
+      ? subscriptions.priceWithTravelAdvisor
+      : null;
 
   const {
     stepIndex,
@@ -47,7 +70,7 @@ function PagamentoContent() {
     sessionId,
     isLoadingPayer,
     travelerEmail,
-    totalAmount: CIRCULO_PRICE,
+    totalAmount: circuloPrice ?? 0,
     paymentReference: "Círculo Evolved",
     paymentType: "subscription",
     paymentIntentResponse,
@@ -76,6 +99,41 @@ function PagamentoContent() {
               Ver informações
             </Link>
           </section>
+        </div>
+      </div>
+    );
+  }
+
+  if (subscriptionsLoading) {
+    return (
+      <div className="min-h-screen bg-secondary-50 flex items-center justify-center">
+        <p className="font-comfortaa text-secondary-600">Carregando as informações para o pagamento…</p>
+      </div>
+    );
+  }
+
+  if (circuloPrice == null) {
+    return (
+      <div className="min-h-screen bg-secondary-50">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+          <header className="mb-8">
+            <h1 className="font-baloo text-2xl md:text-3xl font-bold text-secondary-900">
+              Pagamento — Círculo Evolved
+            </h1>
+          </header>
+          <div
+            className="p-4 bg-red-50 border border-red-200 rounded-xl font-comfortaa text-sm text-red-800"
+            role="alert"
+          >
+            Não foi possível carregar as informações para o pagamento. Atualize a página ou volte ao checkout e tente
+            novamente.
+          </div>
+          <Link
+            href="/app/checkout/circulo-evolved"
+            className="inline-block mt-6 font-baloo bg-accent-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-accent-600 transition-colors"
+          >
+            Voltar ao checkout
+          </Link>
         </div>
       </div>
     );
@@ -122,7 +180,7 @@ function PagamentoContent() {
               if (payload.paymentMethod) {
                 savePaymentMethodAndNext(
                   payload.paymentMethod,
-                  stepProps.totalAmount ?? CIRCULO_PRICE,
+                  stepProps.totalAmount,
                   stepProps.paymentReference,
                   stepProps.paymentType
                 );

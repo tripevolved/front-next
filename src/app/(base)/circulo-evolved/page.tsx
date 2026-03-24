@@ -1,10 +1,14 @@
 'use client'
 
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import FAQ from '@/components/FAQ'
 import CirculoEvolvedSection from '@/components/circulo-evolved/CirculoEvolvedSection'
+import { CustomersService } from '@/clients/customers'
+import type { SubscriptionsResponse } from '@/clients/customers'
+import { formatCurrency } from '@/utils/helpers/currency.helper'
 
 const PARA_QUEM_ITEMS = [
   'Casais e famílias que buscam um parceiro estratégico para suas viagens, não um vendedor',
@@ -19,18 +23,57 @@ const BENEFIT_CARDS = [
   { id: 'sem-comissoes', title: 'Sem comissões e taxas escondidas', description: 'Preços líquidos ou com cashback; você vê o valor real.' },
 ]
 
-const FAQ_ITEMS = [
+const FAQ_ITEMS_STATIC = [
   { q: 'Por que há vagas limitadas no Círculo Evolved?', a: 'O Círculo Evolved tem um número limitado de vagas para que possamos dar o cuidado e a atenção que cada pessoa merece. Essa limitação garante que sua viagem seja desenhada e acompanhada com a dedicação que você espera — sem comprometer a qualidade do atendimento.' },
   { q: 'Quem pode ser elegível aos benefícios?', a: 'Após a contratação, cadastramos sua família. Apenas viagens com essas pessoas (família direta) são elegíveis aos benefícios de cashback ou zero comissão.' },
   { q: 'As viagens precisam ser realizadas em 12 meses?', a: 'As viagens precisam ser reservadas no período de 12 meses, mas podem ser realizadas depois — o suporte necessário permanece.' },
   { q: 'Quais viagens estão incluídas?', a: 'Todas as viagens que você realizar no período estão incluídas, inclusive viagens curtas e de fim de semana.' },
   { q: 'Preciso reservar tudo pela Trip Evolved?', a: 'Todos os trechos da viagem precisam ser reservados através da Trip Evolved para serem elegíveis à política sem comissões. Você terá transparência e clareza nos valores da sua viagem, sabendo exatamente quanto você NÃO vai pagar porque não somos comissionados.' },
-  { q: 'Como funciona a garantia?', a: 'Você vai receber ao menos o valor do Círculo Evolved (R$6.700,00) de volta em cashback ou descontos devido à ausência de comissões. Se isso não acontecer, ao final dos 12 meses, te devolvemos a diferença.' },
   { q: 'Vocês só trabalham com viagens de lazer?', a: 'Sim! Nossa expertise é em viagens de lazer e vamos cuidar de cada detalhe para que sua viagem seja única e especial.' },
-]
+] as const
+
+function buildFaqItems(priceLabel: string | null) {
+  const guaranteeA =
+    priceLabel != null
+      ? `Você vai receber ao menos o valor do Círculo Evolved (${priceLabel}) de volta em cashback ou descontos devido à ausência de comissões. Se isso não acontecer, ao final dos 12 meses, te devolvemos a diferença.`
+      : 'Você vai receber ao menos o valor do Círculo Evolved de volta em cashback ou descontos devido à ausência de comissões. Se isso não acontecer, ao final dos 12 meses, te devolvemos a diferença.'
+
+  return [
+    ...FAQ_ITEMS_STATIC.slice(0, 5),
+    { q: 'Como funciona a garantia?', a: guaranteeA },
+    ...FAQ_ITEMS_STATIC.slice(5),
+  ]
+}
 
 export default function CirculoEvolvedPage() {
   const router = useRouter()
+  const [subscriptions, setSubscriptions] = useState<SubscriptionsResponse | null>(null)
+  const [subscriptionsLoading, setSubscriptionsLoading] = useState(true)
+
+  useEffect(() => {
+    let cancelled = false
+    CustomersService.getSubscriptions()
+      .then((data) => {
+        if (!cancelled) setSubscriptions(data)
+      })
+      .catch(() => {
+        if (!cancelled) setSubscriptions(null)
+      })
+      .finally(() => {
+        if (!cancelled) setSubscriptionsLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const faqItems = useMemo(() => {
+    const priceLabel =
+      subscriptions != null && typeof subscriptions.priceWithTravelAdvisor === 'number'
+        ? formatCurrency(subscriptions.priceWithTravelAdvisor)
+        : null
+    return buildFaqItems(priceLabel)
+  }, [subscriptions])
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -342,6 +385,9 @@ export default function CirculoEvolvedPage() {
         ctaText="Contratar o Círculo Evolved"
         onCtaClick={() => router.push('/app/checkout/circulo-evolved')}
         eventSource="Circulo Evolved - Landing"
+        manageSubscriptionsLocally={false}
+        subscriptionsSnapshot={subscriptions}
+        subscriptionsSnapshotLoading={subscriptionsLoading}
       />
 
       {/* FAQ */}
@@ -351,7 +397,7 @@ export default function CirculoEvolvedPage() {
             Perguntas frequentes
           </h2>
           <FAQ
-            questions={FAQ_ITEMS.map((item) => ({
+            questions={faqItems.map((item) => ({
               question: item.q,
               answer: item.a,
             }))}

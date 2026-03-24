@@ -1,6 +1,12 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Button from '@/components/common/Button'
 import { EventType } from '@/components/basic/FacebookPixel'
+import { CustomersService } from '@/clients/customers'
+import type { SubscriptionsResponse } from '@/clients/customers'
+import { formatCurrency } from '@/utils/helpers/currency.helper'
 import LimitedSpotsNotice from './LimitedSpotsNotice'
 
 interface CirculoEvolvedSectionProps {
@@ -11,6 +17,15 @@ interface CirculoEvolvedSectionProps {
   ctaText?: string
   id?: string
   className?: string
+  /**
+   * When true (default), loads customers/subscriptions inside this section.
+   * Set to false to pass data from a parent that already fetched (one request per page).
+   */
+  manageSubscriptionsLocally?: boolean
+  /** Used when manageSubscriptionsLocally is false. */
+  subscriptionsSnapshot?: SubscriptionsResponse | null
+  /** Used when manageSubscriptionsLocally is false. */
+  subscriptionsSnapshotLoading?: boolean
 }
 
 export default function CirculoEvolvedSection({
@@ -21,7 +36,45 @@ export default function CirculoEvolvedSection({
   ctaText = 'Conhecer o Círculo Evolved',
   id,
   className = '',
+  manageSubscriptionsLocally = true,
+  subscriptionsSnapshot = null,
+  subscriptionsSnapshotLoading = false,
 }: CirculoEvolvedSectionProps) {
+  const [internalSubscriptions, setInternalSubscriptions] = useState<SubscriptionsResponse | null>(null)
+  const [internalLoading, setInternalLoading] = useState(true)
+
+  useEffect(() => {
+    if (!manageSubscriptionsLocally) {
+      return
+    }
+    let cancelled = false
+
+    const load = async () => {
+      try {
+        const data = await CustomersService.getSubscriptions()
+        if (!cancelled) {
+          setInternalSubscriptions(data)
+        }
+      } catch {
+        if (!cancelled) {
+          setInternalSubscriptions(null)
+        }
+      } finally {
+        if (!cancelled) {
+          setInternalLoading(false)
+        }
+      }
+    }
+
+    load()
+    return () => {
+      cancelled = true
+    }
+  }, [manageSubscriptionsLocally])
+
+  const subscriptions = manageSubscriptionsLocally ? internalSubscriptions : subscriptionsSnapshot
+  const subscriptionsLoading = manageSubscriptionsLocally ? internalLoading : subscriptionsSnapshotLoading
+
   return (
     <section id={id} className={`py-20 bg-secondary-500 ${className}`}>
       <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
@@ -68,10 +121,18 @@ export default function CirculoEvolvedSection({
         </ul>
 
         {showPrice && (
-          <div className="text-center mb-6">
-            <span className="font-baloo text-4xl md:text-5xl font-bold text-accent-400">
-              R$ 6.700,00
-            </span>
+          <div className="text-center mb-6 min-h-[3rem] flex items-center justify-center">
+            {subscriptionsLoading ? (
+              <span className="inline-flex gap-1.5" aria-busy="true" aria-label="Carregando preço">
+                <span className="inline-block w-2 h-2 rounded-full bg-white/80 animate-pulse" />
+                <span className="inline-block w-2 h-2 rounded-full bg-white/80 animate-pulse" style={{ animationDelay: '150ms' }} />
+                <span className="inline-block w-2 h-2 rounded-full bg-white/80 animate-pulse" style={{ animationDelay: '300ms' }} />
+              </span>
+            ) : subscriptions != null ? (
+              <span className="font-baloo text-4xl md:text-5xl font-bold text-accent-400">
+                {formatCurrency(subscriptions.priceWithTravelAdvisor)}
+              </span>
+            ) : null}
           </div>
         )}
 
@@ -81,7 +142,7 @@ export default function CirculoEvolvedSection({
           </p>
         </div>
 
-        <LimitedSpotsNotice />
+        <LimitedSpotsNotice subscriptions={subscriptions} isLoading={subscriptionsLoading} />
 
         <div className="text-center">
           <Button

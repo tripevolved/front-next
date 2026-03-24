@@ -7,8 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import { CustomersService } from '@/clients/customers'
 import type { SubscriptionsResponse } from '@/clients/customers'
 import { getWhatsappLink } from '@/utils/helpers/whatsapp.helpers'
-
-const CIRCULO_PRICE = 6700
+import { formatCurrency } from '@/utils/helpers/currency.helper'
 
 const CIRCULO_WHATSAPP_MESSAGE =
   'Olá! Gostaria de saber sobre vagas para o Círculo Evolved. As vagas estão esgotadas no momento e gostaria de ser avisado quando houver disponibilidade.'
@@ -34,13 +33,6 @@ const IMPORTANT_ANSWERS = [
   'Todos os trechos da viagem precisam ser reservados através da Trip Evolved para serem elegíveis à política sem comissões.',
   'Não trabalhamos com todos os produtos e destinos, mas estamos em constante evolução e vamos avaliar qualquer destino que você deseje para sua viagem com nossos parceiros.',
 ]
-
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(value)
-}
 
 export default function CirculoEvolvedCheckoutPage() {
   const searchParams = useSearchParams()
@@ -73,8 +65,14 @@ export default function CirculoEvolvedCheckoutPage() {
     subscriptions != null &&
     subscriptions.available <= 0
 
+  const circuloPrice =
+    subscriptions != null && typeof subscriptions.priceWithTravelAdvisor === 'number'
+      ? subscriptions.priceWithTravelAdvisor
+      : null
+
   const showPaymentButton =
-    bypassPaymentCheck || (!isLoadingSubscriptions && !noSpotsAvailable)
+    bypassPaymentCheck ||
+    (!isLoadingSubscriptions && !noSpotsAvailable && circuloPrice != null)
 
   return (
     <div className="min-h-screen bg-secondary-50">
@@ -179,7 +177,11 @@ export default function CirculoEvolvedCheckoutPage() {
                 <div className="flex justify-between items-baseline">
                   <span className="font-comfortaa text-secondary-700">Valor total</span>
                   <span className="font-baloo text-2xl font-bold text-secondary-900">
-                    {formatCurrency(CIRCULO_PRICE)}
+                    {isLoadingSubscriptions
+                      ? '…'
+                      : circuloPrice != null
+                        ? formatCurrency(circuloPrice)
+                        : '—'}
                   </span>
                 </div>
                 <p className="font-comfortaa text-xs text-secondary-500 mt-1">

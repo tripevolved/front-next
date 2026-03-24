@@ -128,7 +128,7 @@ export interface PagamentoStepProps {
   isLoadingPayer?: boolean;
   /** Email from traveler state (pre-populated top section); must match payer.email */
   travelerEmail?: string;
-  /** Total amount in reais (e.g. 6700 for R$ 6.700,00). Used for installments when credit_card. */
+  /** Total amount in whole BRL (e.g. from subscriptions API). Used for installments when credit_card. */
   totalAmount?: number;
   /** Reference for the payment intent (e.g. "Círculo Evolved"). Sent in metadata. */
   paymentReference?: string;
