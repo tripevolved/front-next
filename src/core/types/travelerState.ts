@@ -30,10 +30,13 @@ export interface TravelerState {
 }
 
 export interface Subscription {
+  id: string;
   name: string;
   dateFrom: Date;
   dateTo: Date;
   status: "Active" | "Inactive";
+  /** When true, the subscriber has at least one linked traveler; used to load and show the travelers list. */
+  hasTravelers: boolean;
 }
 
 type ProductFeature =
