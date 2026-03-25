@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export interface PayerResponse
   extends Omit<TripPayer, "document" | "birthDate"> {
   document: string;
@@ -136,4 +138,9 @@ export interface PagamentoStepProps {
   paymentType?: string;
   /** Response from create payment intent; used for PIX (pixInfo) in StepPaymentFinish. */
   paymentIntentResponse?: PaymentIntentResponse | null;
+  /**
+   * Optional block shown after a successful payment (PIX polling approved or card finish success).
+   * Keeps StepPaymentFinish generic; pass flow-specific CTAs from the checkout page.
+   */
+  paymentSuccessExtra?: ReactNode;
 }

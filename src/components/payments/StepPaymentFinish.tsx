@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
 import { differenceInMinutes } from "date-fns";
@@ -34,12 +34,14 @@ function PixPaymentContent({
   netAmount,
   expirationDate,
   onBack,
+  successExtra,
 }: {
   transactionId: string;
   qrCode: string;
   netAmount: number;
   expirationDate: Date | string;
   onBack?: () => void;
+  successExtra?: ReactNode;
 }) {
   const [copied, setCopied] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus | null>(null);
@@ -91,6 +93,7 @@ function PixPaymentContent({
             Obrigado pela sua compra. Você receberá a confirmação por e-mail.
           </p>
         </div>
+        {successExtra}
         <Link
           href="/app"
           className="inline-block font-baloo bg-accent-500 text-secondary-900 px-6 py-3 rounded-full font-semibold hover:bg-accent-600 transition-colors text-center"
@@ -182,6 +185,7 @@ export function StepPaymentFinish({
   onBack,
   isSaving,
   paymentIntentResponse,
+  paymentSuccessExtra,
 }: PagamentoStepProps) {
   const isPix = payload.paymentMethod === "pix";
   const pixInfo = isPix ? paymentIntentResponse?.pixInfo : null;
@@ -198,7 +202,7 @@ export function StepPaymentFinish({
   const [cardError, setCardError] = useState<string | null>(null);
 
   const handleCreditCardSubmit = useCallback(
-    async (e: React.FormEvent) => {
+    async (e: FormEvent) => {
       e.preventDefault();
       const transactionId = paymentIntentResponse?.transactionId;
       if (!transactionId) {
@@ -259,6 +263,7 @@ export function StepPaymentFinish({
             netAmount={pixInfo.netAmount}
             expirationDate={pixInfo.expirationDate}
             onBack={onBack}
+            successExtra={paymentSuccessExtra}
           />
         </div>
       )}
@@ -273,6 +278,7 @@ export function StepPaymentFinish({
               Obrigado pela sua compra. Você receberá a confirmação por e-mail.
             </p>
           </div>
+          {paymentSuccessExtra}
           <Link
             href="/app"
             className="inline-block font-baloo bg-accent-500 text-secondary-900 px-6 py-3 rounded-full font-semibold hover:bg-accent-600 transition-colors text-center"

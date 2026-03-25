@@ -13,6 +13,9 @@ import { WhatsAppDirectButton } from '@/components/WhatsAppDirectButton'
 
 const PLACEHOLDER_IMAGE = '/assets/blank-image.png'
 
+const ANNUAL_CALENDAR_WHATSAPP_MESSAGE =
+  'Olá! Gostaria de solicitar meu calendário anual de viagens (benefício Círculo Evolved).'
+
 const MONTHS: Record<string, number> = {
   jan: 1, januario: 1, january: 1,
   fev: 2, feb: 2, fevereiro: 2, february: 2,
@@ -398,18 +401,25 @@ export function TripTimeline() {
       <div className="mb-6">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
           <h2 className="text-xl font-semibold text-gray-900">Meu calendário de viagens</h2>
-          <button
-            type="button"
-            disabled={!subscriptionActive}
-            className={`inline-flex items-center gap-2 font-baloo text-sm font-semibold px-4 py-2 rounded-full transition-all ${
-              subscriptionActive
-                ? 'bg-accent-500 text-white hover:bg-accent-600'
-                : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-            }`}
-          >
-            {!subscriptionActive && <LockIcon className="w-4 h-4" />}
-            Solicitar calendário anual
-          </button>
+          {subscriptionActive ? (
+            <WhatsAppDirectButton
+              message={ANNUAL_CALENDAR_WHATSAPP_MESSAGE}
+              variant="primary"
+              aria-label="Solicitar calendário anual pelo WhatsApp"
+              className="font-baloo text-sm font-semibold px-4 py-2 bg-[#25D366] text-white hover:bg-[#20bd5a] shadow-sm"
+            >
+              Solicitar calendário anual
+            </WhatsAppDirectButton>
+          ) : (
+            <button
+              type="button"
+              disabled
+              className="inline-flex items-center gap-2 font-baloo text-sm font-semibold px-4 py-2 rounded-full transition-all bg-gray-200 text-gray-500 cursor-not-allowed"
+            >
+              <LockIcon className="w-4 h-4" />
+              Solicitar calendário anual
+            </button>
+          )}
         </div>
         {!subscriptionActive && (
           <p className="text-sm text-secondary-600 font-comfortaa">

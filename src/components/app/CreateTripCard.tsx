@@ -14,20 +14,21 @@ export function CreateTripCard() {
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth={2}
-            d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-3 1.5V22l4-1 4 1v-1.5L13 19v-5.5l8 2.5z"
+            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
           />
         </svg>
       </div>
       <div className="flex items-center justify-center gap-2 flex-wrap mb-1">
         <h3 className="text-lg font-semibold text-gray-900">
-          Criar minha viagem
+          Coleções de jornada
         </h3>
         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
           em breve
         </span>
       </div>
       <p className="text-sm text-gray-600">
-        Em breve você poderá criar e planejar sua viagem por aqui.
+        Ideias e roteiros selecionados para inspirar suas próximas viagens — sem substituir o cuidado do seu
+        travel designer.
       </p>
     </div>
   )

@@ -10,6 +10,7 @@ import {
   StepPaymentSelection,
   StepPaymentFinish,
 } from "@/components/payments";
+import { CirculoEvolvedPaymentTravelersPrompt } from "@/components/circulo-evolved/CirculoEvolvedPaymentTravelersPrompt";
 import { CustomersService } from "@/clients/customers";
 import type { SubscriptionsResponse } from "@/clients/customers";
 
@@ -74,6 +75,7 @@ function PagamentoContent() {
     paymentReference: "Círculo Evolved",
     paymentType: "subscription",
     paymentIntentResponse,
+    paymentSuccessExtra: <CirculoEvolvedPaymentTravelersPrompt />,
   };
 
   if (subscriptionActive) {

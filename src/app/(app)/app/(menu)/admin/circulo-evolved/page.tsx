@@ -9,6 +9,7 @@ import { updateTravelerState } from "@/services/user/update-traveler-state";
 
 const REMOVAL_CONTACT_EMAIL = "info@tripevolved.com.br";
 const MAX_SUBSCRIPTION_TRAVELERS = 6;
+const SUBSCRIPTION_STATE_RETRY_DELAY_MS = 8_000;
 
 function relationshipLabel(type: RelationshipType): string {
   switch (type) {
@@ -38,6 +39,48 @@ function formatDate(value: Date | string): string {
 export default function CirculoEvolvedAdminPage() {
   const travelerState = useAppStore((state) => state.travelerState);
   const subscription = travelerState?.subscription;
+  const subscriptionId = subscription?.id;
+
+  const [isResolvingSubscriptionId, setIsResolvingSubscriptionId] = useState(
+    () => !travelerState?.subscription?.id
+  );
+
+  useEffect(() => {
+    const getId = () => Boolean(useAppStore.getState().travelerState?.subscription?.id);
+
+    if (getId()) {
+      setIsResolvingSubscriptionId(false);
+      return;
+    }
+
+    let cancelled = false;
+
+    void (async () => {
+      setIsResolvingSubscriptionId(true);
+
+      await updateTravelerState();
+      if (cancelled) return;
+      if (getId()) {
+        setIsResolvingSubscriptionId(false);
+        return;
+      }
+
+      await new Promise<void>((resolve) => setTimeout(resolve, SUBSCRIPTION_STATE_RETRY_DELAY_MS));
+      if (cancelled) return;
+      if (getId()) {
+        setIsResolvingSubscriptionId(false);
+        return;
+      }
+
+      await updateTravelerState();
+      if (cancelled) return;
+      setIsResolvingSubscriptionId(false);
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [subscriptionId]);
 
   const canManageTravelers = Boolean(subscription?.id);
   const showTravelersList = subscription?.hasTravelers === true;
@@ -75,7 +118,7 @@ export default function CirculoEvolvedAdminPage() {
     return () => {
       cancelled = true;
     };
-  }, [subscription?.id, showTravelersList]);
+  }, [subscriptionId, showTravelersList]);
 
   /** Known count when we can decide the limit; null while loading list or if the list failed to load. */
   const resolvedTravelerCount: number | null =
@@ -214,6 +257,10 @@ export default function CirculoEvolvedAdminPage() {
                 De {formatDate(subscription.dateFrom)} até {formatDate(subscription.dateTo)}
               </p>
             </div>
+          ) : isResolvingSubscriptionId ? (
+            <p className="font-comfortaa text-secondary-600">
+              Sincronizando informações da assinatura…
+            </p>
           ) : (
             <p className="font-comfortaa text-secondary-600">
               Nenhuma assinatura encontrada.
@@ -298,7 +345,11 @@ export default function CirculoEvolvedAdminPage() {
               </div>
             )}
 
-            {!canManageTravelers ? (
+            {isResolvingSubscriptionId && !canManageTravelers ? (
+              <div className="p-4 bg-secondary-50 border border-secondary-200 rounded-xl font-comfortaa text-sm text-secondary-700">
+                Carregando dados da assinatura…
+              </div>
+            ) : !canManageTravelers ? (
               <div className="p-4 bg-secondary-50 border border-secondary-200 rounded-xl font-comfortaa text-sm text-secondary-700">
                 Não foi possível carregar o identificador da sua assinatura para cadastrar viajantes.
               </div>
