@@ -156,7 +156,7 @@ const STATUS_LABELS: Record<string, string> = {
 
 function getTripHref(trip: TripListView): string | null {
   if (trip.status === 'NEW') return null
-  if (trip.status === 'PROPOSAL') return `/app/viagens/planejar/${trip.id}`
+  if (trip.status === 'PROPOSAL') return `/app/viagens/${trip.id}/pre-proposta`
   return `/app/viagens/${trip.id}/proposta`
 }
 

@@ -525,7 +525,7 @@ export default function PlanejarPage() {
         mode: 'PROPOSAL',
       }
       const { id } = await TripsApiService.createTrip(tripRequest)
-      router.push(`/app/viagens/planejar/${id}`)
+      router.push(`/app/viagens/${id}/pre-proposta`)
     } catch (err) {
       console.error('Error creating trip:', err)
       setError(err instanceof Error ? err.message : 'Houve um erro ao criar a viagem. Por favor, tente novamente.')
