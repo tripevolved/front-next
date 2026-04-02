@@ -165,6 +165,12 @@ function TripIdeaModal({ trip, onClose }: { trip: TripListView; onClose: () => v
   const imageUrls = trip.images?.map((img) => img.url).filter(Boolean) ?? []
   const price = trip.estimatedPrice ?? trip.price
   const savings = trip.estimatedSavings ?? trip.savings
+  const descriptionText = (trip.description ?? '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+  const hasTripDescription = Boolean(descriptionText)
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -214,15 +220,31 @@ function TripIdeaModal({ trip, onClose }: { trip: TripListView; onClose: () => v
             {trip.destination && (
               <p className="text-sm text-secondary-600 font-medium">{trip.destination}</p>
             )}
-            {trip.description && (
+            {hasTripDescription ? (
               <div className="bg-accent-50 border border-accent-200 rounded-xl p-4 overflow-hidden">
                 <p className="text-xs font-semibold text-accent-700 uppercase tracking-wider mb-2">
                   Recomendação do especialista
                 </p>
                 <div
                   className="text-secondary-700 font-comfortaa text-sm leading-relaxed prose prose-sm max-w-none overflow-hidden break-words [&_*]:max-w-full [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_iframe]:max-w-full [&_iframe]:max-h-[200px]"
-                  dangerouslySetInnerHTML={{ __html: trip.description }}
+                  dangerouslySetInnerHTML={{ __html: trip.description ?? '' }}
                 />
+              </div>
+            ) : (
+              <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                <div className="flex flex-col items-center gap-4 text-center">
+                  <Image
+                    src="/assets/states/success-state.svg"
+                    alt=""
+                    width={180}
+                    height={180}
+                    className="object-contain"
+                  />
+                  <h3 className="text-base font-bold text-gray-900">Recomendações em breve</h3>
+                  <p className="text-sm text-gray-600">
+                    Um especialista está montando sua viagem agora. Assim que estiver pronta, você verá a recomendação aqui.
+                  </p>
+                </div>
               </div>
             )}
             {(price != null && price !== 0) || (savings != null && savings !== 0) ? (
