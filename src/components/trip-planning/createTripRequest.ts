@@ -1,6 +1,7 @@
 import { differenceInDays } from 'date-fns'
 import { type CreateTripRequest, TravelerType } from '@/core/types/trip'
-import type { FamilyRoom, FamilyTravellers, TripDates, TripGoals, TripProfile, TripType } from './types'
+import type { FamilyRoom, FamilyTravellers } from './familyTypes'
+import type { TripDates, TripGoals, TripProfile, TripType } from './types'
 import type { TripBudgetPayload } from './StepBudget'
 
 function toApiDates(d: TripDates): CreateTripRequest['dates'] {
@@ -10,16 +11,19 @@ function toApiDates(d: TripDates): CreateTripRequest['dates'] {
   const isMonthMode = d.month != null
   const anyMonthFlexibility = isMonthMode
 
-  const days =
+  const fallbackDays =
     start && end && !isNaN(start.getTime()) && !isNaN(end.getTime()) ? Math.max(1, differenceInDays(end, start) + 1) : 1
+
+  const maxDays = Math.max(1, Math.floor(d.maxDays ?? fallbackDays))
+  const minDays = maxDays
 
   return {
     startDate: d.startDate ?? null,
     endDate: d.endDate ?? null,
     month: d.month ?? null,
     anyMonthFlexibility,
-    minDays: days,
-    maxDays: days,
+    minDays,
+    maxDays,
   }
 }
 

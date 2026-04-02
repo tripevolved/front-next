@@ -1,21 +1,21 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Consultoria de Cruzeiros de Luxo - Jornada Evolved",
-  description: "Encontre seu cruzeiro ideal com nossa consultoria especializada. Curadoria dos melhores cruzeiros de luxo, sem filas, com design completo da viagem. Receba 3 opções personalizadas em 24 horas com transparência total.",
+  title: "Cruzeiros de Luxo: a Jornada Evolved",
+  description: "Uma seleção de jornadas pelo mar, curadas para casais que querem explorar com profundidade — sem perder tempo com decisões erradas",
   alternates: {
     canonical: "https://tripevolved.com.br/consultoria/cruzeiros",
   },
   openGraph: {
-    title: "Consultoria de Cruzeiros de Luxo - Jornada Evolved",
-    description: "Encontre seu cruzeiro ideal com nossa consultoria especializada. Curadoria dos melhores cruzeiros de luxo, sem filas, com design completo da viagem.",
+    title: "Cruzeiros de Luxo: a Jornada Evolved",
+    description: "Uma seleção de jornadas pelo mar, curadas para casais que querem explorar com profundidade — sem perder tempo com decisões erradas",
     url: "https://tripevolved.com.br/consultoria/cruzeiros",
     siteName: "Trip Evolved",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Consultoria de Cruzeiros de Luxo - Jornada Evolved",
-    description: "Encontre seu cruzeiro ideal com nossa consultoria especializada. Curadoria dos melhores cruzeiros de luxo.",
+    title: "Cruzeiros de Luxo: a Jornada Evolved",
+    description: "Uma seleção de jornadas pelo mar, curadas para casais que querem explorar com profundidade — sem perder tempo com decisões erradas",
   },
 };
 

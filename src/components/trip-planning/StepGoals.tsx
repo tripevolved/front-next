@@ -24,7 +24,7 @@ export function StepGoals({
   return (
     <div className="p-6 flex flex-col h-full">
       <h2 className="text-2xl font-baloo font-bold text-secondary-900 mb-4">Defina sua viagem</h2>
-      <p className="text-gray-600 mb-6">Selecione até 5 palavras que melhor definem a viagem dos seus sonhos.</p>
+      <p className="text-gray-600 mb-6">Selecione até 5 expressões que melhor definem a viagem dos seus sonhos.</p>
 
       <form onSubmit={handleSubmit} className="flex flex-col flex-grow">
         <TripGoalsSelector

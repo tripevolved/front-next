@@ -17,7 +17,7 @@ export function StepBudget({
   onBack: () => void
   initial?: TripBudgetPayload
 }) {
-  const [maxBudget, setMaxBudget] = useState<number>(initial?.maxBudget ?? 25000)
+  const [maxBudget, setMaxBudget] = useState<number>(initial?.maxBudget ?? 60000)
   const [isFlexible, setIsFlexible] = useState<boolean>(initial?.isFlexible ?? true)
 
   const handleSubmit = (e: FormEvent) => {

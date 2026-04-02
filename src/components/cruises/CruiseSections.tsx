@@ -8,6 +8,8 @@ import Button from "../common/Button";
 
 interface CruiseSectionsProps {
   handleClick: (uniqueName: string) => void;
+  /** Classes Tailwind para o fundo do bloco (ex.: bg-secondary-50) */
+  className?: string;
 }
 
 const cruiseTypeConfig = {
@@ -25,7 +27,7 @@ const cruiseTypeConfig = {
   }
 };
 
-export default function CruiseSections({ handleClick }: CruiseSectionsProps) {
+export default function CruiseSections({ handleClick, className = "" }: CruiseSectionsProps) {
   const [activeType, setActiveType] = useState<CruiseType>('relax');
   const [cruises, setCruises] = useState<Record<CruiseType, CruiseData[]>>({
     relax: [],
@@ -72,7 +74,7 @@ export default function CruiseSections({ handleClick }: CruiseSectionsProps) {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className={`flex flex-col ${className}`.trim()}>
       {/* Main Section Title */}
       <div className="text-center py-8">
         <h1 className="font-baloo text-4xl md:text-5xl font-bold text-gray-800">

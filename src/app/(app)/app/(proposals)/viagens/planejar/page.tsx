@@ -152,9 +152,8 @@ export default function PlanejarPage() {
                     goNext()
                   }}
                   onBack={goBack}
-                  hideMonthSelection
-                  title="Quando você quer viajar?"
-                  description="Selecione o período da sua viagem para continuarmos com a recomendação."
+                  title="Quando você consegue viajar?"
+                  description="Selecione a janela de datas em que você pode viajar e a duração desejada para a sua viagem."
                 />
               )}
 
@@ -169,11 +168,6 @@ export default function PlanejarPage() {
                     goNext()
                   }}
                   onBack={goBack}
-                  types={[
-                    { id: TravelerType.COUPLE, name: 'Casal', icon: '❤️', available: true },
-                    { id: TravelerType.FAMILY, name: 'Família', icon: '👨‍👩‍👧‍👦', available: true },
-                  ]}
-                  disclaimerText="Só cuidamos de viagens para casais e famílias."
                 />
               )}
 

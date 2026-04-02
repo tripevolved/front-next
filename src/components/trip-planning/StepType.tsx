@@ -5,20 +5,30 @@ import { TravelerType } from '@/core/types/trip'
 import TripTypeSelector from '../common/TripTypeSelector'
 import type { StepTypeOption, TripType } from './types'
 
+/** Only casal e família — demais tipos ficam ocultos neste fluxo por enquanto. */
+const DEFAULT_STEP_TYPES: StepTypeOption[] = [
+  { id: TravelerType.COUPLE, name: 'Casal', icon: '❤️', available: true },
+  { id: TravelerType.FAMILY, name: 'Família', icon: '👨‍👩‍👧‍👦', available: true },
+]
+
+const DEFAULT_DISCLAIMER_TEXT = 'Só cuidamos de viagens para casais e famílias.'
+
 export function StepType({
   onNext,
   onBack,
   buttonText = 'Próximo',
-  types,
+  types = DEFAULT_STEP_TYPES,
   disclaimerText,
 }: {
   onNext: (type: TripType) => void
   onBack: () => void
   buttonText?: string
   types?: StepTypeOption[]
+  /** Omitido → usa o aviso padrão. String vazia oculta o aviso. */
   disclaimerText?: string
 }) {
   const [type, setType] = useState<TravelerType | ''>('')
+  const resolvedDisclaimer = disclaimerText === undefined ? DEFAULT_DISCLAIMER_TEXT : disclaimerText
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,9 +43,11 @@ export function StepType({
       <form onSubmit={handleSubmit} className="space-y-6">
         <TripTypeSelector selectedType={type} onTypeSelect={(t) => setType(t)} types={types} />
 
-        {disclaimerText && (
-          <p className="text-sm text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">{disclaimerText}</p>
-        )}
+        {resolvedDisclaimer ? (
+          <p className="text-sm text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+            {resolvedDisclaimer}
+          </p>
+        ) : null}
 
         <div className="flex justify-between pt-4">
           <button

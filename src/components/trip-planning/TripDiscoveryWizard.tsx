@@ -178,7 +178,8 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
       })
 
       const { id } = await TripsApiService.createTrip(tripRequest)
-      router.push(`/resultados/${id}`)
+      void id
+      router.push('/obrigado')
       handleOnClose()
     } catch (err) {
       console.error('Error creating trip:', err)
@@ -231,6 +232,8 @@ export default function TripDiscoveryWizard({ isOpen, onClose }: { isOpen: boole
               goNext()
             }}
             onBack={goBack}
+            title="Quando você pretende viajar?"
+            description="Selecione a janela de datas em que você pode viajar e a duração desejada para a sua viagem."
           />
         )}
 
