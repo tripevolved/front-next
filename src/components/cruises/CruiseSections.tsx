@@ -10,6 +10,8 @@ interface CruiseSectionsProps {
   handleClick: (uniqueName: string) => void;
   /** Classes Tailwind para o fundo do bloco (ex.: bg-secondary-50) */
   className?: string;
+  title?: string;
+  description?: string;
 }
 
 const cruiseTypeConfig = {
@@ -27,7 +29,7 @@ const cruiseTypeConfig = {
   }
 };
 
-export default function CruiseSections({ handleClick, className = "" }: CruiseSectionsProps) {
+export default function CruiseSections({ handleClick, className = "", title, description }: CruiseSectionsProps) {
   const [activeType, setActiveType] = useState<CruiseType>('relax');
   const [cruises, setCruises] = useState<Record<CruiseType, CruiseData[]>>({
     relax: [],
@@ -78,8 +80,13 @@ export default function CruiseSections({ handleClick, className = "" }: CruiseSe
       {/* Main Section Title */}
       <div className="text-center py-8">
         <h1 className="font-baloo text-4xl md:text-5xl font-bold text-gray-800">
-          O que você busca no seu próximo cruzeiro?
+          {title ?? 'O que você busca no seu próximo cruzeiro?'}
         </h1>
+        {description ? (
+          <p className="mt-3 text-gray-600 font-comfortaa text-lg max-w-3xl mx-auto px-4">
+            {description}
+          </p>
+        ) : null}
       </div>
 
       {/* Type Toggle Buttons */}
