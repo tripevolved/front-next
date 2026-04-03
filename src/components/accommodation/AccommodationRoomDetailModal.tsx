@@ -40,7 +40,7 @@ export function AccommodationRoomDetailModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 overflow-y-auto"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 overflow-y-auto"
       onClick={onClose}
     >
       <div
@@ -57,18 +57,23 @@ export function AccommodationRoomDetailModal({
           </svg>
         </button>
 
-        {roomImageUrls.length > 0 && (
-          <div className="w-full flex-shrink-0 overflow-hidden">
-            <ImageGrid images={roomImageUrls} title={room.title} />
-          </div>
-        )}
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
+          {roomImageUrls.length > 0 && (
+            <div className="w-full">
+              <ImageGrid
+                images={roomImageUrls}
+                title={room.title}
+                edgeToEdge
+              />
+            </div>
+          )}
 
-        <div className="p-8 flex-1 min-h-0 overflow-y-auto">
+          <div className="px-8 pb-8 pt-6">
           <h2 className="text-3xl font-bold mb-2 text-gray-900">{room.title}</h2>
           {room.subtitle && (
             <div className="min-w-0 mb-6">
               <div
-                className={`${PROSE_CONTAINED} overflow-y-auto text-gray-600 ${isDescriptionExpanded ? '' : 'max-h-[60vh]'}`}
+                className={`${PROSE_CONTAINED} text-gray-600 ${isDescriptionExpanded ? '' : 'max-h-[28vh] overflow-hidden'}`}
                 dangerouslySetInnerHTML={{ __html: room.subtitle }}
               />
               <button
@@ -133,36 +138,39 @@ export function AccommodationRoomDetailModal({
 
           {room.amenities && room.amenities.length > 0 && (
             <div className="mt-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
+              <h3 className="text-lg font-bold text-gray-900 mb-3">
                 Comodidades do quarto
               </h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                 {room.amenities.map((amenity, index) => {
                   const amenityIconPath = getAmenityIconPath(amenity.icon)
 
                   return (
                     <div
                       key={index}
-                      className={`flex items-center bg-gray-50 p-3 rounded-lg ${amenityIconPath ? 'gap-3' : ''}`}
+                      className={`flex items-center bg-gray-50 border border-gray-100 px-2 py-1.5 rounded-md ${amenityIconPath ? 'gap-2' : ''}`}
                     >
                       {amenityIconPath ? (
-                        <div className="w-6 h-6 flex-shrink-0 text-primary-600">
+                        <div className="w-4 h-4 flex-shrink-0 text-primary-600">
                           <Image
                             src={amenityIconPath}
                             alt={amenity.title}
-                            width={24}
-                            height={24}
+                            width={16}
+                            height={16}
                             className="w-full h-full"
                           />
                         </div>
                       ) : null}
-                      <span className="text-gray-700">{amenity.title}</span>
+                      <span className="text-gray-700 text-xs leading-snug line-clamp-2">
+                        {amenity.title}
+                      </span>
                     </div>
                   )
                 })}
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
     </div>

@@ -11,9 +11,11 @@ interface ImageItem {
 interface ImageGridProps {
   images: ImageItem[] | string[]
   title: string
+  /** Full width: no horizontal padding (e.g. modal edge-to-edge) */
+  edgeToEdge?: boolean
 }
 
-export function ImageGrid({ images, title }: ImageGridProps) {
+export function ImageGrid({ images, title, edgeToEdge = false }: ImageGridProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
@@ -112,12 +114,19 @@ export function ImageGrid({ images, title }: ImageGridProps) {
   const sideImages = normalizedImages.slice(1, 3)
   const remainingCount = normalizedImages.length > 3 ? normalizedImages.length - 3 : 0
 
+  const desktopShell = edgeToEdge
+    ? 'hidden md:block w-full'
+    : 'hidden md:block container mx-auto px-4'
+
+  const mobileThumbsPad = edgeToEdge ? 'py-2 px-0' : 'p-4'
+
   return (
     <>
       {/* Desktop/Tablet Layout */}
-      <div className="w-full">
-        {/* Container for larger screens */}
-        <div className="hidden md:block container mx-auto px-4">
+      <div
+        className={`w-full ${edgeToEdge ? 'rounded-t-2xl overflow-hidden' : ''}`}
+      >
+        <div className={desktopShell}>
           <div className="grid grid-cols-3 gap-2 h-[500px]">
             {/* Main image - 2/3 width */}
             <div className="col-span-2 relative overflow-hidden rounded-l-lg cursor-pointer group">
@@ -183,7 +192,9 @@ export function ImageGrid({ images, title }: ImageGridProps) {
 
           {/* Rest of images in a scrollable row */}
           {sideImages.length > 0 && (
-            <div className="flex gap-2 overflow-x-auto p-4 bg-gray-100">
+            <div
+              className={`flex gap-2 overflow-x-auto bg-gray-100 ${mobileThumbsPad}`}
+            >
               {sideImages.map((image, index) => (
                 <div
                   key={index}
