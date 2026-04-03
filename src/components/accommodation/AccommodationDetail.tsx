@@ -25,11 +25,54 @@ const getAmenityIconPath = (iconName: string | undefined): string | null => {
 const PROSE_CONTAINED =
   'prose prose-lg max-w-none text-gray-700 overflow-hidden break-words [overflow-wrap:anywhere] [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_iframe]:max-w-full'
 
+function buildStayInstructionsText(
+  accommodation: PublicAccommodation
+): string | null {
+  const parts: string[] = []
+  if (accommodation.checkInInfo) {
+    const { hour, instructions } = accommodation.checkInInfo
+    let s = `Check-in previsto às ${hour}`
+    s += instructions ? `. ${instructions}` : '.'
+    parts.push(s)
+  }
+  if (accommodation.checkOutInfo) {
+    const { hour, instructions } = accommodation.checkOutInfo
+    let s = `Check-out previsto às ${hour}`
+    s += instructions ? `. ${instructions}` : '.'
+    parts.push(s)
+  }
+  return parts.length > 0 ? parts.join(' ') : null
+}
+
+function scrollToAccommodationRooms() {
+  document.getElementById('accommodation-rooms')?.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  })
+}
+
+function AvailabilityCtaCard() {
+  return (
+    <section className="bg-gradient-to-br from-primary-500 to-primary-600 p-6 rounded-2xl shadow-lg text-white">
+      <h3 className="text-xl font-bold mb-4">Reservar sua hospedagem</h3>
+      <button
+        type="button"
+        onClick={scrollToAccommodationRooms}
+        className="w-full bg-white text-primary-600 font-semibold py-3 px-6 rounded-full hover:bg-gray-100 transition-colors shadow-sm"
+      >
+        Ver disponibilidade
+      </button>
+    </section>
+  )
+}
+
 export function AccommodationDetail({ accommodation }: AccommodationDetailProps) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
+  const addressLine = accommodation.location.address?.trim()
+  const stayInstructionsText = buildStayInstructionsText(accommodation)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-24 lg:pb-0">
       {/* Hero section with image grid */}
       {accommodation.images && accommodation.images.length > 0 && (
         <ImageGrid
@@ -48,15 +91,27 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
             {accommodation.title}
           </h1>
           {accommodation.subtitle && (
-            <p className="text-xl md:text-2xl text-gray-600 mb-4">
+            <p
+              className={`text-xl md:text-2xl text-gray-600 ${addressLine ? 'mb-2' : 'mb-4'}`}
+            >
               {accommodation.subtitle}
             </p>
           )}
+          {addressLine && (
+            <p className="text-sm md:text-base italic text-gray-600 mb-4">{addressLine}</p>
+          )}
           <div className="flex flex-wrap gap-2">
-            {accommodation.tags && (
-              <span className="bg-primary-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                {accommodation.tags}
-              </span>
+            {accommodation.tags && accommodation.tags.length > 0 && (
+              <>
+                {accommodation.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="bg-primary-500 text-white px-3 py-1 rounded-full text-sm font-medium"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </>
             )}
             {accommodation.recommendedFor && accommodation.recommendedFor.length > 0 && (
               <>
@@ -79,12 +134,9 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
         <section className="bg-gradient-to-br from-primary-50 to-accent-50 py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-7xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 text-center">
-                Por que escolhemos esta hospedagem
+              <h2 className="text-3xl md:text-4xl font-bold mb-12 text-gray-900 text-center">
+                Por que escolher o {accommodation.title}?
               </h2>
-              <p className="text-lg text-gray-600 text-center mb-12 max-w-3xl mx-auto">
-                Nossa curadoria especial para casais em busca de momentos inesquecíveis
-              </p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {accommodation.highlights.map((highlight, index) => {
                   const iconPath = getIconPath(highlight.icon)
@@ -153,16 +205,17 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
       {/* Main content */}
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-7xl mx-auto">
+          <div className="mb-10 lg:hidden">
+            <AvailabilityCtaCard />
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Left column - Main content */}
             <div className="lg:col-span-2 space-y-12">
               {/* Description */}
               <section className="min-w-0">
-                <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
-                  Sobre a Hospedagem
-                </h2>
                 <div
-                  className={`${PROSE_CONTAINED} ${isDescriptionExpanded ? '' : 'max-h-[60vh] overflow-hidden'}`}
+                  className={`${PROSE_CONTAINED} ${isDescriptionExpanded ? '' : 'max-h-[40vh] overflow-hidden'}`}
                   dangerouslySetInnerHTML={{ __html: accommodation.description }}
                 />
                 <button
@@ -177,9 +230,6 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
               {/* Amenities */}
               {accommodation.amenities && accommodation.amenities.length > 0 && (
                 <section>
-                  <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
-                    O que te espera nesta hospedagem?
-                  </h2>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {accommodation.amenities.map((amenity, index) => {
                       const amenityIconPath = getAmenityIconPath(amenity.icon)
@@ -205,88 +255,33 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
                 </section>
               )}
 
-              {/* Check-in/Check-out Info */}
-              {(accommodation.checkInInfo || accommodation.checkOutInfo) && (
+              {/* Instruções (check-in / check-out) */}
+              {stayInstructionsText && (
                 <section>
-                  <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 flex flex-wrap items-center gap-x-6 gap-y-2">
+                  <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
+                    Você precisa saber
+                  </h2>
+                  <div className="flex gap-4 items-center">
                     <Image
                       src="/assets/stays/time.png"
                       alt=""
-                      width={24}
-                      height={24}
+                      width={28}
+                      height={28}
                       className="flex-shrink-0"
                     />
-                    {accommodation.checkInInfo && (
-                      <span className="text-gray-700">
-                        <strong>Check-in:</strong> {accommodation.checkInInfo.hour}
-                        {accommodation.checkInInfo.instructions && (
-                          <> · {accommodation.checkInInfo.instructions}</>
-                        )}
-                      </span>
-                    )}
-                    {accommodation.checkInInfo && accommodation.checkOutInfo && (
-                      <span className="text-gray-400 hidden sm:inline">|</span>
-                    )}
-                    {accommodation.checkOutInfo && (
-                      <span className="text-gray-700">
-                        <strong>Check-out:</strong> {accommodation.checkOutInfo.hour}
-                        {accommodation.checkOutInfo.instructions && (
-                          <> · {accommodation.checkOutInfo.instructions}</>
-                        )}
-                      </span>
-                    )}
+                    <p className="text-gray-700 leading-relaxed min-w-0">
+                      {stayInstructionsText}
+                    </p>
                   </div>
                 </section>
               )}
             </div>
 
-            {/* Right column - Sidebar */}
-            <div className="space-y-6">
-              {/* CTA Section for couples trips */}
-              <section className="bg-gradient-to-br from-primary-500 to-primary-600 p-6 rounded-lg shadow-lg text-white">
-                <h3 className="text-xl font-bold mb-3">
-                  Pronto para sua viagem a dois?
-                </h3>
-                <p className="mb-4 text-white/90">
-                  Entre em contato conosco para personalizar sua experiência.
-                </p>
-                <button className="w-full bg-white text-primary-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors">
-                  Solicitar Orçamento
-                </button>
-              </section>
-
-              {/* Location */}
-              <section className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-                <h2 className="text-xl font-bold mb-4 text-gray-900 flex items-center gap-2">
-                  <Image
-                    src="/assets/script/map.svg"
-                    alt=""
-                    width={24}
-                    height={24}
-                    className="flex-shrink-0"
-                  />
-                  Localização
-                </h2>
-                <p className="text-gray-700 mb-2">
-                  <strong>Endereço:</strong> {accommodation.location.address}
-                </p>
-                {accommodation.location.city?.trim() && (
-                  <p className="text-gray-700 mb-4">
-                    <strong>Cidade:</strong> {accommodation.location.city}, {accommodation.location.country}
-                  </p>
-                )}
-                {accommodation.location.nearbyAttractions &&
-                  accommodation.location.nearbyAttractions.length > 0 && (
-                  <div>
-                    <p className="text-gray-700 font-semibold mb-2">Atrações próximas:</p>
-                    <ul className="list-disc list-inside text-gray-700 space-y-1">
-                      {accommodation.location.nearbyAttractions.map((attraction, index) => (
-                        <li key={index}>{attraction}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </section>
+            {/* Right column - CTA (desktop) */}
+            <div className="hidden lg:block lg:justify-self-end w-full max-w-sm">
+              <div className="lg:sticky lg:top-24">
+                <AvailabilityCtaCard />
+              </div>
             </div>
           </div>
         </div>
@@ -294,6 +289,21 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
 
       {/* Rooms Section */}
       <AccommodationRoomsSection rooms={accommodation.rooms} uniqueName={accommodation.uniqueName} />
+
+      {/* Mobile: fixed availability CTA */}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white/95 backdrop-blur-sm px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.08)] lg:hidden"
+        role="region"
+        aria-label="Reservar hospedagem"
+      >
+        <button
+          type="button"
+          onClick={scrollToAccommodationRooms}
+          className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold py-3.5 px-6 rounded-full hover:from-primary-600 hover:to-primary-700 transition-colors shadow-md"
+        >
+          Ver disponibilidade
+        </button>
+      </div>
     </div>
   )
 }

@@ -17,7 +17,7 @@ export interface PublicAccommodation {
     instructions?: string;
   };
   recommendedFor: string[]; // e.g., ["Casais", "Lua de mel", "Romântico"]
-  tags?: string; // e.g., "5 estrelas", "Luxo"
+  tags?: string[]; // e.g., ["5 estrelas", "Luxo"]
   rooms?: PublicAccommodationRoom[];
 }
 
@@ -44,13 +44,10 @@ export interface PublicAccommodationAmenity {
 
 export interface PublicAccommodationLocation {
   address: string;
-  city: string;
-  country: string;
   coordinates?: {
     latitude: number;
     longitude: number;
   };
-  nearbyAttractions?: string[];
 }
 
 export interface PublicAccommodationRoom {
