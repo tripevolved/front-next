@@ -7,6 +7,7 @@ import {
   PublicAccommodationImage
 } from '@/core/types/accommodations'
 import { ImageGrid } from '@/components/common/ImageGrid'
+import { RoomAvailabilityPrice } from '@/components/accommodation/RoomAvailabilityPrice'
 import Image from 'next/image'
 
 const PROSE_CONTAINED =
@@ -89,14 +90,8 @@ export function AccommodationRoomDetailModal({
           {availabilityRoom && (
             <div className="mb-8 pb-8 border-b border-gray-200">
               <div className="bg-primary-50 rounded-lg p-6 mb-6">
-                <div className="flex items-baseline gap-2 mb-4">
-                  <span className="text-4xl font-bold text-primary-600">
-                    {new Intl.NumberFormat('pt-BR', {
-                      style: 'currency',
-                      currency: availabilityRoom.currency || 'BRL'
-                    }).format(availabilityRoom.price)}
-                  </span>
-                  <span className="text-lg text-gray-600">por noite</span>
+                <div className="mb-4">
+                  <RoomAvailabilityPrice room={availabilityRoom} size="modal" />
                 </div>
                 {availabilityRoom.taxes && availabilityRoom.taxes.length > 0 && (
                   <div className="mb-4">

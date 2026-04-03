@@ -7,7 +7,14 @@ import {
   PublicAccommodationRoomAvailability
 } from '@/core/types/accommodations'
 import { AccommodationRoomDetailModal } from './AccommodationRoomDetailModal'
-import { AccommodationsApiService } from '@/clients/accommodations'
+import { FamilyTravelersModal } from './FamilyTravelersModal'
+import { RoomAvailabilityPrice } from '@/components/accommodation/RoomAvailabilityPrice'
+import {
+  AccommodationsApiService,
+  type AvailabilityTravelerType,
+  type TravelerInput
+} from '@/clients/accommodations'
+import type { FamilyTravellers } from '@/components/trip-planning/familyTypes'
 import DateRangeSelector from '@/components/common/DateRangeSelector'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -22,6 +29,35 @@ interface AccommodationRoomsSectionProps {
 const getAmenityIconPath = (iconName: string | undefined): string | null => {
   if (!iconName) return null
   return `/assets/amenities/${iconName}.svg`
+}
+
+const DEFAULT_TRAVELER_ROOMS = 1
+
+function buildTravelerInput(
+  type: AvailabilityTravelerType,
+  family: FamilyTravellers | null
+): TravelerInput {
+  if (type === 'COUPLE') {
+    return {
+      type: 'COUPLE',
+      adults: 2,
+      children: 0,
+      childrenAges: [],
+      rooms: DEFAULT_TRAVELER_ROOMS
+    }
+  }
+  const f = family ?? {
+    adults: 2,
+    children: 0,
+    childrenAges: [] as number[]
+  }
+  return {
+    type: 'FAMILY',
+    adults: f.adults,
+    children: f.children,
+    childrenAges: f.childrenAges,
+    rooms: DEFAULT_TRAVELER_ROOMS
+  }
 }
 
 export function AccommodationRoomsSection({
@@ -40,6 +76,11 @@ export function AccommodationRoomsSection({
   const [isLoadingAvailability, setIsLoadingAvailability] = useState(false)
   const [availabilityError, setAvailabilityError] = useState<string | null>(null)
   const [transactionId, setTransactionId] = useState<string | null>(null)
+  const [travelerType, setTravelerType] = useState<AvailabilityTravelerType>('COUPLE')
+  const [familyTravellers, setFamilyTravellers] = useState<FamilyTravellers | null>(null)
+  const [familyModalOpen, setFamilyModalOpen] = useState(false)
+  const [hasFreeCancellation, setHasFreeCancellation] = useState(true)
+  const [includesBreakfast, setIncludesBreakfast] = useState(true)
   const dateRangeRef = useRef<HTMLDivElement>(null)
 
   // Close calendar when clicking outside
@@ -59,36 +100,61 @@ export function AccommodationRoomsSection({
     }
   }, [isCalendarOpen])
 
-  // Fetch availability when both dates are selected
+  // Fetch availability when dates and filters allow it
   useEffect(() => {
     const fetchAvailability = async () => {
-      if (startDate && endDate && uniqueName) {
-        setIsLoadingAvailability(true)
-        setAvailabilityError(null)
-        try {
-          const availability =
-            await AccommodationsApiService.getAccommodationAvailability(
-              uniqueName,
-              startDate,
-              endDate
-            )
-          setAvailabilityRooms(availability.rooms)
-          setTransactionId(availability.transactionId)
-        } catch (error) {
-          setAvailabilityError('Erro ao buscar disponibilidade. Tente novamente.')
-          setAvailabilityRooms([])
-          console.error('Error fetching availability:', error)
-        } finally {
-          setIsLoadingAvailability(false)
-        }
-      } else {
+      if (!startDate || !endDate || !uniqueName) {
         setAvailabilityRooms([])
         setTransactionId(null)
+        setIsLoadingAvailability(false)
+        return
+      }
+
+      if (travelerType === 'FAMILY' && !familyTravellers) {
+        setAvailabilityRooms([])
+        setTransactionId(null)
+        setAvailabilityError(null)
+        setIsLoadingAvailability(false)
+        return
+      }
+
+      setIsLoadingAvailability(true)
+      setAvailabilityError(null)
+      try {
+        const availability = await AccommodationsApiService.getAccommodationAvailability(
+          uniqueName,
+          startDate,
+          endDate,
+          {
+            includesBreakfast,
+            hasFreeCancellation,
+            travelerInput: buildTravelerInput(
+              travelerType,
+              travelerType === 'FAMILY' ? familyTravellers : null
+            )
+          }
+        )
+        setAvailabilityRooms(availability.rooms)
+        setTransactionId(availability.transactionId)
+      } catch (error) {
+        setAvailabilityError('Erro ao buscar disponibilidade. Tente novamente.')
+        setAvailabilityRooms([])
+        console.error('Error fetching availability:', error)
+      } finally {
+        setIsLoadingAvailability(false)
       }
     }
 
     fetchAvailability()
-  }, [startDate, endDate, uniqueName])
+  }, [
+    startDate,
+    endDate,
+    uniqueName,
+    travelerType,
+    familyTravellers,
+    hasFreeCancellation,
+    includesBreakfast
+  ])
 
   const handleDateRangeChange = (update: [Date | null, Date | null]) => {
     setStartDate(update[0])
@@ -98,11 +164,35 @@ export function AccommodationRoomsSection({
     }
   }
 
+  const hasDateRange = Boolean(startDate && endDate)
+
+  /** Baseline catalog from accommodation before dates; after a successful availability fetch, only API data. */
   const displayRooms: (
     | PublicAccommodationRoom
     | PublicAccommodationRoomAvailability
-  )[] =
-    availabilityRooms.length > 0 ? availabilityRooms : (rooms || [])
+  )[] = (() => {
+    if (!hasDateRange) {
+      return rooms ?? []
+    }
+    if (travelerType === 'FAMILY' && !familyTravellers) {
+      return rooms ?? []
+    }
+    if (isLoadingAvailability) {
+      return []
+    }
+    if (availabilityError) {
+      return []
+    }
+    return availabilityRooms
+  })()
+
+  const showBaselineEmpty = !hasDateRange && (!rooms || rooms.length === 0)
+  const showNoRoomsForSelectedDates =
+    hasDateRange &&
+    !(travelerType === 'FAMILY' && !familyTravellers) &&
+    !isLoadingAvailability &&
+    !availabilityError &&
+    availabilityRooms.length === 0
 
   const formatDateRange = () => {
     if (!startDate && !endDate) return 'Selecione as datas'
@@ -113,6 +203,31 @@ export function AccommodationRoomsSection({
     return 'Selecione as datas'
   }
 
+  const handleCoupleClick = () => {
+    setTravelerType('COUPLE')
+    setFamilyTravellers(null)
+    setFamilyModalOpen(false)
+  }
+
+  const handleFamilyClick = () => {
+    if (travelerType !== 'FAMILY') {
+      setTravelerType('FAMILY')
+    }
+    setFamilyModalOpen(true)
+  }
+
+  const handleFamilyModalConfirm = (next: FamilyTravellers) => {
+    setFamilyTravellers(next)
+    setFamilyModalOpen(false)
+  }
+
+  const handleFamilyModalCancel = () => {
+    setFamilyModalOpen(false)
+    if (familyTravellers === null) {
+      setTravelerType('COUPLE')
+    }
+  }
+
   return (
     <>
       <section
@@ -121,9 +236,21 @@ export function AccommodationRoomsSection({
       >
         <div className="container mx-auto px-4">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
-              Os quartos
-            </h2>
+            <div className="mb-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Os quartos</h2>
+              {!hasDateRange && (rooms?.length ?? 0) > 0 && (
+                <p className="text-sm text-gray-500 mt-2 max-w-2xl">
+                  Confira as opções abaixo. Ao selecionar as datas da estadia, mostramos preços e
+                  disponibilidade retornados em tempo real.
+                </p>
+              )}
+              {hasDateRange && (
+                <p className="text-sm text-gray-500 mt-2 max-w-2xl">
+                  Preços e informações dos quartos refletem a disponibilidade para o período
+                  selecionado.
+                </p>
+              )}
+            </div>
             {/* Date Range Selector */}
             <div className="mb-8" ref={dateRangeRef}>
               <label htmlFor="dateRange" className="block text-sm font-medium text-gray-700 mb-2">
@@ -159,6 +286,116 @@ export function AccommodationRoomsSection({
                 )}
               </div>
             </div>
+
+            {/* Traveler type & filters (availability) */}
+            <div className="mb-8 space-y-5">
+              <div>
+                <span className="block text-sm font-medium text-gray-700 mb-2">
+                  Tipo de viagem
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={handleCoupleClick}
+                    className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-colors border-2 ${
+                      travelerType === 'COUPLE'
+                        ? 'border-primary-600 bg-primary-600 text-white'
+                        : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                    }`}
+                  >
+                    Casal
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleFamilyClick}
+                    className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-colors border-2 ${
+                      travelerType === 'FAMILY'
+                        ? 'border-primary-600 bg-primary-600 text-white'
+                        : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                    }`}
+                  >
+                    Família
+                  </button>
+                </div>
+                {travelerType === 'FAMILY' && familyTravellers && (
+                  <p className="text-sm text-gray-600 mt-2">
+                    {familyTravellers.adults} adulto(s)
+                    {familyTravellers.children > 0 &&
+                      `, ${familyTravellers.children} criança(s)`}
+                    .{' '}
+                    <button
+                      type="button"
+                      onClick={() => setFamilyModalOpen(true)}
+                      className="text-primary-600 font-medium hover:underline"
+                    >
+                      Editar composição
+                    </button>
+                  </p>
+                )}
+              </div>
+
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4">
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={hasFreeCancellation}
+                  onClick={() => setHasFreeCancellation((v) => !v)}
+                  className={`flex items-center justify-between gap-4 rounded-xl border-2 px-4 py-3 text-left max-w-md w-full sm:w-auto sm:min-w-[220px] ${
+                    hasFreeCancellation
+                      ? 'border-primary-500 bg-primary-50'
+                      : 'border-gray-200 bg-gray-50'
+                  }`}
+                >
+                  <span className="text-sm font-medium text-gray-800">
+                    Cancelamento grátis
+                  </span>
+                  <span
+                    className={`h-6 w-11 shrink-0 rounded-full relative transition-colors ${
+                      hasFreeCancellation ? 'bg-primary-600' : 'bg-gray-300'
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
+                        hasFreeCancellation ? 'translate-x-5' : 'translate-x-0'
+                      }`}
+                    />
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={includesBreakfast}
+                  onClick={() => setIncludesBreakfast((v) => !v)}
+                  className={`flex items-center justify-between gap-4 rounded-xl border-2 px-4 py-3 text-left max-w-md w-full sm:w-auto sm:min-w-[220px] ${
+                    includesBreakfast
+                      ? 'border-primary-500 bg-primary-50'
+                      : 'border-gray-200 bg-gray-50'
+                  }`}
+                >
+                  <span className="text-sm font-medium text-gray-800">
+                    Café da manhã incluído
+                  </span>
+                  <span
+                    className={`h-6 w-11 shrink-0 rounded-full relative transition-colors ${
+                      includesBreakfast ? 'bg-primary-600' : 'bg-gray-300'
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
+                        includesBreakfast ? 'translate-x-5' : 'translate-x-0'
+                      }`}
+                    />
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            {hasDateRange && travelerType === 'FAMILY' && !familyTravellers && (
+              <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                Escolha quantas pessoas viajam para buscarmos quartos e preços adequados. Use o botão{' '}
+                <strong>Família</strong> e confirme no modal.
+              </div>
+            )}
 
             {/* Loading State */}
             {isLoadingAvailability && startDate && endDate && (
@@ -224,18 +461,10 @@ export function AccommodationRoomsSection({
 
                         {availabilityRoom && (
                           <div className="mb-4 pb-4 border-b border-gray-200">
-                            <div className="flex items-baseline gap-2">
-                              <span className="text-3xl font-bold text-primary-600">
-                                {new Intl.NumberFormat('pt-BR', {
-                                  style: 'currency',
-                                  currency: availabilityRoom.currency || 'BRL'
-                                }).format(availabilityRoom.price)}
-                              </span>
-                              <span className="text-sm text-gray-600">por noite</span>
-                            </div>
+                            <RoomAvailabilityPrice room={availabilityRoom} size="card" />
                             {availabilityRoom.taxes &&
                               availabilityRoom.taxes.length > 0 && (
-                                <p className="text-xs text-gray-500 mt-1">
+                                <p className="text-xs text-gray-500 mt-2">
                                   +{' '}
                                   {availabilityRoom.taxes
                                     .map((tax) => tax.description)
@@ -293,15 +522,17 @@ export function AccommodationRoomsSection({
               </div>
             )}
 
-            {!isLoadingAvailability &&
-              !availabilityError &&
-              displayRooms.length === 0 &&
-              rooms &&
-              rooms.length === 0 && (
-                <p className="text-gray-600 text-center py-8">
-                  Nenhum quarto disponível no momento.
-                </p>
-              )}
+            {showBaselineEmpty && (
+              <p className="text-gray-600 text-center py-8">
+                Nenhum quarto disponível no momento.
+              </p>
+            )}
+
+            {showNoRoomsForSelectedDates && (
+              <p className="text-gray-600 text-center py-8">
+                Nenhum quarto disponível para as datas selecionadas. Tente outro período.
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -313,6 +544,13 @@ export function AccommodationRoomsSection({
           onClose={() => setSelectedRoom(null)}
         />
       )}
+
+      <FamilyTravelersModal
+        isOpen={familyModalOpen}
+        initial={familyTravellers ?? undefined}
+        onConfirm={handleFamilyModalConfirm}
+        onCancel={handleFamilyModalCancel}
+      />
     </>
   )
 }

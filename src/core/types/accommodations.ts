@@ -60,6 +60,8 @@ export interface PublicAccommodationRoom {
 
 export interface PublicAccommodationRoomAvailability extends PublicAccommodationRoom {
   price: number;
+  /** List price before discount; shown strikethrough when greater than `price` */
+  originalPrice?: number;
   currency: string;
   cancellationPolicy: string;
   taxes?: {
