@@ -2,9 +2,12 @@ import { getAccommodationByUniqueName, getAccommodationByDestinationUniqueName }
 import {
   getAccommodationAvailability,
   type AccommodationAvailabilityQuery,
+  type AccommodationAvailabilityRequestBody,
   type AvailabilityTravelerType,
   type TravelerInput,
 } from "./availability";
+
+export { toDateOnlyString } from "./availability";
 
 export const AccommodationsApiService = {
   getAccommodationByUniqueName,
@@ -14,6 +17,8 @@ export const AccommodationsApiService = {
 
 export type {
   AccommodationAvailabilityQuery,
+  AccommodationAvailabilityRequestBody,
   AvailabilityTravelerType,
   TravelerInput,
 };
+export type { FamilyRoom } from "@/components/trip-planning/familyTypes";

@@ -1,15 +1,23 @@
+import type { FamilyRoom } from "@/components/trip-planning/familyTypes";
 import { AccommodationAvailabilityResponse } from "@/core/types/accommodations";
 import { ApiRequest } from "@/services/api/request";
 
+/** Local calendar date as `YYYY-MM-DD` (no time / timezone offset in the string). */
+export function toDateOnlyString(date: Date): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
 export type AvailabilityTravelerType = "COUPLE" | "FAMILY";
 
-/** Serialized as JSON in the `travelerInput` query parameter */
 export interface TravelerInput {
   type: AvailabilityTravelerType;
   adults: number;
   children: number;
   childrenAges: number[];
-  rooms: number;
+  rooms: FamilyRoom[];
 }
 
 export interface AccommodationAvailabilityQuery {
@@ -18,22 +26,17 @@ export interface AccommodationAvailabilityQuery {
   travelerInput: TravelerInput;
 }
 
-function buildAvailabilitySearchParams(
-  startDate: Date,
-  endDate: Date,
-  query: AccommodationAvailabilityQuery
-): string {
-  const params = new URLSearchParams();
-  params.set("startDate", startDate.toISOString());
-  params.set("endDate", endDate.toISOString());
-  params.set("includesBreakfast", String(query.includesBreakfast));
-  params.set("hasFreeCancellation", String(query.hasFreeCancellation));
-  params.set("travelerInput", JSON.stringify(query.travelerInput));
-  return params.toString();
+/**
+ * Request body for POST accommodations/{uniqueName}/availability
+ * `startDate` / `endDate` are date-only strings (`YYYY-MM-DD`).
+ */
+export interface AccommodationAvailabilityRequestBody extends AccommodationAvailabilityQuery {
+  startDate: string;
+  endDate: string;
 }
 
 /**
- * Get accommodation availability by unique name, date range, and filters.
+ * Fetch accommodation availability by unique name, date range, and filters (POST).
  */
 export const getAccommodationAvailability = async (
   uniqueName: string,
@@ -41,7 +44,13 @@ export const getAccommodationAvailability = async (
   endDate: Date,
   query: AccommodationAvailabilityQuery
 ): Promise<AccommodationAvailabilityResponse> => {
-  const qs = buildAvailabilitySearchParams(startDate, endDate, query);
-  const route = `accommodations/${uniqueName}/availability?${qs}`;
-  return ApiRequest.get<AccommodationAvailabilityResponse>(route);
+  const route = `accommodations/${uniqueName}/availability`;
+  const body: AccommodationAvailabilityRequestBody = {
+    startDate: toDateOnlyString(startDate),
+    endDate: toDateOnlyString(endDate),
+    includesBreakfast: query.includesBreakfast,
+    hasFreeCancellation: query.hasFreeCancellation,
+    travelerInput: query.travelerInput
+  };
+  return ApiRequest.post<AccommodationAvailabilityResponse>(route, body);
 };

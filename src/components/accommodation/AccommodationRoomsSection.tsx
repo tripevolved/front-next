@@ -31,19 +31,18 @@ const getAmenityIconPath = (iconName: string | undefined): string | null => {
   return `/assets/amenities/${iconName}.svg`
 }
 
-const DEFAULT_TRAVELER_ROOMS = 1
-
 function buildTravelerInput(
   type: AvailabilityTravelerType,
   family: FamilyTravellers | null
 ): TravelerInput {
   if (type === 'COUPLE') {
+    const coupleRoom = { adults: 2, children: 0, childrenAges: [] as number[] }
     return {
       type: 'COUPLE',
       adults: 2,
       children: 0,
       childrenAges: [],
-      rooms: DEFAULT_TRAVELER_ROOMS
+      rooms: [coupleRoom]
     }
   }
   const f = family ?? {
@@ -51,12 +50,17 @@ function buildTravelerInput(
     children: 0,
     childrenAges: [] as number[]
   }
+  const familyRoom = {
+    adults: f.adults,
+    children: f.children,
+    childrenAges: f.childrenAges
+  }
   return {
     type: 'FAMILY',
     adults: f.adults,
     children: f.children,
     childrenAges: f.childrenAges,
-    rooms: DEFAULT_TRAVELER_ROOMS
+    rooms: [familyRoom]
   }
 }
 
@@ -251,41 +255,6 @@ export function AccommodationRoomsSection({
                 </p>
               )}
             </div>
-            {/* Date Range Selector */}
-            <div className="mb-8" ref={dateRangeRef}>
-              <label htmlFor="dateRange" className="block text-sm font-medium text-gray-700 mb-2">
-                Selecione as datas da sua jornada para verificar a disponibilidade
-              </label>
-              <div className="relative inline-block w-full max-w-md">
-                <input
-                  type="text"
-                  id="dateRange"
-                  value={formatDateRange()}
-                  onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-                  readOnly
-                  placeholder="Selecione as datas"
-                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-baloo cursor-pointer bg-white"
-                />
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="16" y1="2" x2="16" y2="6"></line>
-                    <line x1="8" y1="2" x2="8" y2="6"></line>
-                    <line x1="3" y1="10" x2="21" y2="10"></line>
-                  </svg>
-                </div>
-                {isCalendarOpen && (
-                  <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 p-4 left-0">
-                    <DateRangeSelector
-                      startDate={startDate}
-                      endDate={endDate}
-                      onDateRangeChange={handleDateRangeChange}
-                      minDate={new Date()}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
 
             {/* Traveler type & filters (availability) */}
             <div className="mb-8 space-y-5">
@@ -387,6 +356,42 @@ export function AccommodationRoomsSection({
                     />
                   </span>
                 </button>
+              </div>
+            </div>
+
+            {/* Date Range Selector */}
+            <div className="mb-8" ref={dateRangeRef}>
+              <label htmlFor="dateRange" className="block text-sm font-medium text-gray-700 mb-2">
+                Selecione as datas da sua jornada para verificar a disponibilidade
+              </label>
+              <div className="relative inline-block w-full max-w-md">
+                <input
+                  type="text"
+                  id="dateRange"
+                  value={formatDateRange()}
+                  onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+                  readOnly
+                  placeholder="Selecione as datas"
+                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-baloo cursor-pointer bg-white"
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </div>
+                {isCalendarOpen && (
+                  <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 p-4 left-0">
+                    <DateRangeSelector
+                      startDate={startDate}
+                      endDate={endDate}
+                      onDateRangeChange={handleDateRangeChange}
+                      minDate={new Date()}
+                    />
+                  </div>
+                )}
               </div>
             </div>
 
