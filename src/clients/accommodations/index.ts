@@ -6,6 +6,10 @@ import {
   type AvailabilityTravelerType,
   type TravelerInput,
 } from "./availability";
+import {
+  postAccommodationAvailabilityConditions,
+  type AccommodationAvailabilityConditionsRequest,
+} from "./availability-conditions";
 
 export { toDateOnlyString } from "./availability";
 
@@ -13,6 +17,7 @@ export const AccommodationsApiService = {
   getAccommodationByUniqueName,
   getAccommodationByDestinationUniqueName,
   getAccommodationAvailability,
+  postAccommodationAvailabilityConditions,
 };
 
 export type {
@@ -21,4 +26,5 @@ export type {
   AvailabilityTravelerType,
   TravelerInput,
 };
+export type { AccommodationAvailabilityConditionsRequest };
 export type { FamilyRoom } from "@/components/trip-planning/familyTypes";

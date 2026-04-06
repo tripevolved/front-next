@@ -1,12 +1,16 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { StepFamilyTravelersCount } from '@/components/trip-planning/StepFamilyTravelersCount'
-import type { FamilyTravellers } from '@/components/trip-planning/familyTypes'
+import { StepFamilyRoomsChoice } from '@/components/trip-planning/StepFamilyRoomsChoice'
+import type { FamilyRoom, FamilyTravellers } from '@/components/trip-planning/familyTypes'
+
+type Step = 'count' | 'rooms'
 
 interface FamilyTravelersModalProps {
   isOpen: boolean
-  initial?: FamilyTravellers
-  onConfirm: (travelers: FamilyTravellers) => void
+  initial?: { travelers: FamilyTravellers; rooms: FamilyRoom[] }
+  onConfirm: (travelers: FamilyTravellers, rooms: FamilyRoom[]) => void
   onCancel: () => void
 }
 
@@ -14,9 +18,37 @@ export function FamilyTravelersModal({
   isOpen,
   initial,
   onConfirm,
-  onCancel
+  onCancel,
 }: FamilyTravelersModalProps) {
+  const [step, setStep] = useState<Step>('count')
+  const [pendingTravelers, setPendingTravelers] = useState<FamilyTravellers | null>(null)
+  const [roomsStepKey, setRoomsStepKey] = useState(0)
+
+  useEffect(() => {
+    if (!isOpen) return
+    setStep('count')
+    setPendingTravelers(null)
+    setRoomsStepKey((k) => k + 1)
+  }, [isOpen])
+
   if (!isOpen) return null
+
+  const countInitial = pendingTravelers ?? initial?.travelers
+
+  const handleCountNext = (travelers: FamilyTravellers) => {
+    setPendingTravelers(travelers)
+    setRoomsStepKey((k) => k + 1)
+    setStep('rooms')
+  }
+
+  const handleRoomsNext = (rooms: FamilyRoom[]) => {
+    if (!pendingTravelers) return
+    onConfirm(pendingTravelers, rooms)
+  }
+
+  const handleRoomsBack = () => {
+    setStep('count')
+  }
 
   return (
     <div
@@ -34,11 +66,22 @@ export function FamilyTravelersModal({
         <div id="family-travelers-title" className="sr-only">
           Composição da família
         </div>
-        <StepFamilyTravelersCount
-          initial={initial}
-          onNext={onConfirm}
-          onBack={onCancel}
-        />
+        {step === 'count' && (
+          <StepFamilyTravelersCount
+            initial={countInitial}
+            onNext={handleCountNext}
+            onBack={onCancel}
+          />
+        )}
+        {step === 'rooms' && pendingTravelers && (
+          <StepFamilyRoomsChoice
+            key={roomsStepKey}
+            travelers={pendingTravelers}
+            initialRooms={initial?.rooms}
+            onNext={handleRoomsNext}
+            onBack={handleRoomsBack}
+          />
+        )}
       </div>
     </div>
   )

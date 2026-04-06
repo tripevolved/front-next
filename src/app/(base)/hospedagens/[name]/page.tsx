@@ -14,6 +14,11 @@ async function getAccommodation(uniqueName: string) {
   }
 }
 
+/** Plain text for meta tags when subtitle may contain HTML */
+function plainTextForMeta(htmlOrText: string): string {
+  return htmlOrText.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const accommodation = await getAccommodation((await params).name)
@@ -26,19 +31,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 
     const imageUrl = accommodation.images?.[0]?.url
+    const metaTitle = [accommodation.title, accommodation.destination].filter(Boolean).join(' - ')
+    const metaDescription =
+      (accommodation.subtitle && plainTextForMeta(accommodation.subtitle)) ||
+      `Hospedagem ${accommodation.title} em ${accommodation.destination}.`
 
     return {
-      title: `${accommodation.title}${accommodation.subtitle ? ` - ${accommodation.subtitle}` : ''}`,
-      description: accommodation.description || `Descubra ${accommodation.title}, uma hospedagem incrível para sua viagem a dois.`,
+      title: metaTitle,
+      description: metaDescription,
       openGraph: {
-        title: `${accommodation.title}${accommodation.subtitle ? ` - ${accommodation.subtitle}` : ''}`,
-        description: accommodation.description || `Descubra ${accommodation.title}, uma hospedagem incrível para sua viagem a dois.`,
+        title: metaTitle,
+        description: metaDescription,
         images: imageUrl ? [imageUrl] : undefined,
       },
       twitter: {
         card: 'summary_large_image',
-        title: `${accommodation.title}${accommodation.subtitle ? ` - ${accommodation.subtitle}` : ''}`,
-        description: accommodation.description || `Descubra ${accommodation.title}, uma hospedagem incrível para sua viagem a dois.`,
+        title: metaTitle,
+        description: metaDescription,
         images: imageUrl ? [imageUrl] : undefined,
       },
     }

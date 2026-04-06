@@ -4,19 +4,51 @@ import { useState } from 'react'
 import { RoundAdjust } from './RoundAdjust'
 import type { FamilyRoom, FamilyTravellers } from './familyTypes'
 
+function roomSplitMatchesTravelers(rooms: FamilyRoom[], t: FamilyTravellers): boolean {
+  if (!rooms.length) return false
+  const sumAdults = rooms.reduce((a, r) => a + r.adults, 0)
+  const sumChildren = rooms.reduce((a, r) => a + r.children, 0)
+  if (sumAdults !== t.adults || sumChildren !== t.children) return false
+  for (const r of rooms) {
+    if (r.childrenAges.length !== r.children) return false
+  }
+  const flatAges = rooms.flatMap((r) => r.childrenAges)
+  if (flatAges.length !== t.childrenAges.length) return false
+  return flatAges.every((age, i) => age === t.childrenAges[i])
+}
+
 export function StepFamilyRoomsChoice({
   onNext,
   onBack,
   travelers,
+  initialRooms,
 }: {
   onNext: (rooms: FamilyRoom[]) => void
   onBack: () => void
   travelers: FamilyTravellers
+  /** When editing, restore a previous split if it still matches travelers. */
+  initialRooms?: FamilyRoom[]
 }) {
   const { adults, children, childrenAges } = travelers
-  const [roomsCount, setRoomsCount] = useState<number>(1)
-  const [roomAdults, setRoomAdults] = useState<number[]>([adults])
-  const [roomChildren, setRoomChildren] = useState<number[]>([children])
+
+  const [roomsCount, setRoomsCount] = useState<number>(() => {
+    if (initialRooms?.length && roomSplitMatchesTravelers(initialRooms, travelers)) {
+      return initialRooms.length
+    }
+    return 1
+  })
+  const [roomAdults, setRoomAdults] = useState<number[]>(() => {
+    if (initialRooms?.length && roomSplitMatchesTravelers(initialRooms, travelers)) {
+      return initialRooms.map((r) => r.adults)
+    }
+    return [adults]
+  })
+  const [roomChildren, setRoomChildren] = useState<number[]>(() => {
+    if (initialRooms?.length && roomSplitMatchesTravelers(initialRooms, travelers)) {
+      return initialRooms.map((r) => r.children)
+    }
+    return [children]
+  })
 
   const rebuildRooms = (nextRoomsCount: number) => {
     const nextAdults = Array.from({ length: nextRoomsCount }, (_, i) => (i === 0 ? adults - (nextRoomsCount - 1) : 1))

@@ -3,6 +3,7 @@ export interface PublicAccommodation {
   uniqueName: string;
   title: string;
   subtitle: string | null;
+  destination: string;
   description: string;
   images: PublicAccommodationImage[];
   highlights: PublicAccommodationHighlight[];
@@ -58,7 +59,9 @@ export interface PublicAccommodationRoom {
   amenities: PublicAccommodationAmenity[];
 }
 
-export interface PublicAccommodationRoomAvailability extends PublicAccommodationRoom {
+export interface PublicAccommodationRoomRate {
+  id: string;
+  vendor: string;
   price: number;
   /** List price before discount; shown strikethrough when greater than `price` */
   originalPrice?: number;
@@ -66,11 +69,51 @@ export interface PublicAccommodationRoomAvailability extends PublicAccommodation
   cancellationPolicy: string;
   taxes?: {
     amount: number;
-    description: string;
+    /** Omitted or empty when unknown; still omit row when `amount` is 0 */
+    description?: string | null;
   }[];
+  hasBreakfast: boolean;
+  hasHalfBoard?: boolean;
+  hasFullBoard?: boolean;
+  isAllInclusive?: boolean;
+  isCancellable: boolean;
+}
+
+export interface PublicAccommodationRoomAvailability extends PublicAccommodationRoom {
+  rates: PublicAccommodationRoomRate[];
 }
 
 export interface AccommodationAvailabilityResponse {
   transactionId: string;
   rooms: PublicAccommodationRoomAvailability[];
+}
+
+export interface AccommodationPropertyTax {
+  amount: number;
+  description?: string | null;
+}
+
+/** Item in `rateConditions` from POST /accommodations/availability/conditions */
+export interface AccommodationRateConditionItem extends PublicAccommodationRoomRate {
+  /** Rate id echoed in conditions payload (same as `id`) */
+  roomRateId: string;
+
+  priceHasChanged: boolean;
+  isSpecialOffer: boolean;
+  isNonRefundable: boolean;
+
+  checkInTime?: string | null;
+  checkOutTime?: string | null;
+  bedDescription?: string | null;
+
+  /** HTML with detailed info about room/accommodation/rate */
+  moreInformation?: string | null;
+
+  propertyTaxes?: AccommodationPropertyTax[];
+}
+
+/** Response from POST /accommodations/availability/conditions */
+export interface AccommodationAvailabilityConditionsResponse {
+  uniqueTransactionId: string;
+  rates: AccommodationRateConditionItem[];
 }

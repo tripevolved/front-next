@@ -21,8 +21,6 @@ export interface TravelerInput {
 }
 
 export interface AccommodationAvailabilityQuery {
-  includesBreakfast: boolean;
-  hasFreeCancellation: boolean;
   travelerInput: TravelerInput;
 }
 
@@ -48,9 +46,7 @@ export const getAccommodationAvailability = async (
   const body: AccommodationAvailabilityRequestBody = {
     startDate: toDateOnlyString(startDate),
     endDate: toDateOnlyString(endDate),
-    includesBreakfast: query.includesBreakfast,
-    hasFreeCancellation: query.hasFreeCancellation,
-    travelerInput: query.travelerInput
+    travelerInput: query.travelerInput,
   };
   return ApiRequest.post<AccommodationAvailabilityResponse>(route, body);
 };
