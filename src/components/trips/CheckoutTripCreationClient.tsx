@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { TripsApiService } from "@/services/api/trip";
+import { TripsApiService } from "@/clients/trips";
 import {
   parseAccommodationApiDateTime,
   type AvailabilityTravelerType,
@@ -143,7 +143,7 @@ export function CheckoutTripCreationClient() {
     if (ranRef.current) return;
     ranRef.current = true;
 
-    TripsApiService.postCreateByAccommodation({
+    TripsApiService.createTripByAccommodation({
       travelerId: tid,
       uniqueTransactionId,
       uniqueTransactionValidUntil,

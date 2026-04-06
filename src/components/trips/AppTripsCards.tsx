@@ -74,7 +74,7 @@ export function AppTripsCards() {
 
   const { data, error, isLoading } = useSWR(
     travelerId ? `trips-all-${travelerId}` : null,
-    () => TripsApiService.getAllByTravelerId(travelerId, false)
+    () => TripsApiService.getTrips()
   );
 
   const trips = data?.trips ?? [];

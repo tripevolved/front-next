@@ -185,41 +185,10 @@ export interface AllTrips {
   estimatedAmountToBeSaved?: number | null;
 }
 
-interface TripIncludes {
-  title: string;
-  slug: string | null;
-}
-
-export interface TripPrice {
-  amount: number;
-  amountWithDiscount: number | null;
-  amountWithPixDiscount: number | null;
-  price: number;
-  serviceFee: number;
-  pixDiscountAmount: number | null;
-  pixPercentageDiscount: number | null;
-  discountAmount: number | null;
-  percentageDiscount: number | null;
-  status: "NOT_READY" | "READY" | "PAID";
-  description: string | null;
-  includes: TripIncludes[];
-}
-
 export interface TripTravelers {
   tripId: string;
   travelers: Traveler[];
   travelerCount: number;
-}
-
-export interface TripTip {
-  id: string;
-  tripId: string;
-  type: "RESTAURANT" | "ATTRACTION" | "INFORMATION" | "ALERT";
-  title: string;
-  subtitle: string | null;
-  details: string;
-  restaurantId: string | null;
-  attractionId: string | null;
 }
 
 export interface TripDates {

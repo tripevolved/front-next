@@ -14,6 +14,5 @@ export * from "./accommodations";
 export * from "./tripPending";
 export * from "./user";
 export * from "./itinerary";
-export * from "./checkout";
 export * from "./notifications";
 export * from "./payments";
