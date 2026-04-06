@@ -17,7 +17,11 @@ import { RoomAvailabilityPrice } from "@/components/accommodation/RoomAvailabili
 import { AccommodationsApiService } from "@/clients/accommodations";
 
 import Image from "next/image";
+import Link from "next/link";
 import type { FamilyRoom, FamilyTravellers } from "@/components/trip-planning/familyTypes";
+import { buildAccommodationCheckoutHref } from "@/utils/accommodation-checkout-url";
+
+const FALLBACK_UNIQUE_TRANSACTION_VALID_MS = 60 * 60 * 1000;
 
 const PROSE_CONTAINED =
   "prose prose-lg max-w-none text-gray-700 overflow-hidden break-words [overflow-wrap:anywhere] [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_iframe]:max-w-full";
@@ -41,6 +45,9 @@ interface AccommodationRoomDetailModalProps {
   travelersSummary?:
     | { type: "COUPLE" }
     | { type: "FAMILY"; travelers: FamilyTravellers; rooms: FamilyRoom[] };
+
+  /** Stay dates as `YYYY-MM-DD` when availability search is active (required for checkout). */
+  stayDates: { start: string; end: string } | null;
 }
 
 const getAmenityIconPath = (iconName: string | undefined): string | null => {
@@ -49,9 +56,52 @@ const getAmenityIconPath = (iconName: string | undefined): string | null => {
   return `/assets/amenities/${iconName}.svg`;
 };
 
-function safeHtmlOrNull(html?: string | null): string | null {
-  const raw = html?.trim();
-  return raw ? raw : null;
+const CONDITIONS_REDO_SEARCH_MESSAGE =
+  "Não foi possível obter as condições desta tarifa. Feche o modal, ajuste as datas ou os filtros e refaça a busca de disponibilidade.";
+
+/**
+ * Decodes HTML entities iteratively so API payloads like "&lt;p&gt;…&lt;/p&gt;"
+ * or "&amp;lt;p&amp;gt;…" render correctly with dangerouslySetInnerHTML.
+ */
+function decodeHtmlEntitiesIter(str: string, maxPasses = 8): string {
+  let out = str;
+  for (let p = 0; p < maxPasses; p += 1) {
+    const next = out
+      .replace(/&#x([\da-fA-F]+);/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
+      .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+      .replace(/&nbsp;/gi, "\u00A0")
+      .replace(/&(lt|gt|quot|apos);/gi, (_, name) => {
+        const m: Record<string, string> = {
+          lt: "<",
+          gt: ">",
+          quot: '"',
+          apos: "'",
+        };
+        return m[name.toLowerCase()] ?? `&${name};`;
+      })
+      .replace(/&amp;/g, "&");
+    if (next === out) break;
+    out = next;
+  }
+  return out;
+}
+
+function prepareMoreInformationHtml(input?: string | null): string | null {
+  if (input == null) return null;
+  let s = String(input).trim();
+  if (!s) return null;
+
+  if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+    try {
+      const parsed = JSON.parse(s);
+      if (typeof parsed === "string") s = parsed.trim();
+    } catch {
+      s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\'/g, "'").replace(/\\n/g, "\n").trim();
+    }
+  }
+
+  s = decodeHtmlEntitiesIter(s);
+  return s.trim() || null;
 }
 
 function pickMinRate(
@@ -101,6 +151,8 @@ export function AccommodationRoomDetailModal({
   accommodationUniqueName,
   preselectedRateId,
   travelersSummary,
+
+  stayDates,
 }: AccommodationRoomDetailModalProps) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
@@ -213,17 +265,21 @@ export function AccommodationRoomDetailModal({
 
       .then((data) => {
         if (!cancelled) {
-          setConditionsData(data);
+          const rates = data?.rates;
+          if (!Array.isArray(rates) || rates.length === 0 || rates[0] == null) {
+            setConditionsData(null);
+            setConditionsError(CONDITIONS_REDO_SEARCH_MESSAGE);
+          } else {
+            setConditionsData(data);
+            setConditionsError(null);
+          }
         }
       })
 
       .catch(() => {
         if (!cancelled) {
-          setConditionsError(
-            "Não foi possível carregar as condições desta reserva. Tente novamente."
-          );
-
           setConditionsData(null);
+          setConditionsError(CONDITIONS_REDO_SEARCH_MESSAGE);
         }
       })
 
@@ -309,7 +365,37 @@ export function AccommodationRoomDetailModal({
     );
   })();
 
-  const canReserve = !!selectedRateId && !!conditionsData && !conditionsLoading && !conditionsError;
+  const hasValidConditionsRate = Boolean(conditionsData?.rates?.[0]);
+
+  const canReserve =
+    !!selectedRateId && hasValidConditionsRate && !conditionsLoading && !conditionsError;
+
+  const selectedAvailabilityRate =
+    selectedRateId != null
+      ? availabilityRates.find((r) => r.id === selectedRateId) ?? null
+      : null;
+
+  const checkoutHref =
+    canReserve &&
+    conditionsData &&
+    stayDates &&
+    selectedAvailabilityRate &&
+    (travelersSummary?.type !== "FAMILY" || (travelersSummary.rooms?.length ?? 0) > 0)
+      ? buildAccommodationCheckoutHref({
+          accommodationUniqueName,
+          accommodationRoomId: room.id,
+          startDate: stayDates.start,
+          endDate: stayDates.end,
+          travelerType: travelersSummary?.type === "FAMILY" ? "FAMILY" : "COUPLE",
+          rooms: travelersSummary?.type === "FAMILY" ? travelersSummary.rooms : undefined,
+          rateId: selectedAvailabilityRate.id,
+          vendor: selectedAvailabilityRate.vendor,
+          uniqueTransactionId: conditionsData.uniqueTransactionId,
+          uniqueTransactionValidUntil:
+            conditionsData.uniqueTransactionValidUntil ??
+            new Date(Date.now() + FALLBACK_UNIQUE_TRANSACTION_VALID_MS),
+        })
+      : null;
 
   return (
     <div
@@ -439,13 +525,15 @@ export function AccommodationRoomDetailModal({
                   <p className="text-sm text-gray-600 py-4">Carregando condições da reserva…</p>
                 )}
 
-                {showRatesPanel && conditionsError && (
-                  <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 mb-4">
-                    {conditionsError}
+                {showRatesPanel && conditionsError && !conditionsLoading && (
+                  <div
+                    className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 mb-4"
+                    role="alert"
+                  >
+                    <p className="font-semibold">Não foi possível carregar as condições</p>
+                    <p className="mt-1 leading-relaxed">{conditionsError}</p>
                   </div>
                 )}
-
-                {/* Conditions endpoint no longer returns canBook/canPayLater */}
 
                 {showRatesPanel && conditionsData?.rates?.[0] && !conditionsLoading && (
                   <div className="rounded-2xl border border-gray-200 bg-white p-5">
@@ -455,7 +543,7 @@ export function AccommodationRoomDetailModal({
 
                     {(() => {
                       const rate = conditionsData.rates[0];
-                      const moreInformationHtml = safeHtmlOrNull(rate.moreInformation);
+                      const moreInformationHtml = prepareMoreInformationHtml(rate.moreInformation);
                       const propertyTaxes = (rate.propertyTaxes ?? []).filter(
                         (t) => t.amount !== 0
                       );
@@ -539,7 +627,7 @@ export function AccommodationRoomDetailModal({
 
                           {moreInformationHtml && (
                             <div
-                              className="prose prose-sm max-w-none text-gray-700 rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2 [&_p]:my-1"
+                              className="prose prose-sm max-w-none text-gray-700 rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2 [&_p]:my-1 [&_*]:whitespace-normal [&_img]:max-w-full [&_img]:h-auto"
                               dangerouslySetInnerHTML={{ __html: moreInformationHtml }}
                             />
                           )}
@@ -569,19 +657,15 @@ export function AccommodationRoomDetailModal({
                   </a>
                 </div>
 
-                {showRatesPanel && (
+                {showRatesPanel && canReserve && checkoutHref && (
                   <div className="mt-6">
-                    <button
-                      type="button"
-                      disabled={!canReserve}
-                      className={`w-full rounded-full px-5 py-3 text-sm font-semibold transition-colors ${
-                        canReserve
-                          ? "border-2 border-primary-600 bg-primary-600 text-white hover:bg-primary-700 hover:border-primary-700"
-                          : "cursor-not-allowed border border-gray-300 bg-gray-200 text-gray-500"
-                      }`}
+                    <Link
+                      href={checkoutHref}
+                      onClick={(e) => e.stopPropagation()}
+                      className="flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition-colors border-2 border-primary-600 bg-primary-600 text-white hover:bg-primary-700 hover:border-primary-700"
                     >
                       Reservar com a tarifa selecionada
-                    </button>
+                    </Link>
                   </div>
                 )}
               </div>

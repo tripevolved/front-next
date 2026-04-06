@@ -10,12 +10,15 @@ export async function middleware(request: NextRequest) {
   }
 
   if (request.nextUrl.pathname.startsWith("/app")) {
-    const { pathname, origin } = new URL(request.url)
-    const session = await auth0.getSession(request)
-    
-    // user does not have a session — redirect to login
+    const session = await auth0.getSession(request);
+
     if (!session) {
-      return NextResponse.redirect(`${origin}/auth/login?returnTo=${encodeURIComponent(pathname)}`)
+      const { origin, pathname, search } = request.nextUrl;
+      // Preserve query string (e.g. checkout ?accommodation=…&startDate=…) through login → callback.
+      const pathWithSearch = `${pathname}${search}`;
+      return NextResponse.redirect(
+        `${origin}/auth/login?returnTo=${encodeURIComponent(pathWithSearch)}`
+      );
     }
   }
   

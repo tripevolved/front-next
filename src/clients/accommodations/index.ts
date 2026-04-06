@@ -11,7 +11,7 @@ import {
   type AccommodationAvailabilityConditionsRequest,
 } from "./availability-conditions";
 
-export { toDateOnlyString } from "./availability";
+export { toDateOnlyString, parseAccommodationApiDateTime } from "./availability";
 
 export const AccommodationsApiService = {
   getAccommodationByUniqueName,

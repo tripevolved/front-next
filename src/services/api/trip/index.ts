@@ -1,7 +1,7 @@
 import { getTripDetailsByIdForDashboard } from "./dashboard";
 import { getTripDestinationQuestions, getTripQuestions } from "./questions";
-import { putMatchedDestinations, getMatchedDestinations } from "./matches";
 import { createTrip } from "./create";
+import { createTripByAccommodation } from "./by-accommodation";
 import { getTripPending } from "./pendings";
 import { getTripPriceById } from "./price";
 import { editTrip } from "./configuration";
@@ -16,11 +16,10 @@ export const TripsApiService = {
   getTripDestinationQuestions: getTripDestinationQuestions,
   getTripQuestions: getTripQuestions,
   postCreate: createTrip,
+  postCreateByAccommodation: createTripByAccommodation,
   getTripPending,
   getTips: getTripTips,
   getPriceById: getTripPriceById,
-  getMatchedDestinations: getMatchedDestinations,
-  setMatchedDestinations: putMatchedDestinations,
   setTripConfiguration: editTrip,
   removeById,
   getCheckout: getCheckoutById,

@@ -12,6 +12,7 @@ import { FamilyTravelersModal } from "./FamilyTravelersModal";
 import { RoomAvailabilityPrice } from "@/components/accommodation/RoomAvailabilityPrice";
 import {
   AccommodationsApiService,
+  toDateOnlyString,
   type AvailabilityTravelerType,
   type TravelerInput,
 } from "@/clients/accommodations";
@@ -20,6 +21,11 @@ import DateRangeSelector from "@/components/common/DateRangeSelector";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { buildAccommodationCheckoutHref } from "@/utils/accommodation-checkout-url";
+
+/** When availability does not return `uniqueTransactionValidUntil`, use a short client default so checkout can proceed. Prefer the API value when present. */
+const FALLBACK_UNIQUE_TRANSACTION_VALID_MS = 60 * 60 * 1000;
 
 interface AccommodationRoomsSectionProps {
   rooms?: PublicAccommodationRoom[];
@@ -85,6 +91,7 @@ function buildTravelerInput(
 }
 
 export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRoomsSectionProps) {
+  const router = useRouter();
   const [selectedRoom, setSelectedRoom] = useState<{
     room: PublicAccommodationRoom | PublicAccommodationRoomAvailability;
     preselectedRateId: string | null;
@@ -98,6 +105,7 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
   const [isLoadingAvailability, setIsLoadingAvailability] = useState(false);
   const [availabilityError, setAvailabilityError] = useState<string | null>(null);
   const [transactionId, setTransactionId] = useState<string | null>(null);
+  const [transactionValidUntil, setTransactionValidUntil] = useState<Date | null>(null);
   const [travelerType, setTravelerType] = useState<AvailabilityTravelerType>("COUPLE");
   const [familyTravellers, setFamilyTravellers] = useState<FamilyTravellers | null>(null);
   const [familyRooms, setFamilyRooms] = useState<FamilyRoom[] | null>(null);
@@ -129,6 +137,7 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
       if (!startDate || !endDate || !uniqueName) {
         setAvailabilityRooms([]);
         setTransactionId(null);
+        setTransactionValidUntil(null);
         setIsLoadingAvailability(false);
         return;
       }
@@ -136,6 +145,7 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
       if (travelerType === "FAMILY" && (!familyTravellers || !familyRooms)) {
         setAvailabilityRooms([]);
         setTransactionId(null);
+        setTransactionValidUntil(null);
         setAvailabilityError(null);
         setIsLoadingAvailability(false);
         return;
@@ -158,9 +168,11 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
         );
         setAvailabilityRooms(availability.rooms);
         setTransactionId(availability.transactionId);
+        setTransactionValidUntil(availability.uniqueTransactionValidUntil ?? null);
       } catch (error) {
         setAvailabilityError("Erro ao buscar disponibilidade. Tente novamente.");
         setAvailabilityRooms([]);
+        setTransactionValidUntil(null);
         console.error("Error fetching availability:", error);
       } finally {
         setIsLoadingAvailability(false);
@@ -666,6 +678,34 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
                             disabled={!canReserveOnCard}
                             onClick={(e) => {
                               e.stopPropagation();
+                              if (
+                                !canReserveOnCard ||
+                                !bestRate ||
+                                !startDate ||
+                                !endDate ||
+                                !transactionId
+                              ) {
+                                return;
+                              }
+                              if (travelerType === "FAMILY" && (!familyRooms || familyRooms.length === 0)) {
+                                return;
+                              }
+                              const uniqueTransactionValidUntil =
+                                transactionValidUntil ??
+                                new Date(Date.now() + FALLBACK_UNIQUE_TRANSACTION_VALID_MS);
+                              const href = buildAccommodationCheckoutHref({
+                                accommodationUniqueName: uniqueName,
+                                accommodationRoomId: room.id,
+                                startDate: toDateOnlyString(startDate),
+                                endDate: toDateOnlyString(endDate),
+                                travelerType,
+                                rooms: travelerType === "FAMILY" ? familyRooms : undefined,
+                                rateId: bestRate.id,
+                                vendor: bestRate.vendor,
+                                uniqueTransactionId: transactionId,
+                                uniqueTransactionValidUntil,
+                              });
+                              router.push(href);
                             }}
                             className={`w-full rounded-full px-5 py-3 text-sm font-semibold transition-colors ${
                               !canReserveOnCard
@@ -704,6 +744,11 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
           transactionId={transactionId}
           accommodationUniqueName={uniqueName}
           preselectedRateId={selectedRoom.preselectedRateId}
+          stayDates={
+            startDate && endDate
+              ? { start: toDateOnlyString(startDate), end: toDateOnlyString(endDate) }
+              : null
+          }
           travelersSummary={
             travelerType === "FAMILY" && familyTravellers && familyRooms
               ? { type: "FAMILY", travelers: familyTravellers, rooms: familyRooms }

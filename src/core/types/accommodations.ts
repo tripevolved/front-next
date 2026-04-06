@@ -85,6 +85,8 @@ export interface PublicAccommodationRoomAvailability extends PublicAccommodation
 
 export interface AccommodationAvailabilityResponse {
   transactionId: string;
+  /** Instant until which `transactionId` / availability context remains valid (parsed from API datetime). */
+  uniqueTransactionValidUntil?: Date;
   rooms: PublicAccommodationRoomAvailability[];
 }
 
@@ -115,5 +117,7 @@ export interface AccommodationRateConditionItem extends PublicAccommodationRoomR
 /** Response from POST /accommodations/availability/conditions */
 export interface AccommodationAvailabilityConditionsResponse {
   uniqueTransactionId: string;
+  /** Instant until which `uniqueTransactionId` remains valid (parsed from API datetime). */
+  uniqueTransactionValidUntil?: Date;
   rates: AccommodationRateConditionItem[];
 }
