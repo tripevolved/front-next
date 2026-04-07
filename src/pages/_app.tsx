@@ -6,7 +6,6 @@ import type { AppProps } from "next/app";
 import NextLink from "next/link";
 import { NoSSR, ProgressIndicator } from "@/ui";
 import "@/ui/styles/index.scss";
-import { LeadProvider } from "@/features";
 import { Environment } from "@/utils/helpers/environment.helpers";
 import { useAnalytics } from "@/services/analytics";
 import Head from "next/head";
@@ -36,7 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <LeadProvider>
+      <>
         <Seo />
         <GoogleScripts />
         <AppProvider linkComponent={LinkComponent}>
@@ -45,7 +44,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </NoSSR>
         </AppProvider>
-      </LeadProvider>
+      </>
     </>
   );
 }
