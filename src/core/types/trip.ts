@@ -11,6 +11,8 @@ export enum TravelerType {
 export interface TripDetails {
   id: string;
   title: string;
+  /** Destination label/name when available (backend optional). */
+  destination?: string | null;
   configuration: TripConfiguration;
   coverImage?: TripImage;
 }
