@@ -9,6 +9,7 @@ import { CircleLoader } from "@/components/common/CircleLoader";
 import type { TripDetails } from "@/core/types";
 import type { AccommodationAvailabilityConditionsResponse } from "@/core/types/accommodations";
 import type { TripAccommodationItem } from "@/clients/trips/accommodations";
+import type { TripPriceResponse } from "@/clients/trips/price";
 
 function asDate(value: unknown): Date | null {
   if (value == null) return null;
@@ -121,6 +122,9 @@ export function CheckoutTripById({
   const [conditionsLoadingByIdx, setConditionsLoadingByIdx] = useState<boolean[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [priceData, setPriceData] = useState<TripPriceResponse | null>(null);
+  const [priceLoading, setPriceLoading] = useState(false);
+  const [priceError, setPriceError] = useState<string | null>(null);
 
   const dateLabel = useMemo(() => {
     const start = asDate(trip?.configuration?.startDate);
@@ -213,6 +217,29 @@ export function CheckoutTripById({
     };
   }, [items]);
 
+  useEffect(() => {
+    let cancelled = false;
+    setPriceLoading(true);
+    setPriceError(null);
+
+    TripsApiService.postTripPrice(tripId)
+      .then((data) => {
+        if (cancelled) return;
+        setPriceData(data);
+        setPriceError(data.hasError ? data.errorMessage ?? "Não foi possível obter o valor." : null);
+      })
+      .catch(() => {
+        if (!cancelled) setPriceError("Não foi possível obter o valor. Tente novamente.");
+      })
+      .finally(() => {
+        if (!cancelled) setPriceLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [tripId]);
+
   if (loading) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-6 px-4 py-10">
@@ -244,7 +271,7 @@ export function CheckoutTripById({
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{trip.title}</h1>
           {trip.destination ? (
             <p className="text-sm md:text-base text-gray-700">
-              <span className="font-semibold">Destino</span>: {trip.destination}
+              <span className="font-semibold">A sua viagem para </span>{trip.destination}
             </p>
           ) : null}
           {dateLabel ? (
@@ -315,7 +342,7 @@ export function CheckoutTripById({
                       <div className="text-sm text-blue-900">
                         <p className="font-semibold">Buscando condições da reserva</p>
                         <p className="mt-1 text-xs leading-relaxed text-blue-800">
-                          Atualizando preço, cancelamento e regras da tarifa em tempo real.
+                          Atualizando valor, cancelamento e regras da tarifa em tempo real.
                         </p>
                       </div>
                     </div>
@@ -346,7 +373,7 @@ export function CheckoutTripById({
                     <p className="mt-1 text-xs leading-relaxed text-amber-800">
                       {isExpired
                         ? "A transação desta hospedagem passou da validade. Volte para a hospedagem e refaça a reserva."
-                        : "Não conseguimos obter as condições ao vivo desta tarifa no momento. Volte para a hospedagem e tente reservar novamente."}
+                        : "A tarifa que você escolheu não está disponível no momento. Volte para a hospedagem e tente reservar novamente."}
                     </p>
                     <a
                       href={hospedagemPath(a.uniqueName)}
@@ -393,7 +420,7 @@ export function CheckoutTripById({
                                 ) : null}
                               </div>
                               <p>
-                                <span className="font-semibold">Preço agora</span>:{" "}
+                                <span className="font-semibold">Valor agora</span>:{" "}
                                 {formatMoneyPtBR(live.price, live.currency)}
                               </p>
                               {live.cancellationPolicy ? (
@@ -456,6 +483,52 @@ export function CheckoutTripById({
             </div>
           );
         })}
+      </div>
+
+      <div className="mt-10">
+        <h2 className="text-xl font-bold text-gray-900">Resumo da sua viagem</h2>
+        <div className="mt-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          {priceLoading ? (
+            <div className="flex items-start gap-3">
+              <div
+                className="mt-0.5 h-5 w-5 animate-spin rounded-full border-2 border-primary-500 border-t-transparent"
+                aria-hidden
+              />
+              <div>
+                <p className="text-sm font-semibold text-gray-900">Calculando o total</p>
+                <p className="mt-1 text-xs text-gray-600">
+                  Estamos buscando as melhores condições e calculando as economias sem comissões.
+                </p>
+              </div>
+            </div>
+          ) : priceError ? (
+            <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-amber-900">
+              <p className="text-sm font-semibold">Não foi possível calcular o valor total</p>
+              <p className="mt-1 text-xs leading-relaxed text-amber-800">{priceError}</p>
+            </div>
+          ) : priceData ? (
+            <div className="space-y-3">
+              <div className="flex items-baseline justify-between gap-4">
+                <p className="text-sm font-semibold text-gray-900">Total</p>
+                <p className="text-lg font-bold text-gray-900 tabular-nums">
+                  {formatMoneyPtBR(priceData.price, "BRL")}
+                </p>
+              </div>
+              <div className="flex items-baseline justify-between gap-4">
+                <p className="text-sm font-semibold text-gray-900">Economia</p>
+                <p className="text-sm font-semibold text-green-700 tabular-nums">
+                  {formatMoneyPtBR(priceData.savings, "BRL")}
+                </p>
+              </div>
+              <p className="text-xs text-gray-600 leading-relaxed">
+                Você está evitando comissões e economizando até{" "}
+                <span className="font-semibold">{formatMoneyPtBR(priceData.savings, "BRL")}</span>.
+              </p>
+            </div>
+          ) : (
+            <p className="text-sm text-gray-600">Valor indisponível.</p>
+          )}
+        </div>
       </div>
     </div>
   );
