@@ -12,6 +12,22 @@ declare global {
   }
 }
 
+function isExpiredAuthError(error: unknown): boolean {
+  const anyErr = error as any
+  const msg = String(anyErr?.message ?? anyErr?.error_description ?? anyErr?.error ?? '')
+  return (
+    msg.toLowerCase().includes('access token has expired') ||
+    msg.toLowerCase().includes('refresh token was not provided') ||
+    msg.toLowerCase().includes('needs to re-authenticate')
+  )
+}
+
+function redirectToLogin(): void {
+  if (typeof window === 'undefined') return
+  const returnTo = `${window.location.pathname}${window.location.search}${window.location.hash}`
+  window.location.assign(`/auth/login?returnTo=${encodeURIComponent(returnTo)}`)
+}
+
 /**
  * Fetches traveler state and persists it into the Zustand app store.
  * No UI; mounted in the authenticated layout so it runs for all protected areas.
@@ -33,7 +49,16 @@ export function TravelerStateBootstrap() {
 
         for (let attempt = 0; attempt < maxAttempts; attempt++) {
           // Don't call the backend until Auth0 access token is available.
-          const credentials = await getAccessToken()
+          let credentials: string | null = null
+          try {
+            credentials = await getAccessToken()
+          } catch (error) {
+            if (isExpiredAuthError(error)) {
+              redirectToLogin()
+              return
+            }
+            // other auth errors: keep retrying for a short period
+          }
           if (credentials) {
             await updateTravelerState()
           }

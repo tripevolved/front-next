@@ -22,7 +22,10 @@ export default function LimitedSpotsNotice({
       )}
       {!isLoading && subscriptions != null ? (
         <p className="font-baloo text-xl font-semibold text-white mb-2">
-          Restam <strong className="text-accent-400">apenas {subscriptions.available}</strong> vagas das <strong className="text-white">{subscriptions.max}</strong> que liberamos no momento.
+          Restam{" "}
+          <strong className="text-accent-400">apenas {subscriptions.availableWithTravelAdvisor}</strong>{" "}
+          vagas das <strong className="text-white">{subscriptions.maxWithTravelAdvisor}</strong> que
+          liberamos no momento.
         </p>
       ) : (
         !isLoading && (

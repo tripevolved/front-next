@@ -111,6 +111,8 @@ export interface AccommodationRateConditionItem extends PublicAccommodationRoomR
   /** HTML with detailed info about room/accommodation/rate */
   moreInformation?: string | null;
 
+  /** Taxes included in the rate (e.g. service fees / VAT), when provided by backend. */
+  includedTaxes?: AccommodationPropertyTax[];
   propertyTaxes?: AccommodationPropertyTax[];
 }
 

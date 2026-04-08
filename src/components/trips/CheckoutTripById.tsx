@@ -10,6 +10,9 @@ import type { TripDetails } from "@/core/types";
 import type { AccommodationAvailabilityConditionsResponse } from "@/core/types/accommodations";
 import type { TripAccommodationItem } from "@/clients/trips/accommodations";
 import type { TripPriceResponse } from "@/clients/trips/price";
+import { useAppStore } from "@/core/store";
+import { CirculoEvolvedModal } from "@/components/app/CirculoEvolvedCall";
+import { CustomersService, type SubscriptionsResponse } from "@/clients/customers";
 
 function asDate(value: unknown): Date | null {
   if (value == null) return null;
@@ -107,6 +110,14 @@ function formatMoneyPtBR(amount: number, currency?: string | null): string {
   }
 }
 
+function formatShortDatePtBR(d: Date): string {
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(d);
+}
+
 export function CheckoutTripById({
   tripId,
   initialTrip,
@@ -125,6 +136,12 @@ export function CheckoutTripById({
   const [priceData, setPriceData] = useState<TripPriceResponse | null>(null);
   const [priceLoading, setPriceLoading] = useState(false);
   const [priceError, setPriceError] = useState<string | null>(null);
+  const [circuloModalOpen, setCirculoModalOpen] = useState(false);
+  const [subscriptions, setSubscriptions] = useState<SubscriptionsResponse | null>(null);
+  const [subscriptionsLoading, setSubscriptionsLoading] = useState(false);
+
+  const subscription = useAppStore((s) => s.travelerState?.subscription);
+  const isCirculoEvolvedMember = subscription?.status === "Active";
 
   const dateLabel = useMemo(() => {
     const start = asDate(trip?.configuration?.startDate);
@@ -240,6 +257,25 @@ export function CheckoutTripById({
     };
   }, [tripId]);
 
+  useEffect(() => {
+    if (isCirculoEvolvedMember) return;
+    let cancelled = false;
+    setSubscriptionsLoading(true);
+    CustomersService.getSubscriptions()
+      .then((data) => {
+        if (!cancelled) setSubscriptions(data);
+      })
+      .catch(() => {
+        if (!cancelled) setSubscriptions(null);
+      })
+      .finally(() => {
+        if (!cancelled) setSubscriptionsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isCirculoEvolvedMember]);
+
   if (loading) {
     return (
       <div className="flex min-h-[60vh] flex-col items-center justify-center gap-6 px-4 py-10">
@@ -291,6 +327,8 @@ export function CheckoutTripById({
           const uniqueTransactionId = a.uniqueTransactionId ?? null;
           const validUntil = asDate(a.uniqueTransactionIdValidUntil);
           const isExpired = validUntil ? validUntil.getTime() < Date.now() : false;
+          const stayStart = asDate((a as any)?.startDate);
+          const stayEnd = asDate((a as any)?.endDate);
           const hasAnyConditionsRate =
             cond != null && Array.isArray(cond?.rates) && (cond?.rates?.length ?? 0) > 0;
           const isLoadingConditions = conditionsLoadingByIdx[idx] === true;
@@ -327,6 +365,32 @@ export function CheckoutTripById({
                   <div className="p-5">
                     <h3 className="text-lg font-bold text-gray-900">{a.name}</h3>
                     <p className="mt-1 text-sm text-gray-600">{a.fullAddress}</p>
+                    {((Array.isArray((a as any)?.tags) && (a as any).tags.length > 0) ||
+                      (Array.isArray((a as any)?.recommendedFor) && (a as any).recommendedFor.length > 0)) ? (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {Array.isArray((a as any)?.tags) && (a as any).tags.length > 0
+                          ? (a as any).tags.map((tag: string, i: number) => (
+                              <span
+                                key={`tag:${i}`}
+                                className="bg-primary-500 text-white px-3 py-1 rounded-full text-xs font-semibold"
+                              >
+                                {tag}
+                              </span>
+                            ))
+                          : null}
+                        {Array.isArray((a as any)?.recommendedFor) &&
+                        (a as any).recommendedFor.length > 0
+                          ? (a as any).recommendedFor.map((tag: string, i: number) => (
+                              <span
+                                key={`rec:${i}`}
+                                className="bg-accent-500 text-white px-3 py-1 rounded-full text-xs font-semibold"
+                              >
+                                {tag}
+                              </span>
+                            ))
+                          : null}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
 
@@ -386,7 +450,14 @@ export function CheckoutTripById({
 
                 {a.rooms.map((r) => {
                   const live = condByRateId.get(r.rateId) ?? null;
+                  const includedTaxes = Array.isArray((live as any)?.includedTaxes)
+                    ? ((live as any).includedTaxes as any[])
+                    : [];
                   const propertyTaxes = Array.isArray(live?.propertyTaxes) ? live!.propertyTaxes! : [];
+                  const roomAdults = typeof (r as any)?.adults === "number" ? (r as any).adults : null;
+                  const roomChildren = typeof (r as any)?.children === "number" ? (r as any).children : null;
+                  const stayStartLabel = stayStart ? formatShortDatePtBR(stayStart) : null;
+                  const stayEndLabel = stayEnd ? formatShortDatePtBR(stayEnd) : null;
                   return (
                     <div key={r.rateId} className="w-full rounded-xl border border-gray-200 bg-white p-4">
                       <div className="flex items-start gap-3">
@@ -403,70 +474,120 @@ export function CheckoutTripById({
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="font-semibold text-gray-900 truncate">{r.name}</p>
+                          {roomAdults != null || roomChildren != null ? (
+                            <p className="mt-1 text-xs text-gray-600">
+                              <span className="font-semibold">Ocupação</span>:{" "}
+                              <span className="tabular-nums">
+                                {roomAdults != null
+                                  ? `${roomAdults} adulto${roomAdults === 1 ? "" : "s"}`
+                                  : ""}
+                                {roomAdults != null && roomChildren != null ? " · " : ""}
+                                {roomChildren != null
+                                  ? `${roomChildren} criança${roomChildren === 1 ? "" : "s"}`
+                                  : ""}
+                              </span>
+                            </p>
+                          ) : null}
                           {r.description ? (
                             <div
                               className="mt-1 prose prose-sm max-w-none text-gray-600 line-clamp-2 [&_*]:text-gray-600"
                               dangerouslySetInnerHTML={{ __html: r.description }}
                             />
                           ) : null}
+                        </div>
+                      </div>
 
-                          {live ? (
-                            <div className="mt-3 text-sm text-gray-800 space-y-1">
-                              <div className="flex flex-wrap items-center gap-2">
-                                {live.isSpecialOffer ? (
-                                  <span className="inline-flex items-center rounded-full bg-purple-50 px-3 py-1 text-xs font-semibold text-purple-800 border border-purple-200">
-                                    Oferta especial
-                                  </span>
-                                ) : null}
-                              </div>
-                              <p>
-                                <span className="font-semibold">Valor agora</span>:{" "}
-                                {formatMoneyPtBR(live.price, live.currency)}
-                              </p>
-                              {live.cancellationPolicy ? (
-                                <p className={live.isCancellable ? "text-green-700" : "text-red-700"}>
-                                  {live.cancellationPolicy}
+                      {live ? (
+                        <div className="mt-4 border-t border-gray-100 pt-4 text-sm text-gray-800 space-y-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            {live.isSpecialOffer ? (
+                              <span className="inline-flex items-center rounded-full bg-purple-50 px-3 py-1 text-xs font-semibold text-purple-800 border border-purple-200">
+                                Oferta especial
+                              </span>
+                            ) : null}
+                          </div>
+                          <p>
+                            <span className="font-semibold">Valor agora</span>:{" "}
+                            {formatMoneyPtBR(live.price, live.currency)}
+                          </p>
+                          {live.cancellationPolicy ? (
+                            <p className={live.isCancellable ? "text-green-700" : "text-red-700"}>
+                              {live.cancellationPolicy}
+                            </p>
+                          ) : null}
+
+                          {stayStartLabel || stayEndLabel || live.checkInTime || live.checkOutTime ? (
+                            <div className="text-xs text-gray-600 space-y-1 pt-1">
+                              {stayStartLabel || live.checkInTime ? (
+                                <p>
+                                  <span className="font-semibold">Entrada</span>:{" "}
+                                  {stayStartLabel ?? "—"}
+                                  {live.checkInTime ? ` a partir de ${live.checkInTime}` : ""}
                                 </p>
                               ) : null}
-
-                              {(live.checkInTime || live.checkOutTime) ? (
-                                <p className="text-xs text-gray-600">
-                                  <span className="font-semibold">Horários</span>:
-                                  {live.checkInTime ? ` check-in ${live.checkInTime}` : ""}
-                                  {live.checkOutTime ? ` · check-out ${live.checkOutTime}` : ""}
+                              {stayEndLabel || live.checkOutTime ? (
+                                <p>
+                                  <span className="font-semibold">Saída</span>:{" "}
+                                  {stayEndLabel ?? "—"}
+                                  {live.checkOutTime ? ` até ${live.checkOutTime}` : ""}
                                 </p>
-                              ) : null}
-
-                              {propertyTaxes.length > 0 ? (
-                                <div className="mt-2 rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2">
-                                  <p className="text-xs font-semibold text-gray-700 mb-2">
-                                    Taxas do estabelecimento
-                                  </p>
-                                  <ul className="space-y-1 text-xs text-gray-700">
-                                    {propertyTaxes.map((t: any, i: number) => (
-                                      <li
-                                        key={i}
-                                        className={`flex gap-3 ${
-                                          t.description?.trim() ? "justify-between" : "justify-end"
-                                        }`}
-                                      >
-                                        {t.description?.trim() ? (
-                                          <span className="min-w-0 text-left">
-                                            {String(t.description).trim()}
-                                          </span>
-                                        ) : null}
-                                        <span className="font-medium shrink-0 tabular-nums">
-                                          {formatMoneyPtBR(Number(t.amount ?? 0), live.currency)}
-                                        </span>
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
                               ) : null}
                             </div>
                           ) : null}
+
+                          {includedTaxes.length > 0 ? (
+                            <div className="mt-2 rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2">
+                              <p className="text-xs font-semibold text-gray-700 mb-2">Taxas incluídas</p>
+                              <ul className="space-y-1 text-xs text-gray-700">
+                                {includedTaxes.map((t: any, i: number) => (
+                                  <li
+                                    key={i}
+                                    className={`flex gap-3 ${
+                                      t.description?.trim() ? "justify-between" : "justify-end"
+                                    }`}
+                                  >
+                                    {t.description?.trim() ? (
+                                      <span className="min-w-0 text-left">
+                                        {String(t.description).trim()}
+                                      </span>
+                                    ) : null}
+                                    <span className="font-medium shrink-0 tabular-nums">
+                                      {formatMoneyPtBR(Number(t.amount ?? 0), live.currency)}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ) : null}
+
+                          {propertyTaxes.length > 0 ? (
+                            <div className="mt-2 rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2">
+                              <p className="text-xs font-semibold text-gray-700 mb-2">
+                                Taxas a serem pagas na hospedagem
+                              </p>
+                              <ul className="space-y-1 text-xs text-gray-700">
+                                {propertyTaxes.map((t: any, i: number) => (
+                                  <li
+                                    key={i}
+                                    className={`flex gap-3 ${
+                                      t.description?.trim() ? "justify-between" : "justify-end"
+                                    }`}
+                                  >
+                                    {t.description?.trim() ? (
+                                      <span className="min-w-0 text-left">
+                                        {String(t.description).trim()}
+                                      </span>
+                                    ) : null}
+                                    <span className="font-medium shrink-0 tabular-nums">
+                                      {formatMoneyPtBR(Number(t.amount ?? 0), live.currency)}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ) : null}
                         </div>
-                      </div>
+                      ) : null}
                     </div>
                   );
                 })}
@@ -508,28 +629,84 @@ export function CheckoutTripById({
             </div>
           ) : priceData ? (
             <div className="space-y-3">
+              <p className="text-sm font-semibold leading-relaxed text-accent-600">
+                Você está evitando comissões nessa viagem e economizando{" "}
+                <span className="tabular-nums">{formatMoneyPtBR(priceData.savings, "BRL")}</span>.
+              </p>
               <div className="flex items-baseline justify-between gap-4">
-                <p className="text-sm font-semibold text-gray-900">Total</p>
+                <p className="text-sm font-semibold text-gray-900">Total para o Círculo Evolved</p>
                 <p className="text-lg font-bold text-gray-900 tabular-nums">
                   {formatMoneyPtBR(priceData.price, "BRL")}
                 </p>
               </div>
-              <div className="flex items-baseline justify-between gap-4">
-                <p className="text-sm font-semibold text-gray-900">Economia</p>
-                <p className="text-sm font-semibold text-green-700 tabular-nums">
-                  {formatMoneyPtBR(priceData.savings, "BRL")}
-                </p>
-              </div>
-              <p className="text-xs text-gray-600 leading-relaxed">
-                Você está evitando comissões e economizando até{" "}
-                <span className="font-semibold">{formatMoneyPtBR(priceData.savings, "BRL")}</span>.
-              </p>
             </div>
           ) : (
             <p className="text-sm text-gray-600">Valor indisponível.</p>
           )}
+
+          {!priceLoading ? (
+            <div className="mt-5 border-t border-gray-100 pt-5">
+              {isCirculoEvolvedMember ? (
+                <button
+                  type="button"
+                  disabled={priceError != null}
+                  className="w-full rounded-xl bg-accent-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-600 transition-colors disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-accent-500"
+                >
+                  Reservar e ir ao pagamento
+                </button>
+              ) : (
+                <div className="space-y-4">
+                  <p className="text-sm leading-relaxed text-gray-700">
+                    Essa não é uma tarifa comum — é uma condição acessível apenas através do Círculo Evolved. É reflexo de um modelo sem comissões e taxas escondidas.
+                    Ao entrar, você tem acesso <span className="font-semibold">por 1 ano</span> não só a essa hospedagem, mas a um padrão de curadoria e acesso a valores que normalmente não chegam ao público.
+                  </p>
+                  <button
+                    type="button"
+                    className="w-full rounded-xl bg-accent-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-600 transition-colors disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-accent-500"
+                    disabled={priceError != null || priceData == null}
+                  >
+                    Adicionar o Círculo Evolved Essencial por{" "}
+                    <span className="tabular-nums">
+                      {subscriptions != null &&
+                      typeof subscriptions.priceWithoutTravelAdvisor === "number"
+                        ? formatMoneyPtBR(subscriptions.priceWithoutTravelAdvisor, "BRL")
+                        : "—"}
+                    </span>{" "}
+                    e ir ao pagamento
+                  </button>
+                  {!subscriptionsLoading &&
+                  subscriptions != null &&
+                  typeof subscriptions.availableWithoutTravelAdvisor === "number" &&
+                  typeof subscriptions.maxWithoutTravelAdvisor === "number" ? (
+                    <p className="text-xs leading-relaxed text-accent-500">
+                      *Restam{" "}
+                      <span className="font-semibold tabular-nums text-accent-700">
+                        {subscriptions.availableWithoutTravelAdvisor}
+                      </span>{" "}
+                      vagas de{" "}
+                      <span className="font-semibold tabular-nums text-accent-700">
+                        {subscriptions.maxWithoutTravelAdvisor}
+                      </span>{" "}
+                      disponíveis no momento.
+                    </p>
+                  ) : null}
+                  <div className="text-center">
+                    <button
+                      type="button"
+                      onClick={() => setCirculoModalOpen(true)}
+                      className="text-sm font-semibold text-accent-600 underline underline-offset-2 hover:text-accent-700"
+                    >
+                      Quero entender melhor
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : null}
         </div>
       </div>
+
+      <CirculoEvolvedModal isOpen={circuloModalOpen} onClose={() => setCirculoModalOpen(false)} />
     </div>
   );
 }

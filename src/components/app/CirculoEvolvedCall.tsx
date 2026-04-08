@@ -25,8 +25,23 @@ const BENEFIT_CARDS = [
   },
 ]
 
-function CirculoEvolvedModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+type CirculoEvolvedModalType = 'essential' | 'total'
+
+export function CirculoEvolvedModal({
+  isOpen,
+  onClose,
+  type = 'essential',
+}: {
+  isOpen: boolean
+  onClose: () => void
+  type?: CirculoEvolvedModalType
+}) {
   const router = useRouter()
+  const isTotal = type === 'total'
+  const ctaLabel =
+    type === 'total'
+      ? 'Contratar o Círculo Evolved Total'
+      : 'Contratar o Círculo Evolved Essencial'
 
   const handleCheckout = () => {
     onClose()
@@ -65,7 +80,8 @@ function CirculoEvolvedModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             Zero comissões e taxas escondidas, curadoria excepcional de destinos e experiências, e qualidade em cada detalhe — os 3 pilares que fazem do Círculo Evolved a melhor escolha para você, que investe em viagens memoráveis.
           </h3>
           {/* 3 Benefit cards with depth */}
-          {BENEFIT_CARDS.map((card) => (
+          {BENEFIT_CARDS.filter((card) => (card.id === 'travel-designer' ? isTotal : true)).map(
+            (card) => (
             <div
               key={card.id}
               className="bg-secondary-50 rounded-xl border border-secondary-200 overflow-hidden"
@@ -108,21 +124,23 @@ function CirculoEvolvedModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
                 </p>
               </div>
             </div>
-          ))}
+          )
+          )}
 
-          {/* YouTube video */}
-          <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg">
-            <iframe
-              width="100%"
-              height="100%"
-              src="https://www.youtube.com/embed/hZyiun44Eh4?si=RklrrDSLTCIOBMYK"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              className="w-full h-full"
-            />
-          </div>
+          {isTotal ? (
+            <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg">
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/hZyiun44Eh4?si=RklrrDSLTCIOBMYK"
+                title="YouTube video player"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
+          ) : null}
         </div>
 
         {/* CTA footer */}
@@ -131,7 +149,7 @@ function CirculoEvolvedModal({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             onClick={handleCheckout}
             className="w-full font-baloo bg-accent-500 text-white px-6 py-3 rounded-full text-base font-semibold hover:bg-accent-600 transition-all shadow-lg hover:shadow-accent-500/30"
           >
-            Contratar o Círculo Evolved
+            {ctaLabel}
           </button>
           <div className="text-center">
             <p className="font-comfortaa text-sm text-secondary-600 mb-2">Ficou com alguma dúvida?</p>
@@ -164,7 +182,7 @@ export function CirculoEvolvedCall() {
             Quer levar essa experiência para outro nível?
           </h2>
           <p className="font-comfortaa text-sm md:text-base text-white/90 max-w-lg mx-auto mb-6">
-            No Círculo Evolved, todas as suas viagens seguem esse mesmo padrão — com preços transparentes e um especialista ao seu lado o tempo todo.
+            No Círculo Evolved, todas as suas viagens seguem esse mesmo padrão — com preços transparentes e curadoria especializada para você não ter risco de errar na sua viagem.
           </p>
           <button
             type="button"

@@ -11,6 +11,7 @@ import {
 import type { FamilyRoom } from "@/components/trip-planning/familyTypes";
 import { CircleLoader } from "@/components/common/CircleLoader";
 import { useAppStore } from "@/core/store";
+import { buildRoomsInput, type CreateTripByAccommodationRoomInput } from "@/clients/trips/by-accommodation";
 
 const LOADING_STEPS = [
   {
@@ -38,6 +39,39 @@ function parseRooms(raw: string | null, travelerType: AvailabilityTravelerType):
     const parsed = JSON.parse(raw) as unknown;
     if (!Array.isArray(parsed)) return undefined;
     return parsed as FamilyRoom[];
+  } catch {
+    return undefined;
+  }
+}
+
+function parseRoomsInput(raw: string | null): CreateTripByAccommodationRoomInput[] | undefined {
+  if (raw == null || raw.trim() === "") return undefined;
+  try {
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return undefined;
+    const out: CreateTripByAccommodationRoomInput[] = [];
+    for (const item of parsed) {
+      const r = item as any;
+      if (
+        typeof r?.adults !== "number" ||
+        typeof r?.children !== "number" ||
+        !Array.isArray(r?.childrenAges) ||
+        typeof r?.rateId !== "string" ||
+        typeof r?.accommodationRoomId !== "string" ||
+        typeof r?.vendor !== "string"
+      ) {
+        return undefined;
+      }
+      out.push({
+        adults: r.adults,
+        children: r.children,
+        childrenAges: r.childrenAges,
+        rateId: r.rateId,
+        accommodationRoomId: r.accommodationRoomId,
+        vendor: r.vendor,
+      });
+    }
+    return out.length ? out : undefined;
   } catch {
     return undefined;
   }
@@ -123,9 +157,10 @@ export function CheckoutTripCreationClient() {
       return;
     }
 
+    const roomsInput = parseRoomsInput(roomsRaw);
     const rooms = parseRooms(roomsRaw, travelerType);
 
-    if (travelerType === "FAMILY" && (!rooms || rooms.length === 0)) {
+    if (travelerType === "FAMILY" && !roomsInput && (!rooms || rooms.length === 0)) {
       if (!ranRef.current) {
         ranRef.current = true;
         setError(
@@ -145,16 +180,21 @@ export function CheckoutTripCreationClient() {
 
     TripsApiService.createTripByAccommodation({
       travelerId: tid,
+      accommodationUniqueName: accommodation,
       uniqueTransactionId,
       uniqueTransactionValidUntil,
-      accommodationUniqueName: accommodation,
-      accommodationRoomId,
       startDate,
       endDate,
       travelerType,
-      rateId,
-      vendor,
-      ...(travelerType === "FAMILY" && rooms?.length ? { rooms } : {}),
+      rooms:
+        roomsInput ??
+        buildRoomsInput({
+          travelerType,
+          accommodationRoomId,
+          rateId,
+          vendor,
+          rooms,
+        }),
     })
       .then(({ id }) => {
         router.replace(`/app/checkout/${id}`);

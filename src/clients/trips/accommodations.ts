@@ -7,6 +7,8 @@ export type TripAccommodationRoomItem = {
   name: string;
   description?: string | null;
   coverImage?: TripImage | null;
+  adults?: number | null;
+  children?: number | null;
 };
 
 export type TripAccommodationItem = {
@@ -15,6 +17,12 @@ export type TripAccommodationItem = {
   name: string;
   fullAddress: string;
   coverImage?: TripImage | null;
+  tags?: string[] | null;
+  recommendedFor?: string[] | null;
+  /** Trip/accommodation stay start date (often date-only ISO). */
+  startDate?: string | Date | null;
+  /** Trip/accommodation stay end date (often date-only ISO). */
+  endDate?: string | Date | null;
   uniqueTransactionId?: string | null;
   /** Backend datetime; treated as optional in UI when missing. */
   uniqueTransactionIdValidUntil: Date | null;

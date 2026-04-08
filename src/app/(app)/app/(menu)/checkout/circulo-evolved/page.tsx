@@ -63,7 +63,7 @@ export default function CirculoEvolvedCheckoutPage() {
     !bypassPaymentCheck &&
     !isLoadingSubscriptions &&
     subscriptions != null &&
-    subscriptions.available <= 0
+    subscriptions.availableWithTravelAdvisor <= 0
 
   const circuloPrice =
     subscriptions != null && typeof subscriptions.priceWithTravelAdvisor === 'number'
