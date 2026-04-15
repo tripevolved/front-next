@@ -6,7 +6,7 @@ import { getGoals } from "./goals";
 import { getItinerary } from "./itinerary";
 import { getTrips } from "./all";
 import { createTripByAccommodation } from "./by-accommodation";
-import { getTripAccommodations } from "./accommodations";
+import { getTripAccommodations, getTripAccommodationById } from "./accommodations";
 import { postTripPrice } from "./price";
 
 export const TripsApiService = {
@@ -14,6 +14,7 @@ export const TripsApiService = {
   setDestinationIdForTrip: putDestinationIdForTrip,
   getTripDetailsById,
   getTripAccommodations,
+  getTripAccommodationById,
   postTripPrice,
   getTripMatches,
   createTrip,

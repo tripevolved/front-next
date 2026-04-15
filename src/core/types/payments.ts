@@ -99,6 +99,33 @@ export interface CheckoutSessionPayload {
   acceptTerms?: boolean;
 }
 
+/**
+ * Checkout items for `POST /payments` (creates a payment id used by `/app/checkout/[id]`).
+ */
+export type CheckoutPaymentItem =
+  | {
+      type: "ACCOMMODATION";
+      /** Accommodation item id (string) */
+      id: string;
+    }
+  | {
+      type: "SUBSCRIPTION_ESSENTIAL";
+      amount: number;
+    }
+  | {
+      type: "SUBSCRIPTION_TOTAL";
+      amount: number;
+    };
+
+export interface CreateCheckoutPaymentRequest {
+  tripId?: string | null;
+  items: CheckoutPaymentItem[];
+}
+
+export interface CreateCheckoutPaymentResponse {
+  id: string;
+}
+
 export const STEP_NAMES = ["Dados do pagador", "Forma de pagamento", "Finalizar"] as const;
 export type StepName = (typeof STEP_NAMES)[number];
 

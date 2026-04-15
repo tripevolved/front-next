@@ -35,3 +35,11 @@ export const getTripAccommodations = async (tripId: string): Promise<TripAccommo
   return ApiRequest.get<TripAccommodationItem[]>(route);
 };
 
+export const getTripAccommodationById = async (
+  tripId: string,
+  accommodationId: string
+): Promise<TripAccommodationItem> => {
+  const route = `trips/${tripId}/accommodations/${accommodationId}`;
+  return ApiRequest.get<TripAccommodationItem>(route);
+};
+

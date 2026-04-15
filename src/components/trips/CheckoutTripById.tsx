@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 import { TripsApiService } from "@/clients/trips";
 import { AccommodationsApiService } from "@/clients/accommodations";
+import { PaymentsApiService } from "@/clients/payments";
 import { CircleLoader } from "@/components/common/CircleLoader";
 import type { TripDetails } from "@/core/types";
 import type { AccommodationAvailabilityConditionsResponse } from "@/core/types/accommodations";
@@ -14,6 +15,7 @@ import type { TripPriceResponse } from "@/clients/trips/price";
 import { useAppStore } from "@/core/store";
 import { CirculoEvolvedModal } from "@/components/app/CirculoEvolvedCall";
 import { CustomersService, type SubscriptionsResponse } from "@/clients/customers";
+import type { CheckoutPaymentItem } from "@/core/types/payments";
 
 function asDate(value: unknown): Date | null {
   if (value == null) return null;
@@ -141,6 +143,8 @@ export function CheckoutTripById({
   const [circuloModalOpen, setCirculoModalOpen] = useState(false);
   const [subscriptions, setSubscriptions] = useState<SubscriptionsResponse | null>(null);
   const [subscriptionsLoading, setSubscriptionsLoading] = useState(false);
+  const [creatingPayment, setCreatingPayment] = useState(false);
+  const [createPaymentError, setCreatePaymentError] = useState<string | null>(null);
 
   const subscription = useAppStore((s) => s.travelerState?.subscription);
   const isCirculoEvolvedMember = subscription?.status === "Active";
@@ -301,6 +305,48 @@ export function CheckoutTripById({
       </div>
     );
   }
+
+  const createPaymentAndGo = async (opts: { includeSubscription: boolean }) => {
+    if (creatingPayment) return;
+    setCreatePaymentError(null);
+    setCreatingPayment(true);
+    try {
+      const accommodationItems: CheckoutPaymentItem[] = (items ?? [])
+        .map((a) => {
+          if (!a?.id) return null;
+          return {
+            type: "ACCOMMODATION",
+            id: a.id,
+          } as const;
+        })
+        .filter(Boolean) as CheckoutPaymentItem[];
+
+      const subscriptionItem: CheckoutPaymentItem[] = opts.includeSubscription
+        ? [
+            {
+              type: "SUBSCRIPTION_ESSENTIAL" as const,
+              amount:
+                subscriptions != null && typeof subscriptions.priceWithoutTravelAdvisor === "number"
+                  ? subscriptions.priceWithoutTravelAdvisor
+                  : 0,
+            },
+          ]
+        : [];
+
+      const createBody = {
+        tripId,
+        items: [...accommodationItems, ...subscriptionItem],
+      };
+
+      const res = await PaymentsApiService.createCheckoutPayment(createBody);
+      if (!res?.id) throw new Error("Não foi possível iniciar o pagamento.");
+      router.push(`/app/checkout/${encodeURIComponent(res.id)}`);
+    } catch (e) {
+      setCreatePaymentError(e instanceof Error ? e.message : "Não foi possível iniciar o pagamento.");
+    } finally {
+      setCreatingPayment(false);
+    }
+  };
 
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-8">
@@ -648,16 +694,21 @@ export function CheckoutTripById({
 
           {!priceLoading ? (
             <div className="mt-5 border-t border-gray-100 pt-5">
+              {createPaymentError ? (
+                <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-900">
+                  <p className="text-sm font-medium leading-relaxed">{createPaymentError}</p>
+                </div>
+              ) : null}
               {isCirculoEvolvedMember ? (
                 <button
                   type="button"
                   disabled={priceError != null}
                   className="w-full rounded-xl bg-accent-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-600 transition-colors disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-accent-500"
                   onClick={() => {
-                    router.push(`/app/viagens/${encodeURIComponent(tripId)}/checkout/pagamento`);
+                    createPaymentAndGo({ includeSubscription: false });
                   }}
                 >
-                  Reservar e ir ao pagamento
+                  {creatingPayment ? "Iniciando pagamento…" : "Reservar e ir ao pagamento"}
                 </button>
               ) : (
                 <div className="space-y-4">
@@ -670,7 +721,7 @@ export function CheckoutTripById({
                     className="w-full rounded-xl bg-accent-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-600 transition-colors disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-accent-500"
                     disabled={priceError != null || priceData == null}
                     onClick={() => {
-                      router.push(`/app/viagens/${encodeURIComponent(tripId)}/checkout/pagamento`);
+                      createPaymentAndGo({ includeSubscription: true });
                     }}
                   >
                     Adicionar o Círculo Evolved Essencial por{" "}

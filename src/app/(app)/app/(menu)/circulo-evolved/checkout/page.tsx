@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { CustomersService } from '@/clients/customers'
 import type { SubscriptionsResponse } from '@/clients/customers'
 import { getWhatsappLink } from '@/utils/helpers/whatsapp.helpers'
 import { formatCurrency } from '@/utils/helpers/currency.helper'
+import { PaymentsApiService } from '@/clients/payments'
 
 const CIRCULO_WHATSAPP_MESSAGE =
   'Olá! Gostaria de saber sobre vagas para o Círculo Evolved. As vagas estão esgotadas no momento e gostaria de ser avisado quando houver disponibilidade.'
@@ -35,12 +37,15 @@ const IMPORTANT_ANSWERS = [
 ]
 
 export default function CirculoEvolvedCheckoutPage() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const permitirPagamento = searchParams?.get('permitirPagamento') ?? null
   const bypassPaymentCheck = permitirPagamento !== null && permitirPagamento !== ''
 
   const [subscriptions, setSubscriptions] = useState<SubscriptionsResponse | null>(null)
   const [isLoadingSubscriptions, setIsLoadingSubscriptions] = useState(true)
+  const [creatingPayment, setCreatingPayment] = useState(false)
+  const [createPaymentError, setCreatePaymentError] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -73,6 +78,32 @@ export default function CirculoEvolvedCheckoutPage() {
   const showPaymentButton =
     bypassPaymentCheck ||
     (!isLoadingSubscriptions && !noSpotsAvailable && circuloPrice != null)
+
+  const goToPayment = async () => {
+    if (creatingPayment) return
+    setCreatePaymentError(null)
+    setCreatingPayment(true)
+    try {
+      const res = await PaymentsApiService.createCheckoutPayment({
+        tripId: null,
+        items: [
+          {
+            type: 'SUBSCRIPTION_TOTAL',
+            amount:
+              subscriptions != null && typeof subscriptions.priceWithTravelAdvisor === 'number'
+                ? subscriptions.priceWithTravelAdvisor
+                : 0,
+          },
+        ],
+      })
+      if (!res?.id) throw new Error('Não foi possível iniciar o pagamento.')
+      router.push(`/app/checkout/${encodeURIComponent(res.id)}`)
+    } catch (e) {
+      setCreatePaymentError(e instanceof Error ? e.message : 'Não foi possível iniciar o pagamento.')
+    } finally {
+      setCreatingPayment(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-secondary-50">
@@ -195,12 +226,19 @@ export default function CirculoEvolvedCheckoutPage() {
               )}
               {showPaymentButton && (
                 <>
-                  <Link
-                    href="/app/circulo-evolved/checkout/pagamento"
-                    className="block w-full text-center font-baloo bg-accent-500 text-white py-3 px-6 rounded-full text-lg font-semibold hover:bg-accent-600 transition-colors"
+                  {createPaymentError ? (
+                    <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-900">
+                      <p className="text-sm font-medium leading-relaxed">{createPaymentError}</p>
+                    </div>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={goToPayment}
+                    className="block w-full text-center font-baloo bg-accent-500 text-white py-3 px-6 rounded-full text-lg font-semibold hover:bg-accent-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                    disabled={creatingPayment}
                   >
-                    Ir para pagamento
-                  </Link>
+                    {creatingPayment ? 'Iniciando pagamento…' : 'Ir para pagamento'}
+                  </button>
                   <p className="font-comfortaa text-xs text-secondary-500 text-center mt-4">
                     Compra segura • Você será redirecionado ao ambiente de pagamento
                   </p>
