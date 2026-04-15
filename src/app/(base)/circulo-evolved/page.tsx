@@ -165,7 +165,7 @@ export default function CirculoEvolvedPage() {
                 ))}
               </ul>
               <Link
-                href="/app/checkout/circulo-evolved"
+                href="/app/circulo-evolved/checkout"
                 className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
               >
                 Contratar o Círculo Evolved
@@ -276,7 +276,7 @@ export default function CirculoEvolvedPage() {
             </div>
           </div>
           <Link
-            href="/app/checkout/circulo-evolved"
+            href="/app/circulo-evolved/checkout"
             className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
           >
             Quero contratar
@@ -329,7 +329,7 @@ export default function CirculoEvolvedPage() {
               </div>
               <div className="flex justify-center">
                 <Link
-                  href="/app/checkout/circulo-evolved"
+                  href="/app/circulo-evolved/checkout"
                   className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
                 >
                   Quero contratar
@@ -365,7 +365,7 @@ export default function CirculoEvolvedPage() {
           </div>
           <div className="flex flex-col items-start gap-2">
             <Link
-              href="/app/checkout/circulo-evolved"
+              href="/app/circulo-evolved/checkout"
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
               Quero contratar
@@ -383,7 +383,7 @@ export default function CirculoEvolvedPage() {
         className="scroll-mt-20"
         showPrice
         ctaText="Contratar o Círculo Evolved"
-        onCtaClick={() => router.push('/app/checkout/circulo-evolved')}
+        onCtaClick={() => router.push('/app/circulo-evolved/checkout')}
         eventSource="Circulo Evolved - Landing"
         manageSubscriptionsLocally={false}
         subscriptionsSnapshot={subscriptions}

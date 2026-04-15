@@ -33,5 +33,5 @@ export function buildAccommodationCheckoutHref(params: {
   if (params.travelerType === "FAMILY" && params.rooms && params.rooms.length > 0) {
     sp.set("rooms", JSON.stringify(params.rooms));
   }
-  return `/app/checkout?${sp.toString()}`;
+  return `/app/viagens/nova?${sp.toString()}`;
 }

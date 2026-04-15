@@ -62,8 +62,9 @@ export async function generateMetadata({ params }: CheckoutPageProps): Promise<M
   };
 }
 
-export default async function CheckoutPage({ params }: CheckoutPageProps) {
+export default async function ViagemCheckoutPage({ params }: CheckoutPageProps) {
   const { id } = await params;
   const trip = await getTripForCheckout(id);
   return <CheckoutTripById tripId={id} initialTrip={trip} />;
 }
+

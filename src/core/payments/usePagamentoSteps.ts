@@ -6,6 +6,7 @@ import type { CreatePayerResponse } from "@/clients/payments/payer";
 import { PaymentsApiService } from "@/clients/payments";
 import type {
   CheckoutPayerData,
+  PaymentIntentItem,
   PaymentIntentResponse,
 } from "@/core/types/payments";
 import type { CheckoutPaymentMethod, CheckoutSessionPayload } from "@/core/types/payments";
@@ -224,23 +225,27 @@ export function usePagamentoSteps() {
     async (
       method: CheckoutPaymentMethod,
       totalAmount: number,
-      reference?: string,
-      type?: string
+      items: PaymentIntentItem[],
+      metadata?: Record<string, string>
     ) => {
       setSaveError(null);
       setIsSaving(true);
       try {
+        if (!items?.length) {
+          setSaveError("Nenhum item de pagamento informado.");
+          return;
+        }
         setPayload((prev) => ({ ...prev, paymentMethod: method }));
         const tripMethod: TripPaymentMethod = method === "credit_card" ? "CREDIT_CARD" : "PIX";
-        const metadata: Record<string, string> = {};
-        if (reference != null && reference !== "") metadata.reference = reference;
-        if (type != null && type !== "") metadata.type = type;
+        const extra =
+          metadata && Object.keys(metadata).length > 0 ? { metadata } : {};
         const paymentIntent = {
           payer: checkoutPayerToTripPayer(payload.payer),
           amount: totalAmount,
           installments: Math.min(12, Math.max(1, payload.installments ?? 1)),
           method: tripMethod,
-          metadata,
+          items,
+          ...extra,
         };
         const response = await PaymentsApiService.createPaymentIntent(paymentIntent);
         if (!response.isSuccess) {

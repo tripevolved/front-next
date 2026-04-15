@@ -12,4 +12,10 @@ export const PaymentsApiService = {
   createPayer,
 };
 
-export type { CheckoutPayerData, CheckoutPaymentMethod, CheckoutSessionPayload } from "@/core/types/payments";
+export type {
+  CheckoutPayerData,
+  CheckoutPaymentMethod,
+  CheckoutSessionPayload,
+  PaymentIntentItem,
+  PaymentIntentItemType,
+} from "@/core/types/payments";

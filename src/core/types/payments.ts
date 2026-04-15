@@ -35,12 +35,25 @@ export type TripPaymentMethod = "PIX" | "CREDIT_CARD";
 
 export type TripPaymentProvider = "STRIPE" | "VALEPAY";
 
+/** Line item types for `POST payments/intent`. */
+export type PaymentIntentItemType =
+  | "TRIP"
+  | "SUBSCRIPTION_ESSENTIAL"
+  | "SUBSCRIPTION_TOTAL";
+
+export interface PaymentIntentItem {
+  amount: number;
+  type: PaymentIntentItemType;
+}
+
 export interface PaymentIntent {
   payer: TripPayer;
   amount: number;
   installments: number;
   method: TripPaymentMethod;
-  metadata: Record<string, string>;
+  items: PaymentIntentItem[];
+  /** Optional metadata (e.g. reference). Do not send payment `type` here — use `items[].type`. */
+  metadata?: Record<string, string>;
 }
 
 export interface PaymentIntentResponse {
@@ -132,10 +145,10 @@ export interface PagamentoStepProps {
   travelerEmail?: string;
   /** Total amount in whole BRL (e.g. from subscriptions API). Used for installments when credit_card. */
   totalAmount?: number;
-  /** Reference for the payment intent (e.g. "Círculo Evolved"). Sent in metadata. */
-  paymentReference?: string;
-  /** Type of the payment intent (e.g. "subscription"). Sent in metadata. */
-  paymentType?: string;
+  /** Line items sent to `payments/intent` (amount + type each). */
+  paymentItems?: PaymentIntentItem[];
+  /** Optional metadata for the intent (no payment line-item `type` here). */
+  paymentMetadata?: Record<string, string>;
   /** Response from create payment intent; used for PIX (pixInfo) in StepPaymentFinish. */
   paymentIntentResponse?: PaymentIntentResponse | null;
   /**

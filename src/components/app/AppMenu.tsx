@@ -149,7 +149,7 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
                 {/* Círculo Evolved */}
                 <button
                   onClick={() => {
-                    router.push(subscriptionActive ? '/app/admin/circulo-evolved' : '/app/checkout/circulo-evolved')
+                    router.push(subscriptionActive ? '/app/admin/circulo-evolved' : '/app/circulo-evolved/checkout')
                     setIsOpen(false)
                   }}
                   className="w-full flex items-center px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"

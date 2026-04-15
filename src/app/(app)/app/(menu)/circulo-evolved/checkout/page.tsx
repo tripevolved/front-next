@@ -196,7 +196,7 @@ export default function CirculoEvolvedCheckoutPage() {
               {showPaymentButton && (
                 <>
                   <Link
-                    href="/app/checkout/circulo-evolved/pagamento"
+                    href="/app/circulo-evolved/checkout/pagamento"
                     className="block w-full text-center font-baloo bg-accent-500 text-white py-3 px-6 rounded-full text-lg font-semibold hover:bg-accent-600 transition-colors"
                   >
                     Ir para pagamento
@@ -231,3 +231,4 @@ export default function CirculoEvolvedCheckoutPage() {
     </div>
   )
 }
+

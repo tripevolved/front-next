@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import { TripsApiService } from "@/clients/trips";
 import { AccommodationsApiService } from "@/clients/accommodations";
@@ -125,6 +126,7 @@ export function CheckoutTripById({
   tripId: string;
   initialTrip: TripDetails;
 }) {
+  const router = useRouter();
   const [trip, setTrip] = useState<TripDetails>(initialTrip);
   const [items, setItems] = useState<TripAccommodationItem[] | null>(null);
   const [conditionsByIdx, setConditionsByIdx] = useState<
@@ -651,6 +653,9 @@ export function CheckoutTripById({
                   type="button"
                   disabled={priceError != null}
                   className="w-full rounded-xl bg-accent-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-600 transition-colors disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-accent-500"
+                  onClick={() => {
+                    router.push(`/app/viagens/${encodeURIComponent(tripId)}/checkout/pagamento`);
+                  }}
                 >
                   Reservar e ir ao pagamento
                 </button>
@@ -664,6 +669,9 @@ export function CheckoutTripById({
                     type="button"
                     className="w-full rounded-xl bg-accent-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-600 transition-colors disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-accent-500"
                     disabled={priceError != null || priceData == null}
+                    onClick={() => {
+                      router.push(`/app/viagens/${encodeURIComponent(tripId)}/checkout/pagamento`);
+                    }}
                   >
                     Adicionar o Círculo Evolved Essencial por{" "}
                     <span className="tabular-nums">

@@ -72,8 +72,12 @@ function PagamentoContent() {
     isLoadingPayer,
     travelerEmail,
     totalAmount: circuloPrice ?? 0,
-    paymentReference: "Círculo Evolved",
-    paymentType: "subscription",
+    /** Preço com Travel Advisor → produto “Total” no intent. */
+    paymentItems:
+      circuloPrice != null
+        ? [{ amount: circuloPrice, type: "SUBSCRIPTION_TOTAL" as const }]
+        : [],
+    paymentMetadata: { reference: "Círculo Evolved" },
     paymentIntentResponse,
     paymentSuccessExtra: <CirculoEvolvedPaymentTravelersPrompt />,
   };
@@ -131,7 +135,7 @@ function PagamentoContent() {
             novamente.
           </div>
           <Link
-            href="/app/checkout/circulo-evolved"
+            href="/app/circulo-evolved/checkout"
             className="inline-block mt-6 font-baloo bg-accent-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-accent-600 transition-colors"
           >
             Voltar ao checkout
@@ -169,12 +173,7 @@ function PagamentoContent() {
           </div>
         )}
 
-        {stepIndex === 0 && (
-          <StepPayerData
-            {...stepProps}
-            onNext={savePayerAndNext}
-          />
-        )}
+        {stepIndex === 0 && <StepPayerData {...stepProps} onNext={savePayerAndNext} />}
         {stepIndex === 1 && (
           <StepPaymentSelection
             {...stepProps}
@@ -183,19 +182,14 @@ function PagamentoContent() {
                 savePaymentMethodAndNext(
                   payload.paymentMethod,
                   stepProps.totalAmount,
-                  stepProps.paymentReference,
-                  stepProps.paymentType
+                  stepProps.paymentItems,
+                  stepProps.paymentMetadata
                 );
               }
             }}
           />
         )}
-        {stepIndex === 2 && (
-          <StepPaymentFinish
-            {...stepProps}
-            onNext={finishAndNext}
-          />
-        )}
+        {stepIndex === 2 && <StepPaymentFinish {...stepProps} onNext={finishAndNext} />}
       </div>
     </div>
   );
@@ -214,3 +208,4 @@ export default function CirculoEvolvedPagamentoPage() {
     </Suspense>
   );
 }
+

@@ -447,7 +447,7 @@ export function TripTimeline() {
           <p className="text-sm text-secondary-600 font-comfortaa">
             O calendário anual completo é um benefício exclusivo do Círculo Evolved — planeje o ano inteiro com uma visão clara de todas as suas viagens e tenha seu especialista dedicado ao seu lado em cada etapa.{' '}
             <Link
-              href="/app/checkout/circulo-evolved"
+              href="/app/circulo-evolved/checkout"
               className="text-accent-600 font-semibold hover:text-accent-700 hover:underline transition-colors"
             >
               Contratar o Círculo Evolved

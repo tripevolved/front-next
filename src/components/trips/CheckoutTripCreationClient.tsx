@@ -197,7 +197,7 @@ export function CheckoutTripCreationClient() {
         }),
     })
       .then(({ id }) => {
-        router.replace(`/app/checkout/${id}`);
+        router.replace(`/app/viagens/${id}/checkout`);
       })
       .catch(() => {
         ranRef.current = false;

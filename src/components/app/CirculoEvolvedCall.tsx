@@ -45,7 +45,7 @@ export function CirculoEvolvedModal({
 
   const handleCheckout = () => {
     onClose()
-    router.push('/app/checkout/circulo-evolved')
+    router.push('/app/circulo-evolved/checkout')
   }
 
   const handleWhatsApp = () => {
