@@ -2,15 +2,11 @@
  * Automatically generated
  * run "yarn component:index" to update
  */
-export * from "./admin/AdminPage";
-export * from "./admin/Playground";
-export * from "./admin/SignIn";
 export * from "./dashboard/BlogCardCarousel";
 export * from "./dashboard/ConfirmFlightModal";
 export * from "./dashboard/HeaderUserMenu";
 export * from "./dashboard/NotificationColumn";
 export * from "./dashboard/NotificationView";
-export * from "./dashboard/PendingDocumentsModal";
 export * from "./dashboard/TripPendings";
 export * from "./destinations/CustomProfileDestinations";
 export * from "./destinations/DestinationInfos";

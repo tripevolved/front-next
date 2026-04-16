@@ -48,7 +48,6 @@ export * from "./forms/OptionsSelectField";
 export * from "./forms/OptionsSlider";
 export * from "./forms/SelectFieldGender";
 export * from "./forms/SelectFieldSimple";
-export * from "./forms/FilterTravel";
 export * from "./loaders/GlobalLoader";
 export * from "./loaders/ProgressIndicator";
 export * from "./loaders/StepsLoader";

@@ -9,7 +9,6 @@ import { initialAccessesState } from '@/core/store/accesses/accesses.constants'
 import { initialLeadValue } from '@/core/store/lead/lead.constants'
 import { initialUserState } from '@/core/store/user/user.constants'
 import { initialTravelerStateValue } from '@/core/store/traveler/traveler.constants'
-import { initialTripScriptDayValue } from '@/core/store/trip-day/trip-day.constants'
 import { makeState } from '@/core/store/store.helpers'
 
 interface AppMenuProps {
@@ -38,7 +37,6 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
       lead: makeState(initialLeadValue),
       user: initialUserState,
       travelerState: initialTravelerStateValue,
-      tripScriptDay: initialTripScriptDayValue,
     })
 
     // Auth0 middleware relies on the /auth/logout route.
