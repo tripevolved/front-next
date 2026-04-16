@@ -4,9 +4,11 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { PaymentsApiService } from "@/clients/payments";
 import { TripsApiService } from "@/clients/trips";
+import { AccommodationsApiService } from "@/clients/accommodations";
 import type { TripDetails } from "@/core/types";
 import type { TripAccommodationItem } from "@/clients/trips/accommodations";
 import type { PaymentStatusResponse, CheckoutPaymentItemResponse } from "@/clients/payments/payments";
+import type { AccommodationAvailabilityConditionsResponse } from "@/core/types/accommodations";
 import { CircleLoader } from "@/components/common/CircleLoader";
 
 function imageUrl(img?: { url: string } | null): string | null {
@@ -50,19 +52,54 @@ function formatCurrencyBRL(value: number): string {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
 }
 
-function paymentTypeBadge(paymentType: CheckoutPaymentItemResponse["paymentType"]) {
-  if (paymentType === "ON_BOOKING") {
-    return (
-      <span className="inline-flex items-center rounded-full bg-accent-50 px-3 py-1 text-xs font-semibold text-accent-700 border border-accent-200">
-        No ato da reserva
-      </span>
-    );
+function mealPlanLabel(flags?: {
+  hasBreakfast?: boolean;
+  hasHalfBoard?: boolean;
+  hasFullBoard?: boolean;
+  isAllInclusive?: boolean;
+} | null): string {
+  if (!flags) return "Sem café da manhã";
+  if (flags.isAllInclusive) return "All inclusive";
+  if (flags.hasFullBoard) return "Pensão completa";
+  if (flags.hasHalfBoard) return "Meia pensão";
+  if (flags.hasBreakfast) return "Café da manhã incluso";
+  return "Sem café da manhã";
+}
+
+function decodeHtmlEntitiesIter(str: string, maxPasses = 6): string {
+  let out = str;
+  for (let p = 0; p < maxPasses; p += 1) {
+    const next = out
+      .replace(/&#x([\da-fA-F]+);/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
+      .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+      .replace(/&nbsp;/gi, "\u00A0")
+      .replace(/&(lt|gt|quot|apos);/gi, (_, name) => {
+        const m: Record<string, string> = { lt: "<", gt: ">", quot: '"', apos: "'" };
+        return m[name.toLowerCase()] ?? `&${name};`;
+      })
+      .replace(/&amp;/g, "&");
+    if (next === out) break;
+    out = next;
   }
-  return (
-    <span className="inline-flex items-center rounded-full bg-secondary-50 px-3 py-1 text-xs font-semibold text-secondary-700 border border-secondary-200">
-      Regular
-    </span>
-  );
+  return out;
+}
+
+function prepareMoreInformationHtml(input?: string | null): string | null {
+  if (input == null) return null;
+  let s = String(input).trim();
+  if (!s) return null;
+
+  if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
+    try {
+      const parsed = JSON.parse(s);
+      if (typeof parsed === "string") s = parsed.trim();
+    } catch {
+      s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\'/g, "'").replace(/\\n/g, "\n").trim();
+    }
+  }
+
+  s = decodeHtmlEntitiesIter(s);
+  return s.trim() || null;
 }
 
 function subscriptionStaticCopy(type: CheckoutPaymentItemResponse["type"]) {
@@ -82,6 +119,12 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
   const [payment, setPayment] = useState<PaymentStatusResponse | null>(null);
   const [trip, setTrip] = useState<TripDetails | null>(null);
   const [accommodationsById, setAccommodationsById] = useState<Record<string, TripAccommodationItem | null>>({});
+  const [conditionsByAccommodationId, setConditionsByAccommodationId] = useState<
+    Record<string, AccommodationAvailabilityConditionsResponse | null | undefined>
+  >({});
+  const [conditionsLoadingByAccommodationId, setConditionsLoadingByAccommodationId] = useState<Record<string, boolean>>(
+    {}
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -100,6 +143,8 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
     setPayment(null);
     setTrip(null);
     setAccommodationsById({});
+    setConditionsByAccommodationId({});
+    setConditionsLoadingByAccommodationId({});
 
     const run = async () => {
       try {
@@ -145,6 +190,66 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
       cancelled = true;
     };
   }, [paymentId]);
+
+  useEffect(() => {
+    if (!payment?.tripId) return;
+    const tripId = payment.tripId;
+    const accommodationItems = (payment.items ?? []).filter((i) => i.type === "ACCOMMODATION");
+    const accommodationIds = Array.from(new Set(accommodationItems.map((i) => i.domainId).filter(Boolean)));
+    if (accommodationIds.length === 0) return;
+
+    let cancelled = false;
+
+    const run = async () => {
+      // set loading for those that can fetch
+      setConditionsLoadingByAccommodationId((prev) => {
+        const next = { ...prev };
+        for (const accId of accommodationIds) {
+          const acc = accommodationsById[accId];
+          const canFetch =
+            !!acc?.uniqueTransactionId &&
+            !!acc?.uniqueName &&
+            !!acc?.vendor &&
+            Array.isArray(acc?.rooms) &&
+            acc.rooms.map((r) => r.rateId).filter(Boolean).length > 0;
+          if (canFetch) next[accId] = true;
+        }
+        return next;
+      });
+
+      const results = await Promise.all(
+        accommodationIds.map(async (accId) => {
+          const acc = accommodationsById[accId];
+          if (!acc?.uniqueTransactionId || !acc.uniqueName || !acc.vendor) return [accId, undefined] as const;
+          const roomRateIds = acc.rooms.map((r) => r.rateId).filter(Boolean);
+          if (roomRateIds.length === 0) return [accId, undefined] as const;
+          try {
+            const data = await AccommodationsApiService.postAccommodationAvailabilityConditions(acc.uniqueName, {
+              uniqueTransactionId: acc.uniqueTransactionId,
+              vendor: acc.vendor,
+              roomRateIds,
+            });
+            return [accId, data] as const;
+          } catch {
+            return [accId, null] as const;
+          }
+        })
+      );
+
+      if (cancelled) return;
+      setConditionsByAccommodationId((prev) => ({ ...prev, ...Object.fromEntries(results) }));
+      setConditionsLoadingByAccommodationId((prev) => {
+        const next = { ...prev };
+        for (const [accId] of results) next[accId] = false;
+        return next;
+      });
+    };
+
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [payment?.tripId, payment?.items, accommodationsById]);
 
   if (loading) {
     return (
@@ -194,66 +299,256 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
         {(payment.items ?? []).map((item, idx) => {
           if (item.type === "ACCOMMODATION") {
             const acc = accommodationsById[item.domainId] ?? null;
+            const cond = conditionsByAccommodationId[item.domainId];
+            const isLoadingConditions = conditionsLoadingByAccommodationId[item.domainId] === true;
+            const condByRateId = new Map((cond?.rates ?? []).map((r) => [r.roomRateId || r.id, r]));
+            const hasAnyConditionsRate = cond != null && Array.isArray(cond?.rates) && (cond?.rates?.length ?? 0) > 0;
+            const accommodationMoreInfoHtml = (() => {
+              const rates = cond?.rates;
+              if (!Array.isArray(rates) || rates.length === 0) return null;
+              const firstWithInfo = rates.find((r) => Boolean((r as any)?.moreInformation));
+              return prepareMoreInformationHtml((firstWithInfo as any)?.moreInformation);
+            })();
             return (
-              <div key={`acc:${item.domainId}:${idx}`} className="rounded-2xl border border-secondary-200 bg-white shadow-sm overflow-hidden">
-                <div className="p-5 space-y-3">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="min-w-0">
-                      <p className="font-baloo text-lg font-bold text-secondary-900 truncate">
-                        {acc?.name ?? "Hospedagem"}
-                      </p>
-                      {acc?.fullAddress ? (
-                        <p className="font-comfortaa mt-1 text-sm text-secondary-600 line-clamp-2">
-                          {acc.fullAddress}
-                        </p>
-                      ) : null}
-                    </div>
-                    <div className="shrink-0 text-right space-y-2">
-                      {paymentTypeBadge(item.paymentType)}
-                      <p className="font-baloo text-lg font-bold text-secondary-900 tabular-nums">
-                        {formatCurrencyBRL(item.amount)}
-                      </p>
-                    </div>
-                  </div>
-
-                  {acc?.coverImage?.url ? (
-                    <div className="relative w-full h-40 rounded-xl overflow-hidden bg-secondary-100">
+              <div key={`acc:${item.domainId}:${idx}`} className="space-y-0">
+                <div className="rounded-2xl border border-secondary-200 bg-white shadow-sm overflow-hidden">
+                  <div className="relative w-full h-40 bg-secondary-100">
+                    {imageUrl(acc?.coverImage) ? (
                       <Image
-                        src={acc.coverImage.url}
-                        alt={acc.name}
+                        src={imageUrl(acc?.coverImage) as string}
+                        alt={acc?.name ?? "Hospedagem"}
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 520px"
                       />
-                    </div>
-                  ) : null}
+                    ) : null}
+                  </div>
 
-                  {(Array.isArray((acc as any)?.tags) && (acc as any).tags.length > 0) ||
-                  (Array.isArray((acc as any)?.recommendedFor) && (acc as any).recommendedFor.length > 0) ? (
-                    <div className="flex flex-wrap gap-2 pt-1">
-                      {Array.isArray((acc as any)?.tags) && (acc as any).tags.length > 0
-                        ? (acc as any).tags.map((tag: string, i: number) => (
-                            <span
-                              key={`tag:${item.domainId}:${i}`}
-                              className="bg-primary-500 text-white px-3 py-1 rounded-full text-xs font-semibold"
-                            >
-                              {tag}
-                            </span>
-                          ))
-                        : null}
-                      {Array.isArray((acc as any)?.recommendedFor) && (acc as any).recommendedFor.length > 0
-                        ? (acc as any).recommendedFor.map((tag: string, i: number) => (
-                            <span
-                              key={`rec:${item.domainId}:${i}`}
-                              className="bg-accent-500 text-white px-3 py-1 rounded-full text-xs font-semibold"
-                            >
-                              {tag}
-                            </span>
-                          ))
-                        : null}
+                  <div className="p-5">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="min-w-0">
+                        <p className="font-baloo text-lg font-bold text-secondary-900 truncate">
+                          {acc?.name ?? "Hospedagem"}
+                        </p>
+                        {acc?.fullAddress ? (
+                          <p className="font-comfortaa mt-1 text-sm text-secondary-600 line-clamp-2">
+                            {acc.fullAddress}
+                          </p>
+                        ) : null}
+                      </div>
+                      <p className="shrink-0 font-baloo text-lg font-bold text-secondary-900 tabular-nums">
+                        {formatCurrencyBRL(item.amount)}
+                      </p>
                     </div>
-                  ) : null}
+
+                    {(Array.isArray((acc as any)?.tags) && (acc as any).tags.length > 0) ||
+                    (Array.isArray((acc as any)?.recommendedFor) && (acc as any).recommendedFor.length > 0) ? (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {Array.isArray((acc as any)?.tags) && (acc as any).tags.length > 0
+                          ? (acc as any).tags.map((tag: string, i: number) => (
+                              <span
+                                key={`tag:${item.domainId}:${i}`}
+                                className="bg-primary-500 text-white px-3 py-1 rounded-full text-xs font-semibold"
+                              >
+                                {tag}
+                              </span>
+                            ))
+                          : null}
+                        {Array.isArray((acc as any)?.recommendedFor) && (acc as any).recommendedFor.length > 0
+                          ? (acc as any).recommendedFor.map((tag: string, i: number) => (
+                              <span
+                                key={`rec:${item.domainId}:${i}`}
+                                className="bg-accent-500 text-white px-3 py-1 rounded-full text-xs font-semibold"
+                              >
+                                {tag}
+                              </span>
+                            ))
+                          : null}
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div className="border-t border-secondary-100 p-5 space-y-3">
+                    {acc?.uniqueTransactionId && isLoadingConditions ? (
+                      <div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3">
+                        <div className="flex items-start gap-3">
+                          <div
+                            className="mt-0.5 h-5 w-5 animate-spin rounded-full border-2 border-blue-400 border-t-transparent"
+                            aria-hidden
+                          />
+                          <div className="font-comfortaa text-sm text-blue-900">
+                            <p className="font-semibold">Atualizando condições da reserva</p>
+                            <p className="mt-1 text-xs leading-relaxed text-blue-800">
+                              Valor, cancelamento e regras podem mudar em tempo real.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {!acc?.uniqueTransactionId ? (
+                      <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 font-comfortaa text-sm text-amber-900">
+                        <p className="font-semibold">Reserva precisa ser refeita</p>
+                        <p className="mt-1 text-xs leading-relaxed text-amber-800">
+                          Não encontramos o identificador da transação desta hospedagem.
+                        </p>
+                      </div>
+                    ) : null}
+
+                    {acc?.uniqueTransactionId && !isLoadingConditions && cond !== undefined && !hasAnyConditionsRate ? (
+                      <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 font-comfortaa text-sm text-amber-900">
+                        <p className="font-semibold">Não foi possível validar a reserva</p>
+                        <p className="mt-1 text-xs leading-relaxed text-amber-800">
+                          A tarifa pode não estar disponível no momento. Volte e tente novamente.
+                        </p>
+                      </div>
+                    ) : null}
+
+                    <div className="space-y-3">
+                      {(acc?.rooms ?? []).map((r) => {
+                        const live = condByRateId.get(r.rateId) ?? null;
+                        const includedTaxes = Array.isArray((live as any)?.includedTaxes)
+                          ? ((live as any).includedTaxes as any[])
+                          : [];
+                        const propertyTaxes = Array.isArray((live as any)?.propertyTaxes)
+                          ? ((live as any).propertyTaxes as any[])
+                          : [];
+                        const rateMealPlan = live ? mealPlanLabel(live) : null;
+                        const mealPlanText = live ? rateMealPlan : "Sem café da manhã";
+                        const roomAdults = typeof (r as any)?.adults === "number" ? (r as any).adults : null;
+                        const roomChildren = typeof (r as any)?.children === "number" ? (r as any).children : null;
+                        const stayStart = asDate((acc as any)?.startDate);
+                        const stayEnd = asDate((acc as any)?.endDate);
+                        const stayStartLabel = stayStart ? stayStart.toLocaleDateString("pt-BR") : null;
+                        const stayEndLabel = stayEnd ? stayEnd.toLocaleDateString("pt-BR") : null;
+
+                        return (
+                          <div key={r.rateId} className="w-full rounded-xl border border-secondary-200 bg-white p-4">
+                            <div className="flex items-start gap-3">
+                              <div className="relative h-16 w-16 rounded-lg overflow-hidden bg-secondary-100 shrink-0">
+                                {imageUrl(r.coverImage) ? (
+                                  <Image
+                                    src={imageUrl(r.coverImage) as string}
+                                    alt={r.name}
+                                    fill
+                                    className="object-cover"
+                                    sizes="64px"
+                                  />
+                                ) : null}
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <p className="font-comfortaa font-semibold text-secondary-900 truncate">{r.name}</p>
+                                {roomAdults != null || roomChildren != null ? (
+                                  <p className="font-comfortaa mt-1 text-xs text-secondary-600">
+                                    <span className="font-semibold">Ocupação</span>:{" "}
+                                    <span className="tabular-nums">
+                                      {roomAdults != null
+                                        ? `${roomAdults} adulto${roomAdults === 1 ? "" : "s"}`
+                                        : ""}
+                                      {roomAdults != null && roomChildren != null ? " · " : ""}
+                                      {roomChildren != null
+                                        ? `${roomChildren} criança${roomChildren === 1 ? "" : "s"}`
+                                        : ""}
+                                    </span>
+                                  </p>
+                                ) : null}
+                                {stayStartLabel || stayEndLabel ? (
+                                  <p className="font-comfortaa mt-1 text-xs text-secondary-600">
+                                    <span className="font-semibold">Estadia</span>: {stayStartLabel ?? "—"} →{" "}
+                                    {stayEndLabel ?? "—"}
+                                  </p>
+                                ) : null}
+                                <p
+                                  className={
+                                    live && (live.isAllInclusive || live.hasFullBoard || live.hasHalfBoard || live.hasBreakfast)
+                                      ? "font-comfortaa mt-1 text-xs font-semibold text-accent-600"
+                                      : "font-comfortaa mt-1 text-xs text-secondary-600"
+                                  }
+                                >
+                                  {mealPlanText}
+                                </p>
+                              </div>
+                            </div>
+
+                            {live ? (
+                              <div className="mt-4 border-t border-secondary-100 pt-4 font-comfortaa text-sm text-secondary-800 space-y-1">
+                                <p>
+                                  <span className="font-semibold">Valor agora</span>:{" "}
+                                  {new Intl.NumberFormat("pt-BR", {
+                                    style: "currency",
+                                    currency: live.currency || "BRL",
+                                  }).format(live.price)}
+                                </p>
+                                {live.cancellationPolicy ? (
+                                  <p className={live.isCancellable ? "text-green-700" : "text-red-700"}>
+                                    {live.cancellationPolicy}
+                                  </p>
+                                ) : null}
+
+                                {includedTaxes.length > 0 ? (
+                                  <div className="mt-2 rounded-lg border border-secondary-100 bg-secondary-50/70 px-3 py-2">
+                                    <p className="text-xs font-semibold text-secondary-700 mb-2">Taxas incluídas</p>
+                                    <ul className="space-y-1 text-xs text-secondary-700">
+                                      {includedTaxes.map((t: any, i: number) => (
+                                        <li
+                                          key={i}
+                                          className={`flex gap-3 ${t.description?.trim() ? "justify-between" : "justify-end"}`}
+                                        >
+                                          {t.description?.trim() ? (
+                                            <span className="min-w-0 text-left">{String(t.description).trim()}</span>
+                                          ) : null}
+                                          <span className="font-medium shrink-0 tabular-nums">
+                                            {new Intl.NumberFormat("pt-BR", {
+                                              style: "currency",
+                                              currency: live.currency || "BRL",
+                                            }).format(Number(t.amount ?? 0))}
+                                          </span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ) : null}
+
+                                {propertyTaxes.length > 0 ? (
+                                  <div className="mt-2 rounded-lg border border-secondary-100 bg-secondary-50/70 px-3 py-2">
+                                    <p className="text-xs font-semibold text-secondary-700 mb-2">
+                                      Taxas a serem pagas na hospedagem
+                                    </p>
+                                    <ul className="space-y-1 text-xs text-secondary-700">
+                                      {propertyTaxes.map((t: any, i: number) => (
+                                        <li
+                                          key={i}
+                                          className={`flex gap-3 ${t.description?.trim() ? "justify-between" : "justify-end"}`}
+                                        >
+                                          {t.description?.trim() ? (
+                                            <span className="min-w-0 text-left">{String(t.description).trim()}</span>
+                                          ) : null}
+                                          <span className="font-medium shrink-0 tabular-nums">
+                                            {new Intl.NumberFormat("pt-BR", {
+                                              style: "currency",
+                                              currency: live.currency || "BRL",
+                                            }).format(Number(t.amount ?? 0))}
+                                          </span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ) : null}
+                              </div>
+                            ) : null}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
+
+                {accommodationMoreInfoHtml ? (
+                  <div
+                    className="text-xs max-w-none text-secondary-600 border border-t-0 border-secondary-200 bg-secondary-50/80 px-4 py-3 rounded-b-2xl [&_p]:my-1 [&_*]:whitespace-normal [&_img]:max-w-full [&_img]:h-auto"
+                    dangerouslySetInnerHTML={{ __html: accommodationMoreInfoHtml as string }}
+                  />
+                ) : null}
               </div>
             );
           }
@@ -266,7 +561,6 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
                   <div className="min-w-0">
                     <p className="font-baloo text-lg font-bold text-secondary-900">{copy.title}</p>
                     <p className="font-comfortaa text-sm text-secondary-600 mt-1">{copy.description}</p>
-                    <div className="mt-3">{paymentTypeBadge(item.paymentType)}</div>
                   </div>
                   <p className="shrink-0 font-baloo text-lg font-bold text-secondary-900 tabular-nums">
                     {formatCurrencyBRL(item.amount)}

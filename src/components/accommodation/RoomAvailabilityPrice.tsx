@@ -24,7 +24,12 @@ export function RoomAvailabilityPrice({ rate, size = "card" }: RoomAvailabilityP
   const priceClass = size === "modal" ? "text-4xl" : "text-3xl";
   const originalClass = size === "modal" ? "text-2xl" : "text-xl";
 
-  const visibleTaxes = (rate.taxes ?? []).filter((t) => t.amount !== 0);
+  const propertyTaxes = Array.isArray((rate as any)?.propertyTaxes)
+    ? ((rate as any).propertyTaxes as any[]).filter((t) => Number(t?.amount ?? 0) !== 0)
+    : [];
+  const includedTaxes = Array.isArray((rate as any)?.includedTaxes)
+    ? ((rate as any).includedTaxes as any[]).filter((t) => Number(t?.amount ?? 0) !== 0)
+    : [];
 
   const taxTextClass = size === "modal" ? "text-sm" : "text-xs";
 
@@ -89,22 +94,38 @@ export function RoomAvailabilityPrice({ rate, size = "card" }: RoomAvailabilityP
         </span>
       </div>
 
-      {visibleTaxes.length > 0 && (
+      {propertyTaxes.length > 0 && (
         <div className={size === "modal" ? "pt-1" : "pt-0.5"}>
-          {size === "modal" && (
-            <p className="text-sm font-semibold text-gray-700 mb-2">Taxas adicionais</p>
-          )}
+          <p className={`${taxTextClass} font-semibold text-gray-700 mb-2`}>
+            Taxas a serem pagas na hospedagem
+          </p>
           <ul className={`space-y-1 ${taxTextClass} text-gray-600`}>
-            {visibleTaxes.map((tax, index) => {
-              const desc = tax.description?.trim();
+            {propertyTaxes.map((tax: any, index: number) => {
+              const desc = String(tax?.description ?? "").trim();
               return (
-                <li
-                  key={index}
-                  className={`flex gap-3 ${desc ? "justify-between" : "justify-end"}`}
-                >
+                <li key={index} className={`flex gap-3 ${desc ? "justify-between" : "justify-end"}`}>
                   {desc ? <span className="min-w-0 text-left">{desc}</span> : null}
                   <span className="font-medium shrink-0 text-gray-700 tabular-nums">
-                    {formatCurrency(tax.amount, currency)}
+                    {formatCurrency(Number(tax?.amount ?? 0), currency)}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+
+      {size === "modal" && includedTaxes.length > 0 && (
+        <div className="pt-2">
+          <p className={`${taxTextClass} font-semibold text-gray-700 mb-2`}>Taxas já incluídas no valor</p>
+          <ul className={`space-y-1 ${taxTextClass} text-gray-600`}>
+            {includedTaxes.map((tax: any, index: number) => {
+              const desc = String(tax?.description ?? "").trim();
+              return (
+                <li key={index} className={`flex gap-3 ${desc ? "justify-between" : "justify-end"}`}>
+                  {desc ? <span className="min-w-0 text-left">{desc}</span> : null}
+                  <span className="font-medium shrink-0 text-gray-700 tabular-nums">
+                    {formatCurrency(Number(tax?.amount ?? 0), currency)}
                   </span>
                 </li>
               );

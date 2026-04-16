@@ -11,10 +11,12 @@ export type CheckoutPaymentItemType =
 export type CheckoutPaymentType = "ON_BOOKING" | "REGULAR";
 
 export interface CheckoutPaymentItemResponse {
+  id: string;
   amount: number;
   domainId: string;
   type: CheckoutPaymentItemType;
   paymentType: CheckoutPaymentType;
+  status: "CREATED" | "IN_PAYMENT" | "PAID";
 }
 
 export interface PaymentStatusResponse {

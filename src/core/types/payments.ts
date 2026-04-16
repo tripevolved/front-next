@@ -47,6 +47,8 @@ export interface PaymentIntentItem {
 }
 
 export interface PaymentIntent {
+  /** Checkout payment id (from `/app/checkout/[id]`). */
+  paymentId?: string | null;
   payer: TripPayer;
   amount: number;
   installments: number;

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CircleLoader } from "@/components/common/CircleLoader";
 import { CheckoutPaymentLeftColumn } from "@/components/payments/CheckoutPaymentLeftColumn";
+import { CheckoutPaymentFlow } from "@/components/payments/CheckoutPaymentFlow";
 
 export const metadata: Metadata = {
   title: "Checkout",
@@ -43,12 +44,7 @@ export default async function PaymentCheckoutPage({
           </div>
 
           <div className="max-w-2xl">
-            <div className="rounded-2xl border border-secondary-200 bg-white p-6 shadow-sm">
-              <h2 className="font-baloo text-xl font-bold text-secondary-900">Pagamento</h2>
-              <p className="font-comfortaa text-secondary-600 mt-2">
-                Vamos implementar o fluxo de pagamento nesta página na próxima etapa.
-              </p>
-            </div>
+            <CheckoutPaymentFlow paymentId={id} />
           </div>
         </div>
       </div>

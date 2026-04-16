@@ -544,9 +544,6 @@ export function AccommodationRoomDetailModal({
                     {(() => {
                       const rate = conditionsData.rates[0];
                       const moreInformationHtml = prepareMoreInformationHtml(rate.moreInformation);
-                      const propertyTaxes = (rate.propertyTaxes ?? []).filter(
-                        (t) => t.amount !== 0
-                      );
 
                       return (
                         <div className="space-y-4">
@@ -593,36 +590,6 @@ export function AccommodationRoomDetailModal({
                               {" · "}
                               {rate.checkOutTime ? `check-out ${rate.checkOutTime}` : "check-out —"}
                             </p>
-                          )}
-
-                          {propertyTaxes.length > 0 && (
-                            <div className="rounded-lg border border-gray-100 bg-gray-50/80 px-3 py-2">
-                              <p className="text-xs font-semibold text-gray-700 mb-2">
-                                Taxas do estabelecimento
-                              </p>
-                              <ul className="space-y-1 text-xs text-gray-700">
-                                {propertyTaxes.map((t, idx) => (
-                                  <li
-                                    key={idx}
-                                    className={`flex gap-3 ${
-                                      t.description?.trim() ? "justify-between" : "justify-end"
-                                    }`}
-                                  >
-                                    {t.description?.trim() ? (
-                                      <span className="min-w-0 text-left">
-                                        {t.description.trim()}
-                                      </span>
-                                    ) : null}
-                                    <span className="font-medium shrink-0 tabular-nums">
-                                      {new Intl.NumberFormat("pt-BR", {
-                                        style: "currency",
-                                        currency: rate.currency || "BRL",
-                                      }).format(t.amount)}
-                                    </span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
                           )}
 
                           {moreInformationHtml && (
