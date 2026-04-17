@@ -43,3 +43,14 @@ export const getTripAccommodationById = async (
   return ApiRequest.get<TripAccommodationItem>(route);
 };
 
+/**
+ * POST /trips/{tripId}/accommodations/{tripAccommodationId}/bookings — pre-book (no body).
+ */
+export const postTripAccommodationBookings = async (
+  tripId: string,
+  tripAccommodationId: string
+): Promise<unknown> => {
+  const route = `trips/${tripId}/accommodations/${tripAccommodationId}/bookings`;
+  return ApiRequest.post<unknown>(route, undefined);
+};
+

@@ -7,6 +7,16 @@ import { ViaCepClient } from "@/clients/viacep";
 import { MaskedCpfInput } from "@/components/common/MaskedCpfInput";
 import { PhoneInput } from "@/components/common/PhoneInput";
 
+function maskBrDate(value: string): string {
+  const digits = (value ?? "").replace(/\D/g, "").slice(0, 8);
+  const dd = digits.slice(0, 2);
+  const mm = digits.slice(2, 4);
+  const yyyy = digits.slice(4, 8);
+  if (digits.length <= 2) return dd;
+  if (digits.length <= 4) return `${dd}/${mm}`;
+  return `${dd}/${mm}/${yyyy}`;
+}
+
 export function StepPayerData({
   payload,
   setPayload,
@@ -225,9 +235,11 @@ export function StepPayerData({
                 type="text"
                 required
                 value={payer.birthDate}
-                onChange={(e) => updatePayer({ birthDate: e.target.value })}
+                onChange={(e) => updatePayer({ birthDate: maskBrDate(e.target.value) })}
                 className="w-full px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
                 placeholder="DD/MM/AAAA"
+                inputMode="numeric"
+                autoComplete="bday"
               />
             </div>
           </div>

@@ -10,6 +10,12 @@ import type { TripAccommodationItem } from "@/clients/trips/accommodations";
 import type { PaymentStatusResponse, CheckoutPaymentItemResponse } from "@/clients/payments/payments";
 import type { AccommodationAvailabilityConditionsResponse } from "@/core/types/accommodations";
 import { CircleLoader } from "@/components/common/CircleLoader";
+import Link from "next/link";
+import {
+  CIRCULO_INCLUDED_ESSENTIAL,
+  CIRCULO_INCLUDED_TOTAL,
+  CIRCULO_TERMS,
+} from "@/core/payments/circulo-evolved";
 
 function imageUrl(img?: { url: string } | null): string | null {
   const u = img?.url?.trim();
@@ -107,11 +113,13 @@ function subscriptionStaticCopy(type: CheckoutPaymentItemResponse["type"]) {
     return {
       title: "Círculo Evolved — Total",
       description: "Assinatura anual com Travel Advisor.",
+      included: CIRCULO_INCLUDED_TOTAL,
     };
   }
   return {
     title: "Círculo Evolved — Essencial",
     description: "Assinatura anual (condição essencial para a sua reserva).",
+    included: CIRCULO_INCLUDED_ESSENTIAL,
   };
 }
 
@@ -294,7 +302,7 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
       ) : null}
 
       <div className="space-y-4">
-        <h3 className="font-baloo text-lg md:text-xl font-bold text-secondary-900">Itens do pagamento</h3>
+        <h3 className="font-baloo text-lg md:text-xl font-bold text-secondary-900">Sua viagem inclui</h3>
 
         {(payment.items ?? []).map((item, idx) => {
           if (item.type === "ACCOMMODATION") {
@@ -311,7 +319,7 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
             })();
             return (
               <div key={`acc:${item.domainId}:${idx}`} className="space-y-0">
-                <div className="rounded-2xl border border-secondary-200 bg-white shadow-sm overflow-hidden">
+                <div className="rounded-t-2xl border border-secondary-200 bg-white shadow-sm overflow-hidden">
                   <div className="relative w-full h-40 bg-secondary-100">
                     {imageUrl(acc?.coverImage) ? (
                       <Image
@@ -561,6 +569,33 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
                   <div className="min-w-0">
                     <p className="font-baloo text-lg font-bold text-secondary-900">{copy.title}</p>
                     <p className="font-comfortaa text-sm text-secondary-600 mt-1">{copy.description}</p>
+                    <ul className="mt-4 space-y-3">
+                      {copy.included.map((it, i) => (
+                        <li key={i} className="font-comfortaa text-secondary-700 text-sm leading-relaxed">
+                          <span className="font-semibold text-secondary-900">{it.title}</span>
+                          <span> — {it.description}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="font-comfortaa text-xs text-secondary-600 mt-4 leading-relaxed">
+                      Ao prosseguir com o pagamento, você declara estar ciente e de acordo com os{" "}
+                      <Link
+                        href={CIRCULO_TERMS.serviceTermsHref}
+                        target="_blank"
+                        className="text-accent-600 hover:underline font-medium"
+                      >
+                        {CIRCULO_TERMS.serviceTermsLabel}
+                      </Link>{" "}
+                      e com os{" "}
+                      <Link
+                        href={CIRCULO_TERMS.usageTermsHref}
+                        target="_blank"
+                        className="text-accent-600 hover:underline font-medium"
+                      >
+                        {CIRCULO_TERMS.usageTermsLabel}
+                      </Link>
+                      .
+                    </p>
                   </div>
                   <p className="shrink-0 font-baloo text-lg font-bold text-secondary-900 tabular-nums">
                     {formatCurrencyBRL(item.amount)}

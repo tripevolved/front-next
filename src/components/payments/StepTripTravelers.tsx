@@ -1,30 +1,33 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { TripTravelerInput } from "@/clients/travelers/travelers";
-
-function toIsoDateFromBr(br: string): string {
-  const m = br.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-  if (!m) return "";
-  const [, dd, mm, yyyy] = m;
-  const d = new Date(Number(yyyy), Number(mm) - 1, Number(dd));
-  if (Number.isNaN(d.getTime())) return "";
-  return d.toISOString().slice(0, 10);
-}
+import type { TripConfigurationRoom } from "@/core/types/trip";
+import type { TripTravelerInput } from "@/clients/trips/travelers";
+import { MaskedCpfInput } from "@/components/common/MaskedCpfInput";
 
 function normalizeCpf(value: string): string {
   return (value ?? "").replace(/\D/g, "").slice(0, 11);
 }
 
+function maskBrDate(value: string): string {
+  const digits = (value ?? "").replace(/\D/g, "").slice(0, 8);
+  const dd = digits.slice(0, 2);
+  const mm = digits.slice(2, 4);
+  const yyyy = digits.slice(4, 8);
+  if (digits.length <= 2) return dd;
+  if (digits.length <= 4) return `${dd}/${mm}`;
+  return `${dd}/${mm}/${yyyy}`;
+}
+
 export function StepTripTravelers({
-  count,
+  rooms,
   travelers,
   setTravelers,
   onNext,
   onBack,
   isSaving,
 }: {
-  count: number;
+  rooms: TripConfigurationRoom[];
   travelers: TripTravelerInput[];
   setTravelers: (next: TripTravelerInput[]) => void;
   onNext: () => void;
@@ -33,11 +36,35 @@ export function StepTripTravelers({
 }) {
   const [touched, setTouched] = useState(false);
 
+  const totalTravelers = useMemo(() => {
+    return rooms.reduce((sum, r) => sum + (r.numAdults ?? 0) + (r.numChildren ?? 0), 0) || 1;
+  }, [rooms]);
+
+  const roomSizes = useMemo(() => {
+    if (!rooms || rooms.length === 0) return [totalTravelers];
+    const sizes = rooms.map((r) => Math.max(0, (r.numAdults ?? 0) + (r.numChildren ?? 0)));
+    const sum = sizes.reduce((a, b) => a + b, 0);
+    // fallback when backend didn't send room breakdown but totalTravelers is known
+    if (sum === 0) return [totalTravelers];
+    return sizes;
+  }, [rooms, totalTravelers]);
+
+  const roomStartIndexes = useMemo(() => {
+    const starts: number[] = [];
+    let cursor = 0;
+    for (const size of roomSizes) {
+      starts.push(cursor);
+      cursor += size;
+    }
+    return starts;
+  }, [roomSizes]);
+
   const ensured = useMemo(() => {
     const base: TripTravelerInput[] = [];
-    for (let i = 0; i < count; i += 1) {
+    for (let i = 0; i < totalTravelers; i += 1) {
       base.push(
         travelers[i] ?? {
+          roomIndex: 0,
           name: "",
           lastName: "",
           cpf: "",
@@ -46,7 +73,7 @@ export function StepTripTravelers({
       );
     }
     return base;
-  }, [count, travelers]);
+  }, [totalTravelers, travelers]);
 
   const updateTraveler = (idx: number, update: Partial<TripTravelerInput>) => {
     const next = ensured.map((t, i) => (i === idx ? { ...t, ...update } : t));
@@ -60,13 +87,13 @@ export function StepTripTravelers({
       const hasLastName = (t.lastName ?? "").trim().length > 1;
       const cpfDigits = normalizeCpf(t.cpf);
       const hasCpf = cpfDigits.length === 11;
-      const hasBirthDate = (t.birthDate ?? "").trim().length === 10; // YYYY-MM-DD
+      const hasBirthDate = (t.birthDate ?? "").trim().length === 10; // DD/MM/YYYY
       if (!hasName || !hasLastName || !hasCpf || !hasBirthDate) invalid.push(i);
     });
     return invalid;
   }, [ensured]);
 
-  const canContinue = invalidIndexes.length === 0 && count > 0;
+  const canContinue = invalidIndexes.length === 0 && totalTravelers > 0;
 
   return (
     <section className="bg-white rounded-2xl border border-secondary-200 p-6 md:p-8 shadow-sm">
@@ -76,68 +103,102 @@ export function StepTripTravelers({
       </p>
 
       <div className="space-y-6">
-        {ensured.map((t, idx) => {
-          const showError = touched && invalidIndexes.includes(idx);
+        {roomSizes.map((roomSize, roomIdx) => {
+          const start = roomStartIndexes[roomIdx] ?? 0;
+          const adults = rooms?.[roomIdx]?.numAdults ?? null;
+          const children = rooms?.[roomIdx]?.numChildren ?? null;
+          const roomLabel =
+            adults != null || children != null
+              ? `Quarto ${roomIdx + 1} — ${adults ?? 0} adulto(s)${children ? ` · ${children} criança(s)` : ""}`
+              : `Quarto ${roomIdx + 1}`;
+
+          const indexes = Array.from({ length: roomSize }, (_, k) => start + k).filter((i) => i < ensured.length);
+
           return (
-            <div key={idx} className="rounded-xl border border-secondary-200 p-4">
-              <p className="font-baloo font-semibold text-secondary-900 mb-3">Viajante {idx + 1}</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-comfortaa text-sm font-medium text-secondary-700 mb-1">
-                    Nome
-                  </label>
-                  <input
-                    value={t.name ?? ""}
-                    onChange={(e) => updateTraveler(idx, { name: e.target.value })}
-                    className="w-full px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                    placeholder="Nome"
-                  />
-                </div>
-                <div>
-                  <label className="block font-comfortaa text-sm font-medium text-secondary-700 mb-1">
-                    Sobrenome
-                  </label>
-                  <input
-                    value={t.lastName ?? ""}
-                    onChange={(e) => updateTraveler(idx, { lastName: e.target.value })}
-                    className="w-full px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                    placeholder="Sobrenome"
-                  />
-                </div>
-                <div>
-                  <label className="block font-comfortaa text-sm font-medium text-secondary-700 mb-1">
-                    CPF
-                  </label>
-                  <input
-                    value={t.cpf ?? ""}
-                    onChange={(e) => updateTraveler(idx, { cpf: normalizeCpf(e.target.value) })}
-                    className="w-full px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                    placeholder="00000000000"
-                    inputMode="numeric"
-                  />
-                </div>
-                <div>
-                  <label className="block font-comfortaa text-sm font-medium text-secondary-700 mb-1">
-                    Data de nascimento
-                  </label>
-                  <input
-                    value={t.birthDate ?? ""}
-                    onChange={(e) => {
-                      const v = e.target.value.trim();
-                      // allow both ISO and BR for convenience
-                      const iso = v.includes("/") ? toIsoDateFromBr(v) : v;
-                      updateTraveler(idx, { birthDate: iso });
-                    }}
-                    className="w-full px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                    placeholder="AAAA-MM-DD"
-                  />
-                </div>
+            <div key={`room:${roomIdx}`} className="rounded-2xl border border-secondary-200 p-4">
+              <p className="font-baloo font-semibold text-secondary-900 mb-4">{roomLabel}</p>
+              <div className="space-y-6">
+                {indexes.map((travelerIdxInList, localIdx) => {
+                  const t = ensured[travelerIdxInList]!;
+                  const showError = touched && invalidIndexes.includes(travelerIdxInList);
+                  return (
+                    <div key={`traveler:${roomIdx}:${localIdx}`} className="rounded-xl border border-secondary-200 p-4">
+                      <p className="font-baloo font-semibold text-secondary-900 mb-3">
+                        Viajante {localIdx + 1}
+                      </p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block font-comfortaa text-sm font-medium text-secondary-700 mb-1">
+                            Nome
+                          </label>
+                          <input
+                            value={t.name ?? ""}
+                            onChange={(e) =>
+                              updateTraveler(travelerIdxInList, {
+                                roomIndex: roomIdx,
+                                name: e.target.value,
+                              })
+                            }
+                            className="w-full px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
+                            placeholder="Nome"
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-comfortaa text-sm font-medium text-secondary-700 mb-1">
+                            Sobrenome
+                          </label>
+                          <input
+                            value={t.lastName ?? ""}
+                            onChange={(e) =>
+                              updateTraveler(travelerIdxInList, {
+                                roomIndex: roomIdx,
+                                lastName: e.target.value,
+                              })
+                            }
+                            className="w-full px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
+                            placeholder="Sobrenome"
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-comfortaa text-sm font-medium text-secondary-700 mb-1">
+                            CPF
+                          </label>
+                          <MaskedCpfInput
+                            value={t.cpf ?? ""}
+                            onChange={(digits) =>
+                              updateTraveler(travelerIdxInList, { roomIndex: roomIdx, cpf: digits })
+                            }
+                            className="w-full px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
+                          />
+                        </div>
+                        <div>
+                          <label className="block font-comfortaa text-sm font-medium text-secondary-700 mb-1">
+                            Data de nascimento
+                          </label>
+                          <input
+                            value={t.birthDate ?? ""}
+                            onChange={(e) =>
+                              updateTraveler(travelerIdxInList, {
+                                roomIndex: roomIdx,
+                                birthDate: maskBrDate(e.target.value),
+                              })
+                            }
+                            className="w-full px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
+                            placeholder="DD/MM/AAAA"
+                            inputMode="numeric"
+                            autoComplete="bday"
+                          />
+                        </div>
+                      </div>
+                      {showError ? (
+                        <p className="mt-3 text-sm font-comfortaa text-red-700">
+                          Preencha nome, sobrenome, CPF (11 dígitos) e data de nascimento.
+                        </p>
+                      ) : null}
+                    </div>
+                  );
+                })}
               </div>
-              {showError ? (
-                <p className="mt-3 text-sm font-comfortaa text-red-700">
-                  Preencha nome, sobrenome, CPF (11 dígitos) e data de nascimento.
-                </p>
-              ) : null}
             </div>
           );
         })}

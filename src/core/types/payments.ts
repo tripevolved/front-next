@@ -42,6 +42,8 @@ export type PaymentIntentItemType =
   | "SUBSCRIPTION_TOTAL";
 
 export interface PaymentIntentItem {
+  /** Checkout payment line item id (`GET payments/{paymentId}` → `items[].id`). */
+  id: string;
   amount: number;
   type: PaymentIntentItemType;
 }
@@ -181,8 +183,21 @@ export interface PagamentoStepProps {
   /** Response from create payment intent; used for PIX (pixInfo) in StepPaymentFinish. */
   paymentIntentResponse?: PaymentIntentResponse | null;
   /**
+   * Checkout payment id (`POST /payments` → `id`, same as `/app/checkout/[id]`).
+   * When set, PIX status polling uses `GET payments/{checkoutPaymentId}` instead of the PSP `transactionId`.
+   */
+  pixCheckoutPaymentId?: string | null;
+  /**
    * Optional block shown after a successful payment (PIX polling approved or card finish success).
    * Keeps StepPaymentFinish generic; pass flow-specific CTAs from the checkout page.
    */
   paymentSuccessExtra?: ReactNode;
+  /**
+   * When set, shown as the main action after successful PIX/card payment (e.g. continue to booking).
+   * If omitted, the default “Voltar ao painel / app” link is shown.
+   */
+  paymentSuccessPrimaryAction?: {
+    label: string;
+    onClick: () => void;
+  };
 }

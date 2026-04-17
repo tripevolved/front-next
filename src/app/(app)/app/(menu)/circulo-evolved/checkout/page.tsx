@@ -10,24 +10,10 @@ import type { SubscriptionsResponse } from '@/clients/customers'
 import { getWhatsappLink } from '@/utils/helpers/whatsapp.helpers'
 import { formatCurrency } from '@/utils/helpers/currency.helper'
 import { PaymentsApiService } from '@/clients/payments'
+import { CIRCULO_INCLUDED_TOTAL } from '@/core/payments/circulo-evolved'
 
 const CIRCULO_WHATSAPP_MESSAGE =
   'Olá! Gostaria de saber sobre vagas para o Círculo Evolved. As vagas estão esgotadas no momento e gostaria de ser avisado quando houver disponibilidade.'
-const INCLUDED_ITEMS = [
-  {
-    title: 'Design de todas as viagens',
-    description: 'Planejamento e desenho completo de cada viagem, sob medida, com roteiro e reservas cuidadas por nossa equipe.',
-  },
-  {
-    title: 'Curadoria',
-    description: 'Seleção de destinos, experiências e parceiros alinhados ao que você busca — cruzeiros, hospedagens e vivências que fazem sentido para você.',
-  },
-  {
-    title: 'Valores sem comissões',
-    description: 'Preços líquidos ou com cashback: as comissões são revertidas em seu benefício, e você vê o valor real da viagem.',
-  },
-]
-
 const IMPORTANT_ANSWERS = [
   'Após a contratação, vamos cadastrar sua família. Apenas viagens com essas pessoas (família direta) são elegíveis aos benefícios.',
   'As viagens precisam ser organizadas no período de 12 meses, mas podem ser realizadas depois — o suporte necessário permanece.',
@@ -127,7 +113,7 @@ export default function CirculoEvolvedCheckoutPage() {
                 O que está incluso
               </h2>
               <ul className="space-y-4">
-                {INCLUDED_ITEMS.map((item, i) => (
+                {CIRCULO_INCLUDED_TOTAL.map((item, i) => (
                   <li key={i} className="flex gap-4 font-comfortaa text-secondary-700 items-start">
                     <Image
                       src="/assets/icons/icon-check-gold.svg"

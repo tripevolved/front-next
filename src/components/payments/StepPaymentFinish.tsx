@@ -29,19 +29,22 @@ function formatCurrency(value: number): string {
 }
 
 function PixPaymentContent({
-  transactionId,
+  statusPollPaymentId,
   qrCode,
   netAmount,
   expirationDate,
   onBack,
   successExtra,
+  successPrimaryAction,
 }: {
-  transactionId: string;
+  /** `GET payments/{id}` — checkout payment id for unified checkout, or legacy transaction id otherwise. */
+  statusPollPaymentId: string;
   qrCode: string;
   netAmount: number;
   expirationDate: Date | string;
   onBack?: () => void;
   successExtra?: ReactNode;
+  successPrimaryAction?: { label: string; onClick: () => void };
 }) {
   const [copied, setCopied] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus | null>(null);
@@ -54,7 +57,7 @@ function PixPaymentContent({
   useEffect(() => {
     const checkPayment = async () => {
       try {
-        const res = await PaymentsApiService.getPaymentByTransactionId(transactionId);
+        const res = await PaymentsApiService.getCheckoutPaymentById(statusPollPaymentId);
         setPaymentStatus(res.status);
         setStatusReason(res.statusReason);
         if (res.status === "APPROVED" || res.status === "REFUSED" || res.status === "CANCELED") {
@@ -75,7 +78,7 @@ function PixPaymentContent({
         clearInterval(intervalRef.current);
       }
     };
-  }, [transactionId]);
+  }, [statusPollPaymentId]);
 
   const handleCopy = () => {
     copyToClipboard(qrCode, "Código PIX copiado!");
@@ -94,12 +97,22 @@ function PixPaymentContent({
           </p>
         </div>
         {successExtra}
-        <Link
-          href="/app"
-          className="inline-block font-baloo bg-accent-500 text-secondary-900 px-6 py-3 rounded-full font-semibold hover:bg-accent-600 transition-colors text-center"
-        >
-          Voltar ao painel
-        </Link>
+        {successPrimaryAction ? (
+          <button
+            type="button"
+            onClick={successPrimaryAction.onClick}
+            className="inline-block font-baloo bg-accent-500 text-secondary-900 px-6 py-3 rounded-full font-semibold hover:bg-accent-600 transition-colors text-center w-full sm:w-auto"
+          >
+            {successPrimaryAction.label}
+          </button>
+        ) : (
+          <Link
+            href="/app"
+            className="inline-block font-baloo bg-accent-500 text-secondary-900 px-6 py-3 rounded-full font-semibold hover:bg-accent-600 transition-colors text-center"
+          >
+            Voltar ao painel
+          </Link>
+        )}
       </div>
     );
   }
@@ -185,10 +198,17 @@ export function StepPaymentFinish({
   onBack,
   isSaving,
   paymentIntentResponse,
+  pixCheckoutPaymentId,
   paymentSuccessExtra,
+  paymentSuccessPrimaryAction,
 }: PagamentoStepProps) {
   const isPix = payload.paymentMethod === "pix";
   const pixInfo = isPix ? paymentIntentResponse?.pixInfo : null;
+  const trimmedCheckoutId = pixCheckoutPaymentId?.trim() ?? "";
+  const pixStatusPollId =
+    trimmedCheckoutId.length > 0
+      ? trimmedCheckoutId
+      : paymentIntentResponse?.transactionId?.trim() || null;
 
   const [cardData, setCardData] = useState({
     name: "",
@@ -255,15 +275,16 @@ export function StepPaymentFinish({
   return (
     <section className="bg-white rounded-2xl border border-secondary-200 p-6 md:p-8 shadow-sm">
 
-      {isPix && pixInfo && paymentIntentResponse?.transactionId && (
+      {isPix && pixInfo && pixStatusPollId && (
         <div className="mb-8">
           <PixPaymentContent
-            transactionId={paymentIntentResponse.transactionId}
+            statusPollPaymentId={pixStatusPollId}
             qrCode={pixInfo.qrCode}
             netAmount={pixInfo.netAmount}
             expirationDate={pixInfo.expirationDate}
             onBack={onBack}
             successExtra={paymentSuccessExtra}
+            successPrimaryAction={paymentSuccessPrimaryAction}
           />
         </div>
       )}
@@ -279,12 +300,22 @@ export function StepPaymentFinish({
             </p>
           </div>
           {paymentSuccessExtra}
-          <Link
-            href="/app"
-            className="inline-block font-baloo bg-accent-500 text-secondary-900 px-6 py-3 rounded-full font-semibold hover:bg-accent-600 transition-colors text-center"
-          >
-            Voltar ao app
-          </Link>
+          {paymentSuccessPrimaryAction ? (
+            <button
+              type="button"
+              onClick={paymentSuccessPrimaryAction.onClick}
+              className="inline-block font-baloo bg-accent-500 text-secondary-900 px-6 py-3 rounded-full font-semibold hover:bg-accent-600 transition-colors text-center w-full sm:w-auto"
+            >
+              {paymentSuccessPrimaryAction.label}
+            </button>
+          ) : (
+            <Link
+              href="/app"
+              className="inline-block font-baloo bg-accent-500 text-secondary-900 px-6 py-3 rounded-full font-semibold hover:bg-accent-600 transition-colors text-center"
+            >
+              Voltar ao app
+            </Link>
+          )}
         </div>
       )}
 

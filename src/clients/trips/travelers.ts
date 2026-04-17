@@ -1,18 +1,9 @@
 import { ApiRequest } from "@/services/api/request";
 
-export interface CreateTravelerDTO {
-  name: string;
-  phone: string;
-}
-
-export const createTraveler = async (data: CreateTravelerDTO): Promise<void> => {
-  const route = `travelers`;
-  await ApiRequest.post(route, data);
-};
-
 export interface TripTravelerInput {
   id?: string | null;
   travelerId?: string | null;
+  roomIndex: number;
   name: string;
   lastName: string;
   rg?: string | null;
@@ -31,13 +22,10 @@ export interface SetTripTravelersRequest {
 }
 
 /**
- * @deprecated Moved to `TripsApiService.postTripTravelers` (POST /trips/{tripId}/travelers)
+ * POST /trips/{tripId}/travelers
  */
-export const setTripTravelers = async (
-  tripId: string,
-  body: SetTripTravelersRequest
-): Promise<void> => {
-  const route = `travelers/trips/${tripId}`;
+export const postTripTravelers = async (tripId: string, body: SetTripTravelersRequest): Promise<void> => {
+  const route = `trips/${tripId}/travelers`;
   await ApiRequest.post(route, body);
 };
 
