@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -145,6 +145,7 @@ export function CheckoutTripById({
   const [subscriptionsLoading, setSubscriptionsLoading] = useState(false);
   const [creatingPayment, setCreatingPayment] = useState(false);
   const [createPaymentError, setCreatePaymentError] = useState<string | null>(null);
+  const creatingPaymentRef = useRef(false);
 
   const subscription = useAppStore((s) => s.travelerState?.subscription);
   const isCirculoEvolvedMember = subscription?.status === "Active";
@@ -307,7 +308,8 @@ export function CheckoutTripById({
   }
 
   const createPaymentAndGo = async (opts: { includeSubscription: boolean }) => {
-    if (creatingPayment) return;
+    if (creatingPaymentRef.current) return;
+    creatingPaymentRef.current = true;
     setCreatePaymentError(null);
     setCreatingPayment(true);
     try {
@@ -345,6 +347,7 @@ export function CheckoutTripById({
       setCreatePaymentError(e instanceof Error ? e.message : "Não foi possível iniciar o pagamento.");
     } finally {
       setCreatingPayment(false);
+      creatingPaymentRef.current = false;
     }
   };
 
@@ -702,7 +705,7 @@ export function CheckoutTripById({
               {isCirculoEvolvedMember ? (
                 <button
                   type="button"
-                  disabled={priceError != null}
+                  disabled={priceError != null || creatingPayment}
                   className="w-full rounded-xl bg-accent-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-600 transition-colors disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-accent-500"
                   onClick={() => {
                     createPaymentAndGo({ includeSubscription: false });
@@ -719,7 +722,7 @@ export function CheckoutTripById({
                   <button
                     type="button"
                     className="w-full rounded-xl bg-accent-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-600 transition-colors disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-accent-500"
-                    disabled={priceError != null || priceData == null}
+                    disabled={priceError != null || priceData == null || creatingPayment}
                     onClick={() => {
                       createPaymentAndGo({ includeSubscription: true });
                     }}

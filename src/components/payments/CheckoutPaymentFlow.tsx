@@ -159,7 +159,7 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  const [stepIndex, setStepIndex] = useState(0);
+  const [stepIndex, setStepIndex] = useState(4);
   const [payload, setPayload] = useState<CheckoutSessionPayload>(DEFAULT_CHECKOUT_PAYLOAD);
   const [paymentIntentResponse, setPaymentIntentResponse] = useState<PaymentIntentResponse | null>(null);
 
@@ -181,6 +181,7 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
   const [onBookingConditions, setOnBookingConditions] = useState<PaymentCondition[] | null>(null);
   const [onBookingConditionsLoading, setOnBookingConditionsLoading] = useState(false);
   const [onBookingConditionsError, setOnBookingConditionsError] = useState<string | null>(null);
+  const onBookingConditionsSeqRef = useRef(0);
   const [onBookingPhase, setOnBookingPhase] = useState<"select" | "pay">("select");
   const [onBookingPaymentConditionId, setOnBookingPaymentConditionId] = useState<number | null>(null);
   const [onBookingPaymentMethod, setOnBookingPaymentMethod] = useState<TripPaymentMethod | null>(null);
@@ -348,31 +349,51 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
     setOnBookingSaveError(null);
   }, [paymentId]);
 
+  const onBookingPrimaryAccommodationId = useMemo(() => {
+    const firstAcc = onBookingItems.find((i) => i.type === "ACCOMMODATION");
+    return firstAcc?.domainId ?? "";
+  }, [onBookingItems]);
+
   useEffect(() => {
     const tripId = payment?.tripId ?? "";
-    const tripAccommodationId = onBookingItems[0]?.domainId ?? "";
+    const tripAccommodationId = onBookingPrimaryAccommodationId;
     if (!tripId || !tripAccommodationId) return;
 
-    let cancelled = false;
+    onBookingConditionsSeqRef.current += 1;
+    const seq = onBookingConditionsSeqRef.current;
     setOnBookingConditionsLoading(true);
     setOnBookingConditionsError(null);
 
-    PaymentsApiService.getAccommodationPaymentConditions(tripId, tripAccommodationId)
-      .then((conds) => {
-        if (cancelled) return;
-        setOnBookingConditions(Array.isArray(conds) ? conds : []);
-      })
-      .catch(() => {
-        if (!cancelled) setOnBookingConditionsError("Não foi possível carregar as condições de pagamento.");
-      })
-      .finally(() => {
-        if (!cancelled) setOnBookingConditionsLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
+    const fetchOnce = async () => {
+      return PaymentsApiService.getAccommodationPaymentConditions(tripId, tripAccommodationId);
     };
-  }, [payment?.tripId, onBookingItems]);
+
+    const run = async () => {
+      try {
+        const conds = await fetchOnce();
+        if (seq !== onBookingConditionsSeqRef.current) return;
+        setOnBookingConditions(Array.isArray(conds) ? conds : []);
+      } catch (e1) {
+        if (seq !== onBookingConditionsSeqRef.current) return;
+        // Backend can take a moment to materialize conditions right after pré-reserva.
+        await new Promise((r) => setTimeout(r, 1000));
+        if (seq !== onBookingConditionsSeqRef.current) return;
+        try {
+          const conds2 = await fetchOnce();
+          if (seq !== onBookingConditionsSeqRef.current) return;
+          setOnBookingConditions(Array.isArray(conds2) ? conds2 : []);
+        } catch (e2) {
+          if (seq !== onBookingConditionsSeqRef.current) return;
+          const msg = e2 instanceof Error ? e2.message : "";
+          setOnBookingConditionsError(msg?.trim() || "Não foi possível carregar as condições de pagamento.");
+        }
+      } finally {
+        if (seq === onBookingConditionsSeqRef.current) setOnBookingConditionsLoading(false);
+      }
+    };
+
+    void run();
+  }, [payment?.tripId, onBookingPrimaryAccommodationId]);
 
   const selectedOnBookingCondition = useMemo(() => {
     if (!onBookingConditions || onBookingPaymentConditionId == null) return null;

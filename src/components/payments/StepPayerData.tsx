@@ -7,6 +7,36 @@ import { ViaCepClient } from "@/clients/viacep";
 import { MaskedCpfInput } from "@/components/common/MaskedCpfInput";
 import { PhoneInput } from "@/components/common/PhoneInput";
 
+const BR_UF_OPTIONS = [
+  "AC",
+  "AL",
+  "AP",
+  "AM",
+  "BA",
+  "CE",
+  "DF",
+  "ES",
+  "GO",
+  "MA",
+  "MT",
+  "MS",
+  "MG",
+  "PA",
+  "PB",
+  "PR",
+  "PE",
+  "PI",
+  "RJ",
+  "RN",
+  "RS",
+  "RO",
+  "RR",
+  "SC",
+  "SP",
+  "SE",
+  "TO",
+] as const;
+
 function maskBrDate(value: string): string {
   const digits = (value ?? "").replace(/\D/g, "").slice(0, 8);
   const dd = digits.slice(0, 2);
@@ -343,14 +373,22 @@ export function StepPayerData({
                 <label htmlFor="stateProvince" className="block font-comfortaa text-sm font-medium text-secondary-700 mb-1">
                   Estado
                 </label>
-                <input
+                <select
                   id="stateProvince"
-                  type="text"
-                  value={payer.address.stateProvince}
+                  required
+                  value={(payer.address.stateProvince ?? "").toUpperCase().slice(0, 2)}
                   onChange={(e) => updateAddress({ stateProvince: e.target.value })}
                   className="w-full px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
-                  placeholder="UF"
-                />
+                >
+                  <option value="" disabled>
+                    Selecione
+                  </option>
+                  {BR_UF_OPTIONS.map((uf) => (
+                    <option key={uf} value={uf}>
+                      {uf}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label htmlFor="country" className="block font-comfortaa text-sm font-medium text-secondary-700 mb-1">

@@ -20,6 +20,7 @@ export interface IntentFinishRequest {
   ipAddress?: string;
   paymentMethodId: string;
   paymentConditionId?: number | null;
+  cardOperator?: "MasterCard" | "Visa" | "Amex" | "Elo" | null;
 }
 
 export interface IntentFinishResponse {

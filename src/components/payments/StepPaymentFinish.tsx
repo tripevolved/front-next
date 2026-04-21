@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { QRCodeSVG } from "qrcode.react";
 import { differenceInMinutes } from "date-fns";
 import type { PagamentoStepProps } from "@/core/types/payments";
@@ -184,6 +185,14 @@ function PixPaymentContent({
 const INPUT_CLASS =
   "w-full px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500";
 
+type CardOperator = "MasterCard" | "Visa" | "Amex" | "Elo";
+const CARD_OPERATORS: { id: CardOperator; label: string; assetSrc: string }[] = [
+  { id: "Visa", label: "Visa", assetSrc: "/assets/pagamentos/visa.png" },
+  { id: "MasterCard", label: "Mastercard", assetSrc: "/assets/pagamentos/mastercard.png" },
+  { id: "Amex", label: "Amex", assetSrc: "/assets/pagamentos/amex.png" },
+  { id: "Elo", label: "Elo", assetSrc: "/assets/pagamentos/elo.png" },
+];
+
 export function StepPaymentFinish({
   payload,
   setPayload,
@@ -207,6 +216,7 @@ export function StepPaymentFinish({
     expirationMonth: "",
     expirationYear: "",
   });
+  const [cardOperator, setCardOperator] = useState<CardOperator | "">("");
   const [cardSubmitting, setCardSubmitting] = useState(false);
   const [cardSuccess, setCardSuccess] = useState(false);
   const [cardError, setCardError] = useState<string | null>(null);
@@ -217,6 +227,10 @@ export function StepPaymentFinish({
       const transactionId = paymentIntentResponse?.transactionId;
       if (!transactionId) {
         setCardError("Transação não encontrada. Volte e tente novamente.");
+        return;
+      }
+      if (!cardOperator) {
+        setCardError("Selecione a bandeira do cartão.");
         return;
       }
       const cardNumber = cardData.cardNumber.replace(/\D/g, "");
@@ -244,11 +258,13 @@ export function StepPaymentFinish({
           ipAddress,
           paymentMethodId,
           paymentConditionId,
+          cardOperator: cardOperator as CardOperator,
         });
         if (finishRes.isSuccess) {
           setCardSuccess(true);
         } else {
-          setCardError(finishRes.message ?? "Erro ao processar o pagamento.");
+          const apiMessage = typeof finishRes.message === "string" ? finishRes.message.trim() : "";
+          setCardError(apiMessage || "Erro ao processar o pagamento.");
         }
       } catch (err) {
         setCardError(err instanceof Error ? err.message : "Erro ao processar o pagamento.");
@@ -256,7 +272,7 @@ export function StepPaymentFinish({
         setCardSubmitting(false);
       }
     },
-    [paymentIntentResponse?.transactionId, cardData]
+    [paymentIntentResponse?.transactionId, cardData, cardOperator, paymentConditionId]
   );
 
   const updateCardData = (field: keyof typeof cardData, value: string) => {
@@ -295,7 +311,7 @@ export function StepPaymentFinish({
               Pagamento realizado com sucesso!
             </p>
             <p className="font-comfortaa text-green-700 text-sm mt-2">
-              Obrigado pela sua compra. Você receberá a confirmação por e-mail.
+              Você receberá todos os detalhes por e-mail.
             </p>
           </div>
           {paymentSuccessExtra}
@@ -328,6 +344,40 @@ export function StepPaymentFinish({
               </p>
             </div>
           )}
+          <div className="space-y-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {CARD_OPERATORS.map((op) => {
+                const selected = cardOperator === op.id;
+                return (
+                  <label
+                    key={op.id}
+                    className={[
+                      "group flex items-center justify-between gap-2 rounded-xl border px-3 py-2 cursor-pointer transition-colors bg-white",
+                      selected ? "border-accent-500 bg-accent-50/50" : "border-secondary-200 hover:bg-secondary-50",
+                    ].join(" ")}
+                  >
+                    <span className="flex items-center gap-2 min-w-0">
+                      <Image
+                        src={op.assetSrc}
+                        alt={op.label}
+                        width={34}
+                        height={22}
+                        className="h-[22px] w-auto object-contain"
+                      />
+                    </span>
+                    <input
+                      type="radio"
+                      name="cardOperator"
+                      value={op.id}
+                      checked={selected}
+                      onChange={() => setCardOperator(op.id)}
+                      className="h-4 w-4 text-accent-500 border-secondary-300 focus:ring-accent-500"
+                    />
+                  </label>
+                );
+              })}
+            </div>
+          </div>
           <div>
             <label htmlFor="cardName" className="block font-comfortaa text-sm font-medium text-secondary-700 mb-1">
               Nome no cartão
