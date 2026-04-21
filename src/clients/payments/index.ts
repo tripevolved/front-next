@@ -1,4 +1,9 @@
-import { createPaymentIntent, getPaymentByTransactionId, getCheckoutPaymentById } from "./payments";
+import {
+  createPaymentIntent,
+  getIntentByTransactionId,
+  getCheckoutPaymentById,
+  getAccommodationPaymentConditions,
+} from "./payments";
 import { postIntentCard, postIntentFinish } from "./creditcard";
 import { getPayerById, createPayer } from "./payer";
 import { createCheckoutPayment } from "./checkout";
@@ -7,8 +12,9 @@ export { getPayerById };
 export const PaymentsApiService = {
   createCheckoutPayment,
   createPaymentIntent,
-  getPaymentByTransactionId,
+  getIntentByTransactionId,
   getCheckoutPaymentById,
+  getAccommodationPaymentConditions,
   postIntentCard,
   postIntentFinish,
   getPayerById,

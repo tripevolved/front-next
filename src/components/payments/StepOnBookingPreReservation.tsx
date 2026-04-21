@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { TripsApiService } from "@/clients/trips";
 import { CircleLoader } from "@/components/common/CircleLoader";
 
+const preReservationRuns = new Map<string, Promise<void>>();
+
 type Props = {
   tripId: string;
   accommodationIds: string[];
@@ -21,6 +23,7 @@ export function StepOnBookingPreReservation({ tripId, accommodationIds, onComple
   onCompleteRef.current = onComplete;
 
   const idsKey = accommodationIds.join(",");
+  const preReservationKey = `${tripId}:${idsKey}`;
 
   useEffect(() => {
     let cancelled = false;
@@ -31,14 +34,25 @@ export function StepOnBookingPreReservation({ tripId, accommodationIds, onComple
         if (!cancelled) onCompleteRef.current();
         return;
       }
+
+      // StrictMode-safe guardrail: share one in-flight run per key (no duplicate POST),
+      // but still allow every mount to observe completion and advance the step.
+      let promise = preReservationRuns.get(preReservationKey);
+      if (!promise) {
+        promise = (async () => {
+          for (const tripAccommodationId of accommodationIds) {
+            await TripsApiService.postTripAccommodationBookings(tripId, tripAccommodationId);
+          }
+        })();
+        preReservationRuns.set(preReservationKey, promise);
+      }
+
       try {
-        for (const tripAccommodationId of accommodationIds) {
-          await TripsApiService.postTripAccommodationBookings(tripId, tripAccommodationId);
-          if (cancelled) return;
-        }
+        await promise;
         if (!cancelled) onCompleteRef.current();
       } catch (e) {
         if (cancelled) return;
+        preReservationRuns.delete(preReservationKey);
         setError(e instanceof Error ? e.message : "Não foi possível concluir a pré-reserva.");
       }
     };
@@ -47,7 +61,7 @@ export function StepOnBookingPreReservation({ tripId, accommodationIds, onComple
     return () => {
       cancelled = true;
     };
-  }, [tripId, idsKey, retryKey]);
+  }, [tripId, idsKey, retryKey, preReservationKey]);
 
   return (
     <section className="bg-white rounded-2xl border border-secondary-200 p-6 md:p-8 shadow-sm">
@@ -76,7 +90,10 @@ export function StepOnBookingPreReservation({ tripId, accommodationIds, onComple
             ) : null}
             <button
               type="button"
-              onClick={() => setRetryKey((k) => k + 1)}
+              onClick={() => {
+                preReservationRuns.delete(preReservationKey);
+                setRetryKey((k) => k + 1);
+              }}
               className="font-baloo bg-accent-500 text-secondary-900 px-6 py-2 rounded-full font-semibold hover:bg-accent-600 transition-all"
             >
               Tentar novamente

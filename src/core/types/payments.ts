@@ -35,6 +35,14 @@ export type TripPaymentMethod = "PIX" | "CREDIT_CARD";
 
 export type TripPaymentProvider = "STRIPE" | "VALEPAY";
 
+export interface PaymentCondition {
+  id: number;
+  name: string;
+  paymentMethod: TripPaymentMethod;
+  maxInstallments: number;
+  minimumParcel: number;
+}
+
 /** Line item types for `POST payments/intent`. */
 export type PaymentIntentItemType =
   | "TRIP"
@@ -55,6 +63,7 @@ export interface PaymentIntent {
   amount: number;
   installments: number;
   method: TripPaymentMethod;
+  paymentConditionId?: number | null;
   items: PaymentIntentItem[];
   /** Optional metadata (e.g. reference). Do not send payment `type` here — use `items[].type`. */
   metadata?: Record<string, string>;
@@ -67,6 +76,11 @@ export interface PaymentIntentResponse {
   provider: TripPaymentProvider;
   paymentMethod: TripPaymentMethod;
   pixInfo: PixPaymentInfo | null;
+}
+
+export interface PaymentIntentStatusResponse {
+  transactionId: string;
+  isSuccessful: boolean;
 }
 
 export interface PixPaymentInfo {
@@ -182,9 +196,11 @@ export interface PagamentoStepProps {
   paymentMetadata?: Record<string, string>;
   /** Response from create payment intent; used for PIX (pixInfo) in StepPaymentFinish. */
   paymentIntentResponse?: PaymentIntentResponse | null;
+  /** Optional payment condition id (required for ON_BOOKING finish). */
+  paymentConditionId?: number | null;
   /**
    * Checkout payment id (`POST /payments` → `id`, same as `/app/checkout/[id]`).
-   * When set, PIX status polling uses `GET payments/{checkoutPaymentId}` instead of the PSP `transactionId`.
+   * Legacy: older PIX flows polled `GET payments/{checkoutPaymentId}`; current flow polls `GET payments/intent/{transactionId}`.
    */
   pixCheckoutPaymentId?: string | null;
   /**

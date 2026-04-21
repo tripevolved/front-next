@@ -7,8 +7,8 @@ import { differenceInMinutes } from "date-fns";
 import type { PagamentoStepProps } from "@/core/types/payments";
 import { copyToClipboard } from "@/utils/helpers/strings.helper";
 import { PaymentsApiService } from "@/clients/payments";
-import type { PaymentStatus } from "@/clients/payments/payments";
 
+const PIX_POLL_START_DELAY_MS = 60_000;
 const PIX_POLL_INTERVAL_MS = 15_000;
 
 async function fetchClientIp(): Promise<string> {
@@ -29,63 +29,81 @@ function formatCurrency(value: number): string {
 }
 
 function PixPaymentContent({
-  statusPollPaymentId,
+  transactionId,
   qrCode,
   netAmount,
   expirationDate,
   onBack,
   successExtra,
   successPrimaryAction,
+  onSuccessful,
 }: {
-  /** `GET payments/{id}` — checkout payment id for unified checkout, or legacy transaction id otherwise. */
-  statusPollPaymentId: string;
+  transactionId: string;
   qrCode: string;
   netAmount: number;
   expirationDate: Date | string;
   onBack?: () => void;
   successExtra?: ReactNode;
   successPrimaryAction?: { label: string; onClick: () => void };
+  onSuccessful?: () => void;
 }) {
   const [copied, setCopied] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus | null>(null);
-  const [statusReason, setStatusReason] = useState<string | null>(null);
+  const [isSuccessful, setIsSuccessful] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const successNotifiedRef = useRef(false);
 
   const expDate = typeof expirationDate === "string" ? new Date(expirationDate) : expirationDate;
   const minutesLeft = differenceInMinutes(expDate, new Date());
 
   useEffect(() => {
+    let startTimeout: ReturnType<typeof setTimeout> | null = null;
     const checkPayment = async () => {
       try {
-        const res = await PaymentsApiService.getCheckoutPaymentById(statusPollPaymentId);
-        setPaymentStatus(res.status);
-        setStatusReason(res.statusReason);
-        if (res.status === "APPROVED" || res.status === "REFUSED" || res.status === "CANCELED") {
-          if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-            intervalRef.current = null;
-          }
-        }
+        const res = await PaymentsApiService.getIntentByTransactionId(transactionId);
+        const ok =
+          (res as any)?.isSuccessful === true ||
+          (res as any)?.isSuccessful === "true" ||
+          (res as any)?.isSuccess === true;
+        if (ok) setIsSuccessful(true);
       } catch {
         // keep polling on transient errors
       }
     };
 
-    checkPayment();
-    intervalRef.current = setInterval(checkPayment, PIX_POLL_INTERVAL_MS);
+    startTimeout = setTimeout(() => {
+      checkPayment();
+      intervalRef.current = setInterval(checkPayment, PIX_POLL_INTERVAL_MS);
+    }, PIX_POLL_START_DELAY_MS);
     return () => {
+      if (startTimeout) {
+        clearTimeout(startTimeout);
+      }
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [statusPollPaymentId]);
+  }, [transactionId]);
+
+  useEffect(() => {
+    if (!isSuccessful) return;
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, [isSuccessful]);
+
+  useEffect(() => {
+    if (!isSuccessful || successNotifiedRef.current) return;
+    successNotifiedRef.current = true;
+    onSuccessful?.();
+  }, [isSuccessful, onSuccessful]);
 
   const handleCopy = () => {
     copyToClipboard(qrCode, "Código PIX copiado!");
     setCopied(true);
   };
 
-  if (paymentStatus === "APPROVED") {
+  if (isSuccessful) {
     return (
       <div className="space-y-6">
         <div className="p-6 bg-green-50 border border-green-200 rounded-xl">
@@ -112,31 +130,6 @@ function PixPaymentContent({
           >
             Voltar ao painel
           </Link>
-        )}
-      </div>
-    );
-  }
-
-  if (paymentStatus === "REFUSED" || paymentStatus === "CANCELED") {
-    const message = statusReason ?? (paymentStatus === "REFUSED" ? "Pagamento recusado." : "Pagamento cancelado.");
-    return (
-      <div className="space-y-6">
-        <div className="p-6 bg-red-50 border border-red-200 rounded-xl">
-          <p className="font-comfortaa text-red-800 font-medium">
-            {paymentStatus === "REFUSED" ? "Pagamento recusado" : "Pagamento cancelado"}
-          </p>
-          <p className="font-comfortaa text-red-700 text-sm mt-2">
-            {message}
-          </p>
-        </div>
-        {onBack && (
-          <button
-            type="button"
-            onClick={onBack}
-            className="font-comfortaa px-4 py-2 text-secondary-700 hover:bg-secondary-100 rounded-lg transition-colors border border-secondary-200"
-          >
-            Voltar
-          </button>
         )}
       </div>
     );
@@ -198,17 +191,14 @@ export function StepPaymentFinish({
   onBack,
   isSaving,
   paymentIntentResponse,
+  paymentConditionId,
   pixCheckoutPaymentId,
   paymentSuccessExtra,
   paymentSuccessPrimaryAction,
 }: PagamentoStepProps) {
   const isPix = payload.paymentMethod === "pix";
   const pixInfo = isPix ? paymentIntentResponse?.pixInfo : null;
-  const trimmedCheckoutId = pixCheckoutPaymentId?.trim() ?? "";
-  const pixStatusPollId =
-    trimmedCheckoutId.length > 0
-      ? trimmedCheckoutId
-      : paymentIntentResponse?.transactionId?.trim() || null;
+  const pixTransactionId = paymentIntentResponse?.transactionId?.trim() || null;
 
   const [cardData, setCardData] = useState({
     name: "",
@@ -253,6 +243,7 @@ export function StepPaymentFinish({
           expirationYear: year,
           ipAddress,
           paymentMethodId,
+          paymentConditionId,
         });
         if (finishRes.isSuccess) {
           setCardSuccess(true);
@@ -275,16 +266,24 @@ export function StepPaymentFinish({
   return (
     <section className="bg-white rounded-2xl border border-secondary-200 p-6 md:p-8 shadow-sm">
 
-      {isPix && pixInfo && pixStatusPollId && (
+      {isPix && pixInfo && pixTransactionId && (
         <div className="mb-8">
           <PixPaymentContent
-            statusPollPaymentId={pixStatusPollId}
+            transactionId={pixTransactionId}
             qrCode={pixInfo.qrCode}
             netAmount={pixInfo.netAmount}
             expirationDate={pixInfo.expirationDate}
             onBack={onBack}
             successExtra={paymentSuccessExtra}
             successPrimaryAction={paymentSuccessPrimaryAction}
+            onSuccessful={() => {
+              // If flow provided a primary action (e.g. continue booking), complete automatically.
+              if (paymentSuccessPrimaryAction) {
+                paymentSuccessPrimaryAction.onClick();
+                return;
+              }
+              onNext();
+            }}
           />
         </div>
       )}

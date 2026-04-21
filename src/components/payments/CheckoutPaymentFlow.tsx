@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useAppStore } from "@/core/store";
 import { PaymentsApiService } from "@/clients/payments";
 import { TripsApiService } from "@/clients/trips";
@@ -11,6 +12,7 @@ import type { TripConfigurationRoom } from "@/core/types/trip";
 import type {
   CheckoutPayerData,
   CheckoutSessionPayload,
+  PaymentCondition,
   PaymentIntentItem,
   PaymentIntentResponse,
   TripPaymentMethod,
@@ -25,6 +27,7 @@ import {
 import { StepTripTravelers } from "@/components/payments/StepTripTravelers";
 import { StepOnBookingPreReservation } from "@/components/payments/StepOnBookingPreReservation";
 import type { TripTravelerInput } from "@/clients/trips/travelers";
+import { CircleLoader } from "@/components/common/CircleLoader";
 
 function formatCurrencyBRL(value: number): string {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
@@ -161,7 +164,8 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
   const [paymentIntentResponse, setPaymentIntentResponse] = useState<PaymentIntentResponse | null>(null);
 
   const [isLoadingPayer, setIsLoadingPayer] = useState(true);
-  const payerLoadedRef = useRef(false);
+  const payerLoadedTravelerIdRef = useRef<string | null>(null);
+  const payerLoadSeqRef = useRef(0);
   const emailPrefilledRef = useRef(false);
 
   const [isSaving, setIsSaving] = useState(false);
@@ -173,6 +177,19 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
 
   /** When ON_BOOKING follows REGULAR, payment method + PIX/card share one step (“Forma de pagamento”). */
   const [regularCheckoutPhase, setRegularCheckoutPhase] = useState<"method" | "pay">("method");
+
+  const [onBookingConditions, setOnBookingConditions] = useState<PaymentCondition[] | null>(null);
+  const [onBookingConditionsLoading, setOnBookingConditionsLoading] = useState(false);
+  const [onBookingConditionsError, setOnBookingConditionsError] = useState<string | null>(null);
+  const [onBookingPhase, setOnBookingPhase] = useState<"select" | "pay">("select");
+  const [onBookingPaymentConditionId, setOnBookingPaymentConditionId] = useState<number | null>(null);
+  const [onBookingPaymentMethod, setOnBookingPaymentMethod] = useState<TripPaymentMethod | null>(null);
+  const [onBookingInstallments, setOnBookingInstallments] = useState(1);
+  const [onBookingPaymentIntentResponse, setOnBookingPaymentIntentResponse] = useState<PaymentIntentResponse | null>(
+    null
+  );
+  const [onBookingSaving, setOnBookingSaving] = useState(false);
+  const [onBookingSaveError, setOnBookingSaveError] = useState<string | null>(null);
 
   const hasAccommodationItems = useMemo(
     () => (payment?.items ?? []).some((i) => i.type === "ACCOMMODATION"),
@@ -196,11 +213,25 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
     [regularItems]
   );
 
+  const onBookingTotal = useMemo(
+    () => onBookingItems.reduce((sum, i) => sum + (typeof i.amount === "number" ? i.amount : 0), 0),
+    [onBookingItems]
+  );
+
   const regularPaymentIntentItems = useMemo(() => regularItemsToPaymentIntentItems(regularItems), [regularItems]);
+  const onBookingPaymentIntentItems = useMemo(
+    () => regularItemsToPaymentIntentItems(onBookingItems),
+    [onBookingItems]
+  );
 
   const regularPaymentIntentMetadata = useMemo(
     () => buildCheckoutIntentReferenceMetadata(paymentId, regularItems, accommodationsById),
     [paymentId, regularItems, accommodationsById]
+  );
+
+  const onBookingPaymentIntentMetadata = useMemo(
+    () => buildCheckoutIntentReferenceMetadata(paymentId, onBookingItems, accommodationsById),
+    [paymentId, onBookingItems, accommodationsById]
   );
 
   const hasOnBookingAfterRegular = onBookingItems.length > 0 && regularItems.length > 0;
@@ -305,28 +336,94 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
 
   useEffect(() => {
     setRegularCheckoutPhase("method");
+    setOnBookingConditions(null);
+    setOnBookingConditionsLoading(false);
+    setOnBookingConditionsError(null);
+    setOnBookingPhase("select");
+    setOnBookingPaymentConditionId(null);
+    setOnBookingPaymentMethod(null);
+    setOnBookingInstallments(1);
+    setOnBookingPaymentIntentResponse(null);
+    setOnBookingSaving(false);
+    setOnBookingSaveError(null);
   }, [paymentId]);
 
-  // Load payer from API (if we have travelerId)
   useEffect(() => {
-    if (!travelerId || payerLoadedRef.current) {
-      setIsLoadingPayer(false);
-      return;
-    }
+    const tripId = payment?.tripId ?? "";
+    const tripAccommodationId = onBookingItems[0]?.domainId ?? "";
+    if (!tripId || !tripAccommodationId) return;
+
     let cancelled = false;
-    payerLoadedRef.current = true;
-    setIsLoadingPayer(true);
-    PaymentsApiService.getPayerById(travelerId)
-      .then((data) => {
-        if (cancelled || !data) return;
-        setPayload((prev) => ({ ...prev, payer: mapPayerResponseToCheckoutPayer(data as any) }));
+    setOnBookingConditionsLoading(true);
+    setOnBookingConditionsError(null);
+
+    PaymentsApiService.getAccommodationPaymentConditions(tripId, tripAccommodationId)
+      .then((conds) => {
+        if (cancelled) return;
+        setOnBookingConditions(Array.isArray(conds) ? conds : []);
+      })
+      .catch(() => {
+        if (!cancelled) setOnBookingConditionsError("Não foi possível carregar as condições de pagamento.");
       })
       .finally(() => {
-        if (!cancelled) setIsLoadingPayer(false);
+        if (!cancelled) setOnBookingConditionsLoading(false);
       });
+
     return () => {
       cancelled = true;
     };
+  }, [payment?.tripId, onBookingItems]);
+
+  const selectedOnBookingCondition = useMemo(() => {
+    if (!onBookingConditions || onBookingPaymentConditionId == null) return null;
+    return onBookingConditions.find((c) => c.id === onBookingPaymentConditionId) ?? null;
+  }, [onBookingConditions, onBookingPaymentConditionId]);
+
+  const onBookingInstallmentOptions = useMemo(() => {
+    const cond = selectedOnBookingCondition;
+    if (!cond || cond.paymentMethod !== "CREDIT_CARD") return [];
+    const max = Math.min(12, Math.max(1, cond.maxInstallments ?? 1));
+    const minParcel = Math.max(0, Number(cond.minimumParcel ?? 0));
+    const total = Number(onBookingTotal ?? 0);
+    const options: number[] = [];
+    for (let n = 1; n <= max; n++) {
+      const value = total > 0 ? total / n : 0;
+      if (minParcel > 0 && value < minParcel) continue;
+      options.push(n);
+    }
+    return options.length > 0 ? options : [1];
+  }, [selectedOnBookingCondition, onBookingTotal]);
+
+  useEffect(() => {
+    if (onBookingPaymentMethod !== "CREDIT_CARD") return;
+    const opts = onBookingInstallmentOptions;
+    if (opts.length === 0) return;
+    if (!opts.includes(onBookingInstallments)) setOnBookingInstallments(opts[0]);
+  }, [onBookingInstallmentOptions, onBookingInstallments, onBookingPaymentMethod]);
+
+  // Load payer from API (if we have travelerId)
+  useEffect(() => {
+    if (!travelerId) {
+      setIsLoadingPayer(false);
+      return;
+    }
+    if (payerLoadedTravelerIdRef.current === travelerId) {
+      setIsLoadingPayer(false);
+      return;
+    }
+
+    payerLoadSeqRef.current += 1;
+    const seq = payerLoadSeqRef.current;
+    setIsLoadingPayer(true);
+    PaymentsApiService.getPayerById(travelerId)
+      .then((data) => {
+        if (seq !== payerLoadSeqRef.current || !data) return;
+        setPayload((prev) => ({ ...prev, payer: mapPayerResponseToCheckoutPayer(data as any) }));
+        payerLoadedTravelerIdRef.current = travelerId;
+      })
+      .finally(() => {
+        if (seq === payerLoadSeqRef.current) setIsLoadingPayer(false);
+      });
   }, [travelerId]);
 
   const setPayloadPartial = (update: Partial<CheckoutSessionPayload>) => {
@@ -412,8 +509,11 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
         items,
         metadata: regularPaymentIntentMetadata,
       });
-      if (!response.isSuccess) {
-        throw new Error(response.message ?? "Erro ao criar intenção de pagamento.");
+      if (!response?.isSuccess) {
+        throw new Error(response?.message ?? "Erro ao criar intenção de pagamento.");
+      }
+      if (!response?.transactionId?.trim()) {
+        throw new Error("Erro ao criar intenção de pagamento.");
       }
       setPaymentIntentResponse(response);
       if (hasOnBookingAfterRegular) {
@@ -430,6 +530,44 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
 
   const finishRegularAndNext = async () => {
     setStepIndex((i) => Math.min(i + 1, totalSteps - 1));
+  };
+
+  const saveOnBookingPaymentAndNext = async () => {
+    setOnBookingSaveError(null);
+    setOnBookingSaving(true);
+    try {
+      if (!paymentId) throw new Error("Pagamento não encontrado.");
+      const cond = selectedOnBookingCondition;
+      if (!cond) throw new Error("Selecione uma condição de pagamento.");
+
+      const method: TripPaymentMethod = cond.paymentMethod;
+      const installments = method === "CREDIT_CARD" ? onBookingInstallments : 1;
+
+      const response = await PaymentsApiService.createPaymentIntent({
+        paymentId,
+        payer: checkoutPayerToTripPayer(payload.payer),
+        amount: onBookingTotal,
+        installments,
+        method,
+        paymentConditionId: cond.id,
+        items: onBookingTotal > 0 ? onBookingPaymentIntentItems : [],
+        metadata: onBookingPaymentIntentMetadata,
+      });
+      if (!response?.isSuccess) throw new Error(response?.message ?? "Erro ao criar intenção de pagamento.");
+      if (!response?.transactionId?.trim()) throw new Error("Erro ao criar intenção de pagamento.");
+
+      setPayloadPartial({
+        paymentMethod: method === "CREDIT_CARD" ? "credit_card" : "pix",
+        installments,
+      });
+      setOnBookingPaymentIntentResponse(response);
+      setOnBookingPaymentMethod(method);
+      setOnBookingPhase("pay");
+    } catch (e) {
+      setOnBookingSaveError(e instanceof Error ? e.message : "Erro ao criar intenção de pagamento.");
+    } finally {
+      setOnBookingSaving(false);
+    }
   };
 
   const advanceFromPreBookStep = useCallback(() => {
@@ -463,7 +601,9 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
   if (loading) {
     return (
       <div className="rounded-2xl border border-secondary-200 bg-white p-6 shadow-sm">
-        <p className="font-comfortaa text-secondary-600">Carregando…</p>
+        <div className="flex items-center justify-center py-6">
+          <CircleLoader className="h-14 w-14" />
+        </div>
       </div>
     );
   }
@@ -595,32 +735,143 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
       )}
 
       {onBookingItems.length > 0 && stepIndex === onBookingStepStartIdx + 1 && (
-        <section className="bg-white rounded-2xl border border-secondary-200 p-6 md:p-8 shadow-sm">
-          <h2 className="font-baloo text-xl font-bold text-secondary-900">Pagamento da reserva</h2>
-          <p className="font-comfortaa text-secondary-600 mt-2">Em breve: seleção e confirmação do pagamento ON_BOOKING.</p>
-          <div className="flex gap-3 pt-6">
-            <button
-              type="button"
-              onClick={onBack}
-              className="font-comfortaa px-4 py-2 text-secondary-700 hover:bg-secondary-100 rounded-lg transition-colors"
-            >
-              Voltar
-            </button>
-            <button
-              type="button"
-              onClick={() => setStepIndex((i) => Math.min(i + 1, totalSteps - 1))}
-              className="font-baloo bg-accent-500 text-secondary-900 px-6 py-2 rounded-full font-semibold hover:bg-accent-600 transition-all"
-            >
-              Continuar
-            </button>
-          </div>
-        </section>
+        <>
+          {onBookingSaveError ? (
+            <div className="p-4 bg-red-50 border border-red-200 rounded-xl font-comfortaa text-sm text-red-800" role="alert">
+              {onBookingSaveError}
+            </div>
+          ) : null}
+
+          {onBookingPhase === "select" && (
+            <section className="bg-white rounded-2xl border border-secondary-200 p-6 md:p-8 shadow-sm space-y-6">
+              <div>
+                <h2 className="font-baloo text-xl font-bold text-secondary-900">Pagamento da reserva</h2>
+                <p className="font-comfortaa text-secondary-600 mt-2">
+                  Selecione a condição de pagamento para confirmar sua reserva.
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-secondary-200 bg-secondary-50 p-4">
+                <p className="font-comfortaa text-secondary-800 text-sm">
+                  Total: <span className="font-semibold tabular-nums">{formatCurrencyBRL(onBookingTotal)}</span>
+                </p>
+              </div>
+
+              {onBookingConditionsLoading ? (
+                <div className="py-4">
+                  <div className="flex items-center justify-center">
+                    <CircleLoader className="h-12 w-12" />
+                  </div>
+                </div>
+              ) : onBookingConditionsError ? (
+                <div className="p-4 bg-red-50 border border-red-200 rounded-xl font-comfortaa text-sm text-red-800" role="alert">
+                  {onBookingConditionsError}
+                </div>
+              ) : (
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    saveOnBookingPaymentAndNext();
+                  }}
+                  className="space-y-5"
+                >
+                  <div className="space-y-3">
+                    {(onBookingConditions ?? []).map((c) => (
+                      <label
+                        key={c.id}
+                        className="flex items-start gap-3 p-4 border rounded-xl cursor-pointer hover:bg-secondary-50 transition-colors has-[:checked]:border-accent-500 has-[:checked]:bg-accent-50/50"
+                      >
+                        <input
+                          type="radio"
+                          name="onBookingCondition"
+                          value={c.id}
+                          checked={onBookingPaymentConditionId === c.id}
+                          onChange={() => {
+                            setOnBookingPaymentConditionId(c.id);
+                            setOnBookingPaymentMethod(c.paymentMethod);
+                            setOnBookingInstallments(1);
+                          }}
+                          className="mt-1 w-4 h-4 text-accent-500 border-secondary-300 focus:ring-accent-500"
+                        />
+                        <span className="min-w-0">
+                          <span className="block font-comfortaa font-medium text-secondary-900">{c.name}</span>
+                          <span className="block font-comfortaa text-xs text-secondary-600 mt-1">
+                            {c.paymentMethod === "CREDIT_CARD"
+                              ? `Cartão de crédito • até ${Math.max(1, c.maxInstallments)}x`
+                              : "PIX"}
+                          </span>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+
+                  {selectedOnBookingCondition?.paymentMethod === "CREDIT_CARD" && (
+                    <div className="pl-1 space-y-2">
+                      <label className="block font-comfortaa text-sm font-medium text-secondary-700">
+                        Parcelamento
+                      </label>
+                      <select
+                        value={onBookingInstallments}
+                        onChange={(e) => setOnBookingInstallments(Number(e.target.value))}
+                        className="w-full max-w-xs px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500 bg-white"
+                      >
+                        {onBookingInstallmentOptions.map((n) => (
+                          <option key={n} value={n}>
+                            {n}x {onBookingTotal > 0 ? formatCurrencyBRL(onBookingTotal / n) : "—"}
+                          </option>
+                        ))}
+                      </select>
+                      {selectedOnBookingCondition.minimumParcel > 0 ? (
+                        <p className="font-comfortaa text-xs text-secondary-500">
+                          Parcela mínima: {formatCurrencyBRL(selectedOnBookingCondition.minimumParcel)}.
+                        </p>
+                      ) : null}
+                    </div>
+                  )}
+
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      type="button"
+                      onClick={onBack}
+                      className="font-comfortaa px-4 py-2 text-secondary-700 hover:bg-secondary-100 rounded-lg transition-colors"
+                    >
+                      Voltar
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={onBookingSaving || onBookingPaymentConditionId == null}
+                      className="font-baloo bg-accent-500 text-secondary-900 px-6 py-2 rounded-full font-semibold hover:bg-accent-600 disabled:opacity-60 transition-all"
+                    >
+                      {onBookingSaving ? "Gerando pagamento…" : "Continuar"}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </section>
+          )}
+
+          {onBookingPhase === "pay" && (
+            <StepPaymentFinish
+              {...stepProps}
+              isSaving={onBookingSaving}
+              paymentIntentResponse={onBookingPaymentIntentResponse}
+              paymentConditionId={selectedOnBookingCondition?.id ?? null}
+              onNext={() => setStepIndex((i) => Math.min(i + 1, totalSteps - 1))}
+              paymentSuccessPrimaryAction={{
+                label: "Continuar",
+                onClick: () => setStepIndex((i) => Math.min(i + 1, totalSteps - 1)),
+              }}
+            />
+          )}
+        </>
       )}
 
       {onBookingItems.length > 0 && stepIndex === onBookingStepStartIdx + 2 && (
         <section className="bg-white rounded-2xl border border-secondary-200 p-6 md:p-8 shadow-sm">
           <h2 className="font-baloo text-xl font-bold text-secondary-900">Finalizar reserva</h2>
-          <p className="font-comfortaa text-secondary-600 mt-2">Em breve: finalização do fluxo ON_BOOKING.</p>
+          <p className="font-comfortaa text-secondary-600 mt-2">
+            Reserva confirmada com sucesso. Você já pode acompanhar os detalhes da sua viagem.
+          </p>
           <div className="flex gap-3 pt-6">
             <button
               type="button"
@@ -629,6 +880,14 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
             >
               Voltar
             </button>
+            {payment?.tripId ? (
+              <Link
+                href={`/app/viagens/${payment.tripId}`}
+                className="font-baloo bg-accent-500 text-secondary-900 px-6 py-2 rounded-full font-semibold hover:bg-accent-600 transition-all inline-flex items-center justify-center"
+              >
+                Ir para a viagem
+              </Link>
+            ) : null}
           </div>
         </section>
       )}

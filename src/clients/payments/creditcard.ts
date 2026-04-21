@@ -19,6 +19,7 @@ export interface IntentFinishRequest {
   expirationYear: number;
   ipAddress?: string;
   paymentMethodId: string;
+  paymentConditionId?: number | null;
 }
 
 export interface IntentFinishResponse {
