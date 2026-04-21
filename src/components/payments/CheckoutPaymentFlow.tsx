@@ -159,7 +159,7 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  const [stepIndex, setStepIndex] = useState(4);
+  const [stepIndex, setStepIndex] = useState(0);
   const [payload, setPayload] = useState<CheckoutSessionPayload>(DEFAULT_CHECKOUT_PAYLOAD);
   const [paymentIntentResponse, setPaymentIntentResponse] = useState<PaymentIntentResponse | null>(null);
 
