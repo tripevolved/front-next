@@ -1,5 +1,4 @@
 import { ApiRequest } from "@/services/api/request";
-import { LeadApiService } from "@/services/api/lead";
 import { getResult } from "./result";
 import { UserService } from "@/services/user";
 
