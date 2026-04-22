@@ -5,21 +5,11 @@ import { PublicAccommodation } from '@/core/types/accommodations'
 import { ImageGrid } from '@/components/common/ImageGrid'
 import { AccommodationRoomsSection } from './AccommodationRoomsSection'
 import Image from 'next/image'
+import { AccommodationHighlightsSection } from '@/components/accommodation/AccommodationHighlightsSection'
+import { AccommodationAmenitiesGrid } from '@/components/accommodation/AccommodationAmenitiesGrid'
 
 interface AccommodationDetailProps {
   accommodation: PublicAccommodation
-}
-
-// Helper function to get icon image path
-const getIconPath = (iconName: string | undefined): string | null => {
-  if (!iconName) return null
-  return `/assets/emojis/${iconName}.png`
-}
-
-// Helper function to get amenity icon path
-const getAmenityIconPath = (iconName: string | undefined): string | null => {
-  if (!iconName) return null
-  return `/assets/amenities/${iconName}.svg`
 }
 
 const PROSE_CONTAINED =
@@ -131,75 +121,7 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
 
       {/* Highlights Section - Full Width */}
       {accommodation.highlights && accommodation.highlights.length > 0 && (
-        <section className="bg-gradient-to-br from-primary-50 to-accent-50 py-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-7xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold mb-12 text-gray-900 text-center">
-                Por que escolher o {accommodation.title}?
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {accommodation.highlights.map((highlight, index) => {
-                  const iconPath = getIconPath(highlight.icon)
-                  
-                  return (
-                    <div
-                      key={index}
-                      className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
-                    >
-                      {/* Image Background */}
-                      {highlight.imageUrl && (
-                        <div className="relative h-56 overflow-hidden">
-                          <Image
-                            src={highlight.imageUrl}
-                            alt={highlight.title}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-110"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                          {iconPath && (
-                            <div className="absolute top-4 right-4 w-16 h-16 bg-white rounded-full p-3 shadow-lg">
-                              <div className="relative w-full h-full">
-                                <Image
-                                  src={iconPath}
-                                  alt={highlight.title}
-                                  fill
-                                  className="object-contain"
-                                />
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                      
-                      {/* Content */}
-                      <div className="p-6">
-                        {!highlight.imageUrl && iconPath && (
-                          <div className="w-12 h-12 mb-4 relative">
-                            <Image
-                              src={iconPath}
-                              alt={highlight.title}
-                              fill
-                              className="object-contain"
-                            />
-                          </div>
-                        )}
-                        <h3 className="text-2xl font-bold mb-3 text-gray-900 group-hover:text-primary-600 transition-colors">
-                          {highlight.title}
-                        </h3>
-                        <p className="text-gray-700 leading-relaxed">
-                          {highlight.description}
-                        </p>
-                      </div>
-                      
-                      {/* Decorative element */}
-                      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-primary-500 to-accent-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          </div>
-        </section>
+        <AccommodationHighlightsSection title={accommodation.title} highlights={accommodation.highlights} />
       )}
 
       {/* Main content */}
@@ -229,30 +151,7 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
 
               {/* Amenities */}
               {accommodation.amenities && accommodation.amenities.length > 0 && (
-                <section>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {accommodation.amenities.map((amenity, index) => {
-                      const amenityIconPath = getAmenityIconPath(amenity.icon)
-                      
-                      return (
-                        <div key={index} className={`flex items-center bg-white p-4 rounded-lg shadow-sm border border-gray-200 ${amenityIconPath ? 'gap-3' : ''}`}>
-                          {amenityIconPath ? (
-                            <div className="w-6 h-6 flex-shrink-0 text-primary-600">
-                              <Image
-                                src={amenityIconPath}
-                                alt={amenity.title}
-                                width={24}
-                                height={24}
-                                className="w-full h-full"
-                              />
-                            </div>
-                          ) : null}
-                          <span className="text-gray-700 text-sm">{amenity.title}</span>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </section>
+                <AccommodationAmenitiesGrid amenities={accommodation.amenities} />
               )}
 
               {/* Instruções (check-in / check-out) */}

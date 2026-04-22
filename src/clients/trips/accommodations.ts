@@ -111,3 +111,35 @@ export const postTripAccommodationBookings = async (
   return ApiRequest.post<unknown>(route, undefined);
 };
 
+export type CreateTripAccommodationRoomInput = {
+  adults: number;
+  children: number;
+  childrenAges: number[];
+  rateId: string;
+  accommodationRoomId: string;
+  vendor: string;
+};
+
+export type CreateTripAccommodationRequest = {
+  travelerType: "COUPLE" | "FAMILY";
+  accommodationUniqueName: string;
+  uniqueTransactionId: string;
+  uniqueTransactionValidUntil?: Date | null;
+  startDate: string;
+  endDate: string;
+  rooms: CreateTripAccommodationRoomInput[];
+};
+
+export type CreateTripAccommodationResponse = { id: string };
+
+/**
+ * POST /trips/{tripId}/accommodations — create a trip accommodation selection.
+ */
+export const postTripAccommodationCreate = async (
+  tripId: string,
+  body: CreateTripAccommodationRequest
+): Promise<CreateTripAccommodationResponse> => {
+  const route = `trips/${tripId}/accommodations`;
+  return ApiRequest.post<CreateTripAccommodationResponse>(route, body);
+};
+

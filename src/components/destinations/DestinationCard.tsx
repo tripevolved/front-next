@@ -6,11 +6,12 @@ interface DestinationCardProps {
   image: string
   profile?: string | null
   link: string
+  onClick?: () => void
 }
 
-export default function DestinationCard({ title, image, profile, link }: DestinationCardProps) {
-  return (
-    <Link href={link} className="group block relative h-[400px] rounded-xl overflow-hidden">
+export default function DestinationCard({ title, image, profile, link, onClick }: DestinationCardProps) {
+  const CardInner = (
+    <>
       {/* Background Image */}
       <Image
         src={image}
@@ -33,6 +34,24 @@ export default function DestinationCard({ title, image, profile, link }: Destina
       <div className="absolute bottom-4 right-4 text-white">
         <h3 className="font-baloo text-2xl font-bold">{title}</h3>
       </div>
+    </>
+  )
+
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        className="group block relative h-[400px] rounded-xl overflow-hidden text-left w-full"
+      >
+        {CardInner}
+      </button>
+    )
+  }
+
+  return (
+    <Link href={link} className="group block relative h-[400px] rounded-xl overflow-hidden">
+      {CardInner}
     </Link>
   )
 } 

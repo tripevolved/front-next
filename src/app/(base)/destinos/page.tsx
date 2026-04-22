@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import DestinationCard from '@/components/DestinationCard'
+import DestinationCard from '@/components/destinations/DestinationCard'
 import { DestinationsApiService } from '@/clients/destinations'
 import { Destination } from '@/clients/destinations/destinations'
 import ContactExpertModal from '@/components/ContactExpertModal'
@@ -30,7 +30,7 @@ export default function DestinosPage() {
       setIsLoading(true)
       try {
         const response = await DestinationsApiService.getDestinations({
-          uniqueName: 'all',
+          profile: 'all',
           limit: perPage,
           page: currentPage,
           search: debouncedSearchTerm

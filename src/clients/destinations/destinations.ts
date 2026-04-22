@@ -21,7 +21,8 @@ interface DestinationResponse {
 
 interface DestinationsRequestParams {
   search?: string;
-  uniqueName: string;
+  profile: string;
+  relatedDestination?: string;
   context?: "ALL" | "CONSULTANCY" | "PLATFORM" | "WEEKEND";
   page?: number;
   limit?: number;
@@ -30,14 +31,16 @@ interface DestinationsRequestParams {
 export const getDestinations = async ({
   search = "",
   context = "PLATFORM",
-  uniqueName,
+  profile,
+  relatedDestination = "",
   page = 1,
   limit = 6,
 }: DestinationsRequestParams) => {
   const params = new URLSearchParams({
     search,
     context,
-    profile: uniqueName == "all" ? "" : uniqueName,
+    profile: profile === "all" ? "" : profile,
+    relatedDestination: relatedDestination ?? "",
     page: String(page),
     limit: String(limit)
   });

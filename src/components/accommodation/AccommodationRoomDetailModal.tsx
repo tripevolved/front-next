@@ -6,7 +6,6 @@ import {
   PublicAccommodationRoom,
   PublicAccommodationRoomAvailability,
   PublicAccommodationImage,
-  AccommodationRateConditionItem,
   AccommodationAvailabilityConditionsResponse,
 } from "@/core/types/accommodations";
 
@@ -20,6 +19,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { FamilyRoom, FamilyTravellers } from "@/components/trip-planning/familyTypes";
 import { buildAccommodationCheckoutHref } from "@/utils/accommodation-checkout-url";
+import { buildCandidateRatesForRoom, mealPlanKindForRate, mealPlanLabelForKind } from "@/components/accommodation/roomCandidateRates";
 
 const FALLBACK_UNIQUE_TRANSACTION_VALID_MS = 60 * 60 * 1000;
 
@@ -104,54 +104,14 @@ function prepareMoreInformationHtml(input?: string | null): string | null {
   return s.trim() || null;
 }
 
-function pickMinRate(
-  rates: (AccommodationRateConditionItem | PublicAccommodationRoomAvailability["rates"][number])[],
-  match: (r: any) => boolean
-) {
-  const filtered = rates.filter(match);
-  if (!filtered.length) return null;
-  return filtered.reduce((min: any, r: any) => (r.price < min.price ? r : min), filtered[0]);
-}
-
-type MealPlanKind = "NONE" | "BREAKFAST" | "HALF" | "FULL" | "ALL";
-
-function mealPlanKindForRate(rate: any): MealPlanKind {
-  if (rate.isAllInclusive) return "ALL";
-  if (rate.hasFullBoard) return "FULL";
-  if (rate.hasHalfBoard) return "HALF";
-  if (rate.hasBreakfast) return "BREAKFAST";
-  return "NONE";
-}
-
-function mealPlanLabelForKind(kind: MealPlanKind): string {
-  switch (kind) {
-    case "ALL":
-      return "All inclusive";
-    case "FULL":
-      return "Pensão completa";
-    case "HALF":
-      return "Meia pensão";
-    case "BREAKFAST":
-      return "Café da manhã incluído";
-    case "NONE":
-    default:
-      return "Sem café da manhã";
-  }
-}
-
 export function AccommodationRoomDetailModal({
   room,
-
   isOpen,
-
   onClose,
-
   transactionId,
-
   accommodationUniqueName,
   preselectedRateId,
   travelersSummary,
-
   stayDates,
 }: AccommodationRoomDetailModalProps) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
@@ -307,33 +267,7 @@ export function AccommodationRoomDetailModal({
     !!transactionId &&
     availabilityRates.every((r) => r.id && r.vendor);
 
-  const candidateRates = (() => {
-    const kinds: MealPlanKind[] = ["NONE", "BREAKFAST", "HALF", "FULL", "ALL"];
-    const picked: any[] = [];
-
-    for (const kind of kinds) {
-      const pickNoCancel = pickMinRate(
-        availabilityRates,
-        (r) => mealPlanKindForRate(r) === kind && !r.isCancellable
-      );
-      const pickCancel = pickMinRate(
-        availabilityRates,
-        (r) => mealPlanKindForRate(r) === kind && r.isCancellable
-      );
-      if (pickNoCancel) picked.push(pickNoCancel);
-      if (pickCancel) picked.push(pickCancel);
-    }
-
-    // Ensure the current (main) selection is included.
-    const selected = availabilityRates.find((r) => r.id === selectedRateId);
-    if (selected) picked.unshift(selected);
-
-    const byId = new Map<string, any>();
-    for (const r of picked) {
-      if (r?.id) byId.set(r.id, r);
-    }
-    return Array.from(byId.values());
-  })();
+  const candidateRates = buildCandidateRatesForRoom(availabilityRates, selectedRateId);
 
   const travelersBlock = (() => {
     if (travelersSummary?.type === "FAMILY") {

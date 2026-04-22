@@ -178,7 +178,11 @@ export default async function ViagemByIdPage({ params }: Props) {
       {/* Details */}
       <section id="details" className="max-w-[80%] mx-auto px-4 py-12 scroll-mt-24">
         <h2 className="font-baloo text-2xl md:text-3xl font-bold text-secondary-900 mb-6">Detalhes da jornada</h2>
-        <JourneyDetailsSection tripId={tripDetails.id} />
+        <JourneyDetailsSection
+          tripId={tripDetails.id}
+          destination={tripDetails.destination ?? undefined}
+          relatedDestinationUniqueName={(tripDetails as any)?.destinationUniqueName ?? undefined}
+        />
       </section>
     </div>
   );

@@ -11,6 +11,7 @@ import {
   getTripAccommodationById,
   getTripAccommodationReservation,
   postTripAccommodationBookings,
+  postTripAccommodationCreate,
 } from "./accommodations";
 import { postTripPrice } from "./price";
 import { postTripTravelers } from "./travelers";
@@ -23,6 +24,7 @@ export const TripsApiService = {
   getTripAccommodationById,
   getTripAccommodationReservation,
   postTripAccommodationBookings,
+  postTripAccommodationCreate,
   postTripPrice,
   postTripTravelers,
   getTripMatches,

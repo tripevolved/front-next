@@ -1,23 +1,77 @@
 "use client";
 
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import Link from "next/link";
+import { useMemo, useState } from "react";
 import { TripsApiService } from "@/clients/trips";
 import type { TripAccommodationItem } from "@/clients/trips/accommodations";
 import { EmptyOrErrorState } from "@/components/common/EmptyOrErrorState";
 import { JourneyAccommodationCard } from "@/components/trips/JourneyAccommodationCard";
 import { WhatsAppDirectButton } from "@/components/WhatsAppDirectButton";
+import { AddAccommodationDrawer } from "@/components/trips/AddAccommodationDrawer";
+import type { TripDetails } from "@/core/types/trip";
+import { TravelerType } from "@/core/types/trip";
+import type { AccommodationAvailabilityQuery, TravelerInput } from "@/clients/accommodations";
 
 export type JourneyDetailsSectionProps = {
   tripId: string;
+  destination?: string;
+  relatedDestinationUniqueName?: string;
 };
 
-export function JourneyDetailsSection({ tripId }: JourneyDetailsSectionProps) {
+export function JourneyDetailsSection({ tripId, destination, relatedDestinationUniqueName }: JourneyDetailsSectionProps) {
+  const [isAddOpen, setIsAddOpen] = useState(false);
+  const { mutate } = useSWRConfig();
   const { data, error, isLoading } = useSWR<TripAccommodationItem[]>(
     tripId ? ["trip-accommodations", tripId] : null,
     () => TripsApiService.getTripAccommodations(tripId),
     { revalidateOnFocus: false }
   );
+  const { data: tripDetails } = useSWR<TripDetails>(
+    tripId ? ["trip-details", tripId] : null,
+    () => TripsApiService.getTripDetailsById(tripId),
+    { revalidateOnFocus: false }
+  );
+
+  const travelerQuery: AccommodationAvailabilityQuery = useMemo(() => {
+    const cfg = tripDetails?.configuration;
+    const isFamily = cfg?.travelerType === TravelerType.FAMILY || (cfg?.numChildren ?? 0) > 0;
+    const adults = Math.max(1, cfg?.numAdults ?? 2);
+    const children = Math.max(0, cfg?.numChildren ?? 0);
+    const childrenAges = Array.isArray(cfg?.childrenAges) ? cfg!.childrenAges : [];
+    const roomsFromTrip =
+      Array.isArray(cfg?.rooms) && cfg!.rooms.length > 0
+        ? cfg!.rooms.map((r) => ({
+            adults: r.numAdults,
+            children: r.numChildren,
+            childrenAges: r.childrenAges ?? [],
+          }))
+        : [
+            {
+              adults,
+              children,
+              childrenAges,
+            },
+          ];
+
+    const travelerInput: TravelerInput = isFamily
+      ? {
+          type: "FAMILY",
+          adults,
+          children,
+          childrenAges,
+          rooms: roomsFromTrip,
+        }
+      : {
+          type: "COUPLE",
+          adults: 2,
+          children: 0,
+          childrenAges: [],
+          rooms: [{ adults: 2, children: 0, childrenAges: [] }],
+        };
+
+    return { travelerInput };
+  }, [tripDetails?.configuration]);
 
   if (isLoading) {
     return (
@@ -96,9 +150,10 @@ export function JourneyDetailsSection({ tripId }: JourneyDetailsSectionProps) {
         <JourneyAccommodationCard key={acc.id} tripId={tripId} accommodation={acc} />
       ))}
 
-      <Link
-        href={`/app/viagens/${encodeURIComponent(tripId)}/proposta`}
-        className="group flex items-center gap-4 rounded-2xl border-2 border-dashed border-primary-300 bg-primary-50 hover:border-primary-500 hover:bg-primary-100 transition-colors px-6 py-5 shadow-sm"
+      <button
+        type="button"
+        onClick={() => setIsAddOpen(true)}
+        className="group w-full flex items-center gap-4 rounded-2xl border-2 border-dashed border-primary-300 bg-primary-50 hover:border-primary-500 hover:bg-primary-100 transition-colors px-6 py-5 shadow-sm"
       >
         <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center group-hover:bg-primary-200 transition-colors">
           <svg className="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -113,16 +168,25 @@ export function JourneyDetailsSection({ tripId }: JourneyDetailsSectionProps) {
             Adicionar uma nova hospedagem
           </p>
         </div>
-      </Link>
+      </button>
 
       <div className="flex justify-center pt-2">
         <WhatsAppDirectButton
-          message={`Olá! Gostaria de falar com um especialista sobre hospedagens da minha viagem (${tripId}).`}
+          message={`Olá! Gostaria de falar com um especialista sobre minha viagem${destination ? ` para ${destination}` : ""}.`}
           variant="naked"
         >
           Falar com um especialista
         </WhatsAppDirectButton>
       </div>
+
+      <AddAccommodationDrawer
+        isOpen={isAddOpen}
+        onClose={() => setIsAddOpen(false)}
+        relatedDestinationUniqueName={relatedDestinationUniqueName}
+        travelerQuery={travelerQuery}
+        tripId={tripId}
+        onTripAccommodationsChanged={() => mutate(["trip-accommodations", tripId])}
+      />
     </div>
   );
 }

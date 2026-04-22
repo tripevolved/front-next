@@ -4,7 +4,6 @@ import { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import "react-datepicker/dist/react-datepicker.css"
 
 interface DateRangePickerProps {
   startDate: Date | null

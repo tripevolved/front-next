@@ -1,4 +1,5 @@
 import { getAccommodationByUniqueName, getAccommodationByDestinationUniqueName } from "./public";
+import { getAccommodationAvailabilityByDestination } from "./by-destination-availability";
 import {
   getAccommodationAvailability,
   type AccommodationAvailabilityQuery,
@@ -16,6 +17,7 @@ export { toDateOnlyString, parseAccommodationApiDateTime } from "./availability"
 export const AccommodationsApiService = {
   getAccommodationByUniqueName,
   getAccommodationByDestinationUniqueName,
+  getAccommodationAvailabilityByDestination,
   getAccommodationAvailability,
   postAccommodationAvailabilityConditions,
 };

@@ -21,6 +21,6 @@ export const getAccommodationByUniqueName = async (
 export const getAccommodationByDestinationUniqueName = async (
   destinationUniqueName: string
 ): Promise<PublicAccommodation> => {
-  const route = `accommodations/${destinationUniqueName}/byDestination`;
+  const route = `accommodations/${destinationUniqueName}/by-destination`;
   return ApiRequest.get<PublicAccommodation>(route);
 };
