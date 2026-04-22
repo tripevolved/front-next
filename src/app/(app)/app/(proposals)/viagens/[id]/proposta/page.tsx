@@ -11,6 +11,7 @@ import { ProposalDetails } from "@/components/proposals";
 import { TripsApiService } from "@/clients/trips";
 import { mockProposal2 } from "@/core/types/uniqueMoments";
 import type { TripDetails } from "@/core/types";
+import { formatPtBrDateRangeLong, parseDateOnlyToLocalDate } from "@/utils/helpers/dates.helpers";
 
 const MONTH_NAMES = [
   "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
@@ -20,14 +21,10 @@ const MONTH_NAMES = [
 function formatHeroDates(tripDetails: TripDetails): string {
   const config = tripDetails.configuration;
   if (config?.startDate && config?.endDate) {
-    const start = new Date(config.startDate);
-    const end = new Date(config.endDate);
-    const opts: Intl.DateTimeFormatOptions = {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    };
-    return `${start.toLocaleDateString("pt-BR", opts)} a ${end.toLocaleDateString("pt-BR", opts)}`;
+    const start = parseDateOnlyToLocalDate(config.startDate);
+    const end = parseDateOnlyToLocalDate(config.endDate);
+    if (!start || !end) return "Datas a definir";
+    return formatPtBrDateRangeLong(start, end);
   }
   if (config?.month != null && config.month >= 1 && config.month <= 12) {
     return `Em ${MONTH_NAMES[config.month - 1]}`;

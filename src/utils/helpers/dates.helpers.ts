@@ -68,3 +68,66 @@ export const parseBRStringToDate = (value: string) => {
   const iso = `${year}-${Number(month)}-${Number(day)}`;
   return new Date(iso);
 };
+
+/**
+ * Parses date-only strings like "2026-05-26" as a local Date (year/month/day),
+ * avoiding timezone shifting that happens with `new Date("YYYY-MM-DD")`.
+ *
+ * Also accepts ISO strings with time and Date instances.
+ */
+export const parseDateOnlyToLocalDate = (value: unknown): Date | null => {
+  if (!value) return null;
+  if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value;
+  if (typeof value !== "string") return null;
+
+  const m = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (m) {
+    const y = Number(m[1]);
+    const mo = Number(m[2]);
+    const d = Number(m[3]);
+    const asLocal = new Date(y, mo - 1, d);
+    return Number.isNaN(asLocal.getTime()) ? null : asLocal;
+  }
+
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
+const ptBrMonthLong = new Intl.DateTimeFormat("pt-BR", { month: "long" });
+
+function formatPtBrDay2(date: Date): string {
+  return String(date.getDate()).padStart(2, "0");
+}
+
+function formatPtBrMonthLong(date: Date): string {
+  return ptBrMonthLong.format(date);
+}
+
+/**
+ * Formats a date range into the PT-BR long form used in the product, handling
+ * month/year changes:
+ * - "26 a 27 de maio de 2026"
+ * - "26 de maio a 02 de junho de 2026"
+ * - "28 de dezembro de 2026 a 07 de janeiro de 2027"
+ */
+export const formatPtBrDateRangeLong = (start: Date, end: Date): string => {
+  const d1 = formatPtBrDay2(start);
+  const d2 = formatPtBrDay2(end);
+
+  const m1 = formatPtBrMonthLong(start);
+  const m2 = formatPtBrMonthLong(end);
+
+  const y1 = start.getFullYear();
+  const y2 = end.getFullYear();
+
+  if (y1 === y2 && start.getMonth() === end.getMonth()) {
+    if (start.getDate() === end.getDate()) return `${d1} de ${m1} de ${y1}`;
+    return `${d1} a ${d2} de ${m1} de ${y1}`;
+  }
+
+  if (y1 === y2) {
+    return `${d1} de ${m1} a ${d2} de ${m2} de ${y1}`;
+  }
+
+  return `${d1} de ${m1} de ${y1} a ${d2} de ${m2} de ${y2}`;
+};

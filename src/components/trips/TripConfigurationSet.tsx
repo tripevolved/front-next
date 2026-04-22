@@ -1,6 +1,7 @@
 "use client";
 
 import { type TripConfiguration, TravelerType } from "@/core/types/trip";
+import { formatPtBrDateRangeLong, parseDateOnlyToLocalDate } from "@/utils/helpers/dates.helpers";
 
 const TRAVELER_TYPE_LABELS: Record<TravelerType, string> = {
   [TravelerType.COUPLE]: "Casal",
@@ -11,15 +12,12 @@ const TRAVELER_TYPE_LABELS: Record<TravelerType, string> = {
 
 interface TripConfigurationSetProps {
   configuration: TripConfiguration;
+  hideEditButton?: boolean;
 }
 
 function formatDate(d: Date | string): string {
-  const date = typeof d === "string" ? new Date(d) : d;
-  return date.toLocaleDateString("pt-BR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const date = parseDateOnlyToLocalDate(d) ?? (typeof d === "string" ? new Date(d) : d);
+  return date.toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" });
 }
 
 function formatBudget(value: number): string {
@@ -37,6 +35,9 @@ const MONTH_NAMES = [
 function formatDatesOrMonth(config: { startDate?: Date | string; endDate?: Date | string; month?: number }): string | null {
   const hasDates = config.startDate != null && config.endDate != null;
   if (hasDates) {
+    const start = parseDateOnlyToLocalDate(config.startDate);
+    const end = parseDateOnlyToLocalDate(config.endDate);
+    if (start && end) return formatPtBrDateRangeLong(start, end);
     return `${formatDate(config.startDate!)} a ${formatDate(config.endDate!)}`;
   }
   if (config.month != null && config.month >= 1 && config.month <= 12) {
@@ -45,7 +46,7 @@ function formatDatesOrMonth(config: { startDate?: Date | string; endDate?: Date 
   return null;
 }
 
-export function TripConfigurationSet({ configuration }: TripConfigurationSetProps) {
+export function TripConfigurationSet({ configuration, hideEditButton = false }: TripConfigurationSetProps) {
   const { startDate, endDate, month, budget, numAdults, numChildren, childrenAges, rooms, travelerType } = configuration;
   const datesOrMonthLabel = formatDatesOrMonth({ startDate, endDate, month });
 
@@ -197,28 +198,30 @@ export function TripConfigurationSet({ configuration }: TripConfigurationSetProp
             </div>
           )}
 
-        <button
-          type="button"
-          className="shrink-0 inline-flex items-center gap-1.5 text-primary-600 hover:text-primary-700 font-medium text-sm"
-          aria-label="Editar configuração"
-          onClick={() => {}}
-        >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+        {!hideEditButton && (
+          <button
+            type="button"
+            className="shrink-0 inline-flex items-center gap-1.5 text-primary-600 hover:text-primary-700 font-medium text-sm"
+            aria-label="Editar configuração"
+            onClick={() => {}}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-            />
-          </svg>
-          Editar
-        </button>
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+              />
+            </svg>
+            Editar
+          </button>
+        )}
       </div>
     </div>
   );

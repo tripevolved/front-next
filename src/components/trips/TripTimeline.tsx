@@ -5,16 +5,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import useSWR from 'swr'
 import { TripsApiService } from '@/clients/trips'
-import { useAppStore } from '@/core/store'
 import type { TripListView } from '@/core/types/trip'
 import { formatCurrency } from '@/utils/helpers/currency.helper'
 import { ImageCarousel } from '@/components/common/ImageCarousel'
+import { CircleLoader } from '@/components/common/CircleLoader'
+import { EmptyOrErrorState } from '@/components/common/EmptyOrErrorState'
 import { WhatsAppDirectButton } from '@/components/WhatsAppDirectButton'
 
 const PLACEHOLDER_IMAGE = '/assets/blank-image.png'
-
-const ANNUAL_CALENDAR_WHATSAPP_MESSAGE =
-  'Olá! Gostaria de solicitar meu calendário anual de viagens (benefício Círculo Evolved).'
 
 const MONTHS: Record<string, number> = {
   jan: 1, januario: 1, january: 1,
@@ -145,19 +143,31 @@ function groupTripsByMonth(trips: TripListView[]): MonthGroup[] {
     }))
 }
 
-const ESTIMATED_STATUSES = ['NEW', 'PROPOSAL', 'MATCHED'] as const
+const ESTIMATED_STATUSES = ['NEW', 'PRE_PROPOSAL'] as const
 
 const STATUS_LABELS: Record<string, string> = {
   NEW: 'Ideia de viagem',
-  PROPOSAL: 'Veja os destinos que recomendamos',
-  MATCHED: 'Vamos construir sua jornada?',
+  PRE_PROPOSAL: 'Veja os destinos que recomendamos',
   SET: 'Veja sua proposta de viagem',
+  IN_CHECKOUT: 'Finalize seu checkout',
+  TO_HAPPEN: 'Tudo pronto',
+  ONGOING: 'Em andamento',
+  TAKEN: 'Viagem concluída',
 }
 
 function getTripHref(trip: TripListView): string | null {
   if (trip.status === 'NEW') return null
-  if (trip.status === 'PROPOSAL') return `/app/viagens/${trip.id}/pre-proposta`
-  return `/app/viagens/${trip.id}/proposta`
+
+  switch (trip.status) {
+    case 'PRE_PROPOSAL':
+      return `/app/viagens/${trip.id}/pre-proposta`
+    case 'SET':
+      return `/app/viagens/${trip.id}/proposta`
+    case 'IN_CHECKOUT':
+      return `/app/viagens/${trip.id}/checkout`
+    default:
+      return `/app/viagens/${trip.id}`
+  }
 }
 
 function TripIdeaModal({ trip, onClose }: { trip: TripListView; onClose: () => void }) {
@@ -399,17 +409,8 @@ function PlanNewTripCard() {
 
 const now = Date.now()
 
-function LockIcon({ className = '' }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-    </svg>
-  )
-}
-
 export function TripTimeline() {
   const [ideaModalTrip, setIdeaModalTrip] = useState<TripListView | null>(null)
-  const subscriptionActive = useAppStore((state) => state.travelerState?.subscription?.status === 'Active')
   const { data, error, isLoading } = useSWR('trips', () => TripsApiService.getTrips())
   const trips = data?.trips ?? []
   const sortedTrips = sortTripsByDate(trips)
@@ -423,37 +424,7 @@ export function TripTimeline() {
       <div className="mb-6">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
           <h2 className="text-xl font-semibold text-gray-900">Meu calendário de viagens</h2>
-          {subscriptionActive ? (
-            <WhatsAppDirectButton
-              message={ANNUAL_CALENDAR_WHATSAPP_MESSAGE}
-              variant="primary"
-              aria-label="Solicitar calendário anual pelo WhatsApp"
-              className="font-baloo text-sm font-semibold px-4 py-2 bg-[#25D366] text-white hover:bg-[#20bd5a] shadow-sm"
-            >
-              Solicitar calendário anual
-            </WhatsAppDirectButton>
-          ) : (
-            <button
-              type="button"
-              disabled
-              className="inline-flex items-center gap-2 font-baloo text-sm font-semibold px-4 py-2 rounded-full transition-all bg-gray-200 text-gray-500 cursor-not-allowed"
-            >
-              <LockIcon className="w-4 h-4" />
-              Solicitar calendário anual
-            </button>
-          )}
         </div>
-        {!subscriptionActive && (
-          <p className="text-sm text-secondary-600 font-comfortaa">
-            O calendário anual completo é um benefício exclusivo do Círculo Evolved — planeje o ano inteiro com uma visão clara de todas as suas viagens e tenha seu especialista dedicado ao seu lado em cada etapa.{' '}
-            <Link
-              href="/app/circulo-evolved/checkout"
-              className="text-accent-600 font-semibold hover:text-accent-700 hover:underline transition-colors"
-            >
-              Contratar o Círculo Evolved
-            </Link>
-          </p>
-        )}
       </div>
       
       {showSavings && (
@@ -477,19 +448,33 @@ export function TripTimeline() {
       )}
 
       {isLoading ? (
-        <div className="space-y-4">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="h-40 sm:h-44 rounded-xl bg-gray-100 animate-pulse" />
-          ))}
+        <div className="rounded-2xl border border-secondary-200 bg-white p-6 shadow-sm">
+          <div className="flex flex-col items-center justify-center gap-5 py-6">
+            <CircleLoader className="h-20 w-20" />
+            <div className="text-center space-y-1">
+              <p className="text-sm font-semibold text-secondary-900">Carregando suas viagens</p>
+              <p className="font-comfortaa text-xs text-secondary-600">Buscando o seu calendário de viagens.</p>
+            </div>
+          </div>
         </div>
       ) : error ? (
-        <div className="flex flex-col items-center justify-center py-12 px-4 bg-gray-50 rounded-xl">
-          <p className="text-gray-600 text-center">
-            Não foi possível carregar suas viagens. Tente novamente mais tarde.
-          </p>
-        </div>
+        <EmptyOrErrorState
+          status="error"
+          title="Não foi possível carregar suas viagens"
+          description="Tente novamente em alguns instantes."
+        />
       ) : (
         (() => {
+          if (sortedTrips.length === 0) {
+            return (
+              <EmptyOrErrorState
+                status="empty"
+                title="Nenhuma viagem por aqui ainda"
+                description="Quando você planejar uma nova viagem, ela vai aparecer neste calendário."
+              />
+            )
+          }
+
           const monthGroups = groupTripsByMonth(sortedTrips)
           type Row = { type: 'month'; group: MonthGroup } | { type: 'card'; trip: TripListView } | { type: 'planejar' }
           const rows: Row[] = []
