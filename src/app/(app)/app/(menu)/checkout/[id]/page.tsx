@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { CircleLoader } from "@/components/common/CircleLoader";
 import { CheckoutPaymentLeftColumn } from "@/components/payments/CheckoutPaymentLeftColumn";
 import { CheckoutPaymentFlow } from "@/components/payments/CheckoutPaymentFlow";
+import { CheckoutConditionsProvider } from "@/components/payments/CheckoutConditionsContext";
 
 export const metadata: Metadata = {
   title: "Checkout",
@@ -23,29 +23,43 @@ export default async function PaymentCheckoutPage({
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          <div className="lg:sticky lg:top-8">
-            <Suspense
-              fallback={
-                <div className="rounded-2xl border border-secondary-200 bg-white p-6 shadow-sm">
-                  <div className="flex flex-col items-center justify-center gap-5 py-6">
-                    <CircleLoader className="h-20 w-20" />
-                    <div className="text-center space-y-1">
-                      <p className="text-sm font-semibold text-secondary-900">Carregando checkout</p>
-                      <p className="font-comfortaa text-xs text-secondary-600">
-                        Buscando os itens e detalhes da sua viagem.
-                      </p>
+          <CheckoutConditionsProvider>
+            <div className="lg:sticky lg:top-8">
+              <Suspense
+                fallback={
+                  <div className="rounded-2xl border border-secondary-200 bg-white p-6 shadow-sm">
+                    <div className="space-y-5 animate-pulse">
+                      <div className="h-6 w-40 bg-secondary-100 rounded" />
+                      <div className="space-y-3">
+                        {[0, 1].map((i) => (
+                          <div key={i} className="rounded-2xl border border-secondary-100 bg-secondary-50 p-4">
+                            <div className="flex items-start gap-4">
+                              <div className="h-16 w-16 rounded-xl bg-secondary-100" />
+                              <div className="flex-1 space-y-2">
+                                <div className="h-4 w-2/3 bg-secondary-100 rounded" />
+                                <div className="h-3 w-5/6 bg-secondary-100 rounded" />
+                                <div className="h-3 w-1/3 bg-secondary-100 rounded" />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="rounded-2xl border border-secondary-100 bg-secondary-50 p-4 space-y-3">
+                        <div className="h-4 w-28 bg-secondary-100 rounded" />
+                        <div className="h-10 w-full bg-secondary-100 rounded-xl" />
+                      </div>
                     </div>
                   </div>
-                </div>
-              }
-            >
-              <CheckoutPaymentLeftColumn paymentId={id} />
-            </Suspense>
-          </div>
+                }
+              >
+                <CheckoutPaymentLeftColumn paymentId={id} />
+              </Suspense>
+            </div>
 
-          <div className="max-w-2xl">
-            <CheckoutPaymentFlow paymentId={id} />
-          </div>
+            <div className="max-w-2xl">
+              <CheckoutPaymentFlow paymentId={id} />
+            </div>
+          </CheckoutConditionsProvider>
         </div>
       </div>
     </div>

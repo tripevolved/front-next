@@ -1,10 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { AccommodationsApiService } from "@/clients/accommodations";
+import type { AccommodationAvailabilityConditionsRequest } from "@/clients/accommodations";
+import { PaymentsApiService } from "@/clients/payments";
+import { TripsApiService } from "@/clients/trips";
 import type { TripAccommodationItem } from "@/clients/trips/accommodations";
 import { formatPtBrDateRangeLong, parseDateOnlyToLocalDate } from "@/utils/helpers/dates.helpers";
 import { JourneyAccommodationDetailsModal } from "@/components/trips/JourneyAccommodationDetailsModal";
+import { useSWRConfig } from "swr";
 
 const PLACEHOLDER_IMAGE = "/assets/blank-image.png";
 
@@ -27,7 +33,7 @@ function formatMoneyBRL(value: number): string {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
 }
 
-function pillClass(kind: "payment" | "reservation", value: string): string {
+function pillClass(kind: "payment" | "reservation", value: PaymentStatus | ReservationStatus): string {
   if (kind === "payment") {
     if (value === "PAID") return "bg-green-50 text-green-800 border border-green-200";
     if (value === "NOT_PAID") return "bg-amber-50 text-amber-900 border border-amber-200";
@@ -42,7 +48,7 @@ function pillClass(kind: "payment" | "reservation", value: string): string {
   return "bg-secondary-50 text-secondary-800 border border-secondary-200";
 }
 
-function pillLabel(kind: "payment" | "reservation", value: string): string {
+function pillLabel(kind: "payment" | "reservation", value: PaymentStatus | ReservationStatus): string {
   if (kind === "payment") {
     if (value === "PAID") return "Paga";
     if (value === "NOT_PAID") return "Não paga";
@@ -63,6 +69,15 @@ export function JourneyAccommodationCard({
   accommodation: TripAccommodationItem;
 }) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const router = useRouter();
+  const { mutate } = useSWRConfig();
+  const [availabilityStatus, setAvailabilityStatus] = useState<
+    "idle" | "loading" | "available" | "unavailable"
+  >("idle");
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [creatingPayment, setCreatingPayment] = useState(false);
+  const [revalidating, setRevalidating] = useState(false);
+  const conditionsRequestKeyRef = useRef<string | null>(null);
   const cover = imageUrl(accommodation.coverImage) ?? PLACEHOLDER_IMAGE;
   const label = stayLabel(accommodation);
   const tags = (accommodation.tags ?? []).filter(Boolean);
@@ -72,6 +87,67 @@ export function JourneyAccommodationCard({
   const canOpenDetails = (accommodation.rooms ?? []).some(
     (r) => (r as any)?.reservationStatus === "CONFIRMED"
   );
+  const needsPayment = (accommodation.rooms ?? []).every(
+    (r) => (r as any)?.paymentStatus === "NOT_PAID"
+  );
+
+  const conditionsRequestKey = useMemo(() => {
+    if (!needsPayment) return null;
+    const accommodationUniqueName = accommodation.uniqueName;
+    const uniqueTransactionId = accommodation.uniqueTransactionId ?? null;
+    const vendor = (accommodation as any)?.vendor as string | undefined;
+    const roomRateIds = (accommodation.rooms ?? []).map((r) => r.rateId).filter(Boolean);
+    const roomRateIdsKey = roomRateIds.join(",");
+    return `${tripId}:${accommodation.id}:${accommodationUniqueName}:${uniqueTransactionId ?? ""}:${vendor ?? ""}:${roomRateIdsKey}`;
+  }, [
+    needsPayment,
+    tripId,
+    accommodation.id,
+    accommodation.uniqueName,
+    accommodation.uniqueTransactionId,
+    (accommodation as any)?.vendor,
+    (accommodation.rooms ?? []).map((r) => r.rateId).join(","),
+  ]);
+
+  useEffect(() => {
+    if (!needsPayment) {
+      setAvailabilityStatus("idle");
+      return;
+    }
+    if (!conditionsRequestKey) return;
+
+    // Avoid restarting the request on re-renders with same inputs.
+    if (conditionsRequestKeyRef.current === conditionsRequestKey) return;
+    conditionsRequestKeyRef.current = conditionsRequestKey;
+
+    const accommodationUniqueName = accommodation.uniqueName;
+    const uniqueTransactionId = accommodation.uniqueTransactionId ?? null;
+    const vendor = (accommodation as any)?.vendor as string | undefined;
+    const roomRateIds = (accommodation.rooms ?? []).map((r) => r.rateId).filter(Boolean);
+
+    if (!accommodationUniqueName || !uniqueTransactionId || !vendor || roomRateIds.length === 0) {
+      setAvailabilityStatus("unavailable");
+      return;
+    }
+
+    setAvailabilityStatus("loading");
+    const body: AccommodationAvailabilityConditionsRequest = {
+      uniqueTransactionId,
+      vendor,
+      roomRateIds,
+    };
+
+    AccommodationsApiService.postAccommodationAvailabilityConditions(accommodationUniqueName, body)
+      .then((res) => {
+        if (conditionsRequestKeyRef.current !== conditionsRequestKey) return;
+        if (Array.isArray(res?.rates) && res.rates.length > 0) setAvailabilityStatus("available");
+        else setAvailabilityStatus("unavailable");
+      })
+      .catch(() => {
+        if (conditionsRequestKeyRef.current !== conditionsRequestKey) return;
+        setAvailabilityStatus("unavailable");
+      });
+  }, [needsPayment, conditionsRequestKey, accommodation]);
 
   return (
     <div className="rounded-2xl border border-secondary-200 bg-white shadow-sm overflow-hidden">
@@ -121,9 +197,14 @@ export function JourneyAccommodationCard({
 
         {/* Right: rooms */}
         <div className="p-5 md:p-6">
-          {label ? (
-            <p className="font-baloo text-lg md:text-xl font-bold text-secondary-900">{label}</p>
-          ) : null}
+          <div className="flex justify-between items-center">
+            {label ? (
+              <p className="font-baloo text-lg md:text-xl font-bold text-secondary-900">{label}</p>
+            ) : null}
+            {amount ? (
+              <p className="font-baloo text-sm font-bold text-secondary-500">{formatMoneyBRL(amount)}</p>
+            ) : null}
+          </div>
           <h4 className="font-baloo text-base md:text-lg font-bold text-secondary-900">Quartos</h4>
           <div className="mt-4 space-y-3">
             {(accommodation.rooms ?? []).length === 0 ? (
@@ -134,8 +215,8 @@ export function JourneyAccommodationCard({
                 const adults = typeof r.adults === "number" ? r.adults : null;
                 const children = typeof r.children === "number" ? r.children : null;
                 const hasOcc = adults != null || children != null;
-                const paymentStatus = (r as any)?.paymentStatus as PaymentStatus | undefined;
-                const reservationStatus = (r as any)?.reservationStatus as ReservationStatus | undefined;
+                const paymentStatus = (r as any)?.paymentStatus as PaymentStatus | "NOT_PAID";
+                const reservationStatus = (r as any)?.reservationStatus as ReservationStatus | "PENDING";
                 const boardDescription = (r as any)?.boardDescription as string | null | undefined;
                 const cancellationPolicy = (r as any)?.cancellationPolicy as string | null | undefined;
                 const propertyTaxes = (r as any)?.propertyTaxes as number | null | undefined;
@@ -238,6 +319,72 @@ export function JourneyAccommodationCard({
               >
                 Ver detalhes &rarr;
               </button>
+            </div>
+          ) : needsPayment ? (
+            <div className="pt-5 space-y-3">
+              {availabilityStatus === "loading" ? (
+                <p className="font-comfortaa text-sm text-secondary-600">Verificando disponibilidade...</p>
+              ) : availabilityStatus === "available" ? (
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-comfortaa text-sm font-semibold text-green-700">Disponível para reserva</p>
+                  <button
+                    type="button"
+                    disabled={creatingPayment}
+                    onClick={async () => {
+                      if (creatingPayment) return;
+                      setActionError(null);
+                      setCreatingPayment(true);
+                      try {
+                        const res = await PaymentsApiService.createCheckoutPayment({
+                          tripId,
+                          items: [{ type: "ACCOMMODATION", id: accommodation.id }],
+                        });
+                        if (!res?.id) throw new Error("missing-payment-id");
+                        router.push(`/app/checkout/${encodeURIComponent(res.id)}`);
+                      } catch {
+                        setActionError("Não foi possível iniciar o checkout. Tente novamente.");
+                      } finally {
+                        setCreatingPayment(false);
+                      }
+                    }}
+                    className="font-comfortaa text-sm font-semibold text-primary-700 hover:text-primary-800 hover:underline underline-offset-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    Reservar &rarr;
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between gap-3">
+                  <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold bg-red-50 text-red-800 border border-red-200">
+                    Indisponível
+                  </span>
+                  <button
+                    type="button"
+                    disabled={revalidating}
+                    onClick={async () => {
+                      if (revalidating) return;
+                      setActionError(null);
+                      setRevalidating(true);
+                      try {
+                        const res = await TripsApiService.postTripAccommodationRevalidate(tripId, accommodation.id);
+                        if (!res?.isSuccessful) {
+                          setActionError("Não foi possível atualizar os valores. Tente novamente.");
+                        }
+                      } catch {
+                        setActionError("Não foi possível atualizar os valores. Tente novamente.");
+                      } finally {
+                        setRevalidating(false);
+                        await mutate(["trip-accommodations", tripId]);
+                      }
+                    }}
+                    className="font-comfortaa text-sm font-semibold text-accent-600 hover:text-accent-700 hover:underline underline-offset-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    Atualizar valores &rarr;
+                  </button>
+                </div>
+              )}
+              {actionError ? (
+                <p className="font-comfortaa text-xs text-red-700">{actionError}</p>
+              ) : null}
             </div>
           ) : null}
         </div>

@@ -9,8 +9,8 @@ import type { TripDetails } from "@/core/types";
 import type { TripAccommodationItem } from "@/clients/trips/accommodations";
 import type { PaymentStatusResponse, CheckoutPaymentItemResponse } from "@/clients/payments/payments";
 import type { AccommodationAvailabilityConditionsResponse } from "@/core/types/accommodations";
-import { CircleLoader } from "@/components/common/CircleLoader";
 import Link from "next/link";
+import { useCheckoutConditions } from "@/components/payments/CheckoutConditionsContext";
 import {
   CIRCULO_INCLUDED_ESSENTIAL,
   CIRCULO_INCLUDED_TOTAL,
@@ -124,6 +124,7 @@ function subscriptionStaticCopy(type: CheckoutPaymentItemResponse["type"]) {
 }
 
 export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) {
+  const { setStatus } = useCheckoutConditions();
   const [payment, setPayment] = useState<PaymentStatusResponse | null>(null);
   const [trip, setTrip] = useState<TripDetails | null>(null);
   const [accommodationsById, setAccommodationsById] = useState<Record<string, TripAccommodationItem | null>>({});
@@ -220,7 +221,12 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
             !!acc?.vendor &&
             Array.isArray(acc?.rooms) &&
             acc.rooms.map((r) => r.rateId).filter(Boolean).length > 0;
-          if (canFetch) next[accId] = true;
+          if (canFetch) {
+            next[accId] = true;
+            setStatus(accId, "loading");
+          } else {
+            setStatus(accId, "fail");
+          }
         }
         return next;
       });
@@ -233,8 +239,8 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
           if (roomRateIds.length === 0) return [accId, undefined] as const;
           try {
             const data = await AccommodationsApiService.postAccommodationAvailabilityConditions(acc.uniqueName, {
-              uniqueTransactionId: acc.uniqueTransactionId,
-              vendor: acc.vendor,
+              uniqueTransactionId: acc.uniqueTransactionId as string,
+              vendor: acc.vendor as string,
               roomRateIds,
             });
             return [accId, data] as const;
@@ -251,6 +257,12 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
         for (const [accId] of results) next[accId] = false;
         return next;
       });
+
+      for (const [accId, data] of results) {
+        if (data === undefined) continue;
+        const ok = data != null && Array.isArray((data as any)?.rates) && ((data as any)?.rates?.length ?? 0) > 0;
+        setStatus(accId, ok ? "ok" : "fail");
+      }
     };
 
     run();
@@ -262,13 +274,25 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
   if (loading) {
     return (
       <div className="rounded-2xl border border-secondary-200 bg-white p-6 shadow-sm">
-        <div className="flex flex-col items-center justify-center gap-5 py-6">
-          <CircleLoader className="h-20 w-20" />
-          <div className="text-center space-y-1">
-            <p className="text-sm font-semibold text-secondary-900">Carregando checkout</p>
-            <p className="font-comfortaa text-xs text-secondary-600">
-              Buscando os itens e detalhes da sua viagem.
-            </p>
+        <div className="space-y-5 animate-pulse">
+          <div className="h-6 w-40 bg-secondary-100 rounded" />
+          <div className="space-y-3">
+            {[0, 1].map((i) => (
+              <div key={i} className="rounded-2xl border border-secondary-100 bg-secondary-50 p-4">
+                <div className="flex items-start gap-4">
+                  <div className="h-16 w-16 rounded-xl bg-secondary-100" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 w-2/3 bg-secondary-100 rounded" />
+                    <div className="h-3 w-5/6 bg-secondary-100 rounded" />
+                    <div className="h-3 w-1/3 bg-secondary-100 rounded" />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="rounded-2xl border border-secondary-100 bg-secondary-50 p-4 space-y-3">
+            <div className="h-4 w-28 bg-secondary-100 rounded" />
+            <div className="h-10 w-full bg-secondary-100 rounded-xl" />
           </div>
         </div>
       </div>

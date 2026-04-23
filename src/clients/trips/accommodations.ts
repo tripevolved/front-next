@@ -143,3 +143,21 @@ export const postTripAccommodationCreate = async (
   return ApiRequest.post<CreateTripAccommodationResponse>(route, body);
 };
 
+export type TripAccommodationRevalidateResponse = {
+  isSuccessful: boolean;
+  oldAmount?: number | null;
+  newAmount?: number | null;
+};
+
+/**
+ * POST /trips/{tripId}/accommodations/{tripAccommodationId}/revalidate
+ * Revalidates the accommodation values and availability.
+ */
+export const postTripAccommodationRevalidate = async (
+  tripId: string,
+  tripAccommodationId: string
+): Promise<TripAccommodationRevalidateResponse> => {
+  const route = `trips/${tripId}/accommodations/${tripAccommodationId}/revalidate`;
+  return ApiRequest.post<TripAccommodationRevalidateResponse>(route, undefined);
+};
+

@@ -81,12 +81,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     trip = null;
   }
 
-  const title = trip?.title ? `${trip.title}` : "Viagem";
-  const destination = trip?.destination ? ` · ${trip.destination}` : "";
-
+  const title = trip?.title ? `${trip.title} - Trip Evolved` : "Viagem - Trip Evolved";
   return {
     title,
-    description: trip?.title ? `Acompanhe os detalhes da sua viagem${destination}.` : "Acompanhe os detalhes da sua viagem.",
+    description: trip?.title ? `Acompanhe os detalhes da sua viagem${trip.destination ? ` · ${trip.destination}` : ""}.` : "Acompanhe os detalhes da sua viagem.",
   };
 }
 

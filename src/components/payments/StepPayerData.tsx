@@ -55,7 +55,9 @@ export function StepPayerData({
   isSaving,
   isLoadingPayer,
   travelerEmail,
-}: PagamentoStepProps) {
+  nextDisabled,
+  nextDisabledReason,
+}: PagamentoStepProps & { nextDisabled?: boolean; nextDisabledReason?: string | null }) {
   const { payer } = payload;
   const [isLoadingCep, setIsLoadingCep] = useState(false);
   const lastFetchedCep = useRef<string>("");
@@ -74,6 +76,9 @@ export function StepPayerData({
   };
 
   const postalCodeDigits = payer.address.postalCode.replace(/\D/g, "");
+  const shouldShowCepLookupHint =
+    isLoadingCep &&
+    !(payer.address.address?.trim() || payer.address.neighborhood?.trim() || payer.address.city?.trim() || payer.address.stateProvince?.trim());
 
   useEffect(() => {
     if (postalCodeDigits.length !== 8) {
@@ -296,7 +301,7 @@ export function StepPayerData({
                   className="w-full px-3 py-2 border border-secondary-200 rounded-lg font-comfortaa text-secondary-900 focus:ring-2 focus:ring-accent-500 focus:border-accent-500"
                   placeholder="00000-000"
                 />
-                {isLoadingCep && (
+                {shouldShowCepLookupHint && (
                   <p className="font-comfortaa text-xs text-secondary-500 mt-1">Buscando endereço…</p>
                 )}
               </div>
@@ -420,12 +425,16 @@ export function StepPayerData({
           )}
           <button
             type="submit"
-            disabled={isSaving}
+            disabled={isSaving || nextDisabled}
             className="font-baloo bg-accent-500 text-secondary-900 px-6 py-2 rounded-full font-semibold hover:bg-accent-600 disabled:opacity-60 transition-all"
           >
             {isSaving ? "Salvando…" : "Continuar"}
           </button>
         </div>
+
+        {nextDisabled && nextDisabledReason ? (
+          <p className="mt-3 font-comfortaa text-xs text-secondary-600">{nextDisabledReason}</p>
+        ) : null}
       </form>
     </section>
   );

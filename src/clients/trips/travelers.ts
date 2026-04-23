@@ -29,3 +29,12 @@ export const postTripTravelers = async (tripId: string, body: SetTripTravelersRe
   await ApiRequest.post(route, body);
 };
 
+/**
+ * GET /trips/{tripId}/travelers
+ * Returns the same model used by POST.
+ */
+export const getTripTravelers = async (tripId: string): Promise<SetTripTravelersRequest> => {
+  const route = `trips/${tripId}/travelers`;
+  return ApiRequest.get<SetTripTravelersRequest>(route);
+};
+

@@ -27,7 +27,7 @@ import {
 import { StepTripTravelers } from "@/components/payments/StepTripTravelers";
 import { StepOnBookingPreReservation } from "@/components/payments/StepOnBookingPreReservation";
 import type { TripTravelerInput } from "@/clients/trips/travelers";
-import { CircleLoader } from "@/components/common/CircleLoader";
+import { useCheckoutConditions } from "@/components/payments/CheckoutConditionsContext";
 
 function formatCurrencyBRL(value: number): string {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
@@ -152,6 +152,7 @@ function checkoutPayerToTripPayer(p: CheckoutPayerData) {
 export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
   const travelerId = useAppStore((s) => s.travelerState?.id ?? "");
   const travelerEmail = useAppStore((s) => s.travelerState?.email ?? "");
+  const { statusByTripAccommodationId } = useCheckoutConditions();
 
   const [payment, setPayment] = useState<PaymentStatusResponse | null>(null);
   const [trip, setTrip] = useState<TripDetails | null>(null);
@@ -174,6 +175,7 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
   const [travelers, setTravelersState] = useState<TripTravelerInput[]>([]);
   const [savingTravelers, setSavingTravelers] = useState(false);
   const [saveTravelersError, setSaveTravelersError] = useState<string | null>(null);
+  const travelersLoadedTripIdRef = useRef<string | null>(null);
 
   /** When ON_BOOKING follows REGULAR, payment method + PIX/card share one step (“Forma de pagamento”). */
   const [regularCheckoutPhase, setRegularCheckoutPhase] = useState<"method" | "pay">("method");
@@ -358,6 +360,11 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
     const tripId = payment?.tripId ?? "";
     const tripAccommodationId = onBookingPrimaryAccommodationId;
     if (!tripId || !tripAccommodationId) return;
+    // Fetch ON_BOOKING payment conditions only when the user reaches the
+    // ON_BOOKING conditions step (right after pré-reserva). This is step 4
+    // in the UI for on-booking flows.
+    if (stepIndex !== onBookingStepStartIdx + 1) return;
+    if (onBookingPhase !== "select") return;
 
     onBookingConditionsSeqRef.current += 1;
     const seq = onBookingConditionsSeqRef.current;
@@ -393,7 +400,7 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
     };
 
     void run();
-  }, [payment?.tripId, onBookingPrimaryAccommodationId]);
+  }, [payment?.tripId, onBookingPrimaryAccommodationId, stepIndex, onBookingStepStartIdx, onBookingPhase]);
 
   const selectedOnBookingCondition = useMemo(() => {
     if (!onBookingConditions || onBookingPaymentConditionId == null) return null;
@@ -512,6 +519,39 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
     }
   };
 
+  // Preload travelers from GET /trips/{tripId}/travelers when entering the travelers step.
+  useEffect(() => {
+    if (travelersStepIdx < 0) return;
+    if (stepIndex !== travelersStepIdx) return;
+    const tripId = payment?.tripId ?? "";
+    if (!tripId) return;
+    if (travelersLoadedTripIdRef.current === tripId) return;
+
+    let cancelled = false;
+    TripsApiService.getTripTravelers(tripId)
+      .then((res) => {
+        if (cancelled) return;
+        const incoming = Array.isArray(res?.travelers) ? res.travelers : [];
+        if (incoming.length > 0) {
+          // API returns birthDate as ISO (YYYY-MM-DD); the form expects DD/MM/YYYY.
+          setTravelersState(
+            incoming.map((t) => ({
+              ...t,
+              birthDate: formatIsoToBrDate((t as any)?.birthDate ?? ""),
+            }))
+          );
+          travelersLoadedTripIdRef.current = tripId;
+        }
+      })
+      .catch(() => {
+        // Silent fail: form will stay empty and user can fill manually.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [stepIndex, travelersStepIdx, payment?.tripId]);
+
   const savePaymentMethodAndNext = async () => {
     setSaveError(null);
     setIsSaving(true);
@@ -619,11 +659,40 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
     pixCheckoutPaymentId: paymentId,
   };
 
+  const accommodationIdsInPayment = useMemo(() => {
+    const items = (payment?.items ?? []).filter((i) => i.type === "ACCOMMODATION");
+    return Array.from(new Set(items.map((i) => i.domainId).filter(Boolean)));
+  }, [payment?.items]);
+
+  const accommodationsGate = useMemo(() => {
+    if (accommodationIdsInPayment.length === 0) return { isBlocked: false, reason: null as string | null };
+    let anyLoading = false;
+    let anyFail = false;
+    for (const id of accommodationIdsInPayment) {
+      const st = statusByTripAccommodationId[id] ?? "idle";
+      if (st === "loading" || st === "idle") anyLoading = true;
+      if (st === "fail") anyFail = true;
+    }
+    if (anyFail) return { isBlocked: true, reason: "Uma das hospedagens não está mais disponível para reserva." };
+    if (anyLoading) return { isBlocked: true, reason: "Verificando disponibilidade das hospedagens…" };
+    return { isBlocked: false, reason: null };
+  }, [accommodationIdsInPayment, statusByTripAccommodationId]);
+
   if (loading) {
     return (
       <div className="rounded-2xl border border-secondary-200 bg-white p-6 shadow-sm">
-        <div className="flex items-center justify-center py-6">
-          <CircleLoader className="h-14 w-14" />
+        <div className="space-y-5 animate-pulse">
+          <div className="h-6 w-40 bg-secondary-100 rounded" />
+          <div className="space-y-3">
+            <div className="h-3 w-full bg-secondary-100 rounded" />
+            <div className="h-3 w-5/6 bg-secondary-100 rounded" />
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="h-12 rounded-xl bg-secondary-100" />
+            ))}
+          </div>
+          <div className="h-10 w-full bg-secondary-100 rounded-xl" />
         </div>
       </div>
     );
@@ -646,13 +715,36 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
         progress={progress}
       />
 
+      {accommodationsGate.isBlocked && accommodationsGate.reason && (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+          <p className="font-comfortaa text-sm text-amber-900">{accommodationsGate.reason}</p>
+          {payment?.tripId ? (
+            <div className="pt-3">
+              <Link
+                href={`/app/viagens/${encodeURIComponent(payment.tripId)}`}
+                className="font-comfortaa text-sm font-semibold text-amber-900 hover:underline underline-offset-2"
+              >
+                Voltar para a viagem &rarr;
+              </Link>
+            </div>
+          ) : null}
+        </div>
+      )}
+
       {saveError ? (
         <div className="p-4 bg-red-50 border border-red-200 rounded-xl font-comfortaa text-sm text-red-800" role="alert">
           {saveError}
         </div>
       ) : null}
 
-      {stepIndex === payerStepIdx && <StepPayerData {...stepProps} onNext={savePayerAndNext} />}
+      {stepIndex === payerStepIdx && (
+        <StepPayerData
+          {...stepProps}
+          onNext={savePayerAndNext}
+          nextDisabled={accommodationsGate.isBlocked}
+          nextDisabledReason={accommodationsGate.reason}
+        />
+      )}
 
       {hasAccommodationItems && stepIndex === travelersStepIdx && (
         <>
@@ -779,10 +871,10 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
               </div>
 
               {onBookingConditionsLoading ? (
-                <div className="py-4">
-                  <div className="flex items-center justify-center">
-                    <CircleLoader className="h-12 w-12" />
-                  </div>
+                <div className="py-2 animate-pulse space-y-3">
+                  {[0, 1, 2].map((i) => (
+                    <div key={i} className="h-14 rounded-xl bg-secondary-100" />
+                  ))}
                 </div>
               ) : onBookingConditionsError ? (
                 <div className="p-4 bg-red-50 border border-red-200 rounded-xl font-comfortaa text-sm text-red-800" role="alert">
