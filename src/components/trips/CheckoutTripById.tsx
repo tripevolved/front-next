@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -146,6 +146,12 @@ export function CheckoutTripById({
   const [creatingPayment, setCreatingPayment] = useState(false);
   const [createPaymentError, setCreatePaymentError] = useState<string | null>(null);
   const creatingPaymentRef = useRef(false);
+  const [showCompletedAccommodations, setShowCompletedAccommodations] = useState(false);
+  const [revalidatingAccommodationId, setRevalidatingAccommodationId] = useState<string | null>(null);
+  const [deletingAccommodationId, setDeletingAccommodationId] = useState<string | null>(null);
+  const [accommodationActionErrorsById, setAccommodationActionErrorsById] = useState<Record<string, string>>(
+    {}
+  );
 
   const subscription = useAppStore((s) => s.travelerState?.subscription);
   const isCirculoEvolvedMember = subscription?.status === "Active";
@@ -156,6 +162,41 @@ export function CheckoutTripById({
     if (!start || !end) return null;
     return formatTripDateRangePtBR(start, end);
   }, [trip]);
+
+  const accommodationGroups = useMemo(() => {
+    const list = items ?? [];
+    const isPaidAndReserved = (a: TripAccommodationItem) => {
+      const rooms = a.rooms ?? [];
+      if (rooms.length === 0) return false;
+      return rooms.every(
+        (r) => (r as any)?.paymentStatus === "PAID" && (r as any)?.reservationStatus === "CONFIRMED"
+      );
+    };
+    const completed = list.map((a, idx) => ({ a, idx })).filter(({ a }) => isPaidAndReserved(a));
+    const pending = list.map((a, idx) => ({ a, idx })).filter(({ a }) => !isPaidAndReserved(a));
+    return { completed, pending };
+  }, [items]);
+
+  const reloadTripAccommodations = useCallback(async () => {
+    const accommodations = await TripsApiService.getTripAccommodations(tripId);
+    setItems(accommodations);
+    setConditionsByIdx(new Array(accommodations.length).fill(undefined));
+    setConditionsLoadingByIdx(new Array(accommodations.length).fill(false));
+  }, [tripId]);
+
+  const reloadTripPrice = useCallback(async () => {
+    setPriceLoading(true);
+    setPriceError(null);
+    try {
+      const data = await TripsApiService.postTripPrice(tripId);
+      setPriceData(data);
+      setPriceError(data?.hasError ? data?.errorMessage ?? "Não foi possível obter o valor." : null);
+    } catch {
+      setPriceError("Não foi possível obter o valor. Tente novamente.");
+    } finally {
+      setPriceLoading(false);
+    }
+  }, [tripId]);
 
   useEffect(() => {
     let cancelled = false;
@@ -193,10 +234,19 @@ export function CheckoutTripById({
 
     let cancelled = false;
 
+    const isPaidAndReserved = (a: TripAccommodationItem) => {
+      const rooms = a.rooms ?? [];
+      if (rooms.length === 0) return false;
+      return rooms.every(
+        (r) => (r as any)?.paymentStatus === "PAID" && (r as any)?.reservationStatus === "CONFIRMED"
+      );
+    };
+
     const loadConditions = async () => {
       // mark loading for items that can fetch
       setConditionsLoadingByIdx((prev) => {
         const next = items.map((a, idx) => {
+          if (isPaidAndReserved(a)) return false;
           const uniqueTransactionId = a.uniqueTransactionId ?? null;
           const roomRateIds = a.rooms.map((r) => r.rateId).filter(Boolean);
           const canFetch = !!uniqueTransactionId && !!a.uniqueName && !!a.vendor && roomRateIds.length > 0;
@@ -207,6 +257,7 @@ export function CheckoutTripById({
 
       const results = await Promise.all(
         items.map(async (a) => {
+          if (isPaidAndReserved(a)) return undefined;
           const uniqueTransactionId = a.uniqueTransactionId ?? null;
           const roomRateIds = a.rooms.map((r) => r.rateId).filter(Boolean);
 
@@ -314,12 +365,16 @@ export function CheckoutTripById({
     setCreatingPayment(true);
     try {
       const accommodationItems: CheckoutPaymentItem[] = (items ?? [])
+        .filter((a) => {
+          const rooms = a?.rooms ?? [];
+          if (rooms.length === 0) return true;
+          const statuses = rooms.map((r) => (r as any)?.paymentStatus).filter(Boolean) as string[];
+          // Only pay for accommodations that still have at least one NOT_PAID room.
+          return statuses.length === 0 || statuses.includes("NOT_PAID");
+        })
         .map((a) => {
           if (!a?.id) return null;
-          return {
-            type: "ACCOMMODATION",
-            id: a.id,
-          } as const;
+          return { type: "ACCOMMODATION", id: a.id } as const;
         })
         .filter(Boolean) as CheckoutPaymentItem[];
 
@@ -352,8 +407,8 @@ export function CheckoutTripById({
   };
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-8">
-      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+    <div className="mx-auto w-full md:max-w-5xl px-1.5 sm:px-2 py-6 sm:py-8">
+      <div className="rounded-2xl border border-gray-200 bg-white p-2 sm:p-6 shadow-sm">
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{trip.title}</h1>
           {trip.destination ? (
@@ -369,10 +424,108 @@ export function CheckoutTripById({
         </div>
       </div>
 
-      <div className="mt-8 space-y-6">
+      <div className="mt-6 sm:mt-8 space-y-4 sm:space-y-6">
         <h2 className="text-xl font-bold text-gray-900">Hospedagens</h2>
 
-        {(items ?? []).map((a, idx) => {
+        {accommodationGroups.completed.length > 0 ? (
+          <div className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setShowCompletedAccommodations((v) => !v)}
+              className="w-full flex items-center justify-between gap-3 p-4 sm:p-5 hover:bg-gray-50 transition-colors"
+            >
+              <div className="min-w-0 text-left">
+                <p className="font-baloo text-lg font-bold text-gray-900">Hospedagens já reservadas</p>
+                <p className="text-sm text-gray-600">
+                  {accommodationGroups.completed.length === 1
+                    ? "1 item pago e confirmado"
+                    : `${accommodationGroups.completed.length} itens pagos e confirmados`}
+                </p>
+              </div>
+              <span className="text-sm font-semibold text-gray-700">
+                {showCompletedAccommodations ? "Ocultar" : "Mostrar"} →
+              </span>
+            </button>
+
+            {showCompletedAccommodations ? (
+              <div className="border-t border-gray-100 p-3 sm:p-5 space-y-3 sm:space-y-4 bg-white">
+                {accommodationGroups.completed.map(({ a }) => {
+                  const cover = imageUrl(a.coverImage) ?? "/assets/blank-image.png";
+                  const tags = (a.tags ?? []).filter(Boolean).slice(0, 6);
+                  const rec = (a.recommendedFor ?? []).filter(Boolean).slice(0, 6);
+                  return (
+                    <div
+                      key={`completed:${a.id}`}
+                      className="rounded-2xl border border-gray-200 bg-white overflow-hidden"
+                    >
+                      <div className="md:grid" style={{ gridTemplateColumns: "32% 68%" }}>
+                        <div className="md:border-r md:border-gray-100">
+                          <div className="relative w-full h-40 md:h-full bg-gray-100">
+                            <Image
+                              src={cover}
+                              alt={a.name}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 100vw, 320px"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="p-3 sm:p-5 md:p-6 min-w-0">
+                          <h3 className="text-lg font-bold text-gray-900">{a.name}</h3>
+                          <p className="mt-1 text-sm text-gray-600">{a.fullAddress}</p>
+                          {tags.length > 0 || rec.length > 0 ? (
+                            <div className="mt-3 flex flex-wrap gap-2">
+                              {tags.map((t, i) => (
+                                <span
+                                  key={`tag:${a.id}:${i}`}
+                                  className="bg-primary-500 text-white px-3 py-1 rounded-full text-xs font-semibold"
+                                >
+                                  {t}
+                                </span>
+                              ))}
+                              {rec.map((t, i) => (
+                                <span
+                                  key={`rec:${a.id}:${i}`}
+                                  className="bg-accent-500 text-white px-3 py-1 rounded-full text-xs font-semibold"
+                                >
+                                  {t}
+                                </span>
+                              ))}
+                            </div>
+                          ) : null}
+
+                          <div className="mt-3 space-y-2">
+                            {(a.rooms ?? []).map((r) => {
+                              const adults = typeof (r as any)?.adults === "number" ? (r as any).adults : null;
+                              const children =
+                                typeof (r as any)?.children === "number" ? (r as any).children : null;
+                              const occupancyLabel =
+                                adults == null && children == null
+                                  ? "Ocupação indisponível"
+                                  : `${adults != null ? `${adults} adulto${adults === 1 ? "" : "s"}` : ""}${
+                                      adults != null && children != null ? " · " : ""
+                                    }${children != null ? `${children} criança${children === 1 ? "" : "s"}` : ""}`;
+                              return (
+                                <p key={`room:${a.id}:${r.rateId}`} className="text-sm text-gray-800">
+                                  <span className="font-semibold text-gray-900">{r.name}</span>
+                                  <span className="text-gray-500">{" "}—{" "}</span>
+                                  <span className="tabular-nums text-gray-700">{occupancyLabel}</span>
+                                </p>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+
+        {accommodationGroups.pending.map(({ a, idx }) => {
           const cond = conditionsByIdx[idx];
           const condByRateId = new Map((cond?.rates ?? []).map((r) => [r.roomRateId || r.id, r]));
           const uniqueTransactionId = a.uniqueTransactionId ?? null;
@@ -413,7 +566,7 @@ export function CheckoutTripById({
                     ) : null}
                   </div>
 
-                  <div className="p-5">
+                  <div className="p-3 sm:p-5">
                     <h3 className="text-lg font-bold text-gray-900">{a.name}</h3>
                     <p className="mt-1 text-sm text-gray-600">{a.fullAddress}</p>
                     {((Array.isArray((a as any)?.tags) && (a as any).tags.length > 0) ||
@@ -446,7 +599,7 @@ export function CheckoutTripById({
                 </div>
 
                 {/* Right column: conditions + rooms */}
-                <div className="min-w-0 border-t border-gray-100 p-5 space-y-3 md:border-t-0 overflow-hidden">
+                <div className="min-w-0 border-t border-gray-100 p-3 sm:p-5 space-y-3 md:border-t-0 overflow-hidden">
                 {uniqueTransactionId && isLoadingConditions ? (
                   <div className="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3">
                     <div className="flex items-start gap-3">
@@ -490,12 +643,81 @@ export function CheckoutTripById({
                         ? "A transação desta hospedagem passou da validade. Volte para a hospedagem e refaça a reserva."
                         : "A tarifa que você escolheu não está disponível no momento. Volte para a hospedagem e tente reservar novamente."}
                     </p>
-                    <a
-                      href={hospedagemPath(a.uniqueName)}
-                      className="mt-2 inline-flex font-semibold underline underline-offset-2 hover:opacity-90"
-                    >
-                      Ir para a hospedagem
-                    </a>
+                    {accommodationActionErrorsById[a.id] ? (
+                      <p className="mt-2 text-xs font-semibold text-red-700">
+                        {accommodationActionErrorsById[a.id]}
+                      </p>
+                    ) : null}
+
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        disabled={revalidatingAccommodationId === a.id || deletingAccommodationId === a.id}
+                        className="inline-flex items-center justify-center rounded-full border border-amber-300 bg-white px-4 py-2 text-xs font-semibold text-amber-900 hover:bg-amber-50 transition-colors disabled:cursor-not-allowed disabled:opacity-60"
+                        onClick={async () => {
+                          setAccommodationActionErrorsById((prev) => {
+                            const next = { ...prev };
+                            delete next[a.id];
+                            return next;
+                          });
+                          setRevalidatingAccommodationId(a.id);
+                          try {
+                            const res = await TripsApiService.postTripAccommodationRevalidate(tripId, a.id);
+                            if (!res?.isSuccessful) {
+                              setAccommodationActionErrorsById((prev) => ({
+                                ...prev,
+                                [a.id]: "Não foi possível atualizar a hospedagem. Tente novamente.",
+                              }));
+                            }
+                          } catch {
+                            setAccommodationActionErrorsById((prev) => ({
+                              ...prev,
+                              [a.id]: "Não foi possível atualizar a hospedagem. Tente novamente.",
+                            }));
+                          } finally {
+                            setRevalidatingAccommodationId(null);
+                            await reloadTripAccommodations();
+                            await reloadTripPrice();
+                          }
+                        }}
+                      >
+                        {revalidatingAccommodationId === a.id ? "Atualizando…" : "Atualizar"}
+                      </button>
+
+                      <button
+                        type="button"
+                        disabled={revalidatingAccommodationId === a.id || deletingAccommodationId === a.id}
+                        className="inline-flex items-center justify-center rounded-full border border-red-200 bg-white px-4 py-2 text-xs font-semibold text-red-700 hover:bg-red-50 transition-colors disabled:cursor-not-allowed disabled:opacity-60"
+                        onClick={async () => {
+                          setAccommodationActionErrorsById((prev) => {
+                            const next = { ...prev };
+                            delete next[a.id];
+                            return next;
+                          });
+                          setDeletingAccommodationId(a.id);
+                          try {
+                            const res = await TripsApiService.deleteTripAccommodation(tripId, a.id);
+                            if (!res?.isDeleted) {
+                              setAccommodationActionErrorsById((prev) => ({
+                                ...prev,
+                                [a.id]: res?.message?.trim() || "Não foi possível excluir a hospedagem.",
+                              }));
+                            }
+                          } catch {
+                            setAccommodationActionErrorsById((prev) => ({
+                              ...prev,
+                              [a.id]: "Não foi possível excluir a hospedagem. Tente novamente.",
+                            }));
+                          } finally {
+                            setDeletingAccommodationId(null);
+                            await reloadTripAccommodations();
+                            await reloadTripPrice();
+                          }
+                        }}
+                      >
+                        {deletingAccommodationId === a.id ? "Excluindo…" : "Excluir"}
+                      </button>
+                    </div>
                   </div>
                 ) : null}
 
@@ -682,14 +904,39 @@ export function CheckoutTripById({
             <div className="space-y-3">
               <p className="text-sm font-semibold leading-relaxed text-accent-600">
                 Você está evitando comissões nessa viagem e economizando{" "}
-                <span className="tabular-nums">{formatMoneyPtBR(priceData.savings, "BRL")}</span>.
+                <span className="tabular-nums">
+                  {formatMoneyPtBR(
+                    Math.max(0, (priceData.savings || 0) + ((priceData.paidSavings as any) || 0)),
+                    "BRL"
+                  )}
+                </span>
+                .
               </p>
               <div className="flex items-baseline justify-between gap-4">
                 <p className="text-sm font-semibold text-gray-900">Total para o Círculo Evolved</p>
                 <p className="text-lg font-bold text-gray-900 tabular-nums">
-                  {formatMoneyPtBR(priceData.price, "BRL")}
+                  {formatMoneyPtBR(
+                    Math.max(0, (priceData.price || 0) + ((priceData.paidAmount as any) || 0)),
+                    "BRL"
+                  )}
                 </p>
               </div>
+              {typeof priceData.paidAmount === "number" && priceData.paidAmount > 0 ? (
+                <div className="flex items-baseline justify-between gap-4">
+                  <p className="text-sm font-semibold text-gray-700">Já pago</p>
+                  <p className="text-sm font-bold text-gray-900 tabular-nums">
+                    {formatMoneyPtBR(priceData.paidAmount, "BRL")}
+                  </p>
+                </div>
+              ) : null}
+              {typeof priceData.price === "number" ? (
+                <div className="flex items-baseline justify-between gap-4">
+                  <p className="text-sm font-semibold text-gray-900">Falta pagar</p>
+                  <p className="text-lg font-bold text-primary-700 tabular-nums">
+                    {formatMoneyPtBR(Math.max(0, priceData.price || 0), "BRL")}
+                  </p>
+                </div>
+              ) : null}
             </div>
           ) : (
             <p className="text-sm text-gray-600">Valor indisponível.</p>
@@ -711,7 +958,7 @@ export function CheckoutTripById({
                     createPaymentAndGo({ includeSubscription: false });
                   }}
                 >
-                  {creatingPayment ? "Iniciando pagamento…" : "Reservar e ir ao pagamento"}
+                  {creatingPayment ? "Iniciando pagamento…" : "Finalizar reserva"}
                 </button>
               ) : (
                 <div className="space-y-4">

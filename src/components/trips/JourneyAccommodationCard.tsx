@@ -353,33 +353,58 @@ export function JourneyAccommodationCard({
                   </button>
                 </div>
               ) : (
-                <div className="flex items-center justify-between gap-3">
+                <div className="flex flex-wrap items-center justify-between gap-3">
                   <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold bg-red-50 text-red-800 border border-red-200">
                     Indisponível
                   </span>
-                  <button
-                    type="button"
-                    disabled={revalidating}
-                    onClick={async () => {
-                      if (revalidating) return;
-                      setActionError(null);
-                      setRevalidating(true);
-                      try {
-                        const res = await TripsApiService.postTripAccommodationRevalidate(tripId, accommodation.id);
-                        if (!res?.isSuccessful) {
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      disabled={revalidating}
+                      onClick={async () => {
+                        if (revalidating) return;
+                        setActionError(null);
+                        setRevalidating(true);
+                        try {
+                          const res = await TripsApiService.postTripAccommodationRevalidate(tripId, accommodation.id);
+                          if (!res?.isSuccessful) {
+                            setActionError("Não foi possível atualizar os valores. Tente novamente.");
+                          }
+                        } catch {
                           setActionError("Não foi possível atualizar os valores. Tente novamente.");
+                        } finally {
+                          setRevalidating(false);
+                          await mutate(["trip-accommodations", tripId]);
                         }
-                      } catch {
-                        setActionError("Não foi possível atualizar os valores. Tente novamente.");
-                      } finally {
-                        setRevalidating(false);
-                        await mutate(["trip-accommodations", tripId]);
-                      }
-                    }}
-                    className="font-comfortaa text-sm font-semibold text-accent-600 hover:text-accent-700 hover:underline underline-offset-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-                  >
-                    Atualizar valores &rarr;
-                  </button>
+                      }}
+                      className="font-comfortaa text-sm font-semibold text-accent-600 hover:text-accent-700 hover:underline underline-offset-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      Atualizar valores &rarr;
+                    </button>
+                    <button
+                      type="button"
+                      disabled={revalidating}
+                      onClick={async () => {
+                        if (revalidating) return;
+                        setActionError(null);
+                        setRevalidating(true);
+                        try {
+                          const res = await TripsApiService.deleteTripAccommodation(tripId, accommodation.id);
+                          if (!res?.isDeleted) {
+                            setActionError(res?.message?.trim() || "Não foi possível cancelar a hospedagem.");
+                          }
+                        } catch {
+                          setActionError("Não foi possível cancelar a hospedagem. Tente novamente.");
+                        } finally {
+                          setRevalidating(false);
+                          await mutate(["trip-accommodations", tripId]);
+                        }
+                      }}
+                      className="font-comfortaa text-sm font-semibold text-red-700 hover:text-red-800 hover:underline underline-offset-2 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      Cancelar &rarr;
+                    </button>
+                  </div>
                 </div>
               )}
               {actionError ? (

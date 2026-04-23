@@ -53,6 +53,28 @@ function imageUrl(img?: { url: string } | null): string | null {
   return u ? u : null;
 }
 
+function asDate(value: unknown): Date | null {
+  if (value == null) return null;
+  if (value instanceof Date) return Number.isNaN(value.getTime()) ? null : value;
+  if (typeof value === "string" && value.trim() !== "") {
+    const m = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) {
+      const y = Number(m[1]);
+      const mo = Number(m[2]);
+      const d = Number(m[3]);
+      const local = new Date(y, mo - 1, d);
+      return Number.isNaN(local.getTime()) ? null : local;
+    }
+    const d = new Date(value);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+  if (typeof value === "number" && Number.isFinite(value)) {
+    const d = new Date(value);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+  return null;
+}
+
 function getAmenityIconPath(iconName: string | undefined): string | null {
   if (!iconName) return null;
   return `/assets/amenities/${iconName}.svg`;
@@ -1137,7 +1159,25 @@ export function AddAccommodationDrawer({
                                 setCheckoutPaymentError(null);
                                 setCreatingCheckoutPayment(false);
 
-                                // Keep list fresh for the trip page even before the drawer closes.
+                                // Update trip date range based on accommodations (min start, max end).
+                                try {
+                                  const tripAccs = await TripsApiService.getTripAccommodations(tripId);
+                                  const dates = (tripAccs ?? [])
+                                    .flatMap((t) => [asDate((t as any)?.startDate), asDate((t as any)?.endDate)])
+                                    .filter(Boolean) as Date[];
+                                  if (dates.length >= 2) {
+                                    const minStart = new Date(Math.min(...dates.map((d) => d.getTime())));
+                                    const maxEnd = new Date(Math.max(...dates.map((d) => d.getTime())));
+                                    await TripsApiService.putTripConfiguration(tripId, {
+                                      startDate: toDateOnlyString(minStart),
+                                      endDate: toDateOnlyString(maxEnd),
+                                    });
+                                  }
+                                } catch {
+                                  // Best-effort: don't block the flow if configuration update fails.
+                                }
+
+                                // Keep list/date fresh for the trip page even before the drawer closes.
                                 await onTripAccommodationsChanged?.();
 
                                 setStep(4);

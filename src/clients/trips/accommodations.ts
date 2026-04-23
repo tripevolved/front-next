@@ -149,6 +149,12 @@ export type TripAccommodationRevalidateResponse = {
   newAmount?: number | null;
 };
 
+export type TripAccommodationDeleteResponse = {
+  id: string;
+  isDeleted: boolean;
+  message?: string | null;
+};
+
 /**
  * POST /trips/{tripId}/accommodations/{tripAccommodationId}/revalidate
  * Revalidates the accommodation values and availability.
@@ -159,5 +165,17 @@ export const postTripAccommodationRevalidate = async (
 ): Promise<TripAccommodationRevalidateResponse> => {
   const route = `trips/${tripId}/accommodations/${tripAccommodationId}/revalidate`;
   return ApiRequest.post<TripAccommodationRevalidateResponse>(route, undefined);
+};
+
+/**
+ * DELETE /trips/{tripId}/accommodations/{tripAccommodationId}
+ * Removes an accommodation from the trip.
+ */
+export const deleteTripAccommodation = async (
+  tripId: string,
+  tripAccommodationId: string
+): Promise<TripAccommodationDeleteResponse> => {
+  const route = `trips/${tripId}/accommodations/${tripAccommodationId}`;
+  return ApiRequest.delete<TripAccommodationDeleteResponse>(route);
 };
 

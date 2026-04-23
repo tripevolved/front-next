@@ -169,12 +169,12 @@ export default async function ViagemByIdPage({ params }: Props) {
       </section>
 
       {/* Trip Configuration */}
-      <section className="max-w-[80%] mx-auto -mt-6 relative z-10 px-4">
+      <section className="md:max-w-[80%] mx-auto -mt-6 relative z-10 px-4">
         <TripConfigurationSet configuration={tripDetails.configuration} hideEditButton />
       </section>
 
       {/* Details */}
-      <section id="details" className="max-w-[80%] mx-auto px-4 py-12 scroll-mt-24">
+      <section id="details" className="md:max-w-[80%] mx-auto px-4 py-12 scroll-mt-24">
         <h2 className="font-baloo text-2xl md:text-3xl font-bold text-secondary-900 mb-6">Detalhes da jornada</h2>
         <JourneyDetailsSection
           tripId={tripDetails.id}

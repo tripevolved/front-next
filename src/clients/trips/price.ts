@@ -4,6 +4,8 @@ export type TripPriceResponse = {
   id: string;
   price: number;
   savings: number;
+  paidAmount?: number | null;
+  paidSavings?: number | null;
   hasError: boolean;
   errorMessage?: string | null;
 };
