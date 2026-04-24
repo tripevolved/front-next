@@ -386,6 +386,10 @@ export function CheckoutTripById({
                 subscriptions != null && typeof subscriptions.priceWithoutTravelAdvisor === "number"
                   ? subscriptions.priceWithoutTravelAdvisor
                   : 0,
+              amountInInstallments:
+                subscriptions != null && typeof subscriptions.priceInInstallmentsWithoutTravelAdvisor === "number"
+                  ? subscriptions.priceInInstallmentsWithoutTravelAdvisor
+                  : undefined,
             },
           ]
         : [];
@@ -1015,7 +1019,15 @@ export function CheckoutTripById({
         </div>
       </div>
 
-      <CirculoEvolvedModal isOpen={circuloModalOpen} onClose={() => setCirculoModalOpen(false)} />
+      <CirculoEvolvedModal
+        isOpen={circuloModalOpen}
+        onClose={() => setCirculoModalOpen(false)}
+        type="essential"
+        onCheckout={() => {
+          setCirculoModalOpen(false);
+          createPaymentAndGo({ includeSubscription: true });
+        }}
+      />
     </div>
   );
 }

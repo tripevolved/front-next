@@ -21,7 +21,7 @@ const BENEFIT_CARDS = [
     id: 'sem-comissoes',
     title: 'Sem comissões e taxas escondidas',
     deepCopy:
-      'No modelo comissionado, você não sabe o que está pagando nem porque. Cansamos dele porque cria incentivos que não se alinham à sua viagem. Para você, isso significa valores significativamente mais baixos, sem descontos artificiais, e uma relação de confiança total. Exemplo: em uma viagem de R$ 82.500 (cruzeiro + hotéis + transfers), cerca de R$ 7.920 retornam em cashback ou desconto direto.',
+      'Os sites de viagens recebem uma tarifa da hospedagem, adicionam uma margem em cima e te oferecem esse valor. Esse modelo comissionado cria incentivos que não se alinham à sua viagem e, claro, não é justo para você. No Círculo Evolved, você vê tarifas líquidas que antes eram acessíveis apenas às agências de viagem. E faz suas reservas sem comissões ou taxas escondidas, economizando entre 10 e 30%.',
   },
 ]
 
@@ -31,10 +31,12 @@ export function CirculoEvolvedModal({
   isOpen,
   onClose,
   type = 'essential',
+  onCheckout,
 }: {
   isOpen: boolean
   onClose: () => void
   type?: CirculoEvolvedModalType
+  onCheckout?: () => void
 }) {
   const router = useRouter()
   const isTotal = type === 'total'
@@ -44,6 +46,10 @@ export function CirculoEvolvedModal({
       : 'Contratar o Círculo Evolved Essencial'
 
   const handleCheckout = () => {
+    if (onCheckout) {
+      onCheckout()
+      return
+    }
     onClose()
     router.push('/app/circulo-evolved/checkout')
   }
