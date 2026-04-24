@@ -225,6 +225,16 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
     [regularItems]
   );
 
+  const regularInstallmentsTotal = useMemo(
+    () =>
+      regularItems.reduce((sum, i) => {
+        const amt =
+          typeof i.amountInInstallments === "number" && i.amountInInstallments > 0 ? i.amountInInstallments : i.amount;
+        return sum + (typeof amt === "number" ? amt : 0);
+      }, 0),
+    [regularItems]
+  );
+
   const onBookingTotal = useMemo(
     () => onBookingItems.reduce((sum, i) => sum + (typeof i.amount === "number" ? i.amount : 0), 0),
     [onBookingItems]
@@ -784,6 +794,14 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
                   <span className="tabular-nums">{formatCurrencyBRL(regularTotal)}</span>
                   {" "}à vista
                 </p>
+                {regularInstallmentsTotal > regularTotal ? (
+                  <p className="font-comfortaa text-xs text-secondary-600 mt-1">
+                    ou em até 12x sem juros de{" "}
+                    <span className="font-semibold tabular-nums text-secondary-900">
+                      {formatCurrencyBRL(regularInstallmentsTotal / 12)}
+                    </span>
+                  </p>
+                ) : null}
                 <p className="font-comfortaa text-xs text-secondary-600 mt-2">
                   Para <span className="font-semibold">Trip Evolved Viagens LTDA</span>.
                 </p>

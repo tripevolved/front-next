@@ -44,6 +44,8 @@ export function StepPaymentSelection({
       ? Math.round(((installmentsTotal - oneTimeTotal) / installmentsTotal) * 100)
       : 0;
 
+  const cardPerMonth12 = installmentsTotal > 0 ? installmentsTotal / 12 : 0;
+
   const totalForSelectedInstallments = installments <= 1 ? oneTimeTotal : installmentsTotal;
 
   const handleSelect = (method: CheckoutPaymentMethod) => {
@@ -67,16 +69,24 @@ export function StepPaymentSelection({
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-3">
-          <label className="flex items-center gap-3 p-4 border rounded-xl cursor-pointer hover:bg-secondary-50 transition-colors has-[:checked]:border-accent-500 has-[:checked]:bg-accent-50/50">
+          <label className="flex items-start gap-3 p-4 border rounded-xl cursor-pointer hover:bg-secondary-50 transition-colors has-[:checked]:border-accent-500 has-[:checked]:bg-accent-50/50">
             <input
               type="radio"
               name="method"
               value="credit_card"
               checked={selected === "credit_card"}
               onChange={() => handleSelect("credit_card")}
-              className="w-4 h-4 text-accent-500 border-secondary-300 focus:ring-accent-500"
+              className="w-4 h-4 text-accent-500 border-secondary-300 focus:ring-accent-500 mt-1"
             />
-            <span className="font-comfortaa font-medium text-secondary-900">Cartão de crédito</span>
+            <span className="min-w-0">
+              <span className="block font-comfortaa font-medium text-secondary-900">Cartão de crédito</span>
+              {installmentsTotal > 0 ? (
+                <span className="block font-comfortaa text-xs text-secondary-600 mt-1">
+                  Em até 12x sem juros de{" "}
+                  <span className="font-semibold text-secondary-900 tabular-nums">{formatCurrency(cardPerMonth12)}</span>
+                </span>
+              ) : null}
+            </span>
           </label>
           {selected === "credit_card" && (
             <div className="ml-7 pl-4 border-l-2 border-secondary-100 space-y-2">
@@ -107,20 +117,25 @@ export function StepPaymentSelection({
               )}
             </div>
           )}
-          <label className="flex items-center gap-3 p-4 border rounded-xl cursor-pointer hover:bg-secondary-50 transition-colors has-[:checked]:border-accent-500 has-[:checked]:bg-accent-50/50">
+          <label className="flex items-start gap-3 p-4 border rounded-xl cursor-pointer hover:bg-secondary-50 transition-colors has-[:checked]:border-accent-500 has-[:checked]:bg-accent-50/50">
             <input
               type="radio"
               name="method"
               value="pix"
               checked={selected === "pix"}
               onChange={() => handleSelect("pix")}
-              className="w-4 h-4 text-accent-500 border-secondary-300 focus:ring-accent-500"
+              className="w-4 h-4 text-accent-500 border-secondary-300 focus:ring-accent-500 mt-1"
             />
-            <span className="font-comfortaa font-medium text-secondary-900 inline-flex items-center gap-2">
-              PIX à vista
-              {pixPercentOff > 0 ? (
-                <span className="inline-flex items-center rounded-full bg-accent-500 text-white px-2.5 py-1 text-[10px] font-baloo font-bold">
-                  {pixPercentOff}% OFF
+            <span className="min-w-0">
+              <span className="block font-comfortaa font-medium text-secondary-900">PIX</span>
+              {oneTimeTotal > 0 ? (
+                <span className="mt-1 inline-flex items-center gap-2 font-comfortaa text-xs text-secondary-600">
+                  <span className="tabular-nums font-semibold text-secondary-900">{formatCurrency(oneTimeTotal)}</span>
+                  {pixPercentOff > 0 ? (
+                    <span className="inline-flex items-center rounded-full bg-accent-500 text-white px-2.5 py-1 text-[10px] font-baloo font-bold">
+                      {pixPercentOff}% OFF
+                    </span>
+                  ) : null}
                 </span>
               ) : null}
             </span>
