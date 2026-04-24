@@ -21,10 +21,10 @@ const baloo = Baloo_2({
 export const metadata: Metadata = {
   metadataBase: new URL('https://tripevolved.com.br'),
   title: {
-    default: 'Trip Evolved - Sua Agência de Viagens Personalizadas',
-    template: '%s | Trip Evolved Viagens Personalizadas'
+    default: 'Trip Evolved - Viaje com valores sem comissões',
+    template: '%s | Trip Evolved - Viaje com valores sem comissões'
   },
-  description: 'Descubra experiências de viagem personalizadas feitas especialmente para você. De destinos incríveis a estadias exclusivas, criamos sua jornada perfeita.',
+  description: 'Acesse tarifas exclusivas de hotéis escolhidos a dedo com curadoria especializada. O melhor valor garantido, sem precisar descobrir qual o melhor lugar para sua jornada.',
   keywords: ['agência de viagens', 'viagens personalizadas', 'destinos exclusivos', 'hospedagens únicas', 'hospedagens exclusivas', 'roteiros exclusivos', 'viagens sob medida'],
   authors: [{ name: 'Trip Evolved' }],
   creator: 'Trip Evolved',
@@ -39,8 +39,8 @@ export const metadata: Metadata = {
     locale: 'pt_BR',
     url: 'https://tripevolved.com.br',
     siteName: 'Trip Evolved',
-    title: 'Trip Evolved - Sua Agência de Viagens Personalizada',
-    description: 'Descubra experiências de viagem personalizadas feitas especialmente para você. De destinos incríveis a estadias exclusivas, criamos sua jornada perfeita.',
+    title: 'Trip Evolved - Viaje com valores sem comissões',
+    description: 'Acesse tarifas exclusivas de hotéis escolhidos a dedo com curadoria especializada. O melhor valor garantido, sem precisar descobrir qual o melhor lugar para sua jornada.',
     images: [
       {
         url: '/assets/og-image.jpg',
@@ -52,8 +52,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Trip Evolved - Sua Agência de Viagens Personalizada',
-    description: 'Descubra experiências de viagem personalizadas feitas especialmente para você.',
+    title: 'Trip Evolved - Viaje com valores sem comissões',
+    description: 'Acesse tarifas exclusivas de hotéis escolhidos a dedo com curadoria especializada. O melhor valor garantido, sem precisar descobrir qual o melhor lugar para sua jornada.',
     images: ['/assets/twitter-image.jpg'],
   },
   robots: {

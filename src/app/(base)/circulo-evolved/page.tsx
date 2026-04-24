@@ -1,52 +1,36 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import FAQ from '@/components/FAQ'
+import { useRouter, useSearchParams } from 'next/navigation'
+import FAQ, { detailedFAQQuestions } from '@/components/FAQ'
 import CirculoEvolvedSection from '@/components/circulo-evolved/CirculoEvolvedSection'
 import { CustomersService } from '@/clients/customers'
 import type { SubscriptionsResponse } from '@/clients/customers'
-import { formatCurrency } from '@/utils/helpers/currency.helper'
 
 const PARA_QUEM_ITEMS = [
-  'Casais e famílias que buscam um parceiro estratégico para suas viagens, não um vendedor',
-  'Quem investe R$ 100 mil ou mais em viagens por ano e busca vantagens exclusivas',
-  'Apaixonados por cruzeiros e hospedagens com conforto e gastronomia únicos',
-  'Quem busca alinhamento e confiança com quem desenha suas viagens',
+  'Casais que gostam de planejar suas próprias viagens',
+  'Que fazem ao menos 2 viagens por ano',
+  'Que buscam conforto e gastronomia únicos em suas viagens',
+  'Que buscam alinhamento, confiança e valores únicos para construir suas jornadas',
 ]
 
 const BENEFIT_CARDS = [
   { id: 'curadoria', title: 'Curadoria', description: 'Seleção de destinos e experiências alinhadas ao que você busca.' },
   { id: 'travel-designer', title: 'Travel Designer Dedicado', description: 'Um parceiro para desenhar e cuidar de todas as suas viagens.' },
-  { id: 'sem-comissoes', title: 'Sem comissões e taxas escondidas', description: 'Preços líquidos ou com cashback; você vê o valor real.' },
+  { id: 'sem-comissoes', title: 'Sem comissões e taxas escondidas', description: 'Preços líquidos que antes eram acessíveis apenas às agências de viagem.' },
 ]
-
-const FAQ_ITEMS_STATIC = [
-  { q: 'Por que há vagas limitadas no Círculo Evolved?', a: 'O Círculo Evolved tem um número limitado de vagas para que possamos dar o cuidado e a atenção que cada pessoa merece. Essa limitação garante que sua viagem seja desenhada e acompanhada com a dedicação que você espera — sem comprometer a qualidade do atendimento.' },
-  { q: 'Quem pode ser elegível aos benefícios?', a: 'Após a contratação, cadastramos sua família. Apenas viagens com essas pessoas (família direta) são elegíveis aos benefícios de cashback ou zero comissão.' },
-  { q: 'As viagens precisam ser realizadas em 12 meses?', a: 'As viagens precisam ser reservadas no período de 12 meses, mas podem ser realizadas depois — o suporte necessário permanece.' },
-  { q: 'Quais viagens estão incluídas?', a: 'Todas as viagens que você realizar no período estão incluídas, inclusive viagens curtas e de fim de semana.' },
-  { q: 'Preciso reservar tudo pela Trip Evolved?', a: 'Todos os trechos da viagem precisam ser reservados através da Trip Evolved para serem elegíveis à política sem comissões. Você terá transparência e clareza nos valores da sua viagem, sabendo exatamente quanto você NÃO vai pagar porque não somos comissionados.' },
-  { q: 'Vocês só trabalham com viagens de lazer?', a: 'Sim! Nossa expertise é em viagens de lazer e vamos cuidar de cada detalhe para que sua viagem seja única e especial.' },
-] as const
-
-function buildFaqItems(priceLabel: string | null) {
-  const guaranteeA =
-    priceLabel != null
-      ? `Você vai receber ao menos o valor do Círculo Evolved (${priceLabel}) de volta em cashback ou descontos devido à ausência de comissões. Se isso não acontecer, ao final dos 12 meses, te devolvemos a diferença.`
-      : 'Você vai receber ao menos o valor do Círculo Evolved de volta em cashback ou descontos devido à ausência de comissões. Se isso não acontecer, ao final dos 12 meses, te devolvemos a diferença.'
-
-  return [
-    ...FAQ_ITEMS_STATIC.slice(0, 5),
-    { q: 'Como funciona a garantia?', a: guaranteeA },
-    ...FAQ_ITEMS_STATIC.slice(5),
-  ]
-}
 
 export default function CirculoEvolvedPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const subscriptionType = searchParams?.get('tipo') === 'total' ? 'total' : 'essential'
+  const benefitCards =
+    subscriptionType === 'total'
+      ? BENEFIT_CARDS
+      : BENEFIT_CARDS.filter((c) => c.id !== 'travel-designer')
+
   const [subscriptions, setSubscriptions] = useState<SubscriptionsResponse | null>(null)
   const [subscriptionsLoading, setSubscriptionsLoading] = useState(true)
 
@@ -67,13 +51,6 @@ export default function CirculoEvolvedPage() {
     }
   }, [])
 
-  const faqItems = useMemo(() => {
-    const priceLabel =
-      subscriptions != null && typeof subscriptions.priceWithTravelAdvisor === 'number'
-        ? formatCurrency(subscriptions.priceWithTravelAdvisor)
-        : null
-    return buildFaqItems(priceLabel)
-  }, [subscriptions])
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -121,18 +98,18 @@ export default function CirculoEvolvedPage() {
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             <div className="bg-accent-300 rounded-2xl p-6 md:p-8 shadow-lg">
               <h3 className="font-baloo text-xl md:text-2xl font-bold text-secondary-900 mb-3">
-                Aquilo que você não vê: comissões e taxas escondidas
+                Comissões e taxas escondidas
               </h3>
               <p className="font-comfortaa text-secondary-700 leading-relaxed">
-                Os preços que você vê online tem comissões embutidas - você vai pagar mais caro. Você não sabe o que está pagando e porque.
+                Os preços que você vê online tem comissões embutidas - você vai pagar mais caro sem saber porque ou quanto.
               </p>
             </div>
             <div className="bg-accent-300 rounded-2xl p-6 md:p-8 shadow-lg">
               <h3 className="font-baloo text-xl md:text-2xl font-bold text-secondary-900 mb-3">
-                A indecisão: existem opções demais para você escolher sozinho
+                Opções demais para você escolher sozinho
               </h3>
               <p className="font-comfortaa text-secondary-700 leading-relaxed">
-                São tantas opções de destinos, hotéis e experiências que fica difícil decidir. Nós resolvemos: selecionamos o que faz sentido para você.
+                São tantas opções de destinos, hotéis e experiências que fica difícil decidir. Nossa curadoria já seleciona o que faz sentido para você.
               </p>
             </div>
           </div>
@@ -191,8 +168,8 @@ export default function CirculoEvolvedPage() {
           <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-10 text-center">
             O que você recebe no Círculo Evolved
           </h2>
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-            {BENEFIT_CARDS.map((card) => (
+          <div className={`grid md:grid-cols-${subscriptionType === 'total' ? '3' : '2'} gap-6 md:gap-8`}>
+            {benefitCards.map((card) => (
               <div
                 key={card.id}
                 className="bg-secondary-50 rounded-2xl border border-secondary-200 p-6 md:p-8 shadow-sm flex flex-col"
@@ -285,82 +262,87 @@ export default function CirculoEvolvedPage() {
       </section>
 
       {/* Travel Designer Dedicado */}
-      <section
-        id="travel-designer"
-        className="scroll-mt-20 py-16 md:py-24 bg-white"
-      >
-        <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
-          <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-10 md:mb-12">
-            Especialista de viagens dedicado a você
-          </h2>
-          <div className="grid md:grid-cols-[2fr_3fr] gap-12 md:gap-16 items-center">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
-              <Image
-                src="/assets/consultoria/travel-designer.png"
-                alt="Planejamento de viagem — parceiro estratégico ao seu lado"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 40vw"
-              />
-            </div>
-            <div>
-              <p className="font-comfortaa text-lg text-secondary-700 mb-10 leading-relaxed">
-                Cada viagem conta com o seu parceiro estratégico, um especialista que estará ao seu lado, entendendo e construindo sua viagem.
-              </p>
-              <div className="grid sm:grid-cols-3 gap-6 md:gap-8 mb-10">
-                <div className="flex flex-col items-center text-center">
-                  <span className="flex items-center justify-center w-12 h-12 rounded-full bg-accent-500 text-white font-baloo text-xl font-bold mb-4">1</span>
-                  <p className="font-comfortaa text-secondary-700">
-                    Você nos conta sua ideia e datas de viagem
-                  </p>
-                </div>
-                <div className="flex flex-col items-center text-center">
-                  <span className="flex items-center justify-center w-12 h-12 rounded-full bg-accent-500 text-white font-baloo text-xl font-bold mb-4">2</span>
-                  <p className="font-comfortaa text-secondary-700">
-                    Construímos a proposta de viagem e ajustamos até a perfeição
-                  </p>
-                </div>
-                <div className="flex flex-col items-center text-center">
-                  <span className="flex items-center justify-center w-12 h-12 rounded-full bg-accent-500 text-white font-baloo text-xl font-bold mb-4">3</span>
-                  <p className="font-comfortaa text-secondary-700">
-                    Você contrata a viagem, unindo o melhor serviço ao melhor valor, sem comissões ou taxas escondidas
-                  </p>
-                </div>
+      {subscriptionType === 'total' && (
+        <section
+          id="travel-designer"
+          className="scroll-mt-20 py-16 md:py-24 bg-white"
+        >
+          <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
+            <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-10 md:mb-12">
+              Especialista de viagens dedicado a você
+            </h2>
+            <div className="grid md:grid-cols-[2fr_3fr] gap-12 md:gap-16 items-center">
+              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+                <Image
+                  src="/assets/consultoria/travel-designer.png"
+                  alt="Planejamento de viagem — parceiro estratégico ao seu lado"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                />
               </div>
-              <div className="flex justify-center">
-                <Link
-                  href="/app/circulo-evolved/checkout"
-                  className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
-                >
-                  Quero contratar
-                </Link>
+              <div>
+                <p className="font-comfortaa text-lg text-secondary-700 mb-10 leading-relaxed">
+                  Cada viagem conta com o seu parceiro estratégico, um especialista que estará ao seu lado, entendendo e construindo sua viagem.
+                </p>
+                <div className="grid sm:grid-cols-3 gap-6 md:gap-8 mb-10">
+                  <div className="flex flex-col items-center text-center">
+                    <span className="flex items-center justify-center w-12 h-12 rounded-full bg-accent-500 text-white font-baloo text-xl font-bold mb-4">1</span>
+                    <p className="font-comfortaa text-secondary-700">
+                      Você nos conta sua ideia e datas de viagem
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center text-center">
+                    <span className="flex items-center justify-center w-12 h-12 rounded-full bg-accent-500 text-white font-baloo text-xl font-bold mb-4">2</span>
+                    <p className="font-comfortaa text-secondary-700">
+                      Construímos a proposta de viagem e ajustamos até a perfeição
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center text-center">
+                    <span className="flex items-center justify-center w-12 h-12 rounded-full bg-accent-500 text-white font-baloo text-xl font-bold mb-4">3</span>
+                    <p className="font-comfortaa text-secondary-700">
+                      Você contrata a viagem, unindo o melhor serviço ao melhor valor, sem comissões ou taxas escondidas
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-center">
+                  <Link
+                    href="/app/circulo-evolved/checkout"
+                    className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+                  >
+                    Quero contratar
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Sem comissões e taxas escondidas */}
       <section
         id="sem-comissoes"
-        className="scroll-mt-20 py-16 md:py-24 bg-secondary-50"
+        className={`scroll-mt-20 py-16 md:py-24 bg-secondary-50 ${subscriptionType === 'total' ? 'bg-secondary-500' : 'bg-white'}`}
       >
         <div className="w-full max-w-4xl mx-auto px-4 md:px-6">
           <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-6">
             Sem comissões e taxas escondidas
           </h2>
+          <p className="font-comfortaa text-lg text-secondary-700 mb-2 leading-relaxed">
+            A maior parte dos sites trabalham no modelo comissionado: eles recebem uma tarifa net (líquida) do hotel ou operadora e adicionam um percentual em cima. Cansamos dele porque cria incentivos que não se alinham à sua viagem e ao que você precisa.
+          </p>
           <p className="font-comfortaa text-lg text-secondary-700 mb-10 leading-relaxed">
-            No modelo comissionado, você não sabe o que está pagando nem porque. Cansamos dele porque cria incentivos que não se alinham à sua viagem e ao que você precisa. Para você, isso significa valores significativamente mais baixos, sem descontos artificiais, e uma relação de confiança total conosco.
+            Criamos um modelo melhor: você paga uma taxa de assinatura anual e recebe acesso às mesmas tarifas líquidas, sem comissões. Você verá valores de 10 a 30% mais baixos, sem descontos artificiais, e uma relação de confiança total conosco.
           </p>
           <div className="font-comfortaa text-secondary-700 mb-10 space-y-2">
             <p className="font-semibold text-secondary-900">Exemplo de como funciona:</p>
             <ul className="list-none space-y-1 pl-0">
-              <li>R$ 58.000,00 — cruzeiro Explora Journeys de 7 noites</li>
-              <li>R$ 12.500,00 — hotéis confortáveis (4*+) e bem localizados pré e pós-cruzeiro (6 noites)</li>
-              <li>R$ 12.000,00 — transfers e experiências</li>
+              <li>Tarifa pública: R$7.347,00</li>
+              <li>Tarifa "membro" em site famoso: R$6.681,00</li>
+              <li>Tarifa no Círculo Evolved: R$6.186,30</li>
             </ul>
             <p className="font-baloo font-bold text-accent-600 text-lg mt-4">
-              → R$ 7.920,00 retornam em cashback ou desconto direto
+              → R$ 1.160,70 de retorno direto em uma única reserva
             </p>
           </div>
           <div className="flex flex-col items-start gap-2">
@@ -371,7 +353,7 @@ export default function CirculoEvolvedPage() {
               Quero contratar
             </Link>
             <p className="text-xs text-secondary-500 font-comfortaa">
-              *cálculos arredondados baseados em uma viagem real para o Mediterrâneo
+              *cálculos baseados em uma hospedagem de 7 noites em um resort beira-mar 4 estrelas no Caribe
             </p>
           </div>
         </div>
@@ -388,6 +370,7 @@ export default function CirculoEvolvedPage() {
         manageSubscriptionsLocally={false}
         subscriptionsSnapshot={subscriptions}
         subscriptionsSnapshotLoading={subscriptionsLoading}
+        subscriptionType={subscriptionType}
       />
 
       {/* FAQ */}
@@ -397,10 +380,7 @@ export default function CirculoEvolvedPage() {
             Perguntas frequentes
           </h2>
           <FAQ
-            questions={faqItems.map((item) => ({
-              question: item.q,
-              answer: item.a,
-            }))}
+            questions={detailedFAQQuestions}
           />
         </div>
       </section>

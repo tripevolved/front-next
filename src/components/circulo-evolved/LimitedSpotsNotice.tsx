@@ -5,11 +5,13 @@ import type { SubscriptionsResponse } from '@/clients/customers'
 type LimitedSpotsNoticeProps = {
   subscriptions: SubscriptionsResponse | null
   isLoading: boolean
+  subscriptionType: "essential" | "total"
 }
 
 export default function LimitedSpotsNotice({
   subscriptions,
   isLoading,
+  subscriptionType,
 }: LimitedSpotsNoticeProps) {
   return (
     <div className="bg-white/10 border-2 border-accent-400/50 rounded-2xl p-6 max-w-2xl mx-auto mb-10 text-center">
@@ -23,8 +25,8 @@ export default function LimitedSpotsNotice({
       {!isLoading && subscriptions != null ? (
         <p className="font-baloo text-xl font-semibold text-white mb-2">
           Restam{" "}
-          <strong className="text-accent-400">apenas {subscriptions.availableWithTravelAdvisor}</strong>{" "}
-          vagas das <strong className="text-white">{subscriptions.maxWithTravelAdvisor}</strong> que
+          <strong className="text-accent-400">apenas {subscriptionType === "total" ? subscriptions.availableWithTravelAdvisor : subscriptions.availableWithoutTravelAdvisor}</strong>{" "}
+          vagas das <strong className="text-white">{subscriptionType === "total" ? subscriptions.maxWithTravelAdvisor : subscriptions.maxWithoutTravelAdvisor}</strong> que
           liberamos no momento.
         </p>
       ) : (

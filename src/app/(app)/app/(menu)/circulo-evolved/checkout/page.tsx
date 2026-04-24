@@ -10,7 +10,7 @@ import type { SubscriptionsResponse } from '@/clients/customers'
 import { getWhatsappLink } from '@/utils/helpers/whatsapp.helpers'
 import { formatCurrency } from '@/utils/helpers/currency.helper'
 import { PaymentsApiService } from '@/clients/payments'
-import { CIRCULO_INCLUDED_TOTAL } from '@/core/payments/circulo-evolved'
+import { CIRCULO_INCLUDED_ESSENTIAL, CIRCULO_INCLUDED_TOTAL } from '@/core/payments/circulo-evolved'
 
 const CIRCULO_WHATSAPP_MESSAGE =
   'Olá! Gostaria de saber sobre vagas para o Círculo Evolved. As vagas estão esgotadas no momento e gostaria de ser avisado quando houver disponibilidade.'
@@ -19,7 +19,7 @@ const IMPORTANT_ANSWERS = [
   'As viagens precisam ser organizadas no período de 12 meses, mas podem ser realizadas depois — o suporte necessário permanece.',
   'Todas as viagens realizadas no período estão incluídas, inclusive viagens curtas e de fim de semana.',
   'Todos os trechos da viagem precisam ser reservados através da Trip Evolved para serem elegíveis à política sem comissões.',
-  'Não trabalhamos com todos os produtos e destinos, mas estamos em constante evolução e vamos avaliar qualquer destino que você deseje para sua viagem com nossos parceiros.',
+  'Não trabalhamos com todos os produtos e destinos, mas estamos em constante evolução e vamos avaliar qualquer destino que você deseje para sua viagem. Basta você nos sugerir via whatsapp ou no produto@tripevolved.com.br.',
 ]
 
 export default function CirculoEvolvedCheckoutPage() {
@@ -27,6 +27,8 @@ export default function CirculoEvolvedCheckoutPage() {
   const searchParams = useSearchParams()
   const permitirPagamento = searchParams?.get('permitirPagamento') ?? null
   const bypassPaymentCheck = permitirPagamento !== null && permitirPagamento !== ''
+  const subscriptionType = searchParams?.get('tipo') === 'total' ? 'total' : 'essential'
+  const includedItems = subscriptionType === 'total' ? CIRCULO_INCLUDED_TOTAL : CIRCULO_INCLUDED_ESSENTIAL
 
   const [subscriptions, setSubscriptions] = useState<SubscriptionsResponse | null>(null)
   const [isLoadingSubscriptions, setIsLoadingSubscriptions] = useState(true)
@@ -54,11 +56,37 @@ export default function CirculoEvolvedCheckoutPage() {
     !bypassPaymentCheck &&
     !isLoadingSubscriptions &&
     subscriptions != null &&
-    subscriptions.availableWithTravelAdvisor <= 0
+    (subscriptionType === 'total'
+      ? subscriptions.availableWithTravelAdvisor <= 0
+      : subscriptions.availableWithoutTravelAdvisor <= 0)
 
   const circuloPrice =
-    subscriptions != null && typeof subscriptions.priceWithTravelAdvisor === 'number'
-      ? subscriptions.priceWithTravelAdvisor
+    subscriptions != null &&
+    typeof (subscriptionType === 'total' ? subscriptions.priceWithTravelAdvisor : subscriptions.priceWithoutTravelAdvisor) === 'number'
+      ? subscriptionType === 'total'
+        ? subscriptions.priceWithTravelAdvisor
+        : subscriptions.priceWithoutTravelAdvisor
+      : null
+
+  const circuloInstallmentPrice =
+    subscriptions != null &&
+    typeof (subscriptionType === 'total'
+      ? subscriptions.priceInInstallmentsWithTravelAdvisor
+      : subscriptions.priceInInstallmentsWithoutTravelAdvisor) === 'number'
+      ? subscriptionType === 'total'
+        ? subscriptions.priceInInstallmentsWithTravelAdvisor
+        : subscriptions.priceInInstallmentsWithoutTravelAdvisor
+      : null
+
+  const circuloInstallmentPerMonth =
+    circuloInstallmentPrice != null ? Math.round((circuloInstallmentPrice / 12) * 100) / 100 : null
+
+  const savingsFromOneTime =
+    circuloPrice != null && circuloInstallmentPrice != null ? circuloInstallmentPrice - circuloPrice : null
+
+  const percentOffOneTime =
+    savingsFromOneTime != null && circuloInstallmentPrice != null && circuloInstallmentPrice > 0
+      ? Math.round((savingsFromOneTime / circuloInstallmentPrice) * 100)
       : null
 
   const showPaymentButton =
@@ -74,11 +102,23 @@ export default function CirculoEvolvedCheckoutPage() {
         tripId: null,
         items: [
           {
-            type: 'SUBSCRIPTION_TOTAL',
+            type: subscriptionType === 'total' ? 'SUBSCRIPTION_TOTAL' : 'SUBSCRIPTION_ESSENTIAL',
             amount:
-              subscriptions != null && typeof subscriptions.priceWithTravelAdvisor === 'number'
-                ? subscriptions.priceWithTravelAdvisor
+              subscriptions != null &&
+              typeof (subscriptionType === 'total' ? subscriptions.priceWithTravelAdvisor : subscriptions.priceWithoutTravelAdvisor) === 'number'
+                ? subscriptionType === 'total'
+                  ? subscriptions.priceWithTravelAdvisor
+                  : subscriptions.priceWithoutTravelAdvisor
                 : 0,
+            amountInInstallments:
+              subscriptions != null &&
+              typeof (subscriptionType === 'total'
+                ? subscriptions.priceInInstallmentsWithTravelAdvisor
+                : subscriptions.priceInInstallmentsWithoutTravelAdvisor) === 'number'
+                ? subscriptionType === 'total'
+                  ? subscriptions.priceInInstallmentsWithTravelAdvisor
+                  : subscriptions.priceInInstallmentsWithoutTravelAdvisor
+                : undefined,
           },
         ],
       })
@@ -97,10 +137,10 @@ export default function CirculoEvolvedCheckoutPage() {
         {/* Header */}
         <header className="mb-8 md:mb-12">
           <h1 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900">
-            Círculo Evolved — Checkout
+            Círculo Evolved {subscriptionType === 'total' ? 'Total' : 'Essencial'} — Checkout
           </h1>
           <p className="font-comfortaa text-secondary-600 mt-2">
-            Confira o que está incluso e os termos antes de seguir para o pagamento.
+            Parabéns! Você tomou a decisão de investir melhor em suas viagens. Confira o que está incluso no seu plano e os termos antes de seguir para o pagamento.
           </p>
         </header>
 
@@ -113,7 +153,7 @@ export default function CirculoEvolvedCheckoutPage() {
                 O que está incluso
               </h2>
               <ul className="space-y-4">
-                {CIRCULO_INCLUDED_TOTAL.map((item, i) => (
+                {includedItems.map((item, i) => (
                   <li key={i} className="flex gap-4 font-comfortaa text-secondary-700 items-start">
                     <Image
                       src="/assets/icons/icon-check-gold.svg"
@@ -165,8 +205,7 @@ export default function CirculoEvolvedCheckoutPage() {
               </h2>
               <ul className="font-comfortaa text-secondary-700 text-sm leading-relaxed space-y-2 list-disc pl-5">
                 <li>O Círculo Evolved é um serviço de assinatura anual. O acesso e os benefícios vigoram por 12 meses a partir da confirmação do pagamento.</li>
-                <li>Os descontos e o cashback aplicam-se a viagens fechadas através da Trip Evolved durante o período de vigência da assinatura.</li>
-                <li>Condições para pagamento do cashback estão sujeitas à política comercial vigente e devem ser confirmadas no ato da reserva da viagem.</li>
+                <li>Os valores sem comissão aplicam-se a viagens fechadas através da Trip Evolved durante o período de vigência da assinatura.</li>
                 <li>Ao prosseguir com o pagamento, você declara estar ciente e de acordo com estes termos, os{' '}
                   <Link href="/documentos/circulo-evolved/termos-de-servico" target="_blank" className="text-accent-600 hover:underline font-medium">
                     Termos de Serviço do Círculo Evolved
@@ -188,22 +227,33 @@ export default function CirculoEvolvedCheckoutPage() {
                 Resumo
               </h2>
               <p className="font-comfortaa text-secondary-600 text-sm mb-4">
-                Assinatura anual — acesso a curadoria, desenho de viagem e viagens sem comissões por 12 meses.
+                Assinatura anual — {subscriptionType === 'total'
+                  ? 'acesso a curadoria, design de viagens e valores sem comissões por 12 meses.'
+                  : 'acesso a curadoria e valores sem comissões por 12 meses.'}
               </p>
               <div className="border-t border-secondary-200 pt-4 mb-6">
-                <div className="flex justify-between items-baseline">
-                  <span className="font-comfortaa text-secondary-700">Valor total</span>
-                  <span className="font-baloo text-2xl font-bold text-secondary-900">
-                    {isLoadingSubscriptions
-                      ? '…'
-                      : circuloPrice != null
-                        ? formatCurrency(circuloPrice)
-                        : '—'}
-                  </span>
+                {(!isLoadingSubscriptions && circuloInstallmentPerMonth != null) && (
+                  <p className="font-comfortaa text-xs text-secondary-600">
+                    Em 12x de <span className="font-semibold text-secondary-900">{formatCurrency(circuloInstallmentPerMonth)}</span> ou
+                  </p>
+                )}
+                <div className="flex justify-between items-baseline mt-2">
+                  <div className="flex items-center gap-2">
+                    <span className="font-baloo text-2xl font-bold text-secondary-900">
+                      {isLoadingSubscriptions
+                        ? '…'
+                        : circuloPrice != null
+                          ? formatCurrency(circuloPrice)
+                          : '—'}
+                    </span>
+                    {(!isLoadingSubscriptions && percentOffOneTime != null && percentOffOneTime > 0) && (
+                      <span className="inline-flex items-center rounded-full bg-accent-500 text-white px-2.5 py-1 text-[10px] font-baloo font-bold">
+                        {percentOffOneTime}% OFF
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <p className="font-comfortaa text-xs text-secondary-500 mt-1">
-                  Pagamento único
-                </p>
+                <span className="font-comfortaa text-secondary-700">À vista</span>
               </div>
               {!bypassPaymentCheck && isLoadingSubscriptions && (
                 <p className="font-comfortaa text-secondary-600 text-sm text-center py-3">

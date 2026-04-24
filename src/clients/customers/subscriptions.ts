@@ -3,10 +3,14 @@ import { ApiRequest } from "@/services/api/request";
 export interface SubscriptionsResponse {
   /** Price in whole BRL (e.g. 6700 for R$ 6.700,00) — assinatura com travel advisor. */
   priceWithTravelAdvisor: number;
+  /** Installment price in whole BRL (e.g. 600 for R$ 600,00) — 12x com travel advisor. */
+  priceInInstallmentsWithTravelAdvisor: number;
   maxWithTravelAdvisor: number;
   availableWithTravelAdvisor: number;
   /** Price in whole BRL (e.g. 6700 for R$ 6.700,00) — assinatura sem travel advisor. */
   priceWithoutTravelAdvisor: number;
+  /** Installment price in whole BRL (e.g. 600 for R$ 600,00) — 12x sem travel advisor. */
+  priceInInstallmentsWithoutTravelAdvisor: number;
   maxWithoutTravelAdvisor: number;
   availableWithoutTravelAdvisor: number;
 }

@@ -8,7 +8,6 @@ export default function TopMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: "/cruzeiros-extraordinarios", label: "Cruzeiros Extraordinários" },
     { href: "/experiencias", label: "Experiências" },
     { href: "/beneficios", label: "Benefícios" },
     { href: "/app", label: "Minhas viagens" },

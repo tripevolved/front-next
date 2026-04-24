@@ -19,14 +19,39 @@ export function StepPaymentSelection({
   onBack,
   isSaving,
   totalAmount = 0,
+  paymentItems = [],
+  checkoutItems = [],
 }: PagamentoStepProps) {
   const selected = payload.paymentMethod;
   const installments = Math.min(MAX_INSTALLMENTS, Math.max(1, payload.installments ?? 1));
 
+  const oneTimeTotal = totalAmount;
+  const installmentsTotal =
+    Array.isArray(checkoutItems) && checkoutItems.length > 0
+      ? checkoutItems.reduce((sum, it) => {
+          const amt =
+            typeof it?.amountInInstallments === "number" && it.amountInInstallments > 0
+              ? Number(it.amountInInstallments)
+              : Number(it?.amount ?? 0);
+          return sum + (Number.isFinite(amt) ? amt : 0);
+        }, 0)
+      : Array.isArray(paymentItems) && paymentItems.length > 0
+        ? paymentItems.reduce((sum, it) => sum + (Number.isFinite((it as any)?.amount) ? Number((it as any).amount) : 0), 0)
+        : totalAmount;
+
+  const pixPercentOff =
+    installmentsTotal > 0 && oneTimeTotal > 0 && installmentsTotal > oneTimeTotal
+      ? Math.round(((installmentsTotal - oneTimeTotal) / installmentsTotal) * 100)
+      : 0;
+
+  const totalForSelectedInstallments = installments <= 1 ? oneTimeTotal : installmentsTotal;
+
   const handleSelect = (method: CheckoutPaymentMethod) => {
     setPayload({
       paymentMethod: method,
-      ...(method === "credit_card" ? { installments: payload.installments ?? 1 } : {}),
+      ...(method === "credit_card"
+        ? { installments: (payload.installments ?? 1) > 1 ? payload.installments : 12 }
+        : {}),
     });
   };
 
@@ -66,17 +91,18 @@ export function StepPaymentSelection({
               >
                 {Array.from({ length: MAX_INSTALLMENTS }, (_, i) => {
                   const n = i + 1;
-                  const value = totalAmount > 0 ? totalAmount / n : 0;
+                  const total = n === 1 ? oneTimeTotal : installmentsTotal;
+                  const value = total > 0 ? total / n : 0;
                   return (
                     <option key={n} value={n}>
-                      {n}x {totalAmount > 0 ? formatCurrency(value) : "—"}
+                      {n}x {total > 0 ? formatCurrency(value) : "—"}
                     </option>
                   );
                 })}
               </select>
-              {totalAmount > 0 && (
+              {totalForSelectedInstallments > 0 && (
                 <p className="font-comfortaa text-xs text-secondary-500 mt-1">
-                  Total: {formatCurrency(totalAmount)}.
+                  Total: {formatCurrency(totalForSelectedInstallments)}.
                 </p>
               )}
             </div>
@@ -90,7 +116,14 @@ export function StepPaymentSelection({
               onChange={() => handleSelect("pix")}
               className="w-4 h-4 text-accent-500 border-secondary-300 focus:ring-accent-500"
             />
-            <span className="font-comfortaa font-medium text-secondary-900">PIX</span>
+            <span className="font-comfortaa font-medium text-secondary-900 inline-flex items-center gap-2">
+              PIX à vista
+              {pixPercentOff > 0 ? (
+                <span className="inline-flex items-center rounded-full bg-accent-500 text-white px-2.5 py-1 text-[10px] font-baloo font-bold">
+                  {pixPercentOff}% OFF
+                </span>
+              ) : null}
+            </span>
           </label>
         </div>
         <div className="flex gap-3 pt-4">

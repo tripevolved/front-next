@@ -7,9 +7,9 @@ export default function ExperienciasPage() {
   return (
     <div className="flex flex-col">
       {/* Experiences Carousel Section */}
-      <section className="py-24 bg-secondary-500">
+      <section className="py-24 text-secondary-700">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-          <h1 className="font-baloo text-4xl md:text-5xl font-bold mb-12 text-white">
+          <h1 className="font-baloo text-4xl md:text-5xl font-bold mb-12">
             Viagens incríveis para sua inspiração
           </h1>
           <ExperienceCarousel />

@@ -18,6 +18,7 @@ export type CheckoutPaymentType = "ON_BOOKING" | "REGULAR";
 export interface CheckoutPaymentItemResponse {
   id: string;
   amount: number;
+  amountInInstallments?: number;
   domainId: string;
   type: CheckoutPaymentItemType;
   paymentType: CheckoutPaymentType;

@@ -39,16 +39,16 @@ export default function ExperienceCarousel() {
             >
               <div className="flex flex-col lg:flex-row items-center gap-8 p-8">
                 {/* Content */}
-                <div className="w-full lg:w-1/2 text-white">
+                <div className="w-full lg:w-1/2">
                   <h3 className="font-baloo text-2xl md:text-3xl font-bold mb-4">
                     {experience.title}
                   </h3>
-                  <p className="font-comfortaa text-lg mb-6 text-white/90">
+                  <p className="font-comfortaa text-lg mb-6">
                     {experience.description}
                   </p>
                   <Link 
                     href={`/experiencias/${experience.name}`}
-                    className="inline-block font-baloo text-white border-2 border-white px-6 py-2 rounded-full hover:bg-white hover:text-secondary-500 transition-all"
+                    className="inline-block font-baloo border-2 border-secondary-700 text-secondary-700 px-6 py-2 rounded-full hover:bg-secondary-700 hover:text-white transition-all"
                   >
                     Conhecer esta experiência
                   </Link>

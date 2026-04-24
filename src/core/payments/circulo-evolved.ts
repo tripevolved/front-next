@@ -25,7 +25,7 @@ const CURADORIA: CirculoIncludedItem = {
 const VALORES: CirculoIncludedItem = {
   title: "Valores sem comissões",
   description:
-    "Preços líquidos ou com cashback: as comissões são revertidas em seu benefício, e você vê o valor real da viagem.",
+    "Tarifas líquidas que antes eram acessíveis apenas às agências de viagem, sem comissões embutidas ou taxas escondidas.",
 };
 
 export const CIRCULO_INCLUDED_ESSENTIAL: CirculoIncludedItem[] = [CURADORIA, VALORES];

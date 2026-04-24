@@ -129,10 +129,12 @@ export type CheckoutPaymentItem =
   | {
       type: "SUBSCRIPTION_ESSENTIAL";
       amount: number;
+      amountInInstallments?: number;
     }
   | {
       type: "SUBSCRIPTION_TOTAL";
       amount: number;
+      amountInInstallments?: number;
     };
 
 export interface CreateCheckoutPaymentRequest {
@@ -192,6 +194,11 @@ export interface PagamentoStepProps {
   totalAmount?: number;
   /** Line items sent to `payments/intent` (amount + type each). */
   paymentItems?: PaymentIntentItem[];
+  /**
+   * Optional: original checkout items (from `GET payments/{id}`) for display purposes.
+   * Used to compute installment totals (e.g. subscriptions) without affecting the intent payload.
+   */
+  checkoutItems?: Array<{ amount: number; amountInInstallments?: number }>;
   /** Optional metadata for the intent (no payment line-item `type` here). */
   paymentMetadata?: Record<string, string>;
   /** Response from create payment intent; used for PIX (pixInfo) in StepPaymentFinish. */

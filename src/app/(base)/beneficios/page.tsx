@@ -1,7 +1,26 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
+import CirculoEvolvedSection from '@/components/circulo-evolved/CirculoEvolvedSection'
+
+const BENEFIT_CARDS = [
+  { id: 'curadoria', title: 'Curadoria', description: 'Seleção de destinos e experiências alinhadas ao que você busca.' },
+  { id: 'travel-designer', title: 'Travel Designer Dedicado', description: 'Um parceiro para desenhar e cuidar de todas as suas viagens.' },
+  { id: 'sem-comissoes', title: 'Sem comissões e taxas escondidas', description: 'Preços líquidos que antes eram acessíveis apenas às agências de viagem.' },
+]
 
 export default function BeneficiosPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const subscriptionType = searchParams?.get('tipo') === 'total' ? 'total' : 'essential'
+  const benefitCards =
+    subscriptionType === 'total'
+      ? BENEFIT_CARDS
+      : BENEFIT_CARDS.filter((c) => c.id !== 'travel-designer')
+  const circuloHref = subscriptionType === 'total' ? '/circulo-evolved?tipo=total' : '/circulo-evolved'
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -33,98 +52,37 @@ export default function BeneficiosPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20">
+      <section className="py-20 bg-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Assistência 24/7 */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-accent-500 mb-4">
-                <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4">
-                Assistência 24/7
-              </h3>
-              <p className="text-secondary-600 font-comfortaa">
-                Suporte completo durante toda a sua viagem, com atendimento em português e uma equipe pronta para resolver qualquer imprevisto.
-              </p>
-            </div>
+          <div className="text-center mb-12">
+            <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+              Benefícios do Círculo Evolved
+            </h2>
+            <p className="font-comfortaa text-lg text-secondary-600 max-w-2xl mx-auto">
+              Acesso à nossa curadoria e a valores sem comissão — com um modelo alinhado à sua viagem.
+            </p>
+          </div>
 
-            {/* Organização */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-accent-500 mb-4">
-                <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
-                </svg>
+          <div className={`grid md:grid-cols-${subscriptionType === 'total' ? '3' : '2'} gap-6 md:gap-8`}>
+            {benefitCards.map((card) => (
+              <div
+                key={card.id}
+                className="bg-secondary-50 rounded-2xl border border-secondary-200 p-6 md:p-8 shadow-sm flex flex-col"
+              >
+                <h3 className="font-baloo text-xl md:text-2xl font-bold text-secondary-900 mb-3">
+                  {card.title}
+                </h3>
+                <p className="font-comfortaa text-secondary-700 mb-6 flex-1">
+                  {card.description}
+                </p>
+                <Link
+                  href={circuloHref}
+                  className="font-baloo text-accent-600 font-semibold hover:text-accent-700 transition-colors text-left"
+                >
+                  Saiba mais →
+                </Link>
               </div>
-              <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4">
-                Organização
-              </h3>
-              <p className="text-secondary-600 font-comfortaa">
-                Cuidamos de toda a burocracia da sua viagem, desde documentos necessários como vistos até comprovantes de vacinas, garantindo que você viaje com tranquilidade e segurança.
-              </p>
-            </div>
-
-            {/* Economia de Tempo */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-accent-500 mb-4">
-                <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4">
-                Economia de Tempo
-              </h3>
-              <p className="text-secondary-600 font-comfortaa">
-                Nossa tecnologia e expertise garantem que você não perca tempo pesquisando e planejando. Nós cuidamos de tudo para que você aproveite ao máximo sua viagem.
-              </p>
-            </div>
-
-            {/* Experiências Exclusivas */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-accent-500 mb-4">
-                <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4">
-                Experiências Exclusivas
-              </h3>
-              <p className="text-secondary-600 font-comfortaa">
-                Acesso a experiências que não estão disponíveis ao público em geral, criadas especialmente para o seu perfil de viajante.
-              </p>
-            </div>
-
-            {/* Garantia de Qualidade */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-accent-500 mb-4">
-                <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4">
-                Garantia de Qualidade
-              </h3>
-              <p className="text-secondary-600 font-comfortaa">
-                Visitamos e avaliamos pessoalmente os hotéis, restaurantes e atrações que recomendamos, garantindo experiências de alta qualidade.
-              </p>
-            </div>
-
-            {/* Curadoria por Especialistas */}
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-accent-500 mb-4">
-                <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-baloo font-bold text-secondary-900 mb-4">
-                Curadoria por Especialistas
-              </h3>
-              <p className="text-secondary-600 font-comfortaa">
-                Nossa equipe de especialistas conhece em profundidade cada destino e seleciona cuidadosamente os melhores parceiros locais para garantir uma experiência autêntica.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -140,10 +98,10 @@ export default function BeneficiosPage() {
               </h2>
               <div className="text-secondary-600 space-y-4">
                 <p className="text-lg">
-                  A Trip Evolved nasceu através da inquietude de seus membros quanto à falta de personalização do mercado de viagens.
+                  A Trip Evolved nasceu da inquietude com um mercado de viagens em que você paga mais caro sem perceber — com comissões embutidas e pouca transparência.
                 </p>
                 <p className="text-lg">
-                  Assim como milhares de viajantes ao redor do mundo, acreditamos que viagens são experiências únicas, frutos de sonhos individuais, e que merecem ser tratadas dessa maneira.
+                  Acreditamos que viagens são experiências únicas e que merecem curadoria, confiança e um modelo alinhado ao viajante — para você viajar melhor e investir melhor.
                 </p>
               </div>
             </div>
@@ -155,13 +113,24 @@ export default function BeneficiosPage() {
               </h2>
               <div className="text-secondary-600">
                 <p className="text-lg">
-                  A Trip Evolved é uma agência de viagens online, completa. Através de nossos parceiros escolhidos a dedo, construímos as melhores experiências de viagem. Você só precisa se preocupar em curtir sua viagem: de todo o resto, nós cuidamos.
+                  Somos uma agência de viagens online com curadoria, parceiros escolhidos a dedo e valores sem comissão - que antes estavam acessíveis apenas às agências de viagem.
+                </p>
+                <br />
+                <p className="text-lg">
+                  No Círculo Evolved, você tem acesso a valores sem comissão e a curadoria de destinos que transforma sua ideia de viagem em uma jornada bem desenhada, com valores de <span className="text-accent-700">10 a 30% menores</span>.
                 </p>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <CirculoEvolvedSection
+        onCtaClick={() => router.push(circuloHref)}
+        ctaText="Conhecer o Círculo Evolved"
+        eventSource="Benefícios - Circulo Evolved Section"
+        subscriptionType={subscriptionType}
+      />
 
       {/* Founders Section */}
       <section className="py-20">

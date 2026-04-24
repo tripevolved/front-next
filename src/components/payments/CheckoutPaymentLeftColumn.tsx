@@ -123,6 +123,15 @@ function subscriptionStaticCopy(type: CheckoutPaymentItemResponse["type"]) {
   };
 }
 
+function priceBadgeFromInstallments(totalInstallments?: number, oneTime?: number) {
+  if (typeof totalInstallments !== "number" || typeof oneTime !== "number") return null;
+  if (totalInstallments <= 0 || oneTime <= 0) return null;
+  const perMonth = totalInstallments / 12;
+  const savings = totalInstallments - oneTime;
+  const percentOff = savings > 0 ? Math.round((savings / totalInstallments) * 100) : 0;
+  return { perMonth, savings, percentOff };
+}
+
 export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) {
   const { setStatus } = useCheckoutConditions();
   const [payment, setPayment] = useState<PaymentStatusResponse | null>(null);
@@ -162,7 +171,6 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
         setPayment(p);
 
         if (!p.tripId) {
-          setError("Pagamento não possui viagem associada.");
           setLoading(false);
           return;
         }
@@ -326,10 +334,30 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
       ) : null}
 
       <div className="space-y-4">
-        <h3 className="font-baloo text-lg md:text-xl font-bold text-secondary-900">Sua viagem inclui</h3>
+        <h3 className="font-baloo text-lg md:text-xl font-bold text-secondary-900">
+          {trip ? "Sua viagem inclui" : "Itens do pagamento"}
+        </h3>
 
         {(payment.items ?? []).map((item, idx) => {
           if (item.type === "ACCOMMODATION") {
+            if (!payment.tripId) {
+              return (
+                <div key={`acc:missingTrip:${item.domainId}:${idx}`} className="rounded-2xl border border-secondary-200 bg-white p-5 shadow-sm">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <p className="font-baloo text-lg font-bold text-secondary-900">Hospedagem</p>
+                      <p className="font-comfortaa text-sm text-secondary-600 mt-1">
+                        Detalhes da hospedagem disponíveis apenas quando há uma viagem associada ao pagamento.
+                      </p>
+                    </div>
+                    <p className="shrink-0 font-baloo text-lg font-bold text-secondary-900 tabular-nums">
+                      {formatCurrencyBRL(item.amount)}
+                    </p>
+                  </div>
+                </div>
+              );
+            }
+
             const acc = accommodationsById[item.domainId] ?? null;
             const cond = conditionsByAccommodationId[item.domainId];
             const isLoadingConditions = conditionsLoadingByAccommodationId[item.domainId] === true;
@@ -587,42 +615,61 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
 
           if (item.type === "SUBSCRIPTION_ESSENTIAL" || item.type === "SUBSCRIPTION_TOTAL") {
             const copy = subscriptionStaticCopy(item.type);
+            const badge = priceBadgeFromInstallments(item.amountInInstallments, item.amount);
             return (
               <div key={`sub:${item.type}:${idx}`} className="rounded-2xl border border-secondary-200 bg-white p-5 shadow-sm">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <p className="font-baloo text-lg font-bold text-secondary-900">{copy.title}</p>
-                    <p className="font-comfortaa text-sm text-secondary-600 mt-1">{copy.description}</p>
-                    <ul className="mt-4 space-y-3">
-                      {copy.included.map((it, i) => (
-                        <li key={i} className="font-comfortaa text-secondary-700 text-sm leading-relaxed">
-                          <span className="font-semibold text-secondary-900">{it.title}</span>
-                          <span> — {it.description}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="font-comfortaa text-xs text-secondary-600 mt-4 leading-relaxed">
-                      Ao prosseguir com o pagamento, você declara estar ciente e de acordo com os{" "}
-                      <Link
-                        href={CIRCULO_TERMS.serviceTermsHref}
-                        target="_blank"
-                        className="text-accent-600 hover:underline font-medium"
-                      >
-                        {CIRCULO_TERMS.serviceTermsLabel}
-                      </Link>{" "}
-                      e com os{" "}
-                      <Link
-                        href={CIRCULO_TERMS.usageTermsHref}
-                        target="_blank"
-                        className="text-accent-600 hover:underline font-medium"
-                      >
-                        {CIRCULO_TERMS.usageTermsLabel}
-                      </Link>
-                      .
-                    </p>
+                  <p className="font-baloo text-lg font-bold text-secondary-900">{copy.title}</p>
+                  <div className="shrink-0 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <p className="font-baloo text-lg font-bold text-secondary-900 tabular-nums">
+                        {formatCurrencyBRL(item.amount)}
+                      </p>
+                      {badge?.percentOff ? (
+                        <span className="inline-flex items-center rounded-full bg-accent-500 text-white px-2 py-0.5 text-[10px] font-baloo font-bold">
+                          {badge.percentOff}% OFF
+                        </span>
+                      ) : null}
+                    </div>
+                    {badge ? (
+                      <p className="font-comfortaa text-[11px] text-secondary-600 mt-1">
+                        ou em 12x de{" "}
+                        <span className="font-semibold text-secondary-900 tabular-nums">
+                          {formatCurrencyBRL(badge.perMonth)}
+                        </span>
+                      </p>
+                    ) : null}
                   </div>
-                  <p className="shrink-0 font-baloo text-lg font-bold text-secondary-900 tabular-nums">
-                    {formatCurrencyBRL(item.amount)}
+                </div>
+
+                <div className="mt-3">
+                  <p className="font-comfortaa text-sm text-secondary-600">{copy.description}</p>
+                  <ul className="mt-4 space-y-3">
+                    {copy.included.map((it, i) => (
+                      <li key={i} className="font-comfortaa text-secondary-700 text-sm leading-relaxed">
+                        <span className="font-semibold text-secondary-900">{it.title}</span>
+                        <span> — {it.description}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="font-comfortaa text-xs text-secondary-600 mt-4 leading-relaxed">
+                    Ao prosseguir com o pagamento, você declara estar ciente e de acordo com os{" "}
+                    <Link
+                      href={CIRCULO_TERMS.serviceTermsHref}
+                      target="_blank"
+                      className="text-accent-600 hover:underline font-medium"
+                    >
+                      {CIRCULO_TERMS.serviceTermsLabel}
+                    </Link>{" "}
+                    e com os{" "}
+                    <Link
+                      href={CIRCULO_TERMS.usageTermsHref}
+                      target="_blank"
+                      className="text-accent-600 hover:underline font-medium"
+                    >
+                      {CIRCULO_TERMS.usageTermsLabel}
+                    </Link>
+                    .
                   </p>
                 </div>
               </div>

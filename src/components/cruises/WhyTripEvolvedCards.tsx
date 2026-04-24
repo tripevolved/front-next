@@ -3,7 +3,7 @@ const PILLAR_CARDS = [
   {
     title: 'Curadoria',
     description:
-      'Cruzeiros, hospedagens e experiências únicas: cada destino e produto que passa por nós só é vendido se entendemos bem e se é a melhor escolha para você',
+      'Hospedagens, cruzeiros e experiências únicas: cada item no Círculo Evolved só é oferecido se entendemos bem e se é a melhor escolha para você',
     icon: (
       <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path
@@ -18,7 +18,7 @@ const PILLAR_CARDS = [
   {
     title: 'Transparência',
     description:
-      'Zero comissões e taxas escondidas. Isso significa valor sempre claro, nenhuma surpresa e 8 a 15% do valor da viagem de volta no seu bolso.',
+      'Zero comissões e taxas escondidas. Isso significa acesso à valores que antes só as agências de viagem acessavam e 10 a 30% de volta no seu bolso.',
     icon: (
       <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path
@@ -33,7 +33,7 @@ const PILLAR_CARDS = [
   {
     title: 'Qualidade',
     description:
-      'Não realizamos qualquer viagem. Todos os produtos e destinos que passam por nós são cuidadosamente selecionados para garantir a melhor experiência para você.',
+      'A qualidade das experiências no Círculo Evolved vem de uma curadoria criteriosa. Você tem a nossa garantia em cada hospedagem, cruzeiro e experiência.',
     icon: (
       <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path

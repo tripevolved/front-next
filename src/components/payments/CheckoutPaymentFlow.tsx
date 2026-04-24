@@ -65,6 +65,15 @@ function regularItemsToPaymentIntentItems(items: CheckoutPaymentItemResponse[]):
   });
 }
 
+function priceBadgeFromInstallments(totalInstallments?: number, oneTime?: number) {
+  if (typeof totalInstallments !== "number" || typeof oneTime !== "number") return null;
+  if (totalInstallments <= 0 || oneTime <= 0) return null;
+  const perMonth = totalInstallments / 12;
+  const savings = totalInstallments - oneTime;
+  const percentOff = savings > 0 ? Math.round((savings / totalInstallments) * 100) : 0;
+  return { perMonth, savings, percentOff };
+}
+
 function buildCheckoutIntentReferenceMetadata(
   paymentId: string,
   items: CheckoutPaymentItemResponse[],
@@ -654,6 +663,7 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
     travelerEmail,
     totalAmount: regularTotal,
     paymentItems: regularTotal > 0 ? regularPaymentIntentItems : [],
+    checkoutItems: regularItems,
     paymentMetadata: regularPaymentIntentMetadata,
     paymentIntentResponse,
     pixCheckoutPaymentId: paymentId,
@@ -772,6 +782,7 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
                 <p className="font-baloo text-lg font-bold text-secondary-900">
                   Total de{" "}
                   <span className="tabular-nums">{formatCurrencyBRL(regularTotal)}</span>
+                  {" "}à vista
                 </p>
                 <p className="font-comfortaa text-xs text-secondary-600 mt-2">
                   Para <span className="font-semibold">Trip Evolved Viagens LTDA</span>.
@@ -781,8 +792,32 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
                     {regularItems.map((it) => (
                       <li key={it.id} className="flex items-start justify-between gap-3 font-comfortaa text-sm text-secondary-700">
                         <span className="min-w-0">{regularItemTitle(it, accommodationsById)}</span>
-                        <span className="shrink-0 font-semibold tabular-nums text-secondary-900">
-                          {formatCurrencyBRL(it.amount)}
+                        <span className="shrink-0 text-right">
+                          {(() => {
+                            const badge = priceBadgeFromInstallments(it.amountInInstallments, it.amount);
+                            if (!badge) return null;
+                            return (
+                            <span className="block text-[11px] text-secondary-600">
+                              Em 12x de{" "}
+                              <span className="font-semibold tabular-nums text-secondary-900">
+                                {formatCurrencyBRL(badge.perMonth)}
+                              </span>
+                              {" "}ou
+                            </span>
+                            );
+                          })()}
+                          <span className="inline-flex items-center gap-2 font-semibold tabular-nums text-secondary-900">
+                            {formatCurrencyBRL(it.amount)}
+                            {(() => {
+                              const badge = priceBadgeFromInstallments(it.amountInInstallments, it.amount);
+                              if (!badge?.percentOff) return null;
+                              return (
+                              <span className="inline-flex items-center rounded-full bg-accent-500 text-white px-2 py-0.5 text-[10px] font-baloo font-bold">
+                                {badge.percentOff}% OFF
+                              </span>
+                              );
+                            })()}
+                          </span>
                         </span>
                       </li>
                     ))}

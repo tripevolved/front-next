@@ -16,6 +16,7 @@ interface CirculoEvolvedSectionProps {
   event?: EventType
   ctaText?: string
   id?: string
+  subscriptionType?: "essential" | "total"
   className?: string
   /**
    * When true (default), loads customers/subscriptions inside this section.
@@ -35,6 +36,7 @@ export default function CirculoEvolvedSection({
   event = 'pre_descobrir_viagem',
   ctaText = 'Conhecer o Círculo Evolved',
   id,
+  subscriptionType = "essential",
   className = '',
   manageSubscriptionsLocally = true,
   subscriptionsSnapshot = null,
@@ -75,6 +77,31 @@ export default function CirculoEvolvedSection({
   const subscriptions = manageSubscriptionsLocally ? internalSubscriptions : subscriptionsSnapshot
   const subscriptionsLoading = manageSubscriptionsLocally ? internalLoading : subscriptionsSnapshotLoading
 
+  const oneTimePrice =
+    subscriptions != null
+      ? subscriptionType === 'total'
+        ? subscriptions.priceWithTravelAdvisor
+        : subscriptions.priceWithoutTravelAdvisor
+      : null
+
+  const installmentPrice =
+    subscriptions != null
+      ? subscriptionType === 'total'
+        ? subscriptions.priceInInstallmentsWithTravelAdvisor
+        : subscriptions.priceInInstallmentsWithoutTravelAdvisor
+      : null
+
+  const installmentPerMonth =
+    installmentPrice != null ? Math.round((installmentPrice / 12) * 100) / 100 : null
+
+  const savingsFromOneTime =
+    oneTimePrice != null && installmentPrice != null ? installmentPrice - oneTimePrice : null
+
+  const percentOffOneTime =
+    savingsFromOneTime != null && installmentPrice != null && installmentPrice > 0
+      ? Math.round((savingsFromOneTime / installmentPrice) * 100)
+      : null
+
   return (
     <section id={id} className={`py-20 bg-secondary-500 ${className}`}>
       <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
@@ -96,8 +123,19 @@ export default function CirculoEvolvedSection({
               height={24}
               className="shrink-0 mt-0.5 w-6 h-6"
             />
-            <span><strong className="font-baloo text-white">Curadoria</strong> — Seleção de destinos, cruzeiros e experiências alinhados ao que você busca.</span>
+            <span><strong className="font-baloo text-white">Curadoria</strong> — Seleção de hospedagens, cruzeiros e experiências alinhados ao que você busca.</span>
           </li>
+          {subscriptionType === "total" && (
+            <li className="flex gap-4 font-comfortaa text-white/90 items-start">
+              <Image
+                src="/assets/icons/icon-check-gold.svg"
+                alt=""
+                width={24}
+                height={24}
+                className="shrink-0 mt-0.5 w-6 h-6"
+              />
+              <span><strong className="font-baloo text-white">Desenho de viagem</strong> — Serviço completo de planejamento e desenho da sua jornada sob medida.</span>
+            </li>)}
           <li className="flex gap-4 font-comfortaa text-white/90 items-start">
             <Image
               src="/assets/icons/icon-check-gold.svg"
@@ -106,43 +144,47 @@ export default function CirculoEvolvedSection({
               height={24}
               className="shrink-0 mt-0.5 w-6 h-6"
             />
-            <span><strong className="font-baloo text-white">Desenho de viagem</strong> — Serviço completo de planejamento e desenho da sua jornada sob medida.</span>
-          </li>
-          <li className="flex gap-4 font-comfortaa text-white/90 items-start">
-            <Image
-              src="/assets/icons/icon-check-gold.svg"
-              alt=""
-              width={24}
-              height={24}
-              className="shrink-0 mt-0.5 w-6 h-6"
-            />
-            <span><strong className="font-baloo text-white">Valores sem comissão ou cashback</strong> — Comissões revertidas em descontos ou cashback para você: você vê o valor real.</span>
+            <span><strong className="font-baloo text-white">Valores sem comissão</strong> — Você tem acesso a valores que antes só as agências de viagem possuíam. 10 a 30% de volta no seu bolso.</span>
           </li>
         </ul>
 
         {showPrice && (
-          <div className="text-center mb-6 min-h-[3rem] flex items-center justify-center">
+          <div className="text-center mb-6 min-h-[3rem] flex flex-col items-center justify-center">
             {subscriptionsLoading ? (
               <span className="inline-flex gap-1.5" aria-busy="true" aria-label="Carregando preço">
                 <span className="inline-block w-2 h-2 rounded-full bg-white/80 animate-pulse" />
                 <span className="inline-block w-2 h-2 rounded-full bg-white/80 animate-pulse" style={{ animationDelay: '150ms' }} />
                 <span className="inline-block w-2 h-2 rounded-full bg-white/80 animate-pulse" style={{ animationDelay: '300ms' }} />
               </span>
-            ) : subscriptions != null ? (
-              <span className="font-baloo text-4xl md:text-5xl font-bold text-accent-400">
-                {formatCurrency(subscriptions.priceWithTravelAdvisor)}
-              </span>
+            ) : oneTimePrice != null ? (
+              <>
+                {installmentPerMonth != null && (
+                  <span className="font-comfortaa text-sm md:text-base text-white/90">
+                    Em 12x de <strong className="font-semibold">{formatCurrency(installmentPerMonth)}</strong> ou
+                  </span>
+                )}
+                <div className="flex items-center justify-center gap-3 mt-2">
+                  <span className="font-baloo text-4xl md:text-5xl font-bold text-accent-400">
+                    {formatCurrency(oneTimePrice)}
+                  </span>
+                  {percentOffOneTime != null && percentOffOneTime > 0 ? (
+                    <span className="inline-flex items-center rounded-full bg-accent-500 text-white px-3 py-1 text-xs font-baloo font-bold">
+                      {percentOffOneTime}% OFF
+                    </span>
+                  ) : null}
+                </div>
+              </>
             ) : null}
           </div>
         )}
 
         <div className="bg-white/15 border-2 border-accent-400/60 rounded-2xl p-6 max-w-2xl mx-auto mb-4 text-center">
           <p className="font-comfortaa text-white leading-relaxed">
-            Você recupera o valor do serviço em descontos ou cashback ao fechar sua viagem — ou recebe a diferença de volta.
+            Se você não recuperar o valor do Círculo Evolved em suas viagens, te devolvemos a diferença.
           </p>
         </div>
 
-        <LimitedSpotsNotice subscriptions={subscriptions} isLoading={subscriptionsLoading} />
+        <LimitedSpotsNotice subscriptions={subscriptions} isLoading={subscriptionsLoading} subscriptionType={subscriptionType} />
 
         <div className="text-center">
           <Button
