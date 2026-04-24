@@ -7,7 +7,7 @@ import { CustomersService } from "@/clients/customers";
 import type { RelationshipType, SubscriptionTravelerItem } from "@/clients/customers";
 import { updateTravelerState } from "@/services/user/update-traveler-state";
 
-const REMOVAL_CONTACT_EMAIL = "info@tripevolved.com.br";
+const REMOVAL_CONTACT_EMAIL = "produto@tripevolved.com.br";
 const MAX_SUBSCRIPTION_TRAVELERS = 6;
 const SUBSCRIPTION_STATE_RETRY_DELAY_MS = 8_000;
 
