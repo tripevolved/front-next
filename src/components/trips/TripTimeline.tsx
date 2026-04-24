@@ -171,7 +171,6 @@ function getTripHref(trip: TripListView): string | null {
 }
 
 function TripIdeaModal({ trip, onClose }: { trip: TripListView; onClose: () => void }) {
-
   const imageUrls = trip.images?.map((img) => img.url).filter(Boolean) ?? []
   const price = trip.estimatedPrice ?? trip.price
   const savings = trip.estimatedSavings ?? trip.savings
@@ -311,17 +310,17 @@ function TripPriceDisplay({ trip }: { trip: TripListView }) {
 
   if (price == null && savings == null) return null
 
-  const exclusiveValue = price != null && savings != null && savings !== 0 ? price - savings : price
-  if (exclusiveValue == null || exclusiveValue === 0) return null
+  const originalPrice = price != null && savings != null && savings !== 0 ? price + savings : price
+  if (originalPrice == null || originalPrice === 0) return null
 
-  const showOriginal = price != null && price !== exclusiveValue
+  const showOriginal = price != null && price !== originalPrice
 
   return (
     <div className="mt-1 flex flex-col gap-0.5">
       {showOriginal && (
-        <p className="text-xs text-white/80 line-through">{formatCurrency(price)}</p>
+        <p className="text-xs text-white/80 line-through">{formatCurrency(originalPrice)}</p>
       )}
-      <p className="text-sm font-semibold text-accent-300">{formatCurrency(exclusiveValue)}</p>
+      <p className="text-sm font-semibold text-accent-300">{formatCurrency(price ?? 0)}</p>
       <p className="text-[10px] text-white/70">Exclusivo para Círculo Evolved</p>
     </div>
   )
@@ -432,13 +431,13 @@ export function TripTimeline() {
           <p className="text-sm text-secondary-700 font-comfortaa">
             {amountSaved != null && amountSaved !== 0 && (
               <>
-                Você já evitou <span className="font-semibold text-accent-600">{formatCurrency(amountSaved)}</span>
+                Você já economizou <span className="font-semibold text-accent-600">{formatCurrency(amountSaved)}</span>
                 {estimatedAmountToBeSaved != null && estimatedAmountToBeSaved !== 0 ? ' e ' : ' em comissões em suas viagens.'}
               </>
             )}
             {estimatedAmountToBeSaved != null && estimatedAmountToBeSaved !== 0 && (
               <>
-                {amountSaved == null || amountSaved === 0 ? 'Você evitará ' : 'evitará mais '}
+                {amountSaved == null || amountSaved === 0 ? 'Você economizará ao menos ' : 'economizará mais '}
                 <span className="font-semibold text-accent-600">{formatCurrency(estimatedAmountToBeSaved)}</span>
                 {' '}em comissões com as viagens do seu calendário.
               </>

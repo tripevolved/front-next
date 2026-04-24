@@ -11,6 +11,7 @@ import { getWhatsappLink } from '@/utils/helpers/whatsapp.helpers'
 import { formatCurrency } from '@/utils/helpers/currency.helper'
 import { PaymentsApiService } from '@/clients/payments'
 import { CIRCULO_INCLUDED_ESSENTIAL, CIRCULO_INCLUDED_TOTAL } from '@/core/payments/circulo-evolved'
+import { useAppStore } from '@/core/store'
 
 const CIRCULO_WHATSAPP_MESSAGE =
   'Olá! Gostaria de saber sobre vagas para o Círculo Evolved. As vagas estão esgotadas no momento e gostaria de ser avisado quando houver disponibilidade.'
@@ -29,6 +30,8 @@ export default function CirculoEvolvedCheckoutPage() {
   const bypassPaymentCheck = permitirPagamento !== null && permitirPagamento !== ''
   const subscriptionType = searchParams?.get('tipo') === 'total' ? 'total' : 'essential'
   const includedItems = subscriptionType === 'total' ? CIRCULO_INCLUDED_TOTAL : CIRCULO_INCLUDED_ESSENTIAL
+  const subscription = useAppStore((s) => s.travelerState?.subscription)
+  const isCirculoEvolvedMember = subscription?.status === 'Active'
 
   const [subscriptions, setSubscriptions] = useState<SubscriptionsResponse | null>(null)
   const [isLoadingSubscriptions, setIsLoadingSubscriptions] = useState(true)
@@ -90,10 +93,12 @@ export default function CirculoEvolvedCheckoutPage() {
       : null
 
   const showPaymentButton =
-    bypassPaymentCheck ||
-    (!isLoadingSubscriptions && !noSpotsAvailable && circuloPrice != null)
+    !isCirculoEvolvedMember &&
+    (bypassPaymentCheck ||
+      (!isLoadingSubscriptions && !noSpotsAvailable && circuloPrice != null))
 
   const goToPayment = async () => {
+    if (isCirculoEvolvedMember && !bypassPaymentCheck) return
     if (creatingPayment) return
     setCreatePaymentError(null)
     setCreatingPayment(true)
@@ -226,76 +231,86 @@ export default function CirculoEvolvedCheckoutPage() {
               <h2 className="font-baloo text-lg font-bold text-secondary-900 mb-4">
                 Resumo
               </h2>
-              <p className="font-comfortaa text-secondary-600 text-sm mb-4">
-                Assinatura anual — {subscriptionType === 'total'
-                  ? 'acesso a curadoria, design de viagens e valores sem comissões por 12 meses.'
-                  : 'acesso a curadoria e valores sem comissões por 12 meses.'}
-              </p>
-              <div className="border-t border-secondary-200 pt-4 mb-6">
-                {(!isLoadingSubscriptions && circuloInstallmentPerMonth != null) && (
-                  <p className="font-comfortaa text-xs text-secondary-600">
-                    Em 12x de <span className="font-semibold text-secondary-900">{formatCurrency(circuloInstallmentPerMonth)}</span> ou
+              {isCirculoEvolvedMember && !bypassPaymentCheck ? (
+                <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
+                  <p className="font-comfortaa text-sm text-amber-900 leading-relaxed">
+                    Você já possui uma assinatura ativa do Círculo Evolved
                   </p>
-                )}
-                <div className="flex justify-between items-baseline mt-2">
-                  <div className="flex items-center gap-2">
-                    <span className="font-baloo text-2xl font-bold text-secondary-900">
-                      {isLoadingSubscriptions
-                        ? '…'
-                        : circuloPrice != null
-                          ? formatCurrency(circuloPrice)
-                          : '—'}
-                    </span>
-                    {(!isLoadingSubscriptions && percentOffOneTime != null && percentOffOneTime > 0) && (
-                      <span className="inline-flex items-center rounded-full bg-accent-500 text-white px-2.5 py-1 text-[10px] font-baloo font-bold">
-                        {percentOffOneTime}% OFF
-                      </span>
-                    )}
-                  </div>
                 </div>
-                <span className="font-comfortaa text-secondary-700">À vista</span>
-              </div>
-              {!bypassPaymentCheck && isLoadingSubscriptions && (
-                <p className="font-comfortaa text-secondary-600 text-sm text-center py-3">
-                  Verificando disponibilidade de vagas…
-                </p>
-              )}
-              {showPaymentButton && (
+              ) : (
                 <>
-                  {createPaymentError ? (
-                    <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-900">
-                      <p className="text-sm font-medium leading-relaxed">{createPaymentError}</p>
+                  <p className="font-comfortaa text-secondary-600 text-sm mb-4">
+                    Assinatura anual — {subscriptionType === 'total'
+                      ? 'acesso a curadoria, design de viagens e valores sem comissões por 12 meses.'
+                      : 'acesso a curadoria e valores sem comissões por 12 meses.'}
+                  </p>
+                  <div className="border-t border-secondary-200 pt-4 mb-6">
+                    {(!isLoadingSubscriptions && circuloInstallmentPerMonth != null) && (
+                      <p className="font-comfortaa text-xs text-secondary-600">
+                        Em 12x de <span className="font-semibold text-secondary-900">{formatCurrency(circuloInstallmentPerMonth)}</span> ou
+                      </p>
+                    )}
+                    <div className="flex justify-between items-baseline mt-2">
+                      <div className="flex items-center gap-2">
+                        <span className="font-baloo text-2xl font-bold text-secondary-900">
+                          {isLoadingSubscriptions
+                            ? '…'
+                            : circuloPrice != null
+                              ? formatCurrency(circuloPrice)
+                              : '—'}
+                        </span>
+                        {(!isLoadingSubscriptions && percentOffOneTime != null && percentOffOneTime > 0) && (
+                          <span className="inline-flex items-center rounded-full bg-accent-500 text-white px-2.5 py-1 text-[10px] font-baloo font-bold">
+                            {percentOffOneTime}% OFF
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  ) : null}
-                  <button
-                    type="button"
-                    onClick={goToPayment}
-                    className="block w-full text-center font-baloo bg-accent-500 text-white py-3 px-6 rounded-full text-lg font-semibold hover:bg-accent-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
-                    disabled={creatingPayment}
-                  >
-                    {creatingPayment ? 'Iniciando pagamento…' : 'Ir para pagamento'}
-                  </button>
-                  <p className="font-comfortaa text-xs text-secondary-500 text-center mt-4">
-                    Compra segura • Você será redirecionado ao ambiente de pagamento
-                  </p>
-                </>
-              )}
-              {noSpotsAvailable && (
-                <>
-                  <p className="font-comfortaa text-secondary-700 text-xs italic mb-4 leading-relaxed">
-                    No momento não há vagas disponíveis, mas estamos liberando novos lugares constantemente. Essa limitação existe para garantir o cuidado e o nosso nível de serviço para você, em todas as suas viagens. Entre em contato pelo WhatsApp e vamos te avisar quando surgir nova disponibilidade.
-                  </p>
-                  <a
-                    href={getWhatsappLink(CIRCULO_WHATSAPP_MESSAGE)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full font-baloo bg-[#25D366] text-white py-3 px-6 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
-                  >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                    </svg>
-                    Falar no WhatsApp
-                  </a>
+                    <span className="font-comfortaa text-secondary-700">À vista</span>
+                  </div>
+                  {!bypassPaymentCheck && isLoadingSubscriptions && (
+                    <p className="font-comfortaa text-secondary-600 text-sm text-center py-3">
+                      Verificando disponibilidade de vagas…
+                    </p>
+                  )}
+                  {showPaymentButton && (
+                    <>
+                      {createPaymentError ? (
+                        <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-900">
+                          <p className="text-sm font-medium leading-relaxed">{createPaymentError}</p>
+                        </div>
+                      ) : null}
+                      <button
+                        type="button"
+                        onClick={goToPayment}
+                        className="block w-full text-center font-baloo bg-accent-500 text-white py-3 px-6 rounded-full text-lg font-semibold hover:bg-accent-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                        disabled={creatingPayment}
+                      >
+                        {creatingPayment ? 'Iniciando pagamento…' : 'Ir para pagamento'}
+                      </button>
+                      <p className="font-comfortaa text-xs text-secondary-500 text-center mt-4">
+                        Compra segura • Você será redirecionado ao ambiente de pagamento
+                      </p>
+                    </>
+                  )}
+                  {noSpotsAvailable && (
+                    <>
+                      <p className="font-comfortaa text-secondary-700 text-xs italic mb-4 leading-relaxed">
+                        No momento não há vagas disponíveis, mas estamos liberando novos lugares constantemente. Essa limitação existe para garantir o cuidado e o nosso nível de serviço para você, em todas as suas viagens. Entre em contato pelo WhatsApp e vamos te avisar quando surgir nova disponibilidade.
+                      </p>
+                      <a
+                        href={getWhatsappLink(CIRCULO_WHATSAPP_MESSAGE)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 w-full font-baloo bg-[#25D366] text-white py-3 px-6 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity"
+                      >
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                        </svg>
+                        Falar no WhatsApp
+                      </a>
+                    </>
+                  )}
                 </>
               )}
             </div>
