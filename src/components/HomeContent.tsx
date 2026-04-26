@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import ExperienceCarousel from '@/components/ExperienceCarousel'
 import ProductsCarousel from '@/components/ProductsCarousel'
 import QuotesCarousel from '@/components/QuotesCarousel'
 import FAQ from '@/components/FAQ'
@@ -10,6 +9,12 @@ import Button from '@/components/common/Button'
 import CirculoEvolvedSection from '@/components/circulo-evolved/CirculoEvolvedSection'
 import WhyTripEvolvedCards from '@/components/cruises/WhyTripEvolvedCards'
 import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { getAccessToken } from '@auth0/nextjs-auth0/client'
+
+import { CollectionsApiService } from '@/clients/collections'
+import type { Collection } from '@/clients/collections'
+import CollectionCard from '@/components/collections/CollectionCard'
 
 interface HomeContentProps {
   faqQuestions: Array<{
@@ -20,6 +25,49 @@ interface HomeContentProps {
 
 export default function HomeContent({ faqQuestions }: HomeContentProps) {
   const router = useRouter()
+  const [collections, setCollections] = useState<Collection[]>([])
+  const [isCollectionsLoading, setIsCollectionsLoading] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    let isMounted = true
+    const fetchCollections = async () => {
+      setIsCollectionsLoading(true)
+      try {
+        const response = await CollectionsApiService.getCollections({
+          travelerType: 'COUPLE',
+          offset: 0,
+          limit: 3,
+        })
+        if (!isMounted) return
+        setCollections(response.collections ?? [])
+      } catch (error) {
+        console.error('Error fetching collections:', error)
+      } finally {
+        if (isMounted) setIsCollectionsLoading(false)
+      }
+    }
+    fetchCollections()
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
+    const check = async () => {
+      try {
+        const token = await getAccessToken()
+        if (!cancelled) setIsLoggedIn(Boolean(token))
+      } catch {
+        if (!cancelled) setIsLoggedIn(false)
+      }
+    }
+    check()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -107,13 +155,67 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
         </div>
       </section>*/}
 
-      {/* Experiences Carousel */}
-      <section className="py-24 text-secondary-700">
+      {/* Collections Preview */}
+      <section className="py-24 bg-white text-secondary-700">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-          <h2 className="font-baloo text-4xl md:text-5xl font-bold mb-12 text-secondary-700">
-            Viagens incríveis para sua inspiração
-          </h2>
-          <ExperienceCarousel />
+          <div className="text-center mb-12">
+            <h2 className="font-baloo text-4xl md:text-5xl font-bold text-secondary-700">
+              Encontre sua próxima jornada
+            </h2>
+            <p className="font-comfortaa text-lg text-gray-600 mt-3 max-w-2xl mx-auto">
+              Coleções curadas para inspirar e facilitar seu planejamento.
+            </p>
+          </div>
+
+          {isCollectionsLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[...Array(3)].map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="bg-gray-200 rounded-xl h-[360px]" />
+                  <div className="mt-4 h-6 bg-gray-200 rounded w-3/4" />
+                  <div className="mt-2 h-4 bg-gray-200 rounded w-1/2" />
+                </div>
+              ))}
+            </div>
+          ) : collections.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {collections.map((c) => (
+                <CollectionCard
+                  key={c.uniqueName}
+                  uniqueName={c.uniqueName}
+                  title={c.title}
+                  subtitle={c.subtitle}
+                  image={c.images?.[0]?.url}
+                  travelerType={c.travelerType}
+                  isAvailableForPublic={c.isAvailableForPublic}
+                  isLoggedIn={isLoggedIn}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-10">
+              <p className="font-comfortaa text-gray-600">
+                Em breve teremos novas coleções para inspirar sua próxima viagem.
+              </p>
+              <div className="mt-6">
+                <Link
+                  href="/experiencias"
+                  className="inline-flex items-center justify-center font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+                >
+                  Explorar experiências
+                </Link>
+              </div>
+            </div>
+          )}
+
+          <div className="text-center mt-12">
+            <Link
+              href="/experiencias"
+              className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+            >
+              Ver todas as inspirações
+            </Link>
+          </div>
         </div>
       </section>
 
