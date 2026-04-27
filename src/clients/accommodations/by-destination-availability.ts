@@ -37,4 +37,3 @@ export const getAccommodationAvailabilityByDestination = async (
   };
   return ApiRequest.post<AccommodationByDestinationAvailabilityResponse>(route, body);
 };
-

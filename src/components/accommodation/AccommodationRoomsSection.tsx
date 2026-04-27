@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   PublicAccommodationRoom,
   PublicAccommodationImage,
@@ -23,6 +24,10 @@ import { ptBR } from "date-fns/locale";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { buildAccommodationCheckoutHref } from "@/utils/accommodation-checkout-url";
+import {
+  ACCOMMODATION_STAY_QUERY,
+  parseStayDateOnlyParam,
+} from "@/utils/accommodation-stay-url";
 
 /** When availability does not return `uniqueTransactionValidUntil`, use a short client default so checkout can proceed. Prefer the API value when present. */
 const FALLBACK_UNIQUE_TRANSACTION_VALID_MS = 60 * 60 * 1000;
@@ -92,6 +97,8 @@ function buildTravelerInput(
 
 export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRoomsSectionProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const stayHydratedFromUrlRef = useRef(false);
   const [selectedRoom, setSelectedRoom] = useState<{
     room: PublicAccommodationRoom | PublicAccommodationRoomAvailability;
     preselectedRateId: string | null;
@@ -130,6 +137,49 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isCalendarOpen]);
+
+  // Deep-link from coleção (or share URL): checkIn, checkOut, travelerType → pre-fill and fetch availability
+  useEffect(() => {
+    if (stayHydratedFromUrlRef.current || !searchParams) return;
+
+    const ci = searchParams.get(ACCOMMODATION_STAY_QUERY.checkIn);
+    const co = searchParams.get(ACCOMMODATION_STAY_QUERY.checkOut);
+
+    if (!ci || !co) {
+      stayHydratedFromUrlRef.current = true;
+      return;
+    }
+
+    const sd = parseStayDateOnlyParam(ci);
+    const ed = parseStayDateOnlyParam(co);
+    if (!sd || !ed || sd.getTime() > ed.getTime()) {
+      stayHydratedFromUrlRef.current = true;
+      return;
+    }
+
+    stayHydratedFromUrlRef.current = true;
+
+    setStartDate(sd);
+    setEndDate(ed);
+
+    const tt = searchParams.get(ACCOMMODATION_STAY_QUERY.travelerType);
+    if (tt === "FAMILY") {
+      setTravelerType("FAMILY");
+      setFamilyTravellers({ adults: 2, children: 0, childrenAges: [] });
+      setFamilyRooms([{ adults: 2, children: 0, childrenAges: [] }]);
+    } else if (tt === "COUPLE") {
+      setTravelerType("COUPLE");
+      setFamilyTravellers(null);
+      setFamilyRooms(null);
+    }
+
+    requestAnimationFrame(() => {
+      document.getElementById("accommodation-rooms")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  }, [searchParams]);
 
   // Fetch availability when dates and traveler input allow it
   useEffect(() => {

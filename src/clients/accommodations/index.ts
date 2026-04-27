@@ -12,7 +12,7 @@ import {
   postAccommodationAvailabilityConditions,
   type AccommodationAvailabilityConditionsRequest,
 } from "./availability-conditions";
-import { postAccommodationAvailabilityByCollection } from "./by-collection-availability";
+import { postAccommodationAvailabilityByUniqueNames } from "./by-accommodations-availability";
 
 export { toDateOnlyString, parseAccommodationApiDateTime } from "./availability";
 
@@ -22,7 +22,7 @@ export const AccommodationsApiService = {
   getAccommodationAvailabilityByDestination,
   getAccommodationsByCollection,
   getAccommodationAvailability,
-  postAccommodationAvailabilityByCollection,
+  postAccommodationAvailabilityByUniqueNames,
   postAccommodationAvailabilityConditions,
 };
 

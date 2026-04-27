@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
@@ -13,6 +13,19 @@ import type { TravelerType } from '@/clients/collections'
 import DateRangeSelector from '@/components/common/DateRangeSelector'
 import type { AccommodationAvailabilityQuery } from '@/clients/accommodations'
 import type { AccommodationByDestinationAvailabilityItem } from '@/clients/accommodations/by-destination-availability'
+import type {
+  PublicAccommodationLocation,
+  PublicAccommodationRoomAvailability,
+  PublicAccommodationRoomRate,
+} from '@/core/types/accommodations'
+import { formatCurrency } from '@/utils/helpers/currency.helper'
+import { buildAccommodationStayQuery } from '@/utils/accommodation-stay-url'
+
+/** Batch availability may include extra fields not declared on by-destination types. */
+type AccommodationAvailabilityPlaceFields = {
+  destination?: string | null
+  location?: PublicAccommodationLocation | string | null
+}
 
 const PAGE_SIZE = 6
 const PLACEHOLDER_IMAGE = '/assets/blank-image.png'
@@ -22,11 +35,53 @@ function imageUrl(img?: { url: string } | null): string {
   return u ? u : PLACEHOLDER_IMAGE
 }
 
-function AccommodationCard({ acc }: { acc: AccommodationByCollectionItem }) {
+function destinationFromAvailabilityItem(acc: AccommodationByDestinationAvailabilityItem): string | null {
+  const ex = acc as AccommodationByDestinationAvailabilityItem & AccommodationAvailabilityPlaceFields
+  const loc = ex.location
+  const fromLoc =
+    typeof loc === 'string'
+      ? loc.trim()
+      : loc && typeof loc === 'object' && 'address' in loc
+        ? String(loc.address ?? '').trim()
+        : ''
+  const d = ex.destination?.trim()
+  return d || fromLoc || null
+}
+
+function pickLowestPriceRate(
+  rooms: PublicAccommodationRoomAvailability[] | undefined
+): PublicAccommodationRoomRate | null {
+  if (!rooms?.length) return null
+  let best: PublicAccommodationRoomRate | null = null
+  for (const room of rooms) {
+    for (const rate of room.rates ?? []) {
+      if (best == null || rate.price < best.price) best = rate
+    }
+  }
+  return best
+}
+
+function AccommodationCard({
+  acc,
+  availabilityBestRate,
+  href,
+}: {
+  acc: AccommodationByCollectionItem
+  availabilityBestRate?: PublicAccommodationRoomRate | null
+  href: string
+}) {
+  const destinationLabel = acc.destination?.trim() || null
+  const showOriginal =
+    availabilityBestRate != null &&
+    typeof availabilityBestRate.originalPrice === 'number' &&
+    availabilityBestRate.originalPrice > availabilityBestRate.price
+
   return (
     <Link
-      href={`/hospedagens/${acc.uniqueName}`}
-      className="group block relative h-[360px] rounded-xl overflow-hidden"
+      href={href}
+      className={`group block relative rounded-xl overflow-hidden ${
+        availabilityBestRate ? 'min-h-[420px]' : 'min-h-[360px]'
+      }`}
     >
       <Image
         src={imageUrl(acc.coverImage ?? null)}
@@ -34,12 +89,29 @@ function AccommodationCard({ acc }: { acc: AccommodationByCollectionItem }) {
         fill
         className="object-cover transition-transform duration-500 group-hover:scale-110"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
-      <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+      <div className="absolute bottom-0 left-0 right-0 p-6 text-white flex flex-col gap-2">
         <h3 className="font-baloo text-2xl font-bold leading-tight">{acc.title}</h3>
-        {acc.destination ? (
-          <p className="mt-2 font-comfortaa text-sm text-white/90">{acc.destination}</p>
+        {destinationLabel ? (
+          <p className="font-comfortaa text-sm text-white/90 leading-snug">{destinationLabel}</p>
+        ) : null}
+        {availabilityBestRate ? (
+          <div className="pt-1 space-y-1.5">
+            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+              {showOriginal ? (
+                <span className="font-comfortaa text-sm text-white/65 line-through tabular-nums">
+                  {formatCurrency(availabilityBestRate.originalPrice!, availabilityBestRate.currency)}
+                </span>
+              ) : null}
+              <span className="font-baloo text-xl font-bold tabular-nums text-accent-300">
+                {formatCurrency(availabilityBestRate.price, availabilityBestRate.currency)}
+              </span>
+            </div>
+            <p className="font-comfortaa text-[11px] leading-snug text-white/85">
+              Tarifas sem comissão · exclusivo para membros do Círculo Evolved
+            </p>
+          </div>
         ) : null}
       </div>
 
@@ -60,7 +132,7 @@ function AccommodationCard({ acc }: { acc: AccommodationByCollectionItem }) {
 function AccommodationCardSkeleton() {
   return (
     <div className="animate-pulse">
-      <div className="bg-gray-200 rounded-xl h-[360px]" />
+      <div className="bg-gray-200 rounded-xl min-h-[420px]" />
       <div className="mt-4 h-6 bg-gray-200 rounded w-3/4" />
       <div className="mt-2 h-4 bg-gray-200 rounded w-1/2" />
     </div>
@@ -77,14 +149,19 @@ function TravelerTypeToggle({ value }: { value: TravelerType }) {
 }
 
 function asAvailabilityQuery(travelerType: TravelerType): AccommodationAvailabilityQuery {
-  // Minimal, safe traveler input; can be expanded later with a real form.
+  const adults = 2
+  const children = 0
+  const childrenAges: number[] = []
+  /** API expects `rooms`; casal = one quarto duplo (2 adults, matches aggregate fields). */
+  const rooms = [{ adults, children, childrenAges }]
+
   const query: AccommodationAvailabilityQuery = {
     travelerInput: {
       type: travelerType,
-      adults: 2,
-      children: 0,
-      childrenAges: [],
-      rooms: [],
+      adults,
+      children,
+      childrenAges,
+      rooms,
     },
   }
   return query
@@ -113,6 +190,11 @@ export default function CollectionAccommodationsSection({
   const [availabilityItems, setAvailabilityItems] = useState<AccommodationByDestinationAvailabilityItem[] | null>(null)
 
   useEffect(() => {
+    setAvailabilityItems(null)
+    setAvailabilityError(false)
+  }, [collectionUniqueName])
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dateRangeRef.current && !dateRangeRef.current.contains(event.target as Node)) {
         setIsCalendarOpen(false)
@@ -133,6 +215,8 @@ export default function CollectionAccommodationsSection({
     if (totalCount == null) return false
     return accommodations.length < totalCount
   }, [accommodations.length, totalCount])
+
+  const datesSelected = Boolean(startDate && endDate)
 
   const fetchPage = async (nextOffset: number, mode: 'replace' | 'append') => {
     const response = await AccommodationsApiService.getAccommodationsByCollection(collectionUniqueName, {
@@ -174,14 +258,44 @@ export default function CollectionAccommodationsSection({
     let cancelled = false
     const fetchAvailability = async () => {
       if (!startDate || !endDate) return
+      // Avoid racing the initial by-collection fetch (totalCount / paging must be stable).
+      if (isLoading) return
+
       setAvailabilityLoading(true)
       setAvailabilityError(false)
       try {
-        const res = await AccommodationsApiService.postAccommodationAvailabilityByCollection(
-          collectionUniqueName,
+        let total = totalCount ?? 0
+        if (total <= 0) {
+          const probe = await AccommodationsApiService.getAccommodationsByCollection(collectionUniqueName, {
+            offset: 0,
+            limit: 1,
+          })
+          if (cancelled) return
+          total = probe.totalCount ?? 0
+        }
+
+        if (cancelled) return
+        if (total <= 0) {
+          setAvailabilityItems([])
+          return
+        }
+
+        const catalog = await AccommodationsApiService.getAccommodationsByCollection(collectionUniqueName, {
+          offset: 0,
+          limit: total,
+        })
+        const uniqueNames = (catalog.accommodations ?? []).map((a) => a.uniqueName).filter(Boolean)
+        if (cancelled) return
+        if (uniqueNames.length === 0) {
+          setAvailabilityItems([])
+          return
+        }
+
+        const res = await AccommodationsApiService.postAccommodationAvailabilityByUniqueNames(
           startDate,
           endDate,
-          asAvailabilityQuery(travelerType)
+          asAvailabilityQuery(travelerType),
+          uniqueNames
         )
         if (cancelled) return
         setAvailabilityItems(res.accommodations ?? [])
@@ -200,7 +314,41 @@ export default function CollectionAccommodationsSection({
     return () => {
       cancelled = true
     }
-  }, [collectionUniqueName, travelerType, startDate, endDate])
+  }, [collectionUniqueName, travelerType, startDate, endDate, isLoading, totalCount])
+
+  const accommodationHref = useCallback(
+    (uniqueName: string) => {
+      const base = `/hospedagens/${encodeURIComponent(uniqueName)}`
+      if (startDate && endDate) {
+        return `${base}?${buildAccommodationStayQuery(startDate, endDate, travelerType)}`
+      }
+      return base
+    },
+    [startDate, endDate, travelerType]
+  )
+
+  const renderCatalogGrid = () => (
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {accommodations.map((acc) => (
+          <AccommodationCard key={acc.uniqueName} acc={acc} href={accommodationHref(acc.uniqueName)} />
+        ))}
+      </div>
+
+      {hasMore ? (
+        <div className="flex justify-center">
+          <button
+            type="button"
+            onClick={handleLoadMore}
+            disabled={isLoadingMore}
+            className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {isLoadingMore ? 'Carregando...' : 'Carregar mais'}
+          </button>
+        </div>
+      ) : null}
+    </>
+  )
 
   const handleLoadMore = async () => {
     if (isLoadingMore || !hasMore) return
@@ -277,46 +425,75 @@ export default function CollectionAccommodationsSection({
           </div>
         </div>
 
-        {/* Availability only runs after dates are set */}
-        {availabilityLoading ? (
+        {datesSelected && availabilityLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {[...Array(6)].map((_, index) => (
               <AccommodationCardSkeleton key={index} />
             ))}
           </div>
-        ) : availabilityError ? (
+        ) : datesSelected &&
+          !availabilityLoading &&
+          !availabilityError &&
+          availabilityItems &&
+          availabilityItems.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-2">
+            {availabilityItems.map((acc) => (
+              <AccommodationCard
+                key={acc.uniqueName}
+                acc={{
+                  id: acc.id,
+                  uniqueName: acc.uniqueName,
+                  title: acc.title,
+                  coverImage: acc.coverImage ?? null,
+                  tags: acc.tags ?? [],
+                  recommendedFor: acc.recommendedFor ?? [],
+                  amenities: acc.amenities ?? [],
+                  destination: destinationFromAvailabilityItem(acc),
+                  subtitle: null,
+                }}
+                availabilityBestRate={pickLowestPriceRate(acc.rooms)}
+                href={accommodationHref(acc.uniqueName)}
+              />
+            ))}
+          </div>
+        ) : datesSelected && !availabilityLoading && availabilityError && accommodations.length > 0 ? (
+          <>
+            <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 font-comfortaa text-sm text-amber-950">
+              Não foi possível consultar disponibilidade para as datas escolhidas. Mostrando todas as hospedagens da
+              coleção.
+            </div>
+            {renderCatalogGrid()}
+          </>
+        ) : datesSelected &&
+          !availabilityLoading &&
+          !availabilityError &&
+          availabilityItems &&
+          availabilityItems.length === 0 &&
+          accommodations.length > 0 ? (
+          <>
+            <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 font-comfortaa text-sm text-amber-950">
+              Não encontramos disponibilidade para o período selecionado. Abaixo está a lista completa da coleção —
+              tente outras datas para ver opções disponíveis.
+            </div>
+            {renderCatalogGrid()}
+          </>
+        ) : datesSelected && !availabilityLoading && availabilityError && accommodations.length === 0 ? (
           <EmptyOrErrorState
             status="error"
             title="Não foi possível consultar disponibilidade"
             description="Defina o período novamente ou tente em alguns instantes."
           />
-        ) : Array.isArray(availabilityItems) ? (
-          availabilityItems.length === 0 ? (
-            <EmptyOrErrorState
-              status="empty"
-              title="Sem disponibilidade para o período selecionado"
-              description="Tente outras datas para encontrar opções disponíveis."
-            />
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-2">
-              {availabilityItems.map((acc) => (
-                <AccommodationCard
-                  key={acc.uniqueName}
-                  acc={{
-                    id: acc.id,
-                    uniqueName: acc.uniqueName,
-                    title: acc.title,
-                    coverImage: acc.coverImage ?? null,
-                    tags: acc.tags ?? [],
-                    recommendedFor: acc.recommendedFor ?? [],
-                    amenities: acc.amenities ?? [],
-                    destination: null,
-                    subtitle: null,
-                  }}
-                />
-              ))}
-            </div>
-          )
+        ) : datesSelected &&
+          !availabilityLoading &&
+          !availabilityError &&
+          availabilityItems &&
+          availabilityItems.length === 0 &&
+          accommodations.length === 0 ? (
+          <EmptyOrErrorState
+            status="empty"
+            title="Sem disponibilidade para o período selecionado"
+            description="Tente outras datas ou confira outras coleções."
+          />
         ) : isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {[...Array(6)].map((_, index) => (
@@ -336,26 +513,7 @@ export default function CollectionAccommodationsSection({
             description="Em breve teremos novas recomendações para esta coleção."
           />
         ) : (
-          <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {accommodations.map((acc) => (
-                <AccommodationCard key={acc.uniqueName} acc={acc} />
-              ))}
-            </div>
-
-            {hasMore ? (
-              <div className="flex justify-center">
-                <button
-                  type="button"
-                  onClick={handleLoadMore}
-                  disabled={isLoadingMore}
-                  className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {isLoadingMore ? 'Carregando...' : 'Carregar mais'}
-                </button>
-              </div>
-            ) : null}
-          </>
+          renderCatalogGrid()
         )}
       </div>
     </section>

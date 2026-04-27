@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { PublicAccommodation } from '@/core/types/accommodations'
 import { ImageGrid } from '@/components/common/ImageGrid'
 import { AccommodationRoomsSection } from './AccommodationRoomsSection'
@@ -186,8 +186,21 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
         </div>
       </div>
 
-      {/* Rooms Section */}
-      <AccommodationRoomsSection rooms={accommodation.rooms} uniqueName={accommodation.uniqueName} />
+      {/* Rooms Section (`useSearchParams` requires Suspense boundary) */}
+      <Suspense
+        fallback={
+          <section id="accommodation-rooms" className="bg-white py-8 scroll-mt-6 md:scroll-mt-8">
+            <div className="container mx-auto px-4">
+              <div className="max-w-7xl mx-auto animate-pulse space-y-4">
+                <div className="h-8 bg-gray-200 rounded w-48" />
+                <div className="h-40 bg-gray-100 rounded-xl" />
+              </div>
+            </div>
+          </section>
+        }
+      >
+        <AccommodationRoomsSection rooms={accommodation.rooms} uniqueName={accommodation.uniqueName} />
+      </Suspense>
 
       {/* Mobile: fixed availability CTA */}
       <div
