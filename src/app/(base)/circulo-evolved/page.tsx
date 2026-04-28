@@ -338,7 +338,7 @@ export default function CirculoEvolvedPage() {
             <p className="font-semibold text-secondary-900">Exemplo de como funciona:</p>
             <ul className="list-none space-y-1 pl-0">
               <li>Tarifa pública: R$7.347,00</li>
-              <li>Tarifa "membro" em site famoso: R$6.681,00</li>
+              <li>Tarifa &quot;membro&quot; em site famoso: R$6.681,00</li>
               <li>Tarifa no Círculo Evolved: R$6.186,30</li>
             </ul>
             <p className="font-baloo font-bold text-accent-600 text-lg mt-4">

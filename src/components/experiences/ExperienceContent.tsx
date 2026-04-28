@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ShareModal } from "@/components/ShareModal";
 import { LocalStorageService } from "@/clients/local";
 import type { Experience } from "@/core/types/experiences";
@@ -264,12 +265,12 @@ export function ExperienceContent({ experience }: ExperienceContentProps) {
             
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a
+              <Link
                 href="/circulo-evolved"
                 className="inline-flex items-center gap-3 bg-white hover:bg-primary-50 text-primary-600 px-8 py-4 rounded-full font-baloo font-semibold text-lg transition-colors"
               >
                 Ir para o Círculo Evolved
-              </a>
+              </Link>
               <button
                 onClick={handleShareClick}
                 className="inline-flex items-center gap-3 bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-full font-baloo font-semibold text-lg transition-colors"
