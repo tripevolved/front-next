@@ -71,10 +71,13 @@ function AccommodationCard({
   href: string
 }) {
   const destinationLabel = acc.destination?.trim() || null
+  const recommendedFor = (acc.recommendedFor ?? []).filter(Boolean).slice(0, 2)
   const showOriginal =
     availabilityBestRate != null &&
     typeof availabilityBestRate.originalPrice === 'number' &&
     availabilityBestRate.originalPrice > availabilityBestRate.price
+  const taxesTotal =
+    availabilityBestRate?.taxes?.reduce((sum, t) => sum + (typeof t?.amount === 'number' ? t.amount : 0), 0) ?? 0
 
   return (
     <Link
@@ -96,6 +99,18 @@ function AccommodationCard({
         {destinationLabel ? (
           <p className="font-comfortaa text-sm text-white/90 leading-snug">{destinationLabel}</p>
         ) : null}
+        {recommendedFor.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {recommendedFor.map((t) => (
+              <span
+                key={`${acc.uniqueName}:rf:${t}`}
+                className="bg-accent-500/85 backdrop-blur-sm text-white px-3 py-1 rounded-full text-[11px] font-semibold"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+        ) : null}
         {availabilityBestRate ? (
           <div className="pt-1 space-y-1.5">
             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
@@ -104,10 +119,18 @@ function AccommodationCard({
                   {formatCurrency(availabilityBestRate.originalPrice!, availabilityBestRate.currency)}
                 </span>
               ) : null}
-              <span className="font-baloo text-xl font-bold tabular-nums text-accent-300">
-                {formatCurrency(availabilityBestRate.price, availabilityBestRate.currency)}
-              </span>
+              <div className="flex items-baseline gap-2">
+                <span className="font-baloo text-xl font-bold tabular-nums text-accent-300">
+                  {formatCurrency(availabilityBestRate.price, availabilityBestRate.currency)}
+                </span>
+                <span className="font-comfortaa text-[11px] text-white/75">total, a partir de</span>
+              </div>
             </div>
+            {taxesTotal > 0 ? (
+              <p className="font-comfortaa text-[10px] leading-snug text-white/70">
+                + {formatCurrency(taxesTotal, availabilityBestRate.currency)} em taxas
+              </p>
+            ) : null}
             <p className="font-comfortaa text-[11px] leading-snug text-white/85">
               Tarifas sem comissão · exclusivo para membros do Círculo Evolved
             </p>
