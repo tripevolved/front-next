@@ -64,12 +64,12 @@ function mealPlanLabel(flags?: {
   hasFullBoard?: boolean;
   isAllInclusive?: boolean;
 } | null): string {
-  if (!flags) return "Sem café da manhã";
+  if (!flags) return "Somente acomodação";
   if (flags.isAllInclusive) return "All inclusive";
   if (flags.hasFullBoard) return "Pensão completa";
   if (flags.hasHalfBoard) return "Meia pensão";
   if (flags.hasBreakfast) return "Café da manhã incluso";
-  return "Sem café da manhã";
+  return "Somente acomodação";
 }
 
 function decodeHtmlEntitiesIter(str: string, maxPasses = 6): string {
@@ -474,7 +474,7 @@ export function CheckoutPaymentLeftColumn({ paymentId }: { paymentId: string }) 
                           ? ((live as any).propertyTaxes as any[])
                           : [];
                         const rateMealPlan = live ? mealPlanLabel(live) : null;
-                        const mealPlanText = live ? rateMealPlan : "Sem café da manhã";
+                        const mealPlanText = live ? rateMealPlan : "Somente acomodação";
                         const roomAdults = typeof (r as any)?.adults === "number" ? (r as any).adults : null;
                         const roomChildren = typeof (r as any)?.children === "number" ? (r as any).children : null;
                         const stayStart = asDate((acc as any)?.startDate);

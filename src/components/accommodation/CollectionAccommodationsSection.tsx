@@ -61,14 +61,25 @@ function pickLowestPriceRate(
   return best
 }
 
+function boardDescriptionFromRate(rate: PublicAccommodationRoomRate): string {
+  if (rate.isAllInclusive) return 'All inclusive'
+  if (rate.hasFullBoard) return 'Pensão completa'
+  if (rate.hasHalfBoard) return 'Meia pensão'
+  if (rate.hasBreakfast) return 'Café da manhã'
+  return 'Somente acomodação'
+}
+
 function AccommodationCard({
   acc,
   availabilityBestRate,
   href,
+  availabilityLayout = false,
 }: {
   acc: AccommodationByCollectionItem
-  availabilityBestRate?: PublicAccommodationRoomRate | null
   href: string
+  /** Set when listing availability: `null` = no quote (grayscale). Omit in catalog mode. */
+  availabilityBestRate?: PublicAccommodationRoomRate | null
+  availabilityLayout?: boolean
 }) {
   const destinationLabel = acc.destination?.trim() || null
   const recommendedFor = (acc.recommendedFor ?? []).filter(Boolean).slice(0, 2)
@@ -78,13 +89,16 @@ function AccommodationCard({
     availabilityBestRate.originalPrice > availabilityBestRate.price
   const taxesTotal =
     availabilityBestRate?.taxes?.reduce((sum, t) => sum + (typeof t?.amount === 'number' ? t.amount : 0), 0) ?? 0
+  const noQuote = availabilityLayout && availabilityBestRate == null
+  const showPriceBlock = availabilityLayout && availabilityBestRate != null
+  const useTallCard = availabilityLayout
 
   return (
     <Link
       href={href}
       className={`group block relative rounded-xl overflow-hidden ${
-        availabilityBestRate ? 'min-h-[420px]' : 'min-h-[360px]'
-      }`}
+        useTallCard ? 'min-h-[420px]' : 'min-h-[360px]'
+      } ${noQuote ? 'grayscale' : ''}`}
     >
       <Image
         src={imageUrl(acc.coverImage ?? null)}
@@ -94,59 +108,54 @@ function AccommodationCard({
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
-      <div className="absolute bottom-0 left-0 right-0 p-6 text-white flex flex-col gap-2">
-        <h3 className="font-baloo text-2xl font-bold leading-tight">{acc.title}</h3>
-        {destinationLabel ? (
-          <p className="font-comfortaa text-sm text-white/90 leading-snug">{destinationLabel}</p>
-        ) : null}
-        {recommendedFor.length > 0 ? (
-          <div className="flex flex-wrap gap-2">
-            {recommendedFor.map((t) => (
-              <span
-                key={`${acc.uniqueName}:rf:${t}`}
-                className="bg-accent-500/85 backdrop-blur-sm text-white px-3 py-1 rounded-full text-[11px] font-semibold"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-        ) : null}
-        {availabilityBestRate ? (
-          <div className="pt-1 space-y-1.5">
-            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-              {showOriginal ? (
-                <span className="font-comfortaa text-sm text-white/65 line-through tabular-nums">
-                  {formatCurrency(availabilityBestRate.originalPrice!, availabilityBestRate.currency)}
-                </span>
-              ) : null}
-              <div className="flex items-baseline gap-2">
-                <span className="font-baloo text-xl font-bold tabular-nums text-accent-300">
-                  {formatCurrency(availabilityBestRate.price, availabilityBestRate.currency)}
-                </span>
-                <span className="font-comfortaa text-[11px] text-white/75">total, a partir de</span>
-              </div>
-            </div>
-            {taxesTotal > 0 ? (
-              <p className="font-comfortaa text-[10px] leading-snug text-white/70">
-                + {formatCurrency(taxesTotal, availabilityBestRate.currency)} em taxas
-              </p>
-            ) : null}
-            <p className="font-comfortaa text-[11px] leading-snug text-white/85">
-              Tarifas sem comissão · exclusivo para membros do Círculo Evolved
-            </p>
-          </div>
-        ) : null}
-      </div>
-
-      <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+      <div className="absolute top-4 left-4 right-4 flex flex-wrap gap-2 z-10">
         {(acc.tags ?? []).slice(0, 2).map((t) => (
           <span
-            key={`${acc.uniqueName}:${t}`}
+            key={`${acc.uniqueName}:tag:${t}`}
             className="bg-primary-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold"
           >
             {t}
           </span>
         ))}
+        {recommendedFor.map((t) => (
+          <span
+            key={`${acc.uniqueName}:rf:${t}`}
+            className="bg-accent-500/85 backdrop-blur-sm text-white px-3 py-1 rounded-full text-[11px] font-semibold"
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+
+      <div className="absolute bottom-0 left-0 right-0 p-6 text-white flex flex-col gap-2">
+        <h3 className="font-baloo text-2xl font-bold leading-tight">{acc.title}</h3>
+        {destinationLabel ? (
+          <p className="font-comfortaa text-sm text-white/90 leading-snug">{destinationLabel}</p>
+        ) : null}
+        {showPriceBlock && availabilityBestRate ? (
+          <div className="pt-1 space-y-1">
+            <p className="font-comfortaa text-[11px] font-medium text-white/85">Valor total a partir de</p>
+            <div className="flex flex-col gap-0.5">
+              {showOriginal ? (
+                <span className="font-comfortaa text-sm text-white/65 line-through tabular-nums">
+                  {formatCurrency(availabilityBestRate.originalPrice!, availabilityBestRate.currency)}
+                </span>
+              ) : null}
+              <span className="font-baloo text-xl font-bold tabular-nums text-accent-300">
+                {formatCurrency(availabilityBestRate.price, availabilityBestRate.currency)}
+              </span>
+            </div>
+            <p className="font-comfortaa text-xs text-white/90 pt-0.5">{boardDescriptionFromRate(availabilityBestRate)}</p>
+            {taxesTotal > 0 ? (
+              <p className="font-comfortaa text-[10px] leading-snug text-white/70">
+                + {formatCurrency(taxesTotal, availabilityBestRate.currency)} em taxas
+              </p>
+            ) : null}
+            <p className="font-comfortaa text-[9px] leading-snug text-white/75 pt-1">
+              Tarifas sem comissão · exclusivo para membros do Círculo Evolved
+            </p>
+          </div>
+        ) : null}
       </div>
     </Link>
   )
@@ -240,6 +249,24 @@ export default function CollectionAccommodationsSection({
   }, [accommodations.length, totalCount])
 
   const datesSelected = Boolean(startDate && endDate)
+
+  const sortedAvailabilityItems = useMemo(() => {
+    if (!availabilityItems?.length) return []
+    return [...availabilityItems]
+      .map((acc, index) => ({ acc, index, rate: pickLowestPriceRate(acc.rooms) }))
+      .sort((a, b) => {
+        const aHas = a.rate != null
+        const bHas = b.rate != null
+        if (aHas && !bHas) return -1
+        if (!aHas && bHas) return 1
+        if (aHas && bHas && a.rate && b.rate) {
+          const d = a.rate.price - b.rate.price
+          if (d !== 0) return d
+        }
+        return a.index - b.index
+      })
+      .map((x) => x.acc)
+  }, [availabilityItems])
 
   const fetchPage = async (nextOffset: number, mode: 'replace' | 'append') => {
     const response = await AccommodationsApiService.getAccommodationsByCollection(collectionUniqueName, {
@@ -460,7 +487,7 @@ export default function CollectionAccommodationsSection({
           availabilityItems &&
           availabilityItems.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-2">
-            {availabilityItems.map((acc) => (
+            {sortedAvailabilityItems.map((acc) => (
               <AccommodationCard
                 key={acc.uniqueName}
                 acc={{
@@ -474,6 +501,7 @@ export default function CollectionAccommodationsSection({
                   destination: destinationFromAvailabilityItem(acc),
                   subtitle: null,
                 }}
+                availabilityLayout
                 availabilityBestRate={pickLowestPriceRate(acc.rooms)}
                 href={accommodationHref(acc.uniqueName)}
               />

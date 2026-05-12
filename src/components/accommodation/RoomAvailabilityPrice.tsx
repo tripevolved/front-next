@@ -44,7 +44,7 @@ export function RoomAvailabilityPrice({ rate, size = "card" }: RoomAvailabilityP
     ? "Meia pensão"
     : rate.hasBreakfast
     ? "Café da manhã incluído"
-    : "Sem café da manhã";
+    : "Somente acomodação";
 
   const mealPlanHighlighted = Boolean(
     rate.isAllInclusive || rate.hasFullBoard || rate.hasHalfBoard || rate.hasBreakfast

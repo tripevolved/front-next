@@ -22,7 +22,7 @@ export function mealPlanLabelForKind(kind: MealPlanKind): string {
       return "Café da manhã incluído";
     case "NONE":
     default:
-      return "Sem café da manhã";
+      return "Somente acomodação";
   }
 }
 
