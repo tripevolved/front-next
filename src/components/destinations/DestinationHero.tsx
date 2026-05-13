@@ -33,17 +33,17 @@ function toCarouselPhotos(destination: PublicDestination): Photo[] {
 // Helper function to get icon and Portuguese name based on travel type
 function getTravelTypeDetails(type: TravelType) {
   const travelTypes = {
-    COUPLES: { icon: "💑", name: "Recomendado para casais" },
-    FAMILIES: { icon: "👨‍👩‍👧‍👦", name: "Recomendado para famílias" },
-    INDIVIDUALS: { icon: "👤", name: "Recomendado para viajantes solo" },
-    PAIRS: { icon: "👥", name: "Recomendado para duplas" },
+    COUPLES: { icon: "💑", name: "Para casais" },
+    FAMILIES: { icon: "👨‍👩‍👧‍👦", name: "Para famílias" },
+    INDIVIDUALS: { icon: "👤", name: "Para viajantes solo" },
+    PAIRS: { icon: "👥", name: "Para duplas" },
   };
 
   return travelTypes[type] || { icon: "✈️", name: "Outro" };
 }
 
 export function DestinationHero({ destination, showShareButton = true }: DestinationHeroProps) {
-  const { icon, name } = getTravelTypeDetails(destination.travelType);
+  const { name } = getTravelTypeDetails(destination.travelType);
   const photos = toCarouselPhotos(destination);
 
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
@@ -66,22 +66,25 @@ export function DestinationHero({ destination, showShareButton = true }: Destina
             <h1 className="text-3xl md:text-5xl font-baloo font-bold text-white mb-2">
               {destination.title}
             </h1>
-
+            {destination.where && (
+              <p className="text-white text-sm mb-2">
+                {destination.where}
+              </p>
+            )}
             {/* Destination type with icon */}
             {destination.travelType && (
               <div className="flex items-center mb-4">
-                <span className="bg-primary-500 text-white px-2 py-1 rounded-full text-lg font-medium flex items-center">
-                  <span className="text-2xl mr-2">{icon}</span>
+                <span className="bg-accent-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                   {name}
                 </span>
               </div>
             )}
 
             <div className="flex flex-wrap gap-2">
-              {destination.travelerProfiles.map((profile, index) => (
+              {destination.travelerProfiles && destination.travelerProfiles.length > 0 && destination.travelerProfiles.map((profile, index) => (
                 <span
                   key={index}
-                  className="bg-accent-500 text-white px-3 py-1 rounded-full text-sm font-medium"
+                  className="bg-primary-500 text-white px-3 py-1 rounded-full text-sm font-medium"
                 >
                   {profile}
                 </span>

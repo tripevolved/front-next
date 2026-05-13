@@ -9,7 +9,8 @@ export interface PublicDestination {
   id: string;
   uniqueName: string;
   title: string;
-  recommendedBy: PublicDestinationExpert;
+  where?: string;
+  recommendedBy?: PublicDestinationExpert;
   photos: DestinationImage[];
   videos: PublicDestinationVideo[];
   posts: Post[];

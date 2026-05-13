@@ -34,10 +34,7 @@ export function DestinationDetail({ destination }: DestinationDetailProps) {
               <DestinationExpert destination={destination} />
 
               {/* CTA */}
-              <DestinationCTA 
-                destinationTitle={destination.title} 
-                destinationUniqueName={destination.uniqueName} 
-              />
+              <DestinationCTA destinationTitle={destination.title} />
             </div>
           </div>
         </div>

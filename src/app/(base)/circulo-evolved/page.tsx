@@ -342,7 +342,7 @@ export default function CirculoEvolvedPage() {
               <li>Tarifa no Círculo Evolved: R$6.186,30</li>
             </ul>
             <p className="font-baloo font-bold text-accent-600 text-lg mt-4">
-              → R$ 1.160,70 de retorno direto em uma única reserva
+              → R$ 1.160,70 de economia em uma única reserva
             </p>
           </div>
           <div className="flex flex-col items-start gap-2">

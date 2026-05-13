@@ -27,20 +27,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     return {
       title: `${destination.title}`,
-      description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
+      description: destination.recommendedBy?.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
       openGraph: {
         title: `${destination.title}`,
-        description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
+        description: destination.recommendedBy?.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
         images: destination.photos?.[0]?.url ? [destination.photos[0].url] : undefined,
       },
       twitter: {
         card: 'summary_large_image',
         title: `${destination.title}`,
-        description: destination.recommendedBy.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
+        description: destination.recommendedBy?.recommendationText || `Descubra ${destination.title}, um destino incrível para sua próxima viagem.`,
         images: destination.photos?.[0]?.url ? [destination.photos[0].url] : undefined,
       },
     }
   } catch (error) {
+    console.log(error)
     return {
       title: 'Destino não encontrado',
       description: 'O destino que você está procurando não existe.',
