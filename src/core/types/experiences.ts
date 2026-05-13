@@ -55,7 +55,7 @@ export const mockExperiences: Experience[] = [
     type: "day-by-day",
     isVisible: true,
     description:
-      "Uma jornada incrível por Curaçao, uma ilha que é muito mais que só praias e resorts! Além de uma passadinha rápida pelos encantos da Cidade do Panamá.",
+      "Uma jornada incrível por Curaçao, uma ilha que é muito mais que só praias e resorts - além de uma passada rápida pelos encantos da Cidade do Panamá.",
     mapImage: "/assets/experiences/curacao/curacao-mapa.png",
     uniqueMoments: [
       {
@@ -80,28 +80,28 @@ export const mockExperiences: Experience[] = [
       {
         period: 1,
         date: "Dia 1",
-        activity: "Canal do Panamá e um pouquinho do Casco Viejo",
+        activity: "Canal do Panamá e um pouco do Casco Viejo",
         image: "/assets/experiences/curacao/casco-viejo.png",
         description:
-          "O dia começou cedo, com a visita ao impressionante Canal do Panamá ainda pela manhã. À tarde, exploramos um pouco (ou muito) do Casco Viejo.",
+          "O dia começou cedo, com a visita ao impressionante Canal do Panamá ainda pela manhã. A tarde foi para explorar o Casco Viejo, uma zona que foi transformada recentemente e é traz a história, cultura e gastronomia panamenhas de forma única.",
         hotel: {
           name: "Baluarte Boutique Hotel",
-          description: "Um hotel boutique simples e charmoso localizado no coração do Casco Viejo.",
+          description: "Um hotel boutique charmoso localizado no coração do Casco Viejo.",
           image: "/assets/experiences/curacao/hotel-baluarte.jpg",
         },
         highlights: {
           description:
-            "O Canal do Panamá é sensacional e surpreendeu, mas o charme do Casco Viejo nos conquistou.",
+            "O Canal do Panamá é sensacional e surpreende, mas o charme do Casco Viejo conquista a cada passo.",
           videos: undefined,
         },
       },
       {
         period: 2,
         date: "Dia 2",
-        activity: "Uma corridinha matinal pela Costanera e partiu centro!",
+        activity: "Uma corrida matinal pela Costanera?",
         image: "/assets/experiences/curacao/costanera.png",
         description:
-          "A experiência de correr pela Costanera foi muito legal! Tirando o cheiro em torno do mercado de peixes, é claro.",
+          "A experiência de correr pela Costanera é muito interessante. Se você aprecia fazer exercícios, esse é um programa muito interessante e que consegue te colocar no centro do dia a dia da cidade.",
         hotel: {
           name: "AC Hotel by Marriott Panama City",
           description:
@@ -120,7 +120,7 @@ export const mockExperiences: Experience[] = [
         activity: "Oi, Curaçao!",
         image: "/assets/experiences/curacao/oi-curacao.png",
         description:
-          "O primeiro contato com Curaçao foi quase um susto. Muita natureza e um mar espetacular!",
+          "O primeiro contato com Curaçao foi quase um susto. A vista do avião já é impressionante, mas pegar o carro ao sair do aeroporto diz muito. Muita natureza, ambientes intocados - especialmente rumo ao norte da ilha - e um mar espetacular!",
         hotel: {
           name: "Coral Estate Luxury Resort",
           description:
@@ -139,7 +139,7 @@ export const mockExperiences: Experience[] = [
         activity: "Cas Abao, Porto Marie e um pôr do sol a dois",
         image: "/assets/experiences/curacao/cas-abao.png",
         description:
-          "O norte de Curaçao tem ilhas que são espetáculos e Cas Abao e Porto Marie não poderiam ser deixadas de fora.",
+          "O norte de Curaçao tem praias que são espetáculos naturais e Cas Abao e Porto Marie não poderiam ser deixadas de fora.",
         hotel: {
           name: "Coral Estate Luxury Resort",
           description:
@@ -148,17 +148,17 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description:
-            "O jantar ao pôr do sol, no Karakter, foi uma experiência incrível. A comida e o atendimento, impecáveis, mas a paisagem é o que faz toda a diferença.",
+            "O jantar ao pôr do sol, no Karakter, foi uma experiência incrível. A comida e o atendimento são impecáveis, mas a paisagem é o que faz toda a diferença.",
           videos: undefined,
         },
       },
       {
         period: 5,
         date: "Dia 5",
-        activity: "Oi, Kenepas! Oi, Playa Lagun!",
+        activity: "As Kenepas e a espetacular Playa Lagun",
         image: "/assets/experiences/curacao/kenepa-grandi.png",
         description:
-          "A Playa Lagun foi a maior surpresa da viagem. Que lugar: água mais profunda, perfeita para mergulhos, mas com um mar tranquilo demais!",
+          "A Playa Lagun é a maior surpresa da viagem. Que lugar! Agua mais profunda próximo às pedras: perfeita para mergulhos, mas com um mar tranquilo demais!",
         hotel: {
           name: "Lagun Blou Resort",
           description:
@@ -166,17 +166,17 @@ export const mockExperiences: Experience[] = [
           image: "/assets/experiences/curacao/lagun-blou.png",
         },
         highlights: {
-          description: "E a vista do Lagun Blou Resort foi uma surpresa muito positiva. Que lugar!",
+          description: "E a vista do Lagun Blou Resort é uma surpresa sensacional.",
           videos: undefined,
         },
       },
       {
         period: 6,
         date: "Dia 6",
-        activity: "Partiu Pietermaai",
+        activity: "A jornada cultural até Pietermaai",
         image: "/assets/experiences/curacao/pietermaai-culture.png",
         description:
-          "Desde o começo, sabíamos que queríamos conhecer Willemstad, viver a cultura. E já começamos bem, ficando muito bem localizados em Pietermaai.",
+          "Curaçao é muito mais que praias e é fundamental viver a cultura local. Isso significa visitar Willemstad, o coração da ilha. E para começar bem, vamos ficar no bairro mais charmoso de Willemstad: Pietermaai.",
         hotel: {
           name: "Pietermaai Boutique Hotel",
           description:
@@ -184,7 +184,7 @@ export const mockExperiences: Experience[] = [
           image: "/assets/experiences/curacao/pietermaai-boutique.png",
         },
         highlights: {
-          description: "O bairro histórico de Pietermaai é muito vibrante e tem tudo pertinho.",
+          description: "O bairro histórico de Pietermaai é muito vibrante e tem tudo próximo, com uma vida gastronômica incrível.",
           videos: undefined,
         },
       },
@@ -194,7 +194,7 @@ export const mockExperiences: Experience[] = [
         activity: "Punda, Otrobanda e uma cultura única!",
         image: "/assets/experiences/curacao/punda-fort.png",
         description:
-          "Punda e Otrobanda, o coração de Willemstad. Atravessar a ponte Rainha Emma é uma experiência incrível. Dá até pra ver o pessoal correndo quando o sino toca!",
+          "Punda e Otrobanda, o coração de Willemstad. Atravessar a ponte Rainha Emma - aquela, que abre e fecha - é uma experiência incrível. Quando o sino toca para a ponte fechar, dá até pra ver o pessoal correndo!",
         hotel: {
           name: "Pietermaai Boutique Hotel",
           description:
@@ -203,17 +203,17 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description:
-            "Otrobanda tem alguns lugares incríveis, como a Kura Hulanda Village, que tem um centro comercial muito charmoso e com restaurantes ótimos.",
+            "Otrobanda tem alguns lugares incríveis, como a Kura Hulanda Village, com um centro comercial muito charmoso e com restaurantes ótimos.",
           videos: undefined,
         },
       },
       {
         period: 8,
         date: "Dia 8",
-        activity: "Klein Curaçao: que paraíso!",
+        activity: "Klein Curaçao, paraíso!",
         image: "/assets/experiences/curacao/klein-curacao-2.png",
         description:
-          "Imperdível: Klein Curaçao merece cada segundo da visita. É natureza quase intocada.",
+          "Klein Curaçao merece cada segundo da visita. É natureza quase intocada.",
         hotel: {
           name: "Pietermaai Boutique Hotel",
           description:
@@ -228,10 +228,10 @@ export const mockExperiences: Experience[] = [
       {
         period: 9,
         date: "Dia 9",
-        activity: "Últimos passeios e curtir o hotel",
+        activity: "Últimos passeios e relaxar no hotel",
         image: "/assets/experiences/curacao/curacao.png",
         description:
-          "O dia de passear pela manhã, comprar as últimas lembrancinhas e, claro, relaxamento no hotel, aproveitando as últimas horas em Curaçao.",
+          "O dia de passear pela manhã, comprar as últimas lembrancinhas e, claro, relaxar no hotel, aproveitando as últimas horas em Curaçao.",
         hotel: {
           name: "Pietermaai Boutique Hotel",
           description:
@@ -239,7 +239,7 @@ export const mockExperiences: Experience[] = [
           image: "/assets/experiences/curacao/pietermaai-boutique.png",
         },
         highlights: {
-          description: "Curtir a piscina do hotel!",
+          description: "Relaxar no hotel, aproveitando as últimas horas em Curaçao.",
           videos: undefined,
         },
       },
@@ -616,7 +616,7 @@ export const mockExperiences: Experience[] = [
         activity: "LA só de passagem",
         image: "/assets/experiences/california/la-griffith.png",
         description:
-          "O dia em Los Angeles foi só de passagem, mas com uma chegada no Observatório Griffith antes de partir rumo a Morro Bay.",
+          "Los Angeles é só o começo da jornada, com um dia só de passagem. De qualquer forma, visitar o Observatório Griffith é muito válido antes de partir rumo a Morro Bay.",
         hotel: {
           name: "Holland Inn & Suites",
           description:
@@ -625,14 +625,14 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description:
-            "A viagem era o atrativo do dia: o Observatório Griffith para começar. Depois, Highway 1, Topanga State Park e paisagens incríveis pela Los Padres National Forest.",
+            "A viagem é o atrativo do dia: o Observatório Griffith para começar. Depois, Highway 1, Topanga State Park e paisagens incríveis pela Los Padres National Forest.",
           videos: undefined,
         },
       },
       {
         period: 2,
         date: "Dia 2",
-        activity: "Uma manhã única em Morro Bay e partiu rumo Fresno",
+        activity: "Uma manhã única em Morro Bay",
         image: "/assets/experiences/california/morro-rock.png",
         description:
           "A manhã em Morro Bay foi incrível. A cidadezinha é muito tranquila, com a vista para a Morro Rock sendo um show à parte.",
@@ -644,7 +644,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description:
-            "Morro Bay. Uma parada um tanto aleatória na nossa viagem, mas foi muito legal conhecer um pouco mais do estilo por lá. Completamente diferente de tudo que vemos nos filmes, que normalmente se passam em LA ou San Francisco.",
+            "Morro Bay pode parecer uma parada quase aleatória na jornada, mas tem uma estilo muito interessante. Completamente diferente de tudo que vemos nos filmes, que normalmente se passam em LA ou San Francisco.",
           videos: undefined,
         },
       },
@@ -663,17 +663,17 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description:
-            "A manhã começou por visitar as Sequoias e elas fazem você se sentir pequeno. Natureza pura! Mas o ponto alto do alto foi a vista de El Capitan no fim do dia, já em Yosemite. Sensacional!",
+            "A manhã começa por visitar as Sequoias e elas fazem você se sentir pequeno. Natureza pura! Mas fechar o dia com a vista de El Capitan, já em Yosemite: sensacional!",
           videos: undefined,
         },
       },
       {
         period: 4,
         date: "Dia 4",
-        activity: "Yosemite e ponto final",
+        activity: "Yosemite",
         image: "/assets/experiences/california/yosemite-2.png",
         description:
-          "Sabíamos que Yosemite merecia mais do que uma visita rápida de fim de dia e não nos decepcionamos. É um espetáculo atrás do outro.",
+          "Yosemite merece (muito) mais do que uma visita rápida de fim de dia. É um espetáculo atrás do outro.",
         hotel: {
           name: "Fairfield Inn & Suites Oakhurst Yosemite",
           description:
@@ -682,7 +682,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description:
-            "Queríamos uma trilha tranquila - mas erramos a curva e não foi tão tranquilo. A compensação foi chegarmos ao topo da Vernal Fall e ao Clark Point: são realmente espetaculares. Depois, descobrimos que pegamos a John Muir Trail.",
+            "Trilhas tranquilas ou desafiadoras: o que você escolher, vale a pena. Um bom meio termo, com cerca de 4km, é a John Muir Trail, que vai ao topo da Vernal Fall e ao Clark Point: são realmente espetaculares.",
           videos: undefined,
         },
       },
@@ -692,7 +692,7 @@ export const mockExperiences: Experience[] = [
         activity: "Lake Tahoe - (quase) ainda na Califórnia!",
         image: "/assets/experiences/california/lake-tahoe.png",
         description:
-          "Um pouco mais ao norte, Lake Tahoe é uma das maravilhas naturais da Califórnia. Partimos cedo de Oakhurst, passamos pela Eldorado National Forest e chegamos em South Lake Tahoe, nossa base para conhecer esse lugar lindo.",
+          "Um pouco mais ao norte, Lake Tahoe é uma das maravilhas naturais da Califórnia. Parta cedo de Oakhurst para aproveitar a estrada passando pela Eldorado National Forest antes de chegar em South Lake Tahoe, a base para conhecer esse lugar lindo.",
         hotel: {
           name: "Station House Inn",
           description:
@@ -701,8 +701,8 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description:
-            "Passar ao lado de Nevada e achar um cantinho lindo, cheio de pedras, para só curtir a vista do lago.",
-          videos: undefined,
+            "Passar ao lado de Nevada e achar um cantinho lindo, cheio de pedras, para curtir a vista do lago.",
+          videos: undefined,  
         },
       },
       {
@@ -711,7 +711,7 @@ export const mockExperiences: Experience[] = [
         activity: "Dia de praia em Tahoe!",
         image: "/assets/experiences/california/lake-tahoe-2.png",
         description:
-          "Num cantinho pertinho de Kings Beach, descobrimos uma praia tranquila para relaxar e curtir o dia. O que dizer da água: gelada, muito gelada! Mas tínhamos que mergulhar um pouco, certo?",
+          "Num canto próximo de Kings Beach, há uma praia tranquila para relaxar e curtir o dia. A água: gelada, muito gelada! Mas vale ao menos um mergulho, com certeza.",
         hotel: {
           name: "Station House Inn",
           description:
@@ -720,7 +720,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description:
-            "Ponto alto também para Emerald Bay, um cantinho do lago com uma vista espetacular para uma ilhota, que cria um cenário lindo.",
+            "Ponto alto também para Emerald Bay, um canto do lago com uma vista espetacular para uma ilhota, que cria um cenário lindo.",
           videos: undefined,
         },
       },
@@ -730,7 +730,7 @@ export const mockExperiences: Experience[] = [
         activity: "São Francisco - A cidade da baía",
         image: "/assets/experiences/california/san-francisco.png",
         description:
-          "A chegada em São Francisco tinha que ser pela Golden Gate Bridge, certo? Fizemos questão que nosso caminho nos trouxesse por lá.",
+          "A chegada em São Francisco PRECISA ser pela Golden Gate Bridge, certo? Faça questão que seu caminho te leve por lá.",
         hotel: {
           name: "The Donatello",
           description:
@@ -739,7 +739,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description:
-            "Estávamos muito bem localizados, pertinho de Union Square e dos principais pontos. O Ferry Building foi o ponto alto do dia, com direito a empanada argentina!",
+            "Você estará muito bem localizado, próximo de Union Square e dos principais pontos. O Ferry Building é o ponto alto do dia, com direito a empanada argentina!",
           videos: undefined,
         },
       },
@@ -749,7 +749,7 @@ export const mockExperiences: Experience[] = [
         activity: "Piers, muitos piers. E, claro, Alcatraz!",
         image: "/assets/experiences/california/alcatraz.png",
         description:
-          "São Francisco oferece muitas vistas da Baía, e tínhamos que aproveitar. Coit Tower, Palace of Fine Arts... Mas, principalmente, os piers em torno do Fisherman's Wharf.",
+          "São Francisco oferece muitas vistas da Baía, e vale a pena aproveitar. Coit Tower, Palace of Fine Arts... Mas, principalmente, os piers em torno do Fisherman's Wharf.",
         hotel: {
           name: "The Donatello",
           description:
@@ -758,7 +758,7 @@ export const mockExperiences: Experience[] = [
         },
         highlights: {
           description:
-            "A viagem para Alcatraz foi uma das mais legais de toda a viagem. A experiência toda, com as histórias contadas lá dentro, vale muito a pena. E as vistas do trajeto de barco...",
+            "A viagem para Alcatraz é uma das mais interessantes de toda a viagem. A experiência toda, com as histórias contadas lá dentro, vale muito a pena. E as vistas do trajeto de barco...",
           videos: undefined,
         },
       },

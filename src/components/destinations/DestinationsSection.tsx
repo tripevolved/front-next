@@ -1,19 +1,23 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import DestinationCard from '@/components/destinations/DestinationCard'
 import { DestinationsApiService } from '@/clients/destinations'
 import type { Destination } from '@/clients/destinations/destinations'
 
+const PAGE_SIZE = 6
+
 export default function DestinationsSection() {
   const [destinations, setDestinations] = useState<Destination[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
-  const [perPage] = useState(6)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
+
+  const hasMore = useMemo(() => page < totalPages, [page, totalPages])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -24,41 +28,60 @@ export default function DestinationsSection() {
   }, [searchTerm])
 
   useEffect(() => {
-    const fetchDestinations = async () => {
+    let isMounted = true
+    const fetchFirstPage = async () => {
       setIsLoading(true)
       try {
         const response = await DestinationsApiService.getDestinations({
           profile: 'all',
-          limit: perPage,
-          page: currentPage,
+          limit: PAGE_SIZE,
+          page: 1,
           search: debouncedSearchTerm,
         })
+        if (!isMounted) return
         setDestinations(response.destinations)
         setTotalPages(response.totalPages)
+        setPage(1)
       } catch (error) {
         console.error('Error fetching destinations:', error)
       } finally {
-        setIsLoading(false)
+        if (isMounted) setIsLoading(false)
       }
     }
 
-    fetchDestinations()
-  }, [currentPage, perPage, debouncedSearchTerm])
+    fetchFirstPage()
+    return () => {
+      isMounted = false
+    }
+  }, [debouncedSearchTerm])
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page)
-    const sectionTop = document.getElementById('destinos')?.offsetTop ?? 0
-    window.scrollTo({ top: sectionTop - 80, behavior: 'smooth' })
+  const handleLoadMore = async () => {
+    if (isLoadingMore || !hasMore) return
+    const nextPage = page + 1
+    setIsLoadingMore(true)
+    try {
+      const response = await DestinationsApiService.getDestinations({
+        profile: 'all',
+        limit: PAGE_SIZE,
+        page: nextPage,
+        search: debouncedSearchTerm,
+      })
+      setDestinations((prev) => [...prev, ...response.destinations])
+      setPage(nextPage)
+      setTotalPages(response.totalPages)
+    } catch (error) {
+      console.error('Error fetching more destinations:', error)
+    } finally {
+      setIsLoadingMore(false)
+    }
   }
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    setCurrentPage(1)
   }
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)
-    setCurrentPage(1)
   }
 
   return (
@@ -106,17 +129,32 @@ export default function DestinationsSection() {
             ))}
           </div>
         ) : destinations && destinations.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {destinations.map((destination) => (
-              <DestinationCard
-                key={destination.destinationId}
-                title={destination.name}
-                image={destination.coverImage?.url || '/assets/destino/no-image-background.jpg'}
-                profile={destination.travelerProfile}
-                link={`/destinos/${destination.uniqueName}`}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              {destinations.map((destination) => (
+                <DestinationCard
+                  key={destination.destinationId}
+                  title={destination.name}
+                  image={destination.coverImage?.url || '/assets/destino/no-image-background.jpg'}
+                  profile={destination.travelerProfile}
+                  link={`/destinos/${destination.uniqueName}`}
+                />
+              ))}
+            </div>
+
+            {hasMore ? (
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  onClick={handleLoadMore}
+                  disabled={isLoadingMore}
+                  className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {isLoadingMore ? 'Carregando...' : 'Carregar mais'}
+                </button>
+              </div>
+            ) : null}
+          </>
         ) : (
           <div className="text-center py-16">
             <h3 className="font-baloo text-2xl font-bold text-gray-700 mb-4">Nenhum destino encontrado</h3>
@@ -136,55 +174,7 @@ export default function DestinationsSection() {
             ) : null}
           </div>
         )}
-
-        {totalPages > 1 && destinations && destinations.length > 0 ? (
-          <div className="flex justify-center items-center space-x-2 mb-2">
-            <button
-              type="button"
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className={`px-4 py-2 rounded-lg font-baloo font-semibold transition-colors ${
-                currentPage === 1
-                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  : 'bg-primary-500 text-white hover:bg-primary-600'
-              }`}
-            >
-              Anterior
-            </button>
-
-            <div className="flex space-x-2">
-              {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
-                <button
-                  key={page}
-                  type="button"
-                  onClick={() => handlePageChange(page)}
-                  className={`px-4 py-2 rounded-lg font-baloo font-semibold transition-colors ${
-                    currentPage === page
-                      ? 'bg-accent-500 text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-            </div>
-
-            <button
-              type="button"
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className={`px-4 py-2 rounded-lg font-baloo font-semibold transition-colors ${
-                currentPage === totalPages
-                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  : 'bg-primary-500 text-white hover:bg-primary-600'
-              }`}
-            >
-              Próxima
-            </button>
-          </div>
-        ) : null}
       </div>
     </section>
   )
 }
-
