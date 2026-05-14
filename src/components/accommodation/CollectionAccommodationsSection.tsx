@@ -74,12 +74,15 @@ function AccommodationCard({
   availabilityBestRate,
   href,
   availabilityLayout = false,
+  onSelect,
 }: {
   acc: AccommodationByCollectionItem
   href: string
   /** Set when listing availability: `null` = no quote (grayscale). Omit in catalog mode. */
   availabilityBestRate?: PublicAccommodationRoomRate | null
   availabilityLayout?: boolean
+  /** When set, card is a button (e.g. collections flow drawer) instead of a link. */
+  onSelect?: () => void
 }) {
   const destinationLabel = acc.destination?.trim() || null
   const recommendedFor = (acc.recommendedFor ?? []).filter(Boolean).slice(0, 2)
@@ -93,13 +96,12 @@ function AccommodationCard({
   const showPriceBlock = availabilityLayout && availabilityBestRate != null
   const useTallCard = availabilityLayout
 
-  return (
-    <Link
-      href={href}
-      className={`group block relative rounded-xl overflow-hidden ${
-        useTallCard ? 'min-h-[420px]' : 'min-h-[360px]'
-      } ${noQuote ? 'grayscale' : ''}`}
-    >
+  const cardClass = `group block relative rounded-xl overflow-hidden ${
+    useTallCard ? 'min-h-[420px]' : 'min-h-[360px]'
+  } ${noQuote ? 'grayscale' : ''}`
+
+  const cardInner = (
+    <>
       <Image
         src={imageUrl(acc.coverImage ?? null)}
         alt={acc.title}
@@ -157,6 +159,20 @@ function AccommodationCard({
           </div>
         ) : null}
       </div>
+    </>
+  )
+
+  if (onSelect) {
+    return (
+      <button type="button" onClick={onSelect} className={`${cardClass} w-full border-0 p-0 text-left cursor-pointer`}>
+        {cardInner}
+      </button>
+    )
+  }
+
+  return (
+    <Link href={href} className={cardClass}>
+      {cardInner}
     </Link>
   )
 }
@@ -202,9 +218,14 @@ function asAvailabilityQuery(travelerType: TravelerType): AccommodationAvailabil
 export default function CollectionAccommodationsSection({
   collectionUniqueName,
   travelerType,
+  layout = 'page',
+  onAccommodationPick,
 }: {
   collectionUniqueName: string
   travelerType: TravelerType
+  layout?: 'page' | 'drawer'
+  /** When set with dates selected, cards become actions and pass ISO date strings (yyyy-MM-dd). */
+  onAccommodationPick?: (p: { uniqueName: string; startDate: string; endDate: string }) => void
 }) {
   const [accommodations, setAccommodations] = useState<AccommodationByCollectionItem[]>([])
   const [offset, setOffset] = useState(0)
@@ -377,11 +398,38 @@ export default function CollectionAccommodationsSection({
     [startDate, endDate, travelerType]
   )
 
+  const pickPayload = useCallback(
+    (uniqueName: string) => {
+      if (!onAccommodationPick || !startDate || !endDate) return
+      onAccommodationPick({
+        uniqueName,
+        startDate: format(startDate, 'yyyy-MM-dd'),
+        endDate: format(endDate, 'yyyy-MM-dd'),
+      })
+    },
+    [onAccommodationPick, startDate, endDate]
+  )
+
+  /** Drawer / embedded flow: never navigate to `/hospedagens`; pick dates first if missing, then advance. */
+  const accommodationCardOnSelect = useCallback(
+    (uniqueName: string): (() => void) | undefined => {
+      if (!onAccommodationPick) return undefined
+      if (startDate && endDate) return () => pickPayload(uniqueName)
+      return () => setIsCalendarOpen(true)
+    },
+    [onAccommodationPick, startDate, endDate, pickPayload]
+  )
+
   const renderCatalogGrid = () => (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         {accommodations.map((acc) => (
-          <AccommodationCard key={acc.uniqueName} acc={acc} href={accommodationHref(acc.uniqueName)} />
+          <AccommodationCard
+            key={acc.uniqueName}
+            acc={acc}
+            href={accommodationHref(acc.uniqueName)}
+            onSelect={accommodationCardOnSelect(acc.uniqueName)}
+          />
         ))}
       </div>
 
@@ -415,8 +463,8 @@ export default function CollectionAccommodationsSection({
   }
 
   return (
-    <section className="py-20 bg-white">
-      <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+    <section className={layout === 'drawer' ? 'py-8 bg-gray-50' : 'py-20 bg-white'}>
+      <div className={layout === 'drawer' ? 'w-full px-4' : 'w-full md:w-[80%] mx-auto px-4 md:px-0'}>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
             <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-500">Hospedagens</h2>
@@ -504,6 +552,7 @@ export default function CollectionAccommodationsSection({
                 availabilityLayout
                 availabilityBestRate={pickLowestPriceRate(acc.rooms)}
                 href={accommodationHref(acc.uniqueName)}
+                onSelect={accommodationCardOnSelect(acc.uniqueName)}
               />
             ))}
           </div>

@@ -13,6 +13,8 @@ interface CollectionCardProps {
   travelerType?: TravelerType
   isAvailableForPublic?: boolean
   isLoggedIn?: boolean
+  /** When set (e.g. painel drawer), the card acts as a button instead of linking to `/colecoes/...`. */
+  onSelect?: () => void
 }
 
 const travelerTypeLabel = (travelerType?: TravelerType) => {
@@ -28,6 +30,7 @@ export default function CollectionCard({
   travelerType,
   isAvailableForPublic,
   isLoggedIn,
+  onSelect,
 }: CollectionCardProps) {
   const isPublic = isAvailableForPublic !== false
   const canAccess = isPublic || Boolean(isLoggedIn)
@@ -35,11 +38,8 @@ export default function CollectionCard({
     ? `/colecoes/${uniqueName}`
     : `/auth/login?returnTo=${encodeURIComponent(`/colecoes/${uniqueName}`)}`
 
-  return (
-    <Link
-      href={targetHref}
-      className="group relative block h-[360px] rounded-xl overflow-hidden"
-    >
+  const inner = (
+    <>
       <Image
         src={image || '/assets/blank-image.png'}
         alt={title}
@@ -86,6 +86,23 @@ export default function CollectionCard({
           {canAccess ? 'Explorar' : 'Crie sua conta no Círculo Evolved para explorar'} <span aria-hidden>→</span>
         </span>
       </div>
+    </>
+  )
+
+  const shellClass =
+    'group relative block h-[360px] rounded-xl overflow-hidden w-full text-left border-0 p-0 cursor-pointer'
+
+  if (onSelect && canAccess) {
+    return (
+      <button type="button" onClick={onSelect} className={shellClass}>
+        {inner}
+      </button>
+    )
+  }
+
+  return (
+    <Link href={targetHref} className={shellClass}>
+      {inner}
     </Link>
   )
 }

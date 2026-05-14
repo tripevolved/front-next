@@ -67,7 +67,7 @@ export const getAccommodationAvailability = async (
   endDate: Date,
   query: AccommodationAvailabilityQuery
 ): Promise<AccommodationAvailabilityResponse> => {
-  const route = `accommodations/${uniqueName}/availability`;
+  const route = `accommodations/${encodeURIComponent(uniqueName)}/availability`;
   const body: AccommodationAvailabilityRequestBody = {
     startDate: toDateOnlyString(startDate),
     endDate: toDateOnlyString(endDate),

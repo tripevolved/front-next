@@ -9,8 +9,8 @@ export type AccommodationAvailabilityByUniqueNamesBody = AccommodationAvailabili
 };
 
 /**
- * POST `accommodations/availability` — batch quote (dates, travelerInput, plus `accommodations` unique names).
- * Single accommodation: `getAccommodationAvailability` → POST `accommodations/{uniqueName}/availability` in `availability.ts`.
+ * POST `accommodations/availability` — batch quote for a **collection** (all `accommodations` unique names).
+ * Single-property (hospedagem) pages use `getAccommodationAvailability` → POST `accommodations/{uniqueName}/availability`.
  */
 export const postAccommodationAvailabilityByUniqueNames = async (
   startDate: Date,

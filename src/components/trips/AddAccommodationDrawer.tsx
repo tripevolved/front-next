@@ -9,10 +9,7 @@ import { DestinationsApiService } from "@/clients/destinations";
 import type { Destination } from "@/clients/destinations/destinations";
 import { SuggestDestinationForCuratorship } from "@/components/destinations/SuggestDestinationForCuratorship";
 import { AccommodationsApiService } from "@/clients/accommodations";
-import type {
-  AccommodationByDestinationAvailabilityItem,
-  AccommodationByDestinationAvailabilityResponse,
-} from "@/clients/accommodations/by-destination-availability";
+import type { AccommodationByDestinationAvailabilityResponse } from "@/clients/accommodations/by-destination-availability";
 import DateRangeSelector from "@/components/common/DateRangeSelector";
 import { EmptyOrErrorState } from "@/components/common/EmptyOrErrorState";
 import { RoomAvailabilityPrice } from "@/components/accommodation/RoomAvailabilityPrice";
@@ -22,18 +19,13 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { TripsApiService } from "@/clients/trips";
 import { toDateOnlyString } from "@/clients/accommodations";
-import type { PublicAccommodationImage, PublicAccommodationRoomAvailability } from "@/core/types/accommodations";
+import type { PublicAccommodationRoomAvailability } from "@/core/types/accommodations";
 import type { PublicAccommodation } from "@/core/types/accommodations";
 import { PaymentsApiService } from "@/clients/payments";
 import type { CheckoutPaymentItem } from "@/core/types/payments";
-import { ImageGrid } from "@/components/common/ImageGrid";
-import { AccommodationHighlightsSection } from "@/components/accommodation/AccommodationHighlightsSection";
-import { AccommodationAmenitiesGrid } from "@/components/accommodation/AccommodationAmenitiesGrid";
-import {
-  buildCandidateRatesForRoom,
-  mealPlanKindForRate,
-  mealPlanLabelForKind,
-} from "@/components/accommodation/roomCandidateRates";
+import { buildCandidateRatesForRoom } from "@/components/accommodation/roomCandidateRates";
+import { AccommodationDrawerDetailPanel } from "@/components/accommodation/AccommodationDrawerDetailPanel";
+import { AccommodationAvailabilityRoomsGrid } from "@/components/accommodation/AccommodationAvailabilityRoomsGrid";
 
 type Props = {
   isOpen: boolean;
@@ -47,9 +39,6 @@ type Props = {
 };
 
 type Step = 1 | 2 | 3 | 4;
-
-const PROSE_CONTAINED =
-  "prose prose-lg max-w-none text-gray-700 overflow-hidden break-words [overflow-wrap:anywhere] [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_iframe]:max-w-full";
 
 function imageUrl(img?: { url: string } | null): string | null {
   const u = img?.url?.trim();
@@ -89,111 +78,6 @@ function pickFirstRate(rooms: any[]): PublicAccommodationRoomRate | null {
     if (Array.isArray(rates) && rates.length > 0 && rates[0]) return rates[0] as PublicAccommodationRoomRate;
   }
   return null;
-}
-
-function RoomImagesCarousel({ images, title }: { images: PublicAccommodationImage[]; title: string }) {
-  const urls = useMemo(() => (images ?? []).map((i) => i.url?.trim()).filter(Boolean) as string[], [images]);
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    setIndex(0);
-  }, [title, urls.join("|")]);
-
-  const goPrev = useCallback(() => {
-    if (urls.length <= 1) return;
-    setIndex((i) => (i - 1 + urls.length) % urls.length);
-  }, [urls.length]);
-
-  const goNext = useCallback(() => {
-    if (urls.length <= 1) return;
-    setIndex((i) => (i + 1) % urls.length);
-  }, [urls.length]);
-
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const minSwipeDistance = 40;
-
-  if (urls.length === 0) {
-    return (
-      <div className="relative w-full h-44 md:h-52 bg-secondary-100">
-        <Image src="/assets/blank-image.png" alt={title} fill className="object-cover" />
-      </div>
-    );
-  }
-
-  if (urls.length === 1) {
-    return (
-      <div className="relative w-full h-44 md:h-52 bg-secondary-100">
-        <Image src={urls[0]} alt={title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" priority />
-      </div>
-    );
-  }
-
-  return (
-    <div
-      className="relative w-full h-44 md:h-52 bg-secondary-100"
-      onTouchStart={(e) => {
-        setTouchEnd(null);
-        setTouchStart(e.targetTouches[0].clientX);
-      }}
-      onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
-      onTouchEnd={() => {
-        if (touchStart == null || touchEnd == null) return;
-        const distance = touchStart - touchEnd;
-        if (distance > minSwipeDistance) goNext();
-        if (distance < -minSwipeDistance) goPrev();
-        setTouchStart(null);
-        setTouchEnd(null);
-      }}
-    >
-      {urls.map((url, i) => (
-        <div
-          key={`${url}:${i}`}
-          className={`absolute inset-0 transition-opacity duration-500 ${i === index ? "opacity-100 z-10" : "opacity-0 z-0"}`}
-        >
-          <Image
-            src={url}
-            alt={`${title} - Foto ${i + 1}`}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 50vw"
-            priority={i === 0}
-          />
-        </div>
-      ))}
-
-      <button
-        type="button"
-        onClick={goPrev}
-        className="absolute left-2 top-1/2 -translate-y-1/2 z-20 h-9 w-9 rounded-full bg-white/90 border border-secondary-200 text-secondary-800 shadow-sm hover:bg-white"
-        aria-label="Foto anterior"
-      >
-        ‹
-      </button>
-      <button
-        type="button"
-        onClick={goNext}
-        className="absolute right-2 top-1/2 -translate-y-1/2 z-20 h-9 w-9 rounded-full bg-white/90 border border-secondary-200 text-secondary-800 shadow-sm hover:bg-white"
-        aria-label="Próxima foto"
-      >
-        ›
-      </button>
-
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-        {urls.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => setIndex(i)}
-            className={`h-2 w-2 rounded-full transition-colors ${
-              i === index ? "bg-white" : "bg-white/50 hover:bg-white/75"
-            }`}
-            aria-label={`Ir para a foto ${i + 1}`}
-          />
-        ))}
-      </div>
-    </div>
-  );
 }
 
 export function AddAccommodationDrawer({
@@ -272,7 +156,6 @@ export function AddAccommodationDrawer({
   const [step3Accommodation, setStep3Accommodation] = useState<PublicAccommodation | null>(null);
   const [step3AccommodationLoading, setStep3AccommodationLoading] = useState(false);
   const [step3AccommodationError, setStep3AccommodationError] = useState(false);
-  const [isStep3DescriptionExpanded, setIsStep3DescriptionExpanded] = useState(false);
   const [step3SelectedRateIdByRoomId, setStep3SelectedRateIdByRoomId] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -332,7 +215,6 @@ export function AddAccommodationDrawer({
     setStep3Accommodation(null);
     setStep3AccommodationLoading(false);
     setStep3AccommodationError(false);
-    setIsStep3DescriptionExpanded(false);
     setStep3SelectedRateIdByRoomId({});
   }, [isOpen, tripDestinationLabel]);
 
@@ -909,102 +791,12 @@ export function AddAccommodationDrawer({
             </div>
           ) : step === 3 ? (
             <div className="space-y-5">
-              {step3AccommodationLoading ? (
-                <div className="rounded-2xl bg-white overflow-hidden animate-pulse shadow-sm">
-                  <div className="h-44 bg-secondary-100" />
-                  <div className="p-5 space-y-3">
-                    <div className="h-6 w-2/3 bg-secondary-100 rounded" />
-                    <div className="h-4 w-5/6 bg-secondary-100 rounded" />
-                  </div>
-                </div>
-              ) : step3AccommodationError ? (
-                <EmptyOrErrorState
-                  status="error"
-                  title="Não foi possível carregar a hospedagem"
-                  description="Tente novamente em alguns instantes."
-                />
-              ) : step3Accommodation ? (
-                <div className="space-y-6">
-                  <div className="overflow-hidden">
-                    {step3Accommodation.images?.length ? (
-                      <ImageGrid
-                        edgeToEdge
-                        images={step3Accommodation.images.map((img) => ({
-                          url: img.url,
-                          shortDescription: img.shortDescription,
-                        }))}
-                        title={step3Accommodation.title}
-                      />
-                    ) : null}
-                    <div className="p-5 md:p-6 space-y-6">
-                      <div className="min-w-0">
-                        <p className="font-baloo text-2xl font-bold text-secondary-900">{step3Accommodation.title}</p>
-                        {step3Accommodation.subtitle ? (
-                          <p className="font-comfortaa text-sm text-secondary-600 mt-1">{step3Accommodation.subtitle}</p>
-                        ) : null}
-                        {step3Accommodation.location?.address ? (
-                          <p className="font-comfortaa text-xs text-secondary-500 mt-1 italic">
-                            {step3Accommodation.location.address}
-                          </p>
-                        ) : null}
-                      </div>
-
-                      <div className="flex flex-wrap gap-2">
-                        {(step3Accommodation.tags ?? []).slice(0, 6).map((t, i) => (
-                          <span key={`tag:${i}`} className="bg-primary-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                            {t}
-                          </span>
-                        ))}
-                        {(step3Accommodation.recommendedFor ?? []).slice(0, 6).map((t, i) => (
-                          <span key={`rec:${i}`} className="bg-accent-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-
-                      <section className="min-w-0">
-                        <h3 className="font-baloo text-lg font-bold text-secondary-900 mb-3">Descrição</h3>
-                        <div
-                          className={`${PROSE_CONTAINED} text-secondary-700 ${
-                            isStep3DescriptionExpanded ? "" : "max-h-[40vh] overflow-hidden"
-                          }`}
-                          dangerouslySetInnerHTML={{ __html: step3Accommodation.description }}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => setIsStep3DescriptionExpanded((v) => !v)}
-                          className="mt-3 text-primary-600 hover:text-primary-700 font-medium text-sm"
-                        >
-                          {isStep3DescriptionExpanded ? "Ver menos" : "Ver mais"}
-                        </button>
-                      </section>
-
-                      {step3Accommodation.amenities?.length ? (
-                        <section className="min-w-0">
-                          <h3 className="font-baloo text-lg font-bold text-secondary-900 mb-3">Comodidades</h3>
-                          <AccommodationAmenitiesGrid amenities={step3Accommodation.amenities} />
-                        </section>
-                      ) : null}
-                    </div>
-                  </div>
-
-                  {step3Accommodation.highlights?.length ? (
-                    <AccommodationHighlightsSection
-                      title={step3Accommodation.title}
-                      highlights={step3Accommodation.highlights}
-                      fullWidth
-                      bleedToParentPadding
-                    />
-                  ) : null}
-                </div>
-              ) : (
-                <div className="min-w-0">
-                  <p className="font-comfortaa text-xs text-secondary-500">Hospedagem</p>
-                  <p className="font-baloo text-lg font-bold text-secondary-900 truncate">
-                    {selectedAccommodationTitle ?? "—"}
-                  </p>
-                </div>
-              )}
+              <AccommodationDrawerDetailPanel
+                accommodation={step3Accommodation}
+                loading={step3AccommodationLoading}
+                error={step3AccommodationError}
+                fallbackTitle={selectedAccommodationTitle}
+              />
 
               {!selectedAccommodationUniqueName || !availabilityStartDate || !availabilityEndDate ? (
                 <EmptyOrErrorState
@@ -1012,208 +804,90 @@ export function AddAccommodationDrawer({
                   title="Não foi possível carregar os quartos"
                   description="Volte e selecione uma hospedagem e datas."
                 />
-              ) : step3AvailabilityError ? (
-                <EmptyOrErrorState
-                  status="error"
-                  title="Não foi possível buscar disponibilidade"
-                  description="Tente novamente em alguns instantes."
+              ) : (
+                <AccommodationAvailabilityRoomsGrid
+                  availabilityLoading={step3AvailabilityLoading}
+                  availabilityError={step3AvailabilityError}
+                  rooms={(step3Rooms as PublicAccommodationRoomAvailability[]) ?? []}
+                  selectedRateIdByRoomId={step3SelectedRateIdByRoomId}
+                  onSelectedRateIdChange={(roomId, rateId) =>
+                    setStep3SelectedRateIdByRoomId((prev) => ({ ...prev, [roomId]: rateId }))
+                  }
+                  transactionId={step3TransactionId}
+                  actionLabel="Selecionar este quarto"
+                  isActionLoading={creatingTripAccommodation}
+                  actionError={createTripAccommodationError}
+                  onRoomAction={async (room, selectedRate) => {
+                    if (!selectedAccommodationUniqueName) return;
+                    if (!step3TransactionId) {
+                      setCreateTripAccommodationError("Transação de disponibilidade inválida. Refaça a busca.");
+                      return;
+                    }
+
+                    setCreatingTripAccommodation(true);
+                    setCreateTripAccommodationError(null);
+                    try {
+                      const firstTravelerRoom = travelerQuery.travelerInput.rooms?.[0];
+                      const adults = firstTravelerRoom?.adults ?? travelerQuery.travelerInput.adults ?? 2;
+                      const children = firstTravelerRoom?.children ?? travelerQuery.travelerInput.children ?? 0;
+                      const childrenAges =
+                        firstTravelerRoom?.childrenAges ?? travelerQuery.travelerInput.childrenAges ?? [];
+
+                      const created = await TripsApiService.postTripAccommodationCreate(tripId, {
+                        travelerType: travelerQuery.travelerInput.type,
+                        accommodationUniqueName: selectedAccommodationUniqueName,
+                        uniqueTransactionId: step3TransactionId,
+                        uniqueTransactionValidUntil: step3ValidUntil,
+                        startDate: toDateOnlyString(availabilityStartDate),
+                        endDate: toDateOnlyString(availabilityEndDate),
+                        rooms: [
+                          {
+                            adults,
+                            children,
+                            childrenAges,
+                            rateId: selectedRate.id,
+                            accommodationRoomId: room.id,
+                            vendor: selectedRate.vendor,
+                          },
+                        ],
+                      });
+
+                      if (!created?.id) {
+                        throw new Error("missing-created-id");
+                      }
+
+                      setCreatedTripAccommodationId(created.id);
+                      setCheckoutPaymentError(null);
+                      setCreatingCheckoutPayment(false);
+
+                      try {
+                        const tripAccs = await TripsApiService.getTripAccommodations(tripId);
+                        const dates = (tripAccs ?? [])
+                          .flatMap((t) => [asDate((t as any)?.startDate), asDate((t as any)?.endDate)])
+                          .filter(Boolean) as Date[];
+                        if (dates.length >= 2) {
+                          const minStart = new Date(Math.min(...dates.map((d) => d.getTime())));
+                          const maxEnd = new Date(Math.max(...dates.map((d) => d.getTime())));
+                          await TripsApiService.putTripConfiguration(tripId, {
+                            startDate: toDateOnlyString(minStart),
+                            endDate: toDateOnlyString(maxEnd),
+                          });
+                        }
+                      } catch {
+                        // Best-effort
+                      }
+
+                      await onTripAccommodationsChanged?.();
+
+                      setStep(4);
+                    } catch {
+                      setCreateTripAccommodationError("Não foi possível adicionar a hospedagem. Tente novamente.");
+                    } finally {
+                      setCreatingTripAccommodation(false);
+                    }
+                  }}
                 />
-              ) : step3AvailabilityLoading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 p-5">
-                  {[0, 1].map((i) => (
-                    <div key={i} className="rounded-2xl border border-secondary-200 bg-white overflow-hidden animate-pulse">
-                      <div className="h-44 md:h-52 bg-secondary-100" />
-                      <div className="p-5 space-y-3">
-                        <div className="h-5 w-1/2 bg-secondary-100 rounded" />
-                        <div className="h-4 w-3/4 bg-secondary-100 rounded" />
-                        <div className="h-20 bg-secondary-100 rounded-xl" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (() => {
-                const roomsWithRates = (step3Rooms as PublicAccommodationRoomAvailability[]).filter(
-                  (r) => Array.isArray(r.rates) && r.rates.length > 0
-                );
-                return roomsWithRates.length === 0 ? (
-                <EmptyOrErrorState
-                  status="empty"
-                  title="Nenhum quarto disponível"
-                  description="Tente ajustar as datas para ver outras opções."
-                />
-                ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 p-5">
-                  {createTripAccommodationError ? (
-                    <div className="md:col-span-2 rounded-2xl border border-red-200 bg-red-50 p-4">
-                      <p className="font-comfortaa text-sm text-red-800">{createTripAccommodationError}</p>
-                    </div>
-                  ) : null}
-
-                  {roomsWithRates.map((room) => {
-                    const rates = room.rates ?? [];
-                    const selectedRateId = step3SelectedRateIdByRoomId[room.id];
-                    const candidateRates = buildCandidateRatesForRoom(rates, selectedRateId ?? null);
-                    const selectedRate =
-                      rates.find((r) => r.id === (selectedRateId ?? candidateRates[0]?.id)) ?? candidateRates[0] ?? null;
-
-                    return (
-                      <div key={room.id} className="rounded-2xl border border-secondary-200 bg-white overflow-hidden flex flex-col">
-                        <RoomImagesCarousel images={room.images ?? []} title={room.title} />
-
-                        <div className="p-5 md:p-6 space-y-4 min-w-0 flex-1 flex flex-col">
-                          <div className="min-w-0">
-                            <p className="font-baloo text-lg font-bold text-secondary-900">{room.title}</p>
-                            {room.subtitle ? (
-                              <div
-                                className="font-comfortaa text-xs text-secondary-600 mt-1 line-clamp-3"
-                                dangerouslySetInnerHTML={{ __html: room.subtitle }}
-                              />
-                            ) : null}
-                          </div>
-
-                          <div className="flex-1">
-                            <h4 className="font-baloo text-base font-bold text-secondary-900 mb-2">Tarifas</h4>
-                            <div className="space-y-2">
-                              {candidateRates.map((rate) => {
-                                const kind = mealPlanKindForRate(rate);
-                                const label = mealPlanLabelForKind(kind);
-                                const isSelected = selectedRate?.id === rate.id;
-
-                                return (
-                                  <label
-                                    key={rate.id}
-                                    className={`block cursor-pointer rounded-xl border-2 px-4 py-3 transition-colors ${
-                                      isSelected
-                                        ? "border-primary-500 bg-primary-50/60"
-                                        : "border-secondary-200 bg-secondary-50 text-secondary-700 hover:border-secondary-300"
-                                    }`}
-                                  >
-                                    <div className="flex items-start gap-3">
-                                      <input
-                                        type="radio"
-                                        name={`room-rate:${room.id}`}
-                                        className="mt-1 h-4 w-4 shrink-0 text-primary-600 focus:ring-primary-500"
-                                        checked={isSelected}
-                                        onChange={() =>
-                                          setStep3SelectedRateIdByRoomId((prev) => ({ ...prev, [room.id]: rate.id }))
-                                        }
-                                      />
-                                      <div className="min-w-0 flex-1">
-                                        <div className="flex flex-wrap items-center justify-between gap-2">
-                                          <div className="min-w-0">
-                                            <p className={`text-sm font-semibold ${isSelected ? "text-secondary-900" : "text-secondary-800"}`}>
-                                              {label}
-                                            </p>
-                                            {rate.isCancellable ? (
-                                              rate.cancellationPolicy ? (
-                                                <p className="text-xs text-green-700 leading-snug">{rate.cancellationPolicy}</p>
-                                              ) : null
-                                            ) : (
-                                              <p className="text-xs text-red-700">Não reembolsável</p>
-                                            )}
-                                          </div>
-                                          <div className="shrink-0">
-                                            <span className="text-sm font-semibold text-primary-700 tabular-nums">
-                                              {new Intl.NumberFormat("pt-BR", {
-                                                style: "currency",
-                                                currency: rate.currency || "BRL",
-                                              }).format(rate.price)}
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </label>
-                                );
-                              })}
-                            </div>
-                          </div>
-
-                          <button
-                            type="button"
-                            disabled={!selectedRate || creatingTripAccommodation}
-                            onClick={async () => {
-                              if (!selectedRate) return;
-                              if (!step3TransactionId) {
-                                setCreateTripAccommodationError("Transação de disponibilidade inválida. Refaça a busca.");
-                                return;
-                              }
-
-                              setCreatingTripAccommodation(true);
-                              setCreateTripAccommodationError(null);
-                              try {
-                                const firstTravelerRoom = travelerQuery.travelerInput.rooms?.[0];
-                                const adults = firstTravelerRoom?.adults ?? travelerQuery.travelerInput.adults ?? 2;
-                                const children = firstTravelerRoom?.children ?? travelerQuery.travelerInput.children ?? 0;
-                                const childrenAges =
-                                  firstTravelerRoom?.childrenAges ?? travelerQuery.travelerInput.childrenAges ?? [];
-
-                                const created = await TripsApiService.postTripAccommodationCreate(tripId, {
-                                  travelerType: travelerQuery.travelerInput.type,
-                                  accommodationUniqueName: selectedAccommodationUniqueName,
-                                  uniqueTransactionId: step3TransactionId,
-                                  uniqueTransactionValidUntil: step3ValidUntil,
-                                  startDate: toDateOnlyString(availabilityStartDate),
-                                  endDate: toDateOnlyString(availabilityEndDate),
-                                  rooms: [
-                                    {
-                                      adults,
-                                      children,
-                                      childrenAges,
-                                      rateId: selectedRate.id,
-                                      accommodationRoomId: room.id,
-                                      vendor: selectedRate.vendor,
-                                    },
-                                  ],
-                                });
-
-                                if (!created?.id) {
-                                  throw new Error("missing-created-id");
-                                }
-
-                                setCreatedTripAccommodationId(created.id);
-                                setCheckoutPaymentError(null);
-                                setCreatingCheckoutPayment(false);
-
-                                // Update trip date range based on accommodations (min start, max end).
-                                try {
-                                  const tripAccs = await TripsApiService.getTripAccommodations(tripId);
-                                  const dates = (tripAccs ?? [])
-                                    .flatMap((t) => [asDate((t as any)?.startDate), asDate((t as any)?.endDate)])
-                                    .filter(Boolean) as Date[];
-                                  if (dates.length >= 2) {
-                                    const minStart = new Date(Math.min(...dates.map((d) => d.getTime())));
-                                    const maxEnd = new Date(Math.max(...dates.map((d) => d.getTime())));
-                                    await TripsApiService.putTripConfiguration(tripId, {
-                                      startDate: toDateOnlyString(minStart),
-                                      endDate: toDateOnlyString(maxEnd),
-                                    });
-                                  }
-                                } catch {
-                                  // Best-effort: don't block the flow if configuration update fails.
-                                }
-
-                                // Keep list/date fresh for the trip page even before the drawer closes.
-                                await onTripAccommodationsChanged?.();
-
-                                setStep(4);
-                              } catch {
-                                setCreateTripAccommodationError("Não foi possível adicionar a hospedagem. Tente novamente.");
-                              } finally {
-                                setCreatingTripAccommodation(false);
-                              }
-                            }}
-                            className="w-full h-11 rounded-xl bg-primary-600 text-white font-semibold hover:bg-primary-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors mt-auto"
-                          >
-                            {creatingTripAccommodation ? "Adicionando..." : "Selecionar este quarto"}
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-                );
-              })()}
+              )}
             </div>
           ) : step === 4 ? (
             <div className="space-y-5">

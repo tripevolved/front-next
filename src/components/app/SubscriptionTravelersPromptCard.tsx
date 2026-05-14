@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 /**
  * Shown when the subscriber has an active subscription but has not yet registered
- * authorized travelers (hasTravelers === false). Pairs with TravelDesignerWhatsAppCard on /app.
+ * authorized travelers (hasTravelers === false). Shown first on /app when subscription is active.
  */
 export function SubscriptionTravelersPromptCard() {
   return (

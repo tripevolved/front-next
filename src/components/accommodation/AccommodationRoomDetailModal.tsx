@@ -48,6 +48,9 @@ interface AccommodationRoomDetailModalProps {
 
   /** Stay dates as `YYYY-MM-DD` when availability search is active (required for checkout). */
   stayDates: { start: string; end: string } | null;
+
+  /** When set, replaces the default Link to `/app/viagens/nova` (e.g. collections drawer finalize). */
+  onReserveClick?: (checkoutHref: string) => void;
 }
 
 const getAmenityIconPath = (iconName: string | undefined): string | null => {
@@ -113,6 +116,7 @@ export function AccommodationRoomDetailModal({
   preselectedRateId,
   travelersSummary,
   stayDates,
+  onReserveClick,
 }: AccommodationRoomDetailModalProps) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
@@ -126,7 +130,9 @@ export function AccommodationRoomDetailModal({
   const [selectedRateId, setSelectedRateId] = useState<string | null>(null);
   const lastConditionsRequestKeyRef = useRef<string | null>(null);
 
-  const roomImageUrls = room.images.map((image: PublicAccommodationImage) => image.url);
+  const roomImageUrls = (room.images ?? [])
+    .map((image: PublicAccommodationImage) => image?.url)
+    .filter((u): u is string => typeof u === "string" && u.trim() !== "");
 
   const isAvailabilityRoom =
     "rates" in room && Array.isArray((room as PublicAccommodationRoomAvailability).rates);
@@ -272,7 +278,7 @@ export function AccommodationRoomDetailModal({
   const travelersBlock = (() => {
     if (travelersSummary?.type === "FAMILY") {
       const t = travelersSummary.travelers;
-      const rooms = travelersSummary.rooms;
+      const rooms = travelersSummary.rooms ?? [];
       return (
         <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-800">
           <p className="text-gray-700">
@@ -560,13 +566,23 @@ export function AccommodationRoomDetailModal({
 
                 {showRatesPanel && canReserve && checkoutHref && (
                   <div className="mt-6">
-                    <Link
-                      href={checkoutHref}
-                      onClick={(e) => e.stopPropagation()}
-                      className="flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition-colors border-2 border-primary-600 bg-primary-600 text-white hover:bg-primary-700 hover:border-primary-700"
-                    >
-                      Reservar com a tarifa selecionada
-                    </Link>
+                    {onReserveClick ? (
+                      <button
+                        type="button"
+                        onClick={() => onReserveClick(checkoutHref)}
+                        className="flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition-colors border-2 border-primary-600 bg-primary-600 text-white hover:bg-primary-700 hover:border-primary-700"
+                      >
+                        Reservar com a tarifa selecionada
+                      </button>
+                    ) : (
+                      <Link
+                        href={checkoutHref}
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition-colors border-2 border-primary-600 bg-primary-600 text-white hover:bg-primary-700 hover:border-primary-700"
+                      >
+                        Reservar com a tarifa selecionada
+                      </Link>
+                    )}
                   </div>
                 )}
               </div>
