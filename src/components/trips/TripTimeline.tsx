@@ -1,11 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import useSWR from 'swr'
 import { TripsApiService } from '@/clients/trips'
+import type { GetTripsQuery } from '@/clients/trips/all'
 import type { TripListView } from '@/core/types/trip'
+import { getTripCalendarCutoffDateString } from '@/utils/trips/trip-calendar-cutoff'
 import { formatCurrency } from '@/utils/helpers/currency.helper'
 import { ImageCarousel } from '@/components/common/ImageCarousel'
 import { CircleLoader } from '@/components/common/CircleLoader'
@@ -72,8 +74,8 @@ function getTripSortDate(trip: TripListView): number {
   return parsePeriodToDate(trip.period)
 }
 
-function sortTripsByDate(trips: TripListView[]): TripListView[] {
-  return [...trips].sort((a, b) => {
+function sortTripsByDate(trips: TripListView[], direction: 'asc' | 'desc' = 'asc'): TripListView[] {
+  const sorted = [...trips].sort((a, b) => {
     const da = getTripSortDate(a)
     const db = getTripSortDate(b)
     if (da === 0 && db === 0) return 0
@@ -81,6 +83,8 @@ function sortTripsByDate(trips: TripListView[]): TripListView[] {
     if (db === 0) return -1
     return da - db
   })
+  if (direction === 'desc') sorted.reverse()
+  return sorted
 }
 
 /** Extract year and month for grouping. */
@@ -92,8 +96,8 @@ function getTripMonthYear(trip: TripListView): { year: number; month: number } |
 }
 
 /** Group trips by month/year for timeline display. */
-function groupTripsByMonth(trips: TripListView[]): MonthGroup[] {
-  const sorted = sortTripsByDate(trips)
+function groupTripsByMonth(trips: TripListView[], sortDirection: 'asc' | 'desc' = 'asc'): MonthGroup[] {
+  const sorted = sortTripsByDate(trips, sortDirection)
   const groups = new Map<string, { trips: TripListView[]; sortOrder: number }>()
   const PAST_KEY = '__past__'
   const FUTURE_KEY = '__future__'
@@ -133,7 +137,7 @@ function groupTripsByMonth(trips: TripListView[]): MonthGroup[] {
     [PAST_KEY]: 'Viagens passadas',
     [FUTURE_KEY]: 'Em breve',
   }
-  return Array.from(groups.entries())
+  const ordered = Array.from(groups.entries())
     .sort(([, a], [, b]) => a.sortOrder - b.sortOrder)
     .map(([key, { trips, sortOrder }]) => ({
       key,
@@ -141,6 +145,10 @@ function groupTripsByMonth(trips: TripListView[]): MonthGroup[] {
       sortOrder,
       trips,
     }))
+  if (sortDirection === 'desc') {
+    return [...ordered].reverse().map((g) => ({ ...g, trips: [...g.trips].reverse() }))
+  }
+  return ordered
 }
 
 const ESTIMATED_STATUSES = ['NEW', 'PRE_PROPOSAL'] as const
@@ -406,23 +414,55 @@ function PlanNewTripCard() {
   )
 }
 
-const now = Date.now()
+export type TripTimelineVariant = 'dashboard' | 'past'
 
-export function TripTimeline() {
+export interface TripTimelineProps {
+  variant?: TripTimelineVariant
+  title?: string
+  emptyDescription?: string
+}
+
+export function TripTimeline({
+  variant = 'dashboard',
+  title,
+  emptyDescription,
+}: TripTimelineProps) {
   const [ideaModalTrip, setIdeaModalTrip] = useState<TripListView | null>(null)
-  const { data, error, isLoading } = useSWR('trips', () => TripsApiService.getTrips())
+  const cutoffDate = useMemo(() => getTripCalendarCutoffDateString(), [])
+  const listQuery: GetTripsQuery =
+    variant === 'past' ? { toDate: cutoffDate } : { fromDate: cutoffDate }
+  const swrKey = ['trips', variant, cutoffDate] as const
+  const { data, error, isLoading } = useSWR(swrKey, () => TripsApiService.getTrips(listQuery))
   const trips = data?.trips ?? []
-  const sortedTrips = sortTripsByDate(trips)
+  const sortDirection = variant === 'past' ? 'desc' : 'asc'
+  const sortedTrips = sortTripsByDate(trips, sortDirection)
   const amountSaved = data?.amountSaved ?? null
   const estimatedAmountToBeSaved = data?.estimatedAmountToBeSaved ?? null
   const showSavings =
-    (amountSaved != null && amountSaved !== 0) || (estimatedAmountToBeSaved != null && estimatedAmountToBeSaved !== 0)
+    variant === 'dashboard' &&
+    ((amountSaved != null && amountSaved !== 0) || (estimatedAmountToBeSaved != null && estimatedAmountToBeSaved !== 0))
+
+  const heading =
+    title ?? (variant === 'past' ? 'Viagens passadas' : 'Meu calendário de viagens')
+  const emptyCopy =
+    emptyDescription ??
+    (variant === 'past'
+      ? 'Quando você tiver viagens passadas, elas aparecerão aqui.'
+      : 'Quando você planejar uma nova viagem, ela vai aparecer neste calendário.')
 
   return (
     <section className="mt-10 pt-10 border-t border-gray-200">
       <div className="mb-6">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
-          <h2 className="text-xl font-semibold text-gray-900">Meu calendário de viagens</h2>
+          <h2 className="text-xl font-semibold text-gray-900">{heading}</h2>
+          {variant === 'dashboard' && (
+            <Link
+              href="/app/viagens/passadas"
+              className="text-sm font-medium text-primary-600 hover:text-primary-700"
+            >
+              Ver viagens passadas
+            </Link>
+          )}
         </div>
       </div>
       
@@ -464,24 +504,32 @@ export function TripTimeline() {
         />
       ) : (
         (() => {
-          if (sortedTrips.length === 0) {
-            return (
-              <EmptyOrErrorState
-                status="empty"
-                title="Nenhuma viagem por aqui ainda"
-                description="Quando você planejar uma nova viagem, ela vai aparecer neste calendário."
-              />
-            )
-          }
+          type Row =
+            | { type: 'month'; group: MonthGroup }
+            | { type: 'card'; trip: TripListView }
+            | { type: 'planejar' }
+            | { type: 'emptyMessage'; title: string; description: string }
 
-          const monthGroups = groupTripsByMonth(sortedTrips)
-          type Row = { type: 'month'; group: MonthGroup } | { type: 'card'; trip: TripListView } | { type: 'planejar' }
           const rows: Row[] = []
-          monthGroups.forEach((group) => {
-            rows.push({ type: 'month', group })
-            group.trips.forEach((trip) => rows.push({ type: 'card', trip }))
-          })
-          rows.push({ type: 'planejar' })
+          if (sortedTrips.length === 0) {
+            rows.push({
+              type: 'emptyMessage',
+              title: variant === 'past' ? 'Você não tem nenhuma viagem passada' : 'Você não tem nenhuma viagem planejada por enquanto',
+              description: emptyCopy,
+            })
+            if (variant === 'dashboard') {
+              rows.push({ type: 'planejar' })
+            }
+          } else {
+            const monthGroups = groupTripsByMonth(sortedTrips, sortDirection)
+            monthGroups.forEach((group) => {
+              rows.push({ type: 'month', group })
+              group.trips.forEach((trip) => rows.push({ type: 'card', trip }))
+            })
+            if (variant === 'dashboard') {
+              rows.push({ type: 'planejar' })
+            }
+          }
 
           const CARD_ROW_H = 'h-40 sm:h-44'
 
@@ -490,12 +538,25 @@ export function TripTimeline() {
               <div className="absolute left-4 top-6 bottom-0 w-0.5 bg-primary-200" />
               <div className="relative z-10 flex flex-col flex-1 min-w-0 gap-4 pt-6">
                 {rows.map((row) => {
+                  if (row.type === 'emptyMessage') {
+                    return (
+                      <div key="empty-message" className="flex gap-4 items-start">
+                        <div className="w-8 shrink-0 flex justify-center">
+                          <div className="w-4 h-4 rounded-full border-2 shrink-0 bg-white border-primary-500 shadow-sm" />
+                        </div>
+                        <div className="flex-1 min-w-0 space-y-1 pb-1">
+                          <p className="text-sm font-semibold text-secondary-900">{row.title}</p>
+                          <p className="text-sm text-secondary-600 font-comfortaa leading-relaxed">{row.description}</p>
+                        </div>
+                      </div>
+                    )
+                  }
                   if (row.type === 'month') {
                     const nowYearMonth = new Date().getFullYear() * 12 + new Date().getMonth() + 1
                     const isPast = row.group.key === '__past__' || (row.group.sortOrder < Infinity && row.group.sortOrder < nowYearMonth)
                     return (
                       <div key={row.group.key} className="flex gap-4 items-center">
-                        <div className="w-8 shrink-0 flex justify-center">
+                        <div className="w-8 shrink-0 flex justify-center pb-1">
                           <div
                             className={`w-4 h-4 rounded-full border-2 shrink-0 ${
                               isPast ? 'bg-primary-400 border-primary-400' : 'bg-white border-primary-500 shadow-sm'
@@ -510,7 +571,8 @@ export function TripTimeline() {
                   }
                   if (row.type === 'card') {
                     const endTs = parseDateToTimestamp(row.trip.endDate) || getTripSortDate(row.trip)
-                    const isPast = endTs > 0 && endTs < Infinity && endTs < now
+                    const nowTs = Date.now()
+                    const isPast = endTs > 0 && endTs < Infinity && endTs < nowTs
                     return (
                       <div key={row.trip.id} className={`flex gap-4 ${CARD_ROW_H}`}>
                         <div className="w-8 shrink-0 flex justify-center" />
@@ -527,7 +589,6 @@ export function TripTimeline() {
                   return (
                     <div key="planejar" className="flex gap-4 items-start pt-2">
                       <div className="w-8 shrink-0 flex justify-center pt-4">
-                        <div className="w-4 h-4 rounded-full border-2 border-dashed border-primary-400 shrink-0" />
                       </div>
                       <div className="flex-1 pt-2">
                         <PlanNewTripCard />

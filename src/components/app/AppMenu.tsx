@@ -127,6 +127,18 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
                   </svg>
                   <span className="font-medium">Home</span>
                 </button>
+                <button
+                  onClick={() => {
+                    router.push('/app/viagens/passadas')
+                    setIsOpen(false)
+                  }}
+                  className="w-full flex items-center px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                >
+                  <svg className="w-5 h-5 text-gray-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="font-medium">Viagens passadas</span>
+                </button>
               </div>
             </div>
 
