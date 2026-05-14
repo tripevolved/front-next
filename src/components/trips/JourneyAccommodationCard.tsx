@@ -99,15 +99,7 @@ export function JourneyAccommodationCard({
     const roomRateIds = (accommodation.rooms ?? []).map((r) => r.rateId).filter(Boolean);
     const roomRateIdsKey = roomRateIds.join(",");
     return `${tripId}:${accommodation.id}:${accommodationUniqueName}:${uniqueTransactionId ?? ""}:${vendor ?? ""}:${roomRateIdsKey}`;
-  }, [
-    needsPayment,
-    tripId,
-    accommodation.id,
-    accommodation.uniqueName,
-    accommodation.uniqueTransactionId,
-    (accommodation as any)?.vendor,
-    (accommodation.rooms ?? []).map((r) => r.rateId).join(","),
-  ]);
+  }, [tripId, accommodation, needsPayment]);
 
   useEffect(() => {
     if (!needsPayment) {

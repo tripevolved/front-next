@@ -40,7 +40,6 @@ export function SuggestDestinationForCuratorship({
   }, []);
 
   const destination = destinationQuery.trim();
-  if (!destination) return null;
 
   const submit = useCallback(
     async (payload: { email?: string; travelerId?: string }) => {
@@ -101,6 +100,8 @@ export function SuggestDestinationForCuratorship({
     setAllowsContact(true);
     setModalOpen(true);
   };
+
+  if (!destination) return null;
 
   const boxClass = compact
     ? "rounded-xl border border-secondary-200 bg-secondary-50/80 p-4 space-y-3"
