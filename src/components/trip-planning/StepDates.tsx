@@ -1,9 +1,14 @@
 'use client'
 
 import { useState } from 'react'
-import { format } from 'date-fns'
+import { differenceInCalendarDays, format } from 'date-fns'
 import DateRangeSelector from '../common/DateRangeSelector'
 import type { TripDates } from './types'
+
+function inclusiveTripDays(start: Date, end: Date): number {
+  const span = differenceInCalendarDays(end, start) + 1
+  return Math.max(1, span)
+}
 
 export function StepDates({
   onNext,
@@ -19,6 +24,14 @@ export function StepDates({
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null])
   const [startDate, endDate] = dateRange
   const [maxDays, setMaxDays] = useState<number>(12)
+
+  const handleDateRangeChange = (update: [Date | null, Date | null]) => {
+    setDateRange(update)
+    const [nextStart, nextEnd] = update
+    if (nextStart && nextEnd && nextEnd.getTime() >= nextStart.getTime()) {
+      setMaxDays(inclusiveTripDays(nextStart, nextEnd))
+    }
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -43,7 +56,7 @@ export function StepDates({
         <DateRangeSelector
           startDate={startDate}
           endDate={endDate}
-          onDateRangeChange={(update) => setDateRange(update)}
+          onDateRangeChange={handleDateRangeChange}
           minDate={new Date()}
         />
 

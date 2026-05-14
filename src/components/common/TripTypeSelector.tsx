@@ -30,7 +30,7 @@ export default function TripTypeSelector({
   className = '' 
 }: TripTypeSelectorProps) {
   return (
-    <div className={`grid grid-cols-2 gap-4 ${className}`}>
+    <div className={`grid gap-4 ${className}`}>
       {types.map((t) => (
         <button
           key={t.id}

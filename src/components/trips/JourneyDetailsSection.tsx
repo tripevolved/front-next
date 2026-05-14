@@ -187,15 +187,6 @@ export function JourneyDetailsSection({ tripId, destination, relatedDestinationU
   }
 
   const accommodations = data ?? [];
-  if (accommodations.length === 0) {
-    return (
-      <EmptyOrErrorState
-        status="empty"
-        title="Nenhuma hospedagem encontrada"
-        description="Quando as acomodações estiverem disponíveis, elas aparecerão aqui."
-      />
-    );
-  }
 
   const priceHasError = tripPrice?.hasError === true;
   const canShowPrice = tripPrice != null && !priceHasError && typeof tripPrice.price === "number";
@@ -319,12 +310,17 @@ export function JourneyDetailsSection({ tripId, destination, relatedDestinationU
               </div>
 
               {canCheckout ? (
-                <Link
-                  href={`/app/viagens/${encodeURIComponent(tripId)}/checkout`}
-                  className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-primary-600 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-primary-700 transition-colors"
-                >
-                  Validar e reservar jornada
-                </Link>
+                <>
+                  <Link
+                    href={`/app/viagens/${encodeURIComponent(tripId)}/checkout`}
+                    className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-primary-600 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-primary-700 transition-colors"
+                  >
+                    Validar e reservar jornada
+                  </Link>
+                  <p className="mt-3 text-xs text-secondary-600 leading-relaxed">
+                    Confira as condições e reserve sua jornada completa de uma vez.
+                  </p>
+                </>
               ) : (
                 <button
                   type="button"
@@ -334,10 +330,6 @@ export function JourneyDetailsSection({ tripId, destination, relatedDestinationU
                   Tudo pago
                 </button>
               )}
-
-              <p className="mt-3 text-xs text-secondary-600 leading-relaxed">
-                Confira as condições e reserve sua jornada completa de uma vez.
-              </p>
             </div>
           </div>
         </aside>

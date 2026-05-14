@@ -33,7 +33,7 @@ export function StepBudget({
       <form onSubmit={handleSubmit} className="space-y-4">
         <label className="flex items-center gap-2 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
           <input type="checkbox" checked={isFlexible} onChange={(e) => setIsFlexible(e.target.checked)} />
-          Permitir que o especialista ajuste um pouco o valor dentro do planejamento
+          O orçamento tem alguma flexibilidade?
         </label>
 
         <div className="space-y-2">

@@ -5,8 +5,7 @@ export function StepIntro({ onNext }: { onNext: () => void }) {
     <div className="p-6 space-y-4">
       <h2 className="text-2xl font-baloo font-bold text-secondary-900">Vamos começar sua jornada?</h2>
       <p className="text-gray-600">
-        Você vai responder a algumas perguntas rápidas sobre a sua viagem - em torno de 5 minutos. No final, um
-        especialista vai preparar uma recomendação personalizada para você, que você recebe em até 48h.
+        Você vai responder a algumas perguntas rápidas sobre a sua viagem - em torno de 5 minutos. Ao final, você poderá construir sua jornada com acesso à nossa curadoria única.
       </p>
       <p className="text-gray-600">
         Isso te dará uma direção clara para sua próxima jornada, sem precisar procurar entre milhares de opções.

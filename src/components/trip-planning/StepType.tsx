@@ -8,10 +8,10 @@ import type { StepTypeOption, TripType } from './types'
 /** Only casal e família — demais tipos ficam ocultos neste fluxo por enquanto. */
 const DEFAULT_STEP_TYPES: StepTypeOption[] = [
   { id: TravelerType.COUPLE, name: 'Casal', icon: '❤️', available: true },
-  { id: TravelerType.FAMILY, name: 'Família', icon: '👨‍👩‍👧‍👦', available: true },
+  /*{ id: TravelerType.FAMILY, name: 'Família', icon: '👨‍👩‍👧‍👦', available: true },*/
 ]
 
-const DEFAULT_DISCLAIMER_TEXT = 'Só cuidamos de viagens para casais e famílias.'
+const DEFAULT_DISCLAIMER_TEXT = 'Estamos focados em construir as melhores jornadas a dois.'
 
 export function StepType({
   onNext,

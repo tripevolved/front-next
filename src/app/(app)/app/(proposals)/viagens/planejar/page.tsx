@@ -87,7 +87,8 @@ export default function PlanejarPage() {
         familyRooms,
       })
       const { id } = await TripsApiService.createTrip(tripRequest)
-      router.push(`/app/viagens/${id}/pre-proposta`)
+      // TODO: After curators ship, restore the pre-proposta step — redirect to `/app/viagens/${id}/pre-proposta` instead of the trip page.
+      router.push(`/app/viagens/${id}`)
     } catch (err) {
       console.error('Error creating trip:', err)
       setError(err instanceof Error ? err.message : 'Houve um erro ao criar a viagem. Por favor, tente novamente.')
@@ -152,7 +153,7 @@ export default function PlanejarPage() {
                     goNext()
                   }}
                   onBack={goBack}
-                  title="Quando você consegue viajar?"
+                  title="Quando você pretende viajar?"
                   description="Selecione a janela de datas em que você pode viajar e a duração desejada para a sua viagem."
                 />
               )}

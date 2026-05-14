@@ -9,6 +9,12 @@ export type TripAccommodationRoomItem = {
   coverImage?: TripImage | null;
   adults?: number | null;
   children?: number | null;
+  /** Room-level stay start (date-only ISO or Date); falls back to accommodation stay when absent. */
+  checkInDate?: string | Date | null;
+  checkOutDate?: string | Date | null;
+  /** Optional time-of-day hints from the supplier (e.g. "14:00"). */
+  checkInTime?: string | null;
+  checkOutTime?: string | null;
 };
 
 export type TripAccommodationItem = {

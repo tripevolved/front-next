@@ -158,7 +158,7 @@ const STATUS_LABELS: Record<string, string> = {
   PRE_PROPOSAL: 'Veja os destinos que recomendamos',
   SET: 'Veja sua proposta de viagem',
   IN_CHECKOUT: 'Finalize seu checkout',
-  TO_HAPPEN: 'Tudo pronto',
+  TO_HAPPEN: 'Tudo pronto para sua jornada',
   ONGOING: 'Em andamento',
   TAKEN: 'Viagem concluída',
 }
@@ -167,10 +167,10 @@ function getTripHref(trip: TripListView): string | null {
   if (trip.status === 'NEW') return null
 
   switch (trip.status) {
-    case 'PRE_PROPOSAL':
+    /*case 'PRE_PROPOSAL':
       return `/app/viagens/${trip.id}/pre-proposta`
     case 'SET':
-      return `/app/viagens/${trip.id}/proposta`
+      return `/app/viagens/${trip.id}/proposta`*/
     case 'IN_CHECKOUT':
       return `/app/viagens/${trip.id}/checkout`
     default:

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { TripsApiService } from "@/clients/trips";
@@ -10,7 +11,7 @@ import { PaymentsApiService } from "@/clients/payments";
 import { CircleLoader } from "@/components/common/CircleLoader";
 import type { TripDetails } from "@/core/types";
 import type { AccommodationAvailabilityConditionsResponse } from "@/core/types/accommodations";
-import type { TripAccommodationItem } from "@/clients/trips/accommodations";
+import type { TripAccommodationItem, TripAccommodationRoomItem } from "@/clients/trips/accommodations";
 import type { TripPriceResponse } from "@/clients/trips/price";
 import { useAppStore } from "@/core/store";
 import { CirculoEvolvedModal } from "@/components/app/CirculoEvolvedCall";
@@ -119,6 +120,24 @@ function formatShortDatePtBR(d: Date): string {
     month: "2-digit",
     year: "numeric",
   }).format(d);
+}
+
+function resolveRoomStayBounds(
+  room: TripAccommodationRoomItem,
+  accommodation: TripAccommodationItem
+): { checkIn: Date | null; checkOut: Date | null } {
+  const extra = room as Record<string, unknown>;
+  const checkIn =
+    asDate(room.checkInDate) ?? asDate(extra.startDate) ?? asDate(extra.checkIn);
+  const checkOut =
+    asDate(room.checkOutDate) ?? asDate(extra.endDate) ?? asDate(extra.checkOut);
+  if (checkIn != null || checkOut != null) {
+    return { checkIn, checkOut };
+  }
+  return {
+    checkIn: asDate(accommodation.startDate),
+    checkOut: asDate(accommodation.endDate),
+  };
 }
 
 export function CheckoutTripById({
@@ -410,6 +429,10 @@ export function CheckoutTripById({
     }
   };
 
+  const memberAmountDue =
+    priceData != null && priceError == null ? Math.max(0, Number(priceData.price ?? 0)) : null;
+  const memberHasAmountToPay = memberAmountDue != null && memberAmountDue > 0;
+
   return (
     <div className="mx-auto w-full md:max-w-5xl px-1.5 sm:px-2 py-6 sm:py-8">
       <div className="rounded-2xl border border-gray-200 bg-white p-2 sm:p-6 shadow-sm">
@@ -499,7 +522,7 @@ export function CheckoutTripById({
                             </div>
                           ) : null}
 
-                          <div className="mt-3 space-y-2">
+                          <div className="mt-3 space-y-3">
                             {(a.rooms ?? []).map((r) => {
                               const adults = typeof (r as any)?.adults === "number" ? (r as any).adults : null;
                               const children =
@@ -510,12 +533,44 @@ export function CheckoutTripById({
                                   : `${adults != null ? `${adults} adulto${adults === 1 ? "" : "s"}` : ""}${
                                       adults != null && children != null ? " · " : ""
                                     }${children != null ? `${children} criança${children === 1 ? "" : "s"}` : ""}`;
+                              const { checkIn, checkOut } = resolveRoomStayBounds(r, a);
+                              const checkInLabel = checkIn ? formatShortDatePtBR(checkIn) : null;
+                              const checkOutLabel = checkOut ? formatShortDatePtBR(checkOut) : null;
+                              const checkInTime =
+                                typeof r.checkInTime === "string" ? r.checkInTime.trim() : "";
+                              const checkOutTime =
+                                typeof r.checkOutTime === "string" ? r.checkOutTime.trim() : "";
+                              const showStay =
+                                checkInLabel ||
+                                checkOutLabel ||
+                                Boolean(checkInTime) ||
+                                Boolean(checkOutTime);
                               return (
-                                <p key={`room:${a.id}:${r.rateId}`} className="text-sm text-gray-800">
-                                  <span className="font-semibold text-gray-900">{r.name}</span>
-                                  <span className="text-gray-500">{" "}—{" "}</span>
-                                  <span className="tabular-nums text-gray-700">{occupancyLabel}</span>
-                                </p>
+                                <div key={`room:${a.id}:${r.rateId}`} className="text-sm text-gray-800">
+                                  <p>
+                                    <span className="font-semibold text-gray-900">{r.name}</span>
+                                    <span className="text-gray-500">{" "}—{" "}</span>
+                                    <span className="tabular-nums text-gray-700">{occupancyLabel}</span>
+                                  </p>
+                                  {showStay ? (
+                                    <div className="mt-1 text-xs text-gray-600 space-y-0.5">
+                                      {checkInLabel || checkInTime ? (
+                                        <p>
+                                          <span className="font-semibold">Entrada</span>:{" "}
+                                          {checkInLabel ?? "—"}
+                                          {checkInTime ? ` a partir de ${checkInTime}` : ""}
+                                        </p>
+                                      ) : null}
+                                      {checkOutLabel || checkOutTime ? (
+                                        <p>
+                                          <span className="font-semibold">Saída</span>:{" "}
+                                          {checkOutLabel ?? "—"}
+                                          {checkOutTime ? ` até ${checkOutTime}` : ""}
+                                        </p>
+                                      ) : null}
+                                    </div>
+                                  ) : null}
+                                </div>
                               );
                             })}
                           </div>
@@ -954,16 +1009,33 @@ export function CheckoutTripById({
                 </div>
               ) : null}
               {isCirculoEvolvedMember ? (
-                <button
-                  type="button"
-                  disabled={priceError != null || creatingPayment}
-                  className="w-full rounded-xl bg-accent-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-600 transition-colors disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-accent-500"
-                  onClick={() => {
-                    createPaymentAndGo({ includeSubscription: false });
-                  }}
-                >
-                  {creatingPayment ? "Iniciando pagamento…" : "Finalizar reserva"}
-                </button>
+                memberHasAmountToPay ? (
+                  <button
+                    type="button"
+                    disabled={creatingPayment}
+                    className="w-full rounded-xl bg-accent-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-600 transition-colors disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-accent-500"
+                    onClick={() => {
+                      createPaymentAndGo({ includeSubscription: false });
+                    }}
+                  >
+                    {creatingPayment ? "Iniciando pagamento…" : "Finalizar reserva"}
+                  </button>
+                ) : priceData != null && priceError == null ? (
+                  <Link
+                    href={`/app/viagens/${encodeURIComponent(tripId)}`}
+                    className="block w-full rounded-xl bg-accent-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-accent-600 transition-colors"
+                  >
+                    Tudo certo aqui, ver a jornada
+                  </Link>
+                ) : (
+                  <button
+                    type="button"
+                    disabled
+                    className="w-full rounded-xl bg-accent-500 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm opacity-60 cursor-not-allowed"
+                  >
+                    Finalizar reserva
+                  </button>
+                )
               ) : (
                 <div className="space-y-4">
                   <p className="text-sm leading-relaxed text-gray-700">
