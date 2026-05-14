@@ -11,7 +11,7 @@ export const putDestinationIdForTrip = async ({
   tripId: string;
   tripDestination: TripDestinationInput;
 }): Promise<any> => {
-  const url = "trips/" + tripId + "/destination";
+  const url = `trips/${tripId}/destination`;
   const ok = await ApiRequest.put(url, tripDestination);
 
   return ok;

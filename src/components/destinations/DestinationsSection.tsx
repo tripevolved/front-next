@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 
 import DestinationCard from '@/components/destinations/DestinationCard'
+import { SuggestDestinationForCuratorship } from '@/components/destinations/SuggestDestinationForCuratorship'
 import { DestinationsApiService } from '@/clients/destinations'
 import type { Destination } from '@/clients/destinations/destinations'
 
@@ -163,11 +164,19 @@ export default function DestinationsSection() {
                 ? `Não encontramos destinos para "${searchTerm}". Tente uma busca diferente ou explore todos os nossos destinos.`
                 : 'Não há destinos disponíveis no momento.'}
             </p>
+            {debouncedSearchTerm.trim() ? (
+              <div className="max-w-md mx-auto text-left">
+                <SuggestDestinationForCuratorship
+                  destinationQuery={debouncedSearchTerm}
+                  anonymousContactMode="modal"
+                />
+              </div>
+            ) : null}
             {searchTerm ? (
               <button
                 type="button"
                 onClick={() => setSearchTerm('')}
-                className="inline-block font-baloo bg-accent-500 text-white px-6 py-2 rounded-full text-base font-semibold hover:bg-accent-600 transition-all"
+                className="inline-block font-baloo bg-accent-500 text-white px-6 py-2 rounded-full text-base font-semibold hover:bg-accent-600 transition-all mt-4"
               >
                 Limpar busca
               </button>

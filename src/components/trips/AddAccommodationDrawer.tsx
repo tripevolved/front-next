@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import DestinationCard from "@/components/destinations/DestinationCard";
 import { DestinationsApiService } from "@/clients/destinations";
 import type { Destination } from "@/clients/destinations/destinations";
+import { SuggestDestinationForCuratorship } from "@/components/destinations/SuggestDestinationForCuratorship";
 import { AccommodationsApiService } from "@/clients/accommodations";
 import type {
   AccommodationByDestinationAvailabilityItem,
@@ -38,6 +39,8 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   relatedDestinationUniqueName?: string | null;
+  /** Trip destination label — prefills the search field when the drawer opens. */
+  tripDestinationLabel?: string | null;
   travelerQuery: AccommodationAvailabilityQuery;
   tripId: string;
   onTripAccommodationsChanged?: () => void | Promise<void>;
@@ -197,6 +200,7 @@ export function AddAccommodationDrawer({
   isOpen,
   onClose,
   relatedDestinationUniqueName,
+  tripDestinationLabel,
   travelerQuery,
   tripId,
   onTripAccommodationsChanged,
@@ -305,7 +309,7 @@ export function AddAccommodationDrawer({
     if (!isOpen) return;
     setStep(1);
     setSelectedDestination(null);
-    setSearch("");
+    setSearch((tripDestinationLabel ?? "").trim());
     setSearchResults(null);
     setSearchLoading(false);
     setAvailability(null);
@@ -330,7 +334,7 @@ export function AddAccommodationDrawer({
     setStep3AccommodationError(false);
     setIsStep3DescriptionExpanded(false);
     setStep3SelectedRateIdByRoomId({});
-  }, [isOpen]);
+  }, [isOpen, tripDestinationLabel]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -371,6 +375,9 @@ export function AddAccommodationDrawer({
   }, [isOpen, selectedDestination?.uniqueName]);
 
   const debouncedSearch = useMemo(() => search.trim(), [search]);
+
+  const hasSearchGridHits = Boolean(searchResults?.length);
+  const showSearchEmptyState = Boolean(debouncedSearch) && !searchLoading && !hasSearchGridHits;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -553,7 +560,7 @@ export function AddAccommodationDrawer({
         onClick={onClose}
       />
 
-      <aside className="fixed right-0 inset-y-0 w-full bg-white shadow-2xl flex flex-col md:w-2/3">
+      <aside className="fixed right-0 inset-y-0 z-10 flex h-full w-full flex-col bg-white shadow-2xl md:w-2/3">
         <header className="shrink-0 border-b border-secondary-200 p-5">
           <div className="grid grid-cols-[auto,1fr,auto] items-start gap-4">
             <div className="min-w-[96px]">
@@ -672,9 +679,9 @@ export function AddAccommodationDrawer({
                   ) : null}
                 </div>
 
-                {searchResults ? (
+                {hasSearchGridHits ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {searchResults.map((d) => (
+                    {(searchResults ?? []).map((d) => (
                       <DestinationCard
                         key={d.uniqueName}
                         title={d.name}
@@ -687,6 +694,15 @@ export function AddAccommodationDrawer({
                         }}
                       />
                     ))}
+                  </div>
+                ) : showSearchEmptyState ? (
+                  <div className="space-y-4">
+                    <p className="font-comfortaa text-sm text-secondary-600">Nenhum destino encontrado.</p>
+                    <SuggestDestinationForCuratorship
+                      destinationQuery={debouncedSearch}
+                      anonymousContactMode="inline"
+                      compact
+                    />
                   </div>
                 ) : null}
               </section>

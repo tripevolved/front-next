@@ -17,10 +17,12 @@ export default function DateRangePicker({
   startDate,
   endDate,
   onChange,
-  minDate = new Date(),
+  minDate,
   className = ''
 }: DateRangePickerProps) {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false)
+  const openToAnchor = startDate ?? endDate ?? minDate ?? new Date()
+  const openToDate = new Date(openToAnchor.getFullYear(), openToAnchor.getMonth(), 1)
   
   // Format dates for display in text boxes
   const formatDate = (date: Date | null) => {
@@ -105,7 +107,7 @@ export default function DateRangePicker({
           startDate={startDate}
           endDate={endDate}
           onChange={(update) => onChange(update)}
-          minDate={minDate}
+          {...(minDate != null ? { minDate } : {})}
           locale={ptBR}
           dateFormat="dd/MM/yyyy"
           inline
@@ -132,7 +134,7 @@ export default function DateRangePicker({
           }}
           popperClassName="react-datepicker-popper"
           popperPlacement="bottom-start"
-          openToDate={new Date(minDate.getFullYear(), minDate.getMonth() + 3, 1)}
+          openToDate={openToDate}
           renderCustomHeader={({
             date,
             decreaseMonth,

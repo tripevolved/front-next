@@ -252,6 +252,7 @@ export function JourneyDetailsSection({ tripId, destination, relatedDestinationU
             isOpen={isAddOpen}
             onClose={() => setIsAddOpen(false)}
             relatedDestinationUniqueName={relatedDestinationUniqueName}
+            tripDestinationLabel={tripDetails?.destination ?? destination}
             travelerQuery={travelerQuery}
             tripId={tripId}
             onTripAccommodationsChanged={() => {

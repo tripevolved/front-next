@@ -166,7 +166,7 @@ export default function PropostaPage() {
 
       {/* Trip Configuration */}
       <section className="max-w-[80%] mx-auto -mt-6 relative z-10 px-4">
-        <TripConfigurationSet configuration={tripDetails.configuration} />
+        <TripConfigurationSet tripId={id} tripStatus={tripDetails.status} configuration={tripDetails.configuration} />
       </section>
 
       {/* Itinerary from backend */}

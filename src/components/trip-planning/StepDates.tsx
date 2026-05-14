@@ -15,15 +15,50 @@ export function StepDates({
   onBack,
   title = 'Quando você pretende viajar?',
   description = 'Selecione uma janela de datas. Dentro desse período, vamos montar a melhor opção para você.',
+  initial,
+  allowPastDates = false,
 }: {
   onNext: (dates: TripDates) => void
   onBack?: () => void
   title?: string
   description?: string
+  /** Prefill range (yyyy-MM-dd) and optional max days — e.g. when editing an existing trip. */
+  initial?: { startDate: string | null; endDate: string | null; maxDays?: number | null }
+  /** When true, past dates can be selected (e.g. trip configuration edit). */
+  allowPastDates?: boolean
 }) {
-  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null])
+  const parseInitial = (iso: string | null): Date | null => {
+    if (!iso?.trim()) return null
+    const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+    if (m) {
+      const y = Number(m[1])
+      const mo = Number(m[2])
+      const d = Number(m[3])
+      const local = new Date(y, mo - 1, d)
+      return Number.isNaN(local.getTime()) ? null : local
+    }
+    const d = new Date(iso)
+    return Number.isNaN(d.getTime()) ? null : d
+  }
+
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>(() => {
+    if (initial?.startDate && initial?.endDate) {
+      return [parseInitial(initial.startDate), parseInitial(initial.endDate)]
+    }
+    return [null, null]
+  })
   const [startDate, endDate] = dateRange
-  const [maxDays, setMaxDays] = useState<number>(12)
+  const [maxDays, setMaxDays] = useState<number>(() => {
+    if (initial?.maxDays != null && initial.maxDays > 0) return Math.floor(initial.maxDays)
+    if (initial?.startDate && initial?.endDate) {
+      const a = parseInitial(initial.startDate)
+      const b = parseInitial(initial.endDate)
+      if (a && b && b.getTime() >= a.getTime()) {
+        return inclusiveTripDays(a, b)
+      }
+    }
+    return 12
+  })
 
   const handleDateRangeChange = (update: [Date | null, Date | null]) => {
     setDateRange(update)
@@ -57,7 +92,7 @@ export function StepDates({
           startDate={startDate}
           endDate={endDate}
           onDateRangeChange={handleDateRangeChange}
-          minDate={new Date()}
+          restrictToFuture={!allowPastDates}
         />
 
         <div className="pt-2 space-y-1">

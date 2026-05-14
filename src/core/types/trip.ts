@@ -1,4 +1,3 @@
-import { Photo } from "./photo";
 import { Traveler } from "./traveler";
 
 export enum TravelerType {
@@ -8,11 +7,26 @@ export enum TravelerType {
   FAMILY = "FAMILY",
 }
 
+export type TripStatus = 'NEW' | 'PRE_PROPOSAL' | 'PROPOSAL' | 'MATCHED' | 'SET';
+
+/** Statuses where the traveler may edit trip configuration (dates, budget, type) in the app. */
+export const TRIP_STATUSES_ALLOW_CONFIGURATION_EDIT = ['NEW', 'PRE_PROPOSAL', 'SET'] as const;
+
+export function isTripConfigurationEditableStatus(status: TripStatus | string | null | undefined): boolean {
+  if (status == null || !String(status).trim()) return false;
+  const key = String(status).trim().toUpperCase();
+  return (TRIP_STATUSES_ALLOW_CONFIGURATION_EDIT as readonly string[]).includes(key);
+}
+
 export interface TripDetails {
   id: string;
   title: string;
+  /** Trip lifecycle when returned by the API (same shape as list/timeline). */
+  status?: TripStatus | string;
   /** Destination label/name when available (backend optional). */
   destination?: string | null;
+  /** When set, used to load related destination suggestions (e.g. curators). */
+  destinationUniqueName?: string | null;
   configuration: TripConfiguration;
   coverImage?: TripImage;
 }
@@ -100,6 +114,8 @@ export interface TripConfiguration {
   startDate?: Date;
   endDate?: Date;
   month?: number;
+  /** When set by API, reflects flexible budget flag used in updates. */
+  hasFlexibleBudget?: boolean;
   budget: number;
   numAdults: number;
   numChildren: number;
@@ -160,8 +176,6 @@ export interface TripAbstract {
   destinationProposal?: TripProposal;
   tripDashboard?: TripDashboard;
 }
-
-export type TripStatus = 'NEW' | 'PROPOSAL' | 'MATCHED' | 'SET';
 
 export interface TripListView {
   id: string;

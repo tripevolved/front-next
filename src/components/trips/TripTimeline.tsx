@@ -164,7 +164,8 @@ const STATUS_LABELS: Record<string, string> = {
 }
 
 function getTripHref(trip: TripListView): string | null {
-  if (trip.status === 'NEW') return null
+  // TODO: does the modal makes sense in the future?
+  /*if (trip.status === 'NEW') return null*/
 
   switch (trip.status) {
     /*case 'PRE_PROPOSAL':
@@ -373,7 +374,7 @@ function TripTimelineCard({ trip, isPast, onIdeaClick }: { trip: TripListView; i
     </div>
   )
 
-  if (isNewIdea) {
+  /*if (isNewIdea) {
     return (
       <button
         type="button"
@@ -383,7 +384,7 @@ function TripTimelineCard({ trip, isPast, onIdeaClick }: { trip: TripListView; i
         {cardContent}
       </button>
     )
-  }
+  }*/
 
   if (href) {
     return (

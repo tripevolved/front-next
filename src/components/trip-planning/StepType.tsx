@@ -19,6 +19,7 @@ export function StepType({
   buttonText = 'Próximo',
   types = DEFAULT_STEP_TYPES,
   disclaimerText,
+  initialType,
 }: {
   onNext: (type: TripType) => void
   onBack: () => void
@@ -26,8 +27,10 @@ export function StepType({
   types?: StepTypeOption[]
   /** Omitido → usa o aviso padrão. String vazia oculta o aviso. */
   disclaimerText?: string
+  /** Prefill selection when editing. */
+  initialType?: TravelerType
 }) {
-  const [type, setType] = useState<TravelerType | ''>('')
+  const [type, setType] = useState<TravelerType | ''>(() => initialType ?? '')
   const resolvedDisclaimer = disclaimerText === undefined ? DEFAULT_DISCLAIMER_TEXT : disclaimerText
 
   const handleSubmit = (e: React.FormEvent) => {

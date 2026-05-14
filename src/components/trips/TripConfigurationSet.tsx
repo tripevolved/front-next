@@ -1,7 +1,10 @@
 "use client";
 
-import { type TripConfiguration, TravelerType } from "@/core/types/trip";
+import { useState } from "react";
+
+import { type TripConfiguration, type TripStatus, TravelerType, isTripConfigurationEditableStatus } from "@/core/types/trip";
 import { formatPtBrDateRangeLong, parseDateOnlyToLocalDate } from "@/utils/helpers/dates.helpers";
+import { EditTripConfigurationDrawer } from "@/components/trips/EditTripConfigurationDrawer";
 
 const TRAVELER_TYPE_LABELS: Record<TravelerType, string> = {
   [TravelerType.COUPLE]: "Casal",
@@ -12,6 +15,10 @@ const TRAVELER_TYPE_LABELS: Record<TravelerType, string> = {
 
 interface TripConfigurationSetProps {
   configuration: TripConfiguration;
+  /** When set, "Editar" opens the configuration sidebar (PUT /trips/:id/configuration). */
+  tripId?: string;
+  /** Trip lifecycle status; edit is only offered for NEW, PRE_PROPOSAL, and SET. */
+  tripStatus?: TripStatus | string;
   hideEditButton?: boolean;
 }
 
@@ -46,9 +53,17 @@ function formatDatesOrMonth(config: { startDate?: Date | string; endDate?: Date 
   return null;
 }
 
-export function TripConfigurationSet({ configuration, hideEditButton = false }: TripConfigurationSetProps) {
+export function TripConfigurationSet({
+  configuration,
+  tripId,
+  tripStatus,
+  hideEditButton = false,
+}: TripConfigurationSetProps) {
+  const [editOpen, setEditOpen] = useState(false);
   const { startDate, endDate, month, budget, numAdults, numChildren, childrenAges, rooms, travelerType } = configuration;
   const datesOrMonthLabel = formatDatesOrMonth({ startDate, endDate, month });
+  const showEdit =
+    Boolean(tripId) && !hideEditButton && isTripConfigurationEditableStatus(tripStatus);
 
   return (
     <div className="border-2 border-dashed border-primary-600 rounded-lg bg-primary-50 p-4 md:p-6">
@@ -198,12 +213,12 @@ export function TripConfigurationSet({ configuration, hideEditButton = false }: 
             </div>
           )}
 
-        {!hideEditButton && (
+        {showEdit && tripId ? (
           <button
             type="button"
             className="shrink-0 inline-flex items-center gap-1.5 text-primary-600 hover:text-primary-700 font-medium text-sm"
             aria-label="Editar configuração"
-            onClick={() => {}}
+            onClick={() => setEditOpen(true)}
           >
             <svg
               className="w-4 h-4"
@@ -221,8 +236,17 @@ export function TripConfigurationSet({ configuration, hideEditButton = false }: 
             </svg>
             Editar
           </button>
-        )}
+        ) : null}
       </div>
+
+      {showEdit && tripId ? (
+        <EditTripConfigurationDrawer
+          isOpen={editOpen}
+          onClose={() => setEditOpen(false)}
+          tripId={tripId}
+          configuration={configuration}
+        />
+      ) : null}
     </div>
   );
 }
