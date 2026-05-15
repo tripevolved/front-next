@@ -97,22 +97,22 @@ export function ItineraryItemSections({ type, accommodationDetailsHref, readOnly
 
             {item.highlights.videos && item.highlights.videos.length > 0 ? (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                <div className="bg-accent-100 rounded-xl p-8 shadow-sm">
+                <div className="bg-accent-100 rounded-xl p-8 shadow-sm min-w-0 overflow-hidden">
                   <div
-                    className="text-secondary-700 prose prose-sm max-w-none prose-p:text-secondary-700 prose-ul:text-secondary-700 prose-ol:text-secondary-700 prose-li:text-secondary-700"
+                    className="text-secondary-700 prose prose-sm max-w-none min-w-0 break-words prose-p:text-secondary-700 prose-ul:text-secondary-700 prose-ol:text-secondary-700 prose-li:text-secondary-700 prose-p:break-words prose-li:break-words"
                     dangerouslySetInnerHTML={{ __html: item.highlights.description }}
                   />
                 </div>
-                <div className="bg-white rounded-xl p-6 shadow-sm">
+                <div className="bg-white rounded-xl p-6 shadow-sm min-w-0">
                   <h3 className="text-lg font-semibold text-primary mb-4">Vídeos</h3>
                   <VideoSlider videos={item.highlights.videos} />
                 </div>
               </div>
             ) : (
               <div className="mb-8">
-                <div className="bg-accent-100 rounded-xl p-8 shadow-sm">
+                <div className="bg-accent-100 rounded-xl p-8 shadow-sm min-w-0 overflow-hidden">
                   <div
-                    className="text-secondary-700 prose prose-sm max-w-none prose-p:text-secondary-700 prose-ul:text-secondary-700 prose-ol:text-secondary-700 prose-li:text-secondary-700"
+                    className="text-secondary-700 prose prose-sm max-w-none min-w-0 break-words prose-p:text-secondary-700 prose-ul:text-secondary-700 prose-ol:text-secondary-700 prose-li:text-secondary-700 prose-p:break-words prose-li:break-words"
                     dangerouslySetInnerHTML={{ __html: item.highlights.description }}
                   />
                 </div>
