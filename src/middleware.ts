@@ -24,6 +24,10 @@ export async function middleware(request: NextRequest) {
   
   // public routes — no need to check for session
 
+  if (request.nextUrl.pathname.startsWith("/compartilhar")) {
+    authRes.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive, nosnippet");
+  }
+
   return authRes;
 }
 

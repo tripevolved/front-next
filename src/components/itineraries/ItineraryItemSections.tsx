@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { VideoSlider } from "@/components/VideoSlider";
 import { CruiseDetailsModal } from "@/components/itineraries/CruiseDetailsModal";
+import { PublicAccommodationDetailsModal } from "@/components/itineraries/PublicAccommodationDetailsModal";
+import type { PublicTripAccommodation } from "@/core/types/public-itinerary";
 import {
   AccommodationCard,
   CruiseCard,
@@ -17,6 +19,8 @@ type Props = {
   type: ItineraryType;
   /** Builds anchor links to JourneyDetailsSection accommodation cards */
   accommodationDetailsHref?: (accommodation: NonNullable<ItineraryItem["accommodation"]>) => string;
+  /** View-only: no modals, no journey-detail links */
+  readOnly?: boolean;
 };
 
 export function buildJourneyAccommodationHref(
@@ -28,13 +32,15 @@ export function buildJourneyAccommodationHref(
   return "#journey-details";
 }
 
-export function ItineraryItemSections({ type, accommodationDetailsHref }: Props) {
+export function ItineraryItemSections({ type, accommodationDetailsHref, readOnly = false }: Props) {
   const { itinerary, setItemRef, setItemOneRef } = useItineraryScroll();
   const [selectedCruise, setSelectedCruise] = useState<Cruise | null>(null);
   const [isCruiseModalOpen, setIsCruiseModalOpen] = useState(false);
+  const [selectedPublicAccommodation, setSelectedPublicAccommodation] =
+    useState<PublicTripAccommodation | null>(null);
 
   const resolveAccommodationHref = accommodationDetailsHref ?? buildJourneyAccommodationHref;
-  const showAccommodationDetailsLink = Boolean(accommodationDetailsHref);
+  const showAccommodationDetailsLink = !readOnly && Boolean(accommodationDetailsHref);
 
   const openCruiseModal = (cruise: Cruise) => {
     setSelectedCruise(cruise);
@@ -122,16 +128,35 @@ export function ItineraryItemSections({ type, accommodationDetailsHref }: Props)
                       ? resolveAccommodationHref(item.accommodation)
                       : undefined
                   }
+                  onOpenDetails={
+                    readOnly && item.accommodation.publicDetails
+                      ? () => setSelectedPublicAccommodation(item.accommodation!.publicDetails!)
+                      : undefined
+                  }
                 />
               ) : null}
               {item.experience ? <CruiseExperienceCard experience={item.experience} /> : null}
-              {item.cruise ? <CruiseCard cruise={item.cruise} onOpenModal={openCruiseModal} /> : null}
+              {item.cruise ? (
+                <CruiseCard
+                  cruise={item.cruise}
+                  onOpenModal={readOnly ? undefined : openCruiseModal}
+                  readOnly={readOnly}
+                />
+              ) : null}
             </div>
           </div>
         </section>
       ))}
 
-      {selectedCruise ? (
+      {readOnly && selectedPublicAccommodation ? (
+        <PublicAccommodationDetailsModal
+          isOpen={Boolean(selectedPublicAccommodation)}
+          onClose={() => setSelectedPublicAccommodation(null)}
+          accommodation={selectedPublicAccommodation}
+        />
+      ) : null}
+
+      {!readOnly && selectedCruise ? (
         <CruiseDetailsModal isOpen={isCruiseModalOpen} onClose={closeCruiseModal} cruise={selectedCruise} />
       ) : null}
     </>

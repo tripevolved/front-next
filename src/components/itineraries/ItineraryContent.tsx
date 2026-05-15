@@ -4,6 +4,7 @@ import { ItineraryScrollProvider } from "@/components/itineraries/ItineraryScrol
 import { ItineraryDayByDaySection } from "@/components/itineraries/ItineraryDayByDaySection";
 import { ItineraryItemSections } from "@/components/itineraries/ItineraryItemSections";
 import type { Cruise } from "@/core/types/cruise";
+import type { PublicTripAccommodation } from "@/core/types/public-itinerary";
 
 export interface ItineraryItem {
   id: number;
@@ -19,6 +20,8 @@ export interface ItineraryItem {
     image: string;
     tags?: string[];
     recommendedFor?: string[];
+    /** Full public share payload — powers the read-only details modal */
+    publicDetails?: PublicTripAccommodation;
   };
   experience?: {
     name: string;

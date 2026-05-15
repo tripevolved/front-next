@@ -17,6 +17,8 @@ export type JourneyDetailsSectionProps = {
   tripId: string;
   destination?: string;
   relatedDestinationUniqueName?: string;
+  /** When false, hides "Adicionar hospedagem" (e.g. itinerary page). Default true. */
+  showAddAccommodation?: boolean;
 };
 
 function formatMoneyPtBR(amount: number, currency?: string | null): string {
@@ -28,7 +30,12 @@ function formatMoneyPtBR(amount: number, currency?: string | null): string {
   }
 }
 
-export function JourneyDetailsSection({ tripId, destination, relatedDestinationUniqueName }: JourneyDetailsSectionProps) {
+export function JourneyDetailsSection({
+  tripId,
+  destination,
+  relatedDestinationUniqueName,
+  showAddAccommodation = true,
+}: JourneyDetailsSectionProps) {
   const [isAddOpen, setIsAddOpen] = useState(false);
   const { mutate } = useSWRConfig();
   const { data, error, isLoading } = useSWR<TripAccommodationItem[]>(
@@ -215,9 +222,11 @@ export function JourneyDetailsSection({ tripId, destination, relatedDestinationU
             </div>
           ))}
 
-          <button
-            type="button"
-            onClick={() => setIsAddOpen(true)}
+          {showAddAccommodation ? (
+            <>
+              <button
+                type="button"
+                onClick={() => setIsAddOpen(true)}
             className="group w-full flex items-center gap-4 rounded-2xl border-2 border-dashed border-primary-300 bg-primary-50 hover:border-primary-500 hover:bg-primary-100 transition-colors px-6 py-5 shadow-sm"
           >
             <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center group-hover:bg-primary-200 transition-colors">
@@ -253,6 +262,8 @@ export function JourneyDetailsSection({ tripId, destination, relatedDestinationU
               mutate(["trip-price", tripId]);
             }}
           />
+            </>
+          ) : null}
         </div>
 
         {/* Desktop sticky summary */}

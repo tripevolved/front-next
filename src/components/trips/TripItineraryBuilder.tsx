@@ -125,6 +125,7 @@ export function TripItineraryBuilder({
           tripId={tripId}
           destination={destination}
           relatedDestinationUniqueName={relatedDestinationUniqueName}
+          showAddAccommodation={false}
         />
       </section>
     </>

@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import useSWR from "swr";
 import { TripsApiService } from "@/clients/trips";
@@ -77,20 +79,25 @@ function isPastDateOnly(value: unknown): boolean {
 }
 
 export function JourneyAccommodationDetailsModal({ isOpen, onClose, tripId, accommodationId }: Props) {
+  const [mounted, setMounted] = useState(false);
   const { data, error, isLoading } = useSWR<TripAccommodationDetailsResponse>(
     isOpen && tripId && accommodationId ? ["trip-accommodation-reservations", tripId, accommodationId] : null,
     () => TripsApiService.getTripAccommodationReservation(tripId, accommodationId),
     { revalidateOnFocus: false }
   );
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isOpen || !mounted) return null;
 
   const accommodation = data ?? null;
   const cover = imageUrl(accommodation?.coverImage) ?? PLACEHOLDER_IMAGE;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 bg-black/50 z-[70] flex items-center justify-center p-4"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -346,7 +353,8 @@ export function JourneyAccommodationDetailsModal({ isOpen, onClose, tripId, acco
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

@@ -4,6 +4,7 @@ import { getTripMatches } from "./trips";
 import { createTrip, createEmptyTrip } from "./create";
 import { getGoals } from "./goals";
 import { getItinerary, createItinerary } from "./itinerary";
+import { getPublicItinerary, postItineraryShare } from "./itinerary-share";
 import { getTrips } from "./all";
 import { createTripByAccommodation } from "./by-accommodation";
 import { putTripConfiguration } from "./configuration";
@@ -40,5 +41,7 @@ export const TripsApiService = {
   getGoals,
   getItinerary,
   createItinerary,
+  postItineraryShare,
+  getPublicItinerary,
   createTripByAccommodation
 }; 

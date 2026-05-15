@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { TripConfigurationSet } from "@/components/trips/TripConfigurationSet";
 import { TripItineraryBuilder } from "@/components/trips/TripItineraryBuilder";
+import { ItineraryShareButton } from "@/components/trips/ItineraryShareButton";
 import { TripsApiService } from "@/clients/trips";
 import type { TripDetails } from "@/core/types";
 import { formatPtBrDateRangeLong, parseDateOnlyToLocalDate } from "@/utils/helpers/dates.helpers";
@@ -93,10 +94,10 @@ export default function ItinerarioPage() {
         }
       >
         {!coverImageUrl ? <div className="absolute inset-0 bg-secondary-500 -z-10" /> : null}
-        <div className="absolute top-6 left-6 z-10">
+        <div className="absolute top-6 left-6 right-6 z-10 flex items-center gap-4">
           <Link
             href={`/app/viagens/${encodeURIComponent(id)}`}
-            className="inline-flex items-center gap-1.5 bg-transparent border border-white text-white hover:bg-white/20 px-3 py-1.5 rounded-full text-sm font-medium transition-colors"
+            className="inline-flex items-center gap-1.5 bg-transparent border border-white text-white hover:bg-white/20 px-3 py-1.5 rounded-full text-sm font-medium transition-colors shrink-0"
           >
             Voltar à viagem
           </Link>
@@ -104,16 +105,19 @@ export default function ItinerarioPage() {
         <div className="max-w-[80%] mx-auto text-center flex-1 flex flex-col items-center justify-center mt-10">
           <h1 className="text-4xl md:text-5xl font-baloo font-bold mb-4">{tripDetails.title}</h1>
           <p className="text-lg md:text-xl font-comfortaa mb-8">{formatHeroDates(tripDetails)}</p>
-          <a
-            href="#itinerary"
-            className="inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-3 rounded-full font-baloo font-semibold hover:bg-primary-50 transition-colors w-fit"
-          >
-            Ver itinerário
-          </a>
+          <div className="flex flex-wrap items-center justify-center gap-3 w-full max-w-lg mx-auto">
+            <a
+              href="#itinerary"
+              className="inline-flex items-center gap-2 bg-white text-primary-600 px-6 py-3 rounded-full font-baloo font-semibold hover:bg-primary-50 transition-colors w-fit shrink-0"
+            >
+              Ver itinerário
+            </a>
+            <ItineraryShareButton tripId={id} tripTitle={tripDetails.title} />
+          </div>
         </div>
       </section>
 
-      <section className="max-w-[80%] mx-auto -mt-6 relative z-10 px-4">
+      <section className="max-w-[80%] mx-auto -mt-6 relative z-[1] px-4">
         <TripConfigurationSet
           tripId={id}
           tripStatus={tripDetails.status}

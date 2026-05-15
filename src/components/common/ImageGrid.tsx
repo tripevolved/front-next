@@ -13,9 +13,11 @@ interface ImageGridProps {
   title: string
   /** Full width: no horizontal padding (e.g. modal edge-to-edge) */
   edgeToEdge?: boolean
+  /** z-index for the fullscreen lightbox (raise when nested inside another modal) */
+  lightboxZIndex?: number
 }
 
-export function ImageGrid({ images, title, edgeToEdge = false }: ImageGridProps) {
+export function ImageGrid({ images, title, edgeToEdge = false, lightboxZIndex = 50 }: ImageGridProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
@@ -230,7 +232,8 @@ export function ImageGrid({ images, title, edgeToEdge = false }: ImageGridProps)
       {/* Lightbox Modal with Carousel */}
       {selectedImageIndex !== null && (
         <div
-          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center"
+          className="fixed inset-0 bg-black/95 flex items-center justify-center"
+          style={{ zIndex: lightboxZIndex }}
           onClick={() => setSelectedImageIndex(null)}
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
