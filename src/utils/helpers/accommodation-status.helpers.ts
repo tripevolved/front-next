@@ -22,7 +22,7 @@ export function translateAccommodationReservationStatus(value?: string | null): 
   if (v === "PENDING") return "Pendente";
   if (v === "CANCELED" || v === "CANCELLED") return "Cancelada";
   if (v === "REJECTED") return "Rejeitada";
-  return value;
+  return v;
 }
 
 export function translateAccommodationPaymentStatus(value?: string | null): string {
@@ -30,7 +30,7 @@ export function translateAccommodationPaymentStatus(value?: string | null): stri
   if (!v) return "—";
   if (v === "PAID") return "Paga";
   if (v === "NOT_PAID") return "Não paga";
-  return value;
+  return v;
 }
 
 export function parseReservationStatus(value: unknown): AccommodationReservationStatus | null {
