@@ -452,7 +452,7 @@ export function TripTimeline({
       : 'Quando você planejar uma nova viagem, ela vai aparecer neste calendário.')
 
   return (
-    <section className="mt-10 pt-10 border-t border-gray-200">
+    <section className={variant === 'past' ? 'mt-10 pt-10 border-t border-gray-200' : undefined}>
       <div className="mb-6">
         <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
           <h2 className="text-xl font-semibold text-gray-900">{heading}</h2>

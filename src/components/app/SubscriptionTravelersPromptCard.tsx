@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 
+import { PAINEL_ACTION_CARD_SHELL } from '@/components/app/painelActionCard'
 /**
  * Shown when the subscriber has an active subscription but has not yet registered
  * authorized travelers (hasTravelers === false). Shown first on /app when subscription is active.
@@ -10,14 +11,14 @@ export function SubscriptionTravelersPromptCard() {
   return (
     <Link
       href="/app/admin/circulo-evolved"
-      className="flex flex-col items-center justify-center text-center bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow border border-accent-200 ring-1 ring-accent-100 aspect-square"
+      className={`${PAINEL_ACTION_CARD_SHELL} bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow border border-accent-200 ring-1 ring-accent-100`}
     >
-      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold font-comfortaa bg-accent-500/15 text-accent-800 border border-accent-300/60 mb-3">
+      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold font-comfortaa bg-accent-500/15 text-accent-800 border border-accent-300/60 mb-2">
         Importante — benefícios da assinatura
       </span>
-      <div className="flex-shrink-0 w-14 h-14 rounded-full bg-secondary-100 flex items-center justify-center mb-4">
+      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-secondary-100 flex items-center justify-center mb-2">
         <svg
-          className="w-7 h-7 text-secondary-700"
+          className="w-5 h-5 text-secondary-700"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -31,14 +32,14 @@ export function SubscriptionTravelersPromptCard() {
           />
         </svg>
       </div>
-      <h3 className="text-lg font-semibold text-secondary-900 font-baloo mb-2">
+      <h3 className="text-base font-semibold text-secondary-900 font-baloo mb-1">
         Cadastre quem viaja com você
       </h3>
-      <p className="text-sm text-secondary-700 font-comfortaa leading-snug">
+      <p className="text-xs text-secondary-700 font-comfortaa leading-snug line-clamp-3">
         Apenas as pessoas cadastradas como viajantes da assinatura têm direito aos benefícios do Círculo
         Evolved nas viagens. Registre sua família direta para não perder vantagens.
       </p>
-      <span className="mt-4 text-sm font-comfortaa font-semibold text-accent-700">
+      <span className="mt-2 text-xs font-comfortaa font-semibold text-accent-700">
         Preencher agora →
       </span>
     </Link>

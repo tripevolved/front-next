@@ -1,8 +1,6 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useAppStore } from '@/core/store'
 import { TripsApiService } from '@/clients/trips'
@@ -27,6 +25,33 @@ import {
   type TripType,
 } from '@/components/trip-planning'
 import type { TripBudgetPayload } from '@/components/trip-planning/StepBudget'
+import { ProposalFlowPageLayout } from '@/components/app/ProposalFlowPageLayout'
+import { AppMultiStepFlowShell } from '@/components/app/AppMultiStepFlowShell'
+
+type StepId =
+  | 'intro'
+  | 'dates'
+  | 'type'
+  | 'familyTravelers'
+  | 'familyRooms'
+  | 'goals'
+  | 'profile'
+  | 'budget'
+  | 'description'
+  | 'createTrip'
+
+const STEP_META: Record<StepId, { label: string; title: string }> = {
+  intro: { label: 'Início', title: 'Vamos começar sua jornada?' },
+  dates: { label: 'Datas', title: 'Quando você pretende viajar?' },
+  type: { label: 'Tipo', title: 'Com quem você viaja?' },
+  familyTravelers: { label: 'Viajantes', title: 'Quem vai na viagem?' },
+  familyRooms: { label: 'Quartos', title: 'Como dividir os quartos?' },
+  goals: { label: 'Objetivos', title: 'O que você busca na viagem?' },
+  profile: { label: 'Perfil', title: 'Qual o seu perfil de viagem?' },
+  budget: { label: 'Orçamento', title: 'Qual o seu orçamento?' },
+  description: { label: 'Comentários', title: 'Conte mais sobre a viagem' },
+  createTrip: { label: 'Finalizar', title: 'Criando sua viagem' },
+}
 
 export default function PlanejarPage() {
   const router = useRouter()
@@ -44,18 +69,6 @@ export default function PlanejarPage() {
 
   const isFamilyTrip = tripType?.type === TravelerType.FAMILY
 
-  type StepId =
-    | 'intro'
-    | 'dates'
-    | 'type'
-    | 'familyTravelers'
-    | 'familyRooms'
-    | 'goals'
-    | 'profile'
-    | 'budget'
-    | 'description'
-    | 'createTrip'
-
   const steps = useMemo<StepId[]>(() => {
     const base: StepId[] = ['intro', 'dates', 'type']
     if (isFamilyTrip) base.push('familyTravelers', 'familyRooms')
@@ -64,7 +77,10 @@ export default function PlanejarPage() {
   }, [isFamilyTrip])
 
   const currentStep = steps[stepIndex] ?? 'intro'
-  const progressPercent = ((stepIndex + 1) / steps.length) * 100
+  const stepNumber = stepIndex + 1
+  const totalSteps = steps.length
+  const stepperLabels = useMemo(() => steps.map((id) => STEP_META[id].label), [steps])
+  const progressPercent = totalSteps > 1 ? (stepIndex / (totalSteps - 1)) * 100 : 0
   const goNext = () => setStepIndex((i) => Math.min(i + 1, steps.length - 1))
   const goBack = () => setStepIndex((i) => Math.max(i - 1, 0))
 
@@ -87,7 +103,6 @@ export default function PlanejarPage() {
         familyRooms,
       })
       const { id } = await TripsApiService.createTrip(tripRequest)
-      // TODO: After curators ship, restore the pre-proposta step — redirect to `/app/viagens/${id}/pre-proposta` instead of the trip page.
       router.push(`/app/viagens/${id}`)
     } catch (err) {
       console.error('Error creating trip:', err)
@@ -96,154 +111,121 @@ export default function PlanejarPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto w-full flex flex-col lg:flex-row min-h-screen">
-        {/* Left: primary box with centered image (desktop only) */}
-        <div className="hidden lg:flex lg:w-[45%] lg:min-h-screen lg:shrink-0 bg-primary-600 items-center justify-center p-8">
-          <div className="relative w-full max-w-md aspect-[4/3]">
-            <Image
-              src="/assets/trip/trip-cover.png"
-              alt=""
-              fill
-              className="object-contain object-center"
-              priority
-              sizes="(min-width: 1024px) 45vw, 0px"
+    <ProposalFlowPageLayout showLeftColumn>
+      <AppMultiStepFlowShell
+        categoryLabel="Planejar viagem"
+        title={STEP_META[currentStep].title}
+        step={stepNumber}
+        totalSteps={totalSteps}
+        stepperLabels={stepperLabels}
+        progressPercent={progressPercent}
+        showBack={stepIndex > 0}
+        onBack={goBack}
+        exitHref="/app"
+      >
+        {error ? (
+          <div className="mx-4 mt-4 p-4 bg-red-50 text-red-600 rounded-md text-sm">{error}</div>
+        ) : null}
+
+        <div className="px-4 pb-8">
+          {currentStep === 'intro' && <StepIntro onNext={goNext} />}
+
+          {currentStep === 'dates' && (
+            <StepDates
+              onNext={(d) => {
+                setTripDates(d)
+                goNext()
+              }}
+              onBack={goBack}
+              title="Quando você pretende viajar?"
+              description="Selecione a janela de datas em que você pode viajar e a duração desejada para a sua viagem."
             />
-          </div>
+          )}
+
+          {currentStep === 'type' && (
+            <StepType
+              onNext={(t) => {
+                setTripType(t)
+                if (t.type !== TravelerType.FAMILY) {
+                  setFamilyTravellers(null)
+                  setFamilyRooms(null)
+                }
+                goNext()
+              }}
+              onBack={goBack}
+            />
+          )}
+
+          {currentStep === 'familyTravelers' && (
+            <StepFamilyTravelersCount
+              onNext={(t) => {
+                setFamilyTravellers(t)
+                setFamilyRooms(null)
+                goNext()
+              }}
+              onBack={goBack}
+              initial={familyTravellers ?? undefined}
+            />
+          )}
+
+          {currentStep === 'familyRooms' && (
+            <StepFamilyRoomsChoice
+              onNext={(rooms) => {
+                setFamilyRooms(rooms)
+                goNext()
+              }}
+              onBack={goBack}
+              travelers={familyTravellers ?? { adults: 2, children: 0, childrenAges: [] }}
+            />
+          )}
+
+          {currentStep === 'goals' && (
+            <StepGoals
+              onNext={(g) => {
+                setTripGoals(g)
+                goNext()
+              }}
+              onBack={goBack}
+              tripType={tripType?.type}
+            />
+          )}
+
+          {currentStep === 'profile' && (
+            <StepProfile
+              onNext={(p) => {
+                setTripProfile(p)
+                goNext()
+              }}
+              onBack={goBack}
+            />
+          )}
+
+          {currentStep === 'budget' && (
+            <StepBudget
+              onNext={(b) => {
+                setTripBudget(b)
+                goNext()
+              }}
+              onBack={goBack}
+              initial={tripBudget}
+            />
+          )}
+
+          {currentStep === 'description' && (
+            <StepTripDescription
+              onNext={(d) => {
+                setTripDescription(d)
+                goNext()
+              }}
+              onBack={goBack}
+              initial={tripDescription}
+              buttonText="Criar minha jornada"
+            />
+          )}
+
+          {currentStep === 'createTrip' && <StepCreateTrip onNext={handleCreateTrip} />}
         </div>
-
-        {/* Right: wizard centered in column */}
-        <div className="flex-1 flex flex-col min-h-screen lg:min-h-0 lg:items-center lg:justify-center lg:py-8">
-          <div className="w-full max-w-2xl flex flex-col lg:bg-white lg:rounded-lg lg:shadow-sm">
-            <div className="bg-white shadow-sm lg:rounded-t-lg">
-              <div className="max-w-2xl mx-auto lg:max-w-none px-6 lg:px-8">
-                <div className="flex items-center gap-4 py-4">
-                  <Link
-                    href="/app"
-                    className="text-gray-600 hover:text-gray-900 inline-flex items-center gap-1 text-sm"
-                  >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                    </svg>
-                    Voltar ao painel
-                  </Link>
-                </div>
-                <div className="h-1.5 bg-gray-200 overflow-hidden rounded-full">
-                  <div
-                    className="h-full bg-accent-600 transition-all duration-300 rounded-full"
-                    style={{ width: `${progressPercent}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {error && (
-              <div className="mx-4 mt-4 p-4 bg-red-50 text-red-600 rounded-md text-sm">
-                {error}
-              </div>
-            )}
-
-            <div className="max-w-2xl mx-auto mt-6 bg-white rounded-lg shadow-sm min-h-[400px] w-full px-4 pb-8 lg:mx-0 lg:mt-8 lg:shadow-none lg:rounded-b-lg lg:rounded-t-none lg:flex-1">
-              {currentStep === 'intro' && <StepIntro onNext={goNext} />}
-
-              {currentStep === 'dates' && (
-                <StepDates
-                  onNext={(d) => {
-                    setTripDates(d)
-                    goNext()
-                  }}
-                  onBack={goBack}
-                  title="Quando você pretende viajar?"
-                  description="Selecione a janela de datas em que você pode viajar e a duração desejada para a sua viagem."
-                />
-              )}
-
-              {currentStep === 'type' && (
-                <StepType
-                  onNext={(t) => {
-                    setTripType(t)
-                    if (t.type !== TravelerType.FAMILY) {
-                      setFamilyTravellers(null)
-                      setFamilyRooms(null)
-                    }
-                    goNext()
-                  }}
-                  onBack={goBack}
-                />
-              )}
-
-              {currentStep === 'familyTravelers' && (
-                <StepFamilyTravelersCount
-                  onNext={(t) => {
-                    setFamilyTravellers(t)
-                    setFamilyRooms(null)
-                    goNext()
-                  }}
-                  onBack={goBack}
-                  initial={familyTravellers ?? undefined}
-                />
-              )}
-
-              {currentStep === 'familyRooms' && (
-                <StepFamilyRoomsChoice
-                  onNext={(rooms) => {
-                    setFamilyRooms(rooms)
-                    goNext()
-                  }}
-                  onBack={goBack}
-                  travelers={familyTravellers ?? { adults: 2, children: 0, childrenAges: [] }}
-                />
-              )}
-
-              {currentStep === 'goals' && (
-                <StepGoals
-                  onNext={(g) => {
-                    setTripGoals(g)
-                    goNext()
-                  }}
-                  onBack={goBack}
-                  tripType={tripType?.type}
-                />
-              )}
-
-              {currentStep === 'profile' && (
-                <StepProfile
-                  onNext={(p) => {
-                    setTripProfile(p)
-                    goNext()
-                  }}
-                  onBack={goBack}
-                />
-              )}
-
-              {currentStep === 'budget' && (
-                <StepBudget
-                  onNext={(b) => {
-                    setTripBudget(b)
-                    goNext()
-                  }}
-                  onBack={goBack}
-                  initial={tripBudget}
-                />
-              )}
-
-              {currentStep === 'description' && (
-                <StepTripDescription
-                  onNext={(d) => {
-                    setTripDescription(d)
-                    goNext()
-                  }}
-                  onBack={goBack}
-                  initial={tripDescription}
-                  buttonText="Criar minha jornada"
-                />
-              )}
-
-              {currentStep === 'createTrip' && <StepCreateTrip onNext={handleCreateTrip} />}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      </AppMultiStepFlowShell>
+    </ProposalFlowPageLayout>
   )
 }
