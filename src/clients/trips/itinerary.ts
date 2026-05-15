@@ -3,6 +3,10 @@ import { ApiRequest } from "@/services/api/request";
 
 export const getItinerary = async (tripId: string) => {
   const route = `/trips/${tripId}/itinerary`;
-  const tripItinerary = await ApiRequest.get<TripItinerary>(route);
-  return tripItinerary;
+  return ApiRequest.get<TripItinerary>(route);
+};
+
+export const createItinerary = async (tripId: string) => {
+  const route = `/trips/${tripId}/itinerary`;
+  return ApiRequest.post<TripItinerary>(route, {});
 };

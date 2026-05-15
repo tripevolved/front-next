@@ -66,7 +66,7 @@ export function TripConfigurationSet({
     Boolean(tripId) && !hideEditButton && isTripConfigurationEditableStatus(tripStatus);
 
   return (
-    <div className="border-2 border-dashed border-primary-600 rounded-lg bg-primary-50 p-4 md:p-6">
+    <div className="shadow-md border border-primary-200 rounded-lg bg-primary-50 p-4 md:p-6">
       <div className="flex flex-wrap gap-4 w-full items-center justify-between">
           {/* Tipo de viajante */}
           {travelerType != null && TRAVELER_TYPE_LABELS[travelerType] != null && (

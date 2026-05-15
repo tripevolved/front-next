@@ -5,6 +5,7 @@ import type { TripDetails } from "@/core/types";
 import { auth0 } from "@/lib/auth0";
 import { formatPtBrDateRangeLong, parseDateOnlyToLocalDate } from "@/utils/helpers/dates.helpers";
 import { TripConfigurationSet } from "@/components/trips/TripConfigurationSet";
+import { TripNavigationCards } from "@/components/trips/TripNavigationCards";
 import { JourneyDetailsSection } from "@/components/trips/JourneyDetailsSection";
 import { TripJourneyHero } from "@/components/trips/TripJourneyHero";
 type Props = {
@@ -135,12 +136,13 @@ export default async function ViagemByIdPage({ params }: Props) {
       />
 
       {/* Trip Configuration */}
-      <section className="md:max-w-[80%] mx-auto -mt-6 relative z-10 px-4">
+      <section className="md:max-w-[80%] mx-auto -mt-6 relative z-10 px-4 space-y-6">
         <TripConfigurationSet
           tripId={tripDetails.id}
           tripStatus={tripDetails.status}
           configuration={tripDetails.configuration}
         />
+        <TripNavigationCards tripId={tripDetails.id} destination={tripDetails.destination ?? undefined} />
       </section>
 
       {/* Details */}

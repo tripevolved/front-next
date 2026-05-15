@@ -148,7 +148,7 @@ export default function PlanejarResultsPage() {
             })
             selectedDestination.current = ''
             setIsWantToGoModalOpen(false)
-            router.push(`/app/viagens/${id}/proposta`)
+            router.push(`/app/viagens/${id}/itinerario`)
           } catch (err) {
             console.error('Failed to set destination for trip:', err)
           }

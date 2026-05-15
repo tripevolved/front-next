@@ -3,7 +3,7 @@ import { getTripDetailsById } from "./details";
 import { getTripMatches } from "./trips";
 import { createTrip, createEmptyTrip } from "./create";
 import { getGoals } from "./goals";
-import { getItinerary } from "./itinerary";
+import { getItinerary, createItinerary } from "./itinerary";
 import { getTrips } from "./all";
 import { createTripByAccommodation } from "./by-accommodation";
 import { putTripConfiguration } from "./configuration";
@@ -39,5 +39,6 @@ export const TripsApiService = {
   createEmptyTrip,
   getGoals,
   getItinerary,
+  createItinerary,
   createTripByAccommodation
 }; 

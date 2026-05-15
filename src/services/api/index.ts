@@ -1,7 +1,5 @@
-export * from "./destination";
 export * from "./profile";
 export * from "./register";
-export * from "./restaurants";
 export * from "./terms";
 export * from "./transportation";
 export * from "./trip";

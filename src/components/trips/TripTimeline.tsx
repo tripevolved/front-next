@@ -9,6 +9,7 @@ import type { GetTripsQuery } from '@/clients/trips/all'
 import type { TripListView } from '@/core/types/trip'
 import { getTripCalendarCutoffDateString } from '@/utils/trips/trip-calendar-cutoff'
 import { formatCurrency } from '@/utils/helpers/currency.helper'
+import { formatPtBrDateRangeLong, parseDateOnlyToLocalDate } from '@/utils/helpers/dates.helpers'
 import { ImageCarousel } from '@/components/common/ImageCarousel'
 import { CircleLoader } from '@/components/common/CircleLoader'
 import { EmptyOrErrorState } from '@/components/common/EmptyOrErrorState'
@@ -155,23 +156,31 @@ const ESTIMATED_STATUSES = ['NEW', 'PRE_PROPOSAL'] as const
 
 const STATUS_LABELS: Record<string, string> = {
   NEW: 'Ideia de viagem',
-  PRE_PROPOSAL: 'Veja os destinos que recomendamos',
-  SET: 'Veja sua proposta de viagem',
-  IN_CHECKOUT: 'Finalize seu checkout',
+  PRE_PROPOSAL: 'Confira nossas recomendações',
+  SET: 'Continue construindo sua viagem',
+  BUILDING: 'Continue construindo sua viagem',
+  IN_CHECKOUT: 'Aguardando pagamento',
   TO_HAPPEN: 'Tudo pronto para sua jornada',
   ONGOING: 'Em andamento',
   TAKEN: 'Viagem concluída',
 }
 
-function getTripHref(trip: TripListView): string | null {
-  // TODO: does the modal makes sense in the future?
-  /*if (trip.status === 'NEW') return null*/
+function getStatusLabelClass(status: string): string {
+  const base =
+    'absolute top-3 left-3 z-10 max-w-[calc(100%-1.5rem)] text-[11px] font-bold leading-snug text-white px-3 py-1 rounded-full'
+  if (status === 'TO_HAPPEN' || status === 'TAKEN') {
+    return `${base} bg-primary-500`
+  }
+  return `${base} bg-accent-500`
+}
 
+function getTripHref(trip: TripListView): string {
   switch (trip.status) {
     /*case 'PRE_PROPOSAL':
-      return `/app/viagens/${trip.id}/pre-proposta`
+      return `/app/viagens/${trip.id}/pre-proposta`*/
     case 'SET':
-      return `/app/viagens/${trip.id}/proposta`*/
+    case 'BUILDING':
+      return `/app/viagens/${trip.id}/itinerario`
     case 'IN_CHECKOUT':
       return `/app/viagens/${trip.id}/checkout`
     default:
@@ -179,137 +188,16 @@ function getTripHref(trip: TripListView): string | null {
   }
 }
 
-function TripIdeaModal({ trip, onClose }: { trip: TripListView; onClose: () => void }) {
-  const imageUrls = trip.images?.map((img) => img.url).filter(Boolean) ?? []
-  const price = trip.estimatedPrice ?? trip.price
-  const savings = trip.estimatedSavings ?? trip.savings
-  const descriptionText = (trip.description ?? '')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/<[^>]*>/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-  const hasTripDescription = Boolean(descriptionText)
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [onClose])
-
-  return (
-    <div
-      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-      onClick={onClose}
-      role="dialog"
-      aria-modal="true"
-    >
-      <div
-        className="bg-white rounded-xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col shadow-xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 shrink-0">
-          <h2 className="font-baloo text-lg font-bold text-secondary-900 truncate">{trip.title}</h2>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors shrink-0"
-            aria-label="Fechar"
-          >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div className="flex-1 overflow-y-auto">
-          {imageUrls.length > 0 && (
-            <div className="w-full h-48 sm:h-56 shrink-0">
-              <ImageCarousel
-                images={imageUrls}
-                title={trip.title}
-                height="h-48 sm:h-56"
-                showCounter={false}
-                showArrows={true}
-                autoScroll={false}
-              />
-            </div>
-          )}
-          <div className="p-6 space-y-4">
-            {trip.destination && (
-              <p className="text-sm text-secondary-600 font-medium">{trip.destination}</p>
-            )}
-            {hasTripDescription ? (
-              <div className="bg-accent-50 border border-accent-200 rounded-xl p-4 overflow-hidden">
-                <p className="text-xs font-semibold text-accent-700 uppercase tracking-wider mb-2">
-                  Recomendação do especialista
-                </p>
-                <div
-                  className="text-secondary-700 font-comfortaa text-sm leading-relaxed prose prose-sm max-w-none overflow-hidden break-words [&_*]:max-w-full [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_iframe]:max-w-full [&_iframe]:max-h-[200px]"
-                  dangerouslySetInnerHTML={{ __html: trip.description ?? '' }}
-                />
-              </div>
-            ) : (
-              <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
-                <div className="flex flex-col items-center gap-4 text-center">
-                  <Image
-                    src="/assets/states/success-state.svg"
-                    alt=""
-                    width={180}
-                    height={180}
-                    className="object-contain"
-                  />
-                  <h3 className="text-base font-bold text-gray-900">Recomendações em breve</h3>
-                  <p className="text-sm text-gray-600">
-                    Um especialista está montando sua viagem agora. Assim que estiver pronta, você verá a recomendação aqui.
-                  </p>
-                </div>
-              </div>
-            )}
-            {(price != null && price !== 0) || (savings != null && savings !== 0) ? (
-              <div className="flex flex-col gap-1 pt-2">
-                {price != null && price !== 0 && (
-                  <p className="font-baloo font-bold text-secondary-900">
-                    Valor total previsto: {formatCurrency(price)}
-                  </p>
-                )}
-                {savings != null && savings !== 0 && price != null && price !== 0 && (
-                  <p className="text-sm text-accent-600">
-                    Valor exclusivo para o Círculo Evolved: {formatCurrency(price - savings)}
-                  </p>
-                )}
-              </div>
-            ) : null}
-          </div>
-        </div>
-        <div className="px-6 py-4 border-t border-gray-200 shrink-0">
-          <WhatsAppDirectButton
-            message={`Olá! Gostaria de falar com um especialista sobre a ideia de viagem: ${trip.title}`}
-            className="block w-full text-center font-baloo bg-accent-500 hover:bg-accent-600 text-white px-6 py-3 rounded-full text-base font-semibold"
-          >
-            Explorar esta ideia
-          </WhatsAppDirectButton>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 function formatDateRange(startDate: string | null | undefined, endDate: string | null | undefined): string | null {
-  if (!startDate) return null
-  try {
-    const start = new Date(startDate)
-    if (isNaN(start.getTime())) return null
-    const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' }
-    if (endDate) {
-      const end = new Date(endDate)
-      if (!isNaN(end.getTime()) && end.getTime() !== start.getTime()) {
-        return `${start.toLocaleDateString('pt-BR', options)} – ${end.toLocaleDateString('pt-BR', options)}`
-      }
-    }
-    return start.toLocaleDateString('pt-BR', options)
-  } catch {
-    return null
+  const start = parseDateOnlyToLocalDate(startDate)
+  if (!start) return null
+
+  const end = parseDateOnlyToLocalDate(endDate)
+  if (!end || end.getTime() === start.getTime()) {
+    return `De ${formatPtBrDateRangeLong(start, start)}`
   }
+
+  return `De ${formatPtBrDateRangeLong(start, end)}`
 }
 
 function TripPriceDisplay({ trip }: { trip: TripListView }) {
@@ -335,7 +223,7 @@ function TripPriceDisplay({ trip }: { trip: TripListView }) {
   )
 }
 
-function TripTimelineCard({ trip, isPast, onIdeaClick }: { trip: TripListView; isPast: boolean; onIdeaClick?: (trip: TripListView) => void }) {
+function TripTimelineCard({ trip, isPast }: { trip: TripListView; isPast: boolean }) {
   const imageUrl = trip.images?.[0]?.url ?? PLACEHOLDER_IMAGE
   const href = getTripHref(trip)
   const dateLabel = formatDateRange(trip.startDate, trip.endDate) ?? trip.period
@@ -355,6 +243,9 @@ function TripTimelineCard({ trip, isPast, onIdeaClick }: { trip: TripListView; i
           sizes="(max-width: 640px) 100vw, 400px"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+        {statusLabel ? (
+          <span className={getStatusLabelClass(trip.status)}>{statusLabel}</span>
+        ) : null}
         <div className="absolute inset-0 flex flex-col justify-end p-4 text-white">
           <h3 className="font-baloo font-bold text-lg line-clamp-2">{trip.title}</h3>
           {trip.destination && (
@@ -364,11 +255,6 @@ function TripTimelineCard({ trip, isPast, onIdeaClick }: { trip: TripListView; i
             <p className="text-sm text-white/90 mt-0.5">{dateLabel}</p>
           )}
           <TripPriceDisplay trip={trip} />
-          {statusLabel && (
-            <span className="inline-block mt-2 px-2 py-0.5 rounded-full text-xs font-medium bg-white/20 backdrop-blur-sm w-fit">
-              {statusLabel}
-            </span>
-          )}
         </div>
       </div>
     </div>
@@ -428,7 +314,6 @@ export function TripTimeline({
   title,
   emptyDescription,
 }: TripTimelineProps) {
-  const [ideaModalTrip, setIdeaModalTrip] = useState<TripListView | null>(null)
   const cutoffDate = useMemo(() => getTripCalendarCutoffDateString(), [])
   const listQuery: GetTripsQuery =
     variant === 'past' ? { toDate: cutoffDate } : { fromDate: cutoffDate }
@@ -581,7 +466,6 @@ export function TripTimeline({
                           <TripTimelineCard
                             trip={row.trip}
                             isPast={isPast}
-                            onIdeaClick={(t) => setIdeaModalTrip(t)}
                           />
                         </div>
                       </div>
@@ -601,10 +485,6 @@ export function TripTimeline({
             </div>
           )
         })()
-      )}
-
-      {ideaModalTrip && (
-        <TripIdeaModal trip={ideaModalTrip} onClose={() => setIdeaModalTrip(null)} />
       )}
     </section>
   )

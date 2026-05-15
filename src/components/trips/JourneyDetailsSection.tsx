@@ -8,7 +8,6 @@ import type { TripAccommodationItem } from "@/clients/trips/accommodations";
 import type { TripPriceResponse } from "@/clients/trips/price";
 import { EmptyOrErrorState } from "@/components/common/EmptyOrErrorState";
 import { JourneyAccommodationCard } from "@/components/trips/JourneyAccommodationCard";
-import { WhatsAppDirectButton } from "@/components/WhatsAppDirectButton";
 import { AddAccommodationDrawer } from "@/components/trips/AddAccommodationDrawer";
 import type { TripDetails } from "@/core/types/trip";
 import { TravelerType } from "@/core/types/trip";
@@ -211,7 +210,9 @@ export function JourneyDetailsSection({ tripId, destination, relatedDestinationU
         <div className="space-y-4 pb-28 lg:pb-0">
           <h3 className="font-baloo text-xl md:text-2xl font-bold text-secondary-900">Hospedagens</h3>
           {accommodations.map((acc) => (
-            <JourneyAccommodationCard key={acc.id} tripId={tripId} accommodation={acc} />
+            <div key={acc.id} id={`journey-accommodation-${acc.id}`} className="scroll-mt-24">
+              <JourneyAccommodationCard tripId={tripId} accommodation={acc} />
+            </div>
           ))}
 
           <button
@@ -238,15 +239,6 @@ export function JourneyDetailsSection({ tripId, destination, relatedDestinationU
               </p>
             </div>
           </button>
-
-          <div className="flex justify-center pt-2">
-            <WhatsAppDirectButton
-              message={`Olá! Gostaria de falar com um especialista sobre minha viagem${destination ? ` para ${destination}` : ""}.`}
-              variant="naked"
-            >
-              Falar com um especialista
-            </WhatsAppDirectButton>
-          </div>
 
           <AddAccommodationDrawer
             isOpen={isAddOpen}
