@@ -9,15 +9,9 @@ import {
   PublicAccommodationRoomRate,
 } from "@/core/types/accommodations";
 import { AccommodationRoomDetailModal } from "./AccommodationRoomDetailModal";
-import { FamilyTravelersModal } from "./FamilyTravelersModal";
+import { AccommodationAvailabilityLoading } from "@/components/accommodation/AccommodationAvailabilityLoading";
 import { RoomAvailabilityPrice } from "@/components/accommodation/RoomAvailabilityPrice";
-import {
-  AccommodationsApiService,
-  toDateOnlyString,
-  type AvailabilityTravelerType,
-  type TravelerInput,
-} from "@/clients/accommodations";
-import type { FamilyRoom, FamilyTravellers } from "@/components/trip-planning/familyTypes";
+import { AccommodationsApiService, toDateOnlyString, type TravelerInput } from "@/clients/accommodations";
 import DateRangeSelector from "@/components/common/DateRangeSelector";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -56,44 +50,13 @@ function getMinRate(
   return filtered.reduce((min, r) => (r.price < min.price ? r : min), filtered[0]);
 }
 
-function buildTravelerInput(
-  type: AvailabilityTravelerType,
-  family: FamilyTravellers | null,
-  familyRooms: FamilyRoom[] | null
-): TravelerInput {
-  if (type === "COUPLE") {
-    const coupleRoom = { adults: 2, children: 0, childrenAges: [] as number[] };
-    return {
-      type: "COUPLE",
-      adults: 2,
-      children: 0,
-      childrenAges: [],
-      rooms: [coupleRoom],
-    };
-  }
-  const f = family ?? {
-    adults: 2,
-    children: 0,
-    childrenAges: [] as number[],
-  };
-  const rooms =
-    familyRooms && familyRooms.length > 0
-      ? familyRooms
-      : [
-          {
-            adults: f.adults,
-            children: f.children,
-            childrenAges: f.childrenAges,
-          },
-        ];
-  return {
-    type: "FAMILY",
-    adults: f.adults,
-    children: f.children,
-    childrenAges: f.childrenAges,
-    rooms,
-  };
-}
+const COUPLE_TRAVELER_INPUT: TravelerInput = {
+  type: "COUPLE",
+  adults: 2,
+  children: 0,
+  childrenAges: [],
+  rooms: [{ adults: 2, children: 0, childrenAges: [] }],
+};
 
 export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRoomsSectionProps) {
   const router = useRouter();
@@ -113,10 +76,6 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
   const [availabilityError, setAvailabilityError] = useState<string | null>(null);
   const [transactionId, setTransactionId] = useState<string | null>(null);
   const [transactionValidUntil, setTransactionValidUntil] = useState<Date | null>(null);
-  const [travelerType, setTravelerType] = useState<AvailabilityTravelerType>("COUPLE");
-  const [familyTravellers, setFamilyTravellers] = useState<FamilyTravellers | null>(null);
-  const [familyRooms, setFamilyRooms] = useState<FamilyRoom[] | null>(null);
-  const [familyModalOpen, setFamilyModalOpen] = useState(false);
   const [hasFreeCancellation, setHasFreeCancellation] = useState(true);
   const [includesBreakfast, setIncludesBreakfast] = useState(true);
   const dateRangeRef = useRef<HTMLDivElement>(null);
@@ -162,17 +121,7 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
     setStartDate(sd);
     setEndDate(ed);
 
-    const tt = searchParams.get(ACCOMMODATION_STAY_QUERY.travelerType);
-    if (tt === "FAMILY") {
-      setTravelerType("FAMILY");
-      setFamilyTravellers({ adults: 2, children: 0, childrenAges: [] });
-      setFamilyRooms([{ adults: 2, children: 0, childrenAges: [] }]);
-    } else if (tt === "COUPLE") {
-      setTravelerType("COUPLE");
-      setFamilyTravellers(null);
-      setFamilyRooms(null);
-    }
-
+    // TODO: Re-enable Família traveler type when multi-room availability UX is ready.
     requestAnimationFrame(() => {
       document.getElementById("accommodation-rooms")?.scrollIntoView({
         behavior: "smooth",
@@ -192,15 +141,6 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
         return;
       }
 
-      if (travelerType === "FAMILY" && (!familyTravellers || !familyRooms)) {
-        setAvailabilityRooms([]);
-        setTransactionId(null);
-        setTransactionValidUntil(null);
-        setAvailabilityError(null);
-        setIsLoadingAvailability(false);
-        return;
-      }
-
       setIsLoadingAvailability(true);
       setAvailabilityError(null);
       try {
@@ -208,13 +148,7 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
           uniqueName,
           startDate,
           endDate,
-          {
-            travelerInput: buildTravelerInput(
-              travelerType,
-              travelerType === "FAMILY" ? familyTravellers : null,
-              travelerType === "FAMILY" ? familyRooms : null
-            ),
-          }
+          { travelerInput: COUPLE_TRAVELER_INPUT }
         );
         setAvailabilityRooms(availability.rooms);
         setTransactionId(availability.transactionId);
@@ -230,7 +164,7 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
     };
 
     fetchAvailability();
-  }, [startDate, endDate, uniqueName, travelerType, familyTravellers, familyRooms]);
+  }, [startDate, endDate, uniqueName]);
 
   const handleDateRangeChange = (update: [Date | null, Date | null]) => {
     setStartDate(update[0]);
@@ -247,9 +181,6 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
     if (!hasDateRange) {
       return rooms ?? [];
     }
-    if (travelerType === "FAMILY" && (!familyTravellers || !familyRooms)) {
-      return rooms ?? [];
-    }
     if (isLoadingAvailability) {
       return [];
     }
@@ -262,7 +193,6 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
   const showBaselineEmpty = !hasDateRange && (!rooms || rooms.length === 0);
   const showNoRoomsForSelectedDates =
     hasDateRange &&
-    !(travelerType === "FAMILY" && (!familyTravellers || !familyRooms)) &&
     !isLoadingAvailability &&
     !availabilityError &&
     availabilityRooms.length === 0;
@@ -280,36 +210,8 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
     return "Selecione as datas";
   };
 
-  const handleCoupleClick = () => {
-    setTravelerType("COUPLE");
-    setFamilyTravellers(null);
-    setFamilyRooms(null);
-    setFamilyModalOpen(false);
-  };
-
-  const handleFamilyClick = () => {
-    if (travelerType !== "FAMILY") {
-      setTravelerType("FAMILY");
-    }
-    setFamilyModalOpen(true);
-  };
-
-  const handleFamilyModalConfirm = (next: FamilyTravellers, rooms: FamilyRoom[]) => {
-    setFamilyTravellers(next);
-    setFamilyRooms(rooms);
-    setFamilyModalOpen(false);
-  };
-
-  const handleFamilyModalCancel = () => {
-    setFamilyModalOpen(false);
-    if (familyTravellers === null) {
-      setTravelerType("COUPLE");
-    }
-  };
-
   const availabilityFetchSettled =
     hasDateRange &&
-    !(travelerType === "FAMILY" && (!familyTravellers || !familyRooms)) &&
     !isLoadingAvailability &&
     !availabilityError;
 
@@ -350,48 +252,14 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
 
             {/* Traveler type & filters (availability) */}
             <div className="mb-8 space-y-5">
+              {/* TODO: Re-enable Família option (multi-room traveler modal) when product is ready. */}
               <div>
                 <span className="block text-sm font-medium text-gray-700 mb-2">Tipo de viagem</span>
                 <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={handleCoupleClick}
-                    className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-colors border-2 ${
-                      travelerType === "COUPLE"
-                        ? "border-primary-600 bg-primary-600 text-white"
-                        : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
-                    }`}
-                  >
+                  <span className="rounded-full px-5 py-2.5 text-sm font-semibold border-2 border-primary-600 bg-primary-600 text-white">
                     Casal
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleFamilyClick}
-                    className={`rounded-full px-5 py-2.5 text-sm font-semibold transition-colors border-2 ${
-                      travelerType === "FAMILY"
-                        ? "border-primary-600 bg-primary-600 text-white"
-                        : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
-                    }`}
-                  >
-                    Família
-                  </button>
+                  </span>
                 </div>
-                {travelerType === "FAMILY" && familyTravellers && familyRooms && (
-                  <p className="text-sm text-gray-600 mt-2">
-                    {familyTravellers.adults} adulto(s)
-                    {familyTravellers.children > 0 && `, ${familyTravellers.children} criança(s)`}
-                    {familyRooms.length > 1
-                      ? ` · ${familyRooms.length} quartos`
-                      : " · 1 quarto"}.{" "}
-                    <button
-                      type="button"
-                      onClick={() => setFamilyModalOpen(true)}
-                      className="text-primary-600 font-medium hover:underline"
-                    >
-                      Editar composição
-                    </button>
-                  </p>
-                )}
               </div>
 
               <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4">
@@ -503,20 +371,9 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
               </div>
             )}
 
-            {hasDateRange && travelerType === "FAMILY" && (!familyTravellers || !familyRooms) && (
-              <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-                Para buscar quartos e preços, informe quantas pessoas viajam e como ficam
-                distribuídas nos quartos. Use o botão <strong>Família</strong> e conclua as duas
-                etapas do modal.
-              </div>
-            )}
-
-            {/* Loading State */}
-            {isLoadingAvailability && startDate && endDate && (
-              <div className="text-center py-8">
-                <p className="text-gray-600">Verificando disponibilidade...</p>
-              </div>
-            )}
+            {isLoadingAvailability && startDate && endDate ? (
+              <AccommodationAvailabilityLoading />
+            ) : null}
 
             {/* Error State */}
             {availabilityError && (
@@ -558,7 +415,6 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
                     hasDateRange &&
                     !isLoadingAvailability &&
                     !availabilityError &&
-                    !(travelerType === "FAMILY" && (!familyTravellers || !familyRooms)) &&
                     transactionId != null;
 
                   const canReserveOnCard =
@@ -737,9 +593,6 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
                               ) {
                                 return;
                               }
-                              if (travelerType === "FAMILY" && (!familyRooms || familyRooms.length === 0)) {
-                                return;
-                              }
                               const uniqueTransactionValidUntil =
                                 transactionValidUntil ??
                                 new Date(Date.now() + FALLBACK_UNIQUE_TRANSACTION_VALID_MS);
@@ -748,8 +601,7 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
                                 accommodationRoomId: room.id,
                                 startDate: toDateOnlyString(startDate),
                                 endDate: toDateOnlyString(endDate),
-                                travelerType,
-                                rooms: travelerType === "FAMILY" ? familyRooms : undefined,
+                                travelerType: "COUPLE",
                                 rateId: bestRate.id,
                                 vendor: bestRate.vendor,
                                 uniqueTransactionId: transactionId,
@@ -799,24 +651,9 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
               ? { start: toDateOnlyString(startDate), end: toDateOnlyString(endDate) }
               : null
           }
-          travelersSummary={
-            travelerType === "FAMILY" && familyTravellers && familyRooms
-              ? { type: "FAMILY", travelers: familyTravellers, rooms: familyRooms }
-              : { type: "COUPLE" }
-          }
+          travelersSummary={{ type: "COUPLE" }}
         />
       )}
-
-      <FamilyTravelersModal
-        isOpen={familyModalOpen}
-        initial={
-          familyTravellers && familyRooms
-            ? { travelers: familyTravellers, rooms: familyRooms }
-            : undefined
-        }
-        onConfirm={handleFamilyModalConfirm}
-        onCancel={handleFamilyModalCancel}
-      />
     </>
   );
 }

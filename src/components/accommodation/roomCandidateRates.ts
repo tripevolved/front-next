@@ -45,8 +45,11 @@ export function buildCandidateRatesForRoom(
   for (const kind of kinds) {
     const pickNoCancel = pickMinRate(availabilityRates, (r) => mealPlanKindForRate(r) === kind && !r.isCancellable);
     const pickCancel = pickMinRate(availabilityRates, (r) => mealPlanKindForRate(r) === kind && r.isCancellable);
-    if (pickNoCancel) picked.push(pickNoCancel);
     if (pickCancel) picked.push(pickCancel);
+    // Non-refundable only when it beats the refundable option for the same board type.
+    if (pickNoCancel && (!pickCancel || pickNoCancel.price < pickCancel.price)) {
+      picked.push(pickNoCancel);
+    }
   }
 
   const selected = selectedRateId ? availabilityRates.find((r) => r.id === selectedRateId) : undefined;

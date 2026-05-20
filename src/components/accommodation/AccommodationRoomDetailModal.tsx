@@ -107,6 +107,38 @@ function prepareMoreInformationHtml(input?: string | null): string | null {
   return s.trim() || null;
 }
 
+function RateConditionsSkeleton() {
+  return (
+    <div
+      className="rounded-2xl border border-gray-200 bg-white p-5 mb-4"
+      role="status"
+      aria-busy="true"
+      aria-labelledby="rate-conditions-skeleton-title"
+    >
+      <h4
+        id="rate-conditions-skeleton-title"
+        className="text-base font-bold text-gray-900 mb-4"
+      >
+        Carregando condições da tarifa selecionada...
+      </h4>
+      <div className="space-y-4 animate-pulse">
+        <div className="space-y-2">
+          <div className="h-8 w-36 bg-gray-200 rounded" />
+          <div className="h-4 w-28 bg-gray-100 rounded" />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <div className="h-6 w-24 bg-gray-200 rounded-full" />
+          <div className="h-6 w-32 bg-gray-200 rounded-full" />
+        </div>
+        <div className="h-4 w-full max-w-lg bg-gray-200 rounded" />
+        <div className="h-4 w-4/5 max-w-md bg-gray-200 rounded" />
+        <div className="h-4 w-3/5 max-w-sm bg-gray-200 rounded" />
+        <div className="h-20 w-full bg-gray-100 rounded-lg" />
+      </div>
+    </div>
+  );
+}
+
 export function AccommodationRoomDetailModal({
   room,
   isOpen,
@@ -461,9 +493,7 @@ export function AccommodationRoomDetailModal({
                   })}
                 </div>
 
-                {showRatesPanel && conditionsLoading && (
-                  <p className="text-sm text-gray-600 py-4">Carregando condições da reserva…</p>
-                )}
+                {showRatesPanel && conditionsLoading && <RateConditionsSkeleton />}
 
                 {showRatesPanel && conditionsError && !conditionsLoading && (
                   <div
