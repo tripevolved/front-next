@@ -400,10 +400,15 @@ export function SelectTripDestinationDrawer({
                   ) : null}
                   {detail.features?.length ? (
                     <ul className="space-y-3">
-                      {detail.features.slice(0, 5).map((f, i) => (
+                      {detail.features.slice(0, 2).map((f, i) => (
                         <li key={i} className="rounded-xl border border-secondary-100 bg-secondary-50/60 p-3">
                           <p className="font-baloo text-sm font-bold text-secondary-900">{f.title}</p>
-                          <p className="mt-1 font-comfortaa text-xs text-secondary-700 leading-relaxed">{f.description}</p>
+                          {f.description ? (
+                            <div
+                              className="mt-1 font-comfortaa text-xs text-secondary-700 leading-relaxed prose prose-sm max-w-none overflow-hidden break-words [overflow-wrap:anywhere] [&_img]:max-w-full [&_img]:h-auto [&_p]:my-1 [&_ul]:my-1 [&_ol]:my-1"
+                              dangerouslySetInnerHTML={{ __html: f.description }}
+                            />
+                          ) : null}
                         </li>
                       ))}
                     </ul>
