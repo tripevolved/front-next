@@ -12,6 +12,9 @@ type Props = {
   showBack: boolean;
   onBack: () => void;
   exitHref?: string;
+  /** When set, exit/back-on-first-step use this callback instead of navigation links (e.g. modal flows). */
+  onExit?: () => void;
+  exitLabel?: string;
   children: React.ReactNode;
 };
 
@@ -25,8 +28,34 @@ export function AppMultiStepFlowShell({
   showBack,
   onBack,
   exitHref = "/app",
+  onExit,
+  exitLabel = "Voltar ao painel",
   children,
 }: Props) {
+  const exitControl =
+    onExit != null ? (
+      <button
+        type="button"
+        onClick={onExit}
+        className="w-10 h-10 rounded-full border border-secondary-200 text-secondary-700 hover:bg-secondary-50 inline-flex items-center justify-center shrink-0"
+        aria-label={exitLabel}
+      >
+        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    ) : (
+      <Link
+        href={exitHref}
+        className="text-secondary-600 hover:text-secondary-900 inline-flex items-center gap-1 text-sm font-comfortaa shrink-0 self-center"
+      >
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+        {exitLabel}
+      </Link>
+    );
+
   return (
     <div className="flex flex-col flex-1 min-h-0 bg-white overflow-hidden">
       <header className="shrink-0 border-b border-secondary-200 p-5">
@@ -39,6 +68,14 @@ export function AppMultiStepFlowShell({
                 className="h-10 rounded-full border border-secondary-200 bg-white px-4 font-comfortaa text-sm font-semibold text-secondary-700 hover:bg-secondary-50"
               >
                 {"< Voltar"}
+              </button>
+            ) : onExit != null ? (
+              <button
+                type="button"
+                onClick={onExit}
+                className="inline-flex h-10 items-center rounded-full border border-secondary-200 bg-white px-4 font-comfortaa text-sm font-semibold text-secondary-700 hover:bg-secondary-50"
+              >
+                Voltar
               </button>
             ) : (
               <Link
@@ -56,15 +93,7 @@ export function AppMultiStepFlowShell({
               Passo {step} de {totalSteps}
             </p>
           </div>
-          <Link
-            href={exitHref}
-            className="text-secondary-600 hover:text-secondary-900 inline-flex items-center gap-1 text-sm font-comfortaa shrink-0 self-center"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Voltar ao painel
-          </Link>
+          {exitControl}
         </div>
 
         <div className="mt-5 flex justify-between gap-2">

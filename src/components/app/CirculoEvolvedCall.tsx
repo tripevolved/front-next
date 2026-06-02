@@ -133,20 +133,22 @@ export function CirculoEvolvedModal({
           )
           )}
 
-          {isTotal ? (
-            <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg">
-              <iframe
-                width="100%"
-                height="100%"
-                src="https://www.youtube.com/embed/hZyiun44Eh4?si=RklrrDSLTCIOBMYK"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-                className="w-full h-full"
-              />
-            </div>
-          ) : null}
+          <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg">
+            <iframe
+              width="100%"
+              height="100%"
+              src={
+                isTotal
+                  ? 'https://www.youtube.com/embed/hZyiun44Eh4?si=RklrrDSLTCIOBMYK'
+                  : 'https://www.youtube.com/embed/Oij8XsYKb5g?si=cWiYbeViKVbJUWjW'
+              }
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              className="w-full h-full"
+            />
+          </div>
         </div>
 
         {/* CTA footer */}
