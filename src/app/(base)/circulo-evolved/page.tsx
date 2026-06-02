@@ -356,7 +356,8 @@ export default function CirculoEvolvedPage() {
                   Quero contratar
                 </Link>
                 <p className="text-xs text-secondary-500 font-comfortaa">
-                  *cálculos baseados em uma hospedagem de 7 noites em um resort beira-mar 4 estrelas no Caribe
+                  *cálculos baseados em uma hospedagem de 7 noites em um resort beira-mar 4 estrelas em Curaçao
+                  **imagem de comparação com base em uma hospedagem All-Inclusive 5 estrelas de 6 noites na Riviera Maya
                 </p>
               </div>
             </div>
