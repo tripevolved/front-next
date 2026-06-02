@@ -9,11 +9,11 @@ import CirculoEvolvedSection from '@/components/circulo-evolved/CirculoEvolvedSe
 import { CustomersService } from '@/clients/customers'
 import type { SubscriptionsResponse } from '@/clients/customers'
 
-const PARA_QUEM_ITEMS = [
-  'Casais que gostam de planejar suas próprias viagens',
-  'Que fazem ao menos 2 viagens por ano',
-  'Que buscam conforto e gastronomia únicos em suas viagens',
-  'Que buscam alinhamento, confiança e valores únicos para construir suas jornadas',
+const POR_QUE_ITEMS = [
+  'Curadoria especializada e hospedagens escolhidas a dedo para casais',
+  'Valores sem comissões e taxas escondidas em todas as hospedagens',
+  '10 a 30% de economia em cada reserva, sem descontos artificiais',
+  'Suporte próximo, sempre que você precisar',
 ]
 
 const BENEFIT_CARDS = [
@@ -68,16 +68,15 @@ export default function CirculoEvolvedPage() {
             Um pagamento anual te dá acesso a curadoria única e valores sem comissão para suas viagens — que você não encontra em outro lugar.
           </p>
           <div className="mb-10 md:mb-12 w-full max-w-2xl mx-auto aspect-video rounded-xl overflow-hidden shadow-xl">
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/hZyiun44Eh4?si=RklrrDSLTCIOBMYK"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              className="w-full h-full"
-            />
+          <iframe
+            width="100%"
+            height="100%"
+            src="https://www.youtube.com/embed/Oij8XsYKb5g?si=cWiYbeViKVbJUWjW"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
           </div>
           <button
             type="button"
@@ -93,7 +92,7 @@ export default function CirculoEvolvedPage() {
       <section className="scroll-mt-20 py-16 md:py-24 bg-white">
         <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
           <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-10 md:mb-12 text-center">
-            Por que pagar mais caro para construir a viagem sozinho?
+            Por que pagar mais caro para construir a viagem sem qualquer suporte?
           </h2>
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             <div className="bg-accent-300 rounded-2xl p-6 md:p-8 shadow-lg">
@@ -116,7 +115,7 @@ export default function CirculoEvolvedPage() {
         </div>
       </section>
 
-      {/* Para quem é o Círculo Evolved */}
+      {/* Por que o Círculo Evolved */}
       <section
         id="para-quem"
         className="scroll-mt-20 py-16 md:py-24 bg-secondary-50"
@@ -125,10 +124,10 @@ export default function CirculoEvolvedPage() {
           <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
             <div>
               <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-6">
-                Para quem é o Círculo Evolved
+                Por que o Círculo Evolved?
               </h2>
               <ul className="space-y-4 mb-10">
-                {PARA_QUEM_ITEMS.map((item, i) => (
+                {POR_QUE_ITEMS.map((item, i) => (
                   <li key={i} className="flex gap-4 font-comfortaa text-secondary-700 items-start">
                     <Image
                       src="/assets/icons/icon-check-gold.svg"
@@ -324,37 +323,53 @@ export default function CirculoEvolvedPage() {
         id="sem-comissoes"
         className={`scroll-mt-20 py-16 md:py-24 bg-secondary-50 ${subscriptionType === 'total' ? 'bg-secondary-500' : 'bg-white'}`}
       >
-        <div className="w-full max-w-4xl mx-auto px-4 md:px-6">
-          <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-6">
-            Sem comissões e taxas escondidas
-          </h2>
-          <p className="font-comfortaa text-lg text-secondary-700 mb-2 leading-relaxed">
-            A maior parte dos sites trabalham no modelo comissionado: eles recebem uma tarifa net (líquida) do hotel ou operadora e adicionam um percentual em cima. Cansamos dele porque cria incentivos que não se alinham à sua viagem e ao que você precisa.
-          </p>
-          <p className="font-comfortaa text-lg text-secondary-700 mb-10 leading-relaxed">
-            Criamos um modelo melhor: você paga uma taxa de assinatura anual e recebe acesso às mesmas tarifas líquidas, sem comissões. Você verá valores de 10 a 30% mais baixos, sem descontos artificiais, e uma relação de confiança total conosco.
-          </p>
-          <div className="font-comfortaa text-secondary-700 mb-10 space-y-2">
-            <p className="font-semibold text-secondary-900">Exemplo de como funciona:</p>
-            <ul className="list-none space-y-1 pl-0">
-              <li>Tarifa pública: R$7.347,00</li>
-              <li>Tarifa &quot;membro&quot; em site famoso: R$6.681,00</li>
-              <li>Tarifa no Círculo Evolved: R$6.186,30</li>
-            </ul>
-            <p className="font-baloo font-bold text-accent-600 text-lg mt-4">
-              → R$ 1.160,70 de economia em uma única reserva
-            </p>
-          </div>
-          <div className="flex flex-col items-start gap-2">
-            <Link
-              href="/app/circulo-evolved/checkout"
-              className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
-            >
-              Quero contratar
-            </Link>
-            <p className="text-xs text-secondary-500 font-comfortaa">
-              *cálculos baseados em uma hospedagem de 7 noites em um resort beira-mar 4 estrelas no Caribe
-            </p>
+        <div className="w-full max-w-6xl mx-auto px-4 md:px-6">
+          <div className="grid gap-10 md:grid-cols-[1.15fr_0.85fr] md:items-start">
+            <div>
+              <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-6">
+                Sem comissões e taxas escondidas
+              </h2>
+              <p className="font-comfortaa text-lg text-secondary-700 mb-2 leading-relaxed">
+                A maior parte dos sites trabalham no modelo comissionado: eles recebem uma tarifa net (líquida) do hotel ou operadora e adicionam um percentual em cima. Cansamos dele porque cria incentivos que não se alinham à sua viagem e ao que você precisa.
+              </p>
+              <p className="font-comfortaa text-lg text-secondary-700 mb-10 leading-relaxed">
+                Criamos um modelo melhor: você paga uma taxa de assinatura anual e recebe acesso às mesmas tarifas líquidas, sem comissões. Você verá valores de 10 a 30% mais baixos, sem descontos artificiais, e uma relação de confiança total conosco.
+              </p>
+
+              <div className="font-comfortaa text-secondary-700 space-y-2 mb-10">
+                <p className="font-semibold text-secondary-900">Exemplo de como funciona:</p>
+                <ul className="list-none space-y-1 pl-0">
+                  <li>Tarifa pública: R$7.347,00</li>
+                  <li>Tarifa &quot;membro&quot; em site famoso: R$6.681,00</li>
+                  <li>Tarifa no Círculo Evolved: R$6.186,30</li>
+                </ul>
+                <p className="font-baloo font-bold text-accent-600 text-lg mt-4">
+                  → R$ 1.160,70 de economia em uma única reserva
+                </p>
+              </div>
+
+              <div className="flex flex-col items-start gap-2">
+                <Link
+                  href="/app/circulo-evolved/checkout"
+                  className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+                >
+                  Quero contratar
+                </Link>
+                <p className="text-xs text-secondary-500 font-comfortaa">
+                  *cálculos baseados em uma hospedagem de 7 noites em um resort beira-mar 4 estrelas no Caribe
+                </p>
+              </div>
+            </div>
+
+            <div className="relative w-full overflow-hidden rounded-2xl bg-transparent">
+              <Image
+                src="/assets/home/exemplo-trip.png"
+                alt="Exemplo de comparação de tarifas sem comissões"
+                width={1200}
+                height={900}
+                className="h-auto w-full"
+              />
+            </div>
           </div>
         </div>
       </section>
