@@ -29,9 +29,6 @@ export function TripPendingActionsBanner({ actions, onOpenDrawer }: Props) {
             Siga a ordem abaixo para deixar sua viagem pronta para a curadoria.
           </p>
         </div>
-        <span className="inline-flex items-center justify-center min-w-[2.5rem] h-10 px-3 rounded-full bg-accent-500 text-secondary-900 font-baloo font-bold text-lg">
-          {actions.length}
-        </span>
       </div>
 
       <ol className="space-y-3">

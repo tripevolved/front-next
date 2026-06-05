@@ -514,15 +514,6 @@ export function AccommodationRoomsSection({ rooms, uniqueName }: AccommodationRo
                         {bestRate && (
                           <div className="mb-4 pb-4 border-b border-gray-200">
                             <RoomAvailabilityPrice rate={bestRate} size="card" />
-                            {bestRate.cancellationPolicy && (
-                              <p
-                                className={`text-xs mt-2 leading-snug ${
-                                  bestRate.isCancellable ? "text-green-700" : "text-red-700"
-                                }`}
-                              >
-                                {bestRate.cancellationPolicy}
-                              </p>
-                            )}
                             <p className="text-xs text-accent-600 font-medium mt-2">
                               Valor disponível apenas para membros Círculo Evolved.
                             </p>

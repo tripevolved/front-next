@@ -4,11 +4,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useSWRConfig } from "swr";
 import DestinationCard from "@/components/destinations/DestinationCard";
 import { DestinationsApiService } from "@/clients/destinations";
 import type { Destination } from "@/clients/destinations/destinations";
 import { SuggestDestinationForCuratorship } from "@/components/destinations/SuggestDestinationForCuratorship";
 import { AccommodationsApiService } from "@/clients/accommodations";
+import { CollectionsApiService } from "@/clients/collections";
 import type { AccommodationByDestinationAvailabilityResponse } from "@/clients/accommodations/by-destination-availability";
 import DateRangeSelector from "@/components/common/DateRangeSelector";
 import { EmptyOrErrorState } from "@/components/common/EmptyOrErrorState";
@@ -35,6 +37,8 @@ type Props = {
   tripDestinationLabel?: string | null;
   /** When set with trip stay dates, opens on step 2 and loads availability immediately. */
   presetDestinationUniqueName?: string | null;
+  /** When no destination is set, collection accommodations are quoted on step 2. */
+  presetCollectionUniqueName?: string | null;
   presetStayStartDate?: Date | null;
   presetStayEndDate?: Date | null;
   travelerQuery: AccommodationAvailabilityQuery;
@@ -43,6 +47,7 @@ type Props = {
 };
 
 type Step = 1 | 2 | 3 | 4;
+type AccommodationBase = "destination" | "collection";
 
 function imageUrl(img?: { url: string } | null): string | null {
   const u = img?.url?.trim();
@@ -84,12 +89,66 @@ function pickFirstRate(rooms: any[]): PublicAccommodationRoomRate | null {
   return null;
 }
 
+type AccommodationDestinationFields = {
+  destinationId?: string | null;
+  destinationUniqueName?: string | null;
+};
+
+async function resolveDestinationIdForAccommodation(
+  accommodation: PublicAccommodation | null,
+  accommodationUniqueName: string
+): Promise<string | null> {
+  let acc = accommodation;
+  if (!acc && accommodationUniqueName) {
+    try {
+      acc = await AccommodationsApiService.getAccommodationByUniqueName(accommodationUniqueName);
+    } catch {
+      return null;
+    }
+  }
+  if (!acc) return null;
+
+  const ext = acc as PublicAccommodation & AccommodationDestinationFields;
+  if (ext.destinationId?.trim()) return ext.destinationId.trim();
+
+  if (ext.destinationUniqueName?.trim()) {
+    try {
+      const pub = await DestinationsApiService.getDestinationByUniqueName(ext.destinationUniqueName.trim());
+      if (pub?.id) return pub.id;
+    } catch {
+      // fall through to label search
+    }
+  }
+
+  const label = acc.destination?.trim();
+  if (!label) return null;
+
+  try {
+    const res = await DestinationsApiService.getDestinations({
+      profile: "all",
+      search: label,
+      limit: 10,
+    });
+    const destinations = res?.destinations ?? [];
+    const exact = destinations.find((d) => d.name?.trim().toLowerCase() === label.toLowerCase());
+    if (exact?.destinationId) return exact.destinationId;
+    if (destinations.length === 1 && destinations[0]?.destinationId) {
+      return destinations[0].destinationId;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
 export function AddAccommodationDrawer({
   isOpen,
   onClose,
   relatedDestinationUniqueName,
   tripDestinationLabel,
   presetDestinationUniqueName,
+  presetCollectionUniqueName,
   presetStayStartDate,
   presetStayEndDate,
   travelerQuery,
@@ -97,11 +156,18 @@ export function AddAccommodationDrawer({
   onTripAccommodationsChanged,
 }: Props) {
   const router = useRouter();
+  const { mutate } = useSWRConfig();
   const [mounted, setMounted] = useState(false);
   const [step, setStep] = useState<Step>(1);
   const [selectedDestination, setSelectedDestination] = useState<Destination | null>(null);
+  const [accommodationBase, setAccommodationBase] = useState<AccommodationBase | null>(null);
+  const [selectedCollectionUniqueName, setSelectedCollectionUniqueName] = useState<string | null>(null);
+  const [collectionLabel, setCollectionLabel] = useState<string | null>(null);
   const [presetInitializing, setPresetInitializing] = useState(false);
   const preserveDatesOnDestinationRef = useRef(false);
+  const previousDestinationUniqueNameRef = useRef<string | null>(null);
+  const isApplyingPresetRef = useRef(false);
+  const flowInitializedForOpenRef = useRef(false);
   const totalSteps = 4;
   const stepperNames = useMemo(() => ["Destino", "Hospedagem", "Quarto", "Finalizar"] as const, []);
   const headerTitles = useMemo(
@@ -126,6 +192,15 @@ export function AddAccommodationDrawer({
     }
     setStep(Math.max(1, step - 1) as Step);
   };
+
+  const refreshTripPrice = useCallback(async () => {
+    try {
+      const price = await TripsApiService.postTripPrice(tripId);
+      await mutate(["trip-price", tripId], price, { revalidate: false });
+    } catch {
+      await mutate(["trip-price", tripId]);
+    }
+  }, [mutate, tripId]);
 
   // Curated destinations (related)
   const [relatedDestinations, setRelatedDestinations] = useState<Destination[] | null>(null);
@@ -198,7 +273,52 @@ export function AddAccommodationDrawer({
   }, []);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (isOpen) return;
+
+    isApplyingPresetRef.current = false;
+    preserveDatesOnDestinationRef.current = false;
+    previousDestinationUniqueNameRef.current = null;
+    setPresetInitializing(false);
+    setStep(1);
+    setSelectedDestination(null);
+    setSearch("");
+    setSearchResults(null);
+    setSearchLoading(false);
+    setAvailability(null);
+    setAvailabilityLoading(false);
+    setAvailabilityError(false);
+    setAvailabilityStartDate(null);
+    setAvailabilityEndDate(null);
+    setIsCalendarOpen(false);
+    setSelectedAccommodationUniqueName(null);
+    setSelectedAccommodationTitle(null);
+    setStep3AvailabilityLoading(false);
+    setStep3AvailabilityError(false);
+    setStep3TransactionId(null);
+    setStep3ValidUntil(null);
+    setStep3Rooms([]);
+    setCreatingTripAccommodation(false);
+    setCreateTripAccommodationError(null);
+    setCreatedTripAccommodationId(null);
+    setCreatingCheckoutPayment(false);
+    setCheckoutPaymentError(null);
+    setStep3Accommodation(null);
+    setStep3AccommodationLoading(false);
+    setStep3AccommodationError(false);
+    setStep3SelectedRateIdByRoomId({});
+    setAccommodationBase(null);
+    setSelectedCollectionUniqueName(null);
+    setCollectionLabel(null);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      flowInitializedForOpenRef.current = false;
+      return;
+    }
+
+    if (flowInitializedForOpenRef.current) return;
+    flowInitializedForOpenRef.current = true;
 
     let cancelled = false;
 
@@ -227,50 +347,94 @@ export function AddAccommodationDrawer({
       setStep3SelectedRateIdByRoomId({});
     };
 
-    const unique = presetDestinationUniqueName?.trim() ?? "";
-    const start = presetStayStartDate ?? null;
-    const end = presetStayEndDate ?? null;
-    const canSkipToAccommodations = Boolean(unique && start && end);
+    const destinationUnique = presetDestinationUniqueName?.trim() ?? "";
+    const collectionUnique = presetCollectionUniqueName?.trim() ?? "";
+    const start = asDate(presetStayStartDate);
+    const end = asDate(presetStayEndDate);
+    const hasPresetDates = Boolean(start && end);
+    const useCollectionPreset = Boolean(collectionUnique && hasPresetDates);
+    const useDestinationPreset = Boolean(!useCollectionPreset && destinationUnique && hasPresetDates);
 
     resetFlowState();
+    setSelectedDestination(null);
+    if (!useCollectionPreset) {
+      setAccommodationBase(null);
+      setSelectedCollectionUniqueName(null);
+      setCollectionLabel(null);
+    }
+    previousDestinationUniqueNameRef.current = null;
 
-    if (!canSkipToAccommodations) {
+    if (hasPresetDates) {
+      setAvailabilityStartDate(start);
+      setAvailabilityEndDate(end);
+    } else {
+      setAvailabilityStartDate(null);
+      setAvailabilityEndDate(null);
+    }
+
+    if (!useDestinationPreset && !useCollectionPreset) {
+      isApplyingPresetRef.current = false;
       setPresetInitializing(false);
       setStep(1);
       setSelectedDestination(null);
-      setAvailabilityStartDate(null);
-      setAvailabilityEndDate(null);
       return;
     }
 
+    isApplyingPresetRef.current = true;
     setPresetInitializing(true);
-    setAvailabilityStartDate(start);
-    setAvailabilityEndDate(end);
-    preserveDatesOnDestinationRef.current = true;
 
-    DestinationsApiService.getDestinationByUniqueName(unique)
-      .then((pub) => {
-        if (cancelled) return;
-        const coverUrl = pub.photos?.[0]?.url?.trim() || "/assets/blank-image.png";
-        setSelectedDestination({
-          uniqueName: pub.uniqueName,
-          name: pub.title,
-          destinationId: pub.id,
-          coverImage: { url: coverUrl },
-          travelerProfile: pub.travelerProfiles?.[0] ?? null,
+    if (useDestinationPreset) {
+      setAccommodationBase("destination");
+      DestinationsApiService.getDestinationByUniqueName(destinationUnique)
+        .then((pub) => {
+          if (cancelled) return;
+          const coverUrl = pub.photos?.[0]?.url?.trim() || "/assets/blank-image.png";
+          preserveDatesOnDestinationRef.current = true;
+          setSelectedDestination({
+            uniqueName: pub.uniqueName,
+            name: pub.title,
+            destinationId: pub.id,
+            coverImage: { url: coverUrl },
+            travelerProfile: pub.travelerProfiles?.[0] ?? null,
+          });
+          setStep(2);
+        })
+        .catch(() => {
+          if (cancelled) return;
+          isApplyingPresetRef.current = false;
+          setAccommodationBase(null);
+          setStep(1);
+          setSelectedDestination(null);
+          if (!hasPresetDates) {
+            setAvailabilityStartDate(null);
+            setAvailabilityEndDate(null);
+          }
+        })
+        .finally(() => {
+          if (!cancelled) {
+            isApplyingPresetRef.current = false;
+            setPresetInitializing(false);
+          }
         });
-        setStep(2);
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setStep(1);
-        setSelectedDestination(null);
-        setAvailabilityStartDate(null);
-        setAvailabilityEndDate(null);
-      })
-      .finally(() => {
-        if (!cancelled) setPresetInitializing(false);
-      });
+    } else {
+      setAccommodationBase("collection");
+      setSelectedCollectionUniqueName(collectionUnique);
+      setStep(2);
+      CollectionsApiService.getCollectionByUniqueName(collectionUnique)
+        .then((collection) => {
+          if (cancelled) return;
+          setCollectionLabel(collection.title);
+        })
+        .catch(() => {
+          if (!cancelled) setCollectionLabel(null);
+        })
+        .finally(() => {
+          if (!cancelled) {
+            isApplyingPresetRef.current = false;
+            setPresetInitializing(false);
+          }
+        });
+    }
 
     return () => {
       cancelled = true;
@@ -279,8 +443,9 @@ export function AddAccommodationDrawer({
     isOpen,
     tripDestinationLabel,
     presetDestinationUniqueName,
-    presetStayStartDate,
-    presetStayEndDate,
+    presetCollectionUniqueName,
+    presetStayStartDate?.getTime(),
+    presetStayEndDate?.getTime(),
   ]);
 
   useEffect(() => {
@@ -313,16 +478,29 @@ export function AddAccommodationDrawer({
 
   useEffect(() => {
     if (!isOpen) return;
-    if (preserveDatesOnDestinationRef.current) {
-      preserveDatesOnDestinationRef.current = false;
+    if (accommodationBase === "collection") return;
+
+    const nextUnique = selectedDestination?.uniqueName ?? null;
+    const prevUnique = previousDestinationUniqueNameRef.current;
+
+    if (isApplyingPresetRef.current || preserveDatesOnDestinationRef.current) {
+      if (preserveDatesOnDestinationRef.current) {
+        preserveDatesOnDestinationRef.current = false;
+      }
+      previousDestinationUniqueNameRef.current = nextUnique;
       return;
     }
+
+    if (nextUnique === prevUnique) return;
+
+    previousDestinationUniqueNameRef.current = nextUnique;
+
     setAvailability(null);
     setAvailabilityLoading(false);
     setAvailabilityError(false);
     setAvailabilityStartDate(null);
     setAvailabilityEndDate(null);
-  }, [isOpen, selectedDestination?.uniqueName]);
+  }, [isOpen, accommodationBase, selectedDestination?.uniqueName]);
 
   const debouncedSearch = useMemo(() => search.trim(), [search]);
 
@@ -366,6 +544,7 @@ export function AddAccommodationDrawer({
   useEffect(() => {
     if (!isOpen) return;
     if (step !== 2) return;
+    if (accommodationBase !== "destination") return;
     const destinationUniqueName = selectedDestination?.uniqueName;
     if (!destinationUniqueName) return;
     if (!availabilityStartDate || !availabilityEndDate) {
@@ -407,7 +586,99 @@ export function AddAccommodationDrawer({
     return () => {
       cancelled = true;
     };
-  }, [isOpen, step, selectedDestination?.uniqueName, availabilityStartDate, availabilityEndDate, travelerQuery]);
+  }, [
+    accommodationBase,
+    isOpen,
+    step,
+    selectedDestination?.uniqueName,
+    availabilityStartDate,
+    availabilityEndDate,
+    travelerQuery,
+  ]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    if (step !== 2) return;
+    if (accommodationBase !== "collection") return;
+    const collectionUniqueName = selectedCollectionUniqueName;
+    if (!collectionUniqueName) return;
+    if (!availabilityStartDate || !availabilityEndDate) {
+      setAvailability(null);
+      setAvailabilityLoading(false);
+      setAvailabilityError(false);
+      return;
+    }
+
+    let cancelled = false;
+    setAvailabilityLoading(true);
+    setAvailability(null);
+    setAvailabilityError(false);
+
+    const run = async () => {
+      try {
+        const probe = await AccommodationsApiService.getAccommodationsByCollection(collectionUniqueName, {
+          offset: 0,
+          limit: 1,
+        });
+        console.log(probe);
+        if (cancelled) return;
+
+        const total = probe.totalCount ?? 0;
+        if (total <= 0) {
+          setAvailability(null);
+          return;
+        }
+
+        const catalog = await AccommodationsApiService.getAccommodationsByCollection(collectionUniqueName, {
+          offset: 0,
+          limit: total,
+        });
+        if (cancelled) return;
+
+        const uniqueNames = (catalog.accommodations ?? []).map((a) => a.uniqueName).filter(Boolean);
+        if (uniqueNames.length === 0) {
+          setAvailability(null);
+          return;
+        }
+
+        const res = await AccommodationsApiService.postAccommodationAvailabilityByUniqueNames(
+          availabilityStartDate,
+          availabilityEndDate,
+          travelerQuery,
+          uniqueNames
+        );
+        if (cancelled) return;
+
+        const accs = res?.accommodations;
+        if (!Array.isArray(accs) || accs.length === 0) {
+          setAvailability(null);
+        } else {
+          setAvailability(res);
+        }
+      } catch {
+        if (!cancelled) {
+          setAvailability(null);
+          setAvailabilityError(true);
+        }
+      } finally {
+        if (!cancelled) setAvailabilityLoading(false);
+      }
+    };
+
+    void run();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    accommodationBase,
+    isOpen,
+    step,
+    selectedCollectionUniqueName,
+    availabilityStartDate,
+    availabilityEndDate,
+    travelerQuery,
+  ]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -604,6 +875,9 @@ export function AddAccommodationDrawer({
                         profile={d.travelerProfile ?? null}
                         link="#"
                         onClick={() => {
+                          setAccommodationBase("destination");
+                          setSelectedCollectionUniqueName(null);
+                          setCollectionLabel(null);
                           setSelectedDestination(d);
                           setStep(2);
                         }}
@@ -639,6 +913,9 @@ export function AddAccommodationDrawer({
                         profile={d.travelerProfile ?? null}
                         link="#"
                         onClick={() => {
+                          setAccommodationBase("destination");
+                          setSelectedCollectionUniqueName(null);
+                          setCollectionLabel(null);
                           setSelectedDestination(d);
                           setStep(2);
                         }}
@@ -661,9 +938,13 @@ export function AddAccommodationDrawer({
             <div className="space-y-5 p-5">
               <div className="flex items-center justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="font-comfortaa text-xs text-secondary-500">Destino</p>
+                  <p className="font-comfortaa text-xs text-secondary-500">
+                    {accommodationBase === "collection" ? "Coleção" : "Destino"}
+                  </p>
                   <p className="font-baloo text-lg font-bold text-secondary-900 truncate">
-                    {selectedDestination?.name ?? "—"}
+                    {accommodationBase === "collection"
+                      ? (collectionLabel ?? "—")
+                      : (selectedDestination?.name ?? "—")}
                   </p>
                 </div>
               </div>
@@ -950,6 +1231,24 @@ export function AddAccommodationDrawer({
                         // Best-effort
                       }
 
+                      if (accommodationBase === "collection") {
+                        try {
+                          const destinationId = await resolveDestinationIdForAccommodation(
+                            step3Accommodation,
+                            selectedAccommodationUniqueName
+                          );
+                          if (destinationId) {
+                            await TripsApiService.setDestinationIdForTrip({
+                              tripId,
+                              tripDestination: { destinationId },
+                            });
+                          }
+                        } catch {
+                          // Best-effort: trip still has the accommodation even if destination sync fails
+                        }
+                      }
+
+                      await refreshTripPrice();
                       await onTripAccommodationsChanged?.();
 
                       setStep(4);

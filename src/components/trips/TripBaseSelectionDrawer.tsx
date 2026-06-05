@@ -7,7 +7,10 @@ import { useRouter } from "next/navigation";
 
 import { DestinationsApiService } from "@/clients/destinations";
 import type { Destination } from "@/clients/destinations/destinations";
+import { CollectionsApiService, type Collection } from "@/clients/collections";
 import { TripsApiService } from "@/clients/trips";
+import { CircleLoader } from "@/components/common/CircleLoader";
+import { CollectionHeroBlock } from "@/components/collections/CollectionHeroBlock";
 import { CollectionsBrowseList } from "@/components/collections/CollectionsBrowseList";
 import { DestinationsBrowseList } from "@/components/destinations/DestinationsBrowseList";
 import type { PublicDestination } from "@/core/types/destination";
@@ -47,7 +50,9 @@ export function TripBaseSelectionDrawer({
   const [path, setPath] = useState<Path | null>(null);
   const [subStep, setSubStep] = useState<SubStep>("choosePath");
   const [pickedDestination, setPickedDestination] = useState<Destination | null>(null);
-  const [pickedCollectionName, setPickedCollectionName] = useState<string | null>(null);
+  const [pickedCollection, setPickedCollection] = useState<Collection | null>(null);
+  const [collectionLoading, setCollectionLoading] = useState(false);
+  const [collectionError, setCollectionError] = useState<string | null>(null);
   const [destinationDetail, setDestinationDetail] = useState<PublicDestination | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailError, setDetailError] = useState<string | null>(null);
@@ -63,7 +68,9 @@ export function TripBaseSelectionDrawer({
     setPath(null);
     setSubStep("choosePath");
     setPickedDestination(null);
-    setPickedCollectionName(null);
+    setPickedCollection(null);
+    setCollectionLoading(false);
+    setCollectionError(null);
     setDestinationDetail(null);
     setDetailLoading(false);
     setDetailError(null);
@@ -92,10 +99,13 @@ export function TripBaseSelectionDrawer({
   const headerTitle = useMemo(() => {
     if (subStep === "choosePath") return "O que vai guiar sua viagem?";
     if (subStep === "done") return "Base definida";
+    if (path === "collections" && subStep === "confirm") {
+      return pickedCollection?.title ?? "Confirmar coleção";
+    }
     if (path === "collections") return "Escolha uma coleção";
     if (subStep === "confirm") return pickedDestination?.name ?? "Confirmar destino";
     return "Qual o destino da viagem?";
-  }, [path, pickedDestination?.name, subStep]);
+  }, [path, pickedCollection?.title, pickedDestination?.name, subStep]);
 
   const progressPercent = useMemo(() => {
     if (subStep === "choosePath") return 15;
@@ -109,6 +119,9 @@ export function TripBaseSelectionDrawer({
       setSubStep("pick");
       setDestinationDetail(null);
       setDetailError(null);
+      setPickedCollection(null);
+      setCollectionLoading(false);
+      setCollectionError(null);
       setSubmitError(null);
       return;
     }
@@ -116,7 +129,9 @@ export function TripBaseSelectionDrawer({
       setSubStep("choosePath");
       setPath(null);
       setPickedDestination(null);
-      setPickedCollectionName(null);
+      setPickedCollection(null);
+      setCollectionLoading(false);
+      setCollectionError(null);
       return;
     }
     if (subStep === "done") {
@@ -127,6 +142,18 @@ export function TripBaseSelectionDrawer({
   };
 
   const showBack = subStep === "pick" || subStep === "confirm" || subStep === "done";
+
+  const openCollectionConfirm = useCallback((uniqueName: string) => {
+    setSubStep("confirm");
+    setPickedCollection(null);
+    setCollectionError(null);
+    setSubmitError(null);
+    setCollectionLoading(true);
+    CollectionsApiService.getCollectionByUniqueName(uniqueName)
+      .then((collection) => setPickedCollection(collection))
+      .catch(() => setCollectionError("Não foi possível carregar os detalhes desta coleção."))
+      .finally(() => setCollectionLoading(false));
+  }, []);
 
   const openDestinationConfirm = useCallback((destination: Destination) => {
     setPickedDestination(destination);
@@ -162,15 +189,15 @@ export function TripBaseSelectionDrawer({
   }, [onSaved, pickedDestination, router, tripId]);
 
   const saveCollection = useCallback(async () => {
-    if (!pickedCollectionName) return;
+    if (!pickedCollection?.uniqueName) return;
     setSubmitting(true);
     setSubmitError(null);
     try {
       await TripsApiService.putTripCollection({
         tripId,
-        collectionUniqueName: pickedCollectionName,
+        collectionUniqueName: pickedCollection.uniqueName,
       });
-      setSavedLabel("Coleção selecionada");
+      setSavedLabel(pickedCollection.title);
       setSubStep("done");
       onSaved?.();
       router.refresh();
@@ -179,7 +206,7 @@ export function TripBaseSelectionDrawer({
     } finally {
       setSubmitting(false);
     }
-  }, [onSaved, pickedCollectionName, router, tripId]);
+  }, [onSaved, pickedCollection, router, tripId]);
 
   if (!isOpen || !mounted) return null;
 
@@ -282,10 +309,7 @@ export function TripBaseSelectionDrawer({
               subtitle="Escolha a curadoria que vai inspirar esta jornada."
               treatAllAsAccessible
               minimalCards
-              onSelectCollection={(uniqueName) => {
-                setPickedCollectionName(uniqueName);
-                setSubStep("confirm");
-              }}
+              onSelectCollection={openCollectionConfirm}
             />
           ) : subStep === "pick" && path === "destination" ? (
             <DestinationsBrowseList
@@ -295,15 +319,35 @@ export function TripBaseSelectionDrawer({
               onSelectDestination={openDestinationConfirm}
             />
           ) : subStep === "confirm" && path === "collections" ? (
-            <div className="p-6 space-y-6">
-              <div className="space-y-2">
-                <h3 className="font-baloo text-xl font-bold text-secondary-900">Confirmar coleção</h3>
-                <p className="font-comfortaa text-sm text-secondary-600">
-                  Esta coleção será a referência da sua viagem. Em seguida, você escolhe a hospedagem.
-                </p>
-              </div>
+            <div className="pb-28">
+              {collectionLoading ? (
+                <div className="flex flex-col items-center justify-center gap-4 py-16">
+                  <CircleLoader className="h-16 w-16" />
+                  <p className="font-comfortaa text-sm text-secondary-600">Carregando coleção…</p>
+                </div>
+              ) : pickedCollection ? (
+                <>
+                  <CollectionHeroBlock collection={pickedCollection} compact />
+                  <div className="p-5 space-y-4">
+                    {pickedCollection.description ? (
+                      <p className="font-comfortaa text-sm text-secondary-700 leading-relaxed">
+                        {pickedCollection.description}
+                      </p>
+                    ) : null}
+                    <p className="font-comfortaa text-sm text-secondary-500">
+                      Esta coleção será a referência da sua viagem. Em seguida, você escolhe a hospedagem.
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <div className="p-6 space-y-4">
+                  <p className="font-comfortaa text-sm text-secondary-600">
+                    {collectionError ?? "Não foi possível exibir esta coleção."}
+                  </p>
+                </div>
+              )}
               {submitError ? (
-                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+                <div className="mx-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
                   {submitError}
                 </div>
               ) : null}
@@ -392,7 +436,7 @@ export function TripBaseSelectionDrawer({
           ) : null}
         </div>
 
-        {subStep === "confirm" && path === "collections" ? (
+        {subStep === "confirm" && path === "collections" && !collectionLoading && pickedCollection ? (
           <div className="shrink-0 border-t border-secondary-200 bg-white p-4">
             <button
               type="button"

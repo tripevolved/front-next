@@ -83,6 +83,7 @@ export function TripPageClient({ initialTripDetails }: Props) {
   const refreshTripData = useCallback(() => {
     void mutate(["trip-details", tripId]);
     void mutate(["trip-accommodations", tripId]);
+    void mutate(["trip-price", tripId]);
   }, [mutate, tripId]);
 
   const handleOpenDrawer = useCallback((drawer: NonNullable<TripPendingAction["drawer"]>) => {
@@ -133,6 +134,7 @@ export function TripPageClient({ initialTripDetails }: Props) {
   const coverImageUrl = tripDetails.coverImage?.url;
   const datesLabel = formatHeroDates(tripDetails);
   const relatedUnique = tripDetails.destinationUniqueName ?? undefined;
+  const collectionUnique = tripDetails.collection?.trim() || undefined;
 
   return (
     <div className="min-h-screen">
@@ -195,7 +197,8 @@ export function TripPageClient({ initialTripDetails }: Props) {
         tripId={tripId}
         relatedDestinationUniqueName={relatedUnique}
         tripDestinationLabel={tripDetails.destination}
-        presetDestinationUniqueName={relatedUnique}
+        presetDestinationUniqueName={collectionUnique ? undefined : relatedUnique}
+        presetCollectionUniqueName={collectionUnique}
         presetStayStartDate={tripStayDates.start}
         presetStayEndDate={tripStayDates.end}
         travelerQuery={travelerQuery}

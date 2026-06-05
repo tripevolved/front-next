@@ -264,7 +264,10 @@ export function JourneyDetailsSection({
             onClose={() => setIsAddOpen(false)}
             relatedDestinationUniqueName={relatedDestinationUniqueName}
             tripDestinationLabel={tripDetails?.destination ?? destination}
-            presetDestinationUniqueName={relatedDestinationUniqueName}
+            presetDestinationUniqueName={
+              tripDetails?.collection?.trim() ? undefined : relatedDestinationUniqueName
+            }
+            presetCollectionUniqueName={tripDetails?.collection?.trim() || undefined}
             presetStayStartDate={tripStayDates.start}
             presetStayEndDate={tripStayDates.end}
             travelerQuery={travelerQuery}

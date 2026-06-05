@@ -436,18 +436,24 @@ export function CheckoutTripById({
   return (
     <div className="mx-auto w-full md:max-w-5xl px-1.5 sm:px-2 py-6 sm:py-8">
       <div className="rounded-2xl border border-gray-200 bg-white p-2 sm:p-6 shadow-sm">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{trip.title}</h1>
-          {trip.destination ? (
-            <p className="text-sm md:text-base text-gray-700">
-              <span className="font-semibold">A sua viagem para </span>{trip.destination}
-            </p>
-          ) : null}
-          {dateLabel ? (
-            <p className="text-sm md:text-base text-gray-700">
-              {dateLabel}
-            </p>
-          ) : null}
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{trip.title}</h1>
+            {trip.destination ? (
+              <p className="text-sm md:text-base text-gray-700">
+                <span className="font-semibold">A sua viagem para </span>{trip.destination}
+              </p>
+            ) : null}
+            {dateLabel ? (
+              <p className="text-sm md:text-base text-gray-700">{dateLabel}</p>
+            ) : null}
+          </div>
+          <Link
+            href={`/app/viagens/${encodeURIComponent(tripId)}`}
+            className="shrink-0 font-comfortaa text-sm font-semibold text-primary-600 hover:text-primary-700 hover:underline underline-offset-2 transition-colors"
+          >
+            Ver viagem completa
+          </Link>
         </div>
       </div>
 

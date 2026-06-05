@@ -11,5 +11,5 @@ export const putTripCollection = async ({
   collectionUniqueName: string;
 }): Promise<void> => {
   const route = `trips/${tripId}/collection`;
-  await ApiRequest.put(route, { collection: collectionUniqueName });
+  await ApiRequest.put(route, { collectionUniqueName: collectionUniqueName });
 };
