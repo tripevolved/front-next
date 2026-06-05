@@ -6,6 +6,42 @@ import { createPortal } from "react-dom";
 import { DestinationsApiService } from "@/clients/destinations";
 import { useAppStore } from "@/core/store";
 
+const PHONE_COUNTRY_CODES = [
+  { code: "+55", country: "Brasil", flag: "🇧🇷" },
+  { code: "+1", country: "Estados Unidos", flag: "🇺🇸" },
+  { code: "+1", country: "Canadá", flag: "🇨🇦" },
+  { code: "+351", country: "Portugal", flag: "🇵🇹" },
+  { code: "+34", country: "Espanha", flag: "🇪🇸" },
+  { code: "+33", country: "França", flag: "🇫🇷" },
+  { code: "+39", country: "Itália", flag: "🇮🇹" },
+  { code: "+49", country: "Alemanha", flag: "🇩🇪" },
+  { code: "+44", country: "Reino Unido", flag: "🇬🇧" },
+  { code: "+54", country: "Argentina", flag: "🇦🇷" },
+  { code: "+56", country: "Chile", flag: "🇨🇱" },
+  { code: "+57", country: "Colômbia", flag: "🇨🇴" },
+  { code: "+58", country: "Venezuela", flag: "🇻🇪" },
+  { code: "+51", country: "Peru", flag: "🇵🇪" },
+  { code: "+593", country: "Equador", flag: "🇪🇨" },
+  { code: "+52", country: "México", flag: "🇲🇽" },
+  { code: "+81", country: "Japão", flag: "🇯🇵" },
+  { code: "+82", country: "Coreia do Sul", flag: "🇰🇷" },
+  { code: "+86", country: "China", flag: "🇨🇳" },
+  { code: "+91", country: "Índia", flag: "🇮🇳" },
+  { code: "+61", country: "Austrália", flag: "🇦🇺" },
+  { code: "+64", country: "Nova Zelândia", flag: "🇳🇿" },
+] as const;
+
+function formatPhoneDisplay(digits: string): string {
+  const numbers = digits.replace(/\D/g, "").slice(0, 11);
+  if (numbers.length <= 2) return numbers;
+  if (numbers.length <= 7) return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+  return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7)}`;
+}
+
+function buildPhoneWithCountryCode(countryCode: string, phoneDigits: string): string {
+  return `${countryCode}${phoneDigits.replace(/\D/g, "")}`;
+}
+
 export type SuggestDestinationForCuratorshipProps = {
   /** Search text the user tried (shown in copy and sent as `destination`). */
   destinationQuery: string;
@@ -32,6 +68,8 @@ export function SuggestDestinationForCuratorship({
   const [modalOpen, setModalOpen] = useState(false);
   const [allowsContact, setAllowsContact] = useState(true);
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [countryCode, setCountryCode] = useState("+55");
   const [status, setStatus] = useState<"idle" | "saving" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -41,8 +79,15 @@ export function SuggestDestinationForCuratorship({
 
   const destination = destinationQuery.trim();
 
+  const resetContactFields = () => {
+    setEmail("");
+    setPhone("");
+    setCountryCode("+55");
+    setAllowsContact(true);
+  };
+
   const submit = useCallback(
-    async (payload: { email?: string; travelerId?: string }) => {
+    async (payload: { email?: string; phone?: string; travelerId?: string }) => {
       setStatus("saving");
       setErrorMessage(null);
       try {
@@ -74,30 +119,38 @@ export function SuggestDestinationForCuratorship({
     void submit({ email: emailVal, travelerId: idVal });
   };
 
-  const handleSubmitAnonymousInline = () => {
+  const validateAnonymousContact = (): { email: string; phone: string } | null => {
     const e = email.trim();
+    const phoneDigits = phone.replace(/\D/g, "");
     if (!e) {
       setErrorMessage("Informe um e-mail válido.");
       setStatus("error");
-      return;
+      return null;
     }
-    void submit({ email: e });
+    if (phoneDigits.length < 10) {
+      setErrorMessage("Informe um telefone válido.");
+      setStatus("error");
+      return null;
+    }
+    return { email: e, phone: buildPhoneWithCountryCode(countryCode, phoneDigits) };
+  };
+
+  const handleSubmitAnonymousInline = () => {
+    const contact = validateAnonymousContact();
+    if (!contact) return;
+    void submit(contact);
   };
 
   const handleSubmitAnonymousModal = () => {
-    const e = email.trim();
-    if (!e) {
-      setErrorMessage("Informe um e-mail válido.");
-      return;
-    }
-    void submit({ email: e });
+    const contact = validateAnonymousContact();
+    if (!contact) return;
+    void submit(contact);
   };
 
   const openModal = () => {
     setErrorMessage(null);
     setStatus("idle");
-    setEmail("");
-    setAllowsContact(true);
+    resetContactFields();
     setModalOpen(true);
   };
 
@@ -124,6 +177,48 @@ export function SuggestDestinationForCuratorship({
   const primaryButtonClass = compact
     ? "w-full rounded-xl bg-accent-500 px-4 py-2.5 text-center text-sm font-semibold text-secondary-900 hover:bg-accent-600 transition-colors disabled:opacity-60"
     : "inline-flex justify-center items-center font-baloo bg-accent-500 text-white px-6 py-3 rounded-full text-base font-semibold hover:bg-accent-600 transition-all disabled:opacity-60";
+
+  const phoneField = (ids: { phoneId: string; countrySelectId?: string }) => (
+    <div>
+      <label htmlFor={ids.phoneId} className={`block mb-1 ${labelClass}`}>
+        Telefone
+      </label>
+      <div className="flex gap-2">
+        <select
+          id={ids.countrySelectId}
+          name="countryCode"
+          aria-label="Código do país"
+          value={countryCode}
+          onChange={(e) => {
+            setCountryCode(e.target.value);
+            setErrorMessage(null);
+          }}
+          className="px-3 py-2 border border-secondary-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white font-comfortaa text-sm"
+          style={{ minWidth: "120px" }}
+        >
+          {PHONE_COUNTRY_CODES.map((c, i) => (
+            <option key={`${c.code}-${i}`} value={c.code}>
+              {c.flag} {c.code}
+            </option>
+          ))}
+        </select>
+        <input
+          type="tel"
+          id={ids.phoneId}
+          inputMode="numeric"
+          autoComplete="tel-national"
+          value={formatPhoneDisplay(phone)}
+          onChange={(e) => {
+            setPhone(e.target.value.replace(/\D/g, "").slice(0, 11));
+            setErrorMessage(null);
+          }}
+          className={`flex-1 ${inputClass}`}
+          placeholder="(00) 00000-0000"
+          maxLength={15}
+        />
+      </div>
+    </div>
+  );
 
   return (
     <div className={[boxClass, className].filter(Boolean).join(" ")}>
@@ -183,6 +278,7 @@ export function SuggestDestinationForCuratorship({
               placeholder="nome@email.com"
             />
           </div>
+          {phoneField({ phoneId: "suggest-destination-phone", countrySelectId: "suggest-destination-country" })}
           <label className={`flex items-start gap-2 ${labelClass}`}>
             <input
               type="checkbox"
@@ -229,7 +325,7 @@ export function SuggestDestinationForCuratorship({
                   Sugerir destino
                 </h2>
                 <p className="mt-2 font-comfortaa text-sm text-secondary-600">
-                  Informe seu e-mail para que possamos considerar{" "}
+                  Informe seu e-mail e telefone para que possamos considerar{" "}
                   <span className="font-semibold">&quot;{destination}&quot;</span> na curadoria.
                 </p>
                 <div className="mt-4 space-y-3">
@@ -250,6 +346,7 @@ export function SuggestDestinationForCuratorship({
                       placeholder="nome@email.com"
                     />
                   </div>
+                  {phoneField({ phoneId: "suggest-modal-phone", countrySelectId: "suggest-modal-country" })}
                   <label className="flex items-start gap-2 font-comfortaa text-sm text-secondary-700">
                     <input
                       type="checkbox"

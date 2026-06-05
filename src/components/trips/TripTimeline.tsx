@@ -156,7 +156,7 @@ const ESTIMATED_STATUSES = ['NEW', 'PRE_PROPOSAL'] as const
 
 const STATUS_LABELS: Record<string, string> = {
   NEW: 'Ideia de viagem',
-  PRE_PROPOSAL: 'Confira nossas recomendações',
+  PRE_PROPOSAL: 'Transforme sua ideia de viagem',
   SET: 'Continue construindo sua viagem',
   BUILDING: 'Continue construindo sua viagem',
   IN_CHECKOUT: 'Aguardando pagamento',
@@ -178,7 +178,6 @@ function getTripHref(trip: TripListView): string {
   switch (trip.status) {
     /*case 'PRE_PROPOSAL':
       return `/app/viagens/${trip.id}/pre-proposta`*/
-    case 'SET':
     case 'BUILDING':
       return `/app/viagens/${trip.id}/itinerario`
     case 'IN_CHECKOUT':

@@ -12,6 +12,7 @@ import { AddAccommodationDrawer } from "@/components/trips/AddAccommodationDrawe
 import type { TripDetails } from "@/core/types/trip";
 import { TravelerType } from "@/core/types/trip";
 import type { AccommodationAvailabilityQuery, TravelerInput } from "@/clients/accommodations";
+import { parseDateOnlyToLocalDate } from "@/utils/helpers/dates.helpers";
 
 export type JourneyDetailsSectionProps = {
   tripId: string;
@@ -92,6 +93,15 @@ export function JourneyDetailsSection({
         };
 
     return { travelerInput };
+  }, [tripDetails?.configuration]);
+
+  const tripStayDates = useMemo(() => {
+    const cfg = tripDetails?.configuration;
+    if (!cfg) return { start: null as Date | null, end: null as Date | null };
+    return {
+      start: parseDateOnlyToLocalDate(cfg.startDate),
+      end: parseDateOnlyToLocalDate(cfg.endDate),
+    };
   }, [tripDetails?.configuration]);
 
   if (isLoading) {
@@ -254,6 +264,9 @@ export function JourneyDetailsSection({
             onClose={() => setIsAddOpen(false)}
             relatedDestinationUniqueName={relatedDestinationUniqueName}
             tripDestinationLabel={tripDetails?.destination ?? destination}
+            presetDestinationUniqueName={relatedDestinationUniqueName}
+            presetStayStartDate={tripStayDates.start}
+            presetStayEndDate={tripStayDates.end}
             travelerQuery={travelerQuery}
             tripId={tripId}
             onTripAccommodationsChanged={() => {

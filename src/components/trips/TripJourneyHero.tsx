@@ -12,6 +12,8 @@ export type TripJourneyHeroProps = {
   /** When empty, user can open destination picker */
   destination?: string | null;
   relatedDestinationUniqueName?: string | null;
+  /** Hide hero CTA when pending-actions flow handles destination selection. */
+  hideDestinationCta?: boolean;
 };
 
 export function TripJourneyHero({
@@ -21,9 +23,10 @@ export function TripJourneyHero({
   coverImageUrl,
   destination,
   relatedDestinationUniqueName,
+  hideDestinationCta = false,
 }: TripJourneyHeroProps) {
   const [destinationDrawerOpen, setDestinationDrawerOpen] = useState(false);
-  const needsDestination = !String(destination ?? "").trim();
+  const needsDestination = !hideDestinationCta && !String(destination ?? "").trim();
 
   return (
     <>

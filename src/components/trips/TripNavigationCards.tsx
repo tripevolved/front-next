@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { TripPendenciasDrawer } from "@/components/trips/TripPendenciasDrawer";
 
 const CARD_SHELL =
   "flex flex-col items-start text-left w-full min-h-[7.5rem] p-4 rounded-lg bg-white shadow-md border border-gray-100 transition";
@@ -89,10 +87,16 @@ function NavCard({
 type Props = {
   tripId: string;
   destination?: string;
+  pendingCount?: number;
+  onOpenPendencias?: () => void;
 };
 
-export function TripNavigationCards({ tripId, destination }: Props) {
-  const [pendenciasOpen, setPendenciasOpen] = useState(false);
+export function TripNavigationCards({
+  tripId,
+  destination,
+  pendingCount = 0,
+  onOpenPendencias,
+}: Props) {
   const base = `/app/viagens/${encodeURIComponent(tripId)}`;
   const whatsappMessage = `Olá! Gostaria de falar com um especialista sobre minha viagem${destination ? ` para ${destination}` : ""}.`;
   const whatsappUrl = `https://wa.me/5551993582462?text=${encodeURIComponent(whatsappMessage)}`;
@@ -102,8 +106,9 @@ export function TripNavigationCards({ tripId, destination }: Props) {
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 w-full">
         <NavCard
           title="Pendências"
-          onClick={() => setPendenciasOpen(true)}
-          stat={0}
+          onClick={() => onOpenPendencias?.()}
+          stat={pendingCount > 0 ? pendingCount : undefined}
+          badge={pendingCount > 0 ? "Ação necessária" : undefined}
           icon={
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
               <path
@@ -170,7 +175,6 @@ export function TripNavigationCards({ tripId, destination }: Props) {
         />
       </div>
 
-      <TripPendenciasDrawer isOpen={pendenciasOpen} onClose={() => setPendenciasOpen(false)} />
     </>
   );
 }

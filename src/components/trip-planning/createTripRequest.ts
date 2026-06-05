@@ -37,6 +37,8 @@ export function buildCreateTripRequest({
   tripDescription,
   familyTravellers,
   familyRooms,
+  collection = null,
+  destination = null,
 }: {
   travelerId: string
   tripDates: TripDates | null
@@ -47,6 +49,8 @@ export function buildCreateTripRequest({
   tripDescription: string
   familyTravellers: FamilyTravellers | null
   familyRooms: FamilyRoom[] | null
+  collection?: string | null
+  destination?: string | null
 }): CreateTripRequest {
   const type = tripType?.type ?? TravelerType.INDIVIDUAL
   const isFamilyTrip = type === TravelerType.FAMILY
@@ -79,6 +83,8 @@ export function buildCreateTripRequest({
         },
     shouldRecommendDestinations: false,
     mode: 'PROPOSAL',
+    collection,
+    destination,
   }
 }
 

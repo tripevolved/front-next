@@ -33,6 +33,10 @@ type Props = {
   relatedDestinationUniqueName?: string | null;
   /** Trip destination label — prefills the search field when the drawer opens. */
   tripDestinationLabel?: string | null;
+  /** When set with trip stay dates, opens on step 2 and loads availability immediately. */
+  presetDestinationUniqueName?: string | null;
+  presetStayStartDate?: Date | null;
+  presetStayEndDate?: Date | null;
   travelerQuery: AccommodationAvailabilityQuery;
   tripId: string;
   onTripAccommodationsChanged?: () => void | Promise<void>;
@@ -85,6 +89,9 @@ export function AddAccommodationDrawer({
   onClose,
   relatedDestinationUniqueName,
   tripDestinationLabel,
+  presetDestinationUniqueName,
+  presetStayStartDate,
+  presetStayEndDate,
   travelerQuery,
   tripId,
   onTripAccommodationsChanged,
@@ -93,6 +100,8 @@ export function AddAccommodationDrawer({
   const [mounted, setMounted] = useState(false);
   const [step, setStep] = useState<Step>(1);
   const [selectedDestination, setSelectedDestination] = useState<Destination | null>(null);
+  const [presetInitializing, setPresetInitializing] = useState(false);
+  const preserveDatesOnDestinationRef = useRef(false);
   const totalSteps = 4;
   const stepperNames = useMemo(() => ["Destino", "Hospedagem", "Quarto", "Finalizar"] as const, []);
   const headerTitles = useMemo(
@@ -190,33 +199,89 @@ export function AddAccommodationDrawer({
 
   useEffect(() => {
     if (!isOpen) return;
-    setStep(1);
-    setSelectedDestination(null);
-    setSearch((tripDestinationLabel ?? "").trim());
-    setSearchResults(null);
-    setSearchLoading(false);
-    setAvailability(null);
-    setAvailabilityLoading(false);
-    setAvailabilityError(false);
-    setAvailabilityStartDate(null);
-    setAvailabilityEndDate(null);
-    setSelectedAccommodationUniqueName(null);
-    setSelectedAccommodationTitle(null);
-    setStep3AvailabilityLoading(false);
-    setStep3AvailabilityError(false);
-    setStep3TransactionId(null);
-    setStep3ValidUntil(null);
-    setStep3Rooms([]);
-    setCreatingTripAccommodation(false);
-    setCreateTripAccommodationError(null);
-    setCreatedTripAccommodationId(null);
-    setCreatingCheckoutPayment(false);
-    setCheckoutPaymentError(null);
-    setStep3Accommodation(null);
-    setStep3AccommodationLoading(false);
-    setStep3AccommodationError(false);
-    setStep3SelectedRateIdByRoomId({});
-  }, [isOpen, tripDestinationLabel]);
+
+    let cancelled = false;
+
+    const resetFlowState = () => {
+      setSearch((tripDestinationLabel ?? "").trim());
+      setSearchResults(null);
+      setSearchLoading(false);
+      setAvailability(null);
+      setAvailabilityLoading(false);
+      setAvailabilityError(false);
+      setSelectedAccommodationUniqueName(null);
+      setSelectedAccommodationTitle(null);
+      setStep3AvailabilityLoading(false);
+      setStep3AvailabilityError(false);
+      setStep3TransactionId(null);
+      setStep3ValidUntil(null);
+      setStep3Rooms([]);
+      setCreatingTripAccommodation(false);
+      setCreateTripAccommodationError(null);
+      setCreatedTripAccommodationId(null);
+      setCreatingCheckoutPayment(false);
+      setCheckoutPaymentError(null);
+      setStep3Accommodation(null);
+      setStep3AccommodationLoading(false);
+      setStep3AccommodationError(false);
+      setStep3SelectedRateIdByRoomId({});
+    };
+
+    const unique = presetDestinationUniqueName?.trim() ?? "";
+    const start = presetStayStartDate ?? null;
+    const end = presetStayEndDate ?? null;
+    const canSkipToAccommodations = Boolean(unique && start && end);
+
+    resetFlowState();
+
+    if (!canSkipToAccommodations) {
+      setPresetInitializing(false);
+      setStep(1);
+      setSelectedDestination(null);
+      setAvailabilityStartDate(null);
+      setAvailabilityEndDate(null);
+      return;
+    }
+
+    setPresetInitializing(true);
+    setAvailabilityStartDate(start);
+    setAvailabilityEndDate(end);
+    preserveDatesOnDestinationRef.current = true;
+
+    DestinationsApiService.getDestinationByUniqueName(unique)
+      .then((pub) => {
+        if (cancelled) return;
+        const coverUrl = pub.photos?.[0]?.url?.trim() || "/assets/blank-image.png";
+        setSelectedDestination({
+          uniqueName: pub.uniqueName,
+          name: pub.title,
+          destinationId: pub.id,
+          coverImage: { url: coverUrl },
+          travelerProfile: pub.travelerProfiles?.[0] ?? null,
+        });
+        setStep(2);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setStep(1);
+        setSelectedDestination(null);
+        setAvailabilityStartDate(null);
+        setAvailabilityEndDate(null);
+      })
+      .finally(() => {
+        if (!cancelled) setPresetInitializing(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    isOpen,
+    tripDestinationLabel,
+    presetDestinationUniqueName,
+    presetStayStartDate,
+    presetStayEndDate,
+  ]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -248,7 +313,10 @@ export function AddAccommodationDrawer({
 
   useEffect(() => {
     if (!isOpen) return;
-    // When destination changes, reset dates/results for step 2.
+    if (preserveDatesOnDestinationRef.current) {
+      preserveDatesOnDestinationRef.current = false;
+      return;
+    }
     setAvailability(null);
     setAvailabilityLoading(false);
     setAvailabilityError(false);
@@ -642,7 +710,12 @@ export function AddAccommodationDrawer({
                 </div>
               </div>
 
-              {!availabilityStartDate || !availabilityEndDate ? (
+              {presetInitializing ? (
+                <div className="flex flex-col items-center justify-center gap-4 py-12">
+                  <div className="h-10 w-10 animate-spin rounded-full border-2 border-primary-500 border-t-transparent" />
+                  <p className="font-comfortaa text-sm text-secondary-600">Preparando hospedagens para sua viagem…</p>
+                </div>
+              ) : !availabilityStartDate || !availabilityEndDate ? (
                 <div className="rounded-2xl border border-secondary-200 bg-secondary-50 p-5">
                   <p className="font-comfortaa text-sm text-secondary-600">
                     Selecione as datas para buscarmos as hospedagens disponíveis.

@@ -4,12 +4,18 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 
+import type { TripPendingAction } from "@/utils/trips/trip-pending-actions";
+
+type PendingDrawer = Extract<TripPendingAction["drawer"], string>;
+
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  actions: TripPendingAction[];
+  onOpenDrawer: (drawer: PendingDrawer) => void;
 };
 
-export function TripPendenciasDrawer({ isOpen, onClose }: Props) {
+export function TripPendenciasDrawer({ isOpen, onClose, actions, onOpenDrawer }: Props) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -18,14 +24,11 @@ export function TripPendenciasDrawer({ isOpen, onClose }: Props) {
 
   if (!isOpen || !mounted) return null;
 
+  const hasPending = actions.length > 0;
+
   return createPortal(
     <div className="fixed inset-0 z-[70]">
-      <button
-        type="button"
-        aria-label="Fechar"
-        className="absolute inset-0 bg-black/50"
-        onClick={onClose}
-      />
+      <button type="button" aria-label="Fechar" className="absolute inset-0 bg-black/50" onClick={onClose} />
 
       <aside className="fixed right-0 inset-y-0 z-10 flex h-full w-full flex-col bg-white shadow-2xl md:w-2/3">
         <header className="shrink-0 border-b border-secondary-200 p-5">
@@ -33,6 +36,11 @@ export function TripPendenciasDrawer({ isOpen, onClose }: Props) {
             <div className="min-w-0">
               <p className="font-comfortaa text-xs text-secondary-500">Sua viagem</p>
               <h2 className="font-baloo text-xl font-bold text-secondary-900 leading-tight">Pendências</h2>
+              {hasPending ? (
+                <p className="font-comfortaa text-xs text-secondary-500 mt-1">
+                  {actions.length} {actions.length === 1 ? "ação" : "ações"} para concluir
+                </p>
+              ) : null}
             </div>
             <button
               type="button"
@@ -47,18 +55,53 @@ export function TripPendenciasDrawer({ isOpen, onClose }: Props) {
           </div>
         </header>
 
-        <div className="flex-1 min-h-0 overflow-y-auto flex flex-col items-center justify-center px-6 py-12 text-center">
-          <Image
-            src="/assets/states/success-state.svg"
-            alt=""
-            width={200}
-            height={200}
-            className="object-contain mb-6"
-          />
-          <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-2">Tudo certo!</h3>
-          <p className="font-comfortaa text-sm text-secondary-600 max-w-sm">
-            Sua viagem não possui qualquer pendência
-          </p>
+        <div className="flex-1 min-h-0 overflow-y-auto">
+          {hasPending ? (
+            <ol className="p-5 space-y-4">
+              {actions.map((action, index) => (
+                <li
+                  key={action.id}
+                  className="rounded-xl border border-secondary-200 bg-secondary-50/50 p-4 space-y-3"
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent-500 font-baloo text-sm font-bold text-secondary-900">
+                      {index + 1}
+                    </span>
+                    <div>
+                      <h3 className="font-baloo text-base font-bold text-secondary-900">{action.title}</h3>
+                      <p className="font-comfortaa text-sm text-secondary-600 mt-1">{action.description}</p>
+                    </div>
+                  </div>
+                  {action.drawer ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onOpenDrawer(action.drawer as PendingDrawer);
+                        onClose();
+                      }}
+                      className="w-full rounded-full bg-accent-500 px-4 py-2.5 font-baloo text-sm font-semibold text-secondary-900 hover:bg-accent-600"
+                    >
+                      Continuar
+                    </button>
+                  ) : null}
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <div className="flex flex-col items-center justify-center px-6 py-12 text-center min-h-[50vh]">
+              <Image
+                src="/assets/states/success-state.svg"
+                alt=""
+                width={200}
+                height={200}
+                className="object-contain mb-6"
+              />
+              <h3 className="font-baloo text-2xl font-bold text-secondary-900 mb-2">Tudo certo!</h3>
+              <p className="font-comfortaa text-sm text-secondary-600 max-w-sm">
+                Sua viagem não possui pendências no momento.
+              </p>
+            </div>
+          )}
         </div>
       </aside>
     </div>,

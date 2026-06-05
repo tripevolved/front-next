@@ -4,6 +4,7 @@ export interface DestinationCuratorshipSuggestionBody {
   destination: string;
   allowsContact: boolean;
   email?: string;
+  phone?: string;
   travelerId?: string;
 }
 

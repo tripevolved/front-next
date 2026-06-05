@@ -2,8 +2,17 @@
 
 import { useState, type FormEvent } from 'react'
 
+const BUDGET_SLIDER_MIN = 3000
+const BUDGET_SLIDER_MAX = 100000
+const BUDGET_SLIDER_STEP = 1000
+
 function formatCurrencyBR(value: number) {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(value)
+}
+
+function formatMaxBudgetDisplay(value: number) {
+  if (value >= BUDGET_SLIDER_MAX) return `${formatCurrencyBR(BUDGET_SLIDER_MAX)}+`
+  return formatCurrencyBR(value)
 }
 
 export type TripBudgetPayload = { maxBudget: number; isFlexible: boolean }
@@ -39,17 +48,15 @@ export function StepBudget({
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Até</span>
-            <span className="font-semibold text-secondary-900">
-              {maxBudget >= 200000 ? `${formatCurrencyBR(200000)}+` : formatCurrencyBR(maxBudget)}
-            </span>
+            <span className="font-semibold text-secondary-900">{formatMaxBudgetDisplay(maxBudget)}</span>
           </div>
           <input
             type="range"
-            min={3000}
-            max={200000}
-            step={500}
-            value={maxBudget}
-            onChange={(e) => setMaxBudget(Math.min(Number(e.target.value), 200000))}
+            min={BUDGET_SLIDER_MIN}
+            max={BUDGET_SLIDER_MAX}
+            step={BUDGET_SLIDER_STEP}
+            value={Math.min(maxBudget, BUDGET_SLIDER_MAX)}
+            onChange={(e) => setMaxBudget(Number(e.target.value))}
             className="w-full accent-primary-600"
           />
         </div>

@@ -3,43 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import type { TripDetails } from "@/core/types";
 import { auth0 } from "@/lib/auth0";
-import { formatPtBrDateRangeLong, parseDateOnlyToLocalDate } from "@/utils/helpers/dates.helpers";
-import { TripConfigurationSet } from "@/components/trips/TripConfigurationSet";
-import { TripNavigationCards } from "@/components/trips/TripNavigationCards";
-import { JourneyDetailsSection } from "@/components/trips/JourneyDetailsSection";
-import { TripJourneyHero } from "@/components/trips/TripJourneyHero";
+import { TripPageClient } from "@/components/trips/TripPageClient";
+
 type Props = {
   params: Promise<{ id: string }>;
 };
-
-const MONTH_NAMES = [
-  "Janeiro",
-  "Fevereiro",
-  "Março",
-  "Abril",
-  "Maio",
-  "Junho",
-  "Julho",
-  "Agosto",
-  "Setembro",
-  "Outubro",
-  "Novembro",
-  "Dezembro",
-];
-
-function formatHeroDates(tripDetails: TripDetails): string {
-  const config = tripDetails.configuration;
-  if (config?.startDate && config?.endDate) {
-    const start = parseDateOnlyToLocalDate(config.startDate);
-    const end = parseDateOnlyToLocalDate(config.endDate);
-    if (!start || !end) return "Datas a definir";
-    return formatPtBrDateRangeLong(start, end);
-  }
-  if (config?.month != null && config.month >= 1 && config.month <= 12) {
-    return `Em ${MONTH_NAMES[config.month - 1]}`;
-  }
-  return "Datas a definir";
-}
 
 async function getTripById(tripId: string): Promise<TripDetails> {
   const apiBase = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
@@ -85,7 +53,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = trip?.title ? `${trip.title} - Trip Evolved` : "Viagem - Trip Evolved";
   return {
     title,
-    description: trip?.title ? `Acompanhe os detalhes da sua viagem${trip.destination ? ` · ${trip.destination}` : ""}.` : "Acompanhe os detalhes da sua viagem.",
+    description: trip?.title
+      ? `Acompanhe os detalhes da sua viagem${trip.destination ? ` · ${trip.destination}` : ""}.`
+      : "Acompanhe os detalhes da sua viagem.",
   };
 }
 
@@ -120,41 +90,5 @@ export default async function ViagemByIdPage({ params }: Props) {
     );
   }
 
-  const coverImageUrl = tripDetails.coverImage?.url;
-  const datesLabel = formatHeroDates(tripDetails);
-  const relatedUnique = tripDetails.destinationUniqueName ?? undefined;
-
-  return (
-    <div className="min-h-screen">
-      <TripJourneyHero
-        tripId={tripDetails.id}
-        title={tripDetails.title}
-        datesLabel={datesLabel}
-        coverImageUrl={coverImageUrl}
-        destination={tripDetails.destination}
-        relatedDestinationUniqueName={relatedUnique}
-      />
-
-      {/* Trip Configuration */}
-      <section className="md:max-w-[80%] mx-auto -mt-6 relative z-10 px-4 space-y-6">
-        <TripConfigurationSet
-          tripId={tripDetails.id}
-          tripStatus={tripDetails.status}
-          configuration={tripDetails.configuration}
-        />
-        <TripNavigationCards tripId={tripDetails.id} destination={tripDetails.destination ?? undefined} />
-      </section>
-
-      {/* Details */}
-      <section id="details" className="md:max-w-[80%] mx-auto px-4 py-12 scroll-mt-24">
-        <h2 className="font-baloo text-2xl md:text-3xl font-bold text-secondary-900 mb-6">Detalhes da jornada</h2>
-        <JourneyDetailsSection
-          tripId={tripDetails.id}
-          destination={tripDetails.destination ?? undefined}
-          relatedDestinationUniqueName={relatedUnique}
-        />
-      </section>
-    </div>
-  );
+  return <TripPageClient initialTripDetails={tripDetails} />;
 }
-

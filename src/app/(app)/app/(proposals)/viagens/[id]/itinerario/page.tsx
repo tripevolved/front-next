@@ -99,7 +99,7 @@ export default function ItinerarioPage() {
             href={`/app/viagens/${encodeURIComponent(id)}`}
             className="inline-flex items-center gap-1.5 bg-transparent border border-white text-white hover:bg-white/20 px-3 py-1.5 rounded-full text-sm font-medium transition-colors shrink-0"
           >
-            Voltar à viagem
+            {"< Voltar à viagem"}
           </Link>
         </div>
         <div className="max-w-[80%] mx-auto text-center flex-1 flex flex-col items-center justify-center mt-10">

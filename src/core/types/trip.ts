@@ -27,6 +27,8 @@ export interface TripDetails {
   destination?: string | null;
   /** When set, used to load related destination suggestions (e.g. curators). */
   destinationUniqueName?: string | null;
+  /** Collection unique name when the trip is inspired by a collection (nullable). */
+  collection?: string | null;
   configuration: TripConfiguration;
   coverImage?: TripImage;
 }
@@ -266,4 +268,10 @@ export interface CreateTripRequest {
   shouldRecommendDestinations?: boolean
 
   mode?: "PROPOSAL" | "CONSULTANCY"
+
+  /** Collection unique name when the trip is inspired by a collection (nullable). */
+  collection?: string | null
+
+  /** Destination unique name when the traveler already chose a destination (nullable). */
+  destination?: string | null
 }

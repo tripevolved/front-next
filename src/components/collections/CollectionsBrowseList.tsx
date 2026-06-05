@@ -17,6 +17,10 @@ export type CollectionsBrowseListProps = {
   compact?: boolean;
   /** When set, cards call this instead of navigating to `/colecoes/...` */
   onSelectCollection?: (uniqueName: string) => void;
+  /** List every collection as selectable without login gating. */
+  treatAllAsAccessible?: boolean;
+  /** Hide card footer CTAs and the load-more button. */
+  minimalCards?: boolean;
 };
 
 export function CollectionsBrowseList({
@@ -25,6 +29,8 @@ export function CollectionsBrowseList({
   subtitle,
   compact = false,
   onSelectCollection,
+  treatAllAsAccessible = false,
+  minimalCards = false,
 }: CollectionsBrowseListProps) {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [offset, setOffset] = useState(0);
@@ -66,6 +72,10 @@ export function CollectionsBrowseList({
   }, [travelerType]);
 
   useEffect(() => {
+    if (treatAllAsAccessible) {
+      setIsLoggedIn(true);
+      return;
+    }
     let cancelled = false;
     const check = async () => {
       try {
@@ -79,7 +89,7 @@ export function CollectionsBrowseList({
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [treatAllAsAccessible]);
 
   const handleLoadMore = async () => {
     if (isLoadingMore || !hasMore) return;
@@ -139,12 +149,14 @@ export function CollectionsBrowseList({
                   travelerType={c.travelerType}
                   isAvailableForPublic={c.isAvailableForPublic}
                   isLoggedIn={isLoggedIn}
+                  treatAsAccessible={treatAllAsAccessible}
+                  hideFooterAction={minimalCards}
                   onSelect={onSelectCollection ? () => onSelectCollection(c.uniqueName) : undefined}
                 />
               ))}
             </div>
 
-            {hasMore ? (
+            {hasMore && !minimalCards ? (
               <div className="flex justify-center">
                 <button
                   type="button"

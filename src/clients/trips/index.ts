@@ -1,4 +1,5 @@
 import { putDestinationIdForTrip } from "./destination-set";
+import { putTripCollection } from "./collection";
 import { getTripDetailsById } from "./details";
 import { getTripMatches } from "./trips";
 import { createTrip, createEmptyTrip } from "./create";
@@ -23,6 +24,7 @@ import { getTripTravelers, postTripTravelers } from "./travelers";
 export const TripsApiService = {
   getTrips,
   setDestinationIdForTrip: putDestinationIdForTrip,
+  putTripCollection,
   getTripDetailsById,
   putTripConfiguration,
   getTripAccommodations,
