@@ -178,8 +178,8 @@ function getTripHref(trip: TripListView): string {
   switch (trip.status) {
     /*case 'PRE_PROPOSAL':
       return `/app/viagens/${trip.id}/pre-proposta`*/
-    case 'BUILDING':
-      return `/app/viagens/${trip.id}/itinerario`
+    /*case 'BUILDING':
+      return `/app/viagens/${trip.id}/itinerario`*/
     case 'IN_CHECKOUT':
       return `/app/viagens/${trip.id}/checkout`
     default:

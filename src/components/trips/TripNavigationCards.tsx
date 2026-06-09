@@ -151,7 +151,9 @@ export function TripNavigationCards({
         />
         <NavCard
           title="Itinerário"
-          href={`${base}/itinerario`}
+          //href={`${base}/itinerario`}
+          disabled
+          badge="Em breve"
           icon={
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
               <path
