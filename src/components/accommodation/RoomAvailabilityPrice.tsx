@@ -111,6 +111,7 @@ export function RoomAvailabilityPrice({ rate, size = "card" }: RoomAvailabilityP
   const propertyTaxes = Array.isArray((rate as any)?.propertyTaxes)
     ? ((rate as any).propertyTaxes as any[]).filter((t) => Number(t?.amount ?? 0) !== 0)
     : [];
+  const propertyTaxesTotal = propertyTaxes.reduce((sum, tax) => sum + Number(tax?.amount ?? 0), 0);
   const includedTaxes = Array.isArray((rate as any)?.includedTaxes)
     ? ((rate as any).includedTaxes as any[]).filter((t) => Number(t?.amount ?? 0) !== 0)
     : [];
@@ -154,6 +155,12 @@ export function RoomAvailabilityPrice({ rate, size = "card" }: RoomAvailabilityP
         </span>
       </div>
 
+      {size === "card" && propertyTaxesTotal > 0 && (
+        <p className={`${taxTextClass} text-gray-600 leading-snug`}>
+          + {formatCurrency(propertyTaxesTotal, currency)} em taxas a serem pagas na hospedagem
+        </p>
+      )}
+
       <div
         className={`flex items-center gap-2.5 rounded-lg px-3 py-2.5 border ${
           mealPlanHighlighted
@@ -190,8 +197,8 @@ export function RoomAvailabilityPrice({ rate, size = "card" }: RoomAvailabilityP
         )}
       </div>
 
-      {propertyTaxes.length > 0 && (
-        <div className={size === "modal" ? "pt-1" : "pt-0.5"}>
+      {size === "modal" && propertyTaxes.length > 0 && (
+        <div className="pt-1">
           <p className={`${taxTextClass} font-semibold text-gray-700 mb-2`}>
             Taxas a serem pagas na hospedagem
           </p>
