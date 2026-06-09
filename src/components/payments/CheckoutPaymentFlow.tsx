@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useAppStore } from "@/core/store";
+import { CustomersService } from "@/clients/customers";
 import { PaymentsApiService } from "@/clients/payments";
 import { TripsApiService } from "@/clients/trips";
 import type { CheckoutPaymentItemResponse, PaymentStatusResponse } from "@/clients/payments/payments";
@@ -138,6 +139,22 @@ function mapPayerResponseToCheckoutPayer(data: {
       country: "Brasil",
     },
   };
+}
+
+async function acceptCheckoutTermsBeforePayment(params: {
+  travelerId: string;
+  paymentId: string;
+  tripId?: string | null;
+  items: CheckoutPaymentItemResponse[];
+}) {
+  const body = CustomersService.buildAcceptTermsRequest(params);
+  if (!body) return;
+
+  try {
+    await CustomersService.acceptTerms(body);
+  } catch {
+    // Non-blocking: payment flow continues even if terms acceptance fails.
+  }
 }
 
 function checkoutPayerToTripPayer(p: CheckoutPayerData) {
@@ -580,6 +597,12 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
 
       const tripMethod: TripPaymentMethod = payload.paymentMethod === "credit_card" ? "CREDIT_CARD" : "PIX";
       const items: PaymentIntentItem[] = regularTotal > 0 ? regularPaymentIntentItems : [];
+      await acceptCheckoutTermsBeforePayment({
+        travelerId,
+        paymentId,
+        tripId: payment?.tripId ?? null,
+        items: regularItems,
+      });
       const response = await PaymentsApiService.createPaymentIntent({
         paymentId,
         payer: checkoutPayerToTripPayer(payload.payer),
@@ -623,6 +646,12 @@ export function CheckoutPaymentFlow({ paymentId }: { paymentId: string }) {
       const method: TripPaymentMethod = cond.paymentMethod;
       const installments = method === "CREDIT_CARD" ? onBookingInstallments : 1;
 
+      await acceptCheckoutTermsBeforePayment({
+        travelerId,
+        paymentId,
+        tripId: payment?.tripId ?? null,
+        items: onBookingItems,
+      });
       const response = await PaymentsApiService.createPaymentIntent({
         paymentId,
         payer: checkoutPayerToTripPayer(payload.payer),
