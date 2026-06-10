@@ -26,7 +26,7 @@ function pickDestinationFromPayload(r: Record<string, unknown>): string | null {
   return null;
 }
 
-function normalizeCollectionItem(raw: unknown): AccommodationByCollectionItem {
+export function normalizeCollectionItem(raw: unknown): AccommodationByCollectionItem {
   if (!raw || typeof raw !== "object") {
     return { id: "", uniqueName: "", title: "" };
   }
@@ -50,7 +50,7 @@ function normalizeCollectionItem(raw: unknown): AccommodationByCollectionItem {
   };
 }
 
-function normalizeByCollectionResponse(
+export function normalizeByCollectionResponse(
   raw: unknown,
   params?: { offset?: number; limit?: number }
 ): AccommodationsByCollectionResponse {

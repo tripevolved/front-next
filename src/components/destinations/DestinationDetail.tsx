@@ -1,9 +1,16 @@
-import { PublicDestination } from '@/core/types/destination'
+import type { TravelerType } from '@/clients/collections'
+import CollectionAccommodationsSection from '@/components/accommodation/CollectionAccommodationsSection'
+import { PublicDestination, TravelType } from '@/core/types/destination'
 import { DestinationHero } from './DestinationHero'
 import { DestinationFeatures } from './DestinationFeatures'
 import { DestinationVideos } from './DestinationVideos'
 import { DestinationExpert } from './DestinationExpert'
 import { DestinationCTA } from './DestinationCTA'
+
+function destinationTravelTypeToTravelerType(travelType: TravelType): TravelerType {
+  if (travelType === 'FAMILIES') return 'FAMILY'
+  return 'COUPLE'
+}
 
 interface DestinationDetailProps {
   destination: PublicDestination
@@ -39,6 +46,11 @@ export function DestinationDetail({ destination }: DestinationDetailProps) {
           </div>
         </div>
       </div>
+
+      <CollectionAccommodationsSection
+        destinationUniqueName={destination.uniqueName}
+        travelerType={destinationTravelTypeToTravelerType(destination.travelType)}
+      />
     </div>
   )
 } 

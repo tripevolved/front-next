@@ -1,6 +1,7 @@
 import { getAccommodationByUniqueName, getAccommodationByDestinationUniqueName } from "./public";
 import { getAccommodationAvailabilityByDestination } from "./by-destination-availability";
 import { getAccommodationsByCollection } from "./by-collection";
+import { getAccommodationsByDestinationAll } from "./by-destination-all";
 import {
   getAccommodationAvailability,
   type AccommodationAvailabilityQuery,
@@ -21,6 +22,7 @@ export const AccommodationsApiService = {
   getAccommodationByDestinationUniqueName,
   getAccommodationAvailabilityByDestination,
   getAccommodationsByCollection,
+  getAccommodationsByDestinationAll,
   getAccommodationAvailability,
   postAccommodationAvailabilityByUniqueNames,
   postAccommodationAvailabilityConditions,

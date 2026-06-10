@@ -14,6 +14,7 @@ import DateRangeSelector from '@/components/common/DateRangeSelector'
 import type { AccommodationAvailabilityQuery } from '@/clients/accommodations'
 import type { AccommodationByDestinationAvailabilityItem } from '@/clients/accommodations/by-destination-availability'
 import type {
+  AccommodationPropertyTax,
   PublicAccommodationLocation,
   PublicAccommodationRoomAvailability,
   PublicAccommodationRoomRate,
@@ -90,8 +91,15 @@ function AccommodationCard({
     availabilityBestRate != null &&
     typeof availabilityBestRate.originalPrice === 'number' &&
     availabilityBestRate.originalPrice > availabilityBestRate.price
-  const taxesTotal =
-    availabilityBestRate?.taxes?.reduce((sum, t) => sum + (typeof t?.amount === 'number' ? t.amount : 0), 0) ?? 0
+  const propertyTaxes = Array.isArray(
+    (availabilityBestRate as PublicAccommodationRoomRate & { propertyTaxes?: AccommodationPropertyTax[] })
+      ?.propertyTaxes
+  )
+    ? (
+        availabilityBestRate as PublicAccommodationRoomRate & { propertyTaxes?: AccommodationPropertyTax[] }
+      ).propertyTaxes!.filter((t) => Number(t?.amount ?? 0) !== 0)
+    : []
+  const propertyTaxesTotal = propertyTaxes.reduce((sum, tax) => sum + Number(tax?.amount ?? 0), 0)
   const noQuote = availabilityLayout && availabilityBestRate == null
   const showPriceBlock = availabilityLayout && availabilityBestRate != null
   const useTallCard = availabilityLayout
@@ -147,12 +155,13 @@ function AccommodationCard({
                 {formatCurrency(availabilityBestRate.price, availabilityBestRate.currency)}
               </span>
             </div>
-            <p className="font-comfortaa text-xs text-white/90 pt-0.5">{boardDescriptionFromRate(availabilityBestRate)}</p>
-            {taxesTotal > 0 ? (
+            {propertyTaxesTotal > 0 ? (
               <p className="font-comfortaa text-[10px] leading-snug text-white/70">
-                + {formatCurrency(taxesTotal, availabilityBestRate.currency)} em taxas
+                + {formatCurrency(propertyTaxesTotal, availabilityBestRate.currency)} em taxas a serem pagas na
+                hospedagem
               </p>
             ) : null}
+            <p className="font-comfortaa text-xs text-white/90 pt-0.5">{boardDescriptionFromRate(availabilityBestRate)}</p>
             <p className="font-comfortaa text-[9px] leading-snug text-white/75 pt-1">
               Tarifas sem comissão · exclusivo para membros do Círculo Evolved
             </p>
@@ -215,18 +224,45 @@ function asAvailabilityQuery(travelerType: TravelerType): AccommodationAvailabil
   return query
 }
 
+type AccommodationsCatalogParams = { offset?: number; limit?: number }
+
 export default function CollectionAccommodationsSection({
   collectionUniqueName,
+  destinationUniqueName,
   travelerType,
   layout = 'page',
   onAccommodationPick,
 }: {
-  collectionUniqueName: string
+  collectionUniqueName?: string
+  destinationUniqueName?: string
   travelerType: TravelerType
   layout?: 'page' | 'drawer'
   /** When set with dates selected, cards become actions and pass ISO date strings (yyyy-MM-dd). */
   onAccommodationPick?: (p: { uniqueName: string; startDate: string; endDate: string }) => void
 }) {
+  const sourceKey = destinationUniqueName ?? collectionUniqueName ?? ''
+  const isDestinationSource = Boolean(destinationUniqueName)
+  const contextNoun = isDestinationSource ? 'destino' : 'coleção'
+  const contextNounPlural = isDestinationSource ? 'destinos' : 'coleções'
+
+  const fetchAccommodations = useCallback(
+    (params: AccommodationsCatalogParams) => {
+      if (destinationUniqueName) {
+        return AccommodationsApiService.getAccommodationsByDestinationAll(destinationUniqueName, params)
+      }
+      if (collectionUniqueName) {
+        return AccommodationsApiService.getAccommodationsByCollection(collectionUniqueName, params)
+      }
+      return Promise.resolve({
+        accommodations: [],
+        offset: 0,
+        limit: params.limit ?? PAGE_SIZE,
+        count: 0,
+        totalCount: 0,
+      })
+    },
+    [collectionUniqueName, destinationUniqueName]
+  )
   const [accommodations, setAccommodations] = useState<AccommodationByCollectionItem[]>([])
   const [offset, setOffset] = useState(0)
   const [totalCount, setTotalCount] = useState<number | null>(null)
@@ -245,7 +281,7 @@ export default function CollectionAccommodationsSection({
   useEffect(() => {
     setAvailabilityItems(null)
     setAvailabilityError(false)
-  }, [collectionUniqueName])
+  }, [sourceKey])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -290,7 +326,7 @@ export default function CollectionAccommodationsSection({
   }, [availabilityItems])
 
   const fetchPage = async (nextOffset: number, mode: 'replace' | 'append') => {
-    const response = await AccommodationsApiService.getAccommodationsByCollection(collectionUniqueName, {
+    const response = await fetchAccommodations({
       offset: nextOffset,
       limit: PAGE_SIZE,
     })
@@ -323,7 +359,7 @@ export default function CollectionAccommodationsSection({
       cancelled = true
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [collectionUniqueName])
+  }, [sourceKey])
 
   useEffect(() => {
     let cancelled = false
@@ -337,7 +373,7 @@ export default function CollectionAccommodationsSection({
       try {
         let total = totalCount ?? 0
         if (total <= 0) {
-          const probe = await AccommodationsApiService.getAccommodationsByCollection(collectionUniqueName, {
+          const probe = await fetchAccommodations({
             offset: 0,
             limit: 1,
           })
@@ -351,7 +387,7 @@ export default function CollectionAccommodationsSection({
           return
         }
 
-        const catalog = await AccommodationsApiService.getAccommodationsByCollection(collectionUniqueName, {
+        const catalog = await fetchAccommodations({
           offset: 0,
           limit: total,
         })
@@ -385,7 +421,7 @@ export default function CollectionAccommodationsSection({
     return () => {
       cancelled = true
     }
-  }, [collectionUniqueName, travelerType, startDate, endDate, isLoading, totalCount])
+  }, [sourceKey, travelerType, startDate, endDate, isLoading, totalCount, fetchAccommodations])
 
   const accommodationHref = useCallback(
     (uniqueName: string) => {
@@ -559,8 +595,8 @@ export default function CollectionAccommodationsSection({
         ) : datesSelected && !availabilityLoading && availabilityError && accommodations.length > 0 ? (
           <>
             <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 font-comfortaa text-sm text-amber-950">
-              Não foi possível consultar disponibilidade para as datas escolhidas. Mostrando todas as hospedagens da
-              coleção.
+              Não foi possível consultar disponibilidade para as datas escolhidas. Mostrando todas as hospedagens do{' '}
+              {contextNoun}.
             </div>
             {renderCatalogGrid()}
           </>
@@ -572,8 +608,8 @@ export default function CollectionAccommodationsSection({
           accommodations.length > 0 ? (
           <>
             <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 font-comfortaa text-sm text-amber-950">
-              Não encontramos disponibilidade para o período selecionado. Abaixo está a lista completa da coleção —
-              tente outras datas para ver opções disponíveis.
+              Não encontramos disponibilidade para o período selecionado. Abaixo está a lista completa do {contextNoun}{' '}
+              — tente outras datas para ver opções disponíveis.
             </div>
             {renderCatalogGrid()}
           </>
@@ -592,7 +628,7 @@ export default function CollectionAccommodationsSection({
           <EmptyOrErrorState
             status="empty"
             title="Sem disponibilidade para o período selecionado"
-            description="Tente outras datas ou confira outras coleções."
+            description={`Tente outras datas ou confira outros ${contextNounPlural}.`}
           />
         ) : isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -610,7 +646,7 @@ export default function CollectionAccommodationsSection({
           <EmptyOrErrorState
             status="empty"
             title="Nenhuma hospedagem encontrada"
-            description="Em breve teremos novas recomendações para esta coleção."
+            description={`Em breve teremos novas recomendações para este ${contextNoun}.`}
           />
         ) : (
           renderCatalogGrid()
