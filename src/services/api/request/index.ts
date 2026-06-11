@@ -10,6 +10,8 @@ const API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 type ApiRequestMethod = "get" | "post" | "put" | "delete" | "patch";
 interface RequestOptions {
   headers?: Record<string, string>;
+  /** When true, HTTP 204 resolves as `null` instead of throwing or returning empty data. */
+  allowNoContent?: boolean;
 }
 
 const makeInstance = async (method: ApiRequestMethod, options: RequestOptions = {}) => {
@@ -35,7 +37,15 @@ const makeInstance = async (method: ApiRequestMethod, options: RequestOptions = 
 // TODO: add exception handler
 export const ApiRequest = {
   get: async <ResponseData = any>(route = "/", options: RequestOptions = {}) => {
-    const method = await makeInstance("get", options);
+    const { allowNoContent, ...requestOptions } = options;
+    const method = await makeInstance("get", requestOptions);
+    if (allowNoContent) {
+      const response = await method<ResponseData>(route, {
+        validateStatus: (status: number) => status >= 200 && status < 300,
+      });
+      if (response.status === 204) return null as ResponseData;
+      return response.data;
+    }
     return method<ResponseData>(route).then(({ data }) => data);
   },
   post: async <ResponseData = any>(route = "/", body: any, options: RequestOptions = {}) => {

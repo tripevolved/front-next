@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import useSWR from "swr";
+import { TripsApiService } from "@/clients/trips";
 
 const CARD_SHELL =
   "flex flex-col items-start text-left w-full min-h-[7.5rem] p-4 rounded-lg bg-white shadow-md border border-gray-100 transition";
@@ -14,6 +16,7 @@ type NavCardProps = {
   disabled?: boolean;
   stat?: string | number;
   badge?: string;
+  hint?: string;
 };
 
 function NavCard({
@@ -25,6 +28,7 @@ function NavCard({
   disabled = false,
   stat,
   badge,
+  hint,
 }: NavCardProps) {
   const content = (
     <>
@@ -32,6 +36,7 @@ function NavCard({
         {icon}
       </div>
       <h3 className="text-base font-semibold text-gray-900 mb-1">{title}</h3>
+      {hint ? <p className="text-xs text-gray-500 leading-snug mb-1">{hint}</p> : null}
       {stat !== undefined ? (
         <p className="text-2xl font-bold text-gray-900 leading-none">{stat}</p>
       ) : null}
@@ -101,6 +106,14 @@ export function TripNavigationCards({
   const whatsappMessage = `Olá! Gostaria de falar com um especialista sobre minha viagem${destination ? ` para ${destination}` : ""}.`;
   const whatsappUrl = `https://wa.me/5551993582462?text=${encodeURIComponent(whatsappMessage)}`;
 
+  const { data: itinerary, isLoading: itineraryLoading } = useSWR(
+    tripId ? `trip-itinerary-presence-${tripId}` : null,
+    () => TripsApiService.getItineraryIfPresent(tripId),
+    { revalidateOnFocus: false }
+  );
+
+  const hasItinerary = itinerary != null;
+
   return (
     <>
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 w-full">
@@ -151,9 +164,15 @@ export function TripNavigationCards({
         />
         <NavCard
           title="Itinerário"
-          //href={`${base}/itinerario`}
-          disabled
-          badge="Em breve"
+          href={hasItinerary ? `${base}/itinerario` : undefined}
+          disabled={itineraryLoading || !hasItinerary}
+          hint={
+            itineraryLoading
+              ? undefined
+              : hasItinerary
+                ? undefined
+                : "Converse com um especialista para montar seu itinerário."
+          }
           icon={
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
               <path
