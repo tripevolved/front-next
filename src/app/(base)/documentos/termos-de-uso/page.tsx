@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 const PLAIN_TERMS = [
   {
     title: 'O que fazemos?',
-    content: 'Somos uma agência de viagens especializada em viagens personalizadas. Entendemos seu perfil e preferências e cuidamos do planejamento completo: passagens, hospedagem, aluguel de veículos, traslados, ingressos e o que mais for preciso. Operamos pelo Círculo Evolved, um serviço por assinatura com especialista dedicado e valores sem comissão — sem taxas escondidas.',
+    content: 'Somos uma agência de viagens especializada em curadoria de hospedagens e experiências. Operamos através do Círculo Evolved, um serviço por assinatura com benefícios específicos e valores sem comissão ou taxas escondidas.',
   },
   {
     title: 'Como funciona a plataforma?',
-    content: 'Você acessa o site, recebe recomendações personalizadas ou escolhe entre as opções disponíveis. Para contratar viagens ou serviços, é necessário ter cadastro aprovado na plataforma. A Trip Evolved atua como intermediadora: planejamos e organizamos, mas a execução dos serviços (transporte, hospedagem, etc.) é responsabilidade dos fornecedores contratados.',
+    content: 'Você acessa o site, recebe recomendações personalizadas ou escolhe entre as opções disponíveis. Para contratar viagens ou serviços, é necessário ter cadastro aprovado na plataforma. A Trip Evolved atua como agência de viagens, com cadastro junto ao Cadastur: intermediamos a sua reserva e vamos fazer o possível para te dar o suporte necessário, mas a execução dos serviços (transporte, hospedagem, etc.) é responsabilidade dos fornecedores contratados.',
   },
   {
     title: 'É pago?',
@@ -83,7 +83,7 @@ export default function TermosDeUsoPage() {
             acesse o documento completo.
           </p>
           <Link
-            href="https://drive.google.com/file/d/1bUY43MzwsiCSZMYUm6xwjfwTC0JKpTfr/view?usp=sharing"
+            href="https://drive.google.com/file/d/12edWYaHkeov6x5Uw3gAVTQhb2RSzOmv6/view?usp=sharing"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block font-baloo font-semibold bg-accent-500 text-white px-8 py-3 rounded-full hover:bg-accent-600 transition-colors"
