@@ -1,15 +1,22 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { QuizQuestionShell } from '../QuizQuestionShell'
 import { isMultiSelectAnswer } from '../answers'
-import type { MultiSelectQuestion, QuizQuestionRendererProps, SelectOption } from '../types'
+import type { MultiSelectQuestion, QuizQuestionRendererProps, QuizAnswers, SelectOption } from '../types'
 
 type Props = QuizQuestionRendererProps & { question: MultiSelectQuestion }
+
+/** Serialize answers excluding this question so selection changes do not re-fetch options. */
+function loaderDepsKey(questionId: string, answers: QuizAnswers): string {
+  const { [questionId]: _ignored, ...upstreamAnswers } = answers
+  return JSON.stringify(upstreamAnswers)
+}
 
 export function MultiSelectQuestion({
   question,
   value,
+  answers,
   onChange,
   onNext,
   onBack,
@@ -22,14 +29,22 @@ export function MultiSelectQuestion({
   const selected = isMultiSelectAnswer(value) ? value.values : []
   const maxSelections = question.maxSelections ?? 5
 
+  const optionsLoaderKey = useMemo(() => {
+    if (!question.optionsLoader) return null
+    if (question.optionsLoaderDeps) {
+      return JSON.stringify(question.optionsLoaderDeps(answers))
+    }
+    return loaderDepsKey(question.id, answers)
+  }, [question, answers])
+
   useEffect(() => {
-    if (!question.optionsLoader) return
+    if (!question.optionsLoader || optionsLoaderKey == null) return
 
     let cancelled = false
     const load = async () => {
       setLoading(true)
       try {
-        const loaded = await question.optionsLoader!()
+        const loaded = await question.optionsLoader!(answers)
         if (!cancelled) setOptions(loaded)
       } catch {
         if (!cancelled) setOptions([])
@@ -42,7 +57,8 @@ export function MultiSelectQuestion({
     return () => {
       cancelled = true
     }
-  }, [question.optionsLoader])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- reload when upstream answers change, not current selections
+  }, [question.optionsLoader, optionsLoaderKey])
 
   const handleToggle = (id: string) => {
     if (selected.includes(id)) {

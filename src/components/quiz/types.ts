@@ -86,7 +86,9 @@ export type SingleSelectQuestion = BaseQuestion & {
 export type MultiSelectQuestion = BaseQuestion & {
   type: 'multi-select'
   options?: SelectOption[]
-  optionsLoader?: () => Promise<SelectOption[]>
+  optionsLoader?: (answers: QuizAnswers) => Promise<SelectOption[]>
+  /** When set, only these deps trigger a reload (defaults to all answers except this question). */
+  optionsLoaderDeps?: (answers: QuizAnswers) => unknown
   minSelections?: number
   maxSelections?: number
 }
