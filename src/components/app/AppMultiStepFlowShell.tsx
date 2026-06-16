@@ -15,6 +15,8 @@ type Props = {
   /** When set, exit/back-on-first-step use this callback instead of navigation links (e.g. modal flows). */
   onExit?: () => void;
   exitLabel?: string;
+  /** When false, hides the top-right exit control. Default true. */
+  showExit?: boolean;
   children: React.ReactNode;
 };
 
@@ -30,6 +32,7 @@ export function AppMultiStepFlowShell({
   exitHref = "/app",
   onExit,
   exitLabel = "Voltar ao painel",
+  showExit = true,
   children,
 }: Props) {
   const exitControl =
@@ -59,8 +62,8 @@ export function AppMultiStepFlowShell({
   return (
     <div className="flex flex-col flex-1 min-h-0 bg-white overflow-hidden">
       <header className="shrink-0 border-b border-secondary-200 p-5">
-        <div className="grid grid-cols-[auto,1fr,auto] items-start gap-4">
-          <div className="min-w-[96px]">
+        <div className="grid grid-cols-[auto,1fr,auto] items-center gap-x-3 gap-y-0">
+          <div className="shrink-0">
             {showBack ? (
               <button
                 type="button"
@@ -86,14 +89,28 @@ export function AppMultiStepFlowShell({
               </Link>
             )}
           </div>
-          <div className="min-w-0 text-center">
-            <p className="font-comfortaa text-xs text-secondary-500">{categoryLabel}</p>
-            <h1 className="font-baloo text-xl font-bold text-secondary-900 leading-tight">{title}</h1>
-            <p className="font-comfortaa text-xs text-secondary-500 mt-1">
-              Passo {step} de {totalSteps}
-            </p>
+          <p className="min-w-0 text-center font-comfortaa text-xs text-secondary-500 truncate px-1">
+            {categoryLabel}
+          </p>
+          <div className="shrink-0 flex justify-end">
+            {showExit ? (
+              exitControl
+            ) : (
+              <div
+                className="invisible h-10 px-4 inline-flex items-center font-comfortaa text-sm font-semibold"
+                aria-hidden
+              >
+                {"< Voltar"}
+              </div>
+            )}
           </div>
-          {exitControl}
+        </div>
+
+        <div className="mt-3 text-center min-w-0">
+          <h1 className="font-baloo text-xl font-bold text-secondary-900 leading-tight">{title}</h1>
+          <p className="font-comfortaa text-xs text-secondary-500 mt-1">
+            Passo {step} de {totalSteps}
+          </p>
         </div>
 
         <div className="mt-5 flex justify-between gap-2">

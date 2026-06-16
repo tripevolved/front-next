@@ -3,9 +3,16 @@ import Image from "next/image";
 type Props = {
   children: React.ReactNode;
   showLeftColumn?: boolean;
+  leftImage?: { src: string; alt?: string };
 };
 
-export function ProposalFlowPageLayout({ children, showLeftColumn = false }: Props) {
+const DEFAULT_LEFT_IMAGE = { src: "/assets/trip/trip-cover.png", alt: "" };
+
+export function ProposalFlowPageLayout({
+  children,
+  showLeftColumn = false,
+  leftImage = DEFAULT_LEFT_IMAGE,
+}: Props) {
   if (showLeftColumn) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -13,8 +20,8 @@ export function ProposalFlowPageLayout({ children, showLeftColumn = false }: Pro
           <div className="hidden lg:flex lg:w-[45%] lg:min-h-screen lg:shrink-0 bg-primary-600 items-center justify-center p-8">
             <div className="relative w-full max-w-md aspect-[4/3]">
               <Image
-                src="/assets/trip/trip-cover.png"
-                alt=""
+                src={leftImage.src}
+                alt={leftImage.alt ?? ""}
                 fill
                 className="object-contain object-center"
                 priority

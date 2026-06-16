@@ -166,7 +166,7 @@ export default function Footer() {
             />
           </div>
           <div className="text-white/60 text-xs">
-            Copyright © 2025 Trip Evolved. Todos os direitos reservados.
+            Copyright © 2026 Trip Evolved. Todos os direitos reservados.
           </div>
         </div>
       </div>
