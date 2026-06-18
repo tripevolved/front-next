@@ -91,13 +91,16 @@ export default function CruiseShipDetailsModal({
                   />
                 </div>
               )}
-              <div className="flex flex-col gap-1 px-2">
+              <div className="flex flex-col gap-1 px-2 min-w-0">
                 <h1 className="font-bold text-primary-500 text-xl">{details.name}</h1>
                 {details.company && (
                   <span className="text-gray-500">{details.company}</span>
                 )}
                 {details.description && (
-                  <p className="text-gray-600 text-sm mt-2">{details.description}</p>
+                  <div
+                    className="text-gray-600 text-sm mt-2 prose prose-sm max-w-none min-w-0 overflow-hidden break-words [overflow-wrap:anywhere] prose-p:text-gray-600 prose-ul:text-gray-600 prose-ol:text-gray-600 prose-li:text-gray-600 prose-p:my-1 prose-p:break-words prose-li:break-words [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_iframe]:max-w-full [&_*]:whitespace-normal"
+                    dangerouslySetInnerHTML={{ __html: details.description }}
+                  />
                 )}
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-2">

@@ -247,7 +247,7 @@ export default function CruiseDetailsBody({
                       <Image src={imageUrl} alt={imageAlt} fill className="object-cover" />
                     </div>
 
-                    <div className="flex flex-col gap-1 flex-1">
+                    <div className="flex flex-col gap-1 flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-primary-500">
                           {getDayLabel(item) || `Dia ${index + 1}`}
@@ -268,9 +268,12 @@ export default function CruiseDetailsBody({
                       {item.highlight && <p className="text-sm text-accent-500 font-medium">{item.highlight}</p>}
 
                       {item.description && (
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col gap-1 min-w-0">
                           {expandedDescriptions.has(index) && (
-                            <p className="text-sm text-gray-500">{item.description}</p>
+                            <div
+                              className="text-sm text-gray-500 prose prose-sm max-w-none min-w-0 overflow-hidden break-words [overflow-wrap:anywhere] prose-p:text-gray-500 prose-ul:text-gray-500 prose-ol:text-gray-500 prose-li:text-gray-500 prose-p:my-1 prose-p:break-words prose-li:break-words [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_iframe]:max-w-full [&_*]:whitespace-normal"
+                              dangerouslySetInnerHTML={{ __html: item.description }}
+                            />
                           )}
                           <button
                             onClick={() => toggleDescription(index)}
