@@ -13,9 +13,17 @@ type CruiseDetailsModalProps = {
   isOpen: boolean;
   handleClose: () => void;
   uniqueName?: string;
+  startDate?: string;
+  endDate?: string;
 };
 
-export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: CruiseDetailsModalProps) {
+export default function CruiseDetailsModal({
+  isOpen,
+  handleClose,
+  uniqueName,
+  startDate,
+  endDate,
+}: CruiseDetailsModalProps) {
   const router = useRouter();
   const [cruiseDetails, setCruiseDetails] = useState<CruiseDetails | null>(null);
   const [loading, setLoading] = useState(false);
@@ -30,7 +38,7 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
     if (isOpen && uniqueName) {
       setLoading(true);
       setError(null);
-      CruisesApiService.getCruiseByUniqueName(uniqueName)
+      CruisesApiService.getCruiseByUniqueName(uniqueName, { startDate, endDate })
         .then((data) => {
           setCruiseDetails(data);
           setLoading(false);
@@ -46,7 +54,7 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
       setError(null);
       setExpandedDescriptions(new Set());
     }
-  }, [isOpen, uniqueName]);
+  }, [isOpen, uniqueName, startDate, endDate]);
 
   const toggleDescription = (index: number) => {
     setExpandedDescriptions((prev) => {
@@ -95,8 +103,17 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
     };
   };
 
+  const pageHref = (() => {
+    if (!uniqueName) return "#";
+    const params = new URLSearchParams();
+    if (startDate) params.set("startDate", startDate);
+    if (endDate) params.set("endDate", endDate);
+    const query = params.toString();
+    return `/cruzeiros-extraordinarios/${uniqueName}${query ? `?${query}` : ""}`;
+  })();
+
   if (!isOpen) return null;
-  
+
   return (
     <div>
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -104,7 +121,7 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
           <div className="absolute top-4 right-4 flex items-center gap-3 z-10">
             {uniqueName && (
               <Link
-                href={`/cruzeiros-extraordinarios/${uniqueName}`}
+                href={pageHref}
                 className="flex items-center gap-1.5 text-primary-500 hover:text-primary-600 text-sm font-medium transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -148,7 +165,7 @@ export default function CruiseDetailsModal({ isOpen, handleClose, uniqueName }: 
                     if (uniqueName) {
                       setLoading(true);
                       setError(null);
-                      CruisesApiService.getCruiseByUniqueName(uniqueName)
+                      CruisesApiService.getCruiseByUniqueName(uniqueName, { startDate, endDate })
                         .then((data) => {
                           setCruiseDetails(data);
                           setLoading(false);

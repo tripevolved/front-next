@@ -11,6 +11,22 @@ export interface CruiseData {
   departureDate: Date;
   arrivalDate: Date;
   highlights: string[];
+  hasOtherDates?: boolean;
+}
+
+export interface CruiseDateParams {
+  startDate?: string;
+  endDate?: string;
+}
+
+export function formatCruiseDateParam(date: Date | string): string {
+  if (typeof date === "string") {
+    return date.split("T")[0];
+  }
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 interface CruisePrice {
@@ -141,8 +157,15 @@ export interface CruiseGastronomy {
   type?: string;
 }
 
-export const getCruiseByUniqueName = async (uniqueName: string) => {
-  const route = `cruises/${uniqueName}`;
+export const getCruiseByUniqueName = async (
+  uniqueName: string,
+  { startDate, endDate }: CruiseDateParams = {},
+) => {
+  const params = new URLSearchParams();
+  if (startDate) params.set("startDate", startDate);
+  if (endDate) params.set("endDate", endDate);
+  const query = params.toString();
+  const route = query ? `cruises/${uniqueName}?${query}` : `cruises/${uniqueName}`;
   return ApiRequest.get<CruiseDetails>(route);
 };
 

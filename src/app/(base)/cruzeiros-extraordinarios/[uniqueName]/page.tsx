@@ -4,19 +4,22 @@ import CruiseDetailPage from "@/components/cruises/CruiseDetailPage";
 
 type Props = {
   params: Promise<{ uniqueName: string }>;
+  searchParams: Promise<{ startDate?: string; endDate?: string }>;
 };
 
-async function getCruise(uniqueName: string) {
+async function getCruise(uniqueName: string, startDate?: string, endDate?: string) {
   try {
-    return await CruisesApiService.getCruiseByUniqueName(uniqueName);
+    return await CruisesApiService.getCruiseByUniqueName(uniqueName, { startDate, endDate });
   } catch {
     return null;
   }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   try {
-    const cruise = await getCruise((await params).uniqueName);
+    const { uniqueName } = await params;
+    const { startDate, endDate } = await searchParams;
+    const cruise = await getCruise(uniqueName, startDate, endDate);
 
     if (!cruise) {
       return {
@@ -59,8 +62,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function CruisePage({ params }: Props) {
+export default async function CruisePage({ params, searchParams }: Props) {
   const { uniqueName } = await params;
+  const { startDate, endDate } = await searchParams;
 
-  return <CruiseDetailPage uniqueName={uniqueName} />;
+  return (
+    <CruiseDetailPage uniqueName={uniqueName} startDate={startDate} endDate={endDate} />
+  );
 }

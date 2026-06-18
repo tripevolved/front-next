@@ -11,9 +11,11 @@ import CruiseDetailsBody from "./CruiseDetailsBody";
 
 type CruiseDetailPageProps = {
   uniqueName: string;
+  startDate?: string;
+  endDate?: string;
 };
 
-export default function CruiseDetailPage({ uniqueName }: CruiseDetailPageProps) {
+export default function CruiseDetailPage({ uniqueName, startDate, endDate }: CruiseDetailPageProps) {
   const router = useRouter();
   const [cruiseDetails, setCruiseDetails] = useState<CruiseDetails | null>(null);
   const [loading, setLoading] = useState(false);
@@ -28,7 +30,7 @@ export default function CruiseDetailPage({ uniqueName }: CruiseDetailPageProps) 
     if (uniqueName) {
       setLoading(true);
       setError(null);
-      CruisesApiService.getCruiseByUniqueName(uniqueName)
+      CruisesApiService.getCruiseByUniqueName(uniqueName, { startDate, endDate })
         .then((data) => {
           setCruiseDetails(data);
           setLoading(false);
@@ -39,7 +41,7 @@ export default function CruiseDetailPage({ uniqueName }: CruiseDetailPageProps) 
           setLoading(false);
         });
     }
-  }, [uniqueName]);
+  }, [uniqueName, startDate, endDate]);
 
   const toggleDescription = (index: number) => {
     setExpandedDescriptions((prev) => {
@@ -117,7 +119,7 @@ export default function CruiseDetailPage({ uniqueName }: CruiseDetailPageProps) 
                 onClick={() => {
                   setLoading(true);
                   setError(null);
-                  CruisesApiService.getCruiseByUniqueName(uniqueName)
+                  CruisesApiService.getCruiseByUniqueName(uniqueName, { startDate, endDate })
                     .then((data) => {
                       setCruiseDetails(data);
                       setLoading(false);

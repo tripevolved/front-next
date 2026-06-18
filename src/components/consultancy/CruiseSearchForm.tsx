@@ -3,8 +3,8 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
 import Button from '@/components/common/Button'
 import { CruisesApiService } from '@/clients/cruises'
-import type { CruiseData } from '@/clients/cruises/cruises'
-import type { CruisesSearchParams } from '@/clients/cruises/cruises'
+import type { CruiseData, CruisesSearchParams } from '@/clients/cruises/cruises'
+import { formatCruiseDateParam } from '@/clients/cruises/cruises'
 import { CruiseCard } from '@/components/cruises/CruiseCard'
 import CruiseDetailsModal from '@/components/cruises/CruiseDetailsModal'
 import Image from 'next/image'
@@ -130,6 +130,15 @@ export default function CruiseSearchForm({ onCtaClick }: CruiseSearchFormProps) 
   const handleCloseCruiseModal = () => {
     setSelectedCruiseUniqueName(undefined)
   }
+
+  const selectedCruise = cruises.find((cruise) => cruise.uniqueName === selectedCruiseUniqueName)
+
+  const selectedCruiseStartDate = selectedCruise?.departureDate
+    ? formatCruiseDateParam(selectedCruise.departureDate)
+    : undefined
+  const selectedCruiseEndDate = selectedCruise?.arrivalDate
+    ? formatCruiseDateParam(selectedCruise.arrivalDate)
+    : undefined
 
   const toggleDestination = (value: string) => {
     setDestinations(prev => {
@@ -367,6 +376,8 @@ export default function CruiseSearchForm({ onCtaClick }: CruiseSearchFormProps) 
           isOpen={!!selectedCruiseUniqueName}
           handleClose={handleCloseCruiseModal}
           uniqueName={selectedCruiseUniqueName}
+          startDate={selectedCruiseStartDate}
+          endDate={selectedCruiseEndDate}
         />
       )}
     </section>
