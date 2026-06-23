@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios'
 import { useCallback, useMemo, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { ProposalFlowPageLayout } from '@/components/app/ProposalFlowPageLayout'
@@ -37,12 +38,20 @@ export function CollectionQuizFlow() {
       setWinningSlug(slug)
 
       if (knownEmail) {
-        await submitCollectionQuizLead({
-          email: knownEmail,
-          answers: quizAnswers,
-          winningSlug: slug,
-        })
-        setPhase('result')
+        try {
+          await submitCollectionQuizLead({
+            email: knownEmail,
+            answers: quizAnswers,
+            winningSlug: slug,
+          })
+          setPhase('result')
+        } catch (error) {
+          if (axios.isAxiosError(error) && error.response?.status === 400) {
+            setPhase('lead')
+          } else {
+            throw error
+          }
+        }
         return
       }
 
