@@ -5,10 +5,12 @@ export interface PublicAccommodation {
   subtitle: string | null;
   destination: string;
   description: string;
+  curatorshipPhrase?: string | null;
   images: PublicAccommodationImage[];
   highlights: PublicAccommodationHighlight[];
   amenities: PublicAccommodationAmenity[];
   location: PublicAccommodationLocation;
+  mustKnows?: PublicAccommodationMustKnow[];
   checkInInfo?: {
     hour: string;
     instructions?: string;
@@ -20,6 +22,22 @@ export interface PublicAccommodation {
   recommendedFor: string[]; // e.g., ["Casais", "Lua de mel", "Romântico"]
   tags?: string[]; // e.g., ["5 estrelas", "Luxo"]
   rooms?: PublicAccommodationRoom[];
+}
+
+export type AccommodationMustKnowDeliveryType =
+  | 'CheckInOut'
+  | 'MealPlan'
+  | 'Parking'
+  | 'IdealFor'
+  | 'NonIdealFor'
+  | 'WorthInvesting'
+  | 'WhatSurprisesMost'
+  | 'RecommendedNights'
+  | 'HowToUse';
+
+export interface PublicAccommodationMustKnow {
+  type: AccommodationMustKnowDeliveryType;
+  description: string;
 }
 
 export interface PublicAccommodationImage {

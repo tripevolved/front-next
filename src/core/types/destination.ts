@@ -10,6 +10,10 @@ export interface PublicDestination {
   uniqueName: string;
   title: string;
   where?: string;
+  description?: string | null;
+  descriptionHighlight?: string | null;
+  bestTimeToVisit?: string | null;
+  howToArrive?: string | null;
   recommendedBy?: PublicDestinationExpert;
   photos: DestinationImage[];
   videos: PublicDestinationVideo[];

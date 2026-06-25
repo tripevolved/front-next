@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import type { PublicAccommodationHighlight } from "@/core/types/accommodations";
+import { getFeatureIcon } from "@/components/accommodation/icons/features/featureIconMap";
 
-const getIconPath = (iconName: string | undefined): string | null => {
+const getEmojiIconPath = (iconName: string | undefined): string | null => {
   if (!iconName) return null;
   return `/assets/emojis/${iconName}.png`;
 };
@@ -16,12 +17,7 @@ export function AccommodationHighlightsSection({
 }: {
   title: string;
   highlights: PublicAccommodationHighlight[];
-  /** When true, removes the `container` horizontal padding so the section can span the full parent width (e.g. drawers). */
   fullWidth?: boolean;
-  /**
-   * When true, applies negative horizontal margins so the gradient background can span edge-to-edge
-   * inside padded parents (like the trip drawer body `p-5 md:p-6`).
-   */
   bleedToParentPadding?: boolean;
 }) {
   if (!highlights || highlights.length === 0) return null;
@@ -40,7 +36,8 @@ export function AccommodationHighlightsSection({
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {highlights.map((highlight, index) => {
-              const iconPath = getIconPath(highlight.icon);
+              const FeatureIcon = getFeatureIcon(highlight.icon);
+              const emojiPath = getEmojiIconPath(highlight.icon);
 
               return (
                 <div
@@ -56,20 +53,22 @@ export function AccommodationHighlightsSection({
                         className="object-cover transition-transform duration-300 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                      {iconPath && (
-                        <div className="absolute top-4 right-4 w-16 h-16 bg-white rounded-full p-3 shadow-lg">
-                          <div className="relative w-full h-full">
-                            <Image src={iconPath} alt={highlight.title} fill className="object-contain" />
-                          </div>
-                        </div>
-                      )}
+                      <div className="absolute top-4 right-4 w-16 h-16 bg-white rounded-full p-3 shadow-lg flex items-center justify-center text-primary-600">
+                        <FeatureIcon className="h-8 w-8" />
+                      </div>
                     </div>
                   )}
 
                   <div className="p-6">
-                    {!highlight.imageUrl && iconPath && (
-                      <div className="w-12 h-12 mb-4 relative">
-                        <Image src={iconPath} alt={highlight.title} fill className="object-contain" />
+                    {!highlight.imageUrl && (
+                      <div className="w-12 h-12 mb-4 flex items-center justify-center text-primary-600">
+                        {emojiPath ? (
+                          <div className="relative w-full h-full">
+                            <Image src={emojiPath} alt={highlight.title} fill className="object-contain" />
+                          </div>
+                        ) : (
+                          <FeatureIcon className="h-10 w-10" />
+                        )}
                       </div>
                     )}
                     <h3 className="text-2xl font-bold mb-3 text-gray-900 group-hover:text-primary-600 transition-colors">

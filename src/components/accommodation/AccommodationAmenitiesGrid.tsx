@@ -12,24 +12,30 @@ export function AccommodationAmenitiesGrid({ amenities }: { amenities: PublicAcc
   if (!amenities || amenities.length === 0) return null;
 
   return (
-    <section>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+    <section className="w-full">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 md:gap-2.5">
         {amenities.map((amenity, index) => {
           const amenityIconPath = getAmenityIconPath(amenity.icon);
 
           return (
             <div
-              key={index}
-              className={`flex items-center bg-white p-4 rounded-lg shadow-sm border border-gray-200 ${
-                amenityIconPath ? "gap-3" : ""
+              key={`${amenity.title}-${index}`}
+              className={`flex items-center bg-white px-2.5 py-2 md:px-3 md:py-2.5 rounded-md border border-gray-200 min-w-0 ${
+                amenityIconPath ? 'gap-1.5 md:gap-2' : ''
               }`}
             >
               {amenityIconPath ? (
-                <div className="w-6 h-6 flex-shrink-0 text-primary-600">
-                  <Image src={amenityIconPath} alt={amenity.title} width={24} height={24} className="w-full h-full" />
+                <div className="w-4 h-4 flex-shrink-0 text-primary-600">
+                  <Image
+                    src={amenityIconPath}
+                    alt=""
+                    width={16}
+                    height={16}
+                    className="w-full h-full"
+                  />
                 </div>
               ) : null}
-              <span className="text-gray-700 text-sm">{amenity.title}</span>
+              <span className="text-gray-700 text-xs leading-snug break-words">{amenity.title}</span>
             </div>
           );
         })}

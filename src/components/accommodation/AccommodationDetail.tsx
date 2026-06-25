@@ -4,9 +4,9 @@ import { Suspense, useState } from 'react'
 import { PublicAccommodation } from '@/core/types/accommodations'
 import { ImageGrid } from '@/components/common/ImageGrid'
 import { AccommodationRoomsSection } from './AccommodationRoomsSection'
-import Image from 'next/image'
 import { AccommodationHighlightsSection } from '@/components/accommodation/AccommodationHighlightsSection'
 import { AccommodationAmenitiesGrid } from '@/components/accommodation/AccommodationAmenitiesGrid'
+import { AccommodationMustKnowsSection } from '@/components/accommodation/AccommodationMustKnowsSection'
 
 interface AccommodationDetailProps {
   accommodation: PublicAccommodation
@@ -14,25 +14,6 @@ interface AccommodationDetailProps {
 
 const PROSE_CONTAINED =
   'prose prose-lg max-w-none text-gray-700 overflow-hidden break-words [overflow-wrap:anywhere] [&_img]:max-w-full [&_img]:h-auto [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_iframe]:max-w-full'
-
-function buildStayInstructionsText(
-  accommodation: PublicAccommodation
-): string | null {
-  const parts: string[] = []
-  if (accommodation.checkInInfo) {
-    const { hour, instructions } = accommodation.checkInInfo
-    let s = `Check-in previsto às ${hour}`
-    s += instructions ? `. ${instructions}` : '.'
-    parts.push(s)
-  }
-  if (accommodation.checkOutInfo) {
-    const { hour, instructions } = accommodation.checkOutInfo
-    let s = `Check-out previsto às ${hour}`
-    s += instructions ? `. ${instructions}` : '.'
-    parts.push(s)
-  }
-  return parts.length > 0 ? parts.join(' ') : null
-}
 
 function scrollToAccommodationRooms() {
   document.getElementById('accommodation-rooms')?.scrollIntoView({
@@ -56,14 +37,34 @@ function AvailabilityCtaCard() {
   )
 }
 
+function CuratorshipQuote({ phrase }: { phrase: string }) {
+  return (
+    <blockquote className="border-l-4 border-accent-500 bg-white px-5 py-4 rounded-r-xl shadow-sm">
+      <p className="font-comfortaa text-base md:text-lg text-primary-800 leading-relaxed italic">
+        &ldquo;{phrase}&rdquo;
+      </p>
+    </blockquote>
+  )
+}
+
+function BookingSidebar({ curatorshipPhrase }: { curatorshipPhrase?: string | null }) {
+  return (
+    <div className="space-y-5">
+      {curatorshipPhrase ? <CuratorshipQuote phrase={curatorshipPhrase} /> : null}
+      <AvailabilityCtaCard />
+    </div>
+  )
+}
+
 export function AccommodationDetail({ accommodation }: AccommodationDetailProps) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
   const addressLine = accommodation.location.address?.trim()
-  const stayInstructionsText = buildStayInstructionsText(accommodation)
+  const curatorshipPhrase = accommodation.curatorshipPhrase?.trim() || null
+  const mustKnows = accommodation.mustKnows ?? []
+  const hasAmenities = accommodation.amenities && accommodation.amenities.length > 0
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24 lg:pb-0">
-      {/* Hero section with image grid */}
       {accommodation.images && accommodation.images.length > 0 && (
         <ImageGrid
           images={accommodation.images.map((image) => ({
@@ -74,16 +75,13 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
         />
       )}
 
-      {/* Title and info section */}
       <div className="container mx-auto px-4 py-6">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-3">
             {accommodation.title}
           </h1>
           {accommodation.subtitle && (
-            <p
-              className={`text-xl md:text-2xl text-gray-600 ${addressLine ? 'mb-2' : 'mb-4'}`}
-            >
+            <p className={`text-xl md:text-2xl text-gray-600 ${addressLine ? 'mb-2' : 'mb-4'}`}>
               {accommodation.subtitle}
             </p>
           )}
@@ -119,23 +117,22 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
         </div>
       </div>
 
-      {/* Highlights Section - Full Width */}
       {accommodation.highlights && accommodation.highlights.length > 0 && (
         <AccommodationHighlightsSection title={accommodation.title} highlights={accommodation.highlights} />
       )}
 
-      {/* Main content */}
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-7xl mx-auto">
           <div className="mb-10 lg:hidden">
-            <AvailabilityCtaCard />
+            <BookingSidebar curatorshipPhrase={curatorshipPhrase} />
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Left column - Main content */}
             <div className="lg:col-span-2 space-y-12">
-              {/* Description */}
               <section className="min-w-0">
+                <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
+                  Como é ficar aqui?
+                </h2>
                 <div
                   className={`${PROSE_CONTAINED} ${isDescriptionExpanded ? '' : 'max-h-[40vh] overflow-hidden'}`}
                   dangerouslySetInnerHTML={{ __html: accommodation.description }}
@@ -149,44 +146,26 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
                 </button>
               </section>
 
-              {/* Amenities */}
-              {accommodation.amenities && accommodation.amenities.length > 0 && (
-                <AccommodationAmenitiesGrid amenities={accommodation.amenities} />
-              )}
-
-              {/* Instruções (check-in / check-out) */}
-              {stayInstructionsText && (
-                <section>
-                  <h2 className="text-2xl md:text-3xl font-bold mb-6 text-gray-900">
-                    Você precisa saber
-                  </h2>
-                  <div className="flex gap-4 items-center">
-                    <Image
-                      src="/assets/stays/time.png"
-                      alt=""
-                      width={28}
-                      height={28}
-                      className="flex-shrink-0"
-                    />
-                    <p className="text-gray-700 leading-relaxed min-w-0">
-                      {stayInstructionsText}
-                    </p>
-                  </div>
-                </section>
-              )}
+              {mustKnows.length > 0 ? (
+                <AccommodationMustKnowsSection mustKnows={mustKnows} />
+              ) : null}
             </div>
 
-            {/* Right column - CTA (desktop) */}
             <div className="hidden lg:block lg:justify-self-end w-full max-w-sm">
               <div className="lg:sticky lg:top-24">
-                <AvailabilityCtaCard />
+                <BookingSidebar curatorshipPhrase={curatorshipPhrase} />
               </div>
             </div>
           </div>
+
+          {hasAmenities ? (
+            <div className="mt-12 pt-12 border-t border-gray-200">
+              <AccommodationAmenitiesGrid amenities={accommodation.amenities!} />
+            </div>
+          ) : null}
         </div>
       </div>
 
-      {/* Rooms Section (`useSearchParams` requires Suspense boundary) */}
       <Suspense
         fallback={
           <section id="accommodation-rooms" className="bg-white py-8 scroll-mt-6 md:scroll-mt-8">
@@ -202,7 +181,6 @@ export function AccommodationDetail({ accommodation }: AccommodationDetailProps)
         <AccommodationRoomsSection rooms={accommodation.rooms} uniqueName={accommodation.uniqueName} />
       </Suspense>
 
-      {/* Mobile: fixed availability CTA */}
       <div
         className="fixed bottom-0 left-0 right-0 z-50 border-t border-gray-200 bg-white/95 backdrop-blur-sm px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.08)] lg:hidden"
         role="region"

@@ -1,0 +1,4 @@
+import { IconSvg } from '../IconSvg';
+export function IconLuxury({ className }: { className?: string }) {
+  return <IconSvg className={className}><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7-6.3-4.6L5.7 21l2.3-7-6-4.6h7.6L12 2z" /></IconSvg>;
+}
