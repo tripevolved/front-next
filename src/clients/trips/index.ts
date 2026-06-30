@@ -18,6 +18,10 @@ import {
   postTripAccommodationRevalidate,
   deleteTripAccommodation,
 } from "./accommodations";
+import {
+  getTripAccommodationProposals,
+  recommendTripAccommodationProposals,
+} from "./accommodation-proposals";
 import { postTripPrice } from "./price";
 import { getTripTravelers, postTripTravelers } from "./travelers";
 
@@ -46,5 +50,7 @@ export const TripsApiService = {
   createItinerary,
   postItineraryShare,
   getPublicItinerary,
-  createTripByAccommodation
+  createTripByAccommodation,
+  getTripAccommodationProposals,
+  recommendTripAccommodationProposals,
 }; 

@@ -10,7 +10,7 @@ export type TripPendingAction = {
   description: string;
   /** 1 = highest priority */
   order: number;
-  drawer?: "planning" | "base" | "accommodation";
+  drawer?: "planning" | "base" | "accommodation_proposals" | "accommodation_browse";
 };
 
 export function isTripPlanningComplete(configuration: TripConfiguration | undefined | null): boolean {
@@ -65,9 +65,9 @@ export function getTripPendingActions(
     actions.push({
       id: "accommodation",
       order: 3,
-      title: "Escolha sua hospedagem",
-      description: "Com a base definida, selecione onde você vai se hospedar nesta viagem.",
-      drawer: "accommodation",
+      title: "Veja nossas recomendações de hospedagem",
+      description: "Com a base definida, confira as hospedagens curadas para o seu perfil e escolha a ideal.",
+      drawer: "accommodation_proposals",
     });
   }
 

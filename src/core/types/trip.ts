@@ -1,4 +1,6 @@
 import { Traveler } from "./traveler";
+import type { TravelIntent } from "./travelIntent";
+import type { DestinationProposalResponse } from "./recommendations";
 
 export enum TravelerType {
   COUPLE = "COUPLE",
@@ -152,6 +154,11 @@ export interface TripMatchedDestination {
   destinationType?: DestinationType;
   features?: string[];
   details?: string;
+  whyRecommended?: string;
+  alignmentLabel?: string;
+  alignedWithIntent?: Array<{ key: string; label: string }>;
+  tradeoffs?: string[];
+  bestFor?: string[];
 }
 
 export type DestinationType =
@@ -274,4 +281,10 @@ export interface CreateTripRequest {
 
   /** Destination unique name when the traveler already chose a destination (nullable). */
   destination?: string | null
+
+  /** Funnel: structured travel intent from discovery flow */
+  travelIntent?: TravelIntent
+  metadata?: Record<string, unknown>
+  destinationProposal?: DestinationProposalResponse
+  selectedDestinationUniqueName?: string
 }

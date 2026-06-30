@@ -29,20 +29,30 @@ export function QuizQuestionShell({
   footerCentered = false,
   isSubmitting = false,
 }: Props) {
-  return (
-    <div className="p-6 flex flex-col h-full">
-      {description && <p className="text-gray-600 mb-6">{description}</p>}
-      {paragraphs?.map((text) => (
-        <p key={text} className="text-gray-600 mb-4">
-          {text}
-        </p>
-      ))}
+  const hasIntroText = Boolean(description) || Boolean(paragraphs?.length)
 
-      <div className="flex flex-col flex-grow space-y-4">{children}</div>
+  return (
+    <div className="flex flex-col flex-1 min-h-0">
+      {hasIntroText ? (
+        <div className="shrink-0 px-6 text-left space-y-2 mb-3">
+          {description ? (
+            <p className="font-comfortaa text-sm text-secondary-600 leading-relaxed">{description}</p>
+          ) : null}
+          {paragraphs?.map((text) => (
+            <p key={text} className="font-comfortaa text-sm text-secondary-600 leading-relaxed">
+              {text}
+            </p>
+          ))}
+        </div>
+      ) : null}
+
+      <div className="flex-1 min-h-0 overflow-y-auto px-6">{children}</div>
 
       {showFooter && (
         <div
-          className={`flex pt-4 mt-4 ${footerCentered ? 'justify-center' : 'justify-between'}`}
+          className={`shrink-0 flex gap-3 px-6 py-4 border-t border-secondary-200 bg-white ${
+            footerCentered ? 'justify-center' : 'justify-between'
+          }`}
         >
           {!footerCentered && canGoBack && onBack ? (
             <button

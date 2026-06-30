@@ -31,10 +31,13 @@ export function ResultsDestinationCard({
   onOpenCruiseDestinationDetails,
   onOpenAccommodationDestinationDetails,
 }: ResultsDestinationCardProps) {
-  // Get match level based on the match score
+  // Get match level based on alignment label or legacy match score
   const getMatchLevel = () => {
-    if (isMainChoice || destination.matchScore >= 90) return "muito-alto";
-    if (destination.matchScore >= 85) return "alto";
+    if (destination.alignmentLabel === "Muito alinhado" || isMainChoice) return "muito-alto";
+    if (destination.alignmentLabel === "Alinhado") return "alto";
+    if (destination.alignmentLabel === "Boa alternativa") return "bom";
+    if (isMainChoice || destination.matchScore >= 0.9) return "muito-alto";
+    if (destination.matchScore >= 0.85) return "alto";
     return "bom";
   };
 
@@ -42,6 +45,20 @@ export function ResultsDestinationCard({
 
   // Get match text and icon based on level
   const getMatchInfo = () => {
+    if (destination.alignmentLabel) {
+      const color =
+        destination.alignmentLabel === "Muito alinhado"
+          ? "bg-accent-600"
+          : destination.alignmentLabel === "Alinhado"
+            ? "bg-secondary-600"
+            : "bg-secondary-400";
+      return {
+        text: destination.alignmentLabel,
+        icon: "🎯",
+        color,
+      };
+    }
+
     switch (matchLevel) {
       case "muito-alto":
         return {
@@ -143,11 +160,24 @@ export function ResultsDestinationCard({
         {/* Title and description at bottom */}
         <div className="absolute bottom-8 left-4 right-4 text-white">
           <h2 className="text-xl font-baloo font-bold mb-1">{destination.name}</h2>
-          <div
-            className="text-white/90 text-sm line-clamp-3 !whitespace-normal break-words [overflow-wrap:anywhere] [&_*]:!whitespace-normal [&_*]:break-words"
-            // `details` comes from backend as HTML content.
-            dangerouslySetInnerHTML={{ __html: detailsHtml }}
-          />
+          {(destination.whyRecommended || destination.alignedWithIntent?.length) ? (
+            <div className="space-y-2">
+              {destination.whyRecommended && (
+                <p className="text-white/90 text-sm line-clamp-3">{destination.whyRecommended}</p>
+              )}
+              {destination.alignedWithIntent?.slice(0, 3).map((item) => (
+                <p key={typeof item === 'string' ? item : `${item.key}-${item.label}`} className="text-white/80 text-xs flex gap-1.5">
+                  <span>✓</span>
+                  <span>{typeof item === 'string' ? item : item.label}</span>
+                </p>
+              ))}
+            </div>
+          ) : (
+            <div
+              className="text-white/90 text-sm line-clamp-3 !whitespace-normal break-words [overflow-wrap:anywhere] [&_*]:!whitespace-normal [&_*]:break-words"
+              dangerouslySetInnerHTML={{ __html: detailsHtml }}
+            />
+          )}
         </div>
       </div>
     </div>

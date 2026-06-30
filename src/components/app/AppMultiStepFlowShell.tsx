@@ -61,8 +61,8 @@ export function AppMultiStepFlowShell({
 
   return (
     <div className="flex flex-col flex-1 min-h-0 bg-white overflow-hidden">
-      <header className="shrink-0 border-b border-secondary-200 p-5">
-        <div className="grid grid-cols-[auto,1fr,auto] items-center gap-x-3 gap-y-0">
+      <header className="shrink-0 px-5 pt-5 pb-4">
+        <div className="grid grid-cols-[auto,1fr,auto] items-center gap-x-3">
           <div className="shrink-0">
             {showBack ? (
               <button
@@ -89,7 +89,7 @@ export function AppMultiStepFlowShell({
               </Link>
             )}
           </div>
-          <p className="min-w-0 text-center font-comfortaa text-xs text-secondary-500 truncate px-1">
+          <p className="min-w-0 text-center font-comfortaa text-sm font-semibold text-secondary-900 truncate px-1">
             {categoryLabel}
           </p>
           <div className="shrink-0 flex justify-end">
@@ -97,23 +97,16 @@ export function AppMultiStepFlowShell({
               exitControl
             ) : (
               <div
-                className="invisible h-10 px-4 inline-flex items-center font-comfortaa text-sm font-semibold"
+                className="invisible h-10 w-10 inline-flex items-center justify-center"
                 aria-hidden
               >
-                {"< Voltar"}
+                ×
               </div>
             )}
           </div>
         </div>
 
-        <div className="mt-3 text-center min-w-0">
-          <h1 className="font-baloo text-xl font-bold text-secondary-900 leading-tight">{title}</h1>
-          <p className="font-comfortaa text-xs text-secondary-500 mt-1">
-            Passo {step} de {totalSteps}
-          </p>
-        </div>
-
-        <div className="mt-5 flex justify-between gap-2">
+        <div className="mt-4 flex justify-between gap-2">
           {stepperLabels.map((name, i) => {
             const s = i + 1;
             const isActive = s === step;
@@ -141,6 +134,7 @@ export function AppMultiStepFlowShell({
             );
           })}
         </div>
+
         <div className="mt-4 h-2 bg-secondary-200 rounded-full overflow-hidden">
           <div
             className="h-full bg-accent-500 rounded-full transition-all duration-300"
@@ -149,7 +143,16 @@ export function AppMultiStepFlowShell({
         </div>
       </header>
 
-      <div className="flex-1 min-h-0 overflow-y-auto">{children}</div>
+      <div className="shrink-0 border-b border-secondary-200" />
+
+      <div className="flex flex-col flex-1 min-h-0">
+        {title ? (
+          <div className="shrink-0 px-6 pt-4 pb-2">
+            <h2 className="font-baloo text-xl font-bold text-secondary-900 leading-snug text-left">{title}</h2>
+          </div>
+        ) : null}
+        <div className="flex flex-1 min-h-0 flex-col overflow-y-auto">{children}</div>
+      </div>
     </div>
   );
 }

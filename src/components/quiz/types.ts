@@ -37,6 +37,7 @@ export type SelectOption = {
   description?: string
   disabled?: boolean
   badge?: string
+  imageSrc?: string
 }
 
 export type RangeOption = {
@@ -91,6 +92,10 @@ export type MultiSelectQuestion = BaseQuestion & {
   optionsLoaderDeps?: (answers: QuizAnswers) => unknown
   minSelections?: number
   maxSelections?: number
+  layout?: 'chips' | 'image-cards'
+  columns?: 1 | 2 | 3 | 4
+  /** When selected, clears other selections; selecting others clears this option. */
+  exclusiveOptionId?: string
 }
 
 export type DateRangeQuestion = BaseQuestion & {

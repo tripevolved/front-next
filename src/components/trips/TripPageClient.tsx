@@ -12,6 +12,11 @@ import { TripJourneyHero } from "@/components/trips/TripJourneyHero";
 import { TripPendingActionsBanner } from "@/components/trips/TripPendingActionsBanner";
 import { TripBaseSelectionDrawer } from "@/components/trips/TripBaseSelectionDrawer";
 import { TripPendenciasDrawer } from "@/components/trips/TripPendenciasDrawer";
+import {
+  AccommodationProposalsEntry,
+  useAccommodationProposals,
+} from "@/components/trips/AccommodationProposalsEntry";
+import { AccommodationProposalsDrawer } from "@/components/trips/AccommodationProposalsDrawer";
 import { AddAccommodationDrawer } from "@/components/trips/AddAccommodationDrawer";
 import { EditTripConfigurationDrawer } from "@/components/trips/EditTripConfigurationDrawer";
 import type { TripPendingAction } from "@/utils/trips/trip-pending-actions";
@@ -72,8 +77,19 @@ export function TripPageClient({ initialTripDetails }: Props) {
 
   const [planningDrawerOpen, setPlanningDrawerOpen] = useState(false);
   const [baseDrawerOpen, setBaseDrawerOpen] = useState(false);
-  const [accommodationDrawerOpen, setAccommodationDrawerOpen] = useState(false);
+  const [proposalsDrawerOpen, setProposalsDrawerOpen] = useState(false);
+  const [browseDrawerOpen, setBrowseDrawerOpen] = useState(false);
   const [pendenciasOpen, setPendenciasOpen] = useState(false);
+
+  const hasDestination = Boolean(
+    tripDetails?.destinationUniqueName?.trim() || tripDetails?.destination?.trim()
+  );
+
+  const {
+    data: proposalsData,
+    error: proposalsError,
+    isGenerating: proposalsGenerating,
+  } = useAccommodationProposals(tripId, hasDestination);
 
   const pendingActions = useMemo(
     () => getTripPendingActions(tripDetails, accommodations),
@@ -84,12 +100,14 @@ export function TripPageClient({ initialTripDetails }: Props) {
     void mutate(["trip-details", tripId]);
     void mutate(["trip-accommodations", tripId]);
     void mutate(["trip-price", tripId]);
+    void mutate(["trip-accommodation-proposals", tripId]);
   }, [mutate, tripId]);
 
   const handleOpenDrawer = useCallback((drawer: NonNullable<TripPendingAction["drawer"]>) => {
     if (drawer === "planning") setPlanningDrawerOpen(true);
     else if (drawer === "base") setBaseDrawerOpen(true);
-    else setAccommodationDrawerOpen(true);
+    else if (drawer === "accommodation_proposals") setProposalsDrawerOpen(true);
+    else setBrowseDrawerOpen(true);
   }, []);
 
   const tripStayDates = useMemo(() => {
@@ -155,6 +173,14 @@ export function TripPageClient({ initialTripDetails }: Props) {
           tripStatus={tripDetails.status}
           configuration={tripDetails.configuration}
         />
+        {hasDestination && (
+          <AccommodationProposalsEntry
+            proposalCount={proposalsData?.proposals?.length ?? 0}
+            isGenerating={proposalsGenerating}
+            hasError={Boolean(proposalsError)}
+            onOpenProposals={() => setProposalsDrawerOpen(true)}
+          />
+        )}
         <TripNavigationCards
           tripId={tripDetails.id}
           destination={tripDetails.destination ?? undefined}
@@ -178,7 +204,7 @@ export function TripPageClient({ initialTripDetails }: Props) {
         tripId={tripId}
         relatedDestinationUniqueName={relatedUnique}
         onSaved={refreshTripData}
-        onContinueToAccommodation={() => setAccommodationDrawerOpen(true)}
+        onContinueToAccommodation={() => setProposalsDrawerOpen(true)}
       />
 
       <EditTripConfigurationDrawer
@@ -191,9 +217,23 @@ export function TripPageClient({ initialTripDetails }: Props) {
         configuration={tripDetails.configuration}
       />
 
+      <AccommodationProposalsDrawer
+        isOpen={proposalsDrawerOpen}
+        onClose={() => setProposalsDrawerOpen(false)}
+        tripId={tripId}
+        proposals={proposalsData?.proposals ?? []}
+        isLoading={proposalsGenerating}
+        loadError={Boolean(proposalsError)}
+        travelerQuery={travelerQuery}
+        stayStartDate={tripStayDates.start}
+        stayEndDate={tripStayDates.end}
+        onBrowseOther={() => setBrowseDrawerOpen(true)}
+        onTripAccommodationsChanged={refreshTripData}
+      />
+
       <AddAccommodationDrawer
-        isOpen={accommodationDrawerOpen}
-        onClose={() => setAccommodationDrawerOpen(false)}
+        isOpen={browseDrawerOpen}
+        onClose={() => setBrowseDrawerOpen(false)}
         tripId={tripId}
         relatedDestinationUniqueName={relatedUnique}
         tripDestinationLabel={tripDetails.destination}
