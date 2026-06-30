@@ -14,6 +14,7 @@ import { ImageCarousel } from '@/components/common/ImageCarousel'
 import { CircleLoader } from '@/components/common/CircleLoader'
 import { EmptyOrErrorState } from '@/components/common/EmptyOrErrorState'
 import { WhatsAppDirectButton } from '@/components/WhatsAppDirectButton'
+import { usePlanTripEligibility } from '@/hooks/usePlanTripEligibility'
 
 const PLACEHOLDER_IMAGE = '/assets/blank-image.png'
 
@@ -283,10 +284,33 @@ function TripTimelineCard({ trip, isPast }: { trip: TripListView; isPast: boolea
 }
 
 function PlanNewTripCard() {
+  const { canPlan, isLoading, blockedMessage } = usePlanTripEligibility()
+
+  if (!canPlan && !isLoading) {
+    return (
+      <div
+        className="flex flex-col items-center justify-center min-h-[120px] rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 py-8 px-4 opacity-80 cursor-not-allowed"
+        aria-disabled
+        title={blockedMessage}
+      >
+        <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mb-2">
+          <svg className="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+        </div>
+        <span className="font-baloo font-semibold text-gray-600 text-center text-sm">
+          Planejar nova viagem
+        </span>
+        <p className="mt-2 text-xs text-gray-500 text-center leading-snug max-w-xs">{blockedMessage}</p>
+      </div>
+    )
+  }
+
   return (
     <Link
       href="/app/viagens/planejar"
-      className="group flex flex-col items-center justify-center min-h-[120px] rounded-xl border-2 border-dashed border-primary-300 bg-primary-50 hover:border-primary-500 hover:bg-primary-100 transition-colors py-8"
+      className={`group flex flex-col items-center justify-center min-h-[120px] rounded-xl border-2 border-dashed border-primary-300 bg-primary-50 hover:border-primary-500 hover:bg-primary-100 transition-colors py-8 ${isLoading ? 'opacity-70 pointer-events-none' : ''}`}
+      aria-busy={isLoading}
     >
       <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center mb-2 group-hover:bg-primary-200 transition-colors">
         <svg className="w-6 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">

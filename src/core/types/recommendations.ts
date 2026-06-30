@@ -28,7 +28,7 @@ export interface PostDestinationRecommendationInput {
   travelIntent: TravelIntent
   quizAnswers: Record<string, unknown>
   optionalFreeText?: string
-  region?: string
+  region?: string | null
 }
 
 export interface AccommodationProposalRecommendation {

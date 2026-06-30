@@ -35,11 +35,10 @@ function formatMaxBudgetDisplay(value: number) {
 }
 
 type BuildParams = {
-  travelerId: string
-  onCreateTrip: (answers: Parameters<typeof mapAnswersToTripState>[0]) => Promise<void>
+  onQuizComplete: (answers: Parameters<typeof mapAnswersToTripState>[0]) => Promise<void>
 }
 
-export function buildTripPlanningQuizConfig({ travelerId, onCreateTrip }: BuildParams): QuizConfig {
+export function buildTripPlanningQuizConfig({ onQuizComplete }: BuildParams): QuizConfig {
   return {
     id: 'trip-planning',
     categoryLabel: 'Planejar viagem',
@@ -129,23 +128,8 @@ export function buildTripPlanningQuizConfig({ travelerId, onCreateTrip }: BuildP
         required: false,
         placeholder: 'Ex.: queremos descansar, comer bem e conhecer lugares com clima romântico...',
       },
-      {
-        id: TRIP_PLANNING_QUESTION_IDS.createTrip,
-        type: 'action',
-        stepLabel: 'Finalizar',
-        title: 'Criando sua viagem',
-        loadingText: 'Vamos encontrar as melhores jornadas para o seu perfil...',
-        onAction: async (answers) => {
-          if (!travelerId) {
-            throw new Error('Você precisa estar logado para criar a viagem.')
-          }
-          await onCreateTrip(answers)
-        },
-      },
     ],
-    onComplete: async () => {
-      // Submission handled by action step
-    },
+    onComplete: onQuizComplete,
   }
 }
 

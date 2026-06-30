@@ -20,6 +20,8 @@ type Props = {
   /** When set, shows a “suggestions” row above the main list (same contract as add-hospedagem). */
   relatedDestinationUniqueName?: string | null;
   onSelectDestination: (d: Destination) => void;
+  /** Highlights the currently selected destination in the list. */
+  selectedUniqueName?: string | null;
   /** Increment when the parent drawer opens so lists and pagination reset cleanly. */
   resetNonce?: number;
   /** Tighter layout for side drawer vs full page. */
@@ -29,6 +31,7 @@ type Props = {
 export function DestinationsBrowseList({
   relatedDestinationUniqueName,
   onSelectDestination,
+  selectedUniqueName = null,
   resetNonce = 0,
   compact = false,
 }: Props) {
@@ -156,6 +159,7 @@ export function DestinationsBrowseList({
                 image={destinationImage(d)}
                 profile={d.travelerProfile ?? null}
                 link="#"
+                selected={selectedUniqueName === d.uniqueName}
                 onClick={() => onSelectDestination(d)}
               />
             ))}
@@ -194,6 +198,7 @@ export function DestinationsBrowseList({
                   image={destinationImage(d)}
                   profile={d.travelerProfile ?? null}
                   link="#"
+                  selected={selectedUniqueName === d.uniqueName}
                   onClick={() => onSelectDestination(d)}
                 />
               ))}

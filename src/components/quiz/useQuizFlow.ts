@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { QuizAnswerValue, QuizAnswers, QuizConfig, QuizQuestion } from './types'
 import { isQuestionValid, validateQuestion } from './validation'
 
@@ -26,6 +26,7 @@ export function useQuizFlow(config: QuizConfig) {
   })
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const completeStartedRef = useRef(false)
 
   const activeQuestions = useMemo(
     () => filterActiveQuestions(config.questions, answers),
@@ -33,6 +34,10 @@ export function useQuizFlow(config: QuizConfig) {
   )
 
   const clampedStepIndex = Math.min(stepIndex, Math.max(0, activeQuestions.length - 1))
+
+  useEffect(() => {
+    completeStartedRef.current = false
+  }, [config.id, clampedStepIndex])
   const currentQuestion = activeQuestions[clampedStepIndex]
   const currentValue = currentQuestion ? answers[currentQuestion.id] ?? null : null
 
@@ -105,6 +110,8 @@ export function useQuizFlow(config: QuizConfig) {
     const nextQuestion = activeQuestions[clampedStepIndex + 1]
 
     if (isLastStep) {
+      if (completeStartedRef.current) return
+      completeStartedRef.current = true
       setIsSubmitting(true)
       try {
         await config.onComplete(answers)

@@ -3,6 +3,7 @@
 import { useAppStore } from "@/core/store";
 import { SupportWhatsAppCard } from "@/components/app/SupportWhatsAppCard";
 import { SubscriptionTravelersPromptCard } from "@/components/app/SubscriptionTravelersPromptCard";
+import { PlanTripCard } from "@/components/app/PlanTripCard";
 import { CollectionsCard } from "@/components/app/CollectionsCard";
 import { DestinationsExploreCard } from "@/components/app/DestinationsExploreCard";
 import { CirculoEvolvedCall } from "@/components/app/CirculoEvolvedCall";
@@ -31,7 +32,10 @@ export default function PainelPage() {
               {showTravelersSetup ? (
                 <SubscriptionTravelersPromptCard />
               ) : (
-                <DestinationsExploreCard />
+                <>
+                  <PlanTripCard />
+                  <DestinationsExploreCard />
+                </>
               )}
               <CollectionsCard />
               <SupportWhatsAppCard />

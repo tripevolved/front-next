@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAppStore } from '@/core/store'
+import { usePlanTripEligibility } from '@/hooks/usePlanTripEligibility'
 import { GLOBAL_STORE_NAME } from '@/core/configs/store.config'
 import { LocalStorageService } from '@/services/store/local-storage.service'
 import { initialAccessesState } from '@/core/store/accesses/accesses.constants'
@@ -20,6 +21,7 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
   const router = useRouter()
   const { travelerState } = useAppStore()
   const subscriptionActive = travelerState?.subscription?.status === 'Active'
+  const { canPlan, blockedMessage } = usePlanTripEligibility()
 
   const handleLogout = () => {
     setIsOpen(false)
@@ -64,9 +66,9 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
 
       {/* Full Page Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 bg-white">
+        <div className="fixed inset-0 z-50 bg-white flex flex-col min-h-0">
           {/* Header */}
-          <header className="bg-primary-500 text-white px-4 py-4 flex items-center gap-8">
+          <header className="shrink-0 bg-primary-500 text-white px-4 py-4 flex items-center gap-8">
             <button
               onClick={() => setIsOpen(false)}
               className="p-2 rounded-full bg-white/20 hover:bg-white/30 transition-colors"
@@ -87,7 +89,7 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
           </header>
 
           {/* User Profile Section */}
-          <div className="px-4 py-6 border-b border-gray-200">
+          <div className="shrink-0 px-4 py-6 border-b border-gray-200">
             <div className="flex items-center space-x-4">
               <div className="w-16 h-16 bg-primary-500/10 rounded-full flex items-center justify-center">
                 <span className="text-2xl text-primary-500 font-semibold">
@@ -108,7 +110,7 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
           </div>
 
           {/* Menu Sections */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
             {/* Sua Conta Section */}
             <div className="px-4 py-4">
               <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-3">
@@ -149,13 +151,17 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
               </h3>
               <div className="space-y-1">
                 <button
+                  type="button"
                   onClick={() => {
+                    if (!canPlan) return
                     router.push('/app/viagens/planejar')
                     setIsOpen(false)
                   }}
-                  className="w-full flex items-center px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                  disabled={!canPlan}
+                  title={!canPlan ? blockedMessage : undefined}
+                  className="w-full flex items-center px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
                 >
-                  <svg className="w-5 h-5 text-gray-600 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5 text-gray-600 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3" />
                   </svg>
                   <span className="font-medium">Planejar viagem</span>

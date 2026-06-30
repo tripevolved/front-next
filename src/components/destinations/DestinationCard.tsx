@@ -7,9 +7,10 @@ interface DestinationCardProps {
   profile?: string | null
   link: string
   onClick?: () => void
+  selected?: boolean
 }
 
-export default function DestinationCard({ title, image, profile, link, onClick }: DestinationCardProps) {
+export default function DestinationCard({ title, image, profile, link, onClick, selected = false }: DestinationCardProps) {
   const CardInner = (
     <>
       {/* Background Image */}
@@ -37,12 +38,17 @@ export default function DestinationCard({ title, image, profile, link, onClick }
     </>
   )
 
+  const cardClassName = `group block relative h-[400px] rounded-xl overflow-hidden text-left w-full ${
+    selected ? 'ring-2 ring-accent-500 ring-offset-2' : ''
+  }`
+
   if (onClick) {
     return (
       <button
         type="button"
         onClick={onClick}
-        className="group block relative h-[400px] rounded-xl overflow-hidden text-left w-full"
+        className={cardClassName}
+        aria-pressed={selected}
       >
         {CardInner}
       </button>

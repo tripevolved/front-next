@@ -15,6 +15,7 @@ export function TextQuestionComponent({
   onBack,
   canGoBack,
   canGoNext,
+  isSubmitting = false,
 }: Props) {
   const isTextarea = question.type === 'textarea'
   const initial = isTextAnswer(value) ? value.value : ''
@@ -32,6 +33,8 @@ export function TextQuestionComponent({
       onBack={onBack}
       onNext={onNext}
       nextDisabled={!canGoNext}
+      isSubmitting={isSubmitting}
+      nextLabel={isSubmitting ? 'Processando...' : 'Próximo'}
     >
       {isTextarea ? (
         <>
