@@ -19,7 +19,7 @@ const DESIGN: CirculoIncludedItem = {
 const CURADORIA: CirculoIncludedItem = {
   title: "Curadoria",
   description:
-    "Seleção de destinos, experiências e parceiros alinhados ao que você busca — cruzeiros, hospedagens e vivências que fazem sentido para você.",
+    "Seleção de destinos, experiências e parceiros alinhados ao que você busca — hospedagens e vivências que fazem sentido para você.",
 };
 
 const VALORES: CirculoIncludedItem = {

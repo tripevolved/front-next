@@ -3,7 +3,7 @@ const PILLAR_CARDS = [
   {
     title: 'Curadoria',
     description:
-      'Hospedagens, cruzeiros e experiências únicas: cada item no Círculo Evolved só é oferecido se entendemos bem e se é a melhor escolha para você',
+      'Hospedagens e experiências únicas: cada item no Círculo Evolved só é oferecido se entendemos bem e se é a melhor escolha para você',
     icon: (
       <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path

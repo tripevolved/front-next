@@ -123,7 +123,7 @@ export default function CirculoEvolvedSection({
               height={24}
               className="shrink-0 mt-0.5 w-6 h-6"
             />
-            <span><strong className="font-baloo text-white">Curadoria</strong> — Seleção de hospedagens, cruzeiros e experiências alinhados ao que você busca.</span>
+            <span><strong className="font-baloo text-white">Curadoria</strong> — Seleção de hospedagens e experiências alinhados ao que você busca.</span>
           </li>
           {subscriptionType === "total" && (
             <li className="flex gap-4 font-comfortaa text-white/90 items-start">
