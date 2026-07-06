@@ -1,14 +1,12 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import useSWR from 'swr'
 import { useAppStore } from '@/core/store'
 import { TripsApiService } from '@/clients/trips'
-import { TripProposalContent } from '@/components/results/TripProposalContent'
-import TripPlanningDecisionModal from '@/components/TripPlanningDecisionModal'
+import { TripDestinationProposalView } from '@/components/trips/TripDestinationProposalView'
 import type { TripProposal } from '@/core/types'
 
 function fetcherTripProposal(tripId: string) {
@@ -17,7 +15,6 @@ function fetcherTripProposal(tripId: string) {
 }
 
 export default function PlanejarResultsPage() {
-  const router = useRouter()
   const params = useParams()
   const id = (params?.id as string) ?? ''
 
@@ -26,9 +23,6 @@ export default function PlanejarResultsPage() {
     () => fetcherTripProposal(id),
     { revalidateOnFocus: false }
   )
-
-  const [isWantToGoModalOpen, setIsWantToGoModalOpen] = useState(false)
-  const selectedDestination = useRef<string>('')
 
   const hasEmptyRecommendation = Boolean(id) && tripProposal != null && !tripProposal.mainChoice
   const hasFetchFailure = !id || fetchError
@@ -92,70 +86,21 @@ export default function PlanejarResultsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Primary background top 30% */}
-      <div className="h-[30vh] min-h-[200px] bg-primary-500">
-        <div className="container mx-auto px-4 h-full flex items-center">
-          <div className="w-full max-w-4xl mx-auto flex items-center gap-3">
-            <Link
-              href="/app"
-              className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-white/50 text-white hover:text-white/90 hover:border-white/80 transition-colors flex-shrink-0"
-              aria-label="Voltar"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </Link>
-            <h1 className="text-xl md:text-2xl font-baloo font-normal text-white">
-              Sua viagem ideal é para...
-            </h1>
-          </div>
-        </div>
-      </div>
-
-      <div className="container mx-auto px-4 -mt-8 relative z-10 pb-16">
-        <TripProposalContent
-          isLoading={isLoading}
-          tripProposal={tripProposal ?? null}
-          onPlanningTripToGo={setIsWantToGoModalOpen}
-          selectedDestinationRef={selectedDestination}
-        />
-
-        <div className="text-center mt-12">
-          <Link
-            href="/app/viagens/planejar"
-            className="text-primary-600 hover:text-primary-700 text-sm font-medium"
-          >
-            Planejar novamente
-          </Link>
-        </div>
-      </div>
-
-      <TripPlanningDecisionModal
-        isOpen={isWantToGoModalOpen}
-        onClose={() => {
-          selectedDestination.current = ''
-          setIsWantToGoModalOpen(false)
-        }}
-        selectedDestination={selectedDestination.current}
-        onContactExpert={() => {}}
-        onWantToGo={async (destinationId: string) => {
-          if (!id || !destinationId) return
-          try {
-            await TripsApiService.setDestinationIdForTrip({
-              tripId: id,
-              tripDestination: { destinationId },
-            })
-            selectedDestination.current = ''
-            setIsWantToGoModalOpen(false)
-            router.push(`/app/viagens/${id}/itinerario`)
-          } catch (err) {
-            console.error('Failed to set destination for trip:', err)
-          }
-        }}
-        isPublic={false}
-        showShareButton={false}
+    <>
+      <TripDestinationProposalView
+        tripId={id}
+        tripProposal={tripProposal ?? null}
+        isLoading={isLoading}
       />
-    </div>
+
+      <div className="text-center py-12 bg-white">
+        <Link
+          href="/app/viagens/planejar"
+          className="text-primary-600 hover:text-primary-700 text-sm font-medium"
+        >
+          Planejar novamente
+        </Link>
+      </div>
+    </>
   )
 }

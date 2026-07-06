@@ -1,5 +1,6 @@
 'use client'
 
+import type { ReactNode } from 'react'
 import Image from 'next/image'
 import type { DestinationProposalResponse } from '@/core/types/recommendations'
 import Button from '@/components/common/Button'
@@ -14,6 +15,9 @@ type Props = {
   selectedUniqueName: string | null
   onSelect: (uniqueName: string) => void
   onContinue: () => void
+  continueLabel?: string
+  isContinueLoading?: boolean
+  topBar?: ReactNode
   compact?: boolean
   eyebrow?: string
   title?: string
@@ -27,6 +31,9 @@ export function DestinationProposalScreen({
   selectedUniqueName,
   onSelect,
   onContinue,
+  continueLabel = 'Continuar com este destino',
+  isContinueLoading = false,
+  topBar,
   compact = false,
   eyebrow = DEFAULT_EYEBROW,
   title = DEFAULT_TITLE,
@@ -37,6 +44,11 @@ export function DestinationProposalScreen({
 
   return (
     <div className={`flex flex-col flex-1 bg-white ${compact ? 'min-h-0' : 'min-h-screen'}`}>
+      {topBar ? (
+        <div className="shrink-0 border-b border-secondary-200 px-6 py-4">
+          {topBar}
+        </div>
+      ) : null}
       {compact ? (
         <div className="shrink-0 border-b border-secondary-200 p-6 text-center">
           <p className="font-comfortaa text-xs text-secondary-500">{eyebrow}</p>
@@ -90,10 +102,10 @@ export function DestinationProposalScreen({
 
         <Button
           onClick={onContinue}
-          disabled={!selectedUniqueName}
+          disabled={!selectedUniqueName || isContinueLoading}
           className="w-full font-baloo bg-accent-500 text-white py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all disabled:opacity-50"
         >
-          Continuar com este destino
+          {isContinueLoading ? 'Salvando destino...' : continueLabel}
         </Button>
       </div>
     </div>

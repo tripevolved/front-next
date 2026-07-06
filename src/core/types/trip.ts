@@ -175,8 +175,12 @@ export type DestinationType =
   | "CONTINENT";
 
 export interface TripProposal {
+  tripId?: string;
   mainChoice: TripMatchedDestination;
   otherChoices?: TripMatchedDestination[] | null;
+
+  destinationProposal?: DestinationProposalResponse | null;
+  intentSummary?: string | null;
 }
 
 export interface TripAbstract {
