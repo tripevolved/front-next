@@ -1,4 +1,5 @@
 import { getAccommodationByUniqueName, getAccommodationByDestinationUniqueName } from "./public";
+import { getAccommodationExtended } from "./extended";
 import { getAccommodationAvailabilityByDestination } from "./by-destination-availability";
 import { getAccommodationsByCollection } from "./by-collection";
 import { getAccommodationsByDestinationAll } from "./by-destination-all";
@@ -20,6 +21,7 @@ export { toDateOnlyString, parseAccommodationApiDateTime } from "./availability"
 export const AccommodationsApiService = {
   getAccommodationByUniqueName,
   getAccommodationByDestinationUniqueName,
+  getAccommodationExtended,
   getAccommodationAvailabilityByDestination,
   getAccommodationsByCollection,
   getAccommodationsByDestinationAll,

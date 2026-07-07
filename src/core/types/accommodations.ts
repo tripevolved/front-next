@@ -1,4 +1,4 @@
-export interface PublicAccommodation {
+export interface PublicAccommodationPageSummary {
   id: string;
   uniqueName: string;
   title: string;
@@ -8,9 +8,7 @@ export interface PublicAccommodation {
   curatorshipPhrase?: string | null;
   images: PublicAccommodationImage[];
   highlights: PublicAccommodationHighlight[];
-  amenities: PublicAccommodationAmenity[];
   location: PublicAccommodationLocation;
-  mustKnows?: PublicAccommodationMustKnow[];
   checkInInfo?: {
     hour: string;
     instructions?: string;
@@ -19,10 +17,17 @@ export interface PublicAccommodation {
     hour: string;
     instructions?: string;
   };
-  recommendedFor: string[]; // e.g., ["Casais", "Lua de mel", "Romântico"]
-  tags?: string[]; // e.g., ["5 estrelas", "Luxo"]
+  recommendedFor: string[];
+  tags?: string[];
+}
+
+export interface PublicAccommodationExtended {
+  amenities: PublicAccommodationAmenity[];
+  mustKnows?: PublicAccommodationMustKnow[];
   rooms?: PublicAccommodationRoom[];
 }
+
+export interface PublicAccommodation extends PublicAccommodationPageSummary, PublicAccommodationExtended {}
 
 export type AccommodationMustKnowDeliveryType =
   | 'CheckInOut'

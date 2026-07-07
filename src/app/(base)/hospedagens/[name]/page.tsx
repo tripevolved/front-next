@@ -1,17 +1,9 @@
 import { Metadata } from 'next'
-import { AccommodationsApiService } from '@/clients/accommodations'
+import { getAccommodationPageSummary } from '@/services/api/server-travel-api'
 import { AccommodationDetail } from '@/components/accommodation/AccommodationDetail'
 
 type Props = {
   params: Promise<{ name: string }>
-}
-
-async function getAccommodation(uniqueName: string) {
-  try {
-    return await AccommodationsApiService.getAccommodationByUniqueName(uniqueName)
-  } catch (error) {
-    throw new Error(`Failed to fetch accommodation ${error instanceof Error ? error.message : 'Unknown error'}`)
-  }
 }
 
 /** Plain text for meta tags when subtitle may contain HTML */
@@ -21,7 +13,7 @@ function plainTextForMeta(htmlOrText: string): string {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
-    const accommodation = await getAccommodation((await params).name)
+    const accommodation = await getAccommodationPageSummary((await params).name)
     
     if (!accommodation) {
       return {
@@ -60,8 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function AccommodationPage({ params }: Props) {
-  const accommodation = await getAccommodation((await params).name)
+  const accommodation = await getAccommodationPageSummary((await params).name)
 
   return <AccommodationDetail accommodation={accommodation} />
 }
-
