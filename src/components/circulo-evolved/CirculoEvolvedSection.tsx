@@ -123,7 +123,7 @@ export default function CirculoEvolvedSection({
               height={24}
               className="shrink-0 mt-0.5 w-6 h-6"
             />
-            <span><strong className="font-baloo text-white">Curadoria</strong> — Seleção de hospedagens e experiências alinhados ao que você busca.</span>
+            <span><strong className="font-baloo text-white">Curadoria</strong> — Seleção de hospedagens e experiências alinhadas ao que você busca.</span>
           </li>
           {subscriptionType === "total" && (
             <li className="flex gap-4 font-comfortaa text-white/90 items-start">
@@ -180,7 +180,7 @@ export default function CirculoEvolvedSection({
 
         <div className="bg-white/15 border-2 border-accent-400/60 rounded-2xl p-6 max-w-2xl mx-auto mb-4 text-center">
           <p className="font-comfortaa text-white leading-relaxed">
-            Se você não recuperar o valor do Círculo Evolved em suas viagens, te devolvemos a diferença.
+            Se você não economizar pelo menos o valor da assinatura do Círculo Evolved em suas viagens, te devolvemos a diferença.
           </p>
         </div>
 

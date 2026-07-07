@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import Button from '@/components/common/Button'
 import FAQ, { detailedFAQQuestions } from '@/components/FAQ'
 import CirculoEvolvedSection from '@/components/circulo-evolved/CirculoEvolvedSection'
+import { WhatsAppDirectButton } from '@/components/WhatsAppDirectButton'
 import { CustomersService } from '@/clients/customers'
 import type { SubscriptionsResponse } from '@/clients/customers'
 
@@ -13,6 +14,10 @@ const CHECKOUT_PATH = '/app/circulo-evolved/checkout'
 const SCROLL_CTA_TEXT = 'Ver os preços de atacado'
 const CHECKOUT_CTA_TEXT = 'Contratar o Círculo Evolved'
 const CIRCULO_SECTION_ID = 'preco'
+const CIRCULO_YOUTUBE_EMBED_URL =
+  'https://www.youtube.com/embed/Oij8XsYKb5g?si=cWiYbeViKVbJUWjW'
+const WHATSAPP_MESSAGE =
+  'Olá! Vi a página do Caribe no Círculo Evolved e ainda tenho algumas dúvidas. Podem me ajudar?'
 
 const HERO_BULLETS = [
   'Curadoria de hotéis para casais — localização e estilo certos, sem erro de escolha.',
@@ -33,13 +38,8 @@ const HOW_IT_WORKS_STEPS = [
   },
   {
     step: '3',
-    title: 'Compare os preços de atacado',
-    description: 'Veja as tarifas líquidas lado a lado com os sites públicos e decida com clareza.',
-  },
-  {
-    step: '4',
     title: 'Reserve sem comissão embutida',
-    description: 'Pague o valor líquido, sem a margem que as agências online adicionam.',
+    description: 'Pague o valor líquido, 10 a 30% menor que as plataformas tradicionais.',
   },
 ]
 
@@ -256,33 +256,30 @@ export default function CaribeCirculoPage() {
           <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-start">
             <div>
               <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-6">
-                Prova real: quanto um casal economiza no Caribe
+                Quanto um casal economiza no Caribe
               </h2>
               <p className="font-comfortaa text-lg text-secondary-700 mb-8 leading-relaxed">
-                Veja exemplos reais de comparação em resort beira-mar no Caribe — tarifa pública,
-                tarifa de site famoso e tarifa no Círculo Evolved.
+                Veja um exemplo real de comparação em resort All-Inclusive em Punta Cana — tarifa em 2 dos sites mais famosos e a tarifa no Círculo Evolved.
               </p>
               <div className="font-comfortaa text-secondary-700 space-y-2 mb-6">
-                <p className="font-semibold text-secondary-900">Exemplo de 7 noites para casal:</p>
+                <p className="font-semibold text-secondary-900">7 noites para casal em alta temporada:</p>
                 <ul className="list-none space-y-1">
-                  <li>Tarifa pública: R$7.347,00</li>
-                  <li>Tarifa &quot;membro&quot; em site famoso: R$6.681,00</li>
-                  <li>Tarifa no Círculo Evolved: R$6.186,30</li>
+                  <li>Tarifa site 1: R$18.664,00</li>
+                  <li>Tarifa site 2: R$18.512,00</li>
+                  <li>Tarifa no Círculo Evolved: R$16.218,77</li>
                 </ul>
                 <p className="font-baloo font-bold text-accent-600 text-xl mt-4">
-                  → R$ 1.160,70 de economia em uma única reserva
+                  → R$ 2.293,23 de economia em uma única reserva
                 </p>
               </div>
               <p className="text-xs text-secondary-500 font-comfortaa mb-8">
-                *Cálculos baseados em hospedagem de 7 noites em resort beira-mar 4 estrelas em
-                Curaçao. Imagem de comparação com base em hospedagem all inclusive 5 estrelas de 6
-                noites na Riviera Maya.
+                *Cálculos baseados em hospedagem de 7 noites no Breathless Punta Cana Resort & Spa, de 7 a 14 de janeiro de 2027.
               </p>
               <ScrollToCirculoCta source="Proof Section - Caribe Circulo" />
             </div>
             <div className="relative w-full overflow-hidden rounded-2xl bg-transparent shadow-xl">
               <Image
-                src="/assets/home/exemplo-trip.png"
+                src="/assets/consultoria/caribe/comparacao.png"
                 alt="Comparativo de tarifas Booking vs Círculo Evolved"
                 width={1200}
                 height={900}
@@ -299,7 +296,7 @@ export default function CaribeCirculoPage() {
           <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-12 text-center">
             Como funciona
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             {HOW_IT_WORKS_STEPS.map((item) => (
               <div
                 key={item.step}
@@ -320,25 +317,6 @@ export default function CaribeCirculoPage() {
           <div className="text-center">
             <ScrollToCirculoCta source="How It Works Section - Caribe Circulo" />
           </div>
-        </div>
-      </section>
-
-      {/* Guarantee */}
-      <section className="py-16 md:py-20 bg-secondary-900">
-        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 text-center">
-          <h2 className="font-baloo text-3xl md:text-4xl font-bold text-white mb-6">
-            Garantia clara
-          </h2>
-          <div className="bg-white/10 border-2 border-accent-400/60 rounded-2xl p-8 max-w-2xl mx-auto mb-8">
-            <p className="font-comfortaa text-white text-lg leading-relaxed">
-              Se você não recuperar o valor da assinatura em economia nas suas viagens, devolvemos a
-              diferença.
-            </p>
-          </div>
-          <ScrollToCirculoCta
-            source="Guarantee Section - Caribe Circulo"
-            className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
-          />
         </div>
       </section>
 
@@ -365,6 +343,39 @@ export default function CaribeCirculoPage() {
           <FAQ questions={detailedFAQQuestions} />
           <div className="text-center mt-12">
             <ScrollToCirculoCta source="FAQ Section - Caribe Circulo" />
+          </div>
+        </div>
+      </section>
+
+      {/* Final questions + video + WhatsApp */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+              Ainda tem dúvidas?
+            </h2>
+            <p className="font-comfortaa text-lg text-secondary-600 mb-10">
+              Assista ao vídeo e entenda como o Círculo Evolved funciona na prática. Se preferir
+              falar com alguém antes de decidir, nossa equipe responde pelo WhatsApp.
+            </p>
+            <div className="w-full aspect-video rounded-xl overflow-hidden shadow-xl mb-10">
+              <iframe
+                width="100%"
+                height="100%"
+                src={CIRCULO_YOUTUBE_EMBED_URL}
+                title="Como funciona o Círculo Evolved"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                className="h-full w-full"
+              />
+            </div>
+            <WhatsAppDirectButton
+              message={WHATSAPP_MESSAGE}
+              className="font-baloo bg-[#25D366] text-white px-8 py-3 text-lg font-semibold hover:bg-[#128C7E] border-0"
+            >
+              Falar com um especialista no WhatsApp
+            </WhatsAppDirectButton>
           </div>
         </div>
       </section>
