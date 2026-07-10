@@ -11,7 +11,7 @@ import { CustomersService } from '@/clients/customers'
 import type { SubscriptionsResponse } from '@/clients/customers'
 
 const CHECKOUT_PATH = '/app/circulo-evolved/checkout'
-const SCROLL_CTA_TEXT = 'Ver os preços de atacado'
+const SCROLL_CTA_TEXT = 'Conhecer o Círculo Evolved'
 const CHECKOUT_CTA_TEXT = 'Contratar o Círculo Evolved'
 const CIRCULO_SECTION_ID = 'preco'
 const CIRCULO_YOUTUBE_EMBED_URL =
@@ -20,8 +20,8 @@ const WHATSAPP_MESSAGE =
   'Olá! Vi a página do Caribe no Círculo Evolved e ainda tenho algumas dúvidas. Podem me ajudar?'
 
 const HERO_BULLETS = [
-  'Curadoria de hotéis para casais — localização e estilo certos, sem erro de escolha.',
-  'Acesso às mesmas tarifas de atacado que operadoras usam: 10 a 30% abaixo de Booking e Hoteis.com.',
+  'Hospedagens pré-selecionadas para casais — localização e estilo certos, sem erro de escolha.',
+  'Acesso a valores sem comissão: 10 a 30% abaixo de Booking e Hoteis.com.',
   'Se você não economizar pelo menos o valor da assinatura, devolvemos a diferença.',
 ]
 
@@ -29,12 +29,12 @@ const HOW_IT_WORKS_STEPS = [
   {
     step: '1',
     title: 'Assine o Círculo Evolved',
-    description: 'Um pagamento anual dá acesso à plataforma de tarifas de atacado e à curadoria.',
+    description: 'Um pagamento anual dá acesso à plataforma de curadoria e valores sem comissão.',
   },
   {
     step: '2',
     title: 'Escolha entre hospedagens selecionadas',
-    description: 'Hotéis no Caribe já avaliados para casais — conforto, natureza e boa gastronomia.',
+    description: 'Hotéis no Caribe já avaliados para casais com base em localização, conforto, gastronomia e outros 22 parâmetros.',
   },
   {
     step: '3',
@@ -123,12 +123,11 @@ export default function CaribeCirculoPage() {
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 relative z-10">
           <div className="max-w-3xl">
             <h1 className="font-baloo text-4xl md:text-6xl font-bold mb-6 text-white leading-tight">
-              Caribe sem complicação: hotéis escolhidos a dedo com tarifas de atacado para casais.
+              Hospedagens pré-selecionadas para casais no Caribe, com valores sem comissão
             </h1>
             <p className="text-white/90 font-comfortaa text-lg md:text-xl mb-8">
               Pare de perder horas comparando sites e correr o risco de escolher o hotel errado. O
-              Círculo Evolved reúne curadoria de hospedagens e acesso às mesmas tarifas de atacado
-              usadas por operadoras.
+              Círculo Evolved reúne curadoria de hospedagens e acesso a valores sem comissão, 10 a 30% menores.
             </p>
             <ul className="space-y-4 mb-10">
               {HERO_BULLETS.map((bullet) => (
@@ -186,9 +185,7 @@ export default function CaribeCirculoPage() {
               O Caribe chama atenção. O Círculo Evolved resolve o resto.
             </h2>
             <p className="font-comfortaa text-lg text-secondary-600">
-              Não vendemos pacote pronto nem promessa genérica de praia. Você entra em um clube de
-              tarifas de atacado, com hospedagens já selecionadas para casais que querem conforto,
-              natureza e boa gastronomia.
+              Não vendemos pacote pronto nem promessa genérica de praia. Você entra em um clube de hospedagens selecionadas para casais e sem comissões, o que significa valores 10 a 30% menores, sem descontos mirabolantes.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -219,9 +216,9 @@ export default function CaribeCirculoPage() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
-                  <h3 className="text-white font-baloo text-xl font-bold mb-2">Tarifas de atacado</h3>
+                  <h3 className="text-white font-baloo text-xl font-bold mb-2">Tarifas sem comissão</h3>
                   <p className="text-white/90 font-comfortaa">
-                    As mesmas tarifas líquidas que operadoras usam — 10 a 30% abaixo dos sites públicos.
+                  As mesmas que as agências de viagem recebem, sem qualquer taxa extra, 10 a 30% menores
                   </p>
                 </div>
               </div>
@@ -236,9 +233,9 @@ export default function CaribeCirculoPage() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6">
-                  <h3 className="text-white font-baloo text-xl font-bold mb-2">Sem comissão embutida</h3>
+                  <h3 className="text-white font-baloo text-xl font-bold mb-2">Sem taxas extras</h3>
                   <p className="text-white/90 font-comfortaa">
-                    Assinatura transparente. Você paga o valor líquido, sem financiar a margem de agências online.
+                  Assinatura transparente, anual. Nas hospedagens, você paga o valor líquido, sem nada extra.
                   </p>
                 </div>
               </div>
