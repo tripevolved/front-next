@@ -32,7 +32,6 @@ export function formatCruiseDateParam(date: Date | string): string {
 interface CruisePrice {
   amount: number;
   amountWithDiscount?: number;
-  amountWithEvolvedDiscount?: number;
   currency: string;
   cabinType: string;
 }
@@ -106,7 +105,6 @@ export interface CruiseRate {
   description?: string;
   amountPerPerson: number;
   amountPerPersonWithDiscount?: number;
-  amountPerPersonWithEvolvedDiscount?: number;
   currency: string;
   coverImage: CruiseImage;
 }

@@ -101,7 +101,6 @@ export default function CruiseRatesCarousel({ rates }: CruiseRatesCarouselProps)
               : '';
             
             const hasDiscount = rate.amountPerPersonWithDiscount != null && !isNaN(Number(rate.amountPerPersonWithDiscount)) && rate.amountPerPersonWithDiscount !== rate.amountPerPerson;
-            const hasEvolvedDiscount = rate.amountPerPersonWithEvolvedDiscount != null && !isNaN(Number(rate.amountPerPersonWithEvolvedDiscount)) && rate.amountPerPersonWithEvolvedDiscount !== rate.amountPerPerson;
             const currency = rate.currency || 'BRL';
 
             return (
@@ -130,33 +129,19 @@ export default function CruiseRatesCarousel({ rates }: CruiseRatesCarouselProps)
                         </p>
                       )}
                       <div className="flex flex-col gap-1">
-                        {(hasDiscount || hasEvolvedDiscount) && (
-                          <p className="text-gray-400 text-xs line-through">
-                            {formatPrice(rate.amountPerPerson, currency)}
-                          </p>
-                        )}
-                        {hasDiscount && (
-                          <p className={`text-gray-600 text-sm ${hasEvolvedDiscount && "line-through"}`}>
-                            <span className={`font-bold ${hasEvolvedDiscount ? "text-primary-600 line-through" : "text-accent-500 text-lg"}`}>
-                              {formatPrice(rate.amountPerPersonWithDiscount, currency)}
-                            </span>
-                            {" "}por pessoa
-                          </p>
-                        )}
-                        {hasEvolvedDiscount && (
+                        {hasDiscount ? (
                           <>
+                            <p className="text-gray-400 text-xs line-through">
+                              {formatPrice(rate.amountPerPerson, currency)}
+                            </p>
                             <p className="text-gray-600 text-sm">
                               <span className="font-bold text-accent-500 text-lg">
-                                {formatPrice(rate.amountPerPersonWithEvolvedDiscount, currency)}
+                                {formatPrice(rate.amountPerPersonWithDiscount, currency)}
                               </span>
                               {" "}por pessoa
                             </p>
-                            <p className="text-xs text-gray-500 mt-0.5">
-                              *valor exclusivo para clientes Círculo Evolved.
-                            </p>
                           </>
-                        )}
-                        {!hasDiscount && !hasEvolvedDiscount && (
+                        ) : (
                           <p className="text-gray-600 text-sm">
                             <span className="font-bold text-accent-500 text-lg">
                               {formatPrice(rate.amountPerPerson, currency)}

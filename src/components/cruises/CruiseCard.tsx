@@ -105,31 +105,33 @@ export const CruiseCard = ({ handleClick, cruise }: CruiseCardProps) => {
                 )}
               </>
             )}
-            {cruise.price && (
-              <div className="flex flex-col gap-0.5">
-                <p className="text-base font-medium italic truncate" title={cruise.price.cabinType}>
-                  {cruise.price.cabinType} a partir de
-                </p>
-                <p className="text-xs text-gray-600 line-through">
-                  {formatPriceAmount(cruise.price.amount)}
-                </p>
-                {cruise.price.amountWithDiscount != null && cruise.price.amountWithDiscount !== cruise.price.amount && (
-                  <p className="text-xs font-semibold text-primary-600 line-through">
-                    {formatPriceAmount(cruise.price.amountWithDiscount)} por pessoa
+            {cruise.price && (() => {
+              const hasDiscount =
+                cruise.price.amountWithDiscount != null &&
+                cruise.price.amountWithDiscount !== cruise.price.amount;
+
+              return (
+                <div className="flex flex-col gap-0.5">
+                  <p className="text-base font-medium italic truncate" title={cruise.price.cabinType}>
+                    {cruise.price.cabinType} a partir de
                   </p>
-                )}
-                {cruise.price.amountWithEvolvedDiscount != null && cruise.price.amountWithEvolvedDiscount !== cruise.price.amount && (
-                  <>
+                  {hasDiscount ? (
+                    <>
+                      <p className="text-xs text-gray-600 line-through">
+                        {formatPriceAmount(cruise.price.amount)}
+                      </p>
+                      <p className="text-sm font-semibold text-accent-500">
+                        {formatPriceAmount(cruise.price.amountWithDiscount!)} por pessoa
+                      </p>
+                    </>
+                  ) : (
                     <p className="text-sm font-semibold text-accent-500">
-                      {formatPriceAmount(cruise.price.amountWithEvolvedDiscount)} por pessoa
+                      {formatPriceAmount(cruise.price.amount)} por pessoa
                     </p>
-                    <p className="text-xs text-gray-500 mt-0.5">
-                      *valor exclusivo para clientes Círculo Evolved.
-                    </p>
-                  </>
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              );
+            })()}
           </div>
         </div>
         <div className="flex justify-center w-full">
