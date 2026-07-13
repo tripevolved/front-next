@@ -303,7 +303,12 @@ export function CollectionsExploreFlow() {
             travelerType={collection.travelerType}
             layout="drawer"
             onAccommodationPick={(p) => {
-              setStayPick(p);
+              if (!p.startDate || !p.endDate) return;
+              setStayPick({
+                uniqueName: p.uniqueName,
+                startDate: p.startDate,
+                endDate: p.endDate,
+              });
               setStep(3);
             }}
           />

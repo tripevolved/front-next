@@ -16,12 +16,14 @@ export interface Collection {
   images: CollectionImage[];
   travelerType: TravelerType;
   travelerProfile: string | null;
+  region?: string | null;
 }
 
 export interface GetCollectionsParams {
   travelerType?: TravelerType;
   search?: string;
   travelerProfile?: string;
+  region?: string;
   offset?: number;
   limit?: number;
 }
@@ -38,6 +40,7 @@ export const getCollections = async ({
   travelerType = "COUPLE",
   search,
   travelerProfile,
+  region,
   offset,
   limit,
 }: GetCollectionsParams = {}): Promise<CollectionsResponse> => {
@@ -46,6 +49,7 @@ export const getCollections = async ({
 
   if (search) params.set("search", search);
   if (travelerProfile) params.set("travelerProfile", travelerProfile);
+  if (region) params.set("region", region);
   if (typeof offset === "number") params.set("offset", String(offset));
   if (typeof limit === "number") params.set("limit", String(limit));
 

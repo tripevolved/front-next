@@ -3,15 +3,19 @@ import { MUST_KNOW_LABELS, mustKnowIconMap } from '@/components/accommodation/ic
 
 interface AccommodationMustKnowsSectionProps {
   mustKnows: PublicAccommodationMustKnow[];
+  title?: string;
 }
 
-export function AccommodationMustKnowsSection({ mustKnows }: AccommodationMustKnowsSectionProps) {
+export function AccommodationMustKnowsSection({
+  mustKnows,
+  title = 'Você precisa saber',
+}: AccommodationMustKnowsSectionProps) {
   const items = mustKnows.filter((item) => item.description?.trim());
   if (items.length === 0) return null;
 
   return (
     <section>
-      <h2 className="text-xl md:text-2xl font-bold mb-4 text-gray-900">Você precisa saber</h2>
+      <h2 className="text-xl md:text-2xl font-bold mb-4 text-gray-900">{title}</h2>
       <ul className="space-y-3">
         {items.map((item) => {
           const Icon = mustKnowIconMap[item.type];

@@ -9,10 +9,15 @@ import CirculoEvolvedSection from '@/components/circulo-evolved/CirculoEvolvedSe
 import { WhatsAppDirectButton } from '@/components/WhatsAppDirectButton'
 import { CustomersService } from '@/clients/customers'
 import type { SubscriptionsResponse } from '@/clients/customers'
+import { CollectionsBrowseList } from '@/components/collections/CollectionsBrowseList'
+import { CaribeCirculoCollectionsDrawer } from '@/components/collections/CaribeCirculoCollectionsDrawer'
+import * as fpixel from '@/utils/libs/fpixel'
 
 const CHECKOUT_PATH = '/app/circulo-evolved/checkout'
 const SCROLL_CTA_TEXT = 'Conhecer o Círculo Evolved'
 const CHECKOUT_CTA_TEXT = 'Contratar o Círculo Evolved'
+const ECONOMIZAR_SECTION_ID = 'economizar'
+const COLLECTIONS_SECTION_ID = 'colecoes'
 const CIRCULO_SECTION_ID = 'preco'
 const CIRCULO_YOUTUBE_EMBED_URL =
   'https://www.youtube.com/embed/Oij8XsYKb5g?si=cWiYbeViKVbJUWjW'
@@ -58,25 +63,22 @@ function CheckBullet({ children }: { children: React.ReactNode }) {
   )
 }
 
-function ScrollToCirculoCta({
-  source,
+function ScrollToSectionCta({
+  targetId,
+  children = SCROLL_CTA_TEXT,
   className = 'inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all',
 }: {
-  source: string
+  targetId: string
+  children?: React.ReactNode
   className?: string
 }) {
-  const scrollToCirculo = () => {
-    document.getElementById(CIRCULO_SECTION_ID)?.scrollIntoView({ behavior: 'smooth' })
+  const scrollToTarget = () => {
+    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
-    <Button
-      onClick={scrollToCirculo}
-      event="pre_descobrir_viagem"
-      eventOptions={{ source }}
-      className={className}
-    >
-      {SCROLL_CTA_TEXT}
+    <Button onClick={scrollToTarget} className={className}>
+      {children}
     </Button>
   )
 }
@@ -85,6 +87,8 @@ export default function CaribeCirculoPage() {
   const router = useRouter()
   const [subscriptions, setSubscriptions] = useState<SubscriptionsResponse | null>(null)
   const [subscriptionsLoading, setSubscriptionsLoading] = useState(true)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [drawerCollectionUniqueName, setDrawerCollectionUniqueName] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -102,6 +106,15 @@ export default function CaribeCirculoPage() {
       cancelled = true
     }
   }, [])
+
+  const openCollectionDrawer = (uniqueName?: string) => {
+    fpixel.event('descobrir_viagem', {
+      source: 'Collections Section - Caribe Circulo',
+      collection: uniqueName ?? undefined,
+    })
+    setDrawerCollectionUniqueName(uniqueName ?? null)
+    setDrawerOpen(true)
+  }
 
   return (
     <div className="flex flex-col">
@@ -134,13 +147,57 @@ export default function CaribeCirculoPage() {
                 <CheckBullet key={bullet}>{bullet}</CheckBullet>
               ))}
             </ul>
-            <ScrollToCirculoCta source="Hero Section - Caribe Circulo" />
+            <ScrollToSectionCta
+              targetId={ECONOMIZAR_SECTION_ID}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Proof / economizar — 2nd */}
+      <section id={ECONOMIZAR_SECTION_ID} className="scroll-mt-20 py-20 md:py-24 bg-white">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-start">
+            <div>
+              <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-6">
+                Quanto um casal economiza no Caribe
+              </h2>
+              <p className="font-comfortaa text-lg text-secondary-700 mb-8 leading-relaxed">
+                Veja um exemplo real de comparação em resort All-Inclusive em Punta Cana — tarifa em 2 dos sites mais famosos e a tarifa no Círculo Evolved.
+              </p>
+              <div className="font-comfortaa text-secondary-700 space-y-2 mb-6">
+                <p className="font-semibold text-secondary-900">7 noites para casal em alta temporada:</p>
+                <ul className="list-none space-y-1">
+                  <li>Tarifa site 1: R$18.664,00</li>
+                  <li>Tarifa site 2: R$18.512,00</li>
+                  <li>Tarifa no Círculo Evolved: R$16.218,77</li>
+                </ul>
+                <p className="font-baloo font-bold text-accent-600 text-xl mt-4">
+                  → R$ 2.293,23 de economia em uma única reserva
+                </p>
+              </div>
+              <p className="text-xs text-secondary-500 font-comfortaa mb-8">
+                *Cálculos baseados em hospedagem de 7 noites no Breathless Punta Cana Resort & Spa, de 7 a 14 de janeiro de 2027.
+              </p>
+              <ScrollToSectionCta
+                targetId={COLLECTIONS_SECTION_ID}
+              />
+            </div>
+            <div className="relative w-full overflow-hidden rounded-2xl bg-transparent shadow-xl">
+              <Image
+                src="/assets/consultoria/caribe/comparacao.png"
+                alt="Comparativo de tarifas Booking vs Círculo Evolved"
+                width={1200}
+                height={900}
+                className="h-auto w-full"
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* Pain block */}
-      <section className="py-20 md:py-24 bg-white">
+      <section className="py-20 md:py-24 bg-secondary-50">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="relative h-[420px] md:h-[520px]">
@@ -171,14 +228,16 @@ export default function CaribeCirculoPage() {
                   </span>
                 </p>
               </div>
-              <ScrollToCirculoCta source="Pain Section - Caribe Circulo" />
+              <ScrollToSectionCta
+                targetId={COLLECTIONS_SECTION_ID}
+              />
             </div>
           </div>
         </div>
       </section>
 
       {/* Solution block */}
-      <section className="py-20 md:py-24 bg-secondary-50">
+      <section className="py-20 md:py-24 bg-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="text-center mb-12 max-w-3xl mx-auto">
             <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
@@ -242,47 +301,9 @@ export default function CaribeCirculoPage() {
             </div>
           </div>
           <div className="text-center">
-            <ScrollToCirculoCta source="Solution Section - Caribe Circulo" />
-          </div>
-        </div>
-      </section>
-
-      {/* Proof block */}
-      <section className="py-20 md:py-24 bg-white">
-        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-          <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr] md:items-start">
-            <div>
-              <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-6">
-                Quanto um casal economiza no Caribe
-              </h2>
-              <p className="font-comfortaa text-lg text-secondary-700 mb-8 leading-relaxed">
-                Veja um exemplo real de comparação em resort All-Inclusive em Punta Cana — tarifa em 2 dos sites mais famosos e a tarifa no Círculo Evolved.
-              </p>
-              <div className="font-comfortaa text-secondary-700 space-y-2 mb-6">
-                <p className="font-semibold text-secondary-900">7 noites para casal em alta temporada:</p>
-                <ul className="list-none space-y-1">
-                  <li>Tarifa site 1: R$18.664,00</li>
-                  <li>Tarifa site 2: R$18.512,00</li>
-                  <li>Tarifa no Círculo Evolved: R$16.218,77</li>
-                </ul>
-                <p className="font-baloo font-bold text-accent-600 text-xl mt-4">
-                  → R$ 2.293,23 de economia em uma única reserva
-                </p>
-              </div>
-              <p className="text-xs text-secondary-500 font-comfortaa mb-8">
-                *Cálculos baseados em hospedagem de 7 noites no Breathless Punta Cana Resort & Spa, de 7 a 14 de janeiro de 2027.
-              </p>
-              <ScrollToCirculoCta source="Proof Section - Caribe Circulo" />
-            </div>
-            <div className="relative w-full overflow-hidden rounded-2xl bg-transparent shadow-xl">
-              <Image
-                src="/assets/consultoria/caribe/comparacao.png"
-                alt="Comparativo de tarifas Booking vs Círculo Evolved"
-                width={1200}
-                height={900}
-                className="h-auto w-full"
-              />
-            </div>
+            <ScrollToSectionCta
+              targetId={COLLECTIONS_SECTION_ID}
+            />
           </div>
         </div>
       </section>
@@ -312,7 +333,38 @@ export default function CaribeCirculoPage() {
             ))}
           </div>
           <div className="text-center">
-            <ScrollToCirculoCta source="How It Works Section - Caribe Circulo" />
+            <ScrollToSectionCta
+              targetId={COLLECTIONS_SECTION_ID}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Caribbean collections */}
+      <section id={COLLECTIONS_SECTION_ID} className="scroll-mt-20 py-20 md:py-24 bg-white">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <div className="text-center mb-4 max-w-3xl mx-auto">
+            <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+              Conheça as coleções do Caribe
+            </h2>
+            <p className="font-comfortaa text-lg text-secondary-600">
+              Curadoria pensada para casais — explore as hospedagens, busque tarifas e veja o valor sem comissão antes de assinar.
+            </p>
+          </div>
+          <CollectionsBrowseList
+            region="caribe"
+            treatAllAsAccessible
+            minimalCards
+            compact
+            title=""
+            onSelectCollection={(uniqueName) => openCollectionDrawer(uniqueName)}
+          />
+          <div className="text-center mt-4">
+            <ScrollToSectionCta
+              targetId={CIRCULO_SECTION_ID}
+            >
+              {CHECKOUT_CTA_TEXT}
+            </ScrollToSectionCta>
           </div>
         </div>
       </section>
@@ -339,7 +391,9 @@ export default function CaribeCirculoPage() {
           </h2>
           <FAQ questions={detailedFAQQuestions} />
           <div className="text-center mt-12">
-            <ScrollToCirculoCta source="FAQ Section - Caribe Circulo" />
+            <ScrollToSectionCta
+              targetId={COLLECTIONS_SECTION_ID}
+            />
           </div>
         </div>
       </section>
@@ -376,6 +430,15 @@ export default function CaribeCirculoPage() {
           </div>
         </div>
       </section>
+
+      <CaribeCirculoCollectionsDrawer
+        isOpen={drawerOpen}
+        onClose={() => {
+          setDrawerOpen(false)
+          setDrawerCollectionUniqueName(null)
+        }}
+        collectionUniqueName={drawerCollectionUniqueName}
+      />
     </div>
   )
 }

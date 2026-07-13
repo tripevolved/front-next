@@ -11,6 +11,8 @@ const PAGE_SIZE = 6;
 
 export type CollectionsBrowseListProps = {
   travelerType?: TravelerType;
+  /** Optional region filter (e.g. "caribe") passed to the collections API. */
+  region?: string;
   title: string;
   subtitle?: string;
   /** Tighter spacing for drawer / embedded use */
@@ -25,6 +27,7 @@ export type CollectionsBrowseListProps = {
 
 export function CollectionsBrowseList({
   travelerType = "COUPLE",
+  region,
   title,
   subtitle,
   compact = false,
@@ -51,6 +54,7 @@ export function CollectionsBrowseList({
       try {
         const response = await CollectionsApiService.getCollections({
           travelerType,
+          region,
           offset: 0,
           limit: PAGE_SIZE,
         });
@@ -69,7 +73,7 @@ export function CollectionsBrowseList({
     return () => {
       isMounted = false;
     };
-  }, [travelerType]);
+  }, [travelerType, region]);
 
   useEffect(() => {
     if (treatAllAsAccessible) {
@@ -97,6 +101,7 @@ export function CollectionsBrowseList({
     try {
       const response = await CollectionsApiService.getCollections({
         travelerType,
+        region,
         offset,
         limit: PAGE_SIZE,
       });
@@ -119,12 +124,14 @@ export function CollectionsBrowseList({
   return (
     <section className={sectionClass}>
       <div className={innerClass}>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
-          <div>
-            <h2 className={titleClass}>{title}</h2>
-            {subtitle ? <p className="font-comfortaa text-gray-600 mt-2">{subtitle}</p> : null}
+        {title ? (
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+            <div>
+              <h2 className={titleClass}>{title}</h2>
+              {subtitle ? <p className="font-comfortaa text-gray-600 mt-2">{subtitle}</p> : null}
+            </div>
           </div>
-        </div>
+        ) : null}
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">

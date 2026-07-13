@@ -1,5 +1,6 @@
 import { getAccommodationByUniqueName, getAccommodationByDestinationUniqueName } from "./public";
 import { getAccommodationExtended } from "./extended";
+import { getAccommodationCuratorship } from "./curatorship";
 import { getAccommodationAvailabilityByDestination } from "./by-destination-availability";
 import { getAccommodationsByCollection } from "./by-collection";
 import { getAccommodationsByDestinationAll } from "./by-destination-all";
@@ -22,6 +23,7 @@ export const AccommodationsApiService = {
   getAccommodationByUniqueName,
   getAccommodationByDestinationUniqueName,
   getAccommodationExtended,
+  getAccommodationCuratorship,
   getAccommodationAvailabilityByDestination,
   getAccommodationsByCollection,
   getAccommodationsByDestinationAll,
@@ -39,3 +41,4 @@ export type {
 export type { AccommodationAvailabilityConditionsRequest };
 export type { FamilyRoom } from "@/components/trip-planning/familyTypes";
 export type { AccommodationByCollectionItem, AccommodationsByCollectionResponse } from "./by-collection";
+export type { AccommodationCuratorship } from "./curatorship";

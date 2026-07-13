@@ -232,13 +232,16 @@ export default function CollectionAccommodationsSection({
   travelerType,
   layout = 'page',
   onAccommodationPick,
+  requireDatesForPick = true,
 }: {
   collectionUniqueName?: string
   destinationUniqueName?: string
   travelerType: TravelerType
   layout?: 'page' | 'drawer'
-  /** When set with dates selected, cards become actions and pass ISO date strings (yyyy-MM-dd). */
-  onAccommodationPick?: (p: { uniqueName: string; startDate: string; endDate: string }) => void
+  /** When set, cards become actions and pass ISO date strings (yyyy-MM-dd) when dates are selected. */
+  onAccommodationPick?: (p: { uniqueName: string; startDate?: string; endDate?: string }) => void
+  /** When true (default), opens the calendar if dates are missing instead of picking. */
+  requireDatesForPick?: boolean
 }) {
   const sourceKey = destinationUniqueName ?? collectionUniqueName ?? ''
   const isDestinationSource = Boolean(destinationUniqueName)
@@ -436,24 +439,26 @@ export default function CollectionAccommodationsSection({
 
   const pickPayload = useCallback(
     (uniqueName: string) => {
-      if (!onAccommodationPick || !startDate || !endDate) return
+      if (!onAccommodationPick) return
       onAccommodationPick({
         uniqueName,
-        startDate: format(startDate, 'yyyy-MM-dd'),
-        endDate: format(endDate, 'yyyy-MM-dd'),
+        startDate: startDate ? format(startDate, 'yyyy-MM-dd') : undefined,
+        endDate: endDate ? format(endDate, 'yyyy-MM-dd') : undefined,
       })
     },
     [onAccommodationPick, startDate, endDate]
   )
 
-  /** Drawer / embedded flow: never navigate to `/hospedagens`; pick dates first if missing, then advance. */
+  /** Drawer / embedded flow: never navigate to `/hospedagens`; open calendar only when dates are required by the parent flow. */
   const accommodationCardOnSelect = useCallback(
     (uniqueName: string): (() => void) | undefined => {
       if (!onAccommodationPick) return undefined
-      if (startDate && endDate) return () => pickPayload(uniqueName)
-      return () => setIsCalendarOpen(true)
+      if (requireDatesForPick && (!startDate || !endDate)) {
+        return () => setIsCalendarOpen(true)
+      }
+      return () => pickPayload(uniqueName)
     },
-    [onAccommodationPick, startDate, endDate, pickPayload]
+    [onAccommodationPick, requireDatesForPick, startDate, endDate, pickPayload]
   )
 
   const renderCatalogGrid = () => (
@@ -501,24 +506,23 @@ export default function CollectionAccommodationsSection({
   return (
     <section className={layout === 'drawer' ? 'py-8 bg-gray-50' : 'py-20 bg-white'}>
       <div className={layout === 'drawer' ? 'w-full px-4' : 'w-full md:w-[80%] mx-auto px-4 md:px-0'}>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
-          <div>
-            <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-500">Hospedagens</h2>
-            <p className="font-comfortaa text-gray-600 mt-2">
-              Nossa seleção foi feita com critério e atenção, pensando na sua melhor jornada.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-end">
+        {layout === 'drawer' ? (
+          <div className="flex flex-col items-center text-center gap-4 mb-10">
+            <div>
+              <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-500">Hospedagens</h2>
+              <p className="font-comfortaa text-gray-600 mt-2">
+                Selecione as datas para ver as tarifas sem comissão.
+              </p>
+            </div>
             <TravelerTypeToggle value={travelerType} />
-            <div className="relative w-full sm:w-auto sm:min-w-[320px]" ref={dateRangeRef}>
+            <div className="relative w-full max-w-sm" ref={dateRangeRef}>
               <input
                 type="text"
                 value={formatDateRange()}
                 onClick={() => setIsCalendarOpen((v) => !v)}
                 readOnly
                 placeholder="Selecione as datas"
-                className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-baloo cursor-pointer bg-white"
+                className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-baloo cursor-pointer bg-white text-center"
               />
               <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                 <svg
@@ -541,7 +545,7 @@ export default function CollectionAccommodationsSection({
               </div>
 
               {isCalendarOpen ? (
-                <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 p-4 left-0">
+                <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 p-4 left-1/2 -translate-x-1/2">
                   <DateRangeSelector
                     startDate={startDate}
                     endDate={endDate}
@@ -557,7 +561,65 @@ export default function CollectionAccommodationsSection({
               ) : null}
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+            <div>
+              <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-500">Hospedagens</h2>
+              <p className="font-comfortaa text-gray-600 mt-2">
+                Nossa seleção foi feita com critério e atenção, pensando na sua melhor jornada.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-end">
+              <TravelerTypeToggle value={travelerType} />
+              <div className="relative w-full sm:w-auto sm:min-w-[320px]" ref={dateRangeRef}>
+                <input
+                  type="text"
+                  value={formatDateRange()}
+                  onClick={() => setIsCalendarOpen((v) => !v)}
+                  readOnly
+                  placeholder="Selecione as datas"
+                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-baloo cursor-pointer bg-white"
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-gray-400"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                </div>
+
+                {isCalendarOpen ? (
+                  <div className="absolute z-50 mt-2 bg-white rounded-lg shadow-xl border border-gray-200 p-4 left-0">
+                    <DateRangeSelector
+                      startDate={startDate}
+                      endDate={endDate}
+                      onDateRangeChange={(update) => {
+                        setStartDate(update[0])
+                        setEndDate(update[1])
+                        if (!update[0] || !update[1]) setAvailabilityItems(null)
+                        if (update[0] && update[1]) setIsCalendarOpen(false)
+                      }}
+                      minDate={new Date()}
+                    />
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        )}
 
         {datesSelected && availabilityLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
