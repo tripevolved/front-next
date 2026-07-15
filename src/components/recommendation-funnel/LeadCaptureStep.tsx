@@ -1,15 +1,25 @@
 'use client'
 
 import LeadForm from '@/components/LeadForm'
+import type { EventType } from '@/components/basic/FacebookPixel'
 
 type Props = {
   error: string | null
   isCreating: boolean
   funnelMetadata: { key: string; value: string; keyDescription: string }[]
   onSuccess: () => void
+  event?: EventType
+  eventOptions?: Record<string, unknown>
 }
 
-export function LeadCaptureStep({ error, isCreating, funnelMetadata, onSuccess }: Props) {
+export function LeadCaptureStep({
+  error,
+  isCreating,
+  funnelMetadata,
+  onSuccess,
+  event,
+  eventOptions,
+}: Props) {
   return (
     <div className="flex flex-col flex-1 min-h-0 bg-white">
       <div className="shrink-0 border-b border-secondary-200 p-5 text-center">
@@ -32,6 +42,8 @@ export function LeadCaptureStep({ error, isCreating, funnelMetadata, onSuccess }
               submitButtonText="Criar minha viagem"
               additionalMetadata={funnelMetadata}
               onSuccess={onSuccess}
+              event={event}
+              eventOptions={eventOptions}
             />
           </>
         )}

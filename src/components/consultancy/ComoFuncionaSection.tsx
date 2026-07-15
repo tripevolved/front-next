@@ -4,9 +4,15 @@ interface ComoFuncionaSectionProps {
   source: string
   onContactClick: () => void
   mode?: 'planning' | 'consultancy'
+  ctaLabel?: string
 }
 
-export default function ComoFuncionaSection({ source, onContactClick, mode = 'planning' }: ComoFuncionaSectionProps) {
+export default function ComoFuncionaSection({
+  source,
+  onContactClick,
+  mode = 'planning',
+  ctaLabel = 'Conversar com um especialista',
+}: ComoFuncionaSectionProps) {
   const isConsultancy = mode === 'consultancy'
 
   const getTitle = () => {
@@ -258,13 +264,13 @@ export default function ComoFuncionaSection({ source, onContactClick, mode = 'pl
         <div className="text-center">
           <Button 
             onClick={onContactClick}
-            event="pre_agendar"
+            event="pre_descobrir_viagem"
             eventOptions={{
               source: `Como funciona Section - ${source}`
             }}
             className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
           >
-            Conversar com um especialista
+            {ctaLabel}
           </Button>
         </div>
       </div>

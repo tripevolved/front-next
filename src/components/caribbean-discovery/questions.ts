@@ -1,6 +1,7 @@
 'use client'
 
-import type { QuizConfig } from '@/components/quiz'
+import type { QuizAnswers, QuizConfig } from '@/components/quiz'
+import { isTextAnswer } from '@/components/quiz/answers'
 
 export const CARIBBEAN_PHASE1_IDS = {
   intro: 'intro',
@@ -12,53 +13,18 @@ export const CARIBBEAN_PHASE1_IDS = {
 
 export const CARIBBEAN_PHASE2_IDS = {
   dates: 'dates',
-  destinationPreference: 'destinationPreference',
+  budget: 'budget',
+  notes: 'notes',
 } as const
 
-const CARIBBEAN_DESTINATION_OPTIONS = [
-  {
-    id: 'open_suggestions',
-    label: 'Aceitamos sugestões',
-    imageSrc:
-      'https://res.cloudinary.com/tripevolved/image/upload/v1778575971/122491_jgga9b.jpg',
-  },
-  {
-    id: 'aruba',
-    label: 'Aruba',
-    imageSrc: 'https://res.cloudinary.com/tripevolved/image/upload/v1777498841/2012_kc3vve.jpg',
-  },
-  {
-    id: 'curacao',
-    label: 'Curaçao',
-    imageSrc: 'https://res.cloudinary.com/tripevolved/image/upload/v1780750781/1988_wxw4ru.jpg',
-  },
-  {
-    id: 'punta-cana',
-    label: 'Punta Cana',
-    imageSrc: 'https://res.cloudinary.com/tripevolved/image/upload/v1777500634/7935_wif537.jpg',
-  },
-  {
-    id: 'st-barth',
-    label: 'St. Barth',
-    imageSrc: 'https://res.cloudinary.com/tripevolved/image/upload/v1777540985/1857_le1bhw.jpg',
-  },
-  {
-    id: 'cancun',
-    label: 'Cancún',
-    imageSrc: 'https://res.cloudinary.com/tripevolved/image/upload/v1777499437/766_urgfmu.jpg',
-  },
-  {
-    id: 'bahamas',
-    label: 'Bahamas',
-    imageSrc: 'https://res.cloudinary.com/tripevolved/image/upload/v1782826392/8084_nwmswn.jpg',
-  },
-  {
-    id: 'anguilla',
-    label: 'Anguilla',
-    imageSrc:
-      'https://res.cloudinary.com/tripevolved/image/upload/v1777540554/vimdVAjhx-tElxakZxhUU9jhpsU9e9vUXBItUnHUK7mibwFtNqbC9ERiArkpZeHLtCctz7OCVCO-hpM12eiOTYdP1PkA-TcHTrjnyYc49l6sqm6ArIQ0Z4L53CcCiUzUdD4nxNvwLdjirFxQk3dJBUZJB_JqZIa-rhonkBMDK5-2v8duP6JGLpTMtHtiw65l_yt9r9i.jpg',
-  },
-] as const
+/** Budget tier unique ids → maxBudget BRL used on trip create. */
+export const CARIBBEAN_BUDGET_TIERS = {
+  custo_beneficio: 15000,
+  premium: 30000,
+  luxo: 100000,
+} as const
+
+export type CaribbeanBudgetTierId = keyof typeof CARIBBEAN_BUDGET_TIERS
 
 type BuildQuizParams = {
   onComplete: QuizConfig['onComplete']
@@ -149,7 +115,7 @@ export function buildCaribbeanPhase1QuizConfig({ onComplete, onExit }: BuildQuiz
 export function buildCaribbeanPhase2QuizConfig({ onComplete, onExit }: BuildQuizParams): QuizConfig {
   return {
     id: 'caribbean-discovery-phase2',
-    categoryLabel: 'Destinos · Caribe',
+    categoryLabel: 'Datas e orçamento · Caribe',
     leftImage: { src: '/assets/consultoria/caribe/hero.jpg', alt: 'Caribe' },
     ...drawerQuizOptions(onExit),
     questions: [
@@ -163,26 +129,36 @@ export function buildCaribbeanPhase2QuizConfig({ onComplete, onExit }: BuildQuiz
         fields: [{ key: 'maxDays', kind: 'number', label: 'Quantos dias deve durar a viagem?', min: 3, defaultFromRange: true }],
       },
       {
-        id: CARIBBEAN_PHASE2_IDS.destinationPreference,
-        type: 'multi-select',
-        stepLabel: 'Destinos',
-        title: 'Quais destinos do Caribe interessam vocês?',
-        description: 'Selecione um ou mais — ou deixem que a gente sugira.',
-        layout: 'image-cards',
-        minSelections: 1,
-        maxSelections: 7,
-        exclusiveOptionId: 'open_suggestions',
-        options: CARIBBEAN_DESTINATION_OPTIONS.map((destination) => ({
-          id: destination.id,
-          label: destination.label,
-          imageSrc: destination.imageSrc,
-        })),
+        id: CARIBBEAN_PHASE2_IDS.budget,
+        type: 'single-select',
+        stepLabel: 'Orçamento',
+        title: 'Qual o padrão de orçamento de vocês?',
+        description: 'Escolham a faixa que melhor representa a experiência desejada no Caribe.',
+        options: [
+          { id: 'custo_beneficio', label: 'Custo-benefício', icon: '⚖️' },
+          { id: 'premium', label: 'Premium', icon: '✨' },
+          { id: 'luxo', label: 'Luxo', icon: '💎' },
+        ],
+      },
+      {
+        id: CARIBBEAN_PHASE2_IDS.notes,
+        type: 'textarea',
+        stepLabel: 'Comentários',
+        title: 'Conte mais sobre a viagem',
+        description: 'Se quiserem, descrevam detalhes como estilo, ritmo, preferências e expectativas.',
+        required: false,
+        placeholder: 'Ex.: queremos um resort all-inclusive tranquilo, com boa gastronomia...',
       },
     ],
     onComplete,
   }
 }
 
-export function extractOptionalFreeText(): string | undefined {
+export function extractOptionalFreeText(answers?: QuizAnswers | null): string | undefined {
+  if (!answers) return undefined
+  const raw = answers[CARIBBEAN_PHASE2_IDS.notes]
+  if (isTextAnswer(raw) && raw.value.trim()) {
+    return raw.value.trim()
+  }
   return undefined
 }

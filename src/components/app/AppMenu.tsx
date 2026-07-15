@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAppStore } from '@/core/store'
 import { usePlanTripEligibility } from '@/hooks/usePlanTripEligibility'
+import { CirculoEvolvedModal } from '@/components/app/CirculoEvolvedCall'
 import { GLOBAL_STORE_NAME } from '@/core/configs/store.config'
 import { LocalStorageService } from '@/services/store/local-storage.service'
 import { initialAccessesState } from '@/core/store/accesses/accesses.constants'
@@ -18,6 +19,7 @@ interface AppMenuProps {
 
 export default function AppMenu({ className = '' }: AppMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [isCirculoModalOpen, setIsCirculoModalOpen] = useState(false)
   const router = useRouter()
   const { travelerState } = useAppStore()
   const subscriptionActive = travelerState?.subscription?.status === 'Active'
@@ -153,13 +155,16 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
                 <button
                   type="button"
                   onClick={() => {
-                    if (!canPlan) return
+                    if (!canPlan) {
+                      setIsOpen(false)
+                      setIsCirculoModalOpen(true)
+                      return
+                    }
                     router.push('/app/viagens/planejar')
                     setIsOpen(false)
                   }}
-                  disabled={!canPlan}
                   title={!canPlan ? blockedMessage : undefined}
-                  className="w-full flex items-center px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                  className="w-full flex items-center px-4 py-3 text-left text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                 >
                   <svg className="w-5 h-5 text-gray-600 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-1.447-.894L15 4m0 13V4m-6 3l6-3" />
@@ -242,6 +247,7 @@ export default function AppMenu({ className = '' }: AppMenuProps) {
           </div>
         </div>
       )}
+      <CirculoEvolvedModal isOpen={isCirculoModalOpen} onClose={() => setIsCirculoModalOpen(false)} />
     </div>
   )
 } 

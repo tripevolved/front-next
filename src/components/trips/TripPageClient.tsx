@@ -13,7 +13,6 @@ import { TripPendingActionsBanner } from "@/components/trips/TripPendingActionsB
 import { TripBaseSelectionDrawer } from "@/components/trips/TripBaseSelectionDrawer";
 import { TripPendenciasDrawer } from "@/components/trips/TripPendenciasDrawer";
 import {
-  AccommodationProposalsEntry,
   useAccommodationProposals,
 } from "@/components/trips/AccommodationProposalsEntry";
 import { AccommodationProposalsDrawer } from "@/components/trips/AccommodationProposalsDrawer";
@@ -167,25 +166,24 @@ export function TripPageClient({ initialTripDetails }: Props) {
       />
 
       <section className="md:max-w-[80%] mx-auto -mt-6 relative z-10 px-4 space-y-6">
-        <TripPendingActionsBanner actions={pendingActions} onOpenDrawer={handleOpenDrawer} />
+        <TripPendingActionsBanner
+          actions={pendingActions}
+          onOpenDrawer={handleOpenDrawer}
+          isGeneratingRecommendations={hasDestination && proposalsGenerating}
+        />
         <TripConfigurationSet
           tripId={tripDetails.id}
           tripStatus={tripDetails.status}
           configuration={tripDetails.configuration}
         />
-        {hasDestination && (
-          <AccommodationProposalsEntry
-            proposalCount={proposalsData?.proposals?.length ?? 0}
-            isGenerating={proposalsGenerating}
-            hasError={Boolean(proposalsError)}
-            onOpenProposals={() => setProposalsDrawerOpen(true)}
-          />
-        )}
         <TripNavigationCards
           tripId={tripDetails.id}
           destination={tripDetails.destination ?? undefined}
           pendingCount={pendingActions.length}
           onOpenPendencias={() => setPendenciasOpen(true)}
+          isGeneratingRecommendations={hasDestination && proposalsGenerating}
+          proposalCount={proposalsData?.proposals?.length ?? 0}
+          onOpenRecommendations={() => setProposalsDrawerOpen(true)}
         />
       </section>
 

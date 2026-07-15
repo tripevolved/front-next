@@ -2,16 +2,41 @@ import { TravelerType, type CreateTripRequest } from '@/core/types/trip'
 import type { TravelIntent } from '@/core/types/travelIntent'
 import type { DestinationProposalResponse } from '@/core/types/recommendations'
 import type { QuizAnswers } from '@/components/quiz'
-import { CARIBBEAN_PHASE1_IDS, CARIBBEAN_PHASE2_IDS } from './questions'
-import { isSingleSelectAnswer, isDateRangeAnswer } from '@/components/quiz/answers'
+import {
+  CARIBBEAN_BUDGET_TIERS,
+  CARIBBEAN_PHASE1_IDS,
+  CARIBBEAN_PHASE2_IDS,
+  type CaribbeanBudgetTierId,
+} from './questions'
+import { isDateRangeAnswer, isSingleSelectAnswer } from '@/components/quiz/answers'
+import { CARIBE_DESTINATION_UNIQUE_NAME, CARIBE_PLANEJAR_FUNNEL } from './constants'
+
+const DEFAULT_MAX_BUDGET = CARIBBEAN_BUDGET_TIERS.premium
 
 type BuildParams = {
   travelerId: string
   travelIntent: TravelIntent
   quizPhase1: QuizAnswers
   quizPhase2: QuizAnswers
-  destinationProposal: DestinationProposalResponse
-  selectedDestinationUniqueName: string
+  optionalFreeText?: string
+}
+
+function buildCaribeAnchorDestinationProposal(travelIntent: TravelIntent): DestinationProposalResponse {
+  return {
+    mainChoice: {
+      destinationName: 'Caribe',
+      destinationUniqueName: CARIBE_DESTINATION_UNIQUE_NAME,
+      matchScore: 1,
+      alignmentLabel: 'Destino escolhido',
+      whyRecommended:
+        travelIntent.intent_summary?.trim() ||
+        'Viagem ao Caribe alinhada ao perfil e preferências de vocês.',
+      alignedWithIntent: [],
+      tradeoffs: [],
+      bestFor: [],
+    },
+    otherChoices: [],
+  }
 }
 
 export function buildCaribbeanDiscoveryTripRequest({
@@ -19,8 +44,7 @@ export function buildCaribbeanDiscoveryTripRequest({
   travelIntent,
   quizPhase1,
   quizPhase2,
-  destinationProposal,
-  selectedDestinationUniqueName,
+  optionalFreeText,
 }: BuildParams): CreateTripRequest & {
   travelIntent: TravelIntent
   metadata: Record<string, unknown>
@@ -35,19 +59,33 @@ export function buildCaribbeanDiscoveryTripRequest({
   const maxDaysRaw = dateRange?.extras?.maxDays
   const maxDays = typeof maxDaysRaw === 'number' ? maxDaysRaw : travelIntent.trip_duration ?? 7
 
+  const budgetAnswer = quizPhase2[CARIBBEAN_PHASE2_IDS.budget]
+  const budgetTierId = isSingleSelectAnswer(budgetAnswer) ? budgetAnswer.value : null
+  const maxBudget =
+    budgetTierId && budgetTierId in CARIBBEAN_BUDGET_TIERS
+      ? CARIBBEAN_BUDGET_TIERS[budgetTierId as CaribbeanBudgetTierId]
+      : DEFAULT_MAX_BUDGET
+  const isFlexible = true
+
   const feelingAnswer = quizPhase1[CARIBBEAN_PHASE1_IDS.feelingAfterTrip]
   const travelerProfile = isSingleSelectAnswer(feelingAnswer) ? feelingAnswer.value : 'relax'
+
+  const tripDescription = optionalFreeText
+    ? `${travelIntent.intent_summary}\n\n${optionalFreeText}`.trim()
+    : travelIntent.intent_summary
+
+  const destinationProposal = buildCaribeAnchorDestinationProposal(travelIntent)
 
   return {
     travelerId,
     goals: [],
     tripDetails: {
       travelerProfile,
-      tripDescription: travelIntent.intent_summary,
+      tripDescription,
     },
     budget: {
-      maxBudget: 35000,
-      isFlexible: true,
+      maxBudget,
+      isFlexible,
     },
     dates: {
       startDate,
@@ -63,15 +101,16 @@ export function buildCaribbeanDiscoveryTripRequest({
     },
     shouldRecommendDestinations: false,
     mode: 'PROPOSAL',
-    destination: selectedDestinationUniqueName,
+    destination: CARIBE_DESTINATION_UNIQUE_NAME,
     travelIntent,
     metadata: {
-      funnelVersion: 'caribbean-discovery-v1',
+      funnelVersion: CARIBE_PLANEJAR_FUNNEL,
       region: 'caribe',
       quizPhase1,
       quizPhase2,
+      optionalFreeText: optionalFreeText ?? null,
     },
     destinationProposal,
-    selectedDestinationUniqueName,
+    selectedDestinationUniqueName: CARIBE_DESTINATION_UNIQUE_NAME,
   }
 }

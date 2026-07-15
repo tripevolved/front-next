@@ -94,6 +94,9 @@ type Props = {
   destination?: string;
   pendingCount?: number;
   onOpenPendencias?: () => void;
+  isGeneratingRecommendations?: boolean;
+  proposalCount?: number;
+  onOpenRecommendations?: () => void;
 };
 
 export function TripNavigationCards({
@@ -101,6 +104,9 @@ export function TripNavigationCards({
   destination,
   pendingCount = 0,
   onOpenPendencias,
+  isGeneratingRecommendations = false,
+  proposalCount = 0,
+  onOpenRecommendations,
 }: Props) {
   const base = `/app/viagens/${encodeURIComponent(tripId)}`;
   const whatsappMessage = `Olá! Gostaria de falar com um especialista sobre minha viagem${destination ? ` para ${destination}` : ""}.`;
@@ -113,6 +119,7 @@ export function TripNavigationCards({
   );
 
   const hasItinerary = itinerary != null;
+  const recommendationsAvailable = proposalCount > 0;
 
   return (
     <>
@@ -120,31 +127,72 @@ export function TripNavigationCards({
         <NavCard
           title="Pendências"
           onClick={() => onOpenPendencias?.()}
-          stat={pendingCount > 0 ? pendingCount : undefined}
-          badge={pendingCount > 0 ? "Ação necessária" : undefined}
+          disabled={isGeneratingRecommendations}
+          stat={
+            isGeneratingRecommendations
+              ? undefined
+              : pendingCount > 0
+                ? pendingCount
+                : undefined
+          }
+          badge={
+            isGeneratingRecommendations
+              ? "Gerando…"
+              : pendingCount > 0
+                ? "Ação necessária"
+                : undefined
+          }
+          hint={
+            isGeneratingRecommendations
+              ? "Aguardando recomendações de hospedagem."
+              : undefined
+          }
           icon={
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-              />
-            </svg>
+            isGeneratingRecommendations ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-accent-500" />
+            ) : (
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+            )
           }
         />
         <NavCard
-          title="Detalhes"
-          href="#details"
+          title="Recomendações"
+          onClick={recommendationsAvailable ? () => onOpenRecommendations?.() : undefined}
+          disabled={!recommendationsAvailable}
+          badge={
+            isGeneratingRecommendations
+              ? "Gerando…"
+              : recommendationsAvailable
+                ? `${proposalCount} opções`
+                : "Em breve"
+          }
+          hint={
+            recommendationsAvailable
+              ? "Ver hospedagens curadas para esta viagem."
+              : isGeneratingRecommendations
+                ? "Estamos preparando as opções para vocês."
+                : undefined
+          }
           icon={
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"
-              />
-            </svg>
+            isGeneratingRecommendations ? (
+              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-accent-500" />
+            ) : (
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                />
+              </svg>
+            )
           }
         />
         <NavCard
@@ -195,7 +243,6 @@ export function TripNavigationCards({
           }
         />
       </div>
-
     </>
   );
 }

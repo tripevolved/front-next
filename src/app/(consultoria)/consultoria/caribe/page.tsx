@@ -2,134 +2,119 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
-import { MuxVideoPlayer } from '@/components/MuxVideoPlayer'
-import LeadFlowModal from '@/components/consultancy/LeadFlowModal'
-import NewsletterSection from '@/components/consultancy/NewsletterSection'
-import FAQTripPlanningSection from '@/components/consultancy/FAQTripPlanningSection'
+import FAQ, { basicFAQQuestions } from '@/components/FAQ'
 import TripEvolvedSection from '@/components/consultancy/TripEvolvedSection'
-import ComoFuncionaSection from '@/components/consultancy/ComoFuncionaSection'
 import QuotesCarousel from '@/components/QuotesCarousel'
 import Button from '@/components/common/Button'
 import { CaribbeanDiscoveryDrawer } from '@/components/caribbean-discovery/CaribbeanDiscoveryDrawer'
 
-export default function CaribePage() {
-  const [isLeadFlowModalOpen, setIsLeadFlowModalOpen] = useState(false)
-  const [isDiscoveryDrawerOpen, setIsDiscoveryDrawerOpen] = useState(false)
+const PLANEJADOR_STEPS = [
+  {
+    number: '1',
+    title: 'Responda as perguntas',
+    description:
+      'Em poucos minutos, conte o ritmo, o estilo e o que importa para a viagem a dois de vocês no Caribe.',
+  },
+  {
+    number: '2',
+    title: 'Receba a recomendação de hospedagem',
+    description:
+      'O Planejador Evolved analisa o perfil de vocês e indica o hotel mais alinhado — com clareza, sem listas infinitas.',
+  },
+  {
+    number: '3',
+    title: 'Assine o Círculo Evolved e reserve sem comissão',
+    description:
+      'Com o Círculo Evolved, vocês reservam a hospedagem sem comissões embutidas — 10 a 30% abaixo das tarifas públicas.',
+  },
+] as const
 
-  const caribbeanDestinations = [
-    'Aruba',
-    'Bahamas',
-    'Anguilla',
-    'Cancún',
-    'Curaçao',
-    'Punta Cana',
-  ]
+export default function CaribePage() {
+  const [isDiscoveryDrawerOpen, setIsDiscoveryDrawerOpen] = useState(false)
 
   const openDiscoveryDrawer = () => setIsDiscoveryDrawerOpen(true)
 
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center">
+      {/* Hero — Planejador Evolved */}
+      <section className="relative min-h-[85vh] flex items-center">
         <div className="absolute inset-0 z-0">
           <Image
             src="/assets/consultoria/caribe/hero.jpg"
-            alt="Caribe paradisíaco"
+            alt="Resort no Caribe"
             fill
             className="object-cover"
             priority
             sizes="100vw"
             quality={90}
           />
-          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30" />
         </div>
 
-        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <div className="rounded-xl overflow-hidden shadow-2xl">
-                <MuxVideoPlayer
-                  playbackId="36MPnXNByTEUZpeN00DMChaLhhXUYPgLkniNy6k2kCmw"
-                  isMuted={false}
-                  loop={false}
-                  placeholderImage="/assets/consultoria/caribe/vsl_poster.jpg"
-                />
-              </div>
-            </div>
-
-            <div className="order-1 lg:order-2">
-              <h1 className="font-baloo text-4xl md:text-6xl font-bold mb-6 text-white">
-                Sua viagem para o <span className="text-accent-500">Caribe</span> dos sonhos
-              </h1>
-              <p className="text-white/90 font-comfortaa text-xl mb-8">
-                Descubra as praias mais paradisíacas, resorts exclusivos e experiências únicas que só o Caribe pode oferecer.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button
-                  onClick={openDiscoveryDrawer}
-                  event="pre_descobrir_viagem"
-                  eventOptions={{
-                    source: 'Hero Section - Caribe',
-                  }}
-                  className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
-                >
-                  Descobrir meu perfil de viagem
-                </Button>
-                <Button
-                  onClick={() => setIsLeadFlowModalOpen(true)}
-                  event="pre_agendar"
-                  eventOptions={{
-                    source: 'Hero Section - Caribe',
-                  }}
-                  className="inline-block font-baloo bg-white/10 text-white border border-white/40 px-8 py-3 rounded-full text-lg font-semibold hover:bg-white/20 transition-all"
-                >
-                  Conversar com um especialista
-                </Button>
-              </div>
-            </div>
-          </div>
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 relative z-10 py-24">
+          <p className="font-comfortaa text-sm md:text-base uppercase tracking-[0.2em] text-accent-400 mb-4">
+            Planejador Evolved
+          </p>
+          <h1 className="font-baloo text-4xl md:text-6xl font-bold mb-6 text-white max-w-3xl leading-tight">
+            Encontre o resort <span className="text-accent-500">certo</span> para vocês no Caribe
+          </h1>
+          <p className="text-white/90 font-comfortaa text-lg md:text-xl mb-8 max-w-2xl leading-relaxed">
+            Responda algumas perguntas e receba a recomendação certa para sua hospedagem no Caribe. Em
+            menos de 5 minutos.
+          </p>
+          <Button
+            onClick={openDiscoveryDrawer}
+            event="pre_descobrir_viagem"
+            eventOptions={{
+              source: 'Hero Section - Caribe',
+            }}
+            className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+          >
+            Planejar viagem
+          </Button>
         </div>
       </section>
 
-      {/* Planning Challenges Section */}
+      {/* How it works — 3 steps */}
       <section className="py-24 bg-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="relative h-[600px]">
-              <Image
-                src="/assets/consultoria/caribe/planning-challenges.jpg"
-                alt="Resort em Aruba"
-                fill
-                className="object-cover rounded-2xl shadow-xl"
-              />
-            </div>
+          <div className="text-center mb-14 max-w-3xl mx-auto">
+            <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
+              Como funciona o <span className="text-accent-500">Planejador Evolved</span>
+            </h2>
+            <p className="font-comfortaa text-lg text-secondary-600">
+              Três passos simples até a hospedagem certa — e tarifas sem comissão quando vocês
+              reservam pelo Círculo Evolved.
+            </p>
+          </div>
 
-            <div>
-              <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6 text-secondary-900">
-                Se sentindo <span className="text-accent-500">sobrecarregada</span> tentando planejar sua viagem ao Caribe?
-              </h2>
-              <div className="space-y-6 text-secondary-600 font-comfortaa text-lg mb-8">
-                <p>
-                  Com tantas ilhas paradisíacas, resorts de luxo e experiências únicas, o planejamento não é tarefa fácil. Qual destino escolher? Qual resort oferece a melhor experiência? Como organizar os traslados entre ilhas?
-                </p>
-                <p>
-                  A pesquisa leva semanas, e mesmo assim você pode acabar perdendo oportunidades ou escolhendo opções que não são ideais para o seu perfil de viajante.
-                </p>
-                <p>
-                  <span className="text-accent-500 font-bold">Nós resolvemos isso para você.</span> Nossa equipe de especialistas conhece cada detalhe do Caribe e vai criar uma viagem personalizada que supera suas expectativas, sem que você precise se preocupar com a complexidade do planejamento.
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+            {PLANEJADOR_STEPS.map((step) => (
+              <div key={step.number} className="relative text-center md:text-left">
+                <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-accent-500 mb-5">
+                  <span className="font-baloo text-2xl font-bold text-secondary-900">{step.number}</span>
+                </div>
+                <h3 className="font-baloo text-xl md:text-2xl font-bold text-secondary-900 mb-3">
+                  {step.title}
+                </h3>
+                <p className="font-comfortaa text-secondary-600 text-base leading-relaxed">
+                  {step.description}
                 </p>
               </div>
-              <Button
-                onClick={openDiscoveryDrawer}
-                event="pre_descobrir_viagem"
-                eventOptions={{
-                  source: 'Planning Challenges Section - Caribe',
-                }}
-                className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
-              >
-                Descobrir meu perfil de viagem
-              </Button>
-            </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Button
+              onClick={openDiscoveryDrawer}
+              event="pre_descobrir_viagem"
+              eventOptions={{
+                source: 'How it works Section - Caribe',
+              }}
+              className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+            >
+              Planejar viagem
+            </Button>
           </div>
         </div>
       </section>
@@ -152,7 +137,8 @@ export default function CaribePage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent duration-300 flex flex-col justify-end p-6">
                   <h3 className="text-white font-baloo text-2xl font-bold mb-2">Relaxamento Total</h3>
                   <p className="text-white/90 font-comfortaa text-lg">
-                    Se você quer curtir spas, praias privativas e momentos de paz absoluta em resorts exclusivos.
+                    Se você quer curtir spas, praias privativas e momentos de paz absoluta em resorts
+                    exclusivos.
                   </p>
                 </div>
               </div>
@@ -169,7 +155,8 @@ export default function CaribePage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent duration-300 flex flex-col justify-end p-6">
                   <h3 className="text-white font-baloo text-2xl font-bold mb-2">Aventura e Exploração</h3>
                   <p className="text-white/90 font-comfortaa text-lg">
-                    Para você mergulhar em águas cristalinas, ver recifes de coral e explorar ilhas desertas.
+                    Para você mergulhar em águas cristalinas, ver recifes de coral e explorar ilhas
+                    desertas.
                   </p>
                 </div>
               </div>
@@ -186,7 +173,8 @@ export default function CaribePage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent duration-300 flex flex-col justify-end p-6">
                   <h3 className="text-white font-baloo text-2xl font-bold mb-2">Cultura e Gastronomia</h3>
                   <p className="text-white/90 font-comfortaa text-lg">
-                    Se você quer experiências gastronômicas únicas, festivais locais e imersão na cultura caribenha.
+                    Se você quer experiências gastronômicas únicas, festivais locais e imersão na
+                    cultura caribenha.
                   </p>
                 </div>
               </div>
@@ -201,16 +189,11 @@ export default function CaribePage() {
               }}
               className="inline-block font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
             >
-              Descobrir meu perfil de viagem
+              Planejar viagem
             </Button>
           </div>
         </div>
       </section>
-
-      <ComoFuncionaSection
-        source="Caribe"
-        onContactClick={() => setIsLeadFlowModalOpen(true)}
-      />
 
       <TripEvolvedSection />
 
@@ -228,49 +211,42 @@ export default function CaribePage() {
         </div>
       </section>
 
-      <FAQTripPlanningSection source="Caribe" />
+      <section className="py-16 bg-secondary-50">
+        <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-baloo font-bold text-secondary-900 mb-4">
+              O que é a Trip Evolved?
+            </h2>
+            <p className="text-lg text-secondary-600 font-comfortaa max-w-2xl mx-auto">
+              Tire suas dúvidas sobre nossa agência e como trabalhamos
+            </p>
+          </div>
+          <FAQ questions={basicFAQQuestions} />
+        </div>
+      </section>
 
       <section className="py-24 bg-secondary-900 text-white">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0 text-center">
           <h2 className="font-baloo text-3xl md:text-4xl font-bold mb-6">
-            Vamos transformar sua viagem em uma <span className="text-accent-500">experiência única?</span>
+            Pronto para receber a recomendação{' '}
+            <span className="text-accent-500">certa de hospedagem?</span>
           </h2>
           <p className="text-white/90 font-comfortaa text-lg mb-8 max-w-2xl mx-auto">
-            Responda algumas perguntas e receba recomendações curadas de destino e hospedagem para o seu perfil.
+            Responda algumas perguntas e receba a recomendação certa para sua hospedagem no Caribe.
+            Em menos de 5 minutos.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              onClick={openDiscoveryDrawer}
-              event="pre_descobrir_viagem"
-              eventOptions={{
-                source: 'Final CTA Section - Caribe',
-              }}
-              className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
-            >
-              Descobrir meu perfil de viagem
-            </Button>
-            <Button
-              onClick={() => setIsLeadFlowModalOpen(true)}
-              event="pre_agendar"
-              eventOptions={{
-                source: 'Final CTA Section - Caribe',
-              }}
-              className="font-baloo bg-white/10 text-white border border-white/40 px-8 py-3 rounded-full text-lg font-semibold hover:bg-white/20 transition-all"
-            >
-              Conversar com um especialista
-            </Button>
-          </div>
+          <Button
+            onClick={openDiscoveryDrawer}
+            event="pre_descobrir_viagem"
+            eventOptions={{
+              source: 'Final CTA Section - Caribe',
+            }}
+            className="font-baloo bg-accent-500 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-accent-600 transition-all"
+          >
+            Planejar viagem
+          </Button>
         </div>
       </section>
-
-      <NewsletterSection source="Caribe" />
-
-      <LeadFlowModal
-        isOpen={isLeadFlowModalOpen}
-        onClose={() => setIsLeadFlowModalOpen(false)}
-        destinations={caribbeanDestinations}
-        source="Caribe"
-      />
 
       <CaribbeanDiscoveryDrawer
         isOpen={isDiscoveryDrawerOpen}

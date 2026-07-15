@@ -1,6 +1,6 @@
 import type { Subscription } from '@/core/types/travelerState'
 
-export const FREE_TIER_MAX_TRIPS = 3
+export const FREE_TIER_MAX_TRIPS = 1
 
 export function isCirculoEvolvedMember(subscription: Subscription | null | undefined): boolean {
   return subscription?.status === 'Active'
@@ -15,5 +15,5 @@ export function canPlanNewTrip(params: {
 }
 
 export function getPlanTripBlockedMessage(): string {
-  return `Você atingiu o limite de ${FREE_TIER_MAX_TRIPS} viagens. Assine o Círculo Evolved para planejar mais.`
+  return `Você já usou sua viagem gratuita. Assine o Círculo Evolved para ter acesso à nossa curadoria completa e valores 10 a 30% menores que as grandes plataformas.`
 }

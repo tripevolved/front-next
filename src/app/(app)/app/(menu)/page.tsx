@@ -41,7 +41,10 @@ export default function PainelPage() {
               <SupportWhatsAppCard />
             </>
           ) : (
-            <CirculoEvolvedCall />
+            <>
+              <CirculoEvolvedCall />
+              <SupportWhatsAppCard title="Falar com especialista" />
+            </>
           )}
         </div>
       </div>
