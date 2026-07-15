@@ -66,7 +66,7 @@ export function getTripPendingActions(
       id: "accommodation",
       order: 3,
       title: "Veja nossas recomendações de hospedagem",
-      description: "Com a base definida, confira as hospedagens curadas para o seu perfil e escolha a ideal.",
+      description: "Confira as hospedagens curadas para o seu perfil e escolha a ideal.",
       drawer: "accommodation_proposals",
     });
   }
