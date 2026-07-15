@@ -31,6 +31,8 @@ export interface TripDetails {
   destinationUniqueName?: string | null;
   /** Collection unique name when the trip is inspired by a collection (nullable). */
   collection?: string | null;
+  /** True when the trip has a persisted travel intent (from funnel or quiz). */
+  hasTravelIntent?: boolean;
   configuration: TripConfiguration;
   coverImage?: TripImage;
 }

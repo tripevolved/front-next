@@ -9,6 +9,7 @@ import { getPublicItinerary, postItineraryShare } from "./itinerary-share";
 import { getTrips } from "./all";
 import { createTripByAccommodation } from "./by-accommodation";
 import { putTripConfiguration } from "./configuration";
+import { attachTripTravelIntent } from "./travel-intent";
 import {
   getTripAccommodations,
   getTripAccommodationById,
@@ -31,6 +32,7 @@ export const TripsApiService = {
   putTripCollection,
   getTripDetailsById,
   putTripConfiguration,
+  attachTripTravelIntent,
   getTripAccommodations,
   getTripAccommodationById,
   getTripAccommodationReservation,

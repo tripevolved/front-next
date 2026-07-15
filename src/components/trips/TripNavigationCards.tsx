@@ -96,7 +96,10 @@ type Props = {
   onOpenPendencias?: () => void;
   isGeneratingRecommendations?: boolean;
   proposalCount?: number;
+  hasTravelIntent?: boolean;
+  hasDestination?: boolean;
   onOpenRecommendations?: () => void;
+  onStartTravelIntentQuiz?: () => void;
 };
 
 export function TripNavigationCards({
@@ -106,7 +109,10 @@ export function TripNavigationCards({
   onOpenPendencias,
   isGeneratingRecommendations = false,
   proposalCount = 0,
+  hasTravelIntent = false,
+  hasDestination = false,
   onOpenRecommendations,
+  onStartTravelIntentQuiz,
 }: Props) {
   const base = `/app/viagens/${encodeURIComponent(tripId)}`;
   const whatsappMessage = `Olá! Gostaria de falar com um especialista sobre minha viagem${destination ? ` para ${destination}` : ""}.`;
@@ -120,6 +126,16 @@ export function TripNavigationCards({
 
   const hasItinerary = itinerary != null;
   const recommendationsAvailable = proposalCount > 0;
+  const canCreateTravelIntent = hasDestination && !hasTravelIntent && !recommendationsAvailable;
+
+  const recommendationsOnClick = recommendationsAvailable
+    ? () => onOpenRecommendations?.()
+    : canCreateTravelIntent
+      ? () => onStartTravelIntentQuiz?.()
+      : undefined;
+
+  const recommendationsDisabled =
+    !recommendationsAvailable && !canCreateTravelIntent && !isGeneratingRecommendations;
 
   return (
     <>
@@ -164,21 +180,25 @@ export function TripNavigationCards({
         />
         <NavCard
           title="Recomendações"
-          onClick={recommendationsAvailable ? () => onOpenRecommendations?.() : undefined}
-          disabled={!recommendationsAvailable}
+          onClick={recommendationsOnClick}
+          disabled={recommendationsDisabled}
           badge={
             isGeneratingRecommendations
               ? "Gerando…"
               : recommendationsAvailable
                 ? `${proposalCount} opções`
-                : "Em breve"
+                : canCreateTravelIntent
+                  ? "Personalizar"
+                  : "Em breve"
           }
           hint={
             recommendationsAvailable
               ? "Ver hospedagens curadas para esta viagem."
               : isGeneratingRecommendations
                 ? "Estamos preparando as opções para vocês."
-                : undefined
+                : canCreateTravelIntent
+                  ? "Responda algumas perguntas para receber hospedagens alinhadas ao seu perfil."
+                  : undefined
           }
           icon={
             isGeneratingRecommendations ? (

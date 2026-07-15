@@ -18,9 +18,11 @@ import {
 import { AccommodationProposalsDrawer } from "@/components/trips/AccommodationProposalsDrawer";
 import { AddAccommodationDrawer } from "@/components/trips/AddAccommodationDrawer";
 import { EditTripConfigurationDrawer } from "@/components/trips/EditTripConfigurationDrawer";
+import { TripTravelIntentQuizDrawer } from "@/components/trips/TripTravelIntentQuizDrawer";
 import type { TripPendingAction } from "@/utils/trips/trip-pending-actions";
 import type { TripDetails } from "@/core/types/trip";
 import { TravelerType } from "@/core/types/trip";
+import type { TripAccommodationProposalsResponse } from "@/core/types/recommendations";
 import type { AccommodationAvailabilityQuery, TravelerInput } from "@/clients/accommodations";
 import { getTripPendingActions } from "@/utils/trips/trip-pending-actions";
 import { formatPtBrDateRangeLong, parseDateOnlyToLocalDate } from "@/utils/helpers/dates.helpers";
@@ -79,16 +81,18 @@ export function TripPageClient({ initialTripDetails }: Props) {
   const [proposalsDrawerOpen, setProposalsDrawerOpen] = useState(false);
   const [browseDrawerOpen, setBrowseDrawerOpen] = useState(false);
   const [pendenciasOpen, setPendenciasOpen] = useState(false);
+  const [travelIntentQuizOpen, setTravelIntentQuizOpen] = useState(false);
 
   const hasDestination = Boolean(
     tripDetails?.destinationUniqueName?.trim() || tripDetails?.destination?.trim()
   );
+  const hasTravelIntent = Boolean(tripDetails?.hasTravelIntent);
 
   const {
     data: proposalsData,
     error: proposalsError,
     isGenerating: proposalsGenerating,
-  } = useAccommodationProposals(tripId, hasDestination);
+  } = useAccommodationProposals(tripId, hasDestination, hasTravelIntent);
 
   const pendingActions = useMemo(
     () => getTripPendingActions(tripDetails, accommodations),
@@ -102,12 +106,25 @@ export function TripPageClient({ initialTripDetails }: Props) {
     void mutate(["trip-accommodation-proposals", tripId]);
   }, [mutate, tripId]);
 
+  const handleTravelIntentQuizCompleted = useCallback(
+    async (proposals: TripAccommodationProposalsResponse) => {
+      await mutate(["trip-details", tripId]);
+      await mutate(["trip-accommodation-proposals", tripId], proposals, { revalidate: false });
+      setProposalsDrawerOpen(true);
+    },
+    [mutate, tripId],
+  );
+
   const handleOpenDrawer = useCallback((drawer: NonNullable<TripPendingAction["drawer"]>) => {
     if (drawer === "planning") setPlanningDrawerOpen(true);
     else if (drawer === "base") setBaseDrawerOpen(true);
-    else if (drawer === "accommodation_proposals") setProposalsDrawerOpen(true);
-    else setBrowseDrawerOpen(true);
-  }, []);
+    else if (drawer === "accommodation_proposals") {
+      if (hasTravelIntent) setProposalsDrawerOpen(true);
+      else setTravelIntentQuizOpen(true);
+    } else setBrowseDrawerOpen(true);
+  }, [hasTravelIntent]);
+
+  const isGeneratingRecommendations = hasTravelIntent && proposalsGenerating;
 
   const tripStayDates = useMemo(() => {
     const cfg = tripDetails?.configuration;
@@ -169,7 +186,7 @@ export function TripPageClient({ initialTripDetails }: Props) {
         <TripPendingActionsBanner
           actions={pendingActions}
           onOpenDrawer={handleOpenDrawer}
-          isGeneratingRecommendations={hasDestination && proposalsGenerating}
+          isGeneratingRecommendations={isGeneratingRecommendations}
         />
         <TripConfigurationSet
           tripId={tripDetails.id}
@@ -181,9 +198,12 @@ export function TripPageClient({ initialTripDetails }: Props) {
           destination={tripDetails.destination ?? undefined}
           pendingCount={pendingActions.length}
           onOpenPendencias={() => setPendenciasOpen(true)}
-          isGeneratingRecommendations={hasDestination && proposalsGenerating}
+          isGeneratingRecommendations={isGeneratingRecommendations}
           proposalCount={proposalsData?.proposals?.length ?? 0}
+          hasTravelIntent={hasTravelIntent}
+          hasDestination={hasDestination}
           onOpenRecommendations={() => setProposalsDrawerOpen(true)}
+          onStartTravelIntentQuiz={() => setTravelIntentQuizOpen(true)}
         />
       </section>
 
@@ -227,6 +247,14 @@ export function TripPageClient({ initialTripDetails }: Props) {
         stayEndDate={tripStayDates.end}
         onBrowseOther={() => setBrowseDrawerOpen(true)}
         onTripAccommodationsChanged={refreshTripData}
+      />
+
+      <TripTravelIntentQuizDrawer
+        isOpen={travelIntentQuizOpen}
+        onClose={() => setTravelIntentQuizOpen(false)}
+        tripId={tripId}
+        travelerType={tripDetails.configuration?.travelerType}
+        onCompleted={handleTravelIntentQuizCompleted}
       />
 
       <AddAccommodationDrawer

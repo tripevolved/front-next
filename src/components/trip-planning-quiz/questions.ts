@@ -2,7 +2,7 @@
 
 import { TripsApiService } from '@/clients/trips'
 import { buildCreateTripRequest } from '@/components/trip-planning'
-import type { QuizConfig } from '@/components/quiz'
+import type { QuizAnswers, QuizConfig } from '@/components/quiz'
 import { TravelerType } from '@/core/types/trip'
 import { familyRoomsQuestion, familyTravelersQuestion } from './customSteps'
 import { mapAnswersToTripState } from './mapAnswersToTripState'
@@ -88,6 +88,84 @@ export function buildTripPlanningQuizConfig({ onQuizComplete }: BuildParams): Qu
         optionsLoader: async (answers) => {
           const travelerType = getTravelerType(answers)
           const goals = await TripsApiService.getGoals(travelerType)
+          return goals.map((g) => ({ id: g.uniqueName, label: g.name }))
+        },
+      },
+      {
+        id: TRIP_PLANNING_QUESTION_IDS.profile,
+        type: 'single-select',
+        stepLabel: 'Perfil',
+        title: 'Qual o seu perfil de viagem?',
+        description: 'Escolha o perfil que melhor combina com seu estilo de viagem.',
+        columns: 2,
+        options: PROFILE_OPTIONS,
+      },
+      {
+        id: TRIP_PLANNING_QUESTION_IDS.budget,
+        type: 'range-with-options',
+        stepLabel: 'Orçamento',
+        title: 'Qual o seu orçamento?',
+        description: 'Defina um valor máximo para a experiência da sua viagem.',
+        min: BUDGET_MIN,
+        max: BUDGET_MAX,
+        step: BUDGET_STEP,
+        valueLabel: 'Até',
+        formatValue: formatMaxBudgetDisplay,
+        rangeOptions: [
+          {
+            key: 'flexible',
+            label: 'O orçamento tem alguma flexibilidade?',
+            defaultValue: true,
+          },
+        ],
+      },
+      {
+        id: TRIP_PLANNING_QUESTION_IDS.description,
+        type: 'textarea',
+        stepLabel: 'Comentários',
+        title: 'Conte mais sobre a viagem',
+        description: 'Se quiser, descreva detalhes como estilo, ritmo, preferências e expectativas.',
+        required: false,
+        placeholder: 'Ex.: queremos descansar, comer bem e conhecer lugares com clima romântico...',
+      },
+    ],
+    onComplete: onQuizComplete,
+  }
+}
+
+type TravelIntentQuizParams = {
+  travelerType: TravelerType
+  onQuizComplete: (answers: QuizAnswers) => void | Promise<void>
+  onExit?: () => void
+}
+
+/** Short preference quiz for attaching travel-intent to an existing trip (skips dates/type). */
+export function buildTripTravelIntentQuizConfig({
+  travelerType,
+  onQuizComplete,
+  onExit,
+}: TravelIntentQuizParams): QuizConfig {
+  return {
+    id: 'trip-travel-intent',
+    categoryLabel: 'Recomendações',
+    leftImage: { src: '/assets/trip/trip-cover.png', alt: '' },
+    showExit: true,
+    onExit,
+    initialAnswers: {
+      [TRIP_PLANNING_QUESTION_IDS.type]: { value: travelerType },
+    },
+    questions: [
+      {
+        id: TRIP_PLANNING_QUESTION_IDS.goals,
+        type: 'multi-select',
+        stepLabel: 'Objetivos',
+        title: 'O que você busca na viagem?',
+        description: 'Selecione até 5 expressões que melhor definem a viagem dos seus sonhos.',
+        maxSelections: 5,
+        minSelections: 1,
+        optionsLoader: async (answers) => {
+          const type = getTravelerType(answers) || travelerType
+          const goals = await TripsApiService.getGoals(type)
           return goals.map((g) => ({ id: g.uniqueName, label: g.name }))
         },
       },

@@ -20,12 +20,18 @@ function normalizeProposalsResponse(data: unknown): TripAccommodationProposalsRe
   }
 }
 
-export function useAccommodationProposals(tripId: string, hasDestination: boolean) {
+export function useAccommodationProposals(
+  tripId: string,
+  hasDestination: boolean,
+  hasTravelIntent: boolean,
+) {
   const recommendAttemptedRef = useRef(false)
   const [isRecommending, setIsRecommending] = useState(false)
 
+  const canFetchProposals = hasDestination && hasTravelIntent
+
   const swr = useSWR<TripAccommodationProposalsResponse>(
-    hasDestination ? ['trip-accommodation-proposals', tripId] : null,
+    canFetchProposals ? ['trip-accommodation-proposals', tripId] : null,
     async () => normalizeProposalsResponse(await TripsApiService.getTripAccommodationProposals(tripId)),
     { revalidateOnFocus: false },
   )
@@ -36,7 +42,7 @@ export function useAccommodationProposals(tripId: string, hasDestination: boolea
   }, [tripId])
 
   useEffect(() => {
-    if (!hasDestination || swr.isLoading) return
+    if (!canFetchProposals || swr.isLoading) return
     if ((swr.data?.proposals?.length ?? 0) > 0) return
     if (swr.error) return
     if (recommendAttemptedRef.current) return
@@ -55,9 +61,9 @@ export function useAccommodationProposals(tripId: string, hasDestination: boolea
       .finally(() => {
         setIsRecommending(false)
       })
-  }, [hasDestination, swr.isLoading, swr.data?.proposals?.length, swr.error, swr.mutate, tripId])
+  }, [canFetchProposals, swr.isLoading, swr.data?.proposals?.length, swr.error, swr.mutate, tripId])
 
-  const isGenerating = swr.isLoading || isRecommending
+  const isGenerating = canFetchProposals && (swr.isLoading || isRecommending)
 
   return {
     ...swr,
