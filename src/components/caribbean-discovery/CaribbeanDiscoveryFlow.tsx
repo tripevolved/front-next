@@ -97,8 +97,11 @@ export function CaribbeanDiscoveryFlow({ onClose }: Props) {
       })
 
       const { id } = await TripsApiService.createTrip(request)
-      const returnTo = encodeURIComponent(`/app/viagens/${id}`)
-      router.push(`/auth/login?returnTo=${returnTo}`)
+      const loginParams = new URLSearchParams({ returnTo: `/app/viagens/${id}` })
+      if (traveler.email?.trim()) {
+        loginParams.set('login_hint', traveler.email.trim())
+      }
+      router.push(`/auth/login?${loginParams.toString()}`)
     } catch {
       setError('Não foi possível criar sua viagem. Tente novamente.')
       setPhase('lead')

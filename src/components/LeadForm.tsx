@@ -122,11 +122,11 @@ function LeadFormContent({
       // Create lead
       const response = await LeadsApiService.createLead(leadData)
       
-      // Save only the name to local storage using LocalStorageService
       if (response) {
         LocalStorageService.setTraveler({
           id: response.id,
-          name: formData.name
+          name: formData.name,
+          email: formData.email,
         })
       }
       

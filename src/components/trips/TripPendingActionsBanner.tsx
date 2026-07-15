@@ -50,7 +50,7 @@ export function TripPendingActionsBanner({
           </h2>
           <p className="font-comfortaa text-sm text-secondary-600 mt-1">
             {isGeneratingRecommendations
-              ? "Aguarde enquanto montamos as hospedagens curadas para esta viagem."
+              ? "Aguarde enquanto selecionamos as hospedagens para esta viagem."
               : "Siga a ordem abaixo para deixar sua viagem pronta para a curadoria."}
           </p>
         </div>
