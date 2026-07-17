@@ -9,6 +9,7 @@ import {
   type CaribbeanBudgetTierId,
 } from './questions'
 import { isDateRangeAnswer, isSingleSelectAnswer } from '@/components/quiz/answers'
+import { MAX_TRIP_DATE_RANGE_DAYS } from '@/components/DateRangePicker'
 import { CARIBE_DESTINATION_UNIQUE_NAME, CARIBE_PLANEJAR_FUNNEL } from './constants'
 
 const DEFAULT_MAX_BUDGET = CARIBBEAN_BUDGET_TIERS.premium
@@ -57,7 +58,8 @@ export function buildCaribbeanDiscoveryTripRequest({
   const startDate = dateRange?.startDate ?? null
   const endDate = dateRange?.endDate ?? null
   const maxDaysRaw = dateRange?.extras?.maxDays
-  const maxDays = typeof maxDaysRaw === 'number' ? maxDaysRaw : travelIntent.trip_duration ?? 7
+  const maxDaysUnclamped = typeof maxDaysRaw === 'number' ? maxDaysRaw : travelIntent.trip_duration ?? 7
+  const maxDays = Math.min(MAX_TRIP_DATE_RANGE_DAYS, Math.max(1, Math.floor(maxDaysUnclamped)))
 
   const budgetAnswer = quizPhase2[CARIBBEAN_PHASE2_IDS.budget]
   const budgetTierId = isSingleSelectAnswer(budgetAnswer) ? budgetAnswer.value : null

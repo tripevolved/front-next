@@ -1,16 +1,28 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import DatePicker from 'react-datepicker'
-import { format } from 'date-fns'
+import { addDays, differenceInCalendarDays, format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+
+/** Inclusive calendar days (check-in through check-out). */
+export const MAX_TRIP_DATE_RANGE_DAYS = 30
+
+export const MAX_TRIP_DATE_RANGE_MESSAGE =
+  `O período selecionado não pode ser maior que ${MAX_TRIP_DATE_RANGE_DAYS} dias.`
 
 interface DateRangePickerProps {
   startDate: Date | null
   endDate: Date | null
   onChange: (dates: [Date | null, Date | null]) => void
   minDate?: Date
+  /** Inclusive max span in days. Defaults to {@link MAX_TRIP_DATE_RANGE_DAYS}. */
+  maxRangeDays?: number
   className?: string
+}
+
+function inclusiveDays(start: Date, end: Date): number {
+  return Math.max(1, differenceInCalendarDays(end, start) + 1)
 }
 
 export default function DateRangePicker({
@@ -18,34 +30,45 @@ export default function DateRangePicker({
   endDate,
   onChange,
   minDate,
+  maxRangeDays = MAX_TRIP_DATE_RANGE_DAYS,
   className = ''
 }: DateRangePickerProps) {
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false)
+  const [rangeError, setRangeError] = useState<string | null>(null)
   const openToAnchor = startDate ?? endDate ?? minDate ?? new Date()
   const openToDate = new Date(openToAnchor.getFullYear(), openToAnchor.getMonth(), 1)
-  
-  // Format dates for display in text boxes
+
+  const maxSelectableDate = useMemo(() => {
+    if (!startDate || endDate) return undefined
+    return addDays(startDate, maxRangeDays - 1)
+  }, [startDate, endDate, maxRangeDays])
+
   const formatDate = (date: Date | null) => {
     if (!date) return ''
     return format(date, 'dd/MM/yyyy')
   }
 
-  // Handle text box changes
-  const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // This is just a placeholder - in a real implementation, you'd parse the date
-    // and update the calendar accordingly
-    console.log('Start date changed:', e.target.value)
-  }
+  const handleChange = (update: [Date | null, Date | null]) => {
+    const [nextStart, nextEnd] = update
 
-  const handleEndDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // This is just a placeholder - in a real implementation, you'd parse the date
-    // and update the calendar accordingly
-    console.log('End date changed:', e.target.value)
+    if (nextStart && nextEnd && nextEnd.getTime() >= nextStart.getTime()) {
+      if (inclusiveDays(nextStart, nextEnd) > maxRangeDays) {
+        setRangeError(
+          maxRangeDays === MAX_TRIP_DATE_RANGE_DAYS
+            ? MAX_TRIP_DATE_RANGE_MESSAGE
+            : `O período selecionado não pode ser maior que ${maxRangeDays} dias.`
+        )
+        // Keep start; clear invalid end so the user can pick again within the limit.
+        onChange([nextStart, null])
+        return
+      }
+    }
+
+    setRangeError(null)
+    onChange(update)
   }
 
   return (
     <div className={`space-y-4 ${className}`}>
-      {/* Date range text boxes */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex-1">
           <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-1">
@@ -56,8 +79,6 @@ export default function DateRangePicker({
               type="text"
               id="startDate"
               value={formatDate(startDate)}
-              onChange={handleStartDateChange}
-              onClick={() => setIsCalendarOpen(true)}
               readOnly
               placeholder="Selecione a data"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-baloo"
@@ -82,8 +103,6 @@ export default function DateRangePicker({
               type="text"
               id="endDate"
               value={formatDate(endDate)}
-              onChange={handleEndDateChange}
-              onClick={() => setIsCalendarOpen(true)}
               readOnly
               placeholder="Selecione a data"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-baloo"
@@ -100,14 +119,20 @@ export default function DateRangePicker({
         </div>
       </div>
 
-      {/* Calendar */}
+      {rangeError && (
+        <p className="text-sm text-red-600 font-medium" role="alert">
+          {rangeError}
+        </p>
+      )}
+
       <div className="mt-4 flex justify-center">
         <DatePicker
           selectsRange={true}
           startDate={startDate}
           endDate={endDate}
-          onChange={(update) => onChange(update)}
+          onChange={(update) => handleChange(update)}
           {...(minDate != null ? { minDate } : {})}
+          {...(maxSelectableDate != null ? { maxDate: maxSelectableDate } : {})}
           locale={ptBR}
           dateFormat="dd/MM/yyyy"
           inline
@@ -174,4 +199,4 @@ export default function DateRangePicker({
       </div>
     </div>
   )
-} 
+}

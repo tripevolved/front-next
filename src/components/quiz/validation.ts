@@ -1,3 +1,8 @@
+import { differenceInCalendarDays, parseISO } from 'date-fns'
+import {
+  MAX_TRIP_DATE_RANGE_DAYS,
+  MAX_TRIP_DATE_RANGE_MESSAGE,
+} from '@/components/DateRangePicker'
 import {
   isCounterAnswer,
   isCountersAnswer,
@@ -50,11 +55,23 @@ export function validateQuestion(question: QuizQuestion, value: QuizAnswerValue,
       if (!isDateRangeAnswer(value) || !value.startDate || !value.endDate) {
         return 'Selecione as datas de início e fim.'
       }
+      const start = parseISO(value.startDate)
+      const end = parseISO(value.endDate)
+      if (
+        !Number.isNaN(start.getTime()) &&
+        !Number.isNaN(end.getTime()) &&
+        differenceInCalendarDays(end, start) + 1 > MAX_TRIP_DATE_RANGE_DAYS
+      ) {
+        return MAX_TRIP_DATE_RANGE_MESSAGE
+      }
       if (question.fields) {
         for (const field of question.fields) {
           const extra = value.extras?.[field.key]
           if (field.kind === 'number' && (extra == null || Number(extra) < (field.min ?? 1))) {
             return `Informe ${field.label.toLowerCase()}.`
+          }
+          if (field.kind === 'number' && Number(extra) > MAX_TRIP_DATE_RANGE_DAYS) {
+            return MAX_TRIP_DATE_RANGE_MESSAGE
           }
         }
       }

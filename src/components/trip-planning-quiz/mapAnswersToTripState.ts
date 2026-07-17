@@ -7,6 +7,7 @@ import {
   isSingleSelectAnswer,
   isTextAnswer,
 } from '@/components/quiz/answers'
+import { MAX_TRIP_DATE_RANGE_DAYS } from '@/components/DateRangePicker'
 import type { FamilyRoom, FamilyTravellers } from '@/components/trip-planning/familyTypes'
 import type { TripDates, TripGoals, TripProfile, TripType } from '@/components/trip-planning/types'
 import type { TripBudgetPayload } from '@/components/trip-planning/StepBudget'
@@ -30,7 +31,7 @@ export function mapAnswersToTripState(answers: QuizAnswers): TripPlanningState {
   if (isDateRangeAnswer(datesRaw)) {
     const maxDays =
       typeof datesRaw.extras?.maxDays === 'number'
-        ? Math.max(1, Math.floor(datesRaw.extras.maxDays))
+        ? Math.min(MAX_TRIP_DATE_RANGE_DAYS, Math.max(1, Math.floor(datesRaw.extras.maxDays)))
         : undefined
     tripDates = {
       startDate: datesRaw.startDate,

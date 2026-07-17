@@ -1,6 +1,6 @@
 'use client'
 
-import DateRangePicker from '@/components/DateRangePicker'
+import DateRangePicker, { MAX_TRIP_DATE_RANGE_DAYS } from '@/components/DateRangePicker'
 
 interface DateRangeSelectorProps {
   startDate: Date | null
@@ -10,6 +10,8 @@ interface DateRangeSelectorProps {
   restrictToFuture?: boolean
   /** Explicit minimum selectable date; ignored when `restrictToFuture` is false. */
   minDate?: Date
+  /** Inclusive max trip length in days. Defaults to {@link MAX_TRIP_DATE_RANGE_DAYS}. */
+  maxRangeDays?: number
   className?: string
 }
 
@@ -19,6 +21,7 @@ export default function DateRangeSelector({
   onDateRangeChange, 
   restrictToFuture = true,
   minDate,
+  maxRangeDays = MAX_TRIP_DATE_RANGE_DAYS,
   className = '' 
 }: DateRangeSelectorProps) {
   const effectiveMinDate = restrictToFuture ? (minDate ?? new Date()) : undefined
@@ -29,6 +32,7 @@ export default function DateRangeSelector({
         endDate={endDate}
         onChange={onDateRangeChange}
         minDate={effectiveMinDate}
+        maxRangeDays={maxRangeDays}
       />
     </div>
   )
