@@ -12,7 +12,7 @@ export default function CollectionsSection({ travelerType = "COUPLE" }: Collecti
     <CollectionsBrowseList
       travelerType={travelerType}
       title="Coleções para encontrar sua próxima jornada"
-      subtitle="Curadorias prontas para inspirar e facilitar seu planejamento."
+      subtitle="Hospedagens selecionadas a dedo para sua viagem."
     />
   );
 }

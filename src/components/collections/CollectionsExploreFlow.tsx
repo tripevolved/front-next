@@ -281,7 +281,7 @@ export function CollectionsExploreFlow() {
         <CollectionsBrowseList
           compact
           title="Coleções para encontrar sua próxima jornada"
-          subtitle="Curadorias prontas para inspirar e facilitar seu planejamento."
+          subtitle="Hospedagens selecionadas a dedo para sua viagem."
           onSelectCollection={(uniqueName) => {
             setCollectionUniqueName(uniqueName);
             setStep(2);

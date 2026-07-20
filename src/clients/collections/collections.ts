@@ -17,6 +17,7 @@ export interface Collection {
   travelerType: TravelerType;
   travelerProfile: string | null;
   region?: string | null;
+  investmentRange?: string | null;
 }
 
 export interface GetCollectionsParams {
@@ -24,6 +25,7 @@ export interface GetCollectionsParams {
   search?: string;
   travelerProfile?: string;
   region?: string;
+  investmentRange?: string;
   offset?: number;
   limit?: number;
 }
@@ -41,6 +43,7 @@ export const getCollections = async ({
   search,
   travelerProfile,
   region,
+  investmentRange,
   offset,
   limit,
 }: GetCollectionsParams = {}): Promise<CollectionsResponse> => {
@@ -50,6 +53,7 @@ export const getCollections = async ({
   if (search) params.set("search", search);
   if (travelerProfile) params.set("travelerProfile", travelerProfile);
   if (region) params.set("region", region);
+  if (investmentRange) params.set("investmentRange", investmentRange);
   if (typeof offset === "number") params.set("offset", String(offset));
   if (typeof limit === "number") params.set("limit", String(limit));
 

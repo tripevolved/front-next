@@ -9,9 +9,23 @@ import CollectionCard from "@/components/collections/CollectionCard";
 
 const PAGE_SIZE = 6;
 
+const REGION_OPTIONS = [
+  { value: null, label: "Todas" },
+  { value: "caribe", label: "Caribe" },
+  { value: "america-do-sul", label: "América do Sul" },
+  { value: "brasil", label: "Brasil" },
+] as const;
+
+const INVESTMENT_OPTIONS = [
+  { value: null, label: "Todos" },
+  { value: "ate-15", label: "Custo-benefício" },
+  { value: "15-30", label: "Premium" },
+  { value: "30-mais", label: "Luxo" },
+] as const;
+
 export type CollectionsBrowseListProps = {
   travelerType?: TravelerType;
-  /** Optional region filter (e.g. "caribe") passed to the collections API. */
+  /** Optional region filter (e.g. "caribe") passed to the collections API. When set, the region chip row is hidden. */
   region?: string;
   title: string;
   subtitle?: string;
@@ -25,9 +39,33 @@ export type CollectionsBrowseListProps = {
   minimalCards?: boolean;
 };
 
+function FilterChip({
+  label,
+  selected,
+  onClick,
+}: {
+  label: string;
+  selected: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`font-comfortaa text-sm px-4 py-2 rounded-full border transition-all ${
+        selected
+          ? "bg-accent-500 border-accent-500 text-white font-semibold"
+          : "bg-white border-secondary-200 text-secondary-700 hover:border-accent-300"
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
+
 export function CollectionsBrowseList({
   travelerType = "COUPLE",
-  region,
+  region: lockedRegion,
   title,
   subtitle,
   compact = false,
@@ -35,6 +73,9 @@ export function CollectionsBrowseList({
   treatAllAsAccessible = false,
   minimalCards = false,
 }: CollectionsBrowseListProps) {
+  const regionLocked = Boolean(lockedRegion);
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(lockedRegion ?? null);
+  const [selectedInvestment, setSelectedInvestment] = useState<string | null>(null);
   const [collections, setCollections] = useState<Collection[]>([]);
   const [offset, setOffset] = useState(0);
   const [totalCount, setTotalCount] = useState<number | null>(null);
@@ -42,10 +83,19 @@ export function CollectionsBrowseList({
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const effectiveRegion = regionLocked ? lockedRegion : selectedRegion;
+  const hasActiveFilters = Boolean(effectiveRegion || selectedInvestment);
+
   const hasMore = useMemo(() => {
     if (totalCount == null) return false;
     return collections.length < totalCount;
   }, [collections.length, totalCount]);
+
+  useEffect(() => {
+    if (regionLocked) {
+      setSelectedRegion(lockedRegion ?? null);
+    }
+  }, [regionLocked, lockedRegion]);
 
   useEffect(() => {
     let isMounted = true;
@@ -54,7 +104,8 @@ export function CollectionsBrowseList({
       try {
         const response = await CollectionsApiService.getCollections({
           travelerType,
-          region,
+          region: effectiveRegion ?? undefined,
+          investmentRange: selectedInvestment ?? undefined,
           offset: 0,
           limit: PAGE_SIZE,
         });
@@ -73,7 +124,7 @@ export function CollectionsBrowseList({
     return () => {
       isMounted = false;
     };
-  }, [travelerType, region]);
+  }, [travelerType, effectiveRegion, selectedInvestment]);
 
   useEffect(() => {
     if (treatAllAsAccessible) {
@@ -101,7 +152,8 @@ export function CollectionsBrowseList({
     try {
       const response = await CollectionsApiService.getCollections({
         travelerType,
-        region,
+        region: effectiveRegion ?? undefined,
+        investmentRange: selectedInvestment ?? undefined,
         offset,
         limit: PAGE_SIZE,
       });
@@ -125,13 +177,57 @@ export function CollectionsBrowseList({
     <section className={sectionClass}>
       <div className={innerClass}>
         {title ? (
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
             <div>
               <h2 className={titleClass}>{title}</h2>
               {subtitle ? <p className="font-comfortaa text-gray-600 mt-2">{subtitle}</p> : null}
             </div>
           </div>
         ) : null}
+
+        <div className="mb-10 rounded-xl border border-accent-500 bg-accent-100 p-4 md:p-5">
+          <div className="flex flex-col md:flex-row md:items-stretch gap-4 md:gap-0">
+            {!regionLocked ? (
+              <>
+                <div className="flex flex-col gap-2 md:flex-1">
+                  <span className="font-comfortaa text-xs font-semibold uppercase tracking-wide text-secondary-500">
+                    Região
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {REGION_OPTIONS.map((option) => (
+                      <FilterChip
+                        key={option.label}
+                        label={option.label}
+                        selected={selectedRegion === option.value}
+                        onClick={() => setSelectedRegion(option.value)}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div
+                  className="hidden md:block w-px self-stretch bg-accent-500 mx-5"
+                  aria-hidden
+                />
+                <div className="md:hidden h-px w-full bg-accent-500" aria-hidden />
+              </>
+            ) : null}
+            <div className="flex flex-col gap-2 md:flex-1">
+              <span className="font-comfortaa text-xs font-semibold uppercase tracking-wide text-secondary-500">
+                Investimento
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {INVESTMENT_OPTIONS.map((option) => (
+                  <FilterChip
+                    key={option.label}
+                    label={option.label}
+                    selected={selectedInvestment === option.value}
+                    onClick={() => setSelectedInvestment(option.value)}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -178,9 +274,13 @@ export function CollectionsBrowseList({
           </>
         ) : (
           <div className="text-center py-16">
-            <h3 className="font-baloo text-2xl font-bold text-gray-700 mb-3">Nenhuma coleção encontrada</h3>
+            <h3 className="font-baloo text-2xl font-bold text-gray-700 mb-3">
+              {hasActiveFilters ? "Nenhuma coleção com esses filtros" : "Nenhuma coleção encontrada"}
+            </h3>
             <p className="text-gray-600 font-comfortaa text-base max-w-md mx-auto">
-              Em breve teremos novas coleções para inspirar sua próxima viagem.
+              {hasActiveFilters
+                ? "Tente outra região ou faixa de investimento para ver mais opções."
+                : "Em breve teremos novas coleções para inspirar sua próxima viagem."}
             </p>
           </div>
         )}
