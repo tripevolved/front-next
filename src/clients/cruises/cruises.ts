@@ -43,7 +43,7 @@ interface CruisesResponse {
   totalPages: number;
 }
 
-/** Search params for cruise listing. Backend should accept destination[], months[], type[] (and duration, page, limit). */
+/** Search params for cruise listing. Backend should accept destination[], months[], type[], uniqueNames[] (and duration, page, limit). */
 export interface CruisesSearchParams {
   /** Destination names e.g. ["Mediterrâneo", "Caribe"] */
   destinations?: string[];
@@ -53,6 +53,8 @@ export interface CruisesSearchParams {
   months?: string[];
   /** Type ids e.g. ["relax", "destination"] */
   types?: string[];
+  /** Cruise unique names e.g. ["bcnbcn-09-v4"] */
+  uniqueNames?: string[];
   page?: number;
   limit?: number;
 }
@@ -62,6 +64,7 @@ export const getCruises = async ({
   duration,
   months,
   types,
+  uniqueNames,
   page = 1,
   limit = 10,
 }: CruisesSearchParams = {}) => {
@@ -73,6 +76,7 @@ export const getCruises = async ({
   if (duration != null) params.set('duration', String(duration));
   if (months?.length) months.forEach((m) => params.append('months', m));
   if (types?.length) types.forEach((t) => params.append('types', t));
+  if (uniqueNames?.length) uniqueNames.forEach((n) => params.append('uniqueNames', n));
   const route = `cruises/?${params.toString()}`;
   return ApiRequest.get<CruisesResponse>(route);
 };
