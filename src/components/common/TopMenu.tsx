@@ -9,6 +9,7 @@ export default function TopMenu() {
 
   const navLinks = [
     { href: "/experiencias", label: "Experiências" },
+    { href: "/cruzeiros-extraordinarios", label: "Cruzeiros" },
     { href: "/beneficios", label: "Benefícios" },
     { href: "/app", label: "Minhas viagens" },
   ];
