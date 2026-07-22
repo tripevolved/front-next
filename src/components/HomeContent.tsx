@@ -2,13 +2,10 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import ProductsCarousel from '@/components/ProductsCarousel'
 import QuotesCarousel from '@/components/QuotesCarousel'
 import FAQ from '@/components/FAQ'
 import Button from '@/components/common/Button'
-import CirculoEvolvedSection from '@/components/circulo-evolved/CirculoEvolvedSection'
-import WhyTripEvolvedCards from '@/components/cruises/WhyTripEvolvedCards'
-import { useRouter } from 'next/navigation'
+import HomePathsCards from '@/components/HomePathsCards'
 import { useEffect, useState } from 'react'
 import { getAccessToken } from '@auth0/nextjs-auth0/client'
 
@@ -24,7 +21,6 @@ interface HomeContentProps {
 }
 
 export default function HomeContent({ faqQuestions }: HomeContentProps) {
-  const router = useRouter()
   const [collections, setCollections] = useState<Collection[]>([])
   const [isCollectionsLoading, setIsCollectionsLoading] = useState(true)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -94,13 +90,13 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
               Viaje melhor, com valores que você não encontra sozinho
             </h1>
             <p className="font-comfortaa text-xl md:text-2xl mb-8 text-white/90">
-              <span className="font-bold italic">Abolimos as comissões</span> para você acessar tarifas que só agências de viagens possuem. Com a <span className="font-bold italic">curadoria</span> que nos é característica, para você viajar melhor gastando menos.
+              Construímos uma plataforma que te guia por <span className="font-bold italic">hospedagens selecionadas a dedo</span> pelos nossos especialistas. E <span className="font-bold italic">abolimos as comissões</span> para você acessar tarifas que só as agências de viagens possuem.
             </p>
             <Button 
               onClick={() => {
-                const circuloEvolvedSection = document.getElementById('circulo-evolved-section');
-                if (circuloEvolvedSection) {
-                  circuloEvolvedSection.scrollIntoView({ behavior: 'smooth' });
+                const pathsSection = document.getElementById('home-paths-section');
+                if (pathsSection) {
+                  pathsSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
               event="pre_descobrir_viagem"
@@ -115,36 +111,20 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
         </div>
       </section>
 
-      {/* Values Section - 3 pillars */}
-      <section className="py-16 bg-secondary-50">
+      {/* Paths Section */}
+      <section id="home-paths-section" className="py-16 bg-secondary-50">
         <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
           <div className="text-center mb-12">
             <h2 className="font-baloo text-3xl md:text-4xl font-bold text-secondary-900 mb-4">
-              Os 3 pilares da Trip Evolved
+              Escolha como quer viajar
             </h2>
             <p className="font-comfortaa text-lg text-secondary-600 max-w-2xl mx-auto">
-              Nossa forma de trabalhar é guiada por princípios que colocamos em prática em cada viagem
+              Dois caminhos para viver experiências melhores — com a autonomia que você prefere
             </p>
           </div>
-          <WhyTripEvolvedCards />
-          <div className="text-center mt-12">
-            <Link
-              href="/circulo-evolved"
-              className="inline-block font-baloo bg-primary-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-700 transition-all"
-            >
-              Quero saber mais
-            </Link>
-          </div>
+          <HomePathsCards />
         </div>
       </section>
-
-      <CirculoEvolvedSection
-        onCtaClick={() => router.push('/circulo-evolved')}
-        eventSource="Circulo Evolved Section - Home"
-        event="pre_descobrir_viagem"
-        ctaText="Quero saber mais"
-        id="circulo-evolved-section"
-      />
 
       {/* Products Carousel */}
       {/*<section className="py-12 bg-white">
@@ -256,10 +236,10 @@ export default function HomeContent({ faqQuestions }: HomeContentProps) {
             Sua próxima jornada merece ser melhor. Vamos começar?
           </h2>
           <Link
-            href="/circulo-evolved"
+            href="/experiencias"
             className="inline-block font-baloo bg-primary-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-primary-700 transition-all"
           >
-            Quero saber mais
+            Explorar experiências
           </Link>
         </div>
       </section>

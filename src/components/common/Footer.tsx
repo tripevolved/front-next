@@ -114,6 +114,14 @@ export default function Footer() {
             <ul className="space-y-1.5">
               <li>
                 <Link
+                  href="/servicos/jornada-evolved"
+                  className="text-white/80 hover:text-white transition-colors text-sm"
+                >
+                  Jornada Evolved
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/cruzeiros-extraordinarios"
                   className="text-white/80 hover:text-white transition-colors text-sm"
                 >

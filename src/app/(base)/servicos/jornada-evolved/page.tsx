@@ -15,20 +15,18 @@ export default function JornadaEvolvedPage() {
     'Caribe',
     'Cruzeiro pelo Norte da Europa',
     'Patagônia',
+    'África',
+    'Europa',
   ]
 
   const faqQuestions = [
     {
       question: 'Quais cruzeiros vocês oferecem?',
-      answer: 'Trabalhamos com cruzeiros premium e de luxo, que entendemos que fornecem as melhores experiências a bordo e também na imersão em cada destino. São companhias diversas e com diferentes níveis de serviço, como Explora Journeys, Azamara, Celebrity e Norwegian Cruise Line.'
-    },
-    {
-      question: 'Vocês não são comissionados? Como funciona?',
-      answer: 'Como toda a indústria de viagens, em alguns casos recebemos comissão dos produtos. Para garantir nosso total alinhamento à você e sua viagem, escolhemos trabalhar com valores net (sem comissão) ou devolver as comissões recebidas como cashback. Isso significa dinheiro de volta no seu bolso e um cuidado total para que sua viagem seja especial.'
+      answer: 'Trabalhamos com cruzeiros premium e de luxo, que entendemos que fornecem as melhores experiências a bordo e também na imersão em cada destino. São companhias diversas e com diferentes níveis de serviço, como Explora Journeys, Silversea, Azamara e Celebrity.'
     },
     {
       question: 'Quais destinos vocês atendem?',
-      answer: 'Nossa curadoria está em constante evolução. Nesse momento, trabalhamos com cruzeiros pelo Mediterrâneo, Caribe e Norte da Europa, além de alguns outros destinos terrestres focados na natureza. Para mais informações, entre em contato com nossos especialistas. Vamos fazer o possível para atender a todas as suas necessidades.'
+      answer: 'Nossa curadoria está em constante evolução e trabalhamos com diversos destinos ao redor do mundo. Para mais informações, entre em contato com nossos especialistas. Vamos fazer o possível para atender a todas as suas necessidades junto aos nossos parceiros.'
     },
     {
       question: 'Como começo a planejar minha viagem?',
@@ -47,7 +45,7 @@ export default function JornadaEvolvedPage() {
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/consultoria/cruzeiros-unicos/hero-cruise.jpg"
+            src="/assets/consultoria/viagens-cenicas/casal-sicilia.jpg"
             alt="Jornada Evolved - Consultoria Premium"
             fill
             className="object-cover"

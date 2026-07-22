@@ -24,10 +24,10 @@ export default function JornadaEvolvedSection({
       <div className="w-full md:w-[80%] mx-auto px-4 md:px-0">
         <div className="text-center mb-12">
           <h2 className="font-baloo text-3xl md:text-4xl font-bold text-white mb-4">
-            Jornada Evolved: 100% transparente
+            Jornada Evolved: viajar sem preocupações
           </h2>
           <p className="font-comfortaa text-lg text-white/90 max-w-2xl mx-auto">
-            Um serviço completo de curadoria e desenho de viagem, com valor fixo e previsível.
+            Um serviço completo de curadoria, desenho e logística do começo ao fim da viagem.
           </p>
         </div>
 
@@ -60,20 +60,14 @@ export default function JornadaEvolvedSection({
               height={24}
               className="shrink-0 mt-0.5 w-6 h-6"
             />
-            <span><strong className="font-baloo text-white">Valores líquidos ou cashback</strong> — Comissões revertidas em descontos ou cashback: você vê o valor real.</span>
+            <span><strong className="font-baloo text-white">Logística completa</strong> — Cuidamos de tudo: voos, hotéis, cruzeiros, experiências e logística completa — do momento em que você sai de casa até o retorno. Você recebe tudo organizado e tem nosso suporte durante toda a viagem.</span>
           </li>
         </ul>
 
         <div className="text-center mb-6">
           <span className="font-baloo text-4xl md:text-5xl font-bold text-accent-400">
-            R$ 5.700,00
+            R$ 1.200,00
           </span>
-        </div>
-
-        <div className="bg-white/15 border-2 border-accent-400/60 rounded-2xl p-6 max-w-2xl mx-auto mb-10 text-center">
-          <p className="font-comfortaa text-white leading-relaxed">
-            Você recupera o valor do serviço em descontos ou cashback ao fechar sua viagem — ou recebe a diferença de volta.
-          </p>
         </div>
 
         <div className="text-center">

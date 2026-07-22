@@ -11,6 +11,41 @@ interface FAQProps {
   questions: FAQItem[]
 }
 
+export const homeFAQQuestions = [
+  {
+    question: 'O que é a Trip Evolved?',
+    answer: {
+      html: "<p>A Trip Evolved Viagens LTDA é uma agência de viagens online, presente no Cadastur com CNPJ 47.875.077/0001-79. Nos últimos 4 anos, construímos experiências únicas e personalizadas para dezenas de clientes, e entendemos que o modelo que forma a indústria de viagens não é o melhor para você, viajante.</p><br/><p>Oferecemos dois caminhos: o Círculo Evolved, para quem quer planejar com autonomia e acesso a tarifas exclusivas, e a Jornada Evolved, nosso serviço de consultoria que cuida de toda a viagem do início ao fim.</p>"
+    }
+  },
+  {
+    question: "O que é o Círculo Evolved e por que é diferente de outros programas de viagens?",
+    answer: {
+      html: "<p>O Círculo Evolved é um programa de viagens online que te dá acesso à valores net (sem comissão) em hospedagens e outros produtos, que só agências de viagem, grupos fechados e clientes corporativos tem acesso e entrega tudo em torno de uma curadoria única, que escolhe o que há de melhor em cada destino. Ao invés de cobrar uma comissão escondida em cada reserva, o Círculo Evolved te entrega as tarifas sem comissão e cobra uma simples taxa de assinatura anual.</p><br/><p>A maior parte dos sites de viagem ganham dinheiro ao adicionar 10-50% em cima do que o hotel ou produto cobra deles, mesmo quando é uma promoção especial ou um \"preço para membros\". O Círculo Evolved é o oposto disso: nós recebemos <span className='font-bold'>zero</span> comissões e passamos a tarifa net diretamente para você. Nós só ganhamos dinheiro através da taxa de assinatura, então nossos interesses estão alinhados para te oferecer o melhor negócio possível.</p>"
+    }
+  },
+  {
+    question: 'Quero uma consultoria de viagem. Como funciona a Jornada Evolved?',
+    answer: {
+      html: "<p>A Jornada Evolved é nosso serviço de consultoria premium. Você nos conta sobre seu estilo e sonhos de viagem e, em até 24h, recebe uma jornada personalizada e pensada nos últimos detalhes.</p><br/><p>Ao contratar a Jornada Evolved, cuidamos de tudo: voos, hotéis, cruzeiros, experiências e logística completa — do momento em que você sai de casa até o retorno. Você recebe tudo organizado e tem nosso suporte durante toda a viagem.</p>"
+    }
+  },
+  {
+    question: 'Vocês só trabalham com viagens de lazer?',
+    answer: 'Sim! Nossa expertise é em viagens de lazer e isso garante que nossa curadoria seja sempre alinhada ao que você busca.'
+  },
+  {
+    question: 'Posso viajar para qualquer lugar do mundo?',
+    answer:  "Sim e não. No momento, focamos nossa curadoria em destinos no Caribe e América do Sul, mas em algum momento estaremos em todos os lugares do mundo. Como estamos em constante evolução, se você tiver interesse em algum destino específico, entre em contato conosco. Vamos avançar esse destino em nossa lista de curadoria e fazer o possível para atender suas necessidades."
+  },
+  {
+    question: 'Como começo a planejar minha viagem?',
+    answer: {
+      html: "<p>Depende do caminho que você escolher. Se quer planejar com autonomia, faça parte do <a href='/circulo-evolved' class='text-primary-500'>Círculo Evolved</a> e reserve suas hospedagens com tarifas exclusivas.</p><br/><p>Se prefere que cuidemos de tudo, conheça a <a href='/servicos/jornada-evolved' class='text-primary-500'>Jornada Evolved</a> e comece respondendo algumas perguntas sobre sua viagem — nossos especialistas entrarão em contato em seguida.</p>"
+    }
+  }
+]
+
 export const basicFAQQuestions = [
   {
     question: 'O que é a Trip Evolved?',
