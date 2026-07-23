@@ -52,7 +52,7 @@ function FilterChip({
     <button
       type="button"
       onClick={onClick}
-      className={`font-comfortaa text-sm px-4 py-2 rounded-full border transition-all ${
+      className={`font-comfortaa text-xs px-3 py-1.5 rounded-full border transition-all ${
         selected
           ? "bg-accent-500 border-accent-500 text-white font-semibold"
           : "bg-white border-secondary-200 text-secondary-700 hover:border-accent-300"
@@ -193,7 +193,7 @@ export function CollectionsBrowseList({
                   <span className="font-comfortaa text-xs font-semibold uppercase tracking-wide text-secondary-500">
                     Região
                   </span>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {REGION_OPTIONS.map((option) => (
                       <FilterChip
                         key={option.label}
@@ -215,7 +215,7 @@ export function CollectionsBrowseList({
               <span className="font-comfortaa text-xs font-semibold uppercase tracking-wide text-secondary-500">
                 Investimento
               </span>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {INVESTMENT_OPTIONS.map((option) => (
                   <FilterChip
                     key={option.label}
