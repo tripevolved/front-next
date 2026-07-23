@@ -18,9 +18,9 @@ const REGION_OPTIONS = [
 
 const INVESTMENT_OPTIONS = [
   { value: null, label: "Todos" },
-  { value: "ate-15", label: "Custo-benefício" },
-  { value: "15-30", label: "Premium" },
-  { value: "30-mais", label: "Luxo" },
+  { value: "ate-15", label: "Investimento inteligente" },
+  { value: "15-30", label: "Um passo acima" },
+  { value: "30-mais", label: "Vale cada centavo" },
 ] as const;
 
 export type CollectionsBrowseListProps = {
